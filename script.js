@@ -94,7 +94,6 @@ function showCompanies(){
     });
 
 }
-
 function deleteCompany(index){
 
     companies.splice(index,1);
@@ -110,3 +109,65 @@ window.onload=function(){
     showCompanies();
 
 }
+
+// =====================
+// Glass Management
+// =====================
+
+let glasses = JSON.parse(localStorage.getItem("glasses")) || [];
+
+function addGlass(){
+
+    let input = document.getElementById("glassName");
+
+    if(!input) return;
+
+    let name = input.value.trim();
+
+    if(name==""){
+        alert("Glass Company লিখুন");
+        return;
+    }
+
+    glasses.push(name);
+
+    localStorage.setItem("glasses", JSON.stringify(glasses));
+
+    input.value="";
+
+    showGlasses();
+
+}
+
+function showGlasses(){
+
+    let list=document.getElementById("glassList");
+
+    if(!list) return;
+
+    list.innerHTML="";
+
+    glasses.forEach(function(item,index){
+
+        list.innerHTML+=`
+        <li>
+            ${item}
+            <button onclick="deleteGlass(${index})">❌</button>
+        </li>
+        `;
+
+    });
+
+}
+
+function deleteGlass(index){
+
+    glasses.splice(index,1);
+
+    localStorage.setItem("glasses", JSON.stringify(glasses));
+
+    showGlasses();
+
+}
+
+showGlasses();

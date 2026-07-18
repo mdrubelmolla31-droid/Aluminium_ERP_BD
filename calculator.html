@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Material Calculator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🧮 Material Calculator</h1>
+
+<label>Customer Name</label>
+<input type="text" id="customerName">
+
+<label>Company</label>
+<select id="company">
+<option>Select Company</option>
+<option>KAI</option>
+<option>EDF</option>
+<option>BTA</option>
+<option>ALFA</option>
+<option>MAX</option>
+<option>NASIR</option>
+</select>
+
+<label>Series</label>
+<select id="series">
+<option>Select Series</option>
+<option>3"</option>
+<option>4"</option>
+<option>5"</option>
+</select>
+
+<label>Profile</label>
+<select id="profile">
+<option>Select Profile</option>
+<option>Sliding Window</option>
+<option>Sliding Door</option>
+<option>Fixed</option>
+</select>
+
+<label>Colour</label>
+<select id="colour">
+<option>Black</option>
+<option>White</option>
+<option>Champagne</option>
+<option>Brown</option>
+</select>
+
+<label>Thickness</label>
+<select id="thickness">
+<option>0.9 mm</option>
+<option>1.0 mm</option>
+<option>1.2 mm</option>
+<option>1.4 mm</option>
+</select>
+
+<label>Width (Inch)</label>
+<input type="number" id="width">
+
+<label>Height (Inch)</label>
+<input type="number" id="height">
+
+<label>Quantity</label>
+<input type="number" id="qty" value="1">
+
+<br><br>
+
+<button onclick="calculateMaterial()">
+🧮 Calculate
+</button>
+
+<br><br>
+
+<div id="result"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -40,3 +40,73 @@ document.getElementById("result").innerHTML=`
 `;
 
 }
+// =========================
+// Company Management
+// =========================
+
+let companies = JSON.parse(localStorage.getItem("companies")) || [];
+
+function addCompany(){
+
+    let input = document.getElementById("companyName");
+
+    if(!input) return;
+
+    let name = input.value.trim();
+
+    if(name==""){
+
+        alert("কোম্পানির নাম লিখুন");
+
+        return;
+
+    }
+
+    companies.push(name);
+
+    localStorage.setItem("companies",JSON.stringify(companies));
+
+    input.value="";
+
+    showCompanies();
+
+}
+
+function showCompanies(){
+
+    let list=document.getElementById("companyList");
+
+    if(!list) return;
+
+    list.innerHTML="";
+
+    companies.forEach(function(company,index){
+
+        list.innerHTML+=`
+        <li>
+            ${company}
+            <button onclick="deleteCompany(${index})">
+            ❌
+            </button>
+        </li>
+        `;
+
+    });
+
+}
+
+function deleteCompany(index){
+
+    companies.splice(index,1);
+
+    localStorage.setItem("companies",JSON.stringify(companies));
+
+    showCompanies();
+
+}
+
+window.onload=function(){
+
+    showCompanies();
+
+}

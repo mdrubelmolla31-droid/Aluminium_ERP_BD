@@ -171,3 +171,34 @@ function deleteGlass(index){
 }
 
 showGlasses();
+
+// ===== Admin Login =====
+
+if (localStorage.getItem("admin") == null) {
+    let admin = {
+        username: "admin",
+        password: "1234"
+    };
+    localStorage.setItem("admin", JSON.stringify(admin));
+}
+
+function login() {
+
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    let admin = JSON.parse(localStorage.getItem("admin"));
+
+    if (username == admin.username && password == admin.password) {
+
+        alert("Login Successful");
+
+        window.location.href = "dashboard.html";
+
+    } else {
+
+        alert("Wrong Username or Password");
+
+    }
+
+}

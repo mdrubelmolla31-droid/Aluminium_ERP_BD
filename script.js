@@ -27,18 +27,16 @@ return;
 
 let glass=((w*h)/144)*q;
 
-document.getElementById("result").innerHTML=`
+let outerSide = h * 2 * q;
+let outerTop = w * q;
+let outerBottom = w * q;
+let totalAluminium = outerSide + outerTop + outerBottom;
 
-<h2>Result</h2>
-
-<p>Glass : ${glass.toFixed(2)} Sqft</p>
-
-<p>Quantity : ${q}</p>
-
-<p><b>Formula Engine Coming...</b></p>
-
-`;
-
+document.getElementById("outerSide").innerText = outerSide.toFixed(2);
+document.getElementById("outerTop").innerText = outerTop.toFixed(2);
+document.getElementById("outerBottom").innerText = outerBottom.toFixed(2);
+document.getElementById("glass").innerText = glass.toFixed(2);
+document.getElementById("totalAluminium").innerText = totalAluminium.toFixed(2);
 }
 // =========================
 // Company Management

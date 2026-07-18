@@ -1,7 +1,13 @@
-// Aluminium ERP BD
+function login() {
 
-console.log("Aluminium ERP BD চালু হয়েছে.");
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
 
-function showMessage() {
-    alert("স্বাগতম! Aluminium ERP BD সফটওয়্যার তৈরির কাজ চলছে।");
+    if(username === "admin" && password === "1234"){
+        alert("Login Successful");
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Wrong Username or Password");
+    }
+
 }

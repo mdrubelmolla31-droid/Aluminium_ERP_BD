@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Customer List</h2>
+
+<input type="text" id="name" placeholder="Customer Name">
+
+<input type="text" id="phone" placeholder="Mobile Number">
+
+<button onclick="saveCustomer()">Save Customer</button>
+
+<hr>
+
+<div id="customerList"></div>
+
+<br>
+
+<a href="dashboard.html">⬅ Dashboard</a>
+
+</div>
+
+<script>
+
+let customers = JSON.parse(localStorage.getItem("customers")) || [];
+
+showCustomers();
+
+function saveCustomer(){
+
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+
+if(name==="" || phone===""){
+alert("সব তথ্য লিখুন");
+return;
+}
+
+customers.push({name,phone});
+
+localStorage.setItem("customers",JSON.stringify(customers));
+
+document.getElementById("name").value="";
+document.getElementById("phone").value="";
+
+showCustomers();
+
+}
+
+function showCustomers(){
+
+let html="";
+
+customers.forEach((c,i)=>{
+
+html+=`
+<div style="padding:8px;border:1px solid #ccc;margin:5px;border-radius:5px;">
+<b>${c.name}</b><br>
+${c.phone}
+</div>
+`;
+
+});
+
+document.getElementById("customerList").innerHTML=html;
+
+}
+
+</script>
+
+</body>
+</html>

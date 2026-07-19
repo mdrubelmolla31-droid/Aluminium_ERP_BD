@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quotation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Quotation</h2>
+
+<label>Customer Name</label>
+<input type="text" id="customer">
+
+<label>Mobile</label>
+<input type="text" id="mobile">
+
+<label>Project Name</label>
+<input type="text" id="project">
+
+<label>Total Amount</label>
+<input type="number" id="total">
+
+<button onclick="saveQuotation()">Save Quotation</button>
+
+<button onclick="window.print()">Print</button>
+
+<br><br>
+
+<a href="dashboard.html">⬅ Dashboard</a>
+
+</div>
+
+<script>
+function saveQuotation(){
+
+let data={
+customer:document.getElementById("customer").value,
+mobile:document.getElementById("mobile").value,
+project:document.getElementById("project").value,
+total:document.getElementById("total").value
+};
+
+localStorage.setItem("quotation",JSON.stringify(data));
+
+alert("Quotation Saved Successfully");
+
+}
+</script>
+
+</body>
+</html>

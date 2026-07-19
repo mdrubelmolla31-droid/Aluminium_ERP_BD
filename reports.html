@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Reports</h2>
+
+<div id="reportBox"></div>
+
+<br>
+
+<button onclick="window.print()">🖨 Print Report</button>
+
+<br><br>
+
+<a href="dashboard.html">⬅ Dashboard</a>
+
+</div>
+
+<script>
+
+let quotation = JSON.parse(localStorage.getItem("quotation")) || {};
+let invoice = JSON.parse(localStorage.getItem("lastInvoice")) || {};
+let customers = JSON.parse(localStorage.getItem("customers")) || [];
+let stocks = JSON.parse(localStorage.getItem("stocks")) || [];
+
+document.getElementById("reportBox").innerHTML = `
+
+<h3>Last Quotation</h3>
+<p><b>Customer:</b> ${quotation.customer || "-"}</p>
+<p><b>Project:</b> ${quotation.project || "-"}</p>
+<p><b>Total:</b> ${quotation.total || 0} ৳</p>
+
+<hr>
+
+<h3>Last Invoice</h3>
+<p><b>Invoice:</b> ${invoice.no || "-"}</p>
+<p><b>Customer:</b> ${invoice.customer || "-"}</p>
+<p><b>Due:</b> ${invoice.due || 0} ৳</p>
+
+<hr>
+
+<h3>Summary</h3>
+
+<p>Total Customers : ${customers.length}</p>
+
+<p>Total Stock Items : ${stocks.length}</p>
+
+`;
+
+</script>
+
+</body>
+</html>

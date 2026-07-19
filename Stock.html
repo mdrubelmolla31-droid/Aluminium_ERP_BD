@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Management</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Stock Management</h2>
+
+<input type="text" id="item" placeholder="Item Name">
+
+<input type="number" id="qty" placeholder="Quantity">
+
+<button onclick="addStock()">Add Stock</button>
+
+<hr>
+
+<div id="stockList"></div>
+
+<br>
+
+<a href="dashboard.html">⬅ Dashboard</a>
+
+</div>
+
+<script>
+
+let stocks = JSON.parse(localStorage.getItem("stocks")) || [];
+
+showStock();
+
+function addStock(){
+
+let item=document.getElementById("item").value.trim();
+let qty=parseFloat(document.getElementById("qty").value)||0;
+
+if(item===""){
+alert("Item Name লিখুন");
+return;
+}
+
+stocks.push({
+item:item,
+qty:qty
+});
+
+localStorage.setItem("stocks",JSON.stringify(stocks));
+
+document.getElementById("item").value="";
+document.getElementById("qty").value="";
+
+showStock();
+
+}
+
+function showStock(){
+
+let html="";
+
+stocks.forEach((s,i)=>{
+
+html+=`
+<div style="padding:10px;margin:5px;border:1px solid #ccc;border-radius:6px;">
+<b>${s.item}</b><br>
+Quantity : ${s.qty}
+</div>
+`;
+
+});
+
+document.getElementById("stockList").innerHTML=html;
+
+}
+
+</script>
+
+</body>
+</html>

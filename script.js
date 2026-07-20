@@ -31,16 +31,9 @@ let shutterBottom = (width / 12) * qty;
 
 // Glass
 let glass = ((width * height) / 144) * qty;
-
 // Cost
 let hardware = glass * 40;
 let fitting = glass * 30;
-
-    let aluRate = parseFloat(document.getElementById("aluRate").value) || 0;
-let glassRate = parseFloat(document.getElementById("glassRate").value) || 0;
-
-let aluPrice = totalAluminium * aluRate;
-let glassPrice = glass * glassRate;
 
 // Aluminium Total
 let totalAluminium =
@@ -51,6 +44,12 @@ shutterLock +
 shutterInterlock +
 shutterTop +
 shutterBottom;
+
+let aluRate = parseFloat(document.getElementById("aluRate").value) || 0;
+let glassRate = parseFloat(document.getElementById("glassRate").value) || 0;
+
+let aluPrice = totalAluminium * aluRate;
+let glassPrice = glass * glassRate;
 
 // Grand Total
 let grandTotal = aluPrice + glassPrice + hardware + fitting;

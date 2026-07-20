@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Settings</title>
+<title>Settings</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,130 +15,86 @@
 
 <div class="container">
 
-<h2>Admin Settings</h2>
-
-<hr>
-
-<h3>Aluminium Rate</h3>
+<h2>Settings</h2>
 
 <label>Company</label>
-
 <select id="company">
-
 <option>KAI</option>
 <option>BTA</option>
 <option>EDF</option>
 <option>ALFA</option>
 <option>MAX</option>
-
 </select>
 
 <label>Series</label>
-
 <select id="series">
-
 <option>Sliding Window 3"</option>
 <option>Sliding Window 4"</option>
 <option>Fixed Window</option>
 <option>Sliding Door</option>
 <option>Casement Window</option>
-
 </select>
 
-<label>Aluminium Rate (Per Ft)</label>
-
-<input type="number" id="aluRate">
-
-<hr>
-
-<h3>Glass Settings</h3>
-
 <label>Glass Company</label>
-
 <select id="glassCompany">
-
 <option>Xinyi</option>
 <option>PHP</option>
 <option>Nasir</option>
 <option>Bengal</option>
-
 </select>
 
 <label>Glass Thickness</label>
-
 <select id="glassThickness">
-
 <option>5 mm</option>
 <option>5.5 mm</option>
 <option>6 mm</option>
 <option>8 mm</option>
 <option>10 mm</option>
 <option>12 mm</option>
-
 </select>
 
 <label>Glass Colour</label>
-
 <select id="glassColour">
-
 <option>Clear</option>
 <option>Black</option>
 <option>Blue</option>
 <option>Green</option>
 <option>Bronze</option>
 <option>Reflective</option>
-
 </select>
 
-<label>Glass Rate (Per Sqft)</label>
+<label>Aluminium Rate (৳/ft)</label>
+<input type="number" id="aluRate">
 
+<label>Glass Rate (৳/Sqft)</label>
 <input type="number" id="glassRate">
 
-<hr>
-
-<h3>Labour & Profit</h3>
-
-<label>Labour Rate</label>
-
+<label>Labour Rate (৳/Sqft)</label>
 <input type="number" id="labourRate">
 
-<label>Profit %</label>
-
+<label>Profit (%)</label>
 <input type="number" id="profit">
 
-<button onclick="saveSettings()">
+<button onclick="saveSettings()">Save Rate</button>
 
-SAVE SETTINGS
+<h3>Saved Rates</h3>
 
-</button>
-
-  <hr>
-
-<h3>Saved Rate List</h3>
-
-<table id="rateTable" border="1" width="100%">
+<table border="1" width="100%">
 
 <thead>
 
 <tr>
 
 <th>Company</th>
-
 <th>Series</th>
-
 <th>Glass</th>
-
 <th>Thickness</th>
-
-<th>Alu Rate</th>
-
-<th>Glass Rate</th>
-
+<th>Colour</th>
+<th>Alu</th>
+<th>Glass</th>
 <th>Labour</th>
-
 <th>Profit</th>
-
-<th>Action</th>
+<th>Delete</th>
 
 </tr>
 

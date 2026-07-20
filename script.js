@@ -1,72 +1,69 @@
-body{
-margin:0;
-padding:20px;
-background:#f5f5f5;
-font-family:Arial,sans-serif;
-}
+function calculateMaterial() {
 
-.container{
-max-width:700px;
-margin:auto;
-background:#fff;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,.15);
-}
+let width = parseFloat(document.getElementById("width").value) || 0;
+let height = parseFloat(document.getElementById("height").value) || 0;
+let qty = parseInt(document.getElementById("qty").value) || 1;
 
-h1,h2{
-text-align:center;
-color:#0b5ed7;
-}
+let aluRate = parseFloat(document.getElementById("aluRate").value) || 0;
+let glassRate = parseFloat(document.getElementById("glassRate").value) || 0;
 
-label{
-display:block;
-margin-top:12px;
-font-weight:bold;
-}
+// Outer
+let outerSide = ((height * 2) / 12) * qty;
+let outerTop = (width / 12) * qty;
+let outerBottom = (width / 12) * qty;
 
-input,select{
-width:100%;
-padding:10px;
-margin-top:5px;
-border:1px solid #ccc;
-border-radius:6px;
-box-sizing:border-box;
-font-size:16px;
-}
+// Shutter
+let shutterLock = ((height * 2) / 12) * qty;
+let shutterInterlock = ((height * 2) / 12) * qty;
+let shutterTop = (width / 12) * qty;
+let shutterBottom = (width / 12) * qty;
 
-button{
-width:100%;
-padding:14px;
-margin-top:20px;
-background:#0b5ed7;
-color:#fff;
-border:none;
-border-radius:6px;
-font-size:18px;
-cursor:pointer;
-}
+// Glass
+let glass = ((width * height) / 144) * qty;
 
-button:hover{
-background:#084298;
-}
+// Total Aluminium
+let totalAluminium =
+outerSide +
+outerTop +
+outerBottom +
+shutterLock +
+shutterInterlock +
+shutterTop +
+shutterBottom;
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
+// Price
+let aluPrice = totalAluminium * aluRate;
+let glassPrice = glass * glassRate;
 
-table td{
-border:1px solid #ddd;
-padding:10px;
-}
+let hardware = glass * 40;
+let fitting = glass * 30;
 
-table tr:nth-child(even){
-background:#f7f7f7;
-}
+let grandTotal =
+aluPrice +
+glassPrice +
+hardware +
+fitting;
 
-table td:last-child{
-text-align:right;
-font-weight:bold;
+// Output
+document.getElementById("outerSide").innerHTML = outerSide.toFixed(2) + " ft";
+document.getElementById("outerTop").innerHTML = outerTop.toFixed(2) + " ft";
+document.getElementById("outerBottom").innerHTML = outerBottom.toFixed(2) + " ft";
+
+document.getElementById("shutterLock").innerHTML = shutterLock.toFixed(2) + " ft";
+document.getElementById("shutterInterlock").innerHTML = shutterInterlock.toFixed(2) + " ft";
+document.getElementById("shutterTop").innerHTML = shutterTop.toFixed(2) + " ft";
+document.getElementById("shutterBottom").innerHTML = shutterBottom.toFixed(2) + " ft";
+
+document.getElementById("totalAluminium").innerHTML = totalAluminium.toFixed(2) + " ft";
+
+document.getElementById("glass").innerHTML = glass.toFixed(2) + " Sqft";
+
+document.getElementById("aluPrice").innerHTML = aluPrice.toFixed(2) + " ৳";
+document.getElementById("glassPrice").innerHTML = glassPrice.toFixed(2) + " ৳";
+
+document.getElementById("hardware").innerHTML = hardware.toFixed(2) + " ৳";
+document.getElementById("fitting").innerHTML = fitting.toFixed(2) + " ৳";
+
+document.getElementById("grandTotal").innerHTML = grandTotal.toFixed(2) + " ৳";
+
 }

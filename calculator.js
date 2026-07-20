@@ -193,6 +193,15 @@ profitSqft=profitAmount/sqft;
     document.getElementById("sellingPrice").innerHTML =
         sellingPrice.toFixed(2) + " ৳";
 
+    document.getElementById("materialSqft").innerHTML =
+materialSqft.toFixed(2)+" ৳";
+
+document.getElementById("sellingSqft").innerHTML =
+sellingSqft.toFixed(2)+" ৳";
+
+document.getElementById("profitSqft").innerHTML =
+profitSqft.toFixed(2)+" ৳";
+
     // ===== Save Quotation =====
 
     let quotation = {

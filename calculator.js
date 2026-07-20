@@ -58,15 +58,7 @@ r.glassCompany === glassCompany &&
 r.glassThickness === glassThickness &&
 r.glassColour === glassColour
 
-);console.log(company);
-console.log(series);
-console.log(aluThickness);
-console.log(glassCompany);
-console.log(glassThickness);
-console.log(glassColour);
-
-console.log(rates);
-aler
+);
     if (!setting) {
 
         alert("Rate Not Found");

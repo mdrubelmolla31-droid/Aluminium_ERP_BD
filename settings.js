@@ -25,14 +25,14 @@ profit:Number(document.getElementById("profit").value)
 };
 
 // একই Combination থাকলে Update করবে
+let index = rates.findIndex(r =>
 
-let index=rates.findIndex(r=>
-
-r.company==rate.company &&
-r.series==rate.series &&
-r.glassCompany==rate.glassCompany &&
-r.glassThickness==rate.glassThickness &&
-r.glassColour==rate.glassColour
+r.company == rate.company &&
+r.series == rate.series &&
+r.aluThickness == rate.aluThickness &&
+r.glassCompany == rate.glassCompany &&
+r.glassThickness == rate.glassThickness &&
+r.glassColour == rate.glassColour
 
 );
 

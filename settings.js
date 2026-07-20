@@ -64,26 +64,36 @@ rates=JSON.parse(localStorage.getItem("rates"))||[];
 
 rates.forEach((r,i)=>{
 
-body.innerHTML+=`
+body.innerHTML += `
 
 <tr>
 
 <td>${r.company}</td>
+
 <td>${r.series}</td>
+
+<td>${r.aluThickness}</td>
+
 <td>${r.glassCompany}</td>
+
 <td>${r.glassThickness}</td>
+
 <td>${r.glassColour}</td>
+
 <td>${r.aluRate}</td>
+
 <td>${r.glassRate}</td>
+
+<td>${r.hardwareRate}</td>
+
+<td>${r.fittingsRate}</td>
+
 <td>${r.labourRate}</td>
+
 <td>${r.profit}%</td>
 
 <td>
-
-<button onclick="deleteRate(${i})">
-Delete
-</button>
-
+<button onclick="deleteRate(${i})">Delete</button>
 </td>
 
 </tr>

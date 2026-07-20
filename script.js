@@ -1,77 +1,72 @@
-alert("script loaded");
-function login() {
-
-    let email = document.getElementById("email").value.trim();
-    let password = document.getElementById("password").value.trim();
-
-    if (email === "admin@gmail.com" && password === "123456") {
-        window.location.href = "dashboard.html";
-    } else {
-        document.getElementById("msg").innerHTML = "Wrong Email or Password";
-        document.getElementById("msg").style.color = "red";
-    }
-
+body{
+margin:0;
+padding:20px;
+background:#f5f5f5;
+font-family:Arial,sans-serif;
 }
 
-function calculateMaterial() {
-    
-let width = parseFloat(document.getElementById("width").value) || 0;  
-let height = parseFloat(document.getElementById("height").value) || 0;
-let qty = parseInt(document.getElementById("qty").value) || 1;
+.container{
+max-width:700px;
+margin:auto;
+background:#fff;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+}
 
-// Outer
-let outerSide = ((height * 2) / 12) * qty;
-let outerTop = (width / 12) * qty;
-let outerBottom = (width / 12) * qty;
+h1,h2{
+text-align:center;
+color:#0b5ed7;
+}
 
-// Shutter
-let shutterLock = ((height * 2) / 12) * qty;
-let shutterInterlock = ((height * 2) / 12) * qty;
-let shutterTop = (width / 12) * qty;
-let shutterBottom = (width / 12) * qty;
+label{
+display:block;
+margin-top:12px;
+font-weight:bold;
+}
 
-// Glass
-let glass = ((width * height) / 144) * qty;
-// Cost
-let hardware = glass * 40;
-let fitting = glass * 30;
+input,select{
+width:100%;
+padding:10px;
+margin-top:5px;
+border:1px solid #ccc;
+border-radius:6px;
+box-sizing:border-box;
+font-size:16px;
+}
 
-// Aluminium Total
-let totalAluminium =
-outerSide +
-outerTop +
-outerBottom +
-shutterLock +
-shutterInterlock +
-shutterTop +
-shutterBottom;
+button{
+width:100%;
+padding:14px;
+margin-top:20px;
+background:#0b5ed7;
+color:#fff;
+border:none;
+border-radius:6px;
+font-size:18px;
+cursor:pointer;
+}
 
-let aluRate = parseFloat(document.getElementById("aluRate").value) || 0;
-let glassRate = parseFloat(document.getElementById("glassRate").value) || 0;
+button:hover{
+background:#084298;
+}
 
-let aluPrice = totalAluminium * aluRate;
-let glassPrice = glass * glassRate;
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
 
-// Grand Total
-let grandTotal = aluPrice + glassPrice + hardware + fitting;
+table td{
+border:1px solid #ddd;
+padding:10px;
+}
 
-   document.getElementById("aluPrice").innerHTML = aluPrice.toFixed(2) + " ৳";
-document.getElementById("glassPrice").innerHTML = glassPrice.toFixed(2) + " ৳"; 
+table tr:nth-child(even){
+background:#f7f7f7;
+}
 
-// Show Result
-document.getElementById("outerSide").innerHTML = outerSide.toFixed(2) + " ft";
-document.getElementById("outerTop").innerHTML = outerTop.toFixed(2) + " ft";
-document.getElementById("outerBottom").innerHTML = outerBottom.toFixed(2) + " ft";
-
-document.getElementById("shutterLock").innerHTML = shutterLock.toFixed(2) + " ft";
-document.getElementById("shutterInterlock").innerHTML = shutterInterlock.toFixed(2) + " ft";
-document.getElementById("shutterTop").innerHTML = shutterTop.toFixed(2) + " ft";
-document.getElementById("shutterBottom").innerHTML = shutterBottom.toFixed(2) + " ft";
-
-document.getElementById("glass").innerHTML = glass.toFixed(2) + " Sqft";
-document.getElementById("hardware").innerHTML = hardware.toFixed(2) + " ৳";
-document.getElementById("fitting").innerHTML = fitting.toFixed(2) + " ৳";
-document.getElementById("totalAluminium").innerHTML = totalAluminium.toFixed(2) + " ft";
-document.getElementById("grandTotal").innerHTML = grandTotal.toFixed(2) + " ৳";
-
+table td:last-child{
+text-align:right;
+font-weight:bold;
 }

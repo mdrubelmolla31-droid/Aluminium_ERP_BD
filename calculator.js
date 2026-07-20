@@ -1,6 +1,22 @@
 function calculateMaterial() {
+let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
-let settings = JSON.parse(localStorage.getItem("erpSettings"));
+let company = document.getElementById("company").value;
+let series = document.getElementById("series").value;
+let glassCompany = document.getElementById("glassCompany").value;
+let glassThickness = document.getElementById("glassThickness").value;
+
+let settings = rates.find(r =>
+r.company === company &&
+r.series === series &&
+r.glassCompany === glassCompany &&
+r.glassThickness === glassThickness
+);
+
+if(!settings){
+alert("এই Combination-এর Rate পাওয়া যায়নি");
+return;
+}
 
 if(!settings){
 alert("আগে Settings থেকে Rate Save করুন");

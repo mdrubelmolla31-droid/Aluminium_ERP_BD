@@ -1,9 +1,6 @@
 function calculateMaterial() {
 
 let settings = JSON.parse(localStorage.getItem("erpSettings"));
-document.getElementById("totalAluminium").innerHTML =
-totalAluminium.toFixed(2) + " ft";
-
 
 if(!settings){
 alert("আগে Settings থেকে Rate Save করুন");
@@ -17,16 +14,18 @@ let qty = parseInt(document.getElementById("qty").value)||1;
 let hardware = parseFloat(document.getElementById("hardware").value)||0;
 let fittings = parseFloat(document.getElementById("fittings").value)||0;
 
-// Aluminium Length
+// Outer
 let outerSide=((height*2)/12)*qty;
 let outerTop=(width/12)*qty;
 let outerBottom=(width/12)*qty;
 
+// Shutter
 let shutterLock=((height*2)/12)*qty;
 let shutterInterlock=((height*2)/12)*qty;
 let shutterTop=(width/12)*qty;
 let shutterBottom=(width/12)*qty;
 
+// Total Aluminium
 let totalAluminium=
 outerSide+
 outerTop+
@@ -51,34 +50,35 @@ hardware+
 fittings+
 labourCost;
 
-let sqft=glass;
-
 let costPerSqft=0;
 
-if(sqft>0){
-costPerSqft=materialCost/sqft;
+if(glass>0){
+costPerSqft=materialCost/glass;
 }
 
 let sellingPrice=
 materialCost+
 (materialCost*settings.profit/100);
 
-// Save Quotation
+// Result
+document.getElementById("outerSide").innerHTML=outerSide.toFixed(2)+" ft";
+document.getElementById("outerTop").innerHTML=outerTop.toFixed(2)+" ft";
+document.getElementById("outerBottom").innerHTML=outerBottom.toFixed(2)+" ft";
+
+document.getElementById("shutterLock").innerHTML=shutterLock.toFixed(2)+" ft";
+document.getElementById("shutterInterlock").innerHTML=shutterInterlock.toFixed(2)+" ft";
+document.getElementById("shutterTop").innerHTML=shutterTop.toFixed(2)+" ft";
+document.getElementById("shutterBottom").innerHTML=shutterBottom.toFixed(2)+" ft";
+
+document.getElementById("totalAluminium").innerHTML=totalAluminium.toFixed(2)+" ft";
+document.getElementById("glass").innerHTML=glass.toFixed(2)+" Sqft";
+
+document.getElementById("materialCost").innerHTML=materialCost.toFixed(2)+" ৳";
+document.getElementById("costPerSqft").innerHTML=costPerSqft.toFixed(2)+" ৳";
+document.getElementById("sellingPrice").innerHTML=sellingPrice.toFixed(2)+" ৳";
+
+// Save quotation
 localStorage.setItem("quotation",JSON.stringify({
-  document.getElementById("totalAluminium").innerHTML =
-totalAluminium.toFixed(2) + " ft";
-
-document.getElementById("glass").innerHTML =
-glass.toFixed(2) + " Sqft";
-
-document.getElementById("materialCost").innerHTML =
-materialCost.toFixed(2) + " ৳";
-
-document.getElementById("costPerSqft").innerHTML =
-costPerSqft.toFixed(2) + " ৳";
-
-document.getElementById("sellingPrice").innerHTML =
-sellingPrice.toFixed(2) + " ৳";
 
 customer:document.getElementById("customerName").value,
 mobile:document.getElementById("mobile").value,
@@ -95,21 +95,22 @@ width,
 height,
 qty,
 
+outerSide,
+outerTop,
+outerBottom,
+
+shutterLock,
+shutterInterlock,
+shutterTop,
+shutterBottom,
+
 totalAluminium,
 glass,
-
-aluminiumCost,
-glassCost,
-hardware,
-fittings,
-labourCost,
 
 materialCost,
 costPerSqft,
 sellingPrice
 
 }));
-
-alert("Quotation Ready");
 
 }

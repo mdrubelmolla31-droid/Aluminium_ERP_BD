@@ -1,3 +1,4 @@
+alert("script loaded");
 function login() {
 
     let email = document.getElementById("email").value.trim();

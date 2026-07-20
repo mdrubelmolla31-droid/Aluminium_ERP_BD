@@ -59,7 +59,7 @@ r.glassThickness === glassThickness &&
 r.glassColour === glassColour
 
 );
-
+alert(JSON.stringify(rates,null,2));
     if (!setting) {
 
         alert("Rate Not Found");

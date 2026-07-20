@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html>
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Calculator</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material Calculator</title>
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -30,7 +26,6 @@
 <select id="company">
 <option>KAI</option>
 <option>BTA</option>
-<option>EDF</option>
 <option>ALFA</option>
 <option>MAX</option>
 </select>
@@ -69,7 +64,6 @@
 <option>Blue</option>
 <option>Green</option>
 <option>Bronze</option>
-<option>Reflective</option>
 </select>
 
 <label>Width (Inch)</label>
@@ -88,36 +82,32 @@
 <input type="number" id="fittings" value="0">
 
 <button onclick="calculateMaterial()">Calculate</button>
+
 <h3>Calculation Result</h3>
 
-<table border="1" width="100%">
+<table>
 
-<tr>
-<td>Total Aluminium</td>
-<td id="totalAluminium">0 ft</td>
-</tr>
+<tr><td>Outer Side</td><td id="outerSide">0 ft</td></tr>
+<tr><td>Outer Top</td><td id="outerTop">0 ft</td></tr>
+<tr><td>Outer Bottom</td><td id="outerBottom">0 ft</td></tr>
 
-<tr>
-<td>Glass</td>
-<td id="glass">0 Sqft</td>
-</tr>
+<tr><td>Shutter Lock</td><td id="shutterLock">0 ft</td></tr>
+<tr><td>Shutter Interlock</td><td id="shutterInterlock">0 ft</td></tr>
+<tr><td>Shutter Top</td><td id="shutterTop">0 ft</td></tr>
+<tr><td>Shutter Bottom</td><td id="shutterBottom">0 ft</td></tr>
 
-<tr>
-<td>Material Cost</td>
-<td id="materialCost">0 ৳</td>
-</tr>
+<tr><td>Total Aluminium</td><td id="totalAluminium">0 ft</td></tr>
 
-<tr>
-<td>Cost Per Sqft</td>
-<td id="costPerSqft">0 ৳</td>
-</tr>
+<tr><td>Glass</td><td id="glass">0 Sqft</td></tr>
 
-<tr>
-<td><b>Selling Price</b></td>
-<td id="sellingPrice"><b>0 ৳</b></td>
-</tr>
+<tr><td>Material Cost</td><td id="materialCost">0 ৳</td></tr>
+
+<tr><td>Cost Per Sqft</td><td id="costPerSqft">0 ৳</td></tr>
+
+<tr><td><b>Selling Price</b></td><td id="sellingPrice"><b>0 ৳</b></td></tr>
 
 </table>
+
 </div>
 
 <script src="calculator.js"></script>

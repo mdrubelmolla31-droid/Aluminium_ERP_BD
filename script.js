@@ -36,6 +36,12 @@ let glass = ((width * height) / 144) * qty;
 let hardware = glass * 40;
 let fitting = glass * 30;
 
+    let aluRate = parseFloat(document.getElementById("aluRate").value) || 0;
+let glassRate = parseFloat(document.getElementById("glassRate").value) || 0;
+
+let aluPrice = totalAluminium * aluRate;
+let glassPrice = glass * glassRate;
+
 // Aluminium Total
 let totalAluminium =
 outerSide +
@@ -48,6 +54,9 @@ shutterBottom;
 
 // Grand Total
 let grandTotal = hardware + fitting;
+
+   document.getElementById("aluPrice").innerHTML = aluPrice.toFixed(2) + " ৳";
+document.getElementById("glassPrice").innerHTML = glassPrice.toFixed(2) + " ৳"; 
 
 // Show Result
 document.getElementById("outerSide").innerHTML = outerSide.toFixed(2) + " ft";

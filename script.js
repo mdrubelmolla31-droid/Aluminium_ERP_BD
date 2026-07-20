@@ -14,8 +14,8 @@ function login() {
 
 function calculateMaterial() {
     
+let width = parseFloat(document.getElementById("width").value) || 0;  
 let height = parseFloat(document.getElementById("height").value) || 0;
-let width = parseFloat(document.getElementById("width").value) || 0;
 let qty = parseInt(document.getElementById("qty").value) || 1;
 
 // Outer

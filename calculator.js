@@ -41,6 +41,10 @@ select.innerHTML+=`<option>${v}</option>`;
 
 function calculateMaterial(){
 
+rates = JSON.parse(localStorage.getItem("rates")) || [];
+
+...
+
 let company=document.getElementById("company").value;
 let series=document.getElementById("series").value;
 let aluThickness=document.getElementById("aluThickness").value;

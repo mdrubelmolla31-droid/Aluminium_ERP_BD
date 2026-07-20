@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -15,7 +16,7 @@
 
 <div class="container">
 
-<h2>Settings</h2>
+<h2>Rate Settings</h2>
 
 <label>Company</label>
 <select id="company">
@@ -35,6 +36,16 @@
 <option>Casement Window</option>
 </select>
 
+<label>Aluminium Thickness</label>
+<select id="aluThickness">
+<option>1.0 mm</option>
+<option>1.2 mm</option>
+<option>1.4 mm</option>
+<option>1.6 mm</option>
+<option>1.8 mm</option>
+<option>2.0 mm</option>
+</select>
+
 <label>Glass Company</label>
 <select id="glassCompany">
 <option>Xinyi</option>
@@ -52,23 +63,7 @@
 <option>10 mm</option>
 <option>12 mm</option>
 </select>
-<label>Aluminium Thickness</label>
 
-<select id="aluThickness">
-
-<option>0.80 mm</option>
-
-<option>1.00 mm</option>
-
-<option>1.20 mm</option>
-
-<option>1.40 mm</option>
-
-<option>1.60 mm</option>
-
-<option>2.00 mm</option>
-
-</select>
 <label>Glass Colour</label>
 <select id="glassColour">
 <option>Clear</option>
@@ -78,7 +73,8 @@
 <option>Bronze</option>
 <option>Reflective</option>
 </select>
-<label>Aluminium Rate (৳/ft)</label>
+
+  <label>Aluminium Rate (৳/ft)</label>
 <input type="number" id="aluRate">
 
 <label>Glass Rate (৳/Sqft)</label>
@@ -86,14 +82,6 @@
 
 <label>Hardware Rate (৳/Sqft)</label>
 <input type="number" id="hardwareRate">
-  <label>Fittings Rate (৳/Sqft)</label>
-<input type="number" id="fittingsRate">
-
-<label>Labour Rate (৳/Sqft)</label>
-<input type="number" id="labourRate">
-
-<label>Profit (%)</label>
-<input type="number" id="profit">
 
 <label>Fittings Rate (৳/Sqft)</label>
 <input type="number" id="fittingsRate">
@@ -103,21 +91,12 @@
 
 <label>Profit (%)</label>
 <input type="number" id="profit">
-<label>Aluminium Rate (৳/ft)</label>
-<input type="number" id="aluRate">
-
-<label>Glass Rate (৳/Sqft)</label>
-<input type="number" id="glassRate">
-
-<label>Labour Rate (৳/Sqft)</label>
-<input type="number" id="labourRate">
-
-<label>Profit (%)</label>
-<input type="number" id="profit">
 
 <button onclick="saveSettings()">Save Rate</button>
 
-<h3>Saved Rates</h3>
+<hr>
+
+<h3>Saved Rate List</h3>
 
 <table border="1" width="100%">
 
@@ -126,29 +105,17 @@
 <tr>
 
 <th>Company</th>
-
 <th>Series</th>
-
-<th>Alu Thickness</th>
-
-<th>Glass Company</th>
-
-<th>Glass Thickness</th>
-
-<th>Glass Colour</th>
-
+<th>Alu</th>
+<th>Glass</th>
+<th>Thick</th>
+<th>Colour</th>
 <th>Alu Rate</th>
-
-<th>Glass Rate</th>
-
-<th>Hardware</th>
-
-<th>Fittings</th>
-
+<th>Glass</th>
+<th>HW</th>
+<th>Fit</th>
 <th>Labour</th>
-
 <th>Profit</th>
-
 <th>Delete</th>
 
 </tr>
@@ -160,10 +127,11 @@
 </tbody>
 
 </table>
-
 </div>
 
 <script src="settings.js"></script>
 
 </body>
+
 </html>
+  

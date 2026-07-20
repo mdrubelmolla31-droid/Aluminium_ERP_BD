@@ -53,7 +53,7 @@ shutterTop +
 shutterBottom;
 
 // Grand Total
-let grandTotal = hardware + fitting;
+let grandTotal = aluPrice + glassPrice + hardware + fitting;
 
    document.getElementById("aluPrice").innerHTML = aluPrice.toFixed(2) + " ৳";
 document.getElementById("glassPrice").innerHTML = glassPrice.toFixed(2) + " ৳"; 

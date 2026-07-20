@@ -2,8 +2,9 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Material Calculator</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,28 +12,22 @@
 
 <div class="container">
 
-<h1>🧮 Material Calculator</h1>
+<h1>Material Calculator</h1>
 
 <label>Customer Name</label>
 <input type="text" id="customerName">
 
 <label>Company</label>
 <select id="company">
-<option>Select Company</option>
 <option>KAI</option>
-<option>Altec</option>
-<option>chughua</option>
-<option>nikki</option>
 <option>EDF</option>
 <option>BTA</option>
 <option>ALFA</option>
 <option>MAX</option>
-<option>NASIR</option>
 </select>
 
 <label>Series</label>
 <select id="series">
-<option>Select Series</option>
 <option>3"</option>
 <option>4"</option>
 <option>5"</option>
@@ -40,7 +35,6 @@
 
 <label>Profile</label>
 <select id="profile">
-<option>Select Profile</option>
 <option>Sliding Window</option>
 <option>Sliding Door</option>
 <option>Fixed</option>
@@ -49,10 +43,10 @@
 <label>Colour</label>
 <select id="colour">
 <option>Black</option>
-<option>silver</option>
+<option>Silver</option>
 <option>White</option>
 <option>Champagne</option>
-<option>Brownz</option>
+<option>Brown</option>
 </select>
 
 <label>Thickness</label>
@@ -61,117 +55,60 @@
 <option>1.0 mm</option>
 <option>1.2 mm</option>
 <option>1.4 mm</option>
-<option>1.5 mm</option>
 </select>
 
-    
 <label>Width (Inch)</label>
 <input type="number" id="width">
-  
+
 <label>Height (Inch)</label>
 <input type="number" id="height">
 
 <label>Quantity</label>
 <input type="number" id="qty" value="1">
 
-<br><br>
-<button onclick="alert('Button OK'); calculateMaterial();">
-🧮 Calculate
-</button>
+<label>Aluminium Rate (৳/ft)</label>
+<input type="number" id="aluRate" value="0">
 
-<br><br>
+<label>Glass Rate (৳/Sqft)</label>
+<input type="number" id="glassRate" value="0">
 
+<button onclick="calculateMaterial()">Calculate</button>
 
-<h3>Calculation Result</h3>
-<table border="1" width="100%">
+<h2>Calculation Result</h2>
 
-<tr>
-<td>Outer Side</td>
-<td id="outerSide">0 ft</td>
-</tr>
+<table>
 
-<tr>
-<td>Outer Top</td>
-<td id="outerTop">0 ft</td>
-</tr>
+<tr><td>Outer Side</td><td id="outerSide">0</td></tr>
+<tr><td>Outer Top</td><td id="outerTop">0</td></tr>
+<tr><td>Outer Bottom</td><td id="outerBottom">0</td></tr>
 
-<tr>
-<td>Outer Bottom</td>
-<td id="outerBottom">0 ft</td>
-</tr>
+<tr><td>Shutter Lock</td><td id="shutterLock">0</td></tr>
+<tr><td>Shutter Interlock</td><td id="shutterInterlock">0</td></tr>
+<tr><td>Shutter Top</td><td id="shutterTop">0</td></tr>
+<tr><td>Shutter Bottom</td><td id="shutterBottom">0</td></tr>
 
-<tr>
-<td>Shutter Lock</td>
-<td id="shutterLock">0 ft</td>
-</tr>
+<tr><td>Total Aluminium</td><td id="totalAluminium">0</td></tr>
 
-<tr>
-<td>Shutter Interlock</td>
-<td id="shutterInterlock">0 ft</td>
-</tr>
+<tr><td>Glass</td><td id="glass">0</td></tr>
 
-<tr>
-<td>Shutter Top</td>
-<td id="shutterTop">0 ft</td>
-</tr>
+<tr><td>Aluminium Price</td><td id="aluPrice">0</td></tr>
 
-<tr>
-<td>Shutter Bottom</td>
-<td id="shutterBottom">0 ft</td>
-</tr>
+<tr><td>Glass Price</td><td id="glassPrice">0</td></tr>
 
-<tr>
-<td>Total Aluminium</td>
-<td id="totalAluminium">0 ft</td>
-</tr>
+<tr><td>Hardware</td><td id="hardware">0</td></tr>
 
-<tr>
-<td>Glass (Sqft)</td>
-<td id="glass">0 Sqft</td>
-</tr>
-  <tr>
-<td>Aluminium Rate (৳/ft)</td>
-<td><input type="number" id="aluRate" value="0"></td>
-</tr>
-
-<tr>
-<td>Glass Rate (৳/Sqft)</td>
-<td><input type="number" id="glassRate" value="0"></td>
-</tr>
-
-<tr>
-<td>Aluminium Price</td>
-<td id="aluPrice">0 ৳</td>
-</tr>
-
-<tr>
-<td>Glass Price</td>
-<td id="glassPrice">0 ৳</td>
-</tr>
-
-<tr>
-<td>Hardware Cost</td>
-<td id="hardware">0 ৳</td>
-</tr>
-
-<tr>
-<td>Fitting Charge</td>
-<td id="fitting">0 ৳</td>
-</tr>
+<tr><td>Fitting</td><td id="fitting">0</td></tr>
 
 <tr>
 <td><b>Grand Total</b></td>
-<td id="grandTotal"><b>0 ৳</b></td>
+<td id="grandTotal"><b>0</b></td>
 </tr>
 
 </table>
 
+</div>
 
 <script src="script.js"></script>
-    
-<script>
-console.log("calculator loaded");
-</script>
-    
+
 </body>
 </html>

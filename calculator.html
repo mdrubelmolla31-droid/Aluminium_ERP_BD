@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Material Calculator</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -23,48 +28,22 @@
 <input type="text" id="address">
 
 <label>Company</label>
-<select id="company">
-<option>KAI</option>
-<option>BTA</option>
-<option>ALFA</option>
-<option>MAX</option>
-</select>
+<select id="company"></select>
 
 <label>Series</label>
-<select id="series">
-<option>Sliding Window 3"</option>
-<option>Sliding Window 4"</option>
-<option>Fixed Window</option>
-<option>Sliding Door</option>
-<option>Casement Window</option>
-</select>
+<select id="series"></select>
+
+<label>Aluminium Thickness</label>
+<select id="aluThickness"></select>
 
 <label>Glass Company</label>
-<select id="glassCompany">
-<option>Xinyi</option>
-<option>PHP</option>
-<option>Nasir</option>
-<option>Bengal</option>
-</select>
+<select id="glassCompany"></select>
 
 <label>Glass Thickness</label>
-<select id="glassThickness">
-<option>5 mm</option>
-<option>5.5 mm</option>
-<option>6 mm</option>
-<option>8 mm</option>
-<option>10 mm</option>
-<option>12 mm</option>
-</select>
+<select id="glassThickness"></select>
 
 <label>Glass Colour</label>
-<select id="glassColour">
-<option>Clear</option>
-<option>Black</option>
-<option>Blue</option>
-<option>Green</option>
-<option>Bronze</option>
-</select>
+<select id="glassColour"></select>
 
 <label>Width (Inch)</label>
 <input type="number" id="width">
@@ -75,38 +54,95 @@
 <label>Quantity</label>
 <input type="number" id="qty" value="1">
 
-<label>Hardware Cost</label>
-<input type="number" id="hardware" value="0">
+<button onclick="calculateMaterial()">
+Calculate
+</button>
 
-<label>Fittings Cost</label>
-<input type="number" id="fittings" value="0">
-
-<button onclick="calculateMaterial()">Calculate</button>
-
-<h3>Calculation Result</h3>
+<div class="result">
 
 <table>
 
-<tr><td>Outer Side</td><td id="outerSide">0 ft</td></tr>
-<tr><td>Outer Top</td><td id="outerTop">0 ft</td></tr>
-<tr><td>Outer Bottom</td><td id="outerBottom">0 ft</td></tr>
+<tr>
+<th colspan="2">Material Details</th>
+</tr>
 
-<tr><td>Shutter Lock</td><td id="shutterLock">0 ft</td></tr>
-<tr><td>Shutter Interlock</td><td id="shutterInterlock">0 ft</td></tr>
-<tr><td>Shutter Top</td><td id="shutterTop">0 ft</td></tr>
-<tr><td>Shutter Bottom</td><td id="shutterBottom">0 ft</td></tr>
+<tr>
+<td>Outer Side</td>
+<td id="outerSide">0 ft</td>
+</tr>
 
-<tr><td>Total Aluminium</td><td id="totalAluminium">0 ft</td></tr>
+<tr>
+<td>Outer Top</td>
+<td id="outerTop">0 ft</td>
+</tr>
 
-<tr><td>Glass</td><td id="glass">0 Sqft</td></tr>
+<tr>
+<td>Outer Bottom</td>
+<td id="outerBottom">0 ft</td>
+</tr>
 
-<tr><td>Material Cost</td><td id="materialCost">0 ৳</td></tr>
+<tr>
+<td>Shutter Lock</td>
+<td id="shutterLock">0 ft</td>
+</tr>
 
-<tr><td>Cost Per Sqft</td><td id="costPerSqft">0 ৳</td></tr>
+<tr>
+<td>Shutter Interlock</td>
+<td id="shutterInterlock">0 ft</td>
+</tr>
 
-<tr><td><b>Selling Price</b></td><td id="sellingPrice"><b>0 ৳</b></td></tr>
+<tr>
+<td>Shutter Top</td>
+<td id="shutterTop">0 ft</td>
+</tr>
+
+<tr>
+<td>Shutter Bottom</td>
+<td id="shutterBottom">0 ft</td>
+</tr>
+
+<tr>
+<td>Total Aluminium</td>
+<td id="totalAluminium">0 ft</td>
+</tr>
+
+<tr>
+<td>Glass</td>
+<td id="glass">0 Sqft</td>
+
+  <tr>
+<td>Hardware</td>
+<td id="hardwareCost">0 ৳</td>
+</tr>
+
+<tr>
+<td>Fittings</td>
+<td id="fittingsCost">0 ৳</td>
+</tr>
+
+<tr>
+<td>Labour</td>
+<td id="labourCost">0 ৳</td>
+</tr>
+
+<tr>
+<td>Material Cost</td>
+<td id="materialCost">0 ৳</td>
+</tr>
+
+<tr>
+<td>Cost / Sqft</td>
+<td id="costPerSqft">0 ৳</td>
+</tr>
+
+<tr>
+<td>Selling Price</td>
+<td id="sellingPrice">0 ৳</td>
+</tr>
 
 </table>
+
+</div>
 
 </div>
 
@@ -114,3 +150,4 @@
 
 </body>
 </html>
+</tr>

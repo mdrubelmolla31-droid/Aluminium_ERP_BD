@@ -1,24 +1,65 @@
-function calculateMaterial() {
-
-// ===== Load Rate =====
-
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
-let company = document.getElementById("company").value;
-let series = document.getElementById("series").value;
-let glassCompany = document.getElementById("glassCompany").value;
-let glassThickness = document.getElementById("glassThickness").value;
+window.onload = function () {
 
-let settings = rates.find(r =>
+loadDropdowns();
 
-r.company == company &&
-r.series == series &&
-r.glassCompany == glassCompany &&
-r.glassThickness == glassThickness
+};
+
+function loadDropdowns() {
+
+rates = JSON.parse(localStorage.getItem("rates")) || [];
+
+fillSelect("company","company");
+fillSelect("series","series");
+fillSelect("aluThickness","aluThickness");
+fillSelect("glassCompany","glassCompany");
+fillSelect("glassThickness","glassThickness");
+fillSelect("glassColour","glassColour");
+
+}
+
+function fillSelect(id,key){
+
+let select=document.getElementById(id);
+
+select.innerHTML="";
+
+let values=[...new Set(rates.map(x=>x[key]))];
+
+values.forEach(v=>{
+
+if(v!=undefined){
+
+select.innerHTML+=`<option>${v}</option>`;
+
+}
+
+});
+
+}
+
+function calculateMaterial(){
+
+let company=document.getElementById("company").value;
+let series=document.getElementById("series").value;
+let aluThickness=document.getElementById("aluThickness").value;
+let glassCompany=document.getElementById("glassCompany").value;
+let glassThickness=document.getElementById("glassThickness").value;
+let glassColour=document.getElementById("glassColour").value;
+
+let setting=rates.find(r=>
+
+r.company==company &&
+r.series==series &&
+r.aluThickness==aluThickness &&
+r.glassCompany==glassCompany &&
+r.glassThickness==glassThickness &&
+r.glassColour==glassColour
 
 );
 
-if(!settings){
+if(!setting){
 
 alert("Rate Not Found");
 
@@ -26,60 +67,29 @@ return;
 
 }
 
-// ===== Customer =====
+let width=parseFloat(document.getElementById("width").value)||0;
+let height=parseFloat(document.getElementById("height").value)||0;
+let qty=parseInt(document.getElementById("qty").value)||1;
 
-let customer =
-document.getElementById("customerName").value;
+let glass=((width*height)/144)*qty;
 
-let mobile =
-document.getElementById("mobile").value;
+// Aluminium
 
-let address =
-document.getElementById("address").value;
+let outerSide=((height*2)/12)*qty;
 
-// ===== Size =====
+let outerTop=(width/12)*qty;
 
-let width =
-parseFloat(document.getElementById("width").value)||0;
+let outerBottom=(width/12)*qty;
 
-let height =
-parseFloat(document.getElementById("height").value)||0;
+let shutterLock=((height*2)/12)*qty;
 
-let qty =
-parseInt(document.getElementById("qty").value)||1;
+let shutterInterlock=((height*2)/12)*qty;
 
-// ===== Manual Cost =====
+let shutterTop=(width/12)*qty;
 
-let hardware =
-parseFloat(document.getElementById("hardware").value)||0;
+let shutterBottom=(width/12)*qty;
 
-let fittings =
-parseFloat(document.getElementById("fittings").value)||0;
-
-// ===== Aluminium =====
-
-let outerSide =
-((height*2)/12)*qty;
-
-let outerTop =
-(width/12)*qty;
-
-let outerBottom =
-(width/12)*qty;
-
-let shutterLock =
-((height*2)/12)*qty;
-
-let shutterInterlock =
-((height*2)/12)*qty;
-
-let shutterTop =
-(width/12)*qty;
-
-let shutterBottom =
-(width/12)*qty;
-
-let totalAluminium =
+let totalAluminium=
 
 outerSide+
 outerTop+
@@ -89,119 +99,91 @@ shutterInterlock+
 shutterTop+
 shutterBottom;
 
-// ===== Glass =====
+// Cost
 
-let glass =
-((width*height)/144)*qty;
+let aluminiumCost=
+totalAluminium*setting.aluRate;
 
-  // ===== Cost =====
+let glassCost=
+glass*setting.glassRate;
 
-let aluminiumCost = totalAluminium * settings.aluRate;
-let glassCost = glass * settings.glassRate;
-let labourCost = glass * settings.labourRate;
+let hardwareCost=
+glass*setting.hardwareRate;
 
-let materialCost =
-aluminiumCost +
-glassCost +
-hardware +
-fittings +
+let fittingsCost=
+glass*setting.fittingsRate;
+
+let labourCost=
+glass*setting.labourRate;
+
+let materialCost=
+
+aluminiumCost+
+glassCost+
+hardwareCost+
+fittingsCost+
 labourCost;
 
-let costPerSqft = 0;
+let costPerSqft=0;
 
-if(glass > 0){
-costPerSqft = materialCost / glass;
+if(glass>0){
+
+costPerSqft=
+materialCost/glass;
+
 }
 
-let profitAmount =
-(materialCost * settings.profit) / 100;
+let sellingPrice=
 
-let sellingPrice =
-materialCost + profitAmount;
+materialCost+
 
-// ===== Result =====
+(materialCost*setting.profit/100);
 
-document.getElementById("outerSide").innerHTML =
+// Result
+
+document.getElementById("outerSide").innerHTML=
 outerSide.toFixed(2)+" ft";
 
-document.getElementById("outerTop").innerHTML =
+document.getElementById("outerTop").innerHTML=
 outerTop.toFixed(2)+" ft";
 
-document.getElementById("outerBottom").innerHTML =
+document.getElementById("outerBottom").innerHTML=
 outerBottom.toFixed(2)+" ft";
 
-document.getElementById("shutterLock").innerHTML =
+document.getElementById("shutterLock").innerHTML=
 shutterLock.toFixed(2)+" ft";
 
-document.getElementById("shutterInterlock").innerHTML =
+document.getElementById("shutterInterlock").innerHTML=
 shutterInterlock.toFixed(2)+" ft";
 
-document.getElementById("shutterTop").innerHTML =
+document.getElementById("shutterTop").innerHTML=
 shutterTop.toFixed(2)+" ft";
 
-document.getElementById("shutterBottom").innerHTML =
+document.getElementById("shutterBottom").innerHTML=
 shutterBottom.toFixed(2)+" ft";
 
-document.getElementById("totalAluminium").innerHTML =
+document.getElementById("totalAluminium").innerHTML=
 totalAluminium.toFixed(2)+" ft";
 
-document.getElementById("glass").innerHTML =
+document.getElementById("glass").innerHTML=
 glass.toFixed(2)+" Sqft";
 
-document.getElementById("materialCost").innerHTML =
+document.getElementById("hardwareCost").innerHTML=
+hardwareCost.toFixed(2)+" ৳";
+
+document.getElementById("fittingsCost").innerHTML=
+fittingsCost.toFixed(2)+" ৳";
+
+document.getElementById("labourCost").innerHTML=
+labourCost.toFixed(2)+" ৳";
+
+document.getElementById("materialCost").innerHTML=
 materialCost.toFixed(2)+" ৳";
 
-document.getElementById("costPerSqft").innerHTML =
+document.getElementById("costPerSqft").innerHTML=
 costPerSqft.toFixed(2)+" ৳";
 
-document.getElementById("sellingPrice").innerHTML =
+document.getElementById("sellingPrice").innerHTML=
 sellingPrice.toFixed(2)+" ৳";
-
-// ===== Save Quotation =====
-
-localStorage.setItem("quotation",JSON.stringify({
-
-customer,
-mobile,
-address,
-
-company,
-series,
-
-glassCompany,
-glassThickness,
-
-width,
-height,
-qty,
-
-outerSide,
-outerTop,
-outerBottom,
-
-shutterLock,
-shutterInterlock,
-shutterTop,
-shutterBottom,
-
-totalAluminium,
-glass,
-
-aluminiumCost,
-glassCost,
-labourCost,
-
-hardware,
-fittings,
-
-materialCost,
-costPerSqft,
-
-profit:settings.profit,
-profitAmount,
-
-sellingPrice
-
-}));
 
 }

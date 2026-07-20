@@ -130,6 +130,22 @@ let setting = rates.find(r =>
 
         materialCost + profitAmount;
 
+    let sqft=((width*height)/144)*qty;
+
+let materialSqft=0;
+let sellingSqft=0;
+let profitSqft=0;
+
+if(sqft>0){
+
+materialSqft=materialCost/sqft;
+
+sellingSqft=sellingPrice/sqft;
+
+profitSqft=profitAmount/sqft;
+
+}
+
       // ===== Result =====
 
     document.getElementById("outerSide").innerHTML =

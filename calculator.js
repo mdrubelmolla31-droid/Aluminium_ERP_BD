@@ -1,7 +1,20 @@
 function calculateMaterial() {
 
 let settings = JSON.parse(localStorage.getItem("erpSettings"));
+document.getElementById("totalAluminium").innerHTML =
+totalAluminium.toFixed(2) + " ft";
 
+document.getElementById("glass").innerHTML =
+glass.toFixed(2) + " Sqft";
+
+document.getElementById("materialCost").innerHTML =
+materialCost.toFixed(2) + " ৳";
+
+document.getElementById("costPerSqft").innerHTML =
+costPerSqft.toFixed(2) + " ৳";
+
+document.getElementById("sellingPrice").innerHTML =
+sellingPrice.toFixed(2) + " ৳";
 if(!settings){
 alert("আগে Settings থেকে Rate Save করুন");
 return;

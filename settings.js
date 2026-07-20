@@ -57,7 +57,9 @@ rates.push(rate);
 }
 
 localStorage.setItem("rates",JSON.stringify(rates));
-
+  
+alert(localStorage.getItem("rates"));
+  
 loadRates();
 
 alert("Rate Saved");

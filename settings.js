@@ -1,12 +1,12 @@
+let rates = JSON.parse(localStorage.getItem("rates")) || [];
+
 function saveSettings() {
 
-let settings = {
+let data = {
 
 company: document.getElementById("company").value,
 
 series: document.getElementById("series").value,
-
-aluRate: parseFloat(document.getElementById("aluRate").value) || 0,
 
 glassCompany: document.getElementById("glassCompany").value,
 
@@ -14,42 +14,76 @@ glassThickness: document.getElementById("glassThickness").value,
 
 glassColour: document.getElementById("glassColour").value,
 
-glassRate: parseFloat(document.getElementById("glassRate").value) || 0,
+aluRate: parseFloat(document.getElementById("aluRate").value),
 
-labourRate: parseFloat(document.getElementById("labourRate").value) || 0,
+glassRate: parseFloat(document.getElementById("glassRate").value),
 
-profit: parseFloat(document.getElementById("profit").value) || 0
+labourRate: parseFloat(document.getElementById("labourRate").value),
+
+profit: parseFloat(document.getElementById("profit").value)
 
 };
 
-localStorage.setItem("erpSettings", JSON.stringify(settings));
+rates.push(data);
 
-alert("Settings Saved Successfully");
+localStorage.setItem("rates", JSON.stringify(rates));
+
+showRates();
+
+alert("Rate Saved");
 
 }
 
-window.onload = function () {
+function showRates() {
 
-let settings = JSON.parse(localStorage.getItem("erpSettings"));
+let body = document.getElementById("rateBody");
 
-if (!settings) return;
+body.innerHTML = "";
 
-document.getElementById("company").value = settings.company;
+rates.forEach((r, i) => {
 
-document.getElementById("series").value = settings.series;
+body.innerHTML += `
 
-document.getElementById("aluRate").value = settings.aluRate;
+<tr>
 
-document.getElementById("glassCompany").value = settings.glassCompany;
+<td>${r.company}</td>
 
-document.getElementById("glassThickness").value = settings.glassThickness;
+<td>${r.series}</td>
 
-document.getElementById("glassColour").value = settings.glassColour;
+<td>${r.glassCompany}</td>
 
-document.getElementById("glassRate").value = settings.glassRate;
+<td>${r.glassThickness}</td>
 
-document.getElementById("labourRate").value = settings.labourRate;
+<td>${r.aluRate}</td>
 
-document.getElementById("profit").value = settings.profit;
+<td>${r.glassRate}</td>
 
-};
+<td>${r.labourRate}</td>
+
+<td>${r.profit}%</td>
+
+<td>
+
+<button onclick="deleteRate(${i})">Delete</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function deleteRate(index){
+
+rates.splice(index,1);
+
+localStorage.setItem("rates",JSON.stringify(rates));
+
+showRates();
+
+}
+
+window.onload = showRates;

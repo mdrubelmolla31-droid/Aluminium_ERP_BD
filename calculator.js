@@ -19,6 +19,11 @@ fillSelect("glassColour","glassColour");
 
 }
 
+document.getElementById("company").onchange = loadDropdowns;
+document.getElementById("series").onchange = loadDropdowns;
+document.getElementById("aluThickness").onchange = loadDropdowns;
+document.getElementById("glassCompany").onchange = loadDropdowns;
+document.getElementById("glassThickness").onchange = loadDropdowns;
 function fillSelect(id,key){
 
 let select=document.getElementById(id);

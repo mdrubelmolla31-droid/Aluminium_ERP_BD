@@ -112,16 +112,7 @@ select.value=oldValue;
 }
     values.forEach(v => {
 
-        if (v != undefined) {
-
-            select.innerHTML += `<option value="${v}">${v}</option>`;
-
-        }
-
-    });
-
-}
-
+        
 function calculateMaterial() {
 
     rates = JSON.parse(localStorage.getItem("rates")) || [];

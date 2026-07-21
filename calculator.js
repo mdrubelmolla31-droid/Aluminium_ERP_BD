@@ -278,4 +278,20 @@ alert(materialSqft+" | "+sellingSqft+" | "+profitSqft);
 
 }
 
+function openQuotation(){
+
+let q=localStorage.getItem("quotation");
+
+if(!q){
+
+alert("আগে Calculate করুন");
+
+return;
+
+}
+
+window.location.href="quotation.html";
+
+}
+
 // ===== END =====

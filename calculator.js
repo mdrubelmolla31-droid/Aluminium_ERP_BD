@@ -80,27 +80,35 @@ document.getElementById("glassThickness").selectedIndex=0;
 document.getElementById("glassColour").selectedIndex=0;
 
 }
-function fillSelect(id,key){
+function fillSelect(id, key) {
 
-let select=document.getElementById(id);
+    let select = document.getElementById(id);
 
-let oldValue=select.value;
+    let oldValue = select.value;
 
-select.innerHTML='<option value="">Select</option>';
+    select.innerHTML = '<option value="">Select</option>';
 
-let values=[...new Set(rates.map(r=>r[key]).filter(Boolean))];
+    let values = [...new Set(rates.map(r => r[key]).filter(v => v && v.trim() !== ""))];
 
-values.forEach(v=>{
+    values.forEach(v => {
 
-let option=document.createElement("option");
+        let option = document.createElement("option");
 
-option.value=v;
+        option.value = v;
 
-option.textContent=v;
+        option.textContent = v;
 
-select.appendChild(option);
+        select.appendChild(option);
 
-});
+    });
+
+    if (values.includes(oldValue)) {
+
+        select.value = oldValue;
+
+    }
+
+}
 
 if(values.includes(oldValue)){
 

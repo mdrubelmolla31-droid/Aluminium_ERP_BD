@@ -49,6 +49,26 @@ select.innerHTML+=`<option>${item}</option>`;
 function saveSettings(){
 
 let rate={
+}
+  function loadRates(){
+
+rates = JSON.parse(localStorage.getItem("rates")) || [];
+
+let body = document.getElementById("rateBody");
+
+body.innerHTML = "";
+
+rates.forEach((r,i)=>{
+
+body.innerHTML += `
+<tr>
+...
+</tr>
+`;
+
+});
+
+}
 
 company:document.getElementById("company").value,
 

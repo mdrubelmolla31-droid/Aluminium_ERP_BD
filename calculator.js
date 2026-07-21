@@ -2,7 +2,7 @@ let rates = JSON.parse(localStorage.getItem("rates")) || [];
 function loadMasterData(){
 
 window.onload = function () {
-    alert(rates.length);
+    alert(localStorage.getItem("rates"));
 
     loadDropdowns();
 

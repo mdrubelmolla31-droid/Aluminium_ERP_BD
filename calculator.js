@@ -8,12 +8,14 @@ function loadDropdowns() {
 
     rates = JSON.parse(localStorage.getItem("rates")) || [];
 
-    fillSelect("company", "company");
-    fillSelect("series", "series");
-    fillSelect("aluThickness", "aluThickness");
-    fillSelect("glassCompany", "glassCompany");
-    fillSelect("glassThickness", "glassThickness");
-    fillSelect("glassColour", "glassColour");
+    alert(JSON.stringify(rates));
+
+    fillSelect("company","company");
+    fillSelect("series","series");
+    fillSelect("aluThickness","aluThickness");
+    fillSelect("glassCompany","glassCompany");
+    fillSelect("glassThickness","glassThickness");
+    fillSelect("glassColour","glassColour");
 
 }
 

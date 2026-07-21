@@ -44,7 +44,7 @@ select.innerHTML+=`<option>${item}</option>`;
 });
 
 }
-
+alert("JS Loaded");
 window.onload = function () {
     alert(rates.length);
 

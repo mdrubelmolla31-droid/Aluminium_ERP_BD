@@ -46,6 +46,7 @@ select.innerHTML+=`<option>${item}</option>`;
 }
 
 window.onload = function () {
+    alert(rates.length);
 
     loadDropdowns();
 

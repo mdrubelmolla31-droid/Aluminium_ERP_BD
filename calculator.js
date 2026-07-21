@@ -1,6 +1,53 @@
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
+function loadMasterData(){
+
+let data=JSON.parse(localStorage.getItem("masterData"))||{};
+
+loadMasterSelect("company",data.company);
+
+loadMasterSelect("series",data.series);
+
+loadMasterSelect("aluThickness",data.aluThickness);
+
+loadMasterSelect("glassCompany",data.glassCompany);
+
+}
+
+function loadMasterSelect(id,list){
+
+if(!list) return;
+
+let select=document.getElementById(id);
+
+list.forEach(item=>{
+
+let exist=false;
+
+for(let i=0;i<select.options.length;i++){
+
+if(select.options[i].value===item){
+
+exist=true;
+
+break;
+
+}
+
+}
+
+if(!exist){
+
+select.innerHTML+=`<option>${item}</option>`;
+
+}
+
+});
+
+}
 
 window.onload = function () {
+
+    loadMasterData();
 
     loadDropdowns();
 

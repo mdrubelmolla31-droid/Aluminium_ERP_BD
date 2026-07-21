@@ -201,6 +201,8 @@ sellingSqft.toFixed(2)+" ৳";
 
 document.getElementById("profitSqft").innerHTML =
 profitSqft.toFixed(2)+" ৳";
+    
+alert(materialSqft+" | "+sellingSqft+" | "+profitSqft);
 
     // ===== Save Quotation =====
 

@@ -36,14 +36,35 @@ document.getElementById("glassColour").selectedIndex=0;
 
 }
 
-function fillSelect(id, key) {
+function fillSelect(id,key){
 
-    let select = document.getElementById(id);
+let select=document.getElementById(id);
 
-    select.innerHTML = "";
+let oldValue=select.value;
 
-    let values = [...new Set(rates.map(r => r[key]))];
+select.innerHTML="";
 
+let values=[...new Set(rates.map(r=>r[key]).filter(Boolean))];
+
+values.forEach(v=>{
+
+let option=document.createElement("option");
+
+option.value=v;
+
+option.textContent=v;
+
+select.appendChild(option);
+
+});
+
+if(values.includes(oldValue)){
+
+select.value=oldValue;
+
+}
+
+}
     values.forEach(v => {
 
         if (v != undefined) {

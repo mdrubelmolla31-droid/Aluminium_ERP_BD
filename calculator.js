@@ -6,16 +6,33 @@ window.onload = function () {
 
 };
 
-function loadDropdowns() {
+function loadDropdowns(){
 
-    rates = JSON.parse(localStorage.getItem("rates")) || [];
+rates = JSON.parse(localStorage.getItem("rates")) || [];
 
-    fillSelect("company", "company");
-    fillSelect("series", "series");
-    fillSelect("aluThickness", "aluThickness");
-    fillSelect("glassCompany", "glassCompany");
-    fillSelect("glassThickness", "glassThickness");
-    fillSelect("glassColour", "glassColour");
+fillSelect("company","company");
+
+fillSelect("series","series");
+
+fillSelect("aluThickness","aluThickness");
+
+fillSelect("glassCompany","glassCompany");
+
+fillSelect("glassThickness","glassThickness");
+
+fillSelect("glassColour","glassColour");
+
+document.getElementById("company").selectedIndex=0;
+
+document.getElementById("series").selectedIndex=0;
+
+document.getElementById("aluThickness").selectedIndex=0;
+
+document.getElementById("glassCompany").selectedIndex=0;
+
+document.getElementById("glassThickness").selectedIndex=0;
+
+document.getElementById("glassColour").selectedIndex=0;
 
 }
 

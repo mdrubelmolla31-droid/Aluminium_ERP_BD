@@ -80,14 +80,13 @@ document.getElementById("glassThickness").selectedIndex=0;
 document.getElementById("glassColour").selectedIndex=0;
 
 }
-
 function fillSelect(id,key){
 
 let select=document.getElementById(id);
 
 let oldValue=select.value;
 
-select.innerHTML="";
+select.innerHTML='<option value="">Select</option>';
 
 let values=[...new Set(rates.map(r=>r[key]).filter(Boolean))];
 
@@ -110,8 +109,6 @@ select.value=oldValue;
 }
 
 }
-    values.forEach(v => {
-
         
 function calculateMaterial() {
 

@@ -59,9 +59,13 @@ function saveSettings() {
 
     localStorage.setItem("rates", JSON.stringify(rates));
 
-    loadRates();
+loadRates();
 
-    alert("Rate Saved");
+alert("Rate Saved");
+
+} // <-- এই ব্রেসটি যোগ করো
+
+function loadRates() {
   
 function loadRates() {
 
@@ -130,7 +134,7 @@ function deleteRate(index) {
     loadRates();
 
 }
-}
+
 //================ MASTER DATA =================//
 
 function saveMaster(key, value){

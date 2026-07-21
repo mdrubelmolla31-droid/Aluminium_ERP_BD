@@ -137,3 +137,125 @@ window.onload=function(){
 loadRates();
 
 };
+
+//================ MASTER DATA =================//
+
+function addCompany(){
+
+let v=document.getElementById("newCompany").value.trim();
+
+if(v=="") return;
+
+let s=document.getElementById("company");
+
+let exist=false;
+
+for(let i=0;i<s.options.length;i++){
+
+if(s.options[i].value==v){
+
+exist=true;
+
+}
+
+}
+
+if(!exist){
+
+s.innerHTML+=`<option>${v}</option>`;
+
+}
+
+document.getElementById("newCompany").value="";
+
+}
+
+function addSeries(){
+
+let v=document.getElementById("newSeries").value.trim();
+
+if(v=="") return;
+
+let s=document.getElementById("series");
+
+let exist=false;
+
+for(let i=0;i<s.options.length;i++){
+
+if(s.options[i].value==v){
+
+exist=true;
+
+}
+
+}
+
+if(!exist){
+
+s.innerHTML+=`<option>${v}</option>`;
+
+}
+
+document.getElementById("newSeries").value="";
+
+}
+
+function addThickness(){
+
+let v=document.getElementById("newThickness").value.trim();
+
+if(v=="") return;
+
+let s=document.getElementById("aluThickness");
+
+let exist=false;
+
+for(let i=0;i<s.options.length;i++){
+
+if(s.options[i].value==v){
+
+exist=true;
+
+}
+
+}
+
+if(!exist){
+
+s.innerHTML+=`<option>${v}</option>`;
+
+}
+
+document.getElementById("newThickness").value="";
+
+}
+
+function addGlassCompany(){
+
+let v=document.getElementById("newGlassCompany").value.trim();
+
+if(v=="") return;
+
+let s=document.getElementById("glassCompany");
+
+let exist=false;
+
+for(let i=0;i<s.options.length;i++){
+
+if(s.options[i].value==v){
+
+exist=true;
+
+}
+
+}
+
+if(!exist){
+
+s.innerHTML+=`<option>${v}</option>`;
+
+}
+
+document.getElementById("newGlassCompany").value="";
+
+}

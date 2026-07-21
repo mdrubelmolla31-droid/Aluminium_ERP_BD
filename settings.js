@@ -259,3 +259,89 @@ s.innerHTML+=`<option>${v}</option>`;
 document.getElementById("newGlassCompany").value="";
 
 }
+
+//========== SAVE MASTER DATA ==========//
+
+function saveMaster(key,value){
+
+let data=JSON.parse(localStorage.getItem("masterData"))||{};
+
+if(!data[key]){
+
+data[key]=[];
+
+}
+
+if(!data[key].includes(value)){
+
+data[key].push(value);
+
+}
+
+localStorage.setItem("masterData",JSON.stringify(data));
+
+}
+
+function addCompany(){
+
+let v=document.getElementById("newCompany").value.trim();
+
+if(v=="") return;
+
+saveMaster("company",v);
+
+document.getElementById("company").innerHTML+=`<option>${v}</option>`;
+
+document.getElementById("newCompany").value="";
+
+alert("Company Added");
+
+}
+
+function addSeries(){
+
+let v=document.getElementById("newSeries").value.trim();
+
+if(v=="") return;
+
+saveMaster("series",v);
+
+document.getElementById("series").innerHTML+=`<option>${v}</option>`;
+
+document.getElementById("newSeries").value="";
+
+alert("Series Added");
+
+}
+
+function addThickness(){
+
+let v=document.getElementById("newThickness").value.trim();
+
+if(v=="") return;
+
+saveMaster("aluThickness",v);
+
+document.getElementById("aluThickness").innerHTML+=`<option>${v}</option>`;
+
+document.getElementById("newThickness").value="";
+
+alert("Thickness Added");
+
+}
+
+function addGlassCompany(){
+
+let v=document.getElementById("newGlassCompany").value.trim();
+
+if(v=="") return;
+
+saveMaster("glassCompany",v);
+
+document.getElementById("glassCompany").innerHTML+=`<option>${v}</option>`;
+
+document.getElementById("newGlassCompany").value="";
+
+alert("Glass Company Added");
+
+}

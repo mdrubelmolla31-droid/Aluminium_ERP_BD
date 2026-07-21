@@ -1,5 +1,51 @@
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
+//========== LOAD MASTER DATA ==========//
 
+function loadMasterData(){
+
+let data=JSON.parse(localStorage.getItem("masterData"))||{};
+
+loadMasterSelect("company",data.company);
+
+loadMasterSelect("series",data.series);
+
+loadMasterSelect("aluThickness",data.aluThickness);
+
+loadMasterSelect("glassCompany",data.glassCompany);
+
+}
+
+function loadMasterSelect(id,list){
+
+if(!list) return;
+
+let select=document.getElementById(id);
+
+list.forEach(item=>{
+
+let exist=false;
+
+for(let i=0;i<select.options.length;i++){
+
+if(select.options[i].value===item){
+
+exist=true;
+
+break;
+
+}
+
+}
+
+if(!exist){
+
+select.innerHTML+=`<option>${item}</option>`;
+
+}
+
+});
+
+}
 function saveSettings(){
 
 let rate={
@@ -134,9 +180,11 @@ loadRates();
 
 window.onload=function(){
 
+loadMasterData();
+
 loadRates();
 
-};
+}
 
 //================ MASTER DATA =================//
 
@@ -345,3 +393,51 @@ document.getElementById("newGlassCompany").value="";
 alert("Glass Company Added");
 
 }
+//========== LOAD MASTER DATA ==========//
+
+function loadMasterData(){
+
+let data=JSON.parse(localStorage.getItem("masterData"))||{};
+
+loadSelect("company",data.company);
+
+loadSelect("series",data.series);
+
+loadSelect("aluThickness",data.aluThickness);
+
+loadSelect("glassCompany",data.glassCompany);
+
+}
+
+function loadSelect(id,list){
+
+if(!list) return;
+
+let select=document.getElementById(id);
+
+list.forEach(item=>{
+
+let exist=false;
+
+for(let i=0;i<select.options.length;i++){
+
+if(select.options[i].value===item){
+
+exist=true;
+
+break;
+
+}
+
+}
+
+if(!exist){
+
+select.innerHTML+=`<option>${item}</option>`;
+
+}
+
+});
+
+}
+

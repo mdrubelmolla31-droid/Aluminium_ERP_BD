@@ -54,21 +54,6 @@ let rate={
 
 rates = JSON.parse(localStorage.getItem("rates")) || [];
 
-let body = document.getElementById("rateBody");
-
-body.innerHTML = "";
-
-rates.forEach((r,i)=>{
-
-body.innerHTML += `
-<tr>
-...
-</tr>
-`;
-
-});
-
-}
 
 company:document.getElementById("company").value,
 

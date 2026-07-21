@@ -1,9 +1,7 @@
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 window.onload = function () {
-
     loadRates();
-
 };
 
 function saveSettings() {
@@ -11,27 +9,17 @@ function saveSettings() {
     let rate = {
 
         company: document.getElementById("company").value,
-
         series: document.getElementById("series").value,
-
         aluThickness: document.getElementById("aluThickness").value,
-
         glassCompany: document.getElementById("glassCompany").value,
-
         glassThickness: document.getElementById("glassThickness").value,
-
         glassColour: document.getElementById("glassColour").value,
 
         aluRate: Number(document.getElementById("aluRate").value),
-
         glassRate: Number(document.getElementById("glassRate").value),
-
         hardwareRate: Number(document.getElementById("hardwareRate").value),
-
         fittingsRate: Number(document.getElementById("fittingsRate").value),
-
         labourRate: Number(document.getElementById("labourRate").value),
-
         profit: Number(document.getElementById("profit").value)
 
     };
@@ -47,11 +35,11 @@ function saveSettings() {
 
     );
 
-    if (index >= 0) {
+    if(index >= 0){
 
         rates[index] = rate;
 
-    } else {
+    }else{
 
         rates.push(rate);
 
@@ -59,14 +47,11 @@ function saveSettings() {
 
     localStorage.setItem("rates", JSON.stringify(rates));
 
-loadRates();
+    loadRates();
 
-alert("Rate Saved");
-
-} // <-- এই ব্রেসটি যোগ করো
-
-function loadRates() {
-  
+    alert("Rate Saved");
+    
+}
 function loadRates() {
 
     rates = JSON.parse(localStorage.getItem("rates")) || [];
@@ -78,47 +63,25 @@ function loadRates() {
     rates.forEach((r, i) => {
 
         body.innerHTML += `
-
 <tr>
-
 <td>${r.company}</td>
-
 <td>${r.series}</td>
-
 <td>${r.aluThickness}</td>
-
 <td>${r.glassCompany}</td>
-
 <td>${r.glassThickness}</td>
-
 <td>${r.glassColour}</td>
-
 <td>${r.aluRate}</td>
-
 <td>${r.glassRate}</td>
-
 <td>${r.hardwareRate}</td>
-
 <td>${r.fittingsRate}</td>
-
 <td>${r.labourRate}</td>
-
 <td>${r.profit}%</td>
-
 <td>
-
 <button onclick="deleteRate(${i})">
-
 Delete
-
 </button>
-
 </td>
-
-</tr>
-
-`;
-
+</tr>`;
     });
 
 }
@@ -134,7 +97,6 @@ function deleteRate(index) {
     loadRates();
 
 }
-
 //================ MASTER DATA =================//
 
 function saveMaster(key, value){
@@ -157,13 +119,17 @@ function addCompany(){
 
     let v = document.getElementById("newCompany").value.trim();
 
-    if(v=="") return;
+    if(v==""){
+        alert("Company লিখুন");
+        return;
+    }
 
     saveMaster("company", v);
 
-    document.getElementById("company").innerHTML += `<option>${v}</option>`;
+    document.getElementById("company").innerHTML +=
+    `<option>${v}</option>`;
 
-    document.getElementById("newCompany").value = "";
+    document.getElementById("newCompany").value="";
 
     alert("Company Added");
 
@@ -173,13 +139,17 @@ function addSeries(){
 
     let v = document.getElementById("newSeries").value.trim();
 
-    if(v=="") return;
+    if(v==""){
+        alert("Series লিখুন");
+        return;
+    }
 
     saveMaster("series", v);
 
-    document.getElementById("series").innerHTML += `<option>${v}</option>`;
+    document.getElementById("series").innerHTML +=
+    `<option>${v}</option>`;
 
-    document.getElementById("newSeries").value = "";
+    document.getElementById("newSeries").value="";
 
     alert("Series Added");
 
@@ -189,13 +159,17 @@ function addThickness(){
 
     let v = document.getElementById("newThickness").value.trim();
 
-    if(v=="") return;
+    if(v==""){
+        alert("Thickness লিখুন");
+        return;
+    }
 
     saveMaster("aluThickness", v);
 
-    document.getElementById("aluThickness").innerHTML += `<option>${v}</option>`;
+    document.getElementById("aluThickness").innerHTML +=
+    `<option>${v}</option>`;
 
-    document.getElementById("newThickness").value = "";
+    document.getElementById("newThickness").value="";
 
     alert("Thickness Added");
 
@@ -205,14 +179,20 @@ function addGlassCompany(){
 
     let v = document.getElementById("newGlassCompany").value.trim();
 
-    if(v=="") return;
+    if(v==""){
+        alert("Glass Company লিখুন");
+        return;
+    }
 
     saveMaster("glassCompany", v);
 
-    document.getElementById("glassCompany").innerHTML += `<option>${v}</option>`;
+    document.getElementById("glassCompany").innerHTML +=
+    `<option>${v}</option>`;
 
-    document.getElementById("newGlassCompany").value = "";
+    document.getElementById("newGlassCompany").value="";
 
     alert("Glass Company Added");
 
 }
+
+

@@ -1,5 +1,8 @@
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
-function loadMasterData(){
+
+window.onload = function () {
+    loadDropdowns();
+};
 
 window.onload = function () {
     alert(localStorage.getItem("rates"));
@@ -11,6 +14,11 @@ window.onload = function () {
 function loadDropdowns(){
 
 rates = JSON.parse(localStorage.getItem("rates")) || [];
+
+if(rates.length===0){
+    alert("কোনো Rate Save করা নেই");
+    return;
+}
 
 fillSelect("company","company");
 
@@ -67,13 +75,6 @@ function fillSelect(id, key) {
 
 }
 
-if(values.includes(oldValue)){
-
-select.value=oldValue;
-
-}
-
-}
         
 function calculateMaterial() {
 

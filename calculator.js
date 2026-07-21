@@ -106,7 +106,7 @@ function calculateMaterial() {
     
     // ===== Cost =====
 
-    let aluminiumCost = totalAluminium * setting.aluRate;
+    let aluminiumCost = glass * setting.aluRate;
 
     let glassCost = glass * setting.glassRate;
 

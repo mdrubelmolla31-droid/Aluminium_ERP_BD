@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="bn">
 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Dashboard</h2>
+
+<div class="dashboard-box">
+
+<div class="card">
+<h3>Total Quotation</h3>
+<h1 id="totalQuotation">0</h1>
+</div>
+
+<div class="card">
+<h3>Total Sale</h3>
+<h1 id="totalSale">0 ৳</h1>
+</div>
+
+<div class="card">
+<h3>Average / Sqft</h3>
+<h1 id="avgSqft">0 ৳</h1>
+</div>
+
+</div>
+
+<hr>
+
+<div class="dashboard-menu">
+
+<button onclick="location.href='index.html'">
+Calculator
+</button>
+
+<button onclick="location.href='quotation.html'">
+Quotation
+</button>
+
+<button onclick="location.href='settings.html'">
+Admin Panel
+</button>
+
+</div>
+
+<hr>
+
+<input
+type="text"
+id="search"
+placeholder="Search Customer..."
+onkeyup="searchQuotation()">
+
+<br><br>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+
+<th>Name</th>
+
+<th>Mobile</th>
+
+<th>Company</th>
+
+<th>Series</th>
+
+<th>Price</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="quotationBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="dashboard.js"></script>
+
+</body>
+
+</html>

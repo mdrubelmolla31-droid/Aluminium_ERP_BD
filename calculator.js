@@ -47,8 +47,6 @@ select.innerHTML+=`<option>${item}</option>`;
 
 window.onload = function () {
 
-    loadMasterData();
-
     loadDropdowns();
 
 };

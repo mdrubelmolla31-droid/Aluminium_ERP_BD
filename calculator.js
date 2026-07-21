@@ -125,7 +125,14 @@ function calculateMaterial() {
     let glassColour = document.getElementById("glassColour").value;
     
 let setting = rates.find(r =>
-    r.company === company
+
+r.company===company &&
+r.series===series &&
+r.aluThickness===aluThickness &&
+r.glassCompany===glassCompany &&
+r.glassThickness===glassThickness &&
+r.glassColour===glassColour
+
 );
     if (!setting) {
 

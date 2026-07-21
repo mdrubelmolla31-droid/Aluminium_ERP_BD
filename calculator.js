@@ -46,6 +46,7 @@ select.innerHTML+=`<option>${item}</option>`;
 }
 
 window.onload = function () {
+alert(localStorage.getItem("rates"));
 
     loadDropdowns();
 

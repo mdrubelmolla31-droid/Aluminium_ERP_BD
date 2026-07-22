@@ -74,7 +74,13 @@ function calculateMaterial() {
     let width = parseFloat(document.getElementById("width").value) || 0;
     let height = parseFloat(document.getElementById("height").value) || 0;
     let qty = parseInt(document.getElementById("qty").value) || 1;
+let width2 = parseFloat(document.getElementById("width2").value) || 0;
+let height2 = parseFloat(document.getElementById("height2").value) || 0;
+let qty2 = parseInt(document.getElementById("qty2").value) || 0;
 
+let width3 = parseFloat(document.getElementById("width3").value) || 0;
+let height3 = parseFloat(document.getElementById("height3").value) || 0;
+let qty3 = parseInt(document.getElementById("qty3").value) || 0;
     // ===== Aluminium =====
 
     let outerSide = ((height * 2) / 12) * qty;

@@ -105,7 +105,57 @@ let qty3 = parseInt(document.getElementById("qty3").value) || 0;
         shutterInterlock +
         shutterTop +
         shutterBottom;
+    
+// ===== Window-2 Aluminium =====
 
+let outerSide2 = ((height2 * 2) / 12) * qty2;
+let outerTop2 = (width2 / 12) * qty2;
+let outerBottom2 = (width2 / 12) * qty2;
+
+let shutterLock2 = ((height2 * 2) / 12) * qty2;
+let shutterInterlock2 = ((height2 * 2) / 12) * qty2;
+
+let shutterTop2 = (width2 / 12) * qty2;
+let shutterBottom2 = (width2 / 12) * qty2;
+
+let totalAluminium2 =
+outerSide2 +
+outerTop2 +
+outerBottom2 +
+shutterLock2 +
+shutterInterlock2 +
+shutterTop2 +
+shutterBottom2;
+
+
+// ===== Window-3 Aluminium =====
+
+let outerSide3 = ((height3 * 2) / 12) * qty3;
+let outerTop3 = (width3 / 12) * qty3;
+let outerBottom3 = (width3 / 12) * qty3;
+
+let shutterLock3 = ((height3 * 2) / 12) * qty3;
+let shutterInterlock3 = ((height3 * 2) / 12) * qty3;
+
+let shutterTop3 = (width3 / 12) * qty3;
+let shutterBottom3 = (width3 / 12) * qty3;
+
+let totalAluminium3 =
+outerSide3 +
+outerTop3 +
+outerBottom3 +
+shutterLock3 +
+shutterInterlock3 +
+shutterTop3 +
+shutterBottom3;
+
+
+// ===== Total Aluminium =====
+
+let grandTotalAluminium =
+totalAluminium +
+totalAluminium2 +
+totalAluminium3;
     // ===== Glass =====
 
     let glass = ((width * height) / 144) * qty;

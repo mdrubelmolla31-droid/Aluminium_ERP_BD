@@ -110,6 +110,14 @@ let qty3 = parseInt(document.getElementById("qty3").value) || 0;
 
     let glass = ((width * height) / 144) * qty;
     
+    // ===== Window 2 =====
+let glass2 = ((width2 * height2) / 144) * qty2;
+
+// ===== Window 3 =====
+let glass3 = ((width3 * height3) / 144) * qty3;
+
+// ===== Total Glass =====
+let totalGlass = glass + glass2 + glass3;
     // ===== Cost =====
 
     let aluminiumCost = glass * setting.aluRate;

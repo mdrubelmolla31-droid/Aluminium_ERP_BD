@@ -157,8 +157,7 @@ totalAluminium +
 totalAluminium2 +
 totalAluminium3;
     // ===== Glass =====
-
-    let glass = ((width * height) / 144) * qty;
+let sqft = totalGlass;
     
     // ===== Window 2 =====
 let glass2 = ((width2 * height2) / 144) * qty2;
@@ -239,10 +238,9 @@ let totalGlass = glass + glass2 + glass3;
         shutterBottom.toFixed(2) + " ft";
 
     document.getElementById("totalAluminium").innerHTML =
-        totalAluminium.toFixed(2) + " ft";
-
+grandTotalAluminium.toFixed(2) + " ft";
     document.getElementById("glass").innerHTML =
-        glass.toFixed(2) + " Sqft";
+totalGlass.toFixed(2) + " Sqft";
 
     document.getElementById("hardwareCost").innerHTML =
         hardwareCost.toFixed(2) + " ৳";

@@ -170,15 +170,15 @@ let glass3 = ((width3 * height3) / 144) * qty3;
 let totalGlass = glass + glass2 + glass3;
     // ===== Cost =====
 
-    let aluminiumCost = glass * setting.aluRate;
+    let aluminiumCost = grandTotalAluminium * setting.aluRate;
 
-    let glassCost = glass * setting.glassRate;
+    let glassCost = totalGlass * setting.glassRate;
 
     let hardwareCost = glass * setting.hardwareRate;
 
     let fittingsCost = glass * setting.fittingsRate;
 
-    let labourCost = glass * setting.labourRate;
+    let labourCost = totalGlass * setting.labourRate;
 
     let materialCost =
         aluminiumCost +

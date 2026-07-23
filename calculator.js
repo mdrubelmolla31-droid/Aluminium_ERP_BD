@@ -58,7 +58,7 @@ function fillSelect(id, key) {
 // ============================
 
 function calculateMaterial() {
-
+alert("Calculate Button Pressed");
     rates = JSON.parse(localStorage.getItem("rates")) || [];
 
     let company = document.getElementById("company").value;

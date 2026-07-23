@@ -60,7 +60,11 @@ function fillSelect(id, key) {
 function calculateMaterial() {
 alert("Calculate Button Pressed");
     rates = JSON.parse(localStorage.getItem("rates")) || [];
+alert("Rates Count = " + rates.length);
 
+alert(company);
+
+alert(JSON.stringify(rates));
     let company = document.getElementById("company").value;
     let series = document.getElementById("series").value;
     let aluThickness = document.getElementById("aluThickness").value;
@@ -69,7 +73,8 @@ alert("Calculate Button Pressed");
     let glassColour = document.getElementById("glassColour").value;
 
     let setting = rates.find(r =>
-
+alert(JSON.stringify(setting));
+        
         r.company === company &&
         r.series === series &&
         r.aluThickness === aluThickness &&

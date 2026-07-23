@@ -251,68 +251,26 @@ alert(JSON.stringify(rates));
         profitSqft = profitAmount / totalGlass;
 
     }
-    
-    // =========================
-    // RESULT
-    // =========================
-
     document.getElementById("outerSide").innerHTML =
-        outerSide.toFixed(2) + " ft";
+    (outerSide + outerSide2 + outerSide3).toFixed(2) + " ft";
 
-    document.getElementById("outerTop").innerHTML =
-        outerTop.toFixed(2) + " ft";
+document.getElementById("outerTop").innerHTML =
+    (outerTop + outerTop2 + outerTop3).toFixed(2) + " ft";
 
-    document.getElementById("outerBottom").innerHTML =
-        outerBottom.toFixed(2) + " ft";
+document.getElementById("outerBottom").innerHTML =
+    (outerBottom + outerBottom2 + outerBottom3).toFixed(2) + " ft";
 
-    document.getElementById("shutterLock").innerHTML =
-        shutterLock.toFixed(2) + " ft";
+document.getElementById("shutterLock").innerHTML =
+    (shutterLock + shutterLock2 + shutterLock3).toFixed(2) + " ft";
 
-    document.getElementById("shutterInterlock").innerHTML =
-        shutterInterlock.toFixed(2) + " ft";
+document.getElementById("shutterInterlock").innerHTML =
+    (shutterInterlock + shutterInterlock2 + shutterInterlock3).toFixed(2) + " ft";
 
-    document.getElementById("shutterTop").innerHTML =
-        shutterTop.toFixed(2) + " ft";
+document.getElementById("shutterTop").innerHTML =
+    (shutterTop + shutterTop2 + shutterTop3).toFixed(2) + " ft";
 
-    document.getElementById("shutterBottom").innerHTML =
-        shutterBottom.toFixed(2) + " ft";
-
-    document.getElementById("totalAluminium").innerHTML =
-        grandTotalAluminium.toFixed(2) + " ft";
-
-    document.getElementById("glass").innerHTML =
-        totalGlass.toFixed(2) + " Sqft";
-
-    document.getElementById("hardwareCost").innerHTML =
-        hardwareCost.toFixed(2) + " ৳";
-
-    document.getElementById("fittingsCost").innerHTML =
-        fittingsCost.toFixed(2) + " ৳";
-
-    document.getElementById("labourCost").innerHTML =
-        labourCost.toFixed(2) + " ৳";
-
-    document.getElementById("materialCost").innerHTML =
-        materialCost.toFixed(2) + " ৳";
-
-    document.getElementById("materialSqft").innerHTML =
-        materialSqft.toFixed(2) + " ৳";
-
-    document.getElementById("sellingSqft").innerHTML =
-        sellingSqft.toFixed(2) + " ৳";
-
-    document.getElementById("profitSqft").innerHTML =
-        profitSqft.toFixed(2) + " ৳";
-
-    document.getElementById("costPerSqft").innerHTML =
-        costPerSqft.toFixed(2) + " ৳";
-
-    document.getElementById("sellingPrice").innerHTML =
-        sellingPrice.toFixed(2) + " ৳";
-
-    alert("Calculation Completed");
-
-}
+document.getElementById("shutterBottom").innerHTML =
+    (shutterBottom + shutterBottom2 + shutterBottom3).toFixed(2) + " ft";
 
 // ============================
 // OPEN QUOTATION

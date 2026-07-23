@@ -226,7 +226,33 @@ function calculateMaterial(){
     let materialSqft = 0;
     let sellingSqft = 0;
     let profitSqft = 0;
+    
+let materialSqft = 0;
+let sellingSqft = 0;
+let profitSqft = 0;
 
+// =========================
+// 18.6ft & 21ft Piece Count
+// =========================
+
+let piece186 = 0;
+let piece21 = 0;
+
+function countPiece(height, qty) {
+
+    if (height <= 0 || qty <= 0) return;
+
+    if (height >= 60) {
+        piece21 += qty;
+    } else {
+        piece186 += qty;
+    }
+
+}
+
+countPiece(height, qty);
+countPiece(height2, qty2);
+countPiece(height3, qty3);
     if (totalGlass > 0) {
 
         materialSqft = materialCost / totalGlass;

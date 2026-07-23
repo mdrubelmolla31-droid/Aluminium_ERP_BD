@@ -1,26 +1,22 @@
-//==================================
-// MATERIAL CALCULATOR
-//==================================
+// ============================
+// Material Calculator
+// ============================
 
-let rates = [];
-
-//==================================
-// PAGE LOAD
-//==================================
+let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    rates = JSON.parse(localStorage.getItem("rates")) || [];
 
     loadDropdowns();
 
 });
 
-//==================================
+// ============================
 // LOAD DROPDOWNS
-//==================================
+// ============================
 
 function loadDropdowns() {
+
+    rates = JSON.parse(localStorage.getItem("rates")) || [];
 
     fillSelect("company", "company");
     fillSelect("series", "series");
@@ -31,33 +27,26 @@ function loadDropdowns() {
 
 }
 
-//==================================
-// FILL SELECT
-//==================================
-
 function fillSelect(id, key) {
 
     let select = document.getElementById(id);
 
-    if (!select) return;
-
-    select.innerHTML = `<option value="">Select</option>`;
+    select.innerHTML = '<option value="">Select</option>';
 
     let values = [...new Set(
 
         rates
-            .map(r => r[key])
-            .filter(v => v && v !== "")
+        .map(r => r[key])
+        .filter(v => v && v.trim() !== "")
 
     )];
 
-    values.forEach(function (value) {
+    values.forEach(function (v) {
 
         let option = document.createElement("option");
 
-        option.value = value;
-
-        option.textContent = value;
+        option.value = v;
+        option.textContent = v;
 
         select.appendChild(option);
 

@@ -47,6 +47,9 @@ function fillSelect(id, key) {
 function calculateMaterial() {
 
     rates = JSON.parse(localStorage.getItem("rates")) || [];
+function calculateMaterial() {
+
+    rates = JSON.parse(localStorage.getItem("rates")) || [];
 
     let company = document.getElementById("company").value;
     let series = document.getElementById("series").value;
@@ -67,9 +70,169 @@ function calculateMaterial() {
     );
 
     if (!setting) {
+
         alert("Rate Not Found");
         return;
+
     }
+
+        // =========================
+    // WINDOW-1
+    // =========================
+
+    let outerSide = ((height * 2) / 12) * qty;
+    let outerTop = (width / 12) * qty;
+    let outerBottom = (width / 12) * qty;
+
+    let shutterLock = ((height * 2) / 12) * qty;
+    let shutterInterlock = ((height * 2) / 12) * qty;
+
+    let shutterTop = (width / 12) * qty;
+    let shutterBottom = (width / 12) * qty;
+
+    let totalAluminium =
+        outerSide +
+        outerTop +
+        outerBottom +
+        shutterLock +
+        shutterInterlock +
+        shutterTop +
+        shutterBottom;
+
+    let glass = ((width * height) / 144) * qty;
+
+
+    // =========================
+    // WINDOW-2
+    // =========================
+
+    let outerSide2 = ((height2 * 2) / 12) * qty2;
+    let outerTop2 = (width2 / 12) * qty2;
+    let outerBottom2 = (width2 / 12) * qty2;
+
+    let shutterLock2 = ((height2 * 2) / 12) * qty2;
+    let shutterInterlock2 = ((height2 * 2) / 12) * qty2;
+
+    let shutterTop2 = (width2 / 12) * qty2;
+    let shutterBottom2 = (width2 / 12) * qty2;
+
+    let totalAluminium2 =
+        outerSide2 +
+        outerTop2 +
+        outerBottom2 +
+        shutterLock2 +
+        shutterInterlock2 +
+        shutterTop2 +
+        shutterBottom2;
+
+    let glass2 = ((width2 * height2) / 144) * qty2;
+
+
+    // =========================
+    // WINDOW-3
+    // =========================
+
+    let outerSide3 = ((height3 * 2) / 12) * qty3;
+    let outerTop3 = (width3 / 12) * qty3;
+    let outerBottom3 = (width3 / 12) * qty3;
+
+    let shutterLock3 = ((height3 * 2) / 12) * qty3;
+    let shutterInterlock3 = ((height3 * 2) / 12) * qty3;
+
+    let shutterTop3 = (width3 / 12) * qty3;
+    let shutterBottom3 = (width3 / 12) * qty3;
+
+    let totalAluminium3 =
+        outerSide3 +
+        outerTop3 +
+        outerBottom3 +
+        shutterLock3 +
+        shutterInterlock3 +
+        shutterTop3 +
+        shutterBottom3;
+
+    let glass3 = ((width3 * height3) / 144) * qty3;
+
+
+    // =========================
+    // GRAND TOTAL
+    // =========================
+
+    let grandTotalAluminium =
+        totalAluminium +
+        totalAluminium2 +
+        totalAluminium3;
+
+    let totalGlass =
+        glass +
+        glass2 +
+        glass3;
+        // =========================
+    // COST CALCULATION
+    // =========================
+
+    let aluminiumCost = totalGlass * setting.aluRate;
+
+    let glassCost = totalGlass * setting.glassRate;
+
+    let hardwareCost = totalGlass * setting.hardwareRate;
+
+    let fittingsCost = totalGlass * setting.fittingsRate;
+
+    let labourCost = totalGlass * setting.labourRate;
+
+    let materialCost =
+        aluminiumCost +
+        glassCost +
+        hardwareCost +
+        fittingsCost +
+        labourCost;
+
+    let costPerSqft = 0;
+
+    if (totalGlass > 0) {
+
+        costPerSqft = materialCost / totalGlass;
+
+    }
+
+    let profitAmount =
+        materialCost * setting.profit / 100;
+
+    let sellingPrice =
+        materialCost + profitAmount;
+
+    let materialSqft = 0;
+    let sellingSqft = 0;
+    let profitSqft = 0;
+
+    if (totalGlass > 0) {
+
+        materialSqft = materialCost / totalGlass;
+
+        sellingSqft = sellingPrice / totalGlass;
+
+        profitSqft = profitAmount / totalGlass;
+
+    }
+
+    // ===== Window-1 =====
+
+    let width = parseFloat(document.getElementById("width").value) || 0;
+    let height = parseFloat(document.getElementById("height").value) || 0;
+    let qty = parseInt(document.getElementById("qty").value) || 0;
+
+    // ===== Window-2 =====
+
+    let width2 = parseFloat(document.getElementById("width2").value) || 0;
+    let height2 = parseFloat(document.getElementById("height2").value) || 0;
+    let qty2 = parseInt(document.getElementById("qty2").value) || 0;
+
+    // ===== Window-3 =====
+
+    let width3 = parseFloat(document.getElementById("width3").value) || 0;
+    let height3 = parseFloat(document.getElementById("height3").value) || 0;
+    let qty3 = parseInt(document.getElementById("qty3").value) || 0;
 
     let width = parseFloat(document.getElementById("width").value) || 0;
     let height = parseFloat(document.getElementById("height").value) || 0;
@@ -156,10 +319,10 @@ let grandTotalAluminium =
 totalAluminium +
 totalAluminium2 +
 totalAluminium3;
-    // ===== Glass =====
-let sqft = totalGlass;
-    
-    // ===== Window 2 =====
+// ===== Glass =====
+let glass = ((width * height) / 144) * qty;
+
+// ===== Window 2 =====
 let glass2 = ((width2 * height2) / 144) * qty2;
 
 // ===== Window 3 =====
@@ -167,16 +330,18 @@ let glass3 = ((width3 * height3) / 144) * qty3;
 
 // ===== Total Glass =====
 let totalGlass = glass + glass2 + glass3;
+// ===== Total Glass =====
+let totalGlass = glass + glass2 + glass3;
     // ===== Cost =====
 
     let aluminiumCost = grandTotalAluminium * setting.aluRate;
 
     let glassCost = totalGlass * setting.glassRate;
+    
+let hardwareCost = totalGlass * setting.hardwareRate;
 
-    let hardwareCost = glass * setting.hardwareRate;
-
-    let fittingsCost = glass * setting.fittingsRate;
-
+    let fittingsCost = totalGlass * setting.fittingsRate;
+    
     let labourCost = totalGlass * setting.labourRate;
 
     let materialCost =
@@ -187,10 +352,9 @@ let totalGlass = glass + glass2 + glass3;
         labourCost;
 
     let costPerSqft = 0;
-
-    if (glass > 0) {
-        costPerSqft = materialCost / glass;
-    }
+if (totalGlass > 0) {
+    costPerSqft = materialCost / totalGlass;
+}
 
     let profitAmount =
         materialCost * setting.profit / 100;
@@ -213,7 +377,6 @@ let totalGlass = glass + glass2 + glass3;
         profitSqft = profitAmount / sqft;
 
     }
-
     // ===== Result =====
 
     document.getElementById("outerSide").innerHTML =
@@ -238,9 +401,10 @@ let totalGlass = glass + glass2 + glass3;
         shutterBottom.toFixed(2) + " ft";
 
     document.getElementById("totalAluminium").innerHTML =
-grandTotalAluminium.toFixed(2) + " ft";
+        grandTotalAluminium.toFixed(2) + " ft";
+
     document.getElementById("glass").innerHTML =
-totalGlass.toFixed(2) + " Sqft";
+        totalGlass.toFixed(2) + " Sqft";
 
     document.getElementById("hardwareCost").innerHTML =
         hardwareCost.toFixed(2) + " ৳";
@@ -268,56 +432,6 @@ totalGlass.toFixed(2) + " Sqft";
 
     document.getElementById("sellingPrice").innerHTML =
         sellingPrice.toFixed(2) + " ৳";
-
-    // ===== Save Quotation =====
-
-    let quotation = {
-
-        customerName: document.getElementById("customerName").value,
-        mobile: document.getElementById("mobile").value,
-        address: document.getElementById("address").value,
-
-        company: company,
-        series: series,
-        aluThickness: aluThickness,
-        glassCompany: glassCompany,
-        glassThickness: glassThickness,
-        glassColour: glassColour,
-
-        width: width,
-        height: height,
-        qty: qty,
-
-        outerSide: outerSide,
-        outerTop: outerTop,
-        outerBottom: outerBottom,
-        shutterLock: shutterLock,
-        shutterInterlock: shutterInterlock,
-        shutterTop: shutterTop,
-        shutterBottom: shutterBottom,
-
-        totalAluminium: totalAluminium,
-        glass: glass,
-
-        aluminiumCost: aluminiumCost,
-        glassCost: glassCost,
-        hardwareCost: hardwareCost,
-        fittingsCost: fittingsCost,
-        labourCost: labourCost,
-
-        materialCost: materialCost,
-        costPerSqft: costPerSqft,
-        materialSqft: materialSqft,
-
-        profit: profitAmount,
-        profitSqft: profitSqft,
-
-        sellingPrice: sellingPrice,
-        sellingSqft: sellingSqft
-
-    };
-
-    localStorage.setItem("quotation", JSON.stringify(quotation));
 
     alert("Calculation Completed");
 

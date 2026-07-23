@@ -4,6 +4,8 @@
 
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
+alert("Rates Count = " + rates.length);
+
 document.addEventListener("DOMContentLoaded", function () {
 
     loadDropdowns();
@@ -72,8 +74,7 @@ alert(JSON.stringify(rates));
     let glassThickness = document.getElementById("glassThickness").value;
     let glassColour = document.getElementById("glassColour").value;
 
-    let setting = rates.find(r =>
-alert(JSON.stringify(setting));
+    
         
         r.company === company &&
         r.series === series &&

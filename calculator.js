@@ -11,6 +11,8 @@ function loadDropdowns() {
 
     alert(JSON.stringify(rates));
 
+    alert("Company Select = " + document.getElementById("company"));
+
     fillSelect("company","company");
     fillSelect("series","series");
     fillSelect("aluThickness","aluThickness");

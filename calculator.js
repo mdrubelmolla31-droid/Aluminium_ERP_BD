@@ -125,7 +125,10 @@ function calculateMaterial() {
     // =========================
     // WINDOW-1 ALUMINIUM
     // =========================
+piece186 = 0;
+piece21 = 0;
 
+countPiece(height, qty);
     let outerSide =
         ((height * 2) / 12) * qty;
 
@@ -162,7 +165,7 @@ function calculateMaterial() {
         // =========================
     // WINDOW-2 ALUMINIUM
     // =========================
-
+countPiece(height2, qty2);
     let outerSide2 =
         ((height2 * 2) / 12) * qty2;
 
@@ -201,7 +204,7 @@ function calculateMaterial() {
     // =========================
     // WINDOW-3 ALUMINIUM
     // =========================
-
+countPiece(height3, qty3);
     let outerSide3 =
         ((height3 * 2) / 12) * qty3;
 
@@ -270,9 +273,7 @@ if (height >= 5) {
 
 }
 
-countPiece(height, qty);
-countPiece(height2, qty2);
-countPiece(height3, qty3);
+
         // =========================
     // COST CALCULATION
     // =========================

@@ -29,29 +29,7 @@ let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    loadDropdowns();
-
-});
-
-// ---------- Dropdown ----------
-
-function loadDropdowns() {
-
-    rates = JSON.parse(localStorage.getItem("rates")) || [];
-console.log(rates);
-
-if (rates.length > 0) {
-    console.log(Object.keys(rates[0]));
-}
-    fillSelect("company", "company");
-    fillSelect("series", "series");
-    fillSelect("aluThickness", "aluThickness");
-    fillSelect("glassCompany", "glassCompany");
-    fillSelect("glassThickness", "glassThickness");
-    fillSelect("glassColour", "glassColour");
-
-}
-
+    
 // ---------- Fill Select ----------
 
 function fillSelect(id, key) {
@@ -302,6 +280,7 @@ let shutterBottom186 = 0;
 let shutterBottom21 = 0;
 
 function addCutting(height, qty) {
+function addCutting(height, qty) {
 
     if (height >= 60) {
 
@@ -322,19 +301,7 @@ function addCutting(height, qty) {
 
     shutterTop21 += qty;
     shutterBottom21 += qty;
-
 }
-
-    // এগুলো সবসময় ২১ ফুটে আসে
-
-    outerTop21 += qty;
-    outerBottom21 += qty;
-
-    shutterTop21 += qty;
-    shutterBottom21 += qty;
-
-}
-
 addCutting(height, qty);
 addCutting(height2, qty2);
 addCutting(height3, qty3);

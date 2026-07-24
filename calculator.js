@@ -429,7 +429,7 @@ addCutting(height3, qty3);
     document.getElementById("outerSide186").innerHTML = outerSide186;
     document.getElementById("outerSide21").innerHTML = outerSide21;
 
-    document.getElementById("outerTop186").innerHTML = 0;
+    document.getElementById("outerTop186").innerHTML = outerTop186;
     document.getElementById("outerTop21").innerHTML = outerTop21;
 
     document.getElementById("outerBottom186").innerHTML = 0;

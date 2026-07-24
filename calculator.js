@@ -362,7 +362,30 @@ function calculateMaterial() {
 
     document.getElementById("glass").innerHTML =
         totalGlass.toFixed(2) + " Sqft";
+    // =========================
+    // CUTTING REPORT RESULT
+    // =========================
 
+    document.getElementById("outerSide186").innerHTML = outerSide186;
+    document.getElementById("outerSide21").innerHTML = outerSide21;
+
+    document.getElementById("outerTop186").innerHTML = 0;
+    document.getElementById("outerTop21").innerHTML = outerTop21;
+
+    document.getElementById("outerBottom186").innerHTML = 0;
+    document.getElementById("outerBottom21").innerHTML = outerBottom21;
+
+    document.getElementById("shutterLock186").innerHTML = shutterLock186;
+    document.getElementById("shutterLock21").innerHTML = shutterLock21;
+
+    document.getElementById("shutterInterlock186").innerHTML = shutterInterlock186;
+    document.getElementById("shutterInterlock21").innerHTML = shutterInterlock21;
+
+    document.getElementById("shutterTop186").innerHTML = 0;
+    document.getElementById("shutterTop21").innerHTML = shutterTop21;
+
+    document.getElementById("shutterBottom186").innerHTML = 0;
+    document.getElementById("shutterBottom21").innerHTML = shutterBottom21;
     document.getElementById("hardwareCost").innerHTML =
         hardwareCost.toFixed(2) + " ৳";
 

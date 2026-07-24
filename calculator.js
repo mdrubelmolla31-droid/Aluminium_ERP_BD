@@ -1,3 +1,9 @@
+alert("calculator.js loaded");
+
+// =====================================
+// MATERIAL CALCULATOR
+// calculator.js
+// =====================================
 // =====================================
 // MATERIAL CALCULATOR
 // calculator.js

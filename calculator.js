@@ -281,6 +281,7 @@ let shutterBottom21 = 0;
 
 function addCutting(height, qty) {
 function addCutting(height, qty) {
+function addCutting(height, qty) {
 
     if (height >= 60) {
 
@@ -302,6 +303,7 @@ function addCutting(height, qty) {
     shutterTop21 += qty;
     shutterBottom21 += qty;
 }
+    
 addCutting(height, qty);
 addCutting(height2, qty2);
 addCutting(height3, qty3);

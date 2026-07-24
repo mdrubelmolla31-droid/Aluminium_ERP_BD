@@ -1,4 +1,17 @@
-alert("1");
+function loadDropdowns() {
+
+    rates = JSON.parse(localStorage.getItem("rates")) || [];
+
+    alert("Rates = " + rates.length);
+
+    fillSelect("company", "company");
+    fillSelect("series", "series");
+    fillSelect("aluThickness", "aluThickness");
+    fillSelect("glassCompany", "glassCompany");
+    fillSelect("glassThickness", "glassThickness");
+    fillSelect("glassColour", "glassColour");
+
+}
 
 // =====================================
 // MATERIAL CALCULATOR

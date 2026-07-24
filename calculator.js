@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadDropdowns() {
 
     rates = JSON.parse(localStorage.getItem("rates")) || [];
-
+console.log(rates);
+console.log(Object.keys(rates[0]));
+    
     fillSelect("company", "company");
     fillSelect("series", "series");
     fillSelect("aluThickness", "aluThickness");

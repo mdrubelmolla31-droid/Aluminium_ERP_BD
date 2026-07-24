@@ -1,4 +1,4 @@
-alert("calculator.js loaded");
+alert("1");
 
 // =====================================
 // MATERIAL CALCULATOR

@@ -7,8 +7,8 @@
 // ---------- Load Rate Data ----------
 
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
-
-// ---------- Page Load ----------
+console.log(rates);
+console.log(Object.keys(rates[0]));
 
 document.addEventListener("DOMContentLoaded", function () {
 

@@ -304,6 +304,14 @@ function addCutting(height, qty) {
 
     }
 
+    outerTop21 += qty;
+    outerBottom21 += qty;
+
+    shutterTop21 += qty;
+    shutterBottom21 += qty;
+
+}
+
     // এগুলো সবসময় ২১ ফুটে আসে
 
     outerTop21 += qty;

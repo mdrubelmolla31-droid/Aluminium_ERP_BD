@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadDropdowns() {
 
     rates = JSON.parse(localStorage.getItem("rates")) || [];
-
+console.log(rates);
     fillSelect("company", "company");
     fillSelect("series", "series");
     fillSelect("aluThickness", "aluThickness");

@@ -252,6 +252,27 @@ function calculateMaterial() {
         glass +
         glass2 +
         glass3;
+    // =========================
+// CUTTING REPORT
+// =========================
+
+let piece186 = 0;
+let piece21 = 0;
+
+function countPiece(height, qty) {
+
+    if (height <= 0 || qty <= 0) return;
+if (height >= 5) {
+        piece21 += qty;
+    } else {
+        piece186 += qty;
+    }
+
+}
+
+countPiece(height, qty);
+countPiece(height2, qty2);
+countPiece(height3, qty3);
         // =========================
     // COST CALCULATION
     // =========================
@@ -387,7 +408,6 @@ function calculateMaterial() {
         sellingPrice.toFixed(2) + " ৳";
 document.getElementById("stick186").innerHTML =
     piece186 + " pcs";
-
 document.getElementById("stick21").innerHTML =
     piece21 + " pcs";
     

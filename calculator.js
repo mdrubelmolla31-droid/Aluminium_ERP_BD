@@ -385,7 +385,12 @@ function calculateMaterial() {
 
     document.getElementById("sellingPrice").innerHTML =
         sellingPrice.toFixed(2) + " ৳";
+document.getElementById("stick186").innerHTML =
+    piece186 + " pcs";
 
+document.getElementById("stick21").innerHTML =
+    piece21 + " pcs";
+    
     alert("Calculation Completed");
 
 }

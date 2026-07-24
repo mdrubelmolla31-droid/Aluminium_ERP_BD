@@ -1,9 +1,9 @@
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 window.onload = function () {
+    loadMasterData();
     loadRates();
 };
-
 function saveSettings() {
 
     let rate = {
@@ -192,6 +192,40 @@ function addGlassCompany(){
     document.getElementById("newGlassCompany").value="";
 
     alert("Glass Company Added");
+
+}
+
+function loadMasterData() {
+
+    let data = JSON.parse(localStorage.getItem("masterData")) || {};
+
+    function fill(id, key) {
+
+        let select = document.getElementById(id);
+        if (!select) return;
+
+        let old = select.innerHTML;
+
+        if (data[key]) {
+
+            data[key].forEach(v => {
+
+                if (![...select.options].some(o => o.value === v)) {
+
+                    select.innerHTML += `<option>${v}</option>`;
+
+                }
+
+            });
+
+        }
+
+    }
+
+    fill("company", "company");
+    fill("series", "series");
+    fill("aluThickness", "aluThickness");
+    fill("glassCompany", "glassCompany");
 
 }
 

@@ -125,6 +125,30 @@ function calculateMaterial() {
     // =========================
     // WINDOW-1 ALUMINIUM
     // =========================
+    // =========================
+// CUTTING REPORT COUNT
+// =========================
+
+let outerSide186 = 0;
+let outerSide21 = 0;
+
+let outerTop186 = 0;
+let outerTop21 = 0;
+
+let outerBottom186 = 0;
+let outerBottom21 = 0;
+
+let shutterLock186 = 0;
+let shutterLock21 = 0;
+
+let shutterInterlock186 = 0;
+let shutterInterlock21 = 0;
+
+let shutterTop186 = 0;
+let shutterTop21 = 0;
+
+let shutterBottom186 = 0;
+let shutterBottom21 = 0;
 piece186 = 0;
 piece21 = 0;
 
@@ -162,6 +186,26 @@ countPiece(height, qty);
 
     let glass =
         ((width * height) / 144) * qty;
+    // ===== WINDOW-1 CUTTING =====
+
+if (height >= 5) {
+
+    outerSide21 += 2 * qty;
+    shutterLock21 += qty;
+    shutterInterlock21 += qty;
+
+} else {
+
+    outerSide186 += 2 * qty;
+    shutterLock186 += qty;
+    shutterInterlock186 += qty;
+
+}
+
+outerTop186 += qty;
+outerBottom186 += qty;
+shutterTop186 += qty;
+shutterBottom186 += qty;
         // =========================
     // WINDOW-2 ALUMINIUM
     // =========================
@@ -200,7 +244,26 @@ countPiece(height2, qty2);
     let glass2 =
         ((width2 * height2) / 144) * qty2;
 
+// ===== WINDOW-2 CUTTING =====
 
+if (height2 >= 5) {
+
+    outerSide21 += 2 * qty2;
+    shutterLock21 += qty2;
+    shutterInterlock21 += qty2;
+
+} else {
+
+    outerSide186 += 2 * qty2;
+    shutterLock186 += qty2;
+    shutterInterlock186 += qty2;
+
+}
+
+outerTop186 += qty2;
+outerBottom186 += qty2;
+shutterTop186 += qty2;
+shutterBottom186 += qty2;
     // =========================
     // WINDOW-3 ALUMINIUM
     // =========================
@@ -239,7 +302,26 @@ countPiece(height3, qty3);
     let glass3 =
         ((width3 * height3) / 144) * qty3;
 
+// ===== WINDOW-3 CUTTING =====
 
+if (height3 >= 5) {
+
+    outerSide21 += 2 * qty3;
+    shutterLock21 += qty3;
+    shutterInterlock21 += qty3;
+
+} else {
+
+    outerSide186 += 2 * qty3;
+    shutterLock186 += qty3;
+    shutterInterlock186 += qty3;
+
+}
+
+outerTop186 += qty3;
+outerBottom186 += qty3;
+shutterTop186 += qty3;
+shutterBottom186 += qty3;
     // =========================
     // GRAND TOTAL
     // =========================
@@ -407,6 +489,30 @@ if (height >= 5) {
 
     document.getElementById("sellingPrice").innerHTML =
         sellingPrice.toFixed(2) + " ৳";
+    // =========================
+// CUTTING REPORT RESULT
+// =========================
+
+document.getElementById("outerSide186").innerHTML = outerSide186 + " pcs";
+document.getElementById("outerSide21").innerHTML = outerSide21 + " pcs";
+
+document.getElementById("outerTop186").innerHTML = outerTop186 + " pcs";
+document.getElementById("outerTop21").innerHTML = outerTop21 + " pcs";
+
+document.getElementById("outerBottom186").innerHTML = outerBottom186 + " pcs";
+document.getElementById("outerBottom21").innerHTML = outerBottom21 + " pcs";
+
+document.getElementById("shutterLock186").innerHTML = shutterLock186 + " pcs";
+document.getElementById("shutterLock21").innerHTML = shutterLock21 + " pcs";
+
+document.getElementById("shutterInterlock186").innerHTML = shutterInterlock186 + " pcs";
+document.getElementById("shutterInterlock21").innerHTML = shutterInterlock21 + " pcs";
+
+document.getElementById("shutterTop186").innerHTML = shutterTop186 + " pcs";
+document.getElementById("shutterTop21").innerHTML = shutterTop21 + " pcs";
+
+document.getElementById("shutterBottom186").innerHTML = shutterBottom186 + " pcs";
+document.getElementById("shutterBottom21").innerHTML = shutterBottom21 + " pcs";
 document.getElementById("stick186").innerHTML =
     piece186 + " pcs";
 document.getElementById("stick21").innerHTML =

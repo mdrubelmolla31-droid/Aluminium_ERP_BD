@@ -254,7 +254,61 @@ function calculateMaterial() {
         glass +
         glass2 +
         glass3;
+    
+// =========================
+// CUTTING REPORT
+// =========================
 
+let outerSide186 = 0;
+let outerSide21 = 0;
+
+let outerTop186 = 0;
+let outerTop21 = 0;
+
+let outerBottom186 = 0;
+let outerBottom21 = 0;
+
+let shutterLock186 = 0;
+let shutterLock21 = 0;
+
+let shutterInterlock186 = 0;
+let shutterInterlock21 = 0;
+
+let shutterTop186 = 0;
+let shutterTop21 = 0;
+
+let shutterBottom186 = 0;
+let shutterBottom21 = 0;
+
+function addCutting(height, qty) {
+
+    if (height >= 60)
+
+        outerSide21 += qty * 2;
+        shutterLock21 += qty;
+        shutterInterlock21 += qty;
+
+    } else {
+
+        outerSide186 += qty * 2;
+        shutterLock186 += qty;
+        shutterInterlock186 += qty;
+
+    }
+
+    // এগুলো সবসময় ২১ ফুটে আসে
+
+    outerTop21 += qty;
+    outerBottom21 += qty;
+
+    shutterTop21 += qty;
+    shutterBottom21 += qty;
+
+}
+
+addCutting(height, qty);
+addCutting(height2, qty2);
+addCutting(height3, qty3);
     // =========================
     // COST CALCULATION
     // =========================

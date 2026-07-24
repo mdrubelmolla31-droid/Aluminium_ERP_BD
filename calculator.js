@@ -288,7 +288,7 @@ let shutterBottom21 = 0;
 
 function addCutting(height, qty) {
 
-    if (height >= 60)
+    if (height >= 60) {
 
         outerSide21 += qty * 2;
         shutterLock21 += qty;

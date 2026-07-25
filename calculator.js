@@ -6,6 +6,7 @@
 
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
+alert(localStorage.getItem("rates"));
 // ---------- Load ----------
 document.addEventListener("DOMContentLoaded", () => {
     loadDropdowns();

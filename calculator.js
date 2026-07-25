@@ -6,10 +6,12 @@
 
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
-document.addEventListener("DOMContentLoaded", function () {
+// ---------- Load ----------
+document.addEventListener("DOMContentLoaded", () => {
     loadDropdowns();
 });
 
+// ---------- Load Dropdown ----------
 function loadDropdowns() {
 
     rates = JSON.parse(localStorage.getItem("rates")) || [];
@@ -23,25 +25,24 @@ function loadDropdowns() {
 
 }
 
+// ---------- Fill Select ----------
 function fillSelect(id, key) {
 
-    let select = document.getElementById(id);
+    const select = document.getElementById(id);
 
     if (!select) return;
 
-    select.innerHTML = '<option value="">Select</option>';
+    select.innerHTML = `<option value="">Select</option>`;
 
-    let values = [...new Set(
-
+    const values = [...new Set(
         rates
             .map(r => r[key])
             .filter(v => v && v.trim() !== "")
-
     )];
 
-    values.forEach(function (v) {
+    values.forEach(v => {
 
-        let option = document.createElement("option");
+        const option = document.createElement("option");
 
         option.value = v;
         option.textContent = v;
@@ -51,6 +52,10 @@ function fillSelect(id, key) {
     });
 
 }
+// =====================================
+// CALCULATE MATERIAL
+// PART-2
+// =====================================
 
 function calculateMaterial() {
 
@@ -81,31 +86,25 @@ function calculateMaterial() {
 
     }
 
-    // =========================
-    // WINDOW-1 INPUT
-    // =========================
+    // Window-1
 
     let width = parseFloat(document.getElementById("width").value) || 0;
     let height = parseFloat(document.getElementById("height").value) || 0;
     let qty = parseInt(document.getElementById("qty").value) || 1;
 
-    // =========================
-    // WINDOW-2 INPUT
-    // =========================
+    // Window-2
 
     let width2 = parseFloat(document.getElementById("width2").value) || 0;
     let height2 = parseFloat(document.getElementById("height2").value) || 0;
     let qty2 = parseInt(document.getElementById("qty2").value) || 0;
 
-    // =========================
-    // WINDOW-3 INPUT
-    // =========================
+    // Window-3
 
     let width3 = parseFloat(document.getElementById("width3").value) || 0;
     let height3 = parseFloat(document.getElementById("height3").value) || 0;
     let qty3 = parseInt(document.getElementById("qty3").value) || 0;
-    // =========================
-    // WINDOW-1 CALCULATION
+        // =========================
+    // WINDOW-1
     // =========================
 
     let outerSide =
@@ -130,7 +129,6 @@ function calculateMaterial() {
         (width / 12) * qty;
 
     let totalAluminium =
-
         outerSide +
         outerTop +
         outerBottom +
@@ -142,8 +140,9 @@ function calculateMaterial() {
     let glass =
         ((width * height) / 144) * qty;
 
-      // =========================
-    // WINDOW-2 CALCULATION
+
+    // =========================
+    // WINDOW-2
     // =========================
 
     let outerSide2 =
@@ -168,7 +167,6 @@ function calculateMaterial() {
         (width2 / 12) * qty2;
 
     let totalAluminium2 =
-
         outerSide2 +
         outerTop2 +
         outerBottom2 +
@@ -180,8 +178,9 @@ function calculateMaterial() {
     let glass2 =
         ((width2 * height2) / 144) * qty2;
 
-      // =========================
-    // WINDOW-3 CALCULATION
+
+    // =========================
+    // WINDOW-3
     // =========================
 
     let outerSide3 =
@@ -206,7 +205,6 @@ function calculateMaterial() {
         (width3 / 12) * qty3;
 
     let totalAluminium3 =
-
         outerSide3 +
         outerTop3 +
         outerBottom3 +
@@ -218,18 +216,16 @@ function calculateMaterial() {
     let glass3 =
         ((width3 * height3) / 144) * qty3;
 
-      // =========================
+        // =========================
     // GRAND TOTAL
     // =========================
 
     let grandTotalAluminium =
-
         totalAluminium +
         totalAluminium2 +
         totalAluminium3;
 
     let totalGlass =
-
         glass +
         glass2 +
         glass3;
@@ -241,7 +237,10 @@ function calculateMaterial() {
     let outerSide186 = 0;
     let outerSide21 = 0;
 
+    let outerTop186 = 0;
     let outerTop21 = 0;
+
+    let outerBottom186 = 0;
     let outerBottom21 = 0;
 
     let shutterLock186 = 0;
@@ -250,12 +249,17 @@ function calculateMaterial() {
     let shutterInterlock186 = 0;
     let shutterInterlock21 = 0;
 
+    let shutterTop186 = 0;
     let shutterTop21 = 0;
+
+    let shutterBottom186 = 0;
     let shutterBottom21 = 0;
 
     function addCutting(height, qty) {
 
-        if (height >= 5) {
+        if (qty <= 0) return;
+
+        if (height >= 60) {
 
             outerSide21 += qty * 2;
             shutterLock21 += qty;
@@ -280,34 +284,27 @@ function calculateMaterial() {
     addCutting(height, qty);
     addCutting(height2, qty2);
     addCutting(height3, qty3);
-  
-    // =========================
+
+        // =========================
     // COST CALCULATION
     // =========================
 
-    // Aluminium Cost
     let aluminiumCost =
-        totalGlass * setting.aluRate;
+        grandTotalAluminium * setting.aluRate;
 
-    // Glass Cost
     let glassCost =
         totalGlass * setting.glassRate;
 
-    // Hardware Cost
     let hardwareCost =
         totalGlass * setting.hardwareRate;
 
-    // Fittings Cost
     let fittingsCost =
         totalGlass * setting.fittingsRate;
 
-    // Labour Cost
     let labourCost =
         totalGlass * setting.labourRate;
 
-    // Total Material Cost
     let materialCost =
-
         aluminiumCost +
         glassCost +
         hardwareCost +
@@ -323,8 +320,31 @@ function calculateMaterial() {
 
     }
 
+    let profitAmount =
+        materialCost * setting.profit / 100;
+
+    let sellingPrice =
+        materialCost + profitAmount;
+
+    let materialSqft = 0;
+    let sellingSqft = 0;
+    let profitSqft = 0;
+
+    if (totalGlass > 0) {
+
+        materialSqft =
+            materialCost / totalGlass;
+
+        sellingSqft =
+            sellingPrice / totalGlass;
+
+        profitSqft =
+            profitAmount / totalGlass;
+
+    }
+
         // =========================
-    // RESULT SECTION
+    // RESULT
     // =========================
 
     document.getElementById("outerSide").innerHTML =
@@ -354,6 +374,31 @@ function calculateMaterial() {
     document.getElementById("glass").innerHTML =
         totalGlass.toFixed(2) + " Sqft";
 
+    // =========================
+    // CUTTING REPORT RESULT
+    // =========================
+
+    document.getElementById("outerSide186").innerHTML = outerSide186;
+    document.getElementById("outerSide21").innerHTML = outerSide21;
+
+    document.getElementById("outerTop186").innerHTML = outerTop186;
+    document.getElementById("outerTop21").innerHTML = outerTop21;
+
+    document.getElementById("outerBottom186").innerHTML = outerBottom186;
+    document.getElementById("outerBottom21").innerHTML = outerBottom21;
+
+    document.getElementById("shutterLock186").innerHTML = shutterLock186;
+    document.getElementById("shutterLock21").innerHTML = shutterLock21;
+
+    document.getElementById("shutterInterlock186").innerHTML = shutterInterlock186;
+    document.getElementById("shutterInterlock21").innerHTML = shutterInterlock21;
+
+    document.getElementById("shutterTop186").innerHTML = shutterTop186;
+    document.getElementById("shutterTop21").innerHTML = shutterTop21;
+
+    document.getElementById("shutterBottom186").innerHTML = shutterBottom186;
+    document.getElementById("shutterBottom21").innerHTML = shutterBottom21;
+
     document.getElementById("hardwareCost").innerHTML =
         hardwareCost.toFixed(2) + " ৳";
 
@@ -381,29 +426,9 @@ function calculateMaterial() {
     document.getElementById("sellingPrice").innerHTML =
         sellingPrice.toFixed(2) + " ৳";
 
-    // =========================
-    // CUTTING REPORT OUTPUT
-    // =========================
-
-    document.getElementById("outerSide186").innerHTML = outerSide186 + " pcs";
-    document.getElementById("outerSide21").innerHTML = outerSide21 + " pcs";
-
-    document.getElementById("outerTop186").innerHTML = "0 pcs";
-    document.getElementById("outerTop21").innerHTML = outerTop21 + " pcs";
-
-    document.getElementById("outerBottom186").innerHTML = "0 pcs";
-    document.getElementById("outerBottom21").innerHTML = outerBottom21 + " pcs";
-
-    document.getElementById("shutterLock186").innerHTML = shutterLock186 + " pcs";
-    document.getElementById("shutterLock21").innerHTML = shutterLock21 + " pcs";
-
-    document.getElementById("shutterInterlock186").innerHTML = shutterInterlock186 + " pcs";
-    document.getElementById("shutterInterlock21").innerHTML = shutterInterlock21 + " pcs";
-
-    document.getElementById("shutterTop186").innerHTML = "0 pcs";
-    document.getElementById("shutterTop21").innerHTML = shutterTop21 + " pcs";
-
-    document.getElementById("shutterBottom186").innerHTML = "0 pcs";
-    document.getElementById("shutterBottom21").innerHTML = shutterBottom21 + " pcs";
-
     alert("Calculation Completed");
+
+}
+
+
+    

@@ -101,6 +101,13 @@ function calculateMaterial() {
 
     // Window-3
 
+    // =========================
+// WINDOW-4 INPUT
+// =========================
+
+let height4 = parseFloat(document.getElementById("height4").value) || 0;
+let width4 = parseFloat(document.getElementById("width4").value) || 0;
+let qty4 = parseInt(document.getElementById("qty4").value) || 0;
     let width3 = parseFloat(document.getElementById("width3").value) || 0;
     let height3 = parseFloat(document.getElementById("height3").value) || 0;
     let qty3 = parseInt(document.getElementById("qty3").value) || 0;
@@ -204,6 +211,43 @@ function calculateMaterial() {
 
     let shutterBottom3 =
         (width3 / 12) * qty3;
+    // =========================
+// WINDOW-4 ALUMINIUM
+// =========================
+
+let outerSide4 =
+    ((height4 * 2) / 12) * qty4;
+
+let outerTop4 =
+    (width4 / 12) * qty4;
+
+let outerBottom4 =
+    (width4 / 12) * qty4;
+
+let shutterLock4 =
+    ((height4 * 2) / 12) * qty4;
+
+let shutterInterlock4 =
+    ((height4 * 2) / 12) * qty4;
+
+let shutterTop4 =
+    (width4 / 12) * qty4;
+
+let shutterBottom4 =
+    (width4 / 12) * qty4;
+
+let totalAluminium4 =
+
+    outerSide4 +
+    outerTop4 +
+    outerBottom4 +
+    shutterLock4 +
+    shutterInterlock4 +
+    shutterTop4 +
+    shutterBottom4;
+
+let glass4 =
+    ((width4 * height4) / 144) * qty4;
 
     let totalAluminium3 =
         outerSide3 +

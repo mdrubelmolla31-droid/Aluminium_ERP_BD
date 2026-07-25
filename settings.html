@@ -32,6 +32,14 @@
 <label>New Aluminium Thickness</label>
 <input type="text" id="newThickness">
 <button onclick="addThickness()">Add Thickness</button>
+  <hr>
+
+<label>New Aluminium Colour</label>
+<input type="text" id="newAluColour">
+
+<button type="button" onclick="addMasterData('aluColour','newAluColour')">
+Add Aluminium Colour
+</button>
 
 <label>New Glass Company</label>
 <input type="text" id="newGlassCompany">
@@ -72,6 +80,8 @@ Add Glass Colour
 <option>1.8 mm</option>
 <option>2.0 mm</option>
 </select>
+  <label>Aluminium Colour</label>
+<select id="aluColour"></select>
 
 <label>Glass Company</label>
 <select id="glassCompany">

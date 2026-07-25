@@ -1,4 +1,3 @@
-console.log("settings.js loaded");
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 window.onload = function () {
@@ -7,7 +6,7 @@ window.onload = function () {
 };
 
 function saveSettings() {
-
+alert("Save Button Working");
     let rate = {
 
         company: document.getElementById("company").value,

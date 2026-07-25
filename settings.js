@@ -193,7 +193,41 @@ function addGlassCompany(){
     document.getElementById("newGlassCompany").value="";
 
     alert("Glass Company Added");
+    
+function addGlassCompany(){
 
+    ...
+    alert("Glass Company Added");
+
+}
+
+// এখানেই বসাবে ↓↓↓
+
+function addGlassColour(){
+
+    let v = document.getElementById("newGlassColour").value.trim();
+
+    if(v==""){
+        alert("Glass Colour লিখুন");
+        return;
+    }
+
+    saveMaster("glassColour", v);
+
+    document.getElementById("glassColour").innerHTML +=
+    `<option>${v}</option>`;
+
+    document.getElementById("newGlassColour").value = "";
+
+    alert("Glass Colour Added");
+
+}
+
+// এরপর নিচে loadMasterData() থাকবে
+function loadMasterData(){
+
+    ...
+}
 }
 
 function loadMasterData() {

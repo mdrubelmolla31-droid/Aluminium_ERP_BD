@@ -1,13 +1,23 @@
-alert("START");
+// ======================================
+// SETTINGS.JS
+// PART-1
+// ======================================
+
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 window.onload = function () {
+
     loadMasterData();
     loadRates();
+
 };
 
+// ===============================
+// SAVE RATE
+// ===============================
+
 function saveSettings() {
-alert("Save Button Working");
+
     let rate = {
 
         company: document.getElementById("company").value,
@@ -52,8 +62,12 @@ alert("Save Button Working");
     loadRates();
 
     alert("Rate Saved");
-    
+
 }
+// ===============================
+// LOAD RATE LIST
+// ===============================
+
 function loadRates() {
 
     rates = JSON.parse(localStorage.getItem("rates")) || [];
@@ -79,18 +93,20 @@ function loadRates() {
 <td>${r.labourRate}</td>
 <td>${r.profit}%</td>
 <td>
-<button onclick="deleteRate(${i})">
-Delete
-</button>
+<button onclick="deleteRate(${i})">Delete</button>
 </td>
-</tr>`;
+</tr>
+`;
+
     });
 
 }
 
-function deleteRate(index) {
+// ===============================
+// DELETE RATE
+// ===============================
 
-    rates = JSON.parse(localStorage.getItem("rates")) || [];
+function deleteRate(index) {
 
     rates.splice(index, 1);
 
@@ -99,7 +115,10 @@ function deleteRate(index) {
     loadRates();
 
 }
-//================ MASTER DATA =================//
+
+// ===============================
+// MASTER DATA SAVE
+// ===============================
 
 function saveMaster(key, value){
 
@@ -117,6 +136,10 @@ function saveMaster(key, value){
 
 }
 
+// ===============================
+// ADD COMPANY
+// ===============================
+
 function addCompany(){
 
     let v = document.getElementById("newCompany").value.trim();
@@ -128,14 +151,17 @@ function addCompany(){
 
     saveMaster("company", v);
 
-    document.getElementById("company").innerHTML +=
-    `<option>${v}</option>`;
+    document.getElementById("company").innerHTML += `<option>${v}</option>`;
 
-    document.getElementById("newCompany").value="";
+    document.getElementById("newCompany").value = "";
 
     alert("Company Added");
 
 }
+
+// ===============================
+// ADD SERIES
+// ===============================
 
 function addSeries(){
 
@@ -148,14 +174,17 @@ function addSeries(){
 
     saveMaster("series", v);
 
-    document.getElementById("series").innerHTML +=
-    `<option>${v}</option>`;
+    document.getElementById("series").innerHTML += `<option>${v}</option>`;
 
-    document.getElementById("newSeries").value="";
+    document.getElementById("newSeries").value = "";
 
     alert("Series Added");
 
 }
+
+// ===============================
+// ADD ALUMINIUM THICKNESS
+// ===============================
 
 function addThickness(){
 
@@ -168,14 +197,41 @@ function addThickness(){
 
     saveMaster("aluThickness", v);
 
-    document.getElementById("aluThickness").innerHTML +=
-    `<option>${v}</option>`;
+    document.getElementById("aluThickness").innerHTML += `<option>${v}</option>`;
 
-    document.getElementById("newThickness").value="";
+    document.getElementById("newThickness").value = "";
 
     alert("Thickness Added");
 
 }
+
+// ===============================
+// ADD GLASS COMPANY
+// ===============================
+
+function addGlassCompany(){
+
+    let v = document.getElementById("newGlassCompany").value.trim();
+
+    if(v==""){
+        alert("Glass Company লিখুন");
+        return;
+    }
+
+    saveMaster("glassCompany", v);
+
+    document.getElementById("glassCompany").innerHTML += `<option>${v}</option>`;
+
+    document.getElementById("newGlassCompany").value = "";
+
+    alert("Glass Company Added");
+
+}
+
+// ===============================
+// ADD GLASS COLOUR
+// ===============================
+
 function addGlassColour(){
 
     let v = document.getElementById("newGlassColour").value.trim();
@@ -187,14 +243,17 @@ function addGlassColour(){
 
     saveMaster("glassColour", v);
 
-    document.getElementById("glassColour").innerHTML +=
-    `<option>${v}</option>`;
+    document.getElementById("glassColour").innerHTML += `<option>${v}</option>`;
 
     document.getElementById("newGlassColour").value = "";
 
     alert("Glass Colour Added");
 
 }
+
+// ===============================
+// LOAD MASTER DATA
+// ===============================
 
 function loadMasterData() {
 
@@ -203,6 +262,7 @@ function loadMasterData() {
     function fill(id, key) {
 
         let select = document.getElementById(id);
+
         if (!select) return;
 
         if (data[key]) {
@@ -211,7 +271,55 @@ function loadMasterData() {
 
                 if (![...select.options].some(o => o.value === v)) {
 
-                    select.innerHTML += `<option>${v}</option>`;
+                    let option = document.createElement("option");
+                    option.value = v;
+                    option.textContent = v;
+
+                    select.appendChild(option);
+
+                }
+
+            });
+
+        }
+
+    }
+
+    fill("company", "company");
+    fill("series", "series");
+    fill("aluThickness", "aluThickness");
+    fill("glassCompany", "glassCompany");
+    fill("glassColour", "glassColour");
+fill("glassThickness", "glassThickness");
+    
+}
+
+
+// ===============================
+// LOAD MASTER DATA
+// ===============================
+
+function loadMasterData() {
+
+    let data = JSON.parse(localStorage.getItem("masterData")) || {};
+
+    function fill(id, key) {
+
+        let select = document.getElementById(id);
+
+        if (!select) return;
+
+        if (data[key]) {
+
+            data[key].forEach(v => {
+
+                if (![...select.options].some(o => o.value === v)) {
+
+                    let option = document.createElement("option");
+                    option.value = v;
+                    option.textContent = v;
+
+                    select.appendChild(option);
 
                 }
 

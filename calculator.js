@@ -111,6 +111,14 @@ let qty4 = parseInt(document.getElementById("qty4").value) || 0;
     let width3 = parseFloat(document.getElementById("width3").value) || 0;
     let height3 = parseFloat(document.getElementById("height3").value) || 0;
     let qty3 = parseInt(document.getElementById("qty3").value) || 0;
+
+    // =========================
+// WINDOW-5 INPUT
+// =========================
+
+let height5 = parseFloat(document.getElementById("height5").value) || 0;
+let width5 = parseFloat(document.getElementById("width5").value) || 0;
+let qty5 = parseInt(document.getElementById("qty5").value) || 0;
         // =========================
     // WINDOW-1
     // =========================
@@ -261,6 +269,44 @@ let glass4 =
     let glass3 =
         ((width3 * height3) / 144) * qty3;
 
+    // =========================
+// WINDOW-5 ALUMINIUM
+// =========================
+
+let outerSide5 =
+    ((height5 * 2) / 12) * qty5;
+
+let outerTop5 =
+    (width5 / 12) * qty5;
+
+let outerBottom5 =
+    (width5 / 12) * qty5;
+
+let shutterLock5 =
+    ((height5 * 2) / 12) * qty5;
+
+let shutterInterlock5 =
+    ((height5 * 2) / 12) * qty5;
+
+let shutterTop5 =
+    (width5 / 12) * qty5;
+
+let shutterBottom5 =
+    (width5 / 12) * qty5;
+
+let totalAluminium5 =
+
+    outerSide5 +
+    outerTop5 +
+    outerBottom5 +
+    shutterLock5 +
+    shutterInterlock5 +
+    shutterTop5 +
+    shutterBottom5;
+
+let glass5 =
+    ((width5 * height5) / 144) * qty5;
+
         // =========================
     // GRAND TOTAL
     // =========================
@@ -270,14 +316,16 @@ let glass4 =
     totalAluminium +
     totalAluminium2 +
     totalAluminium3 +
-    totalAluminium4;
+    totalAluminium4 +
+    totalAluminium5;
 
     let totalGlass =
 
     glass +
     glass2 +
     glass3 +
-    glass4;
+    glass4 +
+    glass5;
 
     // =========================
     // CUTTING REPORT
@@ -331,9 +379,10 @@ let glass4 =
     }
 
     addCutting(height, qty);
-    addCutting(height2, qty2);
-    addCutting(height3, qty3);
-    addCutting(height4, qty4);
+addCutting(height2, qty2);
+addCutting(height3, qty3);
+addCutting(height4, qty4);
+addCutting(height5, qty5);
 
         // =========================
     // COST CALCULATION
@@ -392,93 +441,47 @@ let glass4 =
             profitAmount / totalGlass;
 
     }
+const totalOuterSide =
+    outerSide + outerSide2 + outerSide3 + outerSide4 + outerSide5;
 
-        // =========================
-    // RESULT
-    // =========================
+const totalOuterTop =
+    outerTop + outerTop2 + outerTop3 + outerTop4 + outerTop5;
 
-    document.getElementById("outerSide").innerHTML =
-        outerSide.toFixed(2) + " ft";
+const totalOuterBottom =
+    outerBottom + outerBottom2 + outerBottom3 + outerBottom4 + outerBottom5;
 
-    document.getElementById("outerTop").innerHTML =
-        outerTop.toFixed(2) + " ft";
+const totalShutterLock =
+    shutterLock + shutterLock2 + shutterLock3 + shutterLock4 + shutterLock5;
 
-    document.getElementById("outerBottom").innerHTML =
-        outerBottom.toFixed(2) + " ft";
+const totalShutterInterlock =
+    shutterInterlock + shutterInterlock2 + shutterInterlock3 + shutterInterlock4 + shutterInterlock5;
 
-    document.getElementById("shutterLock").innerHTML =
-        shutterLock.toFixed(2) + " ft";
+const totalShutterTop =
+    shutterTop + shutterTop2 + shutterTop3 + shutterTop4 + shutterTop5;
 
-    document.getElementById("shutterInterlock").innerHTML =
-        shutterInterlock.toFixed(2) + " ft";
+const totalShutterBottom =
+    shutterBottom + shutterBottom2 + shutterBottom3 + shutterBottom4 + shutterBottom5;
 
-    document.getElementById("shutterTop").innerHTML =
-        shutterTop.toFixed(2) + " ft";
+document.getElementById("outerSide").innerHTML =
+    totalOuterSide.toFixed(2) + " ft";
 
-    document.getElementById("shutterBottom").innerHTML =
-        shutterBottom.toFixed(2) + " ft";
+document.getElementById("outerTop").innerHTML =
+    totalOuterTop.toFixed(2) + " ft";
 
-    document.getElementById("totalAluminium").innerHTML =
-        grandTotalAluminium.toFixed(2) + " ft";
+document.getElementById("outerBottom").innerHTML =
+    totalOuterBottom.toFixed(2) + " ft";
 
-    document.getElementById("glass").innerHTML =
-        totalGlass.toFixed(2) + " Sqft";
+document.getElementById("shutterLock").innerHTML =
+    totalShutterLock.toFixed(2) + " ft";
 
-    // =========================
-    // CUTTING REPORT RESULT
-    // =========================
+document.getElementById("shutterInterlock").innerHTML =
+    totalShutterInterlock.toFixed(2) + " ft";
 
-    document.getElementById("outerSide186").innerHTML = outerSide186;
-    document.getElementById("outerSide21").innerHTML = outerSide21;
+document.getElementById("shutterTop").innerHTML =
+    totalShutterTop.toFixed(2) + " ft";
 
-    document.getElementById("outerTop186").innerHTML = outerTop186;
-    document.getElementById("outerTop21").innerHTML = outerTop21;
-
-    document.getElementById("outerBottom186").innerHTML = outerBottom186;
-    document.getElementById("outerBottom21").innerHTML = outerBottom21;
-
-    document.getElementById("shutterLock186").innerHTML = shutterLock186;
-    document.getElementById("shutterLock21").innerHTML = shutterLock21;
-
-    document.getElementById("shutterInterlock186").innerHTML = shutterInterlock186;
-    document.getElementById("shutterInterlock21").innerHTML = shutterInterlock21;
-
-    document.getElementById("shutterTop186").innerHTML = shutterTop186;
-    document.getElementById("shutterTop21").innerHTML = shutterTop21;
-
-    document.getElementById("shutterBottom186").innerHTML = shutterBottom186;
-    document.getElementById("shutterBottom21").innerHTML = shutterBottom21;
-
-    document.getElementById("hardwareCost").innerHTML =
-        hardwareCost.toFixed(2) + " ৳";
-
-    document.getElementById("fittingsCost").innerHTML =
-        fittingsCost.toFixed(2) + " ৳";
-
-    document.getElementById("labourCost").innerHTML =
-        labourCost.toFixed(2) + " ৳";
-
-    document.getElementById("materialCost").innerHTML =
-        materialCost.toFixed(2) + " ৳";
-
-    document.getElementById("materialSqft").innerHTML =
-        materialSqft.toFixed(2) + " ৳";
-
-    document.getElementById("sellingSqft").innerHTML =
-        sellingSqft.toFixed(2) + " ৳";
-
-    document.getElementById("profitSqft").innerHTML =
-        profitSqft.toFixed(2) + " ৳";
-
-    document.getElementById("costPerSqft").innerHTML =
-        costPerSqft.toFixed(2) + " ৳";
-
-    document.getElementById("sellingPrice").innerHTML =
-        sellingPrice.toFixed(2) + " ৳";
-
-    alert("Calculation Completed");
-
-}
+document.getElementById("shutterBottom").innerHTML =
+    totalShutterBottom.toFixed(2) + " ft";
 
 // ============================
 // OPEN QUOTATION
@@ -514,6 +517,9 @@ function openQuotation() {
         width4: document.getElementById("width4").value,
 height4: document.getElementById("height4").value,
 qty4: document.getElementById("qty4").value,
+        width5: document.getElementById("width5").value,
+height5: document.getElementById("height5").value,
+qty5: document.getElementById("qty5").value,
 
         outerSide: document.getElementById("outerSide").innerText,
         outerTop: document.getElementById("outerTop").innerText,

@@ -175,7 +175,6 @@ function addThickness(){
     alert("Thickness Added");
 
 }
-
 function addGlassColour(){
 
     let v = document.getElementById("newGlassColour").value.trim();
@@ -195,7 +194,39 @@ function addGlassColour(){
     alert("Glass Colour Added");
 
 }
-// এরপর নিচে loadMasterData() থাকবে
+
+function loadMasterData() {
+
+    let data = JSON.parse(localStorage.getItem("masterData")) || {};
+
+    function fill(id, key) {
+
+        let select = document.getElementById(id);
+        if (!select) return;
+
+        if (data[key]) {
+
+            data[key].forEach(v => {
+
+                if (![...select.options].some(o => o.value === v)) {
+
+                    select.innerHTML += `<option>${v}</option>`;
+
+                }
+
+            });
+
+        }
+
+    }
+
+    fill("company", "company");
+    fill("series", "series");
+    fill("aluThickness", "aluThickness");
+    fill("glassCompany", "glassCompany");
+    fill("glassColour", "glassColour");
+
+}
 function loadMasterData(){
 
     ...
@@ -239,4 +270,3 @@ fill("glassColour", "glassColour");
     
 }
 
-alert("JS OK");

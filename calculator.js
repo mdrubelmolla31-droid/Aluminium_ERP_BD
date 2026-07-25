@@ -266,14 +266,18 @@ let glass4 =
     // =========================
 
     let grandTotalAluminium =
-        totalAluminium +
-        totalAluminium2 +
-        totalAluminium3;
+
+    totalAluminium +
+    totalAluminium2 +
+    totalAluminium3 +
+    totalAluminium4;
 
     let totalGlass =
-        glass +
-        glass2 +
-        glass3;
+
+    glass +
+    glass2 +
+    glass3 +
+    glass4;
 
     // =========================
     // CUTTING REPORT
@@ -329,6 +333,7 @@ let glass4 =
     addCutting(height, qty);
     addCutting(height2, qty2);
     addCutting(height3, qty3);
+    addCutting(height4, qty4);
 
         // =========================
     // COST CALCULATION
@@ -505,6 +510,10 @@ function openQuotation() {
         width3: document.getElementById("width3").value,
         height3: document.getElementById("height3").value,
         qty3: document.getElementById("qty3").value,
+        
+        width4: document.getElementById("width4").value,
+height4: document.getElementById("height4").value,
+qty4: document.getElementById("qty4").value,
 
         outerSide: document.getElementById("outerSide").innerText,
         outerTop: document.getElementById("outerTop").innerText,

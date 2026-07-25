@@ -1,3 +1,4 @@
+console.log("settings.js loaded");
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 window.onload = function () {

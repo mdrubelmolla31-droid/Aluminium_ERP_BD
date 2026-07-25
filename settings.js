@@ -239,4 +239,4 @@ fill("glassColour", "glassColour");
     
 }
 
-
+alert("JS OK");

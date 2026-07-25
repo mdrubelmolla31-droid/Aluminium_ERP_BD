@@ -430,5 +430,65 @@ function calculateMaterial() {
 
 }
 
+// ============================
+// OPEN QUOTATION
+// ============================
 
+function openQuotation() {
+
+    let quotation = {
+
+        customerName: document.getElementById("customerName").value,
+        mobile: document.getElementById("mobile").value,
+        address: document.getElementById("address").value,
+
+        company: document.getElementById("company").value,
+        series: document.getElementById("series").value,
+        aluThickness: document.getElementById("aluThickness").value,
+        glassCompany: document.getElementById("glassCompany").value,
+        glassThickness: document.getElementById("glassThickness").value,
+        glassColour: document.getElementById("glassColour").value,
+
+        width: document.getElementById("width").value,
+        height: document.getElementById("height").value,
+        qty: document.getElementById("qty").value,
+
+        width2: document.getElementById("width2").value,
+        height2: document.getElementById("height2").value,
+        qty2: document.getElementById("qty2").value,
+
+        width3: document.getElementById("width3").value,
+        height3: document.getElementById("height3").value,
+        qty3: document.getElementById("qty3").value,
+
+        outerSide: document.getElementById("outerSide").innerText,
+        outerTop: document.getElementById("outerTop").innerText,
+        outerBottom: document.getElementById("outerBottom").innerText,
+
+        shutterLock: document.getElementById("shutterLock").innerText,
+        shutterInterlock: document.getElementById("shutterInterlock").innerText,
+        shutterTop: document.getElementById("shutterTop").innerText,
+        shutterBottom: document.getElementById("shutterBottom").innerText,
+
+        totalAluminium: document.getElementById("totalAluminium").innerText,
+        glass: document.getElementById("glass").innerText,
+
+        hardwareCost: document.getElementById("hardwareCost").innerText,
+        fittingsCost: document.getElementById("fittingsCost").innerText,
+        labourCost: document.getElementById("labourCost").innerText,
+
+        materialCost: document.getElementById("materialCost").innerText,
+        materialSqft: document.getElementById("materialSqft").innerText,
+        sellingSqft: document.getElementById("sellingSqft").innerText,
+        profitSqft: document.getElementById("profitSqft").innerText,
+        costPerSqft: document.getElementById("costPerSqft").innerText,
+        sellingPrice: document.getElementById("sellingPrice").innerText
+
+    };
+
+    localStorage.setItem("quotation", JSON.stringify(quotation));
+
+    window.location.href = "quotation.html";
+
+}
     

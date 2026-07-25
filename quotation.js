@@ -27,5 +27,12 @@ document.getElementById("glass").innerHTML = data.glass;
 document.getElementById("materialCost").innerHTML = data.materialCost;
 document.getElementById("costPerSqft").innerHTML = data.costPerSqft;
 document.getElementById("sellingPrice").innerHTML = data.sellingPrice;
+    document.getElementById("hardwareCost").innerHTML = data.hardwareCost;
+document.getElementById("fittingsCost").innerHTML = data.fittingsCost;
+document.getElementById("labourCost").innerHTML = data.labourCost;
+
+document.getElementById("materialSqft").innerHTML = data.materialSqft;
+document.getElementById("sellingSqft").innerHTML = data.sellingSqft;
+document.getElementById("profitSqft").innerHTML = data.profitSqft;
 
 };

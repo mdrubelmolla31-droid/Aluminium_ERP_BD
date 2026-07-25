@@ -4,6 +4,7 @@ window.onload = function () {
     loadMasterData();
     loadRates();
 };
+
 function saveSettings() {
 
     let rate = {
@@ -221,7 +222,8 @@ function loadMasterData() {
         }
 
     }
-
+    
+fill("glassColour", "glassColour");
     fill("company", "company");
     fill("series", "series");
     fill("aluThickness", "aluThickness");

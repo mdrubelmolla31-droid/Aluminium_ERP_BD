@@ -23,6 +23,7 @@ function saveSettings() {
         company: document.getElementById("company").value,
         series: document.getElementById("series").value,
         aluThickness: document.getElementById("aluThickness").value,
+        aluColour: document.getElementById("aluColour").value,
         glassCompany: document.getElementById("glassCompany").value,
         glassThickness: document.getElementById("glassThickness").value,
         glassColour: document.getElementById("glassColour").value,

@@ -176,33 +176,6 @@ function addThickness(){
 
 }
 
-function addGlassCompany(){
-
-    let v = document.getElementById("newGlassCompany").value.trim();
-
-    if(v==""){
-        alert("Glass Company লিখুন");
-        return;
-    }
-
-    saveMaster("glassCompany", v);
-
-    document.getElementById("glassCompany").innerHTML +=
-    `<option>${v}</option>`;
-
-    document.getElementById("newGlassCompany").value="";
-
-    alert("Glass Company Added");
-    
-function addGlassCompany(){
-
-    ...
-    alert("Glass Company Added");
-
-}
-
-// এখানেই বসাবে ↓↓↓
-
 function addGlassColour(){
 
     let v = document.getElementById("newGlassColour").value.trim();
@@ -222,7 +195,6 @@ function addGlassColour(){
     alert("Glass Colour Added");
 
 }
-
 // এরপর নিচে loadMasterData() থাকবে
 function loadMasterData(){
 
@@ -262,7 +234,9 @@ fill("glassColour", "glassColour");
     fill("series", "series");
     fill("aluThickness", "aluThickness");
     fill("glassCompany", "glassCompany");
+    fill("glassColour", "glassColour");
 
+    
 }
 
 

@@ -1,3 +1,4 @@
+alert("START");
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 window.onload = function () {

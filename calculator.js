@@ -1,5 +1,5 @@
 // =====================================
-// MATERIAL CALCULATOR
+// MATERIAL CALCULATOR (Square Feet Based)
 // calculator.js
 // =====================================
 
@@ -87,6 +87,7 @@ function calculateMaterial() {
     let height5 = parseFloat(document.getElementById("height5")?.value) || 0;
     let qty5 = parseInt(document.getElementById("qty5")?.value) || 0;
 
+    // Window Calculations (Length & Sqft)
     let calcWin = (w, h, q) => {
         if (q <= 0) return { alu: 0, glass: 0, oSide: 0, oTop: 0, oBot: 0, sLock: 0, sInter: 0, sTop: 0, sBot: 0 };
         let oSide = ((h * 2) / 12) * q;
@@ -120,6 +121,7 @@ function calculateMaterial() {
     let grandTotalAluminium = w1.alu + w2.alu + w3.alu + w4.alu + w5.alu;
     let totalGlass = w1.glass + w2.glass + w3.glass + w4.glass + w5.glass;
 
+    // Cutting Report Calculations
     let outerSide186 = 0, outerSide21 = 0;
     let outerTop186 = 0, outerTop21 = 0;
     let outerBottom186 = 0, outerBottom21 = 0;
@@ -151,7 +153,8 @@ function calculateMaterial() {
     addCutting(height4, qty4);
     addCutting(height5, qty5);
 
-    let aluminiumCost = grandTotalAluminium * (setting.aluRate || 0);
+    // Cost Calculation (All items based on Sqft)
+    let aluminiumCost = totalGlass * (setting.aluRate || 0);
     let glassCost = totalGlass * (setting.glassRate || 0);
     let hardwareCost = totalGlass * (setting.hardwareRate || 0);
     let fittingsCost = totalGlass * (setting.fittingsRate || 0);
@@ -165,6 +168,7 @@ function calculateMaterial() {
     let sellingSqft = totalGlass > 0 ? sellingPrice / totalGlass : 0;
     let profitSqft = totalGlass > 0 ? profitAmount / totalGlass : 0;
 
+    // UI Updates
     let setTxt = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
 
     setTxt("outerSide", totalOuterSide.toFixed(2) + " ft");
@@ -189,6 +193,7 @@ function calculateMaterial() {
     setTxt("profitSqft", profitSqft.toFixed(2) + " ৳");
     setTxt("sellingPrice", sellingPrice.toFixed(2) + " ৳");
 
+    // Cutting Report UI
     setTxt("outerSide186", outerSide186);
     setTxt("outerSide21", outerSide21);
     setTxt("outerTop186", outerTop186);

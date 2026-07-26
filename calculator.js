@@ -1,5 +1,5 @@
 // =====================================
-// MATERIAL CALCULATOR (Square Feet Based)
+// MATERIAL CALCULATOR (Fixed Cutting Report & Sqft Rates)
 // calculator.js
 // =====================================
 
@@ -87,7 +87,7 @@ function calculateMaterial() {
     let height5 = parseFloat(document.getElementById("height5")?.value) || 0;
     let qty5 = parseInt(document.getElementById("qty5")?.value) || 0;
 
-    // Window Calculations (Length & Sqft)
+    // Window Length & Sqft Calculations
     let calcWin = (w, h, q) => {
         if (q <= 0) return { alu: 0, glass: 0, oSide: 0, oTop: 0, oBot: 0, sLock: 0, sInter: 0, sTop: 0, sBot: 0 };
         let oSide = ((h * 2) / 12) * q;
@@ -121,7 +121,7 @@ function calculateMaterial() {
     let grandTotalAluminium = w1.alu + w2.alu + w3.alu + w4.alu + w5.alu;
     let totalGlass = w1.glass + w2.glass + w3.glass + w4.glass + w5.glass;
 
-    // Cutting Report Calculations
+    // Cutting Report Calculation (Standard Logic: <=223 inch -> 18.6 ft bar)
     let outerSide186 = 0, outerSide21 = 0;
     let outerTop186 = 0, outerTop21 = 0;
     let outerBottom186 = 0, outerBottom21 = 0;
@@ -130,30 +130,41 @@ function calculateMaterial() {
     let shutterTop186 = 0, shutterTop21 = 0;
     let shutterBottom186 = 0, shutterBottom21 = 0;
 
-    function addCutting(h, q) {
+    function addCutting(w, h, q) {
         if (q <= 0) return;
-        if (h >= 60) {
-            outerSide21 += q * 2;
-            shutterLock21 += q;
-            shutterInterlock21 += q;
-        } else {
+
+        // Vertical items (Height)
+        if (h <= 223) {
             outerSide186 += q * 2;
-            shutterLock186 += q;
-            shutterInterlock186 += q;
+            shutterLock186 += q * 2;
+            shutterInterlock186 += q * 2;
+        } else {
+            outerSide21 += q * 2;
+            shutterLock21 += q * 2;
+            shutterInterlock21 += q * 2;
         }
-        outerTop21 += q;
-        outerBottom21 += q;
-        shutterTop21 += q;
-        shutterBottom21 += q;
+
+        // Horizontal items (Width)
+        if (w <= 223) {
+            outerTop186 += q;
+            outerBottom186 += q;
+            shutterTop186 += q * 2;
+            shutterBottom186 += q * 2;
+        } else {
+            outerTop21 += q;
+            outerBottom21 += q;
+            shutterTop21 += q * 2;
+            shutterBottom21 += q * 2;
+        }
     }
 
-    addCutting(height, qty);
-    addCutting(height2, qty2);
-    addCutting(height3, qty3);
-    addCutting(height4, qty4);
-    addCutting(height5, qty5);
+    addCutting(width, height, qty);
+    addCutting(width2, height2, qty2);
+    addCutting(width3, height3, qty3);
+    addCutting(width4, height4, qty4);
+    addCutting(width5, height5, qty5);
 
-    // Cost Calculation (All items based on Sqft)
+    // Costs Calculation (All based on Sqft)
     let aluminiumCost = totalGlass * (setting.aluRate || 0);
     let glassCost = totalGlass * (setting.glassRate || 0);
     let hardwareCost = totalGlass * (setting.hardwareRate || 0);
@@ -168,7 +179,7 @@ function calculateMaterial() {
     let sellingSqft = totalGlass > 0 ? sellingPrice / totalGlass : 0;
     let profitSqft = totalGlass > 0 ? profitAmount / totalGlass : 0;
 
-    // UI Updates
+    // UI Display
     let setTxt = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
 
     setTxt("outerSide", totalOuterSide.toFixed(2) + " ft");
@@ -193,7 +204,7 @@ function calculateMaterial() {
     setTxt("profitSqft", profitSqft.toFixed(2) + " ৳");
     setTxt("sellingPrice", sellingPrice.toFixed(2) + " ৳");
 
-    // Cutting Report UI
+    // Cutting Report UI Output
     setTxt("outerSide186", outerSide186);
     setTxt("outerSide21", outerSide21);
     setTxt("outerTop186", outerTop186);

@@ -4,106 +4,427 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Material Calculator</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success-color: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 30px;
+        }
+
+        /* Top Header */
+        .top-header {
+            background: var(--card-bg);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 15px;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Container */
+        .container {
+            max-width: 480px;
+            margin: 15px auto;
+            padding: 0 12px;
+        }
+
+        /* Section Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #eff6ff;
+            padding-bottom: 8px;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background-color: #f8fafc;
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Grid for Window Inputs */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .window-box {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .window-box-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.1s ease, background 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+        }
+
+        /* Result Table Card */
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        .result-table th,
+        .result-table td {
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .result-table th {
+            color: var(--text-muted);
+            font-weight: 600;
+            background: #f8fafc;
+        }
+
+        .result-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .result-table td:last-child {
+            text-align: right;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+    </style>
 </head>
 <body>
 
-    <header class="top-nav">
-        <a href="dashboard.html" class="nav-btn">⬅</a>
-        <h1 class="nav-title">Material Calculator</h1>
-        <span></span>
+    <!-- Header -->
+    <header class="top-header">
+        <a href="index.html" class="back-btn">←</a>
+        <h1 class="page-title">Material Calculator</h1>
     </header>
 
     <div class="container">
-        <label>Customer Name</label>
-        <input type="text" id="customerName" placeholder="গ্রাহকের নাম">
 
-        <label>Mobile</label>
-        <input type="text" id="mobile" placeholder="মোবাইল নম্বর">
+        <!-- 👤 কাস্টমার ইনফরমেশন -->
+        <div class="card">
+            <div class="card-title">👤 Customer Info</div>
+            
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" placeholder="গ্রাহকের নাম লিখুন">
+            </div>
 
-        <label>Address</label>
-        <input type="text" id="address" placeholder="ঠিকানা">
-
-        <label>Company</label>
-        <select id="company"></select>
-
-        <label>Series</label>
-        <select id="series"></select>
-
-        <label>Aluminium Thickness</label>
-        <select id="aluThickness"></select>
-
-        <label>Glass Company</label>
-        <select id="glassCompany"></select>
-
-        <label>Glass Thickness</label>
-        <select id="glassThickness"></select>
-
-        <label>Glass Colour</label>
-        <select id="glassColour"></select>
-
-        <hr style="margin: 15px 0;">
-
-        <h3>Window Size - 1</h3>
-        <label>Height (Inch)</label>
-        <input type="number" id="height">
-        <label>Width (Inch)</label>
-        <input type="number" id="width">
-        <label>Quantity</label>
-        <input type="number" id="qty" value="1">
-
-        <h3>Window Size - 2</h3>
-        <label>Height</label><input type="number" id="height2">
-        <label>Width</label><input type="number" id="width2">
-        <label>Qty</label><input type="number" id="qty2" value="0">
-
-        <h3>Window Size - 3</h3>
-        <label>Height</label><input type="number" id="height3">
-        <label>Width</label><input type="number" id="width3">
-        <label>Qty</label><input type="number" id="qty3" value="0">
-
-        <div style="display:flex; gap:10px; margin-top:10px;">
-            <button onclick="calculateMaterial()">Calculate</button>
-            <button onclick="openQuotation()" style="background:#16a34a;">Quotation</button>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Mobile</label>
+                    <input type="text" placeholder="মোবাইল নম্বর">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" placeholder="ঠিকানা">
+                </div>
+            </div>
         </div>
 
-        <div class="result" style="margin-top: 20px;">
-            <table>
-                <tr><th colspan="2">Material Details</th></tr>
-                <tr><td>Outer Side</td><td id="outerSide">0 ft</td></tr>
-                <tr><td>Outer Top</td><td id="outerTop">0 ft</td></tr>
-                <tr><td>Outer Bottom</td><td id="outerBottom">0 ft</td></tr>
-                <tr><td>Shutter Lock</td><td id="shutterLock">0 ft</td></tr>
-                <tr><td>Shutter Interlock</td><td id="shutterInterlock">0 ft</td></tr>
-                <tr><td>Shutter Top</td><td id="shutterTop">0 ft</td></tr>
-                <tr><td>Shutter Bottom</td><td id="shutterBottom">0 ft</td></tr>
-                <tr><td><b>Total Aluminium</b></td><td id="totalAluminium"><b>0 ft</b></td></tr>
-                <tr><td><b>Glass Area</b></td><td id="glass"><b>0 Sqft</b></td></tr>
-                <tr><td>Hardware</td><td id="hardwareCost">0 ৳</td></tr>
-                <tr><td>Fittings</td><td id="fittingsCost">0 ৳</td></tr>
-                <tr><td>Labour</td><td id="labourCost">0 ৳</td></tr>
-                <tr><td>Material Cost</td><td id="materialCost">0 ৳</td></tr>
-                <tr><td>Material Cost / Sqft</td><td id="materialSqft">0 ৳</td></tr>
-                <tr><td>Selling Price / Sqft</td><td id="sellingSqft">0 ৳</td></tr>
-                <tr><td>Profit / Sqft</td><td id="profitSqft">0 ৳</td></tr>
-                <tr><td>Cost / Sqft</td><td id="costPerSqft">0 ৳</td></tr>
-                <tr><td><b>Selling Price</b></td><td id="sellingPrice"><b>0 ৳</b></td></tr>
-            </table>
+        <!-- ⚙️ মেটেরিয়াল স্পেসিফিকেশন -->
+        <div class="card">
+            <div class="card-title">⚙️ Aluminum & Glass Config</div>
 
-            <br>
-            <table>
-                <tr><th>Item</th><th>18.6 ft</th><th>21 ft</th></tr>
-                <tr><td>Outer Side</td><td id="outerSide186">0</td><td id="outerSide21">0</td></tr>
-                <tr><td>Outer Top</td><td id="outerTop186">0</td><td id="outerTop21">0</td></tr>
-                <tr><td>Outer Bottom</td><td id="outerBottom186">0</td><td id="outerBottom21">0</td></tr>
-                <tr><td>Shutter Lock</td><td id="shutterLock186">0</td><td id="shutterLock21">0</td></tr>
-                <tr><td>Shutter Interlock</td><td id="shutterInterlock186">0</td><td id="shutterInterlock21">0</td></tr>
-                <tr><td>Shutter Top</td><td id="shutterTop186">0</td><td id="shutterTop21">0</td></tr>
-                <tr><td>Shutter Bottom</td><td id="shutterBottom186">0</td><td id="shutterBottom21">0</td></tr>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Company</label>
+                    <select>
+                        <option value="">Select Company</option>
+                        <option value="chung-hua">Chung Hua</option>
+                        <option value="kai">KAI</option>
+                        <option value="altech">Altech</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Series</label>
+                    <select>
+                        <option value="">Select Series</option>
+                        <option value="25">25 Series</option>
+                        <option value="30">30 Series</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Alu Thickness</label>
+                    <select>
+                        <option value="">Thickness</option>
+                        <option value="1.2">1.2 mm</option>
+                        <option value="1.5">1.5 mm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Glass Company</label>
+                    <select>
+                        <option value="">Select Glass</option>
+                        <option value="nasir">Nasir Glass</option>
+                        <option value="php">PHP Glass</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Glass Thickness</label>
+                    <select>
+                        <option value="">Thickness</option>
+                        <option value="5">5 mm</option>
+                        <option value="6">6 mm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Glass Colour</label>
+                    <select>
+                        <option value="">Colour</option>
+                        <option value="clear">Clear</option>
+                        <option value="tinted">Tinted</option>
+                        <option value="frosted">Frosted</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🪟 উইন্ডো মেজারমেন্ট -->
+        <div class="card">
+            <div class="card-title">🪟 Window Measurements</div>
+
+            <!-- Window 1 -->
+            <div class="window-box">
+                <div class="window-box-title">Window Size - 1</div>
+                <div class="grid-3">
+                    <div>
+                        <label>Height (In)</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Width (In)</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Quantity</label>
+                        <input type="number" value="1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Window 2 -->
+            <div class="window-box">
+                <div class="window-box-title">Window Size - 2</div>
+                <div class="grid-3">
+                    <div>
+                        <label>Height</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Width</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Qty</label>
+                        <input type="number" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Window 3 -->
+            <div class="window-box">
+                <div class="window-box-title">Window Size - 3</div>
+                <div class="grid-3">
+                    <div>
+                        <label>Height</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Width</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Qty</label>
+                        <input type="number" value="0">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-group">
+            <button class="btn btn-primary">🧮 Calculate</button>
+            <button class="btn btn-success">📄 Quotation</button>
+        </div>
+
+        <!-- 📊 মেটেরিয়াল রেজাল্ট কার্ড -->
+        <div class="card">
+            <div class="card-title">📊 Material Details Summary</div>
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Material Item</th>
+                        <th style="text-align: right;">Quantity / Size</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Outer Side</td>
+                        <td>0 ft</td>
+                    </tr>
+                    <tr>
+                        <td>Outer Top</td>
+                        <td>0 ft</td>
+                    </tr>
+                    <tr>
+                        <td>Outer Bottom</td>
+                        <td>0 ft</td>
+                    </tr>
+                    <tr>
+                        <td>Shutter Lock</td>
+                        <td>0 ft</td>
+                    </tr>
+                    <tr>
+                        <td>Shutter Interlock</td>
+                        <td>0 ft</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
+
     </div>
 
-    <script src="calculator.js"></script>
 </body>
 </html>

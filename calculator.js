@@ -17,6 +17,7 @@ function loadDropdowns() {
     fillSelect("company", "company");
     fillSelect("series", "series");
     fillSelect("aluThickness", "aluThickness");
+    fillSelect("aluColour", "aluColour"); // Aluminium Colour Dropdown Populate
     fillSelect("glassCompany", "glassCompany");
     fillSelect("glassThickness", "glassThickness");
     fillSelect("glassColour", "glassColour");
@@ -27,12 +28,13 @@ function fillSelect(id, key) {
     const select = document.getElementById(id);
     if (!select) return;
 
-    select.innerHTML = `<option value="">Select</option>`;
+    select.innerHTML = `<option value="">Select Option</option>`;
 
+    // Rates Array থেকে Unique Values বের করা
     const values = [...new Set(
         rates
             .map(r => r[key])
-            .filter(v => v && v.trim() !== "")
+            .filter(v => v && String(v).trim() !== "")
     )];
 
     values.forEach(v => {
@@ -58,6 +60,7 @@ function calculateMaterial() {
     let glassThickness = document.getElementById("glassThickness") ? document.getElementById("glassThickness").value : "";
     let glassColour = document.getElementById("glassColour") ? document.getElementById("glassColour").value : "";
 
+    // ফিল্টার বা ম্যাচিং চেক
     let setting = rates.find(r =>
         r.company === company &&
         r.series === series &&
@@ -69,7 +72,7 @@ function calculateMaterial() {
     );
 
     if (!setting) {
-        alert("Rate Not Found");
+        alert("সিলেক্ট করা ড্রপডাউন অনুযায়ী সেটিংসে (Admin Panel) কোনো Rate পাওয়া যায়নি! দয়া করে Settings থেকে Rate সেভ করুন।");
         return;
     }
 
@@ -161,12 +164,44 @@ function calculateMaterial() {
     let grandTotalAluminium = totalAluminium + totalAluminium2 + totalAluminium3 + totalAluminium4 + totalAluminium5;
     let totalGlass = glass + glass2 + glass3 + glass4 + glass5;
 
+    // Cutting Report
+    let outerSide186 = 0, outerSide21 = 0;
+    let outerTop186 = 0, outerTop21 = 0;
+    let outerBottom186 = 0, outerBottom21 = 0;
+    let shutterLock186 = 0, shutterLock21 = 0;
+    let shutterInterlock186 = 0, shutterInterlock21 = 0;
+    let shutterTop186 = 0, shutterTop21 = 0;
+    let shutterBottom186 = 0, shutterBottom21 = 0;
+
+    function addCutting(h, q) {
+        if (q <= 0) return;
+        if (h >= 60) {
+            outerSide21 += q * 2;
+            shutterLock21 += q;
+            shutterInterlock21 += q;
+        } else {
+            outerSide186 += q * 2;
+            shutterLock186 += q;
+            shutterInterlock186 += q;
+        }
+        outerTop21 += q;
+        outerBottom21 += q;
+        shutterTop21 += q;
+        shutterBottom21 += q;
+    }
+
+    addCutting(height, qty);
+    addCutting(height2, qty2);
+    addCutting(height3, qty3);
+    addCutting(height4, qty4);
+    addCutting(height5, qty5);
+
     // Cost Calculation
-    let aluminiumCost = grandTotalAluminium * setting.aluRate;
-    let glassCost = totalGlass * setting.glassRate;
-    let hardwareCost = totalGlass * setting.hardwareRate;
-    let fittingsCost = totalGlass * setting.fittingsRate;
-    let labourCost = totalGlass * setting.labourRate;
+    let aluminiumCost = grandTotalAluminium * (setting.aluRate || 0);
+    let glassCost = totalGlass * (setting.glassRate || 0);
+    let hardwareCost = totalGlass * (setting.hardwareRate || 0);
+    let fittingsCost = totalGlass * (setting.fittingsRate || 0);
+    let labourCost = totalGlass * (setting.labourRate || 0);
 
     let materialCost = aluminiumCost + glassCost + hardwareCost + fittingsCost + labourCost;
     let profitAmount = materialCost * (setting.profit || 0) / 100;
@@ -187,102 +222,35 @@ function calculateMaterial() {
 
     if (document.getElementById("totalAluminium")) document.getElementById("totalAluminium").innerText = grandTotalAluminium.toFixed(2) + " ft";
     if (document.getElementById("glass")) document.getElementById("glass").innerText = totalGlass.toFixed(2) + " Sqft";
-    // =========================
-// CUTTING REPORT UI UPDATE
-// =========================
 
-if (document.getElementById("outerSide186")) document.getElementById("outerSide186").innerText = outerSide186;
-if (document.getElementById("outerSide21")) document.getElementById("outerSide21").innerText = outerSide21;
+    if (document.getElementById("hardwareCost")) document.getElementById("hardwareCost").innerText = hardwareCost.toFixed(2) + " ৳";
+    if (document.getElementById("fittingsCost")) document.getElementById("fittingsCost").innerText = fittingsCost.toFixed(2) + " ৳";
+    if (document.getElementById("labourCost")) document.getElementById("labourCost").innerText = labourCost.toFixed(2) + " ৳";
+    if (document.getElementById("materialCost")) document.getElementById("materialCost").innerText = materialCost.toFixed(2) + " ৳";
+    if (document.getElementById("materialSqft")) document.getElementById("materialSqft").innerText = materialSqft.toFixed(2) + " ৳";
+    if (document.getElementById("sellingSqft")) document.getElementById("sellingSqft").innerText = sellingSqft.toFixed(2) + " ৳";
+    if (document.getElementById("profitSqft")) document.getElementById("profitSqft").innerText = profitSqft.toFixed(2) + " ৳";
+    if (document.getElementById("sellingPrice")) document.getElementById("sellingPrice").innerText = sellingPrice.toFixed(2) + " ৳";
 
-if (document.getElementById("outerTop186")) document.getElementById("outerTop186").innerText = outerTop186;
-if (document.getElementById("outerTop21")) document.getElementById("outerTop21").innerText = outerTop21;
+    // Cutting Report UI Updates
+    if (document.getElementById("outerSide186")) document.getElementById("outerSide186").innerText = outerSide186;
+    if (document.getElementById("outerSide21")) document.getElementById("outerSide21").innerText = outerSide21;
 
-if (document.getElementById("outerBottom186")) document.getElementById("outerBottom186").innerText = outerBottom186;
-if (document.getElementById("outerBottom21")) document.getElementById("outerBottom21").innerText = outerBottom21;
+    if (document.getElementById("outerTop186")) document.getElementById("outerTop186").innerText = outerTop186;
+    if (document.getElementById("outerTop21")) document.getElementById("outerTop21").innerText = outerTop21;
 
-if (document.getElementById("shutterLock186")) document.getElementById("shutterLock186").innerText = shutterLock186;
-if (document.getElementById("shutterLock21")) document.getElementById("shutterLock21").innerText = shutterLock21;
+    if (document.getElementById("outerBottom186")) document.getElementById("outerBottom186").innerText = outerBottom186;
+    if (document.getElementById("outerBottom21")) document.getElementById("outerBottom21").innerText = outerBottom21;
 
-if (document.getElementById("shutterInterlock186")) document.getElementById("shutterInterlock186").innerText = shutterInterlock186;
-if (document.getElementById("shutterInterlock21")) document.getElementById("shutterInterlock21").innerText = shutterInterlock21;
+    if (document.getElementById("shutterLock186")) document.getElementById("shutterLock186").innerText = shutterLock186;
+    if (document.getElementById("shutterLock21")) document.getElementById("shutterLock21").innerText = shutterLock21;
 
-if (document.getElementById("shutterTop186")) document.getElementById("shutterTop186").innerText = shutterTop186;
-if (document.getElementById("shutterTop21")) document.getElementById("shutterTop21").innerText = shutterTop21;
+    if (document.getElementById("shutterInterlock186")) document.getElementById("shutterInterlock186").innerText = shutterInterlock186;
+    if (document.getElementById("shutterInterlock21")) document.getElementById("shutterInterlock21").innerText = shutterInterlock21;
 
-if (document.getElementById("shutterBottom186")) document.getElementById("shutterBottom186").innerText = shutterBottom186;
-if (document.getElementById("shutterBottom21")) document.getElementById("shutterBottom21").innerText = shutterBottom21;
+    if (document.getElementById("shutterTop186")) document.getElementById("shutterTop186").innerText = shutterTop186;
+    if (document.getElementById("shutterTop21")) document.getElementById("shutterTop21").innerText = shutterTop21;
 
-
-    if (document.getElementById("hardwareCost")) document.getElementById("hardwareCost").innerText = hardwareCost.toFixed(2);
-    if (document.getElementById("fittingsCost")) document.getElementById("fittingsCost").innerText = fittingsCost.toFixed(2);
-    if (document.getElementById("labourCost")) document.getElementById("labourCost").innerText = labourCost.toFixed(2);
-    if (document.getElementById("materialCost")) document.getElementById("materialCost").innerText = materialCost.toFixed(2);
-    if (document.getElementById("materialSqft")) document.getElementById("materialSqft").innerText = materialSqft.toFixed(2);
-    if (document.getElementById("sellingSqft")) document.getElementById("sellingSqft").innerText = sellingSqft.toFixed(2);
-    if (document.getElementById("profitSqft")) document.getElementById("profitSqft").innerText = profitSqft.toFixed(2);
-    if (document.getElementById("sellingPrice")) document.getElementById("sellingPrice").innerText = sellingPrice.toFixed(2);
-}
-
-// ============================
-// OPEN QUOTATION
-// ============================
-
-function openQuotation() {
-    let quotation = {
-        customerName: document.getElementById("customerName")?.value || "",
-        mobile: document.getElementById("mobile")?.value || "",
-        address: document.getElementById("address")?.value || "",
-
-        company: document.getElementById("company")?.value || "",
-        series: document.getElementById("series")?.value || "",
-        aluThickness: document.getElementById("aluThickness")?.value || "",
-        glassCompany: document.getElementById("glassCompany")?.value || "",
-        glassThickness: document.getElementById("glassThickness")?.value || "",
-        glassColour: document.getElementById("glassColour")?.value || "",
-
-        width: document.getElementById("width")?.value || 0,
-        height: document.getElementById("height")?.value || 0,
-        qty: document.getElementById("qty")?.value || 0,
-
-        width2: document.getElementById("width2")?.value || 0,
-        height2: document.getElementById("height2")?.value || 0,
-        qty2: document.getElementById("qty2")?.value || 0,
-
-        width3: document.getElementById("width3")?.value || 0,
-        height3: document.getElementById("height3")?.value || 0,
-        qty3: document.getElementById("qty3")?.value || 0,
-
-        width4: document.getElementById("width4")?.value || 0,
-        height4: document.getElementById("height4")?.value || 0,
-        qty4: document.getElementById("qty4")?.value || 0,
-
-        width5: document.getElementById("width5")?.value || 0,
-        height5: document.getElementById("height5")?.value || 0,
-        qty5: document.getElementById("qty5")?.value || 0,
-
-        outerSide: document.getElementById("outerSide")?.innerText || "",
-        outerTop: document.getElementById("outerTop")?.innerText || "",
-        outerBottom: document.getElementById("outerBottom")?.innerText || "",
-
-        shutterLock: document.getElementById("shutterLock")?.innerText || "",
-        shutterInterlock: document.getElementById("shutterInterlock")?.innerText || "",
-        shutterTop: document.getElementById("shutterTop")?.innerText || "",
-        shutterBottom: document.getElementById("shutterBottom")?.innerText || "",
-
-        totalAluminium: document.getElementById("totalAluminium")?.innerText || "",
-        glass: document.getElementById("glass")?.innerText || "",
-
-        hardwareCost: document.getElementById("hardwareCost")?.innerText || "",
-        fittingsCost: document.getElementById("fittingsCost")?.innerText || "",
-        labourCost: document.getElementById("labourCost")?.innerText || "",
-
-        materialCost: document.getElementById("materialCost")?.innerText || "",
-        materialSqft: document.getElementById("materialSqft")?.innerText || "",
-        sellingSqft: document.getElementById("sellingSqft")?.innerText || "",
-        profitSqft: document.getElementById("profitSqft")?.innerText || "",
-        sellingPrice: document.getElementById("sellingPrice")?.innerText || ""
-    };
-
-    localStorage.setItem("quotation", JSON.stringify(quotation));
-    window.location.href = "quotation.html";
+    if (document.getElementById("shutterBottom186")) document.getElementById("shutterBottom186").innerText = shutterBottom186;
+    if (document.getElementById("shutterBottom21")) document.getElementById("shutterBottom21").innerText = shutterBottom21;
 }

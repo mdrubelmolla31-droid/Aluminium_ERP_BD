@@ -96,6 +96,15 @@ r.glassColour === glassColour
 
     }
 
+    let grandTotalAluminium = 0;
+let totalGlass = 0;
+
+let outerSide = 0;
+let topBottom = 0;
+let shutterSide = 0;
+let shutterTopBottom = 0;
+let interlock = 0;
+let lockProfile = 0;
     // Window-1
 
     let width = parseFloat(document.getElementById("width").value) || 0;
@@ -164,7 +173,9 @@ let qty5 = parseInt(document.getElementById("qty5").value) || 0;
 
     let glass =
         ((width * height) / 144) * qty;
-
+    
+grandTotalAluminium += totalAluminium;
+totalGlass += glass;
 
     // =========================
     // WINDOW-2
@@ -203,7 +214,9 @@ let qty5 = parseInt(document.getElementById("qty5").value) || 0;
     let glass2 =
         ((width2 * height2) / 144) * qty2;
 
-
+grandTotalAluminium += totalAluminium2;
+totalGlass += glass2;
+    
     // =========================
     // WINDOW-3
     // =========================
@@ -228,6 +241,13 @@ let qty5 = parseInt(document.getElementById("qty5").value) || 0;
 
     let shutterBottom3 =
         (width3 / 12) * qty3;
+
+    let glass3 =
+    ((width3 * height3) / 144) * qty3;
+
+grandTotalAluminium += totalAluminium3;
+totalGlass += glass3;
+
     // =========================
 // WINDOW-4 ALUMINIUM
 // =========================
@@ -266,18 +286,8 @@ let totalAluminium4 =
 let glass4 =
     ((width4 * height4) / 144) * qty4;
 
-    let totalAluminium3 =
-        outerSide3 +
-        outerTop3 +
-        outerBottom3 +
-        shutterLock3 +
-        shutterInterlock3 +
-        shutterTop3 +
-        shutterBottom3;
-
-    let glass3 =
-        ((width3 * height3) / 144) * qty3;
-
+    grandTotalAluminium += totalAluminium4;
+totalGlass += glass4;
     // =========================
 // WINDOW-5 ALUMINIUM
 // =========================
@@ -315,6 +325,9 @@ let totalAluminium5 =
 
 let glass5 =
     ((width5 * height5) / 144) * qty5;
+
+    grandTotalAluminium += totalAluminium5;
+totalGlass += glass5;
 
         // =========================
     // GRAND TOTAL

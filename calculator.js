@@ -18,7 +18,6 @@ let totalShutterBottom = 0;
 
 let grandTotalAluminium = 0;
 let totalGlass = 0;
-alert(localStorage.getItem("rates"));
 // ---------- Load ----------
 document.addEventListener("DOMContentLoaded", () => {
     loadDropdowns();

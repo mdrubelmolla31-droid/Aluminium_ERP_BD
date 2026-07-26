@@ -1,20 +1,33 @@
-// ======================================
-// SETTINGS.JS
-// ======================================
+// পেজ লোড হলে সেভ হওয়া ডাটা লোড করবে
+document.addEventListener("DOMContentLoaded", function () {
+    loadSavedRates();
+});
 
-let rates = JSON.parse(localStorage.getItem("rates")) || [];
+// ১. মাস্টার ডাটা ড্রপডাউনে যুক্ত করার ফাংশন
+function addMasterData(selectId, inputId) {
+    let inputElem = document.getElementById(inputId);
+    let selectElem = document.getElementById(selectId);
 
-window.onload = function () {
-    loadMasterData();
-    loadRates();
-};
+    let val = inputElem.value.trim();
+    if (val === "") {
+        alert("অনুগ্রহ করে সঠিক নাম লিখুন!");
+        return;
+    }
 
-// ===============================
-// SAVE RATE
-// ===============================
+    let option = document.createElement("option");
+    option.text = val;
+    option.value = val;
+    option.selected = true;
+    selectElem.add(option);
 
+    inputElem.value = "";
+    alert(`${val} ড্রপডাউনে যোগ করা হয়েছে!`);
+}
+
+// ২. রেট সেভ করার ফাংশন
 function saveSettings() {
-    let rate = {
+    let rateData = {
+        id: Date.now(),
         company: document.getElementById("company").value,
         series: document.getElementById("series").value,
         aluThickness: document.getElementById("aluThickness").value,
@@ -22,165 +35,67 @@ function saveSettings() {
         glassCompany: document.getElementById("glassCompany").value,
         glassThickness: document.getElementById("glassThickness").value,
         glassColour: document.getElementById("glassColour").value,
-
-        aluRate: Number(document.getElementById("aluRate").value),
-        glassRate: Number(document.getElementById("glassRate").value),
-        hardwareRate: Number(document.getElementById("hardwareRate").value),
-        fittingsRate: Number(document.getElementById("fittingsRate").value),
-        labourRate: Number(document.getElementById("labourRate").value),
-        profit: Number(document.getElementById("profit").value)
+        aluRate: document.getElementById("aluRate").value || 0,
+        glassRate: document.getElementById("glassRate").value || 0,
+        hardwareRate: document.getElementById("hardwareRate").value || 0,
+        fittingsRate: document.getElementById("fittingsRate").value || 0,
+        labourRate: document.getElementById("labourRate").value || 0,
+        profit: document.getElementById("profit").value || 0
     };
 
-    let index = rates.findIndex(r =>
-        r.company === rate.company &&
-        r.series === rate.series &&
-        r.aluThickness === rate.aluThickness &&
-        r.aluColour === rate.aluColour &&
-        r.glassCompany === rate.glassCompany &&
-        r.glassThickness === rate.glassThickness &&
-        r.glassColour === rate.glassColour
-    );
-
-    if (index >= 0) {
-        rates[index] = rate;
-    } else {
-        rates.push(rate);
-    }
-
-    localStorage.setItem("rates", JSON.stringify(rates));
-    loadRates();
-    alert("Rate Saved Successfully!");
-}
-
-// ===============================
-// LOAD RATE LIST
-// ===============================
-
-function loadRates() {
-    rates = JSON.parse(localStorage.getItem("rates")) || [];
-    let body = document.getElementById("rateBody");
-    if (!body) return;
-
-    body.innerHTML = "";
-
-    rates.forEach((r, i) => {
-        body.innerHTML += `
-            <tr>
-                <td>${r.company}</td>
-                <td>${r.series}</td>
-                <td>${r.aluThickness}</td>
-                <td>${r.aluColour || "-"}</td>
-                <td>${r.glassCompany}</td>
-                <td>${r.glassThickness}</td>
-                <td>${r.glassColour}</td>
-                <td>${r.aluRate}</td>
-                <td>${r.glassRate}</td>
-                <td>${r.hardwareRate}</td>
-                <td>${r.fittingsRate}</td>
-                <td>${r.labourRate}</td>
-                <td>${r.profit}%</td>
-                <td>
-                    <button onclick="deleteRate(${i})">Delete</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-// ===============================
-// DELETE RATE
-// ===============================
-
-function deleteRate(index) {
-    rates.splice(index, 1);
-    localStorage.setItem("rates", JSON.stringify(rates));
-    loadRates();
-}
-
-// ===============================
-// MASTER DATA SAVE
-// ===============================
-
-function saveMaster(key, value) {
-    let data = JSON.parse(localStorage.getItem("masterData")) || {};
-
-    if (!data[key]) {
-        data[key] = [];
-    }
-
-    if (!data[key].includes(value)) {
-        data[key].push(value);
-    }
-
-    localStorage.setItem("masterData", JSON.stringify(data));
-}
-
-// ===============================
-// GENERIC MASTER DATA ADD
-// ===============================
-
-function addMasterData(key, inputId) {
-    let input = document.getElementById(inputId);
-    if (!input) return;
-
-    let v = input.value.trim();
-    if (v === "") {
-        alert("দয়া করে মান লিখুন!");
+    if (!rateData.company || !rateData.series) {
+        alert("কমপক্ষে Company এবং Series সিলেক্ট করুন!");
         return;
     }
 
-    saveMaster(key, v);
+    let rates = JSON.parse(localStorage.getItem("erp_rates") || "[]");
+    rates.push(rateData);
+    localStorage.setItem("erp_rates", JSON.stringify(rates));
 
-    let select = document.getElementById(key);
-    if (select) {
-        let option = document.createElement("option");
-        option.value = v;
-        option.textContent = v;
-        select.appendChild(option);
-    }
-
-    input.value = "";
-    alert("Added Successfully!");
+    alert("রেট সফলভাবে সেভ করা হয়েছে!");
+    loadSavedRates();
 }
 
-// ===============================
-// SPECIFIC ADD FUNCTIONS
-// ===============================
+// ৩. সেভ করা ডাটা টেবিলে দেখানোর ফাংশন
+function loadSavedRates() {
+    let tbody = document.getElementById("rateBody");
+    tbody.innerHTML = "";
 
-function addCompany() { addMasterData('company', 'newCompany'); }
-function addSeries() { addMasterData('series', 'newSeries'); }
-function addThickness() { addMasterData('aluThickness', 'newThickness'); }
-function addGlassCompany() { addMasterData('glassCompany', 'newGlassCompany'); }
-function addGlassColour() { addMasterData('glassColour', 'newGlassColour'); }
+    let rates = JSON.parse(localStorage.getItem("erp_rates") || "[]");
 
-// ===============================
-// LOAD MASTER DATA
-// ===============================
-
-function loadMasterData() {
-    let data = JSON.parse(localStorage.getItem("masterData")) || {};
-
-    function fill(id, key) {
-        let select = document.getElementById(id);
-        if (!select) return;
-
-        if (data[key]) {
-            data[key].forEach(v => {
-                if (![...select.options].some(o => o.value === v)) {
-                    let option = document.createElement("option");
-                    option.value = v;
-                    option.textContent = v;
-                    select.appendChild(option);
-                }
-            });
-        }
+    if (rates.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="14" style="text-align:center; color:var(--text-muted);">কোনো সেভ করা রেট নেই</td></tr>`;
+        return;
     }
 
-    fill("company", "company");
-    fill("series", "series");
-    fill("aluThickness", "aluThickness");
-    fill("aluColour", "aluColour");
-    fill("glassCompany", "glassCompany");
-    fill("glassColour", "glassColour");
-    fill("glassThickness", "glassThickness");
+    rates.forEach(item => {
+        let tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${item.company}</td>
+            <td>${item.series}</td>
+            <td>${item.aluThickness}</td>
+            <td>${item.aluColour}</td>
+            <td>${item.glassCompany}</td>
+            <td>${item.glassThickness}</td>
+            <td>${item.glassColour}</td>
+            <td>৳${item.aluRate}</td>
+            <td>৳${item.glassRate}</td>
+            <td>৳${item.hardwareRate}</td>
+            <td>৳${item.fittingsRate}</td>
+            <td>৳${item.labourRate}</td>
+            <td>${item.profit}%</td>
+            <td><button class="btn-delete" onclick="deleteRate(${item.id})">🗑️</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// ৪. রেট ডিলেট করার ফাংশন
+function deleteRate(id) {
+    if (confirm("আপনি কি এই রেটটি মুছে ফেলতে চান?")) {
+        let rates = JSON.parse(localStorage.getItem("erp_rates") || "[]");
+        rates = rates.filter(item => item.id !== id);
+        localStorage.setItem("erp_rates", JSON.stringify(rates));
+        loadSavedRates();
+    }
 }

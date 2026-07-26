@@ -1,5 +1,5 @@
 // =====================================
-// EXACT ALUMNIUN CUTTING CALCULATOR (STRICT)
+// EXACT ALUMNIUN CUTTING CALCULATOR (FINAL FIX)
 // calculator.js
 // =====================================
 
@@ -84,10 +84,9 @@ function calculateMaterial() {
         getWinData("width5", "height5", "qty5")
     ];
 
-    // Totals for Material Costing
-    let totalOuterSide = 0, totalOuterTop = 0, totalOuterBottom = 0;
-    let totalShutterLock = 0, totalShutterInterlock = 0;
-    let totalShutterTop = 0, totalShutterBottom = 0;
+    // Totals for Material Costing & Details
+    let totalOuterSide = 0;
+    let totalOuterTop = 0;
     let totalGlass = 0;
 
     let heightFt186 = 0;
@@ -95,56 +94,62 @@ function calculateMaterial() {
 
     wins.forEach(win => {
         if (win.q > 0 && win.w > 0 && win.h > 0) {
-            let oSide = ((win.h * 2) / 12) * win.q;
-            let oTop = (win.w / 12) * win.q;
-            let oBot = (win.w / 12) * win.q;
+            // One window running feet: Height = (H*2)/12 * Q, Width = (W/12) * Q
+            let hRunningFt = ((win.h * 2) / 12) * win.q;
+            let wRunningFt = (win.w / 12) * win.q;
 
-            let sLock = ((win.h * 2) / 12) * win.q;
-            let sInter = ((win.h * 2) / 12) * win.q;
-            let sTop = ((win.w * 2) / 12) * win.q;
-            let sBot = ((win.w * 2) / 12) * win.q;
-
-            totalOuterSide += oSide;
-            totalOuterTop += oTop;
-            totalOuterBottom += oBot;
-            totalShutterLock += sLock;
-            totalShutterInterlock += sInter;
-            totalShutterTop += sTop;
-            totalShutterBottom += sBot;
+            totalOuterSide += hRunningFt;
+            totalOuterTop += wRunningFt;
 
             totalGlass += ((win.w * win.h) / 144) * win.q;
 
-            // Height Logic (4.5 ft / 54 inch or lower -> 18.6 ft bar pool)
+            // Vertical Bar Logic: Height <= 54 inch (4.5 ft) goes to 18.6 ft bar
             if (win.h <= 54) {
-                heightFt186 += oSide;
+                heightFt186 += hRunningFt;
             } else {
-                heightFt21 += oSide;
+                heightFt21 += hRunningFt;
             }
         }
     });
+
+    // Outer Side = Lock = Interlock (Always Equal)
+    let totalOuterBottom = totalOuterTop;
+    let totalShutterLock = totalOuterSide;
+    let totalShutterInterlock = totalOuterSide;
+
+    // Outer Top = Outer Bottom = Shutter Top = Shutter Bottom (Always Equal)
+    let totalShutterTop = totalOuterTop;
+    let totalShutterBottom = totalOuterTop;
 
     let grandTotalAluminium = totalOuterSide + totalOuterTop + totalOuterBottom +
                             totalShutterLock + totalShutterInterlock +
                             totalShutterTop + totalShutterBottom;
 
-    // 2. Strict Calculation Logic
-    // STRICT RULE: 18.6 ft ONLY takes full bars (Math.floor). ANY extra feet goes directly to 21 ft pool!
+    // 2. Cutting Report Calculations
+    // 18.6 FT Column: Only full bars allowed. Excess feet moves to 21 FT pool.
     let full186Pcs = Math.floor(heightFt186 / 18.6);
-    let extraFtFrom186 = heightFt186 % 18.6;
+    let excessFtFrom186 = heightFt186 % 18.6;
 
-    let total21FtPool = heightFt21 + extraFtFrom186;
-    let full21PcsVert = Math.floor(total21FtPool / 21);
-    let extra21FtVert = Math.round(total21FtPool % 21);
+    // 21 FT Column for Height Items (Side, Lock, Interlock)
+    let total21FtHeightPool = heightFt21 + excessFtFrom186;
+    let full21PcsHeight = Math.floor(total21FtHeightPool / 21);
+    let extra21FtHeight = Math.round(total21FtHeightPool % 21);
 
-    // Format Horizontal Items (Always 21 ft bar)
-    let calcHorizontal21 = (totalFt) => {
-        let pcs = Math.floor(totalFt / 21);
-        let extra = Math.round(totalFt % 21);
-        if (pcs > 0 && extra > 0) return `${pcs} Pcs + ${extra}.0 ft`;
+    // 21 FT Column for Width Items (Top & Bottom)
+    let full21PcsWidth = Math.floor(totalOuterTop / 21);
+    let extra21FtWidth = Math.round(totalOuterTop % 21);
+
+    // Format Functions
+    let format21Str = (pcs, extra) => {
+        if (pcs > 0 && extra > 0) return `${pcs} Pcs + ${extra} ft`;
         if (pcs > 0) return `${pcs} Pcs`;
-        if (extra > 0) return `${extra}.0 ft`;
+        if (extra > 0) return `${extra} ft`;
         return "-";
     };
+
+    let str186Val = full186Pcs > 0 ? `${full186Pcs} Pcs` : "-";
+    let str21HeightVal = format21Str(full21PcsHeight, extra21FtHeight);
+    let str21WidthVal = format21Str(full21PcsWidth, extra21FtWidth);
 
     // Cost Calculation
     let aluminiumCost = totalGlass * (setting.aluRate || 0);
@@ -187,35 +192,27 @@ function calculateMaterial() {
     setTxt("profitSqft", profitSqft.toFixed(2) + " ৳");
     setTxt("sellingPrice", sellingPrice.toFixed(2) + " ৳");
 
-    // Cutting Report Outputs (Strict Format)
-    // 18.6 ft text can ONLY be "X Pcs" or "-"
-    let str186 = full186Pcs > 0 ? `${full186Pcs} Pcs` : "-";
+    // Cutting Report Outputs
+    // Height Group (Side, Lock, Interlock - ALL EXACT MATCH)
+    setTxt("outerSide186", str186Val);
+    setTxt("outerSide21", str21HeightVal);
 
-    // 21 ft text gets all remaining extra feet
-    let str21Vert = full21PcsVert > 0 && extra21FtVert > 0 
-        ? `${full21PcsVert} Pcs + ${extra21FtVert}.0 ft` 
-        : (full21PcsVert > 0 ? `${full21PcsVert} Pcs` : `${extra21FtVert}.0 ft`);
+    setTxt("shutterLock186", str186Val);
+    setTxt("shutterLock21", str21HeightVal);
 
-    // Vertical Items
-    setTxt("outerSide186", str186);
-    setTxt("outerSide21", str21Vert);
+    setTxt("shutterInterlock186", str186Val);
+    setTxt("shutterInterlock21", str21HeightVal);
 
-    setTxt("shutterLock186", str186);
-    setTxt("shutterLock21", str21Vert);
-
-    setTxt("shutterInterlock186", str186);
-    setTxt("shutterInterlock21", str21Vert);
-
-    // Horizontal Items (STRICTLY ONLY 21 FT)
+    // Width Group (Top, Bottom - ALL EXACT MATCH)
     setTxt("outerTop186", "-");
-    setTxt("outerTop21", calcHorizontal21(totalOuterTop));
+    setTxt("outerTop21", str21WidthVal);
 
     setTxt("outerBottom186", "-");
-    setTxt("outerBottom21", calcHorizontal21(totalOuterBottom));
+    setTxt("outerBottom21", str21WidthVal);
 
     setTxt("shutterTop186", "-");
-    setTxt("shutterTop21", calcHorizontal21(totalShutterTop));
+    setTxt("shutterTop21", str21WidthVal);
 
     setTxt("shutterBottom186", "-");
-    setTxt("shutterBottom21", calcHorizontal21(totalShutterBottom));
+    setTxt("shutterBottom21", str21WidthVal);
 }

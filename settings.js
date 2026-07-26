@@ -36,17 +36,17 @@ function saveSettings() {
         profit: Number(document.getElementById("profit").value)
 
     };
+let index = rates.findIndex(r =>
 
-    let index = rates.findIndex(r =>
+    r.company === rate.company &&
+    r.series === rate.series &&
+    r.aluThickness === rate.aluThickness &&
+    r.aluColour === rate.aluColour &&
+    r.glassCompany === rate.glassCompany &&
+    r.glassThickness === rate.glassThickness &&
+    r.glassColour === rate.glassColour
 
-        r.company === rate.company &&
-        r.series === rate.series &&
-        r.aluThickness === rate.aluThickness &&
-        r.glassCompany === rate.glassCompany &&
-        r.glassThickness === rate.glassThickness &&
-        r.glassColour === rate.glassColour
-
-    );
+);
 
     if(index >= 0){
 
@@ -295,45 +295,3 @@ fill("glassThickness", "glassThickness");
     
 }
 
-
-// ===============================
-// LOAD MASTER DATA
-// ===============================
-
-function loadMasterData() {
-
-    let data = JSON.parse(localStorage.getItem("masterData")) || {};
-
-    function fill(id, key) {
-
-        let select = document.getElementById(id);
-
-        if (!select) return;
-
-        if (data[key]) {
-
-            data[key].forEach(v => {
-
-                if (![...select.options].some(o => o.value === v)) {
-
-                    let option = document.createElement("option");
-                    option.value = v;
-                    option.textContent = v;
-
-                    select.appendChild(option);
-
-                }
-
-            });
-
-        }
-
-    }
-
-    fill("company", "company");
-    fill("series", "series");
-    fill("aluThickness", "aluThickness");
-    fill("glassCompany", "glassCompany");
-    fill("glassColour", "glassColour");
-
-}

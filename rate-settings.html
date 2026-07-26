@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Settings - Aluminium ERP BD</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+            --card-border: #334155;
+            --text-white: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: #0f172a;
+            --input-border: #3b82f6;
+            --accent-blue: #2563eb;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-white); padding-bottom: 30px; }
+
+        /* Header */
+        .top-header {
+            background: var(--card-dark);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn { font-size: 20px; font-weight: bold; text-decoration: none; color: var(--text-white); margin-right: 15px; }
+        .page-title { font-size: 18px; font-weight: 700; color: #38bdf8; }
+
+        .container { max-width: 600px; margin: 16px auto; padding: 0 12px; }
+
+        /* Cards */
+        .card {
+            background: var(--card-dark);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1.5px solid var(--card-border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title { font-size: 16px; font-weight: 700; color: #38bdf8; margin-bottom: 12px; border-bottom: 1px solid var(--card-border); padding-bottom: 6px; }
+
+        .form-group { margin-bottom: 12px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--card-border);
+            background-color: var(--input-bg);
+            color: var(--text-white);
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus, select:focus { border-color: var(--input-border); }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: 0.2s;
+        }
+
+        .btn-add { background-color: #3b82f6; color: white; }
+        .btn-add:active { background-color: #1d4ed8; }
+
+        .btn-save { background-color: var(--accent-green); color: white; font-size: 16px; padding: 12px; margin-top: 10px; }
+        .btn-save:active { background-color: #047857; }
+
+        /* Table Responsive Wrapper */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            margin-top: 10px;
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 750px; background: var(--card-dark); text-align: center; }
+        th { background-color: #0f172a; color: #38bdf8; padding: 10px; font-size: 12px; font-weight: 700; border-bottom: 1px solid var(--card-border); }
+        td { padding: 8px 6px; font-size: 12px; border-bottom: 1px solid var(--card-border); color: var(--text-white); }
+        
+        .btn-delete { background: var(--accent-red); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="top-header">
+        <a href="dashboard.html" class="back-btn">←</a>
+        <h1 class="page-title">⚙️ Rate Settings</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Master Data Add Section -->
+        <div class="card">
+            <div class="card-title">Add Master Data</div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>New Company</label>
+                    <input type="text" id="newCompany">
+                    <button class="btn btn-add" type="button" onclick="addMasterData('company', 'newCompany')">+ Company</button>
+                </div>
+                <div class="form-group">
+                    <label>New Series</label>
+                    <input type="text" id="newSeries">
+                    <button class="btn btn-add" type="button" onclick="addMasterData('series', 'newSeries')">+ Series</button>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>New Alu Thickness</label>
+                    <input type="text" id="newThickness">
+                    <button class="btn btn-add" type="button" onclick="addMasterData('aluThickness', 'newThickness')">+ Thickness</button>
+                </div>
+                <div class="form-group">
+                    <label>New Alu Colour</label>
+                    <input type="text" id="newAluColour">
+                    <button class="btn btn-add" type="button" onclick="addMasterData('aluColour', 'newAluColour')">+ Colour</button>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>New Glass Company</label>
+                    <input type="text" id="newGlassCompany">
+                    <button class="btn btn-add" type="button" onclick="addMasterData('glassCompany', 'newGlassCompany')">+ Glass Co.</button>
+                </div>
+                <div class="form-group">
+                    <label>New Glass Colour</label>
+                    <input type="text" id="newGlassColour">
+                    <button class="btn btn-add" type="button" onclick="addMasterData('glassColour', 'newGlassColour')">+ Glass Colour</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configure Rates -->
+        <div class="card">
+            <div class="card-title">Configure Rate & Prices</div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Company</label>
+                    <select id="company">
+                        <option value="">Select Company</option>
+                        <option>KAI</option>
+                        <option>BTA</option>
+                        <option>EDF</option>
+                        <option>ALFA</option>
+                        <option>MAX</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Series</label>
+                    <select id="series">
+                        <option value="">Select Series</option>
+                        <option>Sliding Window 3"</option>
+                        <option>Sliding Window 4"</option>
+                        <option>Fixed Window</option>
+                        <option>Sliding Door</option>
+                        <option>Casement Window</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Aluminium Thickness</label>
+                    <select id="aluThickness">
+                        <option value="">Select Thickness</option>
+                        <option>1.0 mm</option>
+                        <option>1.2 mm</option>
+                        <option>1.4 mm</option>
+                        <option>1.6 mm</option>
+                        <option>1.8 mm</option>
+                        <option>2.0 mm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Aluminium Colour</label>
+                    <select id="aluColour">
+                        <option value="">Select Colour</option>
+                        <option>Silver</option>
+                        <option>Bronze</option>
+                        <option>Black</option>
+                        <option>White</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Glass Company</label>
+                    <select id="glassCompany">
+                        <option value="">Select Glass Company</option>
+                        <option>Xinyi</option>
+                        <option>PHP</option>
+                        <option>Nasir</option>
+                        <option>Bengal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Glass Thickness</label>
+                    <select id="glassThickness">
+                        <option value="">Select Thickness</option>
+                        <option>5 mm</option>
+                        <option>5.5 mm</option>
+                        <option>6 mm</option>
+                        <option>8 mm</option>
+                        <option>10 mm</option>
+                        <option>12 mm</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Glass Colour</label>
+                <select id="glassColour">
+                    <option value="">Select Glass Colour</option>
+                    <option>Clear</option>
+                    <option>Black</option>
+                    <option>Blue</option>
+                    <option>Green</option>
+                    <option>Bronze</option>
+                    <option>Reflective</option>
+                </select>
+            </div>
+
+            <hr style="border-color: var(--card-border); margin: 10px 0;">
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Aluminium Rate (৳/ft)</label>
+                    <input type="number" id="aluRate" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label>Glass Rate (৳/Sqft)</label>
+                    <input type="number" id="glassRate" placeholder="0.00">
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Hardware Rate (৳/Sqft)</label>
+                    <input type="number" id="hardwareRate" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label>Fittings Rate (৳/Sqft)</label>
+                    <input type="number" id="fittingsRate" placeholder="0.00">
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Labour Rate (৳/Sqft)</label>
+                    <input type="number" id="labourRate" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label>Profit (%)</label>
+                    <input type="number" id="profit" placeholder="0%">
+                </div>
+            </div>
+
+            <button class="btn btn-save" type="button" onclick="saveSettings()">💾 Save Rate</button>
+        </div>
+
+        <!-- Saved Rate List -->
+        <div class="card">
+            <div class="card-title">Saved Rate List</div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Series</th>
+                            <th>Alu Thick</th>
+                            <th>Alu Colour</th>
+                            <th>Glass Co.</th>
+                            <th>Glass Thick</th>
+                            <th>Glass Colour</th>
+                            <th>Alu Rate</th>
+                            <th>Glass Rate</th>
+                            <th>HW</th>
+                            <th>Fit</th>
+                            <th>Labour</th>
+                            <th>Profit</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rateBody">
+                        <!-- JS Dynamic Content -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>

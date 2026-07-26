@@ -187,6 +187,31 @@ function calculateMaterial() {
 
     if (document.getElementById("totalAluminium")) document.getElementById("totalAluminium").innerText = grandTotalAluminium.toFixed(2) + " ft";
     if (document.getElementById("glass")) document.getElementById("glass").innerText = totalGlass.toFixed(2) + " Sqft";
+    // =========================
+// CUTTING REPORT UI UPDATE
+// =========================
+
+if (document.getElementById("outerSide186")) document.getElementById("outerSide186").innerText = outerSide186;
+if (document.getElementById("outerSide21")) document.getElementById("outerSide21").innerText = outerSide21;
+
+if (document.getElementById("outerTop186")) document.getElementById("outerTop186").innerText = outerTop186;
+if (document.getElementById("outerTop21")) document.getElementById("outerTop21").innerText = outerTop21;
+
+if (document.getElementById("outerBottom186")) document.getElementById("outerBottom186").innerText = outerBottom186;
+if (document.getElementById("outerBottom21")) document.getElementById("outerBottom21").innerText = outerBottom21;
+
+if (document.getElementById("shutterLock186")) document.getElementById("shutterLock186").innerText = shutterLock186;
+if (document.getElementById("shutterLock21")) document.getElementById("shutterLock21").innerText = shutterLock21;
+
+if (document.getElementById("shutterInterlock186")) document.getElementById("shutterInterlock186").innerText = shutterInterlock186;
+if (document.getElementById("shutterInterlock21")) document.getElementById("shutterInterlock21").innerText = shutterInterlock21;
+
+if (document.getElementById("shutterTop186")) document.getElementById("shutterTop186").innerText = shutterTop186;
+if (document.getElementById("shutterTop21")) document.getElementById("shutterTop21").innerText = shutterTop21;
+
+if (document.getElementById("shutterBottom186")) document.getElementById("shutterBottom186").innerText = shutterBottom186;
+if (document.getElementById("shutterBottom21")) document.getElementById("shutterBottom21").innerText = shutterBottom21;
+
 
     if (document.getElementById("hardwareCost")) document.getElementById("hardwareCost").innerText = hardwareCost.toFixed(2);
     if (document.getElementById("fittingsCost")) document.getElementById("fittingsCost").innerText = fittingsCost.toFixed(2);

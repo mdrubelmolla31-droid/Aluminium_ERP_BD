@@ -5,7 +5,15 @@
 // =====================================
 
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
+let grandTotalAluminium = 0;
+let totalGlass = 0;
 
+let outerSide = 0;
+let topBottom = 0;
+let shutterSide = 0;
+let shutterTopBottom = 0;
+let interlock = 0;
+let lockProfile = 0;
 alert(localStorage.getItem("rates"));
 // ---------- Load ----------
 document.addEventListener("DOMContentLoaded", () => {

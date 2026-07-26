@@ -82,8 +82,10 @@ function loadRates() {
         body.innerHTML += `
 <tr>
 <td>${r.company}</td>
+<td>${r.company}</td>
 <td>${r.series}</td>
 <td>${r.aluThickness}</td>
+<td>${r.aluColour || "-"}</td>
 <td>${r.glassCompany}</td>
 <td>${r.glassThickness}</td>
 <td>${r.glassColour}</td>

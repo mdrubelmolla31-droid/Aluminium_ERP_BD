@@ -1,85 +1,79 @@
 <!DOCTYPE html>
 <html lang="bn">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Aluminium ERP BD</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="container">
+    <!-- টপ নেভিগেশন বার -->
+    <header class="top-nav">
+        <button class="nav-btn">☰</button>
+        <h1 class="nav-title">Dashboard</h1>
+        <button class="nav-btn notification-btn">🔔</button>
+    </header>
 
-    <h2>Dashboard</h2>
-
-    <div class="dashboard-box">
-        <div class="card">
-            <h3>Total Quotation</h3>
-            <h1 id="totalQuotation">0</h1>
+    <main class="dashboard-body">
+        
+        <!-- নীল রঙের ওয়েলকাম ব্যানার (ছবি অনুযায়ী) -->
+        <div class="welcome-banner">
+            <div class="banner-info">
+                <h2>Welcome, Admin</h2>
+                <p>Aluminium ERP BD</p>
+            </div>
+            <div class="user-avatar">
+                👤
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Total Sale</h3>
-            <h1 id="totalSale">0 ৳</h1>
+        <!-- ৬টি অপশনের গ্রিড মেনু -->
+        <div class="dashboard-grid">
+            
+            <a href="company.html" class="grid-card bg-blue">
+                <div class="icon-box icon-blue">🏢</div>
+                <span>Company</span>
+            </a>
+
+            <a href="settings.html" class="grid-card bg-purple">
+                <div class="icon-box icon-purple">📦</div>
+                <span>Profile</span>
+            </a>
+
+            <a href="customer.html" class="grid-card bg-green">
+                <div class="icon-box icon-green">👤</div>
+                <span>Customer</span>
+            </a>
+
+            <a href="stock.html" class="grid-card bg-orange">
+                <div class="icon-box icon-orange">⬢</div>
+                <span>Stock</span>
+            </a>
+
+            <a href="quotation.html" class="grid-card bg-red">
+                <div class="icon-box icon-red">📄</div>
+                <span>Quotation</span>
+            </a>
+
+            <a href="calculator.html" class="grid-card bg-teal">
+                <div class="icon-box icon-teal">🧮</div>
+                <span>Material Calculator</span>
+            </a>
+
         </div>
 
-        <div class="card">
-            <h3>Average / Sqft</h3>
-            <h1 id="avgSqft">0 ৳</h1>
+        <!-- সিস্টেম তথ্য ও সামারি (আগের কোডের সুবিধার্থে) -->
+        <div class="summary-card">
+            <h3>📊 Quick Overview</h3>
+            <div class="summary-stats">
+                <div><span>Total Quotation:</span> <b id="totalQuotation">0</b></div>
+                <div><span>Total Sale:</span> <b id="totalSale">0.00 ৳</b></div>
+            </div>
         </div>
-    </div>
 
-    <hr>
+    </main>
 
-    <div class="dashboard-menu">
-        <button type="button" onclick="location.href='calculator.html'">
-            Calculator
-        </button>
-
-        <button type="button" onclick="location.href='quotation.html'">
-            Quotation
-        </button>
-
-        <button type="button" onclick="location.href='settings.html'">
-            Admin Panel
-        </button>
-    </div>
-
-    <hr>
-
-    <input
-        type="text"
-        id="search"
-        placeholder="Search Customer..."
-        onkeyup="searchQuotation()">
-
-    <br><br>
-
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Company</th>
-                    <th>Series</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="quotationBody">
-                <!-- dashboard.js দিয়ে ডাটা লোড হবে -->
-            </tbody>
-        </table>
-    </div>
-
-</div>
-
-<script src="dashboard.js"></script>
-
+    <script src="dashboard.js"></script>
 </body>
-
 </html>

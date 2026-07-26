@@ -1,206 +1,173 @@
-// =====================================
-// MATERIAL CALCULATOR
-// calculator.js
-// =====================================
+<!DOCTYPE html>
+<html lang="bn">
 
-let rates = JSON.parse(localStorage.getItem("rates")) || [];
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadDropdowns();
-});
+<body>
 
-function loadDropdowns() {
-    rates = JSON.parse(localStorage.getItem("rates")) || [];
+<div class="container">
 
-    fillSelect("company", "company");
-    fillSelect("series", "series");
-    fillSelect("aluThickness", "aluThickness");
-    fillSelect("aluColour", "aluColour");
-    fillSelect("glassCompany", "glassCompany");
-    fillSelect("glassThickness", "glassThickness");
-    fillSelect("glassColour", "glassColour");
-}
+    <h2>Material Calculator</h2>
 
-function fillSelect(id, key) {
-    const select = document.getElementById(id);
-    if (!select) return;
+    <label>Customer Name</label>
+    <input type="text" id="customerName">
 
-    select.innerHTML = `<option value="">Select Option</option>`;
+    <label>Mobile</label>
+    <input type="text" id="mobile">
 
-    const values = [...new Set(
-        rates
-            .map(r => r[key])
-            .filter(v => v && String(v).trim() !== "")
-    )];
+    <label>Address</label>
+    <input type="text" id="address">
 
-    values.forEach(v => {
-        const option = document.createElement("option");
-        option.value = v;
-        option.textContent = v;
-        select.appendChild(option);
-    });
-}
+    <label>Company</label>
+    <select id="company"></select>
 
-function calculateMaterial() {
-    rates = JSON.parse(localStorage.getItem("rates")) || [];
+    <label>Series</label>
+    <select id="series"></select>
 
-    let company = document.getElementById("company") ? document.getElementById("company").value : "";
-    let series = document.getElementById("series") ? document.getElementById("series").value : "";
-    let aluThickness = document.getElementById("aluThickness") ? document.getElementById("aluThickness").value : "";
-    let aluColour = document.getElementById("aluColour") ? document.getElementById("aluColour").value : "";
-    let glassCompany = document.getElementById("glassCompany") ? document.getElementById("glassCompany").value : "";
-    let glassThickness = document.getElementById("glassThickness") ? document.getElementById("glassThickness").value : "";
-    let glassColour = document.getElementById("glassColour") ? document.getElementById("glassColour").value : "";
+    <label>Aluminium Thickness</label>
+    <select id="aluThickness"></select>
 
-    let setting = rates.find(r =>
-        r.company === company &&
-        r.series === series &&
-        r.aluThickness === aluThickness &&
-        (r.aluColour || "") === aluColour &&
-        r.glassCompany === glassCompany &&
-        r.glassThickness === glassThickness &&
-        r.glassColour === glassColour
-    );
+    <label>Aluminium Colour</label>
+    <select id="aluColour">
+        <option value="">Select Colour</option>
+        <option>Silver</option>
+        <option>Bronze</option>
+        <option>Black</option>
+        <option>White</option>
+    </select>
 
-    if (!setting) {
-        alert("সিলেক্ট করা অপশন অনুযায়ী Admin Panel-এ কোনো Rate খুঁজে পাওয়া যায়নি!");
-        return;
-    }
+    <label>Glass Company</label>
+    <select id="glassCompany"></select>
 
-    let width = parseFloat(document.getElementById("width")?.value) || 0;
-    let height = parseFloat(document.getElementById("height")?.value) || 0;
-    let qty = parseInt(document.getElementById("qty")?.value) || 0;
+    <label>Glass Thickness</label>
+    <select id="glassThickness"></select>
 
-    let width2 = parseFloat(document.getElementById("width2")?.value) || 0;
-    let height2 = parseFloat(document.getElementById("height2")?.value) || 0;
-    let qty2 = parseInt(document.getElementById("qty2")?.value) || 0;
+    <label>Glass Colour</label>
+    <select id="glassColour"></select>
 
-    let width3 = parseFloat(document.getElementById("width3")?.value) || 0;
-    let height3 = parseFloat(document.getElementById("height3")?.value) || 0;
-    let qty3 = parseInt(document.getElementById("qty3")?.value) || 0;
+    <hr>
+    <h3>Window Size - 1</h3>
+    <label>Height (Inch)</label>
+    <input type="number" id="height">
 
-    let width4 = parseFloat(document.getElementById("width4")?.value) || 0;
-    let height4 = parseFloat(document.getElementById("height4")?.value) || 0;
-    let qty4 = parseInt(document.getElementById("qty4")?.value) || 0;
+    <label>Width (Inch)</label>
+    <input type="number" id="width">
 
-    let width5 = parseFloat(document.getElementById("width5")?.value) || 0;
-    let height5 = parseFloat(document.getElementById("height5")?.value) || 0;
-    let qty5 = parseInt(document.getElementById("qty5")?.value) || 0;
+    <label>Quantity</label>
+    <input type="number" id="qty" value="1">
+    
+    <hr>
+    <h3>Window Size - 2</h3>
+    <label>Height (Inch)</label>
+    <input type="number" id="height2">
 
-    let calcWin = (w, h, q) => {
-        if (q <= 0) return { alu: 0, glass: 0, oSide: 0, oTop: 0, oBot: 0, sLock: 0, sInter: 0, sTop: 0, sBot: 0 };
-        let oSide = ((h * 2) / 12) * q;
-        let oTop = (w / 12) * q;
-        let oBot = (w / 12) * q;
-        let sLock = ((h * 2) / 12) * q;
-        let sInter = ((h * 2) / 12) * q;
-        let sTop = (w / 12) * q;
-        let sBot = (w / 12) * q;
-        return {
-            oSide, oTop, oBot, sLock, sInter, sTop, sBot,
-            alu: oSide + oTop + oBot + sLock + sInter + sTop + sBot,
-            glass: ((w * h) / 144) * q
-        };
-    };
+    <label>Width (Inch)</label>
+    <input type="number" id="width2">
 
-    let w1 = calcWin(width, height, qty);
-    let w2 = calcWin(width2, height2, qty2);
-    let w3 = calcWin(width3, height3, qty3);
-    let w4 = calcWin(width4, height4, qty4);
-    let w5 = calcWin(width5, height5, qty5);
+    <label>Qty</label>
+    <input type="number" id="qty2" value="0">
 
-    let totalOuterSide = w1.oSide + w2.oSide + w3.oSide + w4.oSide + w5.oSide;
-    let totalOuterTop = w1.oTop + w2.oTop + w3.oTop + w4.oTop + w5.oTop;
-    let totalOuterBottom = w1.oBot + w2.oBot + w3.oBot + w4.oBot + w5.oBot;
-    let totalShutterLock = w1.sLock + w2.sLock + w3.sLock + w4.sLock + w5.sLock;
-    let totalShutterInterlock = w1.sInter + w2.sInter + w3.sInter + w4.sInter + w5.sInter;
-    let totalShutterTop = w1.sTop + w2.sTop + w3.sTop + w4.sTop + w5.sTop;
-    let totalShutterBottom = w1.sBot + w2.sBot + w3.sBot + w4.sBot + w5.sBot;
+    <hr>
+    <h3>Window Size - 3</h3>
+    <label>Height (Inch)</label>
+    <input type="number" id="height3">
 
-    let grandTotalAluminium = w1.alu + w2.alu + w3.alu + w4.alu + w5.alu;
-    let totalGlass = w1.glass + w2.glass + w3.glass + w4.glass + w5.glass;
+    <label>Width (Inch)</label>
+    <input type="number" id="width3">
+    
+    <label>Qty</label>
+    <input type="number" id="qty3" value="0">
 
-    let outerSide186 = 0, outerSide21 = 0;
-    let outerTop186 = 0, outerTop21 = 0;
-    let outerBottom186 = 0, outerBottom21 = 0;
-    let shutterLock186 = 0, shutterLock21 = 0;
-    let shutterInterlock186 = 0, shutterInterlock21 = 0;
-    let shutterTop186 = 0, shutterTop21 = 0;
-    let shutterBottom186 = 0, shutterBottom21 = 0;
+    <hr>
+    <h3>Window Size - 4</h3>
+    <label>Height (Inch)</label>
+    <input type="number" id="height4">
 
-    function addCutting(h, q) {
-        if (q <= 0) return;
-        if (h >= 60) {
-            outerSide21 += q * 2;
-            shutterLock21 += q;
-            shutterInterlock21 += q;
-        } else {
-            outerSide186 += q * 2;
-            shutterLock186 += q;
-            shutterInterlock186 += q;
-        }
-        outerTop21 += q;
-        outerBottom21 += q;
-        shutterTop21 += q;
-        shutterBottom21 += q;
-    }
+    <label>Width (Inch)</label>
+    <input type="number" id="width4">
 
-    addCutting(height, qty);
-    addCutting(height2, qty2);
-    addCutting(height3, qty3);
-    addCutting(height4, qty4);
-    addCutting(height5, qty5);
+    <label>Qty</label>
+    <input type="number" id="qty4" value="0">
 
-    let aluminiumCost = grandTotalAluminium * (setting.aluRate || 0);
-    let glassCost = totalGlass * (setting.glassRate || 0);
-    let hardwareCost = totalGlass * (setting.hardwareRate || 0);
-    let fittingsCost = totalGlass * (setting.fittingsRate || 0);
-    let labourCost = totalGlass * (setting.labourRate || 0);
+    <hr>
+    <h3>Window Size - 5</h3>
+    <label>Height (Inch)</label>
+    <input type="number" id="height5">
 
-    let materialCost = aluminiumCost + glassCost + hardwareCost + fittingsCost + labourCost;
-    let profitAmount = materialCost * (setting.profit || 0) / 100;
-    let sellingPrice = materialCost + profitAmount;
+    <label>Width (Inch)</label>
+    <input type="number" id="width5">
 
-    let materialSqft = totalGlass > 0 ? materialCost / totalGlass : 0;
-    let sellingSqft = totalGlass > 0 ? sellingPrice / totalGlass : 0;
-    let profitSqft = totalGlass > 0 ? profitAmount / totalGlass : 0;
+    <label>Qty</label>
+    <input type="number" id="qty5" value="0">
 
-    let setTxt = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
+    <hr>
 
-    setTxt("outerSide", totalOuterSide.toFixed(2) + " ft");
-    setTxt("outerTop", totalOuterTop.toFixed(2) + " ft");
-    setTxt("outerBottom", totalOuterBottom.toFixed(2) + " ft");
-    setTxt("shutterLock", totalShutterLock.toFixed(2) + " ft");
-    setTxt("shutterInterlock", totalShutterInterlock.toFixed(2) + " ft");
-    setTxt("shutterTop", totalShutterTop.toFixed(2) + " ft");
-    setTxt("shutterBottom", totalShutterBottom.toFixed(2) + " ft");
+    <div style="display:flex; gap:10px; margin-top:10px;">
+        <button type="button" style="flex:1" onclick="calculateMaterial()">Calculate</button>
+        <button type="button" style="flex:1" onclick="openQuotation()">Quotation</button>
+    </div>
 
-    setTxt("totalAluminium", grandTotalAluminium.toFixed(2) + " ft");
-    setTxt("glass", totalGlass.toFixed(2) + " Sqft");
+    <!-- শুধুমাত্র একটি সম্পূর্ণ রেজাল্ট বক্স -->
+    <div class="result">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Material Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Outer Side</td><td id="outerSide">0 ft</td></tr>
+                <tr><td>Outer Top</td><td id="outerTop">0 ft</td></tr>
+                <tr><td>Outer Bottom</td><td id="outerBottom">0 ft</td></tr>
+                <tr><td>Shutter Lock</td><td id="shutterLock">0 ft</td></tr>
+                <tr><td>Shutter Interlock</td><td id="shutterInterlock">0 ft</td></tr>
+                <tr><td>Shutter Top</td><td id="shutterTop">0 ft</td></tr>
+                <tr><td>Shutter Bottom</td><td id="shutterBottom">0 ft</td></tr>
+                <tr><td>Total Aluminium</td><td id="totalAluminium">0 ft</td></tr>
+                <tr><td>Glass Total</td><td id="glass">0 Sqft</td></tr>
+                <tr><td>Aluminium Price</td><td id="aluCost">0 ৳</td></tr>
+                <tr><td>Glass Price</td><td id="glassCost">0 ৳</td></tr>
+                <tr><td>Hardware</td><td id="hardwareCost">0 ৳</td></tr>
+                <tr><td>Fittings</td><td id="fittingsCost">0 ৳</td></tr>
+                <tr><td>Labour</td><td id="labourCost">0 ৳</td></tr>
+                <tr style="font-weight:bold; background:#e9ecef;"><td>Material Cost Total</td><td id="materialCost">0 ৳</td></tr>
+                <tr><td>Material Cost / Sqft</td><td id="materialSqft">0 ৳</td></tr>
+                <tr><td>Profit / Sqft</td><td id="profitSqft">0 ৳</td></tr>
+                <tr><td>Selling Price / Sqft</td><td id="sellingSqft">0 ৳</td></tr>
+                <tr style="font-weight:bold; background:#d1e7dd;"><td>Selling Price Total</td><td id="sellingPrice">0 ৳</td></tr>
+            </tbody>
+        </table>
 
-    setTxt("aluCost", aluminiumCost.toFixed(2) + " ৳");
-    setTxt("glassCost", glassCost.toFixed(2) + " ৳");
-    setTxt("hardwareCost", hardwareCost.toFixed(2) + " ৳");
-    setTxt("fittingsCost", fittingsCost.toFixed(2) + " ৳");
-    setTxt("labourCost", labourCost.toFixed(2) + " ৳");
-    setTxt("materialCost", materialCost.toFixed(2) + " ৳");
-    setTxt("materialSqft", materialSqft.toFixed(2) + " ৳");
-    setTxt("sellingSqft", sellingSqft.toFixed(2) + " ৳");
-    setTxt("profitSqft", profitSqft.toFixed(2) + " ৳");
-    setTxt("sellingPrice", sellingPrice.toFixed(2) + " ৳");
+        <br>
+        <h3>Cutting Report</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>18.6 ft</th>
+                    <th>21 ft</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Outer Side</td><td id="outerSide186">0</td><td id="outerSide21">0</td></tr>
+                <tr><td>Outer Top</td><td id="outerTop186">0</td><td id="outerTop21">0</td></tr>
+                <tr><td>Outer Bottom</td><td id="outerBottom186">0</td><td id="outerBottom21">0</td></tr>
+                <tr><td>Shutter Lock</td><td id="shutterLock186">0</td><td id="shutterLock21">0</td></tr>
+                <tr><td>Shutter Interlock</td><td id="shutterInterlock186">0</td><td id="shutterInterlock21">0</td></tr>
+                <tr><td>Shutter Top</td><td id="shutterTop186">0</td><td id="shutterTop21">0</td></tr>
+                <tr><td>Shutter Bottom</td><td id="shutterBottom186">0</td><td id="shutterBottom21">0</td></tr>
+            </tbody>
+        </table>
+    </div>
 
-    setTxt("outerSide186", outerSide186);
-    setTxt("outerSide21", outerSide21);
-    setTxt("outerTop186", outerTop186);
-    setTxt("outerTop21", outerTop21);
-    setTxt("outerBottom186", outerBottom186);
-    setTxt("outerBottom21", outerBottom21);
-    setTxt("shutterLock186", shutterLock186);
-    setTxt("shutterLock21", shutterLock21);
-    setTxt("shutterInterlock186", shutterInterlock186);
-    setTxt("shutterInterlock21", shutterInterlock21);
-    setTxt("shutterTop186", shutterTop186);
-    setTxt("shutterTop21", shutterTop21);
-    setTxt("shutterBottom186", shutterBottom186);
-    setTxt("shutterBottom21", shutterBottom21);
-}
+</div>
+
+<script src="calculator.js"></script>
+
+</body>
+</html>

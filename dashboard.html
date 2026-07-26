@@ -3,23 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminium ERP BD</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Dashboard - Aluminium ERP BD</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;           /* ডিপ ডার্ক ব্যাকগ্রাউন্ড */
+            --card-dark: #1e293b;         /* কার্ড ব্যাকগ্রাউন্ড */
+            --card-border: #334155;       /* কার্ড বর্ডার */
+            --text-white: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #2563eb;
+            --accent-indigo: #4f46e5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            padding-bottom: 30px;
+        }
+
+        /* Header with Aluminium Profile Icon */
+        .top-header {
+            background: var(--card-dark);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+
+        /* Aluminium Profile Icon Box */
+        .profile-img-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid #38bdf8;
+            background-color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+        }
+
+        .profile-img-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 16px auto;
+            padding: 0 12px;
+        }
+
+        /* Welcome Banner */
+        .welcome-card {
+            background: linear-gradient(135deg, #1d4ed8, #4338ca);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+            border: 1px solid #3b82f6;
+        }
+
+        .welcome-text h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .welcome-text p {
+            font-size: 13px;
+            color: #93c5fd;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #1d4ed8;
+        }
+
+        /* Menu Grid (Vibrant Dark Style) */
+        .grid-menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .menu-card {
+            background: var(--card-dark);
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 20px 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-white);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-card:active {
+            transform: scale(0.97);
+            border-color: #38bdf8;
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        /* Unique Dark Accent Colors for Icons */
+        .icon-company { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        .icon-profile { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+        .icon-customer { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+        .icon-stock { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+        .icon-quotation { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
+        .icon-calc { background: rgba(45, 212, 191, 0.15); color: #2dd4bf; }
+
+        .menu-card span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Quick Overview Card */
+        .overview-card {
+            background: var(--card-dark);
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .overview-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .overview-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .overview-stats span {
+            color: var(--text-white);
+        }
+    </style>
 </head>
 <body>
 
-    <!-- টপ নেভিগেশন বার -->
-    <header class="top-nav">
-        <button class="nav-btn">☰</button>
-        <h1 class="nav-title">Dashboard</h1>
-        <button class="nav-btn notification-btn">🔔</button>
+    <!-- Header -->
+    <header class="top-header">
+        <h1 class="header-title">Dashboard</h1>
+        
+        <!-- Aluminium Profile Image Header Icon -->
+        <div class="profile-img-icon" title="Aluminium Profile">
+            <!-- এলুমিনিয়াম প্রোফাইলের একটি আইকন/ছবি -->
+            <img src="https://cdn-icons-png.flaticon.com/512/993/993891.png" alt="Aluminium Profile">
+        </div>
     </header>
 
-    <main class="dashboard-body">
-        
-        <!-- নীল রঙের ওয়েলকাম ব্যানার (ছবি অনুযায়ী) -->
-        <div class="welcome-banner">
-            <div class="banner-info">
+    <div class="container">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-card">
+            <div class="welcome-text">
                 <h2>Welcome, Admin</h2>
                 <p>Aluminium ERP BD</p>
             </div>
@@ -28,52 +219,51 @@
             </div>
         </div>
 
-        <!-- ৬টি অপশনের গ্রিড মেনু -->
-        <div class="dashboard-grid">
-            
-            <a href="company.html" class="grid-card bg-blue">
-                <div class="icon-box icon-blue">🏢</div>
+        <!-- Menu Grid -->
+        <div class="grid-menu">
+            <a href="#" class="menu-card">
+                <div class="icon-circle icon-company">🏢</div>
                 <span>Company</span>
             </a>
 
-            <a href="settings.html" class="grid-card bg-purple">
-                <div class="icon-box icon-purple">📦</div>
+            <a href="#" class="menu-card">
+                <div class="icon-circle icon-profile">📦</div>
                 <span>Profile</span>
             </a>
 
-            <a href="customer.html" class="grid-card bg-green">
-                <div class="icon-box icon-green">👤</div>
+            <a href="#" class="menu-card">
+                <div class="icon-circle icon-customer">👥</div>
                 <span>Customer</span>
             </a>
 
-            <a href="stock.html" class="grid-card bg-orange">
-                <div class="icon-box icon-orange">⬢</div>
+            <a href="#" class="menu-card">
+                <div class="icon-circle icon-stock">⬡</div>
                 <span>Stock</span>
             </a>
 
-            <a href="quotation.html" class="grid-card bg-red">
-                <div class="icon-box icon-red">📄</div>
+            <a href="#" class="menu-card">
+                <div class="icon-circle icon-quotation">📄</div>
                 <span>Quotation</span>
             </a>
 
-            <a href="calculator.html" class="grid-card bg-teal">
-                <div class="icon-box icon-teal">🧮</div>
+            <a href="index.html" class="menu-card">
+                <div class="icon-circle icon-calc">🧮</div>
                 <span>Material Calculator</span>
             </a>
-
         </div>
 
-        <!-- সিস্টেম তথ্য ও সামারি (আগের কোডের সুবিধার্থে) -->
-        <div class="summary-card">
-            <h3>📊 Quick Overview</h3>
-            <div class="summary-stats">
-                <div><span>Total Quotation:</span> <b id="totalQuotation">0</b></div>
-                <div><span>Total Sale:</span> <b id="totalSale">0.00 ৳</b></div>
+        <!-- Quick Overview -->
+        <div class="overview-card">
+            <div class="overview-title">
+                📊 Quick Overview
+            </div>
+            <div class="overview-stats">
+                <div>Total Quotation: <span>0</span></div>
+                <div>Total Sale: <span>0.00 ৳</span></div>
             </div>
         </div>
 
-    </main>
+    </div>
 
-    <script src="dashboard.js"></script>
 </body>
 </html>

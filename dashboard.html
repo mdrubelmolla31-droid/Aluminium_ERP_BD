@@ -2,97 +2,79 @@
 <html lang="bn">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>Dashboard</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>Dashboard</h2>
+    <h2>Dashboard</h2>
 
-<div class="dashboard-box">
+    <div class="dashboard-box">
+        <div class="card">
+            <h3>Total Quotation</h3>
+            <h1 id="totalQuotation">0</h1>
+        </div>
 
-<div class="card">
-<h3>Total Quotation</h3>
-<h1 id="totalQuotation">0</h1>
-</div>
+        <div class="card">
+            <h3>Total Sale</h3>
+            <h1 id="totalSale">0 ৳</h1>
+        </div>
 
-<div class="card">
-<h3>Total Sale</h3>
-<h1 id="totalSale">0 ৳</h1>
-</div>
+        <div class="card">
+            <h3>Average / Sqft</h3>
+            <h1 id="avgSqft">0 ৳</h1>
+        </div>
+    </div>
 
-<div class="card">
-<h3>Average / Sqft</h3>
-<h1 id="avgSqft">0 ৳</h1>
-</div>
+    <hr>
 
-</div>
+    <div class="dashboard-menu">
+        <button type="button" onclick="location.href='calculator.html'">
+            Calculator
+        </button>
 
-<hr>
+        <button type="button" onclick="location.href='quotation.html'">
+            Quotation
+        </button>
 
-<div class="dashboard-menu">
+        <button type="button" onclick="location.href='settings.html'">
+            Admin Panel
+        </button>
+    </div>
 
-<button onclick="location.href='index.html'">
-Calculator
-</button>
+    <hr>
 
-<button onclick="location.href='quotation.html'">
-Quotation
-</button>
+    <input
+        type="text"
+        id="search"
+        placeholder="Search Customer..."
+        onkeyup="searchQuotation()">
 
-<button onclick="location.href='settings.html'">
-Admin Panel
-</button>
+    <br><br>
 
-</div>
-
-<hr>
-
-<input
-type="text"
-id="search"
-placeholder="Search Customer..."
-onkeyup="searchQuotation()">
-
-<br><br>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Date</th>
-
-<th>Name</th>
-
-<th>Mobile</th>
-
-<th>Company</th>
-
-<th>Series</th>
-
-<th>Price</th>
-
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody id="quotationBody">
-
-</tbody>
-
-</table>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Company</th>
+                    <th>Series</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="quotationBody">
+                <!-- dashboard.js দিয়ে ডাটা লোড হবে -->
+            </tbody>
+        </table>
+    </div>
 
 </div>
 

@@ -1,5 +1,5 @@
 // =====================================
-// MATERIAL CALCULATOR (Fixed Cutting Report & Sqft Rates)
+// MATERIAL CALCULATOR (Fixed Cutting Report with Full Bar & Extra Feet)
 // calculator.js
 // =====================================
 
@@ -67,104 +67,87 @@ function calculateMaterial() {
         return;
     }
 
-    let width = parseFloat(document.getElementById("width")?.value) || 0;
-    let height = parseFloat(document.getElementById("height")?.value) || 0;
-    let qty = parseInt(document.getElementById("qty")?.value) || 0;
-
-    let width2 = parseFloat(document.getElementById("width2")?.value) || 0;
-    let height2 = parseFloat(document.getElementById("height2")?.value) || 0;
-    let qty2 = parseInt(document.getElementById("qty2")?.value) || 0;
-
-    let width3 = parseFloat(document.getElementById("width3")?.value) || 0;
-    let height3 = parseFloat(document.getElementById("height3")?.value) || 0;
-    let qty3 = parseInt(document.getElementById("qty3")?.value) || 0;
-
-    let width4 = parseFloat(document.getElementById("width4")?.value) || 0;
-    let height4 = parseFloat(document.getElementById("height4")?.value) || 0;
-    let qty4 = parseInt(document.getElementById("qty4")?.value) || 0;
-
-    let width5 = parseFloat(document.getElementById("width5")?.value) || 0;
-    let height5 = parseFloat(document.getElementById("height5")?.value) || 0;
-    let qty5 = parseInt(document.getElementById("qty5")?.value) || 0;
-
-    // Window Length & Sqft Calculations
-    let calcWin = (w, h, q) => {
-        if (q <= 0) return { alu: 0, glass: 0, oSide: 0, oTop: 0, oBot: 0, sLock: 0, sInter: 0, sTop: 0, sBot: 0 };
-        let oSide = ((h * 2) / 12) * q;
-        let oTop = (w / 12) * q;
-        let oBot = (w / 12) * q;
-        let sLock = ((h * 2) / 12) * q;
-        let sInter = ((h * 2) / 12) * q;
-        let sTop = (w / 12) * q;
-        let sBot = (w / 12) * q;
+    // Input Reading (Window 1 to 5)
+    let getWinData = (wId, hId, qId) => {
         return {
-            oSide, oTop, oBot, sLock, sInter, sTop, sBot,
-            alu: oSide + oTop + oBot + sLock + sInter + sTop + sBot,
-            glass: ((w * h) / 144) * q
+            w: parseFloat(document.getElementById(wId)?.value) || 0,
+            h: parseFloat(document.getElementById(hId)?.value) || 0,
+            q: parseInt(document.getElementById(qId)?.value) || 0
         };
     };
 
-    let w1 = calcWin(width, height, qty);
-    let w2 = calcWin(width2, height2, qty2);
-    let w3 = calcWin(width3, height3, qty3);
-    let w4 = calcWin(width4, height4, qty4);
-    let w5 = calcWin(width5, height5, qty5);
+    let wins = [
+        getWinData("width", "height", "qty"),
+        getWinData("width2", "height2", "qty2"),
+        getWinData("width3", "height3", "qty3"),
+        getWinData("width4", "height4", "qty4"),
+        getWinData("width5", "height5", "qty5")
+    ];
 
-    let totalOuterSide = w1.oSide + w2.oSide + w3.oSide + w4.oSide + w5.oSide;
-    let totalOuterTop = w1.oTop + w2.oTop + w3.oTop + w4.oTop + w5.oTop;
-    let totalOuterBottom = w1.oBot + w2.oBot + w3.oBot + w4.oBot + w5.oBot;
-    let totalShutterLock = w1.sLock + w2.sLock + w3.sLock + w4.sLock + w5.sLock;
-    let totalShutterInterlock = w1.sInter + w2.sInter + w3.sInter + w4.sInter + w5.sInter;
-    let totalShutterTop = w1.sTop + w2.sTop + w3.sTop + w4.sTop + w5.sTop;
-    let totalShutterBottom = w1.sBot + w2.sBot + w3.sBot + w4.sBot + w5.sBot;
+    // Total Length Calculation for all windows
+    let totalOuterSide = 0, totalOuterTop = 0, totalOuterBottom = 0;
+    let totalShutterLock = 0, totalShutterInterlock = 0;
+    let totalShutterTop = 0, totalShutterBottom = 0;
+    let totalGlass = 0;
 
-    let grandTotalAluminium = w1.alu + w2.alu + w3.alu + w4.alu + w5.alu;
-    let totalGlass = w1.glass + w2.glass + w3.glass + w4.glass + w5.glass;
+    // Track Height preferred bar size (If height > 60 inch -> 21ft bar, else 18.6ft bar)
+    let outerSide186Ft = 0, outerSide21Ft = 0;
+    let shutterLock186Ft = 0, shutterLock21Ft = 0;
+    let shutterInterlock186Ft = 0, shutterInterlock21Ft = 0;
 
-    // Cutting Report Calculation (Standard Logic: <=223 inch -> 18.6 ft bar)
-    let outerSide186 = 0, outerSide21 = 0;
-    let outerTop186 = 0, outerTop21 = 0;
-    let outerBottom186 = 0, outerBottom21 = 0;
-    let shutterLock186 = 0, shutterLock21 = 0;
-    let shutterInterlock186 = 0, shutterInterlock21 = 0;
-    let shutterTop186 = 0, shutterTop21 = 0;
-    let shutterBottom186 = 0, shutterBottom21 = 0;
+    wins.forEach(win => {
+        if (win.q > 0 && win.w > 0 && win.h > 0) {
+            let oSide = ((win.h * 2) / 12) * win.q;
+            let oTop = (win.w / 12) * win.q;
+            let oBot = (win.w / 12) * win.q;
 
-    function addCutting(w, h, q) {
-        if (q <= 0) return;
+            let sLock = ((win.h * 2) / 12) * win.q; // 2 Shutter Lock vertical
+            let sInter = ((win.h * 2) / 12) * win.q; // 2 Shutter Interlock vertical
+            let sTop = ((win.w * 2) / 12) * win.q; // 2 Shutter Top horizontal
+            let sBot = ((win.w * 2) / 12) * win.q; // 2 Shutter Bottom horizontal
 
-        // Vertical items (Height)
-        if (h <= 223) {
-            outerSide186 += q * 2;
-            shutterLock186 += q * 2;
-            shutterInterlock186 += q * 2;
-        } else {
-            outerSide21 += q * 2;
-            shutterLock21 += q * 2;
-            shutterInterlock21 += q * 2;
+            totalOuterSide += oSide;
+            totalOuterTop += oTop;
+            totalOuterBottom += oBot;
+            totalShutterLock += sLock;
+            totalShutterInterlock += sInter;
+            totalShutterTop += sTop;
+            totalShutterBottom += sBot;
+
+            totalGlass += ((win.w * win.h) / 144) * win.q;
+
+            // Height based separation for Vertical Items (18.6ft vs 21ft)
+            if (win.h > 60) {
+                outerSide21Ft += oSide;
+                shutterLock21Ft += sLock;
+                shutterInterlock21Ft += sInter;
+            } else {
+                outerSide186Ft += oSide;
+                shutterLock186Ft += sLock;
+                shutterInterlock186Ft += sInter;
+            }
         }
+    });
 
-        // Horizontal items (Width)
-        if (w <= 223) {
-            outerTop186 += q;
-            outerBottom186 += q;
-            shutterTop186 += q * 2;
-            shutterBottom186 += q * 2;
+    let grandTotalAluminium = totalOuterSide + totalOuterTop + totalOuterBottom +
+                            totalShutterLock + totalShutterInterlock +
+                            totalShutterTop + totalShutterBottom;
+
+    // Helper Function to calculate Full Bars & Remaining Extra Feet
+    let calcBar = (totalFeet, barLength) => {
+        if (totalFeet <= 0) return "0 Pcs";
+        let fullPcs = Math.floor(totalFeet / barLength);
+        let extraFt = (totalFeet % barLength).toFixed(1);
+        if (fullPcs > 0 && extraFt > 0) {
+            return `${fullPcs} Pcs + ${extraFt} ft`;
+        } else if (fullPcs > 0) {
+            return `${fullPcs} Pcs`;
         } else {
-            outerTop21 += q;
-            outerBottom21 += q;
-            shutterTop21 += q * 2;
-            shutterBottom21 += q * 2;
+            return `${extraFt} ft`;
         }
-    }
+    };
 
-    addCutting(width, height, qty);
-    addCutting(width2, height2, qty2);
-    addCutting(width3, height3, qty3);
-    addCutting(width4, height4, qty4);
-    addCutting(width5, height5, qty5);
-
-    // Costs Calculation (All based on Sqft)
+    // Costs Calculation (Sqft Based)
     let aluminiumCost = totalGlass * (setting.aluRate || 0);
     let glassCost = totalGlass * (setting.glassRate || 0);
     let hardwareCost = totalGlass * (setting.hardwareRate || 0);
@@ -179,7 +162,7 @@ function calculateMaterial() {
     let sellingSqft = totalGlass > 0 ? sellingPrice / totalGlass : 0;
     let profitSqft = totalGlass > 0 ? profitAmount / totalGlass : 0;
 
-    // UI Display
+    // UI Updates - Material Details
     let setTxt = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
 
     setTxt("outerSide", totalOuterSide.toFixed(2) + " ft");
@@ -204,19 +187,27 @@ function calculateMaterial() {
     setTxt("profitSqft", profitSqft.toFixed(2) + " ৳");
     setTxt("sellingPrice", sellingPrice.toFixed(2) + " ৳");
 
-    // Cutting Report UI Output
-    setTxt("outerSide186", outerSide186);
-    setTxt("outerSide21", outerSide21);
-    setTxt("outerTop186", outerTop186);
-    setTxt("outerTop21", outerTop21);
-    setTxt("outerBottom186", outerBottom186);
-    setTxt("outerBottom21", outerBottom21);
-    setTxt("shutterLock186", shutterLock186);
-    setTxt("shutterLock21", shutterLock21);
-    setTxt("shutterInterlock186", shutterInterlock186);
-    setTxt("shutterInterlock21", shutterInterlock21);
-    setTxt("shutterTop186", shutterTop186);
-    setTxt("shutterTop21", shutterTop21);
-    setTxt("shutterBottom186", shutterBottom186);
-    setTxt("shutterBottom21", shutterBottom21);
+    // UI Updates - Cutting Report (Full Pcs + Extra Feet)
+    // Horizontal items (Outer Top, Outer Bottom, Shutter Top, Shutter Bottom) -> ALWAYS 21 FT BAR
+    setTxt("outerTop186", "-");
+    setTxt("outerTop21", calcBar(totalOuterTop, 21));
+
+    setTxt("outerBottom186", "-");
+    setTxt("outerBottom21", calcBar(totalOuterBottom, 21));
+
+    setTxt("shutterTop186", "-");
+    setTxt("shutterTop21", calcBar(totalShutterTop, 21));
+
+    setTxt("shutterBottom186", "-");
+    setTxt("shutterBottom21", calcBar(totalShutterBottom, 21));
+
+    // Vertical items (Outer Side, Shutter Lock, Shutter Interlock) -> Can be 18.6 FT or 21 FT
+    setTxt("outerSide186", calcBar(outerSide186Ft, 18.6));
+    setTxt("outerSide21", calcBar(outerSide21Ft, 21));
+
+    setTxt("shutterLock186", calcBar(shutterLock186Ft, 18.6));
+    setTxt("shutterLock21", calcBar(shutterLock21Ft, 21));
+
+    setTxt("shutterInterlock186", calcBar(shutterInterlock186Ft, 18.6));
+    setTxt("shutterInterlock21", calcBar(shutterInterlock21Ft, 21));
 }

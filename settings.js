@@ -263,6 +263,25 @@ function addGlassColour(){
     alert("Glass Thickness Added");
 
 }
+    function addGlassThickness(){
+
+    let v = document.getElementById("newGlassThickness").value.trim();
+
+    if(v==""){
+        alert("Glass Thickness লিখুন");
+        return;
+    }
+
+    saveMaster("glassThickness", v);
+
+    document.getElementById("glassThickness").innerHTML +=
+    `<option>${v}</option>`;
+
+    document.getElementById("newGlassThickness").value = "";
+
+    alert("Glass Thickness Added");
+
+}
     saveMaster("glassColour", v);
 
     document.getElementById("glassColour").innerHTML += `<option>${v}</option>`;

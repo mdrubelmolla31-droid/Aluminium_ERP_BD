@@ -71,21 +71,22 @@ function calculateMaterial() {
     rates = JSON.parse(localStorage.getItem("rates")) || [];
 
     let company = document.getElementById("company").value;
-    let series = document.getElementById("series").value;
-    let aluThickness = document.getElementById("aluThickness").value;
-    let glassCompany = document.getElementById("glassCompany").value;
-    let glassThickness = document.getElementById("glassThickness").value;
-    let glassColour = document.getElementById("glassColour").value;
+let series = document.getElementById("series").value;
+let aluThickness = document.getElementById("aluThickness").value;
+let aluColour = document.getElementById("aluColour").value;
+let glassCompany = document.getElementById("glassCompany").value;
+let glassThickness = document.getElementById("glassThickness").value;
+let glassColour = document.getElementById("glassColour").value;
 
     let setting = rates.find(r =>
 
         r.company === company &&
-        r.series === series &&
-        r.aluThickness === aluThickness &&
-        r.glassCompany === glassCompany &&
-        r.glassThickness === glassThickness &&
-        r.glassColour === glassColour
-
+r.series === series &&
+r.aluThickness === aluThickness &&
+r.aluColour === aluColour &&
+r.glassCompany === glassCompany &&
+r.glassThickness === glassThickness &&
+r.glassColour === glassColour
     );
 
     if (!setting) {

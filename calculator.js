@@ -172,7 +172,14 @@ let qty5 = parseInt(document.getElementById("qty5").value) || 0;
     
 grandTotalAluminium += totalAluminium;
 totalGlass += glass;
+totalOuterSide += outerSide;
+totalOuterTop += outerTop;
+totalOuterBottom += outerBottom;
 
+totalShutterLock += shutterLock;
+totalShutterInterlock += shutterInterlock;
+totalShutterTop += shutterTop;
+totalShutterBottom += shutterBottom;
     // =========================
     // WINDOW-2
     // =========================
@@ -212,7 +219,14 @@ totalGlass += glass;
 
 grandTotalAluminium += totalAluminium2;
 totalGlass += glass2;
-    
+    totalOuterSide += outerSide2;
+totalOuterTop += outerTop2;
+totalOuterBottom += outerBottom2;
+
+totalShutterLock += shutterLock2;
+totalShutterInterlock += shutterInterlock2;
+totalShutterTop += shutterTop2;
+totalShutterBottom += shutterBottom2;
     // =========================
     // WINDOW-3
     // =========================
@@ -243,7 +257,14 @@ totalGlass += glass2;
 
 grandTotalAluminium += totalAluminium3;
 totalGlass += glass3;
+totalOuterSide += outerSide3;
+totalOuterTop += outerTop3;
+totalOuterBottom += outerBottom3;
 
+totalShutterLock += shutterLock3;
+totalShutterInterlock += shutterInterlock3;
+totalShutterTop += shutterTop3;
+totalShutterBottom += shutterBottom3;
     // =========================
 // WINDOW-4 ALUMINIUM
 // =========================
@@ -284,6 +305,14 @@ let glass4 =
 
     grandTotalAluminium += totalAluminium4;
 totalGlass += glass4;
+    totalOuterSide += outerSide4;
+totalOuterTop += outerTop4;
+totalOuterBottom += outerBottom4;
+
+totalShutterLock += shutterLock4;
+totalShutterInterlock += shutterInterlock4;
+totalShutterTop += shutterTop4;
+totalShutterBottom += shutterBottom4;
     // =========================
 // WINDOW-5 ALUMINIUM
 // =========================
@@ -324,7 +353,14 @@ let glass5 =
 
     grandTotalAluminium += totalAluminium5;
 totalGlass += glass5;
+totalOuterSide += outerSide5;
+totalOuterTop += outerTop5;
+totalOuterBottom += outerBottom5;
 
+totalShutterLock += shutterLock5;
+totalShutterInterlock += shutterInterlock5;
+totalShutterTop += shutterTop5;
+totalShutterBottom += shutterBottom5;
         // =========================
     // GRAND TOTAL
     // =========================

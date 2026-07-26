@@ -1,96 +1,168 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thai Glass & Aluminium Calculator</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="icon-512.png">
-</head>
-<body>
+:root {
+    --bg-main: #0f172a;
+    --card-bg: #1e293b;
+    --card-border: #334155;
+    --primary: #3b82f6;
+    --success: #22c55e;
+    --accent: #38bdf8;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+}
 
-    <!-- ১. স্প্ল্যাশ স্ক্রিন (Splash Screen) -->
-    <div id="splash-screen">
-        <div class="splash-content">
-            <div class="logo-box">🪟</div>
-            <h2>Thai Glass Calc</h2>
-            <p class="powered-by">Powered by Aluminium Tech</p>
-            <div class="loader"></div>
-        </div>
-    </div>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
 
-    <!-- ২. প্রোডাক্ট কী অ্যাক্টিভেশন মোডাল (Activation Lock) -->
-    <div id="activation-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-card">
-            <!-- গোপন ৫-ট্যাপ সিক্রেট এডমিন লোগো -->
-            <div class="lock-icon" id="secret-logo-tap">🔒</div>
-            <h2>App Activation Required</h2>
-            <p class="sub-text">অ্যাপটি সম্পূর্ণ আনলক করতে আপনার Device ID টি পাঠিয়ে Product Key সংগ্রহ করুন।</p>
-            
-            <div class="device-id-box">
-                <span id="display-device-id">GENERATING...</span>
-            </div>
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+}
 
-            <a id="wa-share-link" href="#" target="_blank" class="btn wa-btn">
-                💬 Send Device ID via WhatsApp
-            </a>
+/* Splash Screen */
+#splash-screen {
+    position: fixed;
+    inset: 0;
+    background: #0f172a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease;
+}
 
-            <div class="divider"><span>OR</span></div>
+.splash-content { text-align: center; }
 
-            <div class="input-group">
-                <label for="input-product-key">Enter Product Key</label>
-                <input type="text" id="input-product-key" placeholder="Paste Product Key here...">
-            </div>
+.logo-box {
+    font-size: 50px;
+    background: var(--primary);
+    width: 90px;
+    height: 90px;
+    line-height: 90px;
+    border-radius: 20px;
+    margin: 0 auto 15px;
+}
 
-            <button onclick="submitProductKey()" class="btn activate-btn">⚡ Activate App</button>
-        </div>
-    </div>
+.powered-by { color: var(--text-muted); font-size: 13px; margin-top: 5px; }
 
-    <!-- ৩. মূল অ্যাপ ইন্টারফেস (Main App UI) -->
-    <div id="app-container" class="main-layout" style="display: none;">
-        
-        <!-- নেভিগেশন হেডার -->
-        <header class="app-header">
-            <div class="brand">
-                <span class="app-logo">🪟</span>
-                <div>
-                    <h1>Thai Calculator</h1>
-                    <span class="badge">Pro Version</span>
-                </div>
-            </div>
-            <!-- কন্টাক্ট / সাপোর্ট বাটন -->
-            <a href="https://wa.me/8801700000000?text=Hello,%20I%20need%20support%20for%20Thai%20Calculator" target="_blank" class="support-btn">
-                💬 Support
-            </a>
-        </header>
+.loader {
+    border: 3px solid var(--card-border);
+    border-top: 3px solid var(--accent);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    animation: spin 0.8s linear infinite;
+    margin: 15px auto 0;
+}
 
-        <!-- মূল কন্টেন্ট সেকশন -->
-        <main class="content-body">
-            
-            <!-- মেজারমেন্ট কার্ড -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>📏 Window Measurement Input</h3>
-                </div>
-                <div class="card-body">
-                    <p class="info-text">এখানে তোমার জানালার মেজারমেন্ট ইনপুট ফিল্ড ও ক্যালকুলেশন বোতামগুলো বসানো হবে।</p>
-                    <!-- তোমার আগের ইনপুট ফিল্ডগুলো এখানে থাকবে -->
-                </div>
-            </div>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-            <!-- সামারি / কাটিং রিপোর্ট কার্ড -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>📊 Cutting Sheet & Material Cost</h3>
-                </div>
-                <div class="card-body">
-                    <p class="info-text">এখানে কাটিং রিপোর্ট ও ১৮.৬ / ২১ ফিটের বারের হিসেব প্রদর্শন হবে।</p>
-                </div>
-            </div>
+/* Activation Lock Screen */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+}
 
-        </main>
-    </div>
+.modal-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 16px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid var(--card-border);
+}
 
-    <script src="calculator.js"></script>
-</body>
-</html>
+.lock-icon { font-size: 36px; margin-bottom: 8px; cursor: pointer; }
+.sub-text { font-size: 13px; color: var(--text-muted); margin: 8px 0 15px; }
+
+.device-id-box {
+    background: #090d16;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--accent);
+    border: 1px dashed var(--accent);
+    margin-bottom: 15px;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.wa-btn { background: var(--success); color: white; }
+.activate-btn { background: var(--primary); color: white; }
+
+.divider { margin: 15px 0; text-align: center; color: var(--text-muted); font-size: 12px; }
+
+.input-group { text-align: left; margin-bottom: 12px; }
+.input-group label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background: #090d16;
+    color: white;
+    text-align: center;
+}
+
+/* App Header UI */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.brand-info { display: flex; align-items: center; gap: 10px; }
+.app-logo { font-size: 24px; }
+.app-title { font-size: 16px; margin: 0; color: white; }
+.badge { background: rgba(56, 189, 248, 0.2); color: var(--accent); font-size: 10px; padding: 2px 6px; border-radius: 8px; }
+
+.support-btn {
+    background: var(--success);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Cards System */
+.content-body { padding: 16px; max-width: 500px; margin: 0 auto; }
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.card-header h3 { font-size: 15px; color: var(--accent); margin-bottom: 10px; }
+.info-text { font-size: 13px; color: var(--text-muted); }

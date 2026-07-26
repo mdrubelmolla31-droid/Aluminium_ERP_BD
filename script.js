@@ -129,45 +129,47 @@ function calculateMaterial() {
     document.getElementById('resSellSqft').innerText = sellingSqft.toFixed(2) + " ৳";
     document.getElementById('resSellTotal').innerText = sellingTotal.toFixed(2) + " ৳";
 
-    // কাটিং রিপোর্ট জেনারেট
+    // অপটিমাইজড কাটিং রিপোর্ট জেনারেট
     generateCuttingReport(itemMeasurements);
 }
 
 function generateCuttingReport(itemMeasurements) {
     let tbody = document.getElementById('cuttingReportBody');
+    if(!tbody) return;
     tbody.innerHTML = '';
 
-    const BAR_186_INCH = 18.6 * 12;
+    const BAR_186_INCH = 18.6 * 12; // 223.2 in
 
     for (let itemName in itemMeasurements) {
         let cuts = itemMeasurements[itemName].slice();
 
         if (cuts.length === 0) {
-            appendReportRow(tbody, itemName, 0, 0, "0 in");
+            appendReportRow(tbody, itemName, 0, 0, "0.0 in");
             continue;
         }
 
+        // টুকরোগুলোকে বড় থেকে ছোট ক্রমানুসারে সাজিয়ে নেওয়া (Bin Packing Algorithm)
         cuts.sort((a, b) => b - a);
 
-        let barCount186 = 0;
-        let totalOffcutInches = 0;
-        let currentBarFreeSpace = 0;
+        let bars = []; // এতে প্রতি বারে কতটুকু জায়গা বাকি আছে তা থাকবে
 
         cuts.forEach(piece => {
-            if (piece <= currentBarFreeSpace) {
-                currentBarFreeSpace -= piece;
-            } else {
-                if (currentBarFreeSpace > 0) {
-                    totalOffcutInches += currentBarFreeSpace;
+            let placed = false;
+            for (let i = 0; i < bars.length; i++) {
+                if (bars[i] >= piece) {
+                    bars[i] -= piece;
+                    placed = true;
+                    break;
                 }
-                barCount186++;
-                currentBarFreeSpace = BAR_186_INCH - piece;
+            }
+            if (!placed) {
+                bars.push(BAR_186_INCH - piece);
             }
         });
 
-        totalOffcutInches += currentBarFreeSpace;
+        let totalOffcutInches = bars.reduce((sum, rem) => sum + rem, 0);
 
-        appendReportRow(tbody, itemName, barCount186, 0, totalOffcutInches.toFixed(1) + " in");
+        appendReportRow(tbody, itemName, bars.length, 0, totalOffcutInches.toFixed(1) + " in");
     }
 }
 

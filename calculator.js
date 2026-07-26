@@ -1,12 +1,8 @@
-// =====================================
-// SECURITY & ENGINE LOGIC
-// =====================================
-
-const MASTER_KEY = "THAI-BOSS-2026"; // তোমার আজীবন ফ্রি অ্যাক্সেস কী
-const OWNER_PHONE = "8801700000000"; // তোমার হোয়াটসঅ্যাপ নম্বর (দেশের কোডসহ)
+const MASTER_KEY = "THAI-BOSS-2026";
+const OWNER_PHONE = "8801700000000"; // তোমার হোয়াটসঅ্যাপ নম্বর বসাও
 
 document.addEventListener("DOMContentLoaded", () => {
-    // ১. স্প্ল্যাশ স্ক্রিন টাইমার (২.৫ সেকেন্ড পর অ্যাপ লোড হবে)
+    // স্প্ল্যাশ স্ক্রিন
     setTimeout(() => {
         const splash = document.getElementById("splash-screen");
         if (splash) {
@@ -16,9 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 checkAppActivation();
             }, 500);
         }
-    }, 2500);
+    }, 2000);
 
-    // ২. গোপন ফিচার: লক আইকনে ৫ বার ক্লিক করলে সরাসরি মাস্টার কী ইনপুট হয়ে যাবে!
+    // গোপন ৫-ট্যাপ সিক্রেট এডমিন ট্রিক
     let tapCount = 0;
     const secretTapBtn = document.getElementById("secret-logo-tap");
     if (secretTapBtn) {
@@ -27,13 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (tapCount === 5) {
                 tapCount = 0;
                 document.getElementById("input-product-key").value = MASTER_KEY;
-                alert("👑 Admin Mode Detected! Master Key Applied.");
+                alert("👑 Master Key Auto-Applied!");
             }
         });
     }
 });
 
-// ডিভাইস আইডি পাওয়ার ফাংশন
 function getDeviceId() {
     let devId = localStorage.getItem("app_device_id");
     if (!devId) {
@@ -43,7 +38,6 @@ function getDeviceId() {
     return devId;
 }
 
-// অ্যাপ অ্যাক্টিভ আছে কিনা চেক করা
 function checkAppActivation() {
     const isActivated = localStorage.getItem("app_activated");
     const expiryDate = localStorage.getItem("app_expiry");
@@ -59,12 +53,11 @@ function checkAppActivation() {
         let deviceId = getDeviceId();
         document.getElementById("display-device-id").innerText = deviceId;
 
-        let waMsg = encodeURIComponent(`Hello, my Device ID is: ${deviceId}. I want to buy Product Key for Thai Calculator.`);
+        let waMsg = encodeURIComponent(`Hello, my Device ID is: ${deviceId}. I need Product Key for Thai Calculator.`);
         document.getElementById("wa-share-link").href = `https://wa.me/${OWNER_PHONE}?text=${waMsg}`;
     }
 }
 
-// কী সাবমিট ভ্যালিডেশন
 function submitProductKey() {
     let userKey = document.getElementById("input-product-key").value.trim();
     let deviceId = getDeviceId();
@@ -74,17 +67,15 @@ function submitProductKey() {
         return;
     }
 
-    // মাস্টার কী চেক
     if (userKey === MASTER_KEY) {
-        let farFuture = new Date().getTime() + (3650 * 24 * 60 * 60 * 1000); // ১০ বছর
+        let farFuture = new Date().getTime() + (3650 * 24 * 60 * 60 * 1000);
         localStorage.setItem("app_activated", "true");
         localStorage.setItem("app_expiry", farFuture.toString());
-        alert("🎉 Master Access Granted! Unlimited Lifetime Access.");
+        alert("🎉 Master Key Accepted! Lifetime Access Granted.");
         checkAppActivation();
         return;
     }
 
-    // কাস্টমার কী চেক
     try {
         let decoded = atob(userKey);
         let parts = decoded.split("_");
@@ -96,15 +87,15 @@ function submitProductKey() {
             if (now < expiryTimestamp) {
                 localStorage.setItem("app_activated", "true");
                 localStorage.setItem("app_expiry", expiryTimestamp.toString());
-                alert("✅ Product Key Activated Successfully!");
+                alert("✅ Activated Successfully!");
                 checkAppActivation();
             } else {
-                alert("❌ এই Product Key-এর মেয়াদ শেষ হয়ে গেছে!");
+                alert("❌ Product Key-এর মেয়াদ শেষ!");
             }
         } else {
-            alert("❌ ভুল Product Key! আপনার Device ID-এর সাথে মিলছে না।");
+            alert("❌ ভুল Product Key!");
         }
     } catch (e) {
-        alert("❌ অবৈধ/ভুল Product Key!");
+        alert("❌ অবৈধ Product Key!");
     }
 }

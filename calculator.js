@@ -5,15 +5,19 @@
 // =====================================
 
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
+// ===== MATERIAL TOTAL =====
+
+let totalOuterSide = 0;
+let totalOuterTop = 0;
+let totalOuterBottom = 0;
+
+let totalShutterLock = 0;
+let totalShutterInterlock = 0;
+let totalShutterTop = 0;
+let totalShutterBottom = 0;
+
 let grandTotalAluminium = 0;
 let totalGlass = 0;
-
-let outerSide = 0;
-let topBottom = 0;
-let shutterSide = 0;
-let shutterTopBottom = 0;
-let interlock = 0;
-let lockProfile = 0;
 alert(localStorage.getItem("rates"));
 // ---------- Load ----------
 document.addEventListener("DOMContentLoaded", () => {
@@ -96,15 +100,7 @@ r.glassColour === glassColour
 
     }
 
-    let grandTotalAluminium = 0;
-let totalGlass = 0;
-
-let outerSide = 0;
-let topBottom = 0;
-let shutterSide = 0;
-let shutterTopBottom = 0;
-let interlock = 0;
-let lockProfile = 0;
+    
     // Window-1
 
     let width = parseFloat(document.getElementById("width").value) || 0;

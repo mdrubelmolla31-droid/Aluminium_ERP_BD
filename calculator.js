@@ -1,5 +1,5 @@
 // =====================================
-// MATERIAL CALCULATOR (Fixed Cutting Report with Full Bar & Extra Feet)
+// MATERIAL CALCULATOR & CUTTING OPTIMIZER
 // calculator.js
 // =====================================
 
@@ -67,11 +67,11 @@ function calculateMaterial() {
         return;
     }
 
-    // Input Reading (Window 1 to 5)
+    // 1. Read Inputs
     let getWinData = (wId, hId, qId) => {
         return {
-            w: parseFloat(document.getElementById(wId)?.value) || 0,
-            h: parseFloat(document.getElementById(hId)?.value) || 0,
+            w: parseFloat(document.getElementById(wId)?.value) || 0, // inch
+            h: parseFloat(document.getElementById(hId)?.value) || 0, // inch
             q: parseInt(document.getElementById(qId)?.value) || 0
         };
     };
@@ -84,16 +84,14 @@ function calculateMaterial() {
         getWinData("width5", "height5", "qty5")
     ];
 
-    // Total Length Calculation for all windows
+    // 2. Material Details Total Feet
     let totalOuterSide = 0, totalOuterTop = 0, totalOuterBottom = 0;
     let totalShutterLock = 0, totalShutterInterlock = 0;
     let totalShutterTop = 0, totalShutterBottom = 0;
     let totalGlass = 0;
 
-    // Track Height preferred bar size (If height > 60 inch -> 21ft bar, else 18.6ft bar)
-    let outerSide186Ft = 0, outerSide21Ft = 0;
-    let shutterLock186Ft = 0, shutterLock21Ft = 0;
-    let shutterInterlock186Ft = 0, shutterInterlock21Ft = 0;
+    // Arrays to collect every single cut length in inches for optimization
+    let heightCutsList = []; // For Outer Side, Lock, Interlock
 
     wins.forEach(win => {
         if (win.q > 0 && win.w > 0 && win.h > 0) {
@@ -101,14 +99,15 @@ function calculateMaterial() {
             let oTop = (win.w / 12) * win.q;
             let oBot = (win.w / 12) * win.q;
 
-            let sLock = ((win.h * 2) / 12) * win.q; // 2 Shutter Lock vertical
-            let sInter = ((win.h * 2) / 12) * win.q; // 2 Shutter Interlock vertical
-            let sTop = ((win.w * 2) / 12) * win.q; // 2 Shutter Top horizontal
-            let sBot = ((win.w * 2) / 12) * win.q; // 2 Shutter Bottom horizontal
+            let sLock = ((win.h * 2) / 12) * win.q;
+            let sInter = ((win.h * 2) / 12) * win.q;
+            let sTop = ((win.w * 2) / 12) * win.q;
+            let sBot = ((win.w * 2) / 12) * win.q;
 
             totalOuterSide += oSide;
             totalOuterTop += oTop;
             totalOuterBottom += oBot;
+
             totalShutterLock += sLock;
             totalShutterInterlock += sInter;
             totalShutterTop += sTop;
@@ -116,15 +115,9 @@ function calculateMaterial() {
 
             totalGlass += ((win.w * win.h) / 144) * win.q;
 
-            // Height based separation for Vertical Items (18.6ft vs 21ft)
-            if (win.h > 60) {
-                outerSide21Ft += oSide;
-                shutterLock21Ft += sLock;
-                shutterInterlock21Ft += sInter;
-            } else {
-                outerSide186Ft += oSide;
-                shutterLock186Ft += sLock;
-                shutterInterlock186Ft += sInter;
+            // Each window has 2 height cuts per piece
+            for (let i = 0; i < win.q * 2; i++) {
+                heightCutsList.push(win.h);
             }
         }
     });
@@ -133,21 +126,115 @@ function calculateMaterial() {
                             totalShutterLock + totalShutterInterlock +
                             totalShutterTop + totalShutterBottom;
 
-    // Helper Function to calculate Full Bars & Remaining Extra Feet
-    let calcBar = (totalFeet, barLength) => {
-        if (totalFeet <= 0) return "0 Pcs";
-        let fullPcs = Math.floor(totalFeet / barLength);
-        let extraFt = (totalFeet % barLength).toFixed(1);
-        if (fullPcs > 0 && extraFt > 0) {
-            return `${fullPcs} Pcs + ${extraFt} ft`;
-        } else if (fullPcs > 0) {
-            return `${fullPcs} Pcs`;
-        } else {
-            return `${extraFt} ft`;
-        }
+    // 3. Optimization Logic for Height Items (Outer Side, Lock, Interlock)
+    // 18.6 ft = 223.2 inch, 21 ft = 252 inch
+    function optimizeVerticalCuts(cuts) {
+        if (cuts.length === 0) return { bar186: 0, bar21: 0, extraFt186: 0, extraFt21: 0 };
+
+        // Sort cuts largest to smallest
+        let sortedCuts = [...cuts].sort((a, b) => b - a);
+
+        let bars186Count = 0;
+        let bars21Count = 0;
+
+        let remainingPieces = [...sortedCuts];
+
+        // First try to fit in 18.6 ft bars (223.2 inches)
+        let fitInBar = (barSize) => {
+            let usedBars = 0;
+            let tempPieces = [...remainingPieces];
+            let remainingAfter = [];
+
+            while (tempPieces.length > 0) {
+                let currentBarSpace = barSize;
+                let usedInThisBar = false;
+                let nextTemp = [];
+
+                for (let piece of tempPieces) {
+                    if (piece <= currentBarSpace) {
+                        currentBarSpace -= piece;
+                        usedInThisBar = true;
+                    } else {
+                        nextTemp.push(piece);
+                    }
+                }
+
+                if (usedInThisBar) {
+                    usedBars++;
+                    tempPieces = nextTemp;
+                } else {
+                    break;
+                }
+            }
+            return { usedBars, remainingUncut: tempPieces };
+        };
+
+        // Decide whether 18.6ft or 21ft gives better utilization
+        let cuts186 = [];
+        let cuts21 = [];
+
+        sortedCuts.forEach(cut => {
+            // If piece size itself is <= 54 inch (4.5 ft) or <= 60 inch, prefer 18.6 ft bar logic
+            if (cut <= 54) {
+                cuts186.push(cut);
+            } else {
+                cuts21.push(cut);
+            }
+        });
+
+        let opt186 = fitInBarHelper(cuts186, 223.2);
+        let opt21 = fitInBarHelper(cuts21, 252);
+
+        return {
+            bar186: opt186.bars,
+            extraFt186: (opt186.remSpace / 12).toFixed(1),
+            bar21: opt21.bars,
+            extraFt21: (opt21.remSpace / 12).toFixed(1)
+        };
+    }
+
+    function fitInBarHelper(pieces, maxBarLen) {
+        if (pieces.length === 0) return { bars: 0, remSpace: 0 };
+        let bars = [];
+
+        pieces.forEach(p => {
+            let fitted = false;
+            for (let i = 0; i < bars.length; i++) {
+                if (bars[i] >= p) {
+                    bars[i] -= p;
+                    fitted = true;
+                    break;
+                }
+            }
+            if (!fitted) {
+                bars.push(maxBarLen - p);
+            }
+        });
+
+        let totalRemSpace = bars.reduce((a, b) => a + b, 0);
+        return { bars: bars.length, remSpace: totalRemSpace };
+    }
+
+    let vertReport = optimizeVerticalCuts(heightCutsList);
+
+    // 4. Horizontal Items (Outer Top, Bottom, Shutter Top, Bottom) - Always 21 FT Bar
+    let calcHorizontalBar = (totalFt) => {
+        if (totalFt <= 0) return "-";
+        let pcs = Math.floor(totalFt / 21);
+        let remFt = (totalFt % 21).toFixed(1);
+        if (pcs > 0 && parseFloat(remFt) > 0) return `${pcs} Pcs + ${remFt} ft`;
+        if (pcs > 0) return `${pcs} Pcs`;
+        return `${remFt} ft`;
     };
 
-    // Costs Calculation (Sqft Based)
+    let formatVertRes = (pcs, extra) => {
+        if (pcs === 0 && parseFloat(extra) === 0) return "-";
+        if (pcs > 0 && parseFloat(extra) > 0) return `${pcs} Pcs + ${extra} ft`;
+        if (pcs > 0) return `${pcs} Pcs`;
+        return `${extra} ft`;
+    };
+
+    // Cost Calculation
     let aluminiumCost = totalGlass * (setting.aluRate || 0);
     let glassCost = totalGlass * (setting.glassRate || 0);
     let hardwareCost = totalGlass * (setting.hardwareRate || 0);
@@ -162,9 +249,10 @@ function calculateMaterial() {
     let sellingSqft = totalGlass > 0 ? sellingPrice / totalGlass : 0;
     let profitSqft = totalGlass > 0 ? profitAmount / totalGlass : 0;
 
-    // UI Updates - Material Details
+    // 5. Update UI
     let setTxt = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
 
+    // Material Details Outputs
     setTxt("outerSide", totalOuterSide.toFixed(2) + " ft");
     setTxt("outerTop", totalOuterTop.toFixed(2) + " ft");
     setTxt("outerBottom", totalOuterBottom.toFixed(2) + " ft");
@@ -187,27 +275,25 @@ function calculateMaterial() {
     setTxt("profitSqft", profitSqft.toFixed(2) + " ৳");
     setTxt("sellingPrice", sellingPrice.toFixed(2) + " ৳");
 
-    // UI Updates - Cutting Report (Full Pcs + Extra Feet)
-    // Horizontal items (Outer Top, Outer Bottom, Shutter Top, Shutter Bottom) -> ALWAYS 21 FT BAR
+    // Cutting Report Outputs (Optimized)
     setTxt("outerTop186", "-");
-    setTxt("outerTop21", calcBar(totalOuterTop, 21));
+    setTxt("outerTop21", calcHorizontalBar(totalOuterTop));
 
     setTxt("outerBottom186", "-");
-    setTxt("outerBottom21", calcBar(totalOuterBottom, 21));
+    setTxt("outerBottom21", calcHorizontalBar(totalOuterBottom));
 
     setTxt("shutterTop186", "-");
-    setTxt("shutterTop21", calcBar(totalShutterTop, 21));
+    setTxt("shutterTop21", calcHorizontalBar(totalShutterTop));
 
     setTxt("shutterBottom186", "-");
-    setTxt("shutterBottom21", calcBar(totalShutterBottom, 21));
+    setTxt("shutterBottom21", calcHorizontalBar(totalShutterBottom));
 
-    // Vertical items (Outer Side, Shutter Lock, Shutter Interlock) -> Can be 18.6 FT or 21 FT
-    setTxt("outerSide186", calcBar(outerSide186Ft, 18.6));
-    setTxt("outerSide21", calcBar(outerSide21Ft, 21));
+    setTxt("outerSide186", formatVertRes(vertReport.bar186, vertReport.extraFt186));
+    setTxt("outerSide21", formatVertRes(vertReport.bar21, vertReport.extraFt21));
 
-    setTxt("shutterLock186", calcBar(shutterLock186Ft, 18.6));
-    setTxt("shutterLock21", calcBar(shutterLock21Ft, 21));
+    setTxt("shutterLock186", formatVertRes(vertReport.bar186, vertReport.extraFt186));
+    setTxt("shutterLock21", formatVertRes(vertReport.bar21, vertReport.extraFt21));
 
-    setTxt("shutterInterlock186", calcBar(shutterInterlock186Ft, 18.6));
-    setTxt("shutterInterlock21", calcBar(shutterInterlock21Ft, 21));
+    setTxt("shutterInterlock186", formatVertRes(vertReport.bar186, vertReport.extraFt186));
+    setTxt("shutterInterlock21", formatVertRes(vertReport.bar21, vertReport.extraFt21));
 }

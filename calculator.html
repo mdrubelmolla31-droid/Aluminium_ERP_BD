@@ -11,223 +11,81 @@
             --card-bg: #ffffff;
             --text-main: #1c1e21;
             --text-muted: #606770;
-            --border-color: #dadde1;
+            --border-box: #b0c4de;
+            --input-border: #8ab4f8;
             --grey-highlight: #e9ecef;
             --green-highlight: #d1e7dd;
             --green-text: #0f5132;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 30px; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding-bottom: 30px;
-        }
-
-        /* Header */
         .top-header {
             background: var(--card-bg);
             padding: 14px 20px;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-box);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        .back-btn {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            margin-right: 15px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: bold;
-        }
+        .back-btn { font-size: 20px; font-weight: bold; text-decoration: none; color: var(--text-main); margin-right: 15px; }
+        .page-title { font-size: 18px; font-weight: 700; }
 
-        .page-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
+        .container { max-width: 480px; margin: 12px auto; padding: 0 10px; }
 
-        .container {
-            max-width: 480px;
-            margin: 12px auto;
-            padding: 0 10px;
-        }
-
-        /* Section Cards */
         .card {
             background: var(--card-bg);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 16px;
             margin-bottom: 14px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--border-box);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
 
-        .card-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 14px;
-            text-align: center;
-        }
+        .card-title { font-size: 16px; font-weight: 700; color: var(--primary-blue); margin-bottom: 14px; text-align: center; }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
 
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        /* Dropdown & Input Boxes */
-        input[type="text"],
-        input[type="number"],
-        select {
+        input[type="text"], input[type="number"], select {
             width: 100%;
             padding: 10px 12px;
             border-radius: 6px;
-            border: 1px solid var(--border-color);
+            border: 1.5px solid var(--input-border);
             background-color: #ffffff;
             font-size: 14px;
-            color: var(--text-main);
             outline: none;
-            appearance: auto;
         }
 
-        input:focus, select:focus {
-            border-color: var(--primary-blue);
-        }
+        input:focus, select:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2); }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
         .window-box {
-            background: #f7f8fa;
-            border-radius: 6px;
+            background: #f8fafc;
+            border-radius: 8px;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #e4e6eb;
+            border: 1.5px solid #cbd5e1;
         }
 
-        .window-box-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 6px;
-        }
+        .window-box-title { font-size: 13px; font-weight: 700; color: var(--primary-blue); margin-bottom: 6px; }
 
-        /* Buttons */
-        .btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 16px 0;
-        }
-
-        .btn {
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            color: white;
-        }
-
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+        .btn { padding: 12px; border-radius: 6px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; color: white; }
         .btn-primary { background-color: var(--primary-blue); }
         .btn-success { background-color: #198754; }
 
-        /* Tables matching your screenshot */
-        .table-container {
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .result-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #ffffff;
-        }
-
-        .result-table th {
-            background-color: var(--primary-blue);
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 700;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .result-table td {
-            padding: 9px 12px;
-            font-size: 14px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-main);
-        }
-
-        .result-table td:first-child {
-            text-align: center;
-            width: 60%;
-        }
-
-        .result-table td:last-child {
-            text-align: center;
-            font-weight: 500;
-            width: 40%;
-        }
-
-        /* Screenshot Specific Highlight Colors */
-        .row-grey {
-            background-color: var(--grey-highlight) !important;
-            font-weight: bold;
-        }
-
-        .row-green {
-            background-color: var(--green-highlight) !important;
-            font-weight: bold;
-        }
-
-        .row-green td {
-            color: var(--green-text) !important;
-        }
-
-        /* Cutting Report Table Styling */
-        .cutting-table th {
-            background-color: var(--primary-blue);
-            color: #ffffff;
-            font-size: 14px;
-            padding: 8px;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .cutting-table td {
-            text-align: center !important;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .cutting-table td:last-child {
-            border-right: none;
-        }
+        .table-container { border: 2px solid var(--border-box); border-radius: 8px; overflow: hidden; margin-top: 8px; }
+        .result-table { width: 100%; border-collapse: collapse; background: #ffffff; }
+        .result-table th { background-color: var(--primary-blue); color: #ffffff; font-size: 14px; padding: 10px; text-align: center; }
+        .result-table td { padding: 9px 10px; font-size: 13px; border-bottom: 1px solid #e2e8f0; text-align: center; }
+        .row-grey { background-color: var(--grey-highlight) !important; font-weight: bold; }
+        .row-green { background-color: var(--green-highlight) !important; font-weight: bold; color: var(--green-text) !important; }
     </style>
 </head>
 <body>
@@ -239,15 +97,13 @@
 
     <div class="container">
 
-        <!-- 👤 Customer Info -->
+        <!-- Customer Info -->
         <div class="card">
             <div class="card-title">Customer Info</div>
-            
             <div class="form-group">
                 <label>Customer Name</label>
                 <input type="text" id="customerName" placeholder="গ্রাহকের নাম">
             </div>
-
             <div class="grid-2">
                 <div class="form-group">
                     <label>Mobile</label>
@@ -260,10 +116,9 @@
             </div>
         </div>
 
-        <!-- ⚙️ Aluminium & Glass Config (স্পষ্ট ড্রপডাউন) -->
+        <!-- Configuration -->
         <div class="card">
             <div class="card-title">Aluminium & Glass Config</div>
-
             <div class="form-group">
                 <label>Company</label>
                 <select id="company">
@@ -273,7 +128,6 @@
                     <option value="Alco">Alco</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Series</label>
                 <select id="series">
@@ -282,7 +136,6 @@
                     <option value="100mm Sliding">100mm Sliding</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Alu Thickness</label>
                 <select id="aluThickness">
@@ -291,7 +144,6 @@
                     <option value="2.0mm">2.0 mm</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Glass Company</label>
                 <select id="glassCompany">
@@ -300,7 +152,6 @@
                     <option value="Imported">Imported Glass</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Glass Thickness</label>
                 <select id="glassThickness">
@@ -309,7 +160,6 @@
                     <option value="8mm">8 mm</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Glass Colour</label>
                 <select id="glassColour">
@@ -321,121 +171,105 @@
             </div>
         </div>
 
-        <!-- 🪟 Window Measurements -->
+        <!-- Window Measurements -->
         <div class="card">
             <div class="card-title">Window Measurements</div>
-
-            <!-- Window 1 -->
             <div class="window-box">
                 <div class="window-box-title">Window Size - 1</div>
                 <div class="grid-3">
-                    <div><label>Height (In)</label><input type="number" id="height"></div>
-                    <div><label>Width (In)</label><input type="number" id="width"></div>
-                    <div><label>Qty</label><input type="number" id="qty" value="1"></div>
+                    <div><label>Height (In)</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width (In)</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="1"></div>
                 </div>
             </div>
-
-            <!-- Window 2 -->
             <div class="window-box">
                 <div class="window-box-title">Window Size - 2</div>
                 <div class="grid-3">
-                    <div><label>Height</label><input type="number" id="height2"></div>
-                    <div><label>Width</label><input type="number" id="width2"></div>
-                    <div><label>Qty</label><input type="number" id="qty2" value="0"></div>
+                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
                 </div>
             </div>
-
-            <!-- Window 3 -->
             <div class="window-box">
                 <div class="window-box-title">Window Size - 3</div>
                 <div class="grid-3">
-                    <div><label>Height</label><input type="number" id="height3"></div>
-                    <div><label>Width</label><input type="number" id="width3"></div>
-                    <div><label>Qty</label><input type="number" id="qty3" value="0"></div>
+                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
                 </div>
             </div>
-
-            <!-- Window 4 -->
             <div class="window-box">
                 <div class="window-box-title">Window Size - 4</div>
                 <div class="grid-3">
-                    <div><label>Height</label><input type="number" id="height4"></div>
-                    <div><label>Width</label><input type="number" id="width4"></div>
-                    <div><label>Qty</label><input type="number" id="qty4" value="0"></div>
+                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
                 </div>
             </div>
-
-            <!-- Window 5 -->
             <div class="window-box">
                 <div class="window-box-title">Window Size - 5</div>
                 <div class="grid-3">
-                    <div><label>Height</label><input type="number" id="height5"></div>
-                    <div><label>Width</label><input type="number" id="width5"></div>
-                    <div><label>Qty</label><input type="number" id="qty5" value="0"></div>
+                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Action Buttons -->
         <div class="btn-group">
             <button class="btn btn-primary" onclick="calculateMaterial()">Calculate</button>
-            <button class="btn btn-success" onclick="openQuotation()">Quotation</button>
+            <button class="btn btn-success" onclick="alert('Quotation তৈরি হচ্ছে...')">Quotation</button>
         </div>
 
-        <!-- 📊 Material Details Summary (আপনার দেয়া স্ক্রিনশটের স্টাইলে) -->
-        <div class="card" style="padding: 0; background: transparent; border: none; box-shadow: none;">
+        <!-- Material Details -->
+        <div class="card" style="padding:0; background:transparent; border:none; box-shadow:none;">
             <div class="table-container">
                 <table class="result-table">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Material Details</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th colspan="2">Material Details</th></tr></thead>
                     <tbody>
-                        <tr><td>Outer Side</td><td id="outerSide">0.00 ft</td></tr>
-                        <tr><td>Outer Top</td><td id="outerTop">0.00 ft</td></tr>
-                        <tr><td>Outer Bottom</td><td id="outerBottom">0.00 ft</td></tr>
-                        <tr><td>Shutter Lock</td><td id="shutterLock">0.00 ft</td></tr>
-                        <tr><td>Shutter Interlock</td><td id="shutterInterlock">0.00 ft</td></tr>
-                        <tr><td>Shutter Top</td><td id="shutterTop">0.00 ft</td></tr>
-                        <tr><td>Shutter Bottom</td><td id="shutterBottom">0.00 ft</td></tr>
-                        <tr><td>Total Aluminium</td><td id="totalAluminium">0.00 ft</td></tr>
-                        <tr><td>Glass Total</td><td id="glass">0.00 Sqft</td></tr>
-                        <tr><td>Aluminium Price</td><td id="aluPrice">0.00 ৳</td></tr>
-                        <tr><td>Glass Price</td><td id="glassPrice">0.00 ৳</td></tr>
-                        <tr><td>Hardware</td><td id="hardwareCost">0.00 ৳</td></tr>
-                        <tr><td>Fittings</td><td id="fittingsCost">0.00 ৳</td></tr>
-                        <tr><td>Labour</td><td id="labourCost">0.00 ৳</td></tr>
-                        <tr class="row-grey"><td>Material Cost Total</td><td id="materialCostTotal">0.00 ৳</td></tr>
-                        <tr><td>Material Cost / Sqft</td><td id="materialSqft">0.00 ৳</td></tr>
-                        <tr><td>Profit / Sqft</td><td id="profitSqft">0.00 ৳</td></tr>
-                        <tr><td>Selling Price / Sqft</td><td id="sellingSqft">0.00 ৳</td></tr>
-                        <tr class="row-green"><td>Selling Price Total</td><td id="sellingPriceTotal">0.00 ৳</td></tr>
+                        <tr><td>Outer Side</td><td id="resOuterSide">0.00 ft</td></tr>
+                        <tr><td>Outer Top</td><td id="resOuterTop">0.00 ft</td></tr>
+                        <tr><td>Outer Bottom</td><td id="resOuterBottom">0.00 ft</td></tr>
+                        <tr><td>Shutter Lock</td><td id="resShutterLock">0.00 ft</td></tr>
+                        <tr><td>Shutter Interlock</td><td id="resShutterInterlock">0.00 ft</td></tr>
+                        <tr><td>Shutter Top</td><td id="resShutterTop">0.00 ft</td></tr>
+                        <tr><td>Shutter Bottom</td><td id="resShutterBottom">0.00 ft</td></tr>
+                        <tr><td>Total Aluminium</td><td id="resTotalAlu">0.00 ft</td></tr>
+                        <tr><td>Glass Total</td><td id="resGlassTotal">0.00 Sqft</td></tr>
+                        <tr><td>Hardware</td><td id="resHardware">0.00 ৳</td></tr>
+                        <tr><td>Fittings</td><td id="resFittings">0.00 ৳</td></tr>
+                        <tr><td>Labour</td><td id="resLabour">0.00 ৳</td></tr>
+                        <tr class="row-grey"><td>Material Cost Total</td><td id="resCostTotal">0.00 ৳</td></tr>
+                        <tr><td>Material Cost / Sqft</td><td id="resCostSqft">0.00 ৳</td></tr>
+                        <tr><td>Profit / Sqft</td><td id="resProfitSqft">0.00 ৳</td></tr>
+                        <tr><td>Selling Price / Sqft</td><td id="resSellSqft">0.00 ৳</td></tr>
+                        <tr class="row-green"><td>Selling Price Total</td><td id="resSellTotal">0.00 ৳</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 📏 Cutting Report (আপনার দেয়া স্ক্রিনশটের স্টাইলে) -->
-        <div class="card" style="padding: 0; background: transparent; border: none; box-shadow: none; margin-top: 15px;">
-            <h3 style="text-align: center; color: var(--primary-blue); margin-bottom: 10px; font-size: 18px;">Cutting Report</h3>
+        <!-- Cutting Report -->
+        <div class="card" style="padding:0; background:transparent; border:none; box-shadow:none; margin-top:15px;">
+            <h3 style="text-align:center; color:var(--primary-blue); margin-bottom:8px;">Cutting Report</h3>
             <div class="table-container">
-                <table class="result-table cutting-table">
+                <table class="result-table">
                     <thead>
                         <tr>
-                            <th style="width: 50%;">Item</th>
-                            <th style="width: 25%;">18.6 ft</th>
-                            <th style="width: 25%;">21 ft</th>
+                            <th style="width:30%;">Item</th>
+                            <th style="width:20%;">18.6 ft</th>
+                            <th style="width:20%;">21 ft</th>
+                            <th style="width:30%;">টুকরো মাল (In)</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr><td>Outer Side</td><td id="outerSide186">0</td><td id="outerSide21">0</td></tr>
-                        <tr><td>Outer Top</td><td id="outerTop186">0</td><td id="outerTop21">0</td></tr>
-                        <tr><td>Outer Bottom</td><td id="outerBottom186">0</td><td id="outerBottom21">0</td></tr>
-                        <tr><td>Shutter Lock</td><td id="shutterLock186">0</td><td id="shutterLock21">0</td></tr>
-                        <tr><td>Shutter Interlock</td><td id="shutterInterlock186">0</td><td id="shutterInterlock21">0</td></tr>
-                        <tr><td>Shutter Top</td><td id="shutterTop186">0</td><td id="shutterTop21">0</td></tr>
-                        <tr><td>Shutter Bottom</td><td id="shutterBottom186">0</td><td id="shutterBottom21">0</td></tr>
+                    <tbody id="cuttingReportBody">
+                        <tr><td>Outer Side</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Outer Top</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Outer Bottom</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Shutter Lock</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Shutter Interlock</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Shutter Top</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Shutter Bottom</td><td>0</td><td>0</td><td>0 in</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -443,6 +277,6 @@
 
     </div>
 
-    <script src="calculator.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

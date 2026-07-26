@@ -1,140 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quotation</title>
+<title>Quotation Slip</title>
 <link rel="stylesheet" href="style.css">
+<style>
+    .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; background: #fff; }
+    .header-table, .details-table { width: 100%; margin-bottom: 20px; border-collapse: collapse; }
+    .details-table th, .details-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    .details-table th { background-color: #f4f4f4; }
+    @media print { .no-print { display: none; } }
+</style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="invoice-box">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h2>ALUMINIUM & GLASS QUOTATION</h2>
+        <p>Estimated Cost Breakdown</p>
+    </div>
 
-<h2>Quotation</h2>
+    <table class="header-table">
+        <tr>
+            <td><strong>Customer Name:</strong> <span id="qName"></span></td>
+            <td style="text-align: right;"><strong>Date:</strong> <span id="qDate"></span></td>
+        </tr>
+        <tr>
+            <td><strong>Mobile:</strong> <span id="qMobile"></span></td>
+            <td style="text-align: right;"><strong>Address:</strong> <span id="qAddress"></span></td>
+        </tr>
+    </table>
 
-<table>
+    <table class="details-table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Specifications</th>
+                <th>Total Measurement</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Aluminium Frame</td>
+                <td><span id="qCompany"></span> - <span id="qSeries"></span></td>
+                <td><span id="qAlu"></span></td>
+            </tr>
+            <tr>
+                <td>Glass Work</td>
+                <td>Standard Specification</td>
+                <td><span id="qGlass"></span></td>
+            </tr>
+        </tbody>
+    </table>
 
-<tr>
-<td>Customer Name</td>
-<td id="customer"></td>
-</tr>
+    <h3 style="text-align: right;">Total Price: <span id="qPrice" style="color:#2563eb;"></span></h3>
 
-<tr>
-<td>Mobile</td>
-<td id="mobile"></td>
-</tr>
-
-<tr>
-<td>Address</td>
-<td id="address"></td>
-</tr>
-
-<tr>
-<td>Company</td>
-<td id="company"></td>
-</tr>
-
-<tr>
-<td>Series</td>
-<td id="series"></td>
-</tr>
-
-<tr>
-<td>Glass Company</td>
-<td id="glassCompany"></td>
-</tr>
-
-<tr>
-<td>Glass Thickness</td>
-<td id="glassThickness"></td>
-</tr>
-
-<tr>
-<td>Glass Colour</td>
-<td id="glassColour"></td>
-</tr>
-
-<tr>
-<td>Total Aluminium</td>
-<td id="totalAluminium"></td>
-</tr>
-
-<tr>
-<td>Total Glass</td>
-<td id="glass"></td>
-</tr>
-
-<tr>
-<td>Hardware Cost</td>
-<td id="hardwareCost"></td>
-</tr>
-
-<tr>
-<td>Fittings Cost</td>
-<td id="fittingsCost"></td>
-</tr>
-
-<tr>
-<td>Labour Cost</td>
-<td id="labourCost"></td>
-</tr>
-
-<tr>
-<td>Material Cost</td>
-<td id="materialCost"></td>
-</tr>
-
-<tr>
-<td>Material Cost / Sqft</td>
-<td id="materialSqft"></td>
-</tr>
-
-<tr>
-<td>Selling Price / Sqft</td>
-<td id="sellingSqft"></td>
-</tr>
-
-<tr>
-<td>Profit / Sqft</td>
-<td id="profitSqft"></td>
-</tr>
-
-<tr>
-<td>Cost / Sqft</td>
-<td id="costPerSqft"></td>
-</tr>
-
-<tr>
-<td><b>Selling Price</b></td>
-<td id="sellingPrice"></td>
-</tr>
-
-</table>
-
-<br>
-
-<button onclick="window.print()">Print</button>
-
-<button onclick="location.href='dashboard.html'">
-Dashboard
-</button>
-
+    <hr>
+    <div class="no-print" style="margin-top:20px; display:flex; gap:10px;">
+        <button onclick="window.print()" style="flex:1; padding:10px; background:#2563eb; color:#fff; border:none; cursor:pointer; border-radius:5px;">Print / Save PDF</button>
+        <button onclick="saveToDashboard()" style="flex:1; padding:10px; background:#16a34a; color:#fff; border:none; cursor:pointer; border-radius:5px;">Save to Dashboard</button>
+        <button onclick="location.href='dashboard.html'" style="flex:1; padding:10px; background:#6b7280; color:#fff; border:none; cursor:pointer; border-radius:5px;">Dashboard</button>
+    </div>
 </div>
+
 <script>
-function saveQuotation(){
+document.addEventListener("DOMContentLoaded", () => {
+    let data = JSON.parse(localStorage.getItem("quotation")) || {};
+    document.getElementById("qName").innerText = data.customerName || "N/A";
+    document.getElementById("qMobile").innerText = data.mobile || "N/A";
+    document.getElementById("qAddress").innerText = data.address || "N/A";
+    document.getElementById("qCompany").innerText = data.company || "N/A";
+    document.getElementById("qSeries").innerText = data.series || "N/A";
+    document.getElementById("qAlu").innerText = data.totalAluminium || "0 ft";
+    document.getElementById("qGlass").innerText = data.glass || "0 Sqft";
+    document.getElementById("qPrice").innerText = data.sellingPrice || "0 ৳";
+    document.getElementById("qDate").innerText = new Date().toISOString().split('T')[0];
+});
 
-let data={
-customer:document.getElementById("customer").value,
-mobile:document.getElementById("mobile").value,
-project:document.getElementById("project").value,
-total:document.getElementById("total").value
-};
+function saveToDashboard() {
+    let data = JSON.parse(localStorage.getItem("quotation")) || {};
+    if (!data.sellingPrice) { alert("কোটেশন ডাটা পাওয়া যায়নি!"); return; }
 
-localStorage.setItem("quotation",JSON.stringify(data));
+    let list = JSON.parse(localStorage.getItem("quotationList")) || [];
+    list.push({
+        date: new Date().toISOString().split('T')[0],
+        customerName: data.customerName || "N/A",
+        mobile: data.mobile || "N/A",
+        company: data.company || "N/A",
+        series: data.series || "N/A",
+        price: parseFloat(data.sellingPrice) || 0,
+        glassSqft: parseFloat(data.glass) || 0
+    });
 
-alert("Quotation Saved Successfully");
-
+    localStorage.setItem("quotationList", JSON.stringify(list));
+    alert("Saved to Dashboard Successfully!");
+    window.location.href = "dashboard.html";
 }
 </script>
 

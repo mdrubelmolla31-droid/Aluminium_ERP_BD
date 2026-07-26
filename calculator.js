@@ -1,142 +1,150 @@
-document.addEventListener("DOMContentLoaded", () => {
-    loadMasterDataToCalculator();
-});
-
-function loadMasterDataToCalculator() {
-    let data = JSON.parse(localStorage.getItem("masterData")) || {};
-
-    function populateSelect(id, key) {
-        let select = document.getElementById(id);
-        if (!select) return;
-        select.innerHTML = "";
-        if (data[key]) {
-            data[key].forEach(val => {
-                let opt = document.createElement("option");
-                opt.value = val;
-                opt.textContent = val;
-                select.appendChild(opt);
-            });
-        }
-    }
-
-    populateSelect("company", "company");
-    populateSelect("series", "series");
-    populateSelect("aluThickness", "aluThickness");
-    populateSelect("glassCompany", "glassCompany");
-    populateSelect("glassThickness", "glassThickness");
-    populateSelect("glassColour", "glassColour");
-}
-
 function calculateMaterial() {
-    let inputs = [
-        { h: "height", w: "width", q: "qty" },
-        { h: "height2", w: "width2", q: "qty2" },
-        { h: "height3", w: "width3", q: "qty3" },
-        { h: "height4", w: "width4", q: "qty4" },
-        { h: "height5", w: "width5", q: "qty5" }
-    ];
+    let heights = document.querySelectorAll('.w-height');
+    let widths = document.querySelectorAll('.w-width');
+    let qtys = document.querySelectorAll('.w-qty');
 
-    let totalOuterSide = 0, totalOuterTop = 0, totalOuterBottom = 0;
-    let totalShutterLock = 0, totalShutterInterlock = 0, totalShutterTop = 0, totalShutterBottom = 0;
-    let totalGlassSqft = 0;
-
-    inputs.forEach(item => {
-        let hElem = document.getElementById(item.h);
-        let wElem = document.getElementById(item.w);
-        let qElem = document.getElementById(item.q);
-
-        if (hElem && wElem && qElem) {
-            let h = parseFloat(hElem.value) || 0;
-            let w = parseFloat(wElem.value) || 0;
-            let q = parseInt(qElem.value) || 0;
-
-            if (h > 0 && w > 0 && q > 0) {
-                totalOuterSide += ((h * 2) / 12) * q;
-                totalOuterTop += (w / 12) * q;
-                totalOuterBottom += (w / 12) * q;
-
-                totalShutterLock += ((h * 2) / 12) * q;
-                totalShutterInterlock += ((h * 2) / 12) * q;
-                totalShutterTop += (w / 12) * q;
-                totalShutterBottom += (w / 12) * q;
-
-                totalGlassSqft += ((w * h) / 144) * q;
-            }
-        }
-    });
-
-    let totalAluFeet = totalOuterSide + totalOuterTop + totalOuterBottom + totalShutterLock + totalShutterInterlock + totalShutterTop + totalShutterBottom;
-
-    // সেট করা রেট ফেচ করা (Settings Data)
-    let rates = JSON.parse(localStorage.getItem("rates")) || [];
-    let activeCompany = document.getElementById("company")?.value;
-    let activeSeries = document.getElementById("series")?.value;
-
-    let matchedRate = rates.find(r => r.company === activeCompany && r.series === activeSeries) || {
-        aluRate: 0, glassRate: 0, hardwareRate: 40, fittingsRate: 30, labourRate: 20, profit: 0
+    // ইনভেন্টরি টুকরো লিস্ট ট্র্যাকিংয়ের জন্য
+    let itemMeasurements = {
+        "Outer Side": [],
+        "Outer Top": [],
+        "Outer Bottom": [],
+        "Shutter Lock": [],
+        "Shutter Interlock": [],
+        "Shutter Top": [],
+        "Shutter Bottom": []
     };
 
-    let aluPrice = totalAluFeet * matchedRate.aluRate;
-    let glassPrice = totalGlassSqft * matchedRate.glassRate;
-    let hardwareCost = totalGlassSqft * matchedRate.hardwareRate;
-    let fittingsCost = totalGlassSqft * matchedRate.fittingsRate;
-    let labourCost = totalGlassSqft * matchedRate.labourRate;
+    let totalAreaSqft = 0;
 
-    let materialCost = aluPrice + glassPrice + hardwareCost + fittingsCost + labourCost;
-    let profitAmount = (materialCost * matchedRate.profit) / 100;
-    let sellingPrice = materialCost + profitAmount;
+    for (let i = 0; i < heights.length; i++) {
+        let h = parseFloat(heights[i].value) || 0;
+        let w = parseFloat(widths[i].value) || 0;
+        let q = parseFloat(qtys[i].value) || 0;
 
-    // রেজাল্ট আপডেট
-    document.getElementById("outerSide").innerText = totalOuterSide.toFixed(2) + " ft";
-    document.getElementById("outerTop").innerText = totalOuterTop.toFixed(2) + " ft";
-    document.getElementById("outerBottom").innerText = totalOuterBottom.toFixed(2) + " ft";
-    document.getElementById("shutterLock").innerText = totalShutterLock.toFixed(2) + " ft";
-    document.getElementById("shutterInterlock").innerText = totalShutterInterlock.toFixed(2) + " ft";
-    document.getElementById("shutterTop").innerText = totalShutterTop.toFixed(2) + " ft";
-    document.getElementById("shutterBottom").innerText = totalShutterBottom.toFixed(2) + " ft";
+        if (h > 0 && w > 0 && q > 0) {
+            // ১টি জানালার জন্য প্রতিটি পার্টসের সাইজ (ইনচিতে)
+            let sideLen = h;
+            let topBottomLen = w;
 
-    document.getElementById("totalAluminium").innerText = totalAluFeet.toFixed(2) + " ft";
-    document.getElementById("glass").innerText = totalGlassSqft.toFixed(2) + " Sqft";
+            // ২-পাল্লার থাই জানালার শাটার মাপের সাধারণ স্ট্যান্ডার্ড
+            let shutterHeight = Math.max(0, h - 1.5);
+            let shutterWidth = Math.max(0, (w / 2) + 0.5);
 
-    document.getElementById("hardwareCost").innerText = hardwareCost.toFixed(2) + " ৳";
-    document.getElementById("fittingsCost").innerText = fittingsCost.toFixed(2) + " ৳";
-    document.getElementById("labourCost").innerText = labourCost.toFixed(2) + " ৳";
-    document.getElementById("materialCost").innerText = materialCost.toFixed(2) + " ৳";
+            for (let k = 0; k < q; k++) {
+                // ২ পাশ
+                itemMeasurements["Outer Side"].push(sideLen, sideLen);
+                itemMeasurements["Outer Top"].push(topBottomLen);
+                itemMeasurements["Outer Bottom"].push(topBottomLen);
 
-    if(totalGlassSqft > 0) {
-        document.getElementById("materialSqft").innerText = (materialCost / totalGlassSqft).toFixed(2) + " ৳";
-        document.getElementById("sellingSqft").innerText = (sellingPrice / totalGlassSqft).toFixed(2) + " ৳";
-        document.getElementById("profitSqft").innerText = (profitAmount / totalGlassSqft).toFixed(2) + " ৳";
-        document.getElementById("costPerSqft").innerText = (materialCost / totalGlassSqft).toFixed(2) + " ৳";
+                // শাটার (২ টি পাল্লা)
+                itemMeasurements["Shutter Lock"].push(shutterHeight, shutterHeight);
+                itemMeasurements["Shutter Interlock"].push(shutterHeight, shutterHeight);
+                itemMeasurements["Shutter Top"].push(shutterWidth, shutterWidth);
+                itemMeasurements["Shutter Bottom"].push(shutterWidth, shutterWidth);
+            }
+
+            // মোট স্কয়ার ফিট হিসাব
+            totalAreaSqft += ((h * w) / 144) * q;
+        }
     }
 
-    document.getElementById("sellingPrice").innerText = sellingPrice.toFixed(2) + " ৳";
+    // প্রতি আইটেমের মোট দৈর্ঘ্য (ফুট)
+    let sumInches = (arr) => arr.reduce((a, b) => a + b, 0);
 
-    // বারের হিসাব (১৮.৬ এবং ২১ ফিট)
-    document.getElementById("outerSide186").innerText = Math.ceil(totalOuterSide / 18.6);
-    document.getElementById("outerSide21").innerText = Math.ceil(totalOuterSide / 21);
-    document.getElementById("outerTop186").innerText = Math.ceil(totalOuterTop / 18.6);
-    document.getElementById("outerTop21").innerText = Math.ceil(totalOuterTop / 21);
-    document.getElementById("outerBottom186").innerText = Math.ceil(totalOuterBottom / 18.6);
-    document.getElementById("outerBottom21").innerText = Math.ceil(totalOuterBottom / 21);
+    let outerSideFt = sumInches(itemMeasurements["Outer Side"]) / 12;
+    let outerTopFt = sumInches(itemMeasurements["Outer Top"]) / 12;
+    let outerBottomFt = sumInches(itemMeasurements["Outer Bottom"]) / 12;
+    let shutterLockFt = sumInches(itemMeasurements["Shutter Lock"]) / 12;
+    let shutterInterlockFt = sumInches(itemMeasurements["Shutter Interlock"]) / 12;
+    let shutterTopFt = sumInches(itemMeasurements["Shutter Top"]) / 12;
+    let shutterBottomFt = sumInches(itemMeasurements["Shutter Bottom"]) / 12;
+
+    let totalAluFt = outerSideFt + outerTopFt + outerBottomFt + shutterLockFt + shutterInterlockFt + shutterTopFt + shutterBottomFt;
+
+    // UI রেজাল্ট আপডেট
+    document.getElementById('resOuterSide').innerText = outerSideFt.toFixed(2) + " ft";
+    document.getElementById('resOuterTop').innerText = outerTopFt.toFixed(2) + " ft";
+    document.getElementById('resOuterBottom').innerText = outerBottomFt.toFixed(2) + " ft";
+    document.getElementById('resShutterLock').innerText = shutterLockFt.toFixed(2) + " ft";
+    document.getElementById('resShutterInterlock').innerText = shutterInterlockFt.toFixed(2) + " ft";
+    document.getElementById('resShutterTop').innerText = shutterTopFt.toFixed(2) + " ft";
+    document.getElementById('resShutterBottom').innerText = shutterBottomFt.toFixed(2) + " ft";
+    document.getElementById('resTotalAlu').innerText = totalAluFt.toFixed(2) + " ft";
+    document.getElementById('resGlassTotal').innerText = totalAreaSqft.toFixed(2) + " Sqft";
+
+    // দাম ও বাজেট হিসাব (স্ট্যান্ডার্ড রেট)
+    let aluPrice = totalAluFt * 160; 
+    let glassPrice = totalAreaSqft * 110;
+    let hardware = totalAreaSqft * 25;
+    let fittings = totalAreaSqft * 25;
+    let labour = totalAreaSqft * 15;
+
+    let totalCost = aluPrice + glassPrice + hardware + fittings + labour;
+    let costPerSqft = totalAreaSqft > 0 ? totalCost / totalAreaSqft : 0;
+    let profitPerSqft = 35;
+    let sellingSqft = costPerSqft + profitPerSqft;
+    let sellingTotal = sellingSqft * totalAreaSqft;
+
+    document.getElementById('resHardware').innerText = hardware.toFixed(2) + " ৳";
+    document.getElementById('resFittings').innerText = fittings.toFixed(2) + " ৳";
+    document.getElementById('resLabour').innerText = labour.toFixed(2) + " ৳";
+    document.getElementById('resCostTotal').innerText = totalCost.toFixed(2) + " ৳";
+    document.getElementById('resCostSqft').innerText = costPerSqft.toFixed(2) + " ৳";
+    document.getElementById('resProfitSqft').innerText = profitPerSqft.toFixed(2) + " ৳";
+    document.getElementById('resSellSqft').innerText = sellingSqft.toFixed(2) + " ৳";
+    document.getElementById('resSellTotal').innerText = sellingTotal.toFixed(2) + " ৳";
+
+    // কাটিং রিপোর্ট ও টুকরো মাল হিসাব
+    generateCuttingReport(itemMeasurements);
 }
 
-function openQuotation() {
-    let quotationData = {
-        customerName: document.getElementById("customerName")?.value || "",
-        mobile: document.getElementById("mobile")?.value || "",
-        address: document.getElementById("address")?.value || "",
-        company: document.getElementById("company")?.value || "",
-        series: document.getElementById("series")?.value || "",
-        glass: document.getElementById("glass")?.innerText || "0",
-        totalAluminium: document.getElementById("totalAluminium")?.innerText || "0",
-        sellingPrice: document.getElementById("sellingPrice")?.innerText || "0 ৳",
-        date: new Date().toLocaleDateString("bn-BD")
-    };
+// বার কাটিং ও টুকরো মালের নিখুঁত অ্যালগরিদম ( First Fit Decreasing )
+function generateCuttingReport(itemMeasurements) {
+    let tbody = document.getElementById('cuttingReportBody');
+    tbody.innerHTML = '';
 
-    let list = JSON.parse(localStorage.getItem("quotationList")) || [];
-    list.push(quotationData);
-    localStorage.setItem("quotationList", JSON.stringify(list));
+    const BAR_186_INCH = 18.6 * 12; // 223.2 Inches
 
-    window.location.href = "quotation.html";
+    for (let itemName in itemMeasurements) {
+        let cuts = itemMeasurements[itemName].slice(); // অ্যারে কপি
+
+        if (cuts.length === 0) {
+            appendReportRow(tbody, itemName, 0, 0, "0 in");
+            continue;
+        }
+
+        // টুকরোগুলো বড় থেকে ছোট সাজানো
+        cuts.sort((a, b) => b - a);
+
+        let barCount186 = 0;
+        let totalOffcutInches = 0;
+        let currentBarFreeSpace = 0;
+
+        cuts.forEach(piece => {
+            if (piece <= currentBarFreeSpace) {
+                currentBarFreeSpace -= piece;
+            } else {
+                if (currentBarFreeSpace > 0) {
+                    totalOffcutInches += currentBarFreeSpace;
+                }
+                barCount186++;
+                currentBarFreeSpace = BAR_186_INCH - piece;
+            }
+        });
+
+        totalOffcutInches += currentBarFreeSpace;
+
+        appendReportRow(tbody, itemName, barCount186, 0, totalOffcutInches.toFixed(1) + " in");
+    }
+}
+
+function appendReportRow(tbody, name, b18, b21, offcut) {
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${name}</td>
+        <td>${b18}</td>
+        <td>${b21}</td>
+        <td style="color: #d97706; font-weight: bold;">${offcut}</td>
+    `;
+    tbody.appendChild(tr);
 }

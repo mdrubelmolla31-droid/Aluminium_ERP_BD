@@ -3,420 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminium ERP BD</title>
+    <title>Material Calculator</title>
     <style>
         :root {
-            --bg-light: #f4f6f9;
-            --card-white: #ffffff;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --primary-blue: #1d61f2;
+            --primary-blue: #1877f2;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #1c1e21;
+            --text-muted: #606770;
+            --border-box: #b0c4de; /* স্পষ্ট বর্ডারের জন্য */
+            --input-border: #8ab4f8;
+            --grey-highlight: #e9ecef;
+            --green-highlight: #d1e7dd;
+            --green-text: #0f5132;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 30px;
         }
 
-        /* ১. স্প্ল্যাশ স্ক্রিন */
-        #splash-screen {
-            position: fixed;
-            inset: 0;
-            background: #1d61f2;
-            color: white;
+        /* Header */
+        .top-header {
+            background: var(--card-bg);
+            padding: 14px 20px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 99999;
-            transition: opacity 0.5s ease;
+            border-bottom: 2px solid var(--border-box);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .splash-content { text-align: center; }
-        .logo-box { font-size: 50px; margin-bottom: 10px; }
-        .powered-by { font-size: 13px; opacity: 0.8; }
-        .loader {
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top: 3px solid white;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            animation: spin 0.8s linear infinite;
-            margin: 15px auto 0;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* ২. লক মোডাল (Product Key System) */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            padding: 20px;
-        }
-        .modal-card {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            max-width: 380px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        .lock-icon { font-size: 36px; margin-bottom: 8px; cursor: pointer; }
-        .sub-text { font-size: 13px; color: var(--text-muted); margin: 8px 0 15px; }
-        .device-id-box {
-            background: #eef2ff;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            color: var(--primary-blue);
-            border: 1px dashed var(--primary-blue);
-            margin-bottom: 15px;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .wa-btn { background: #22c55e; color: white; margin-bottom: 10px; }
-        .activate-btn { background: var(--primary-blue); color: white; }
-        .divider { margin: 15px 0; color: var(--text-muted); font-size: 12px; }
-        .input-group { text-align: left; margin-bottom: 12px; }
-        .input-group label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        /* ৩. ছবির মতো মূল ড্যাশবোর্ড ইন্টারফেস */
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: white;
-        }
-        .nav-icon-btn {
+        .back-btn {
             background: none;
             border: none;
             font-size: 20px;
             cursor: pointer;
+            margin-right: 15px;
+            color: var(--text-main);
             text-decoration: none;
-        }
-        .nav-title { font-size: 18px; font-weight: 700; color: var(--text-dark); }
-
-        .dashboard-body {
-            padding: 16px;
-            max-width: 480px;
-            margin: 0 auto;
+            font-weight: bold;
         }
 
-        /* নীল ব্যানার */
-        .welcome-banner {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: white;
-            padding: 22px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
-            margin-bottom: 20px;
-        }
-        .banner-text h2 { font-size: 18px; font-weight: 700; }
-        .banner-text p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
-        .user-avatar {
-            background: white;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 22px;
-        }
-
-        /* ছবির মতো গ্রিড */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .grid-card {
-            border-radius: 18px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            text-decoration: none;
-        }
-
-        .grid-card:active { transform: scale(0.96); }
-
-        .grid-card span {
-            font-size: 13px;
+        .page-title {
+            font-size: 18px;
             font-weight: 700;
-            margin-top: 10px;
-            color: #334155;
+            color: var(--text-main);
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 12px auto;
+            padding: 0 10px;
+        }
+
+        /* Card with Light Border */
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 2px solid var(--border-box); /* হালকা স্পষ্ট বর্ডার */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 14px;
             text-align: center;
         }
 
-        .icon-circle {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
+        .form-group {
+            margin-bottom: 12px;
         }
 
-        /* ছবির শেড কালারসমূহ */
-        .bg-blue { background: #edf4ff; }
-        .icon-blue { background: #dbeafe; color: #2563eb; }
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
 
-        .bg-purple { background: #f5f3ff; }
-        .icon-purple { background: #ede9fe; color: #7c3aed; }
+        /* Inputs & Dropdowns with Clear Light Borders */
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1.5px solid var(--input-border); /* কালারফুল হালকা বর্ডার */
+            background-color: #ffffff;
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+            appearance: auto;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
 
-        .bg-green { background: #f0fdf4; }
-        .icon-green { background: #dcfce7; color: #16a34a; }
+        input:focus, select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2);
+        }
 
-        .bg-orange { background: #fff7ed; }
-        .icon-orange { background: #ffedd5; color: #ea580c; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
-        .bg-red { background: #fef2f2; }
-        .icon-red { background: #fee2e2; color: #dc2626; }
+        /* Window Sub-boxes with Distinct Light Borders */
+        .window-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1.5px solid #cbd5e1; /* স্পষ্ট হালকা বর্ডার */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
 
-        .bg-teal { background: #f0fdfa; }
-        .icon-teal { background: #ccfbf1; color: #0d9488; }
+        .window-box-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 6px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .btn {
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            color: white;
+        }
+
+        .btn-primary { background-color: var(--primary-blue); }
+        .btn-success { background-color: #198754; }
+
+        /* Tables Styling */
+        .table-container {
+            border: 2px solid var(--border-box);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+        }
+
+        .result-table th {
+            background-color: var(--primary-blue);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .result-table td {
+            padding: 9px 10px;
+            font-size: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .row-grey { background-color: var(--grey-highlight) !important; font-weight: bold; }
+        .row-green { background-color: var(--green-highlight) !important; font-weight: bold; color: var(--green-text) !important; }
+        .row-green td { color: var(--green-text) !important; }
     </style>
 </head>
 <body>
 
-    <!-- ১. স্প্ল্যাশ স্ক্রিন -->
-    <div id="splash-screen">
-        <div class="splash-content">
-            <div class="logo-box">🏬</div>
-            <h2>Aluminium ERP BD</h2>
-            <p class="powered-by">Powered by Thai Tech</p>
-            <div class="loader"></div>
-        </div>
-    </div>
+    <header class="top-header">
+        <a href="index.html" class="back-btn">←</a>
+        <h1 class="page-title">Material Calculator</h1>
+    </header>
 
-    <!-- ২. অ্যাক্টিভেশন মোডাল (লক স্ক্রিন) -->
-    <div id="activation-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-card">
-            <div class="lock-icon" id="secret-logo-tap">🔐</div>
-            <h2>App Activation Required</h2>
-            <p class="sub-text">অ্যাপটি ব্যবহার করতে আপনার Device ID টি দিয়ে Product Key সংগ্রহ করুন।</p>
-            
-            <div class="device-id-box">
-                <span id="display-device-id">GENERATING...</span>
+    <div class="container">
+
+        <!-- Customer Info -->
+        <div class="card">
+            <div class="card-title">Customer Info</div>
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" id="customerName" placeholder="গ্রাহকের নাম">
             </div>
-
-            <a id="wa-share-link" href="#" target="_blank" class="btn wa-btn">
-                💬 Send Device ID via WhatsApp
-            </a>
-
-            <div class="divider"><span>OR</span></div>
-
-            <div class="input-group">
-                <label for="input-product-key">Enter Product Key</label>
-                <input type="text" id="input-product-key" placeholder="Paste Product Key here...">
-            </div>
-
-            <button onclick="submitProductKey()" class="btn activate-btn">⚡ Activate App</button>
-        </div>
-    </div>
-
-    <!-- ৩. ছবি অনুযায়ী ড্যাশবোর্ড (Dashboard UI) -->
-    <div id="app-container" style="display: none;">
-        
-        <header class="top-nav">
-            <button class="nav-icon-btn">☰</button>
-            <h1 class="nav-title">Dashboard</h1>
-            <button class="nav-icon-btn">🔔</button>
-        </header>
-
-        <main class="dashboard-body">
-            
-            <!-- নীল ওয়েলকাম ব্যানার -->
-            <div class="welcome-banner">
-                <div class="banner-text">
-                    <h2>Welcome, Admin</h2>
-                    <p>Aluminium ERP BD</p>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Mobile</label>
+                    <input type="text" id="mobile" placeholder="মোবাইল নম্বর">
                 </div>
-                <div class="user-avatar">👤</div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="address" placeholder="ঠিকানা">
+                </div>
+            </div>
+        </div>
+
+        <!-- Aluminium & Glass Config (FIXED DROPDOWNS) -->
+        <div class="card">
+            <div class="card-title">Aluminium & Glass Config</div>
+
+            <div class="form-group">
+                <label>Company</label>
+                <select id="company">
+                    <option value="Chung Hua">Chung Hua</option>
+                    <option value="KAI">KAI Aluminium</option>
+                    <option value="BUPIL">BUPIL</option>
+                    <option value="Alco">Alco</option>
+                </select>
             </div>
 
-            <!-- গ্রিড কার্ডসমূহ -->
-            <div class="grid-container">
-                
-                <a href="company.html" class="grid-card bg-blue">
-                    <div class="icon-circle icon-blue">🏢</div>
-                    <span>Company</span>
-                </a>
-
-                <a href="settings.html" class="grid-card bg-purple">
-                    <div class="icon-circle icon-purple">📦</div>
-                    <span>Profile</span>
-                </a>
-
-                <a href="customer.html" class="grid-card bg-green">
-                    <div class="icon-circle icon-green">👤</div>
-                    <span>Customer</span>
-                </a>
-
-                <a href="Stock.html" class="grid-card bg-orange">
-                    <div class="icon-circle icon-orange">⬢</div>
-                    <span>Stock</span>
-                </a>
-
-                <a href="quotation.html" class="grid-card bg-red">
-                    <div class="icon-circle icon-red">📄</div>
-                    <span>Quotation</span>
-                </a>
-
-                <a href="calculator.html" class="grid-card bg-teal">
-                    <div class="icon-circle icon-teal">🧮</div>
-                    <span>Material Calculator</span>
-                </a>
-
+            <div class="form-group">
+                <label>Series</label>
+                <select id="series">
+                    <option value="25 Series">25 Series</option>
+                    <option value="30 Series">30 Series</option>
+                    <option value="100mm Sliding">100mm Sliding</option>
+                </select>
             </div>
 
-        </main>
+            <div class="form-group">
+                <label>Alu Thickness</label>
+                <select id="aluThickness">
+                    <option value="1.2mm">1.2 mm</option>
+                    <option value="1.5mm">1.5 mm</option>
+                    <option value="2.0mm">2.0 mm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Glass Company</label>
+                <select id="glassCompany">
+                    <option value="PHP">PHP Float Glass</option>
+                    <option value="Nasir">Nasir Glass</option>
+                    <option value="Imported">Imported Glass</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Glass Thickness</label>
+                <select id="glassThickness">
+                    <option value="5mm">5 mm</option>
+                    <option value="6mm">6 mm</option>
+                    <option value="8mm">8 mm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Glass Colour</label>
+                <select id="glassColour">
+                    <option value="Clear">Clear</option>
+                    <option value="Mercy Green">Mercy Green</option>
+                    <option value="Dark Blue">Dark Blue</option>
+                    <option value="Black">Black</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Window Measurements -->
+        <div class="card">
+            <div class="card-title">Window Measurements</div>
+
+            <!-- Window Sizes (1 to 5) -->
+            <div class="window-box">
+                <div class="window-box-title">Window Size - 1</div>
+                <div class="grid-3">
+                    <div><label>Height (In)</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width (In)</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="1"></div>
+                </div>
+            </div>
+
+            <div class="window-box">
+                <div class="window-box-title">Window Size - 2</div>
+                <div class="grid-3">
+                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
+                </div>
+            </div>
+
+            <div class="window-box">
+                <div class="window-box-title">Window Size - 3</div>
+                <div class="grid-3">
+                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
+                </div>
+            </div>
+
+            <div class="window-box">
+                <div class="window-box-title">Window Size - 4</div>
+                <div class="grid-3">
+                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
+                </div>
+            </div>
+
+            <div class="window-box">
+                <div class="window-box-title">Window Size - 5</div>
+                <div class="grid-3">
+                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
+                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
+                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="calculateMaterial()">Calculate</button>
+            <button class="btn btn-success" onclick="alert('Quotation Feature Coming Soon')">Quotation</button>
+        </div>
+
+        <!-- Material Details Summary -->
+        <div class="card" style="padding:0; background:transparent; border:none; box-shadow:none;">
+            <div class="table-container">
+                <table class="result-table">
+                    <thead>
+                        <tr><th colspan="2">Material Details</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Outer Side</td><td id="resOuterSide">0.00 ft</td></tr>
+                        <tr><td>Outer Top</td><td id="resOuterTop">0.00 ft</td></tr>
+                        <tr><td>Outer Bottom</td><td id="resOuterBottom">0.00 ft</td></tr>
+                        <tr><td>Shutter Lock</td><td id="resShutterLock">0.00 ft</td></tr>
+                        <tr><td>Shutter Interlock</td><td id="resShutterInterlock">0.00 ft</td></tr>
+                        <tr><td>Shutter Top</td><td id="resShutterTop">0.00 ft</td></tr>
+                        <tr><td>Shutter Bottom</td><td id="resShutterBottom">0.00 ft</td></tr>
+                        <tr><td>Total Aluminium</td><td id="resTotalAlu">0.00 ft</td></tr>
+                        <tr><td>Glass Total</td><td id="resGlassTotal">0.00 Sqft</td></tr>
+                        <tr><td>Hardware</td><td id="resHardware">0.00 ৳</td></tr>
+                        <tr><td>Fittings</td><td id="resFittings">0.00 ৳</td></tr>
+                        <tr><td>Labour</td><td id="resLabour">0.00 ৳</td></tr>
+                        <tr class="row-grey"><td>Material Cost Total</td><td id="resCostTotal">0.00 ৳</td></tr>
+                        <tr><td>Material Cost / Sqft</td><td id="resCostSqft">0.00 ৳</td></tr>
+                        <tr><td>Profit / Sqft</td><td id="resProfitSqft">0.00 ৳</td></tr>
+                        <tr><td>Selling Price / Sqft</td><td id="resSellSqft">0.00 ৳</td></tr>
+                        <tr class="row-green"><td>Selling Price Total</td><td id="resSellTotal">0.00 ৳</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cutting Report (আপডেট করা টুকরো মাল সহ) -->
+        <div class="card" style="padding:0; background:transparent; border:none; box-shadow:none; margin-top:15px;">
+            <h3 style="text-align:center; color:var(--primary-blue); margin-bottom:8px;">Cutting Report</h3>
+            <div class="table-container">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th style="width:35%;">Item</th>
+                            <th style="width:20%;">18.6 ft</th>
+                            <th style="width:20%;">21 ft</th>
+                            <th style="width:25%;">টুকরো মাল (In)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuttingReportBody">
+                        <tr><td>Outer Side</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Outer Top</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Outer Bottom</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Shutter Lock</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Shutter Interlock</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Shutter Top</td><td>0</td><td>0</td><td>0 in</td></tr>
+                        <tr><td>Shutter Bottom</td><td>0</td><td>0</td><td>0 in</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        const MASTER_KEY = "THAI-BOSS-2026";
-        const OWNER_PHONE = "8801676474412"; 
-
-        document.addEventListener("DOMContentLoaded", () => {
-            // স্প্ল্যাশ স্ক্রিন ২ সেকেন্ড পর গায়েব হবে
-            setTimeout(() => {
-                const splash = document.getElementById("splash-screen");
-                if (splash) {
-                    splash.style.opacity = "0";
-                    setTimeout(() => {
-                        splash.style.display = "none";
-                        checkAppActivation();
-                    }, 500);
-                }
-            }, 2000);
-
-            // সিক্রেট ট্যাপ ট্রিক (লক আইকনে ৫ বার ক্লিক করলে মাস্টার কি বসে যাবে)
-            let tapCount = 0;
-            const secretTapBtn = document.getElementById("secret-logo-tap");
-            if (secretTapBtn) {
-                secretTapBtn.addEventListener("click", () => {
-                    tapCount++;
-                    if (tapCount === 5) {
-                        tapCount = 0;
-                        document.getElementById("input-product-key").value = MASTER_KEY;
-                        alert("👑 Admin Mode Detected! Master Key Applied.");
-                    }
-                });
-            }
-        });
-
-        function getDeviceId() {
-            let devId = localStorage.getItem("app_device_id");
-            if (!devId) {
-                devId = "THAI-" + Math.floor(1000 + Math.random() * 9000);
-                localStorage.setItem("app_device_id", devId);
-            }
-            return devId;
-        }
-
-        function checkAppActivation() {
-            const isActivated = localStorage.getItem("app_activated");
-            const expiryDate = localStorage.getItem("app_expiry");
-            let now = new Date().getTime();
-
-            if (isActivated === "true" && expiryDate && now < parseInt(expiryDate)) {
-                document.getElementById("activation-modal").style.display = "none";
-                document.getElementById("app-container").style.display = "block";
-            } else {
-                document.getElementById("app-container").style.display = "none";
-                document.getElementById("activation-modal").style.display = "flex";
-
-                let deviceId = getDeviceId();
-                document.getElementById("display-device-id").innerText = deviceId;
-
-                let waMsg = encodeURIComponent(`Hello, my Device ID is: ${deviceId}. I need Product Key for Aluminium ERP BD.`);
-                document.getElementById("wa-share-link").href = `https://wa.me/${OWNER_PHONE}?text=${waMsg}`;
-            }
-        }
-
-        function submitProductKey() {
-            let userKey = document.getElementById("input-product-key").value.trim();
-            let deviceId = getDeviceId();
-
-            if (!userKey) {
-                alert("দয়া করে Product Key প্রবেশ করান!");
-                return;
-            }
-
-            if (userKey === MASTER_KEY) {
-                let farFuture = new Date().getTime() + (3650 * 24 * 60 * 60 * 1000);
-                localStorage.setItem("app_activated", "true");
-                localStorage.setItem("app_expiry", farFuture.toString());
-                alert("🎉 Master Key Accepted! Lifetime Access Granted.");
-                checkAppActivation();
-                return;
-            }
-
-            try {
-                let decoded = atob(userKey);
-                let parts = decoded.split("_");
-
-                if (parts.length === 3 && parts[0] === deviceId && parts[2] === "THAI_GLASS_SECRET_2026") {
-                    let expiryTimestamp = parseInt(parts[1]);
-                    let now = new Date().getTime();
-
-                    if (now < expiryTimestamp) {
-                        localStorage.setItem("app_activated", "true");
-                        localStorage.setItem("app_expiry", expiryTimestamp.toString());
-                        alert("✅ Activated Successfully!");
-                        checkAppActivation();
-                    } else {
-                        alert("❌ Product Key-এর মেয়াদ শেষ!");
-                    }
-                } else {
-                    alert("❌ ভুল Product Key!");
-                }
-            } catch (e) {
-                alert("❌ অবৈধ Product Key!");
-            }
-        }
-    </script>
+    <script src="calculator.js"></script>
 </body>
 </html>

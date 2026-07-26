@@ -7,7 +7,6 @@ let currentRates = {
     profitPercent: 10
 };
 
-// ড্রপডাউন সিলেক্টের রেট লোড করার জন্য
 function autoFillRates() {
     let company = document.getElementById('company').value;
     let series = document.getElementById('series').value;
@@ -39,7 +38,6 @@ function autoFillRates() {
     }
 }
 
-// Calculate বাটনের কাজ
 function calculateMaterial() {
     autoFillRates();
 
@@ -47,13 +45,15 @@ function calculateMaterial() {
     let widths = document.querySelectorAll('.w-width');
     let qtys = document.querySelectorAll('.w-qty');
 
-    let totalOuterSide = 0;
-    let totalOuterTop = 0;
-    let totalOuterBottom = 0;
-    let totalShutterLock = 0;
-    let totalShutterInterlock = 0;
-    let totalShutterTop = 0;
-    let totalShutterBottom = 0;
+    let itemMeasurements = {
+        "Outer Side": [],
+        "Outer Top": [],
+        "Outer Bottom": [],
+        "Shutter Lock": [],
+        "Shutter Interlock": [],
+        "Shutter Top": [],
+        "Shutter Bottom": []
+    };
 
     let totalAreaSqft = 0;
 
@@ -63,42 +63,39 @@ function calculateMaterial() {
         let q = parseFloat(qtys[i].value) || 0;
 
         if (h > 0 && w > 0 && q > 0) {
-            let sideLen = h * 2 * q;
-            let topLen = w * q;
-            let bottomLen = w * q;
-            
-            let shutterH = Math.max(0, h - 1.5);
-            let shutterW = Math.max(0, (w / 2) + 0.5);
+            let sideLen = h;
+            let topBottomLen = w;
+            let shutterHeight = Math.max(0, h - 1.5);
+            let shutterWidth = Math.max(0, (w / 2) + 0.5);
 
-            let sLock = shutterH * 2 * q;
-            let sInterlock = shutterH * 2 * q;
-            let sTop = shutterW * 2 * q;
-            let sBottom = shutterW * 2 * q;
+            for (let k = 0; k < q; k++) {
+                itemMeasurements["Outer Side"].push(sideLen, sideLen);
+                itemMeasurements["Outer Top"].push(topBottomLen);
+                itemMeasurements["Outer Bottom"].push(topBottomLen);
 
-            totalOuterSide += sideLen;
-            totalOuterTop += topLen;
-            totalOuterBottom += bottomLen;
-            totalShutterLock += sLock;
-            totalShutterInterlock += sInterlock;
-            totalShutterTop += sTop;
-            totalShutterBottom += sBottom;
+                itemMeasurements["Shutter Lock"].push(shutterHeight, shutterHeight);
+                itemMeasurements["Shutter Interlock"].push(shutterHeight, shutterHeight);
+                itemMeasurements["Shutter Top"].push(shutterWidth, shutterWidth);
+                itemMeasurements["Shutter Bottom"].push(shutterWidth, shutterWidth);
+            }
 
             totalAreaSqft += ((h * w) / 144) * q;
         }
     }
 
-    // ইঞ্চি থেকে ফুট এ রূপান্তর
-    let outerSideFt = totalOuterSide / 12;
-    let outerTopFt = totalOuterTop / 12;
-    let outerBottomFt = totalOuterBottom / 12;
-    let shutterLockFt = totalShutterLock / 12;
-    let shutterInterlockFt = totalShutterInterlock / 12;
-    let shutterTopFt = totalShutterTop / 12;
-    let shutterBottomFt = totalShutterBottom / 12;
+    let sumInches = (arr) => arr.reduce((a, b) => a + b, 0);
+
+    let outerSideFt = sumInches(itemMeasurements["Outer Side"]) / 12;
+    let outerTopFt = sumInches(itemMeasurements["Outer Top"]) / 12;
+    let outerBottomFt = sumInches(itemMeasurements["Outer Bottom"]) / 12;
+    let shutterLockFt = sumInches(itemMeasurements["Shutter Lock"]) / 12;
+    let shutterInterlockFt = sumInches(itemMeasurements["Shutter Interlock"]) / 12;
+    let shutterTopFt = sumInches(itemMeasurements["Shutter Top"]) / 12;
+    let shutterBottomFt = sumInches(itemMeasurements["Shutter Bottom"]) / 12;
 
     let totalAluFt = outerSideFt + outerTopFt + outerBottomFt + shutterLockFt + shutterInterlockFt + shutterTopFt + shutterBottomFt;
 
-    // UI রেজাল্ট ফিল্ডে মান দেখানো
+    // UI রেজাল্ট
     document.getElementById('resOuterSide').innerText = outerSideFt.toFixed(2) + " ft";
     document.getElementById('resOuterTop').innerText = outerTopFt.toFixed(2) + " ft";
     document.getElementById('resOuterBottom').innerText = outerBottomFt.toFixed(2) + " ft";
@@ -131,4 +128,56 @@ function calculateMaterial() {
     document.getElementById('resProfitSqft').innerText = profitAmount.toFixed(2) + " ৳";
     document.getElementById('resSellSqft').innerText = sellingSqft.toFixed(2) + " ৳";
     document.getElementById('resSellTotal').innerText = sellingTotal.toFixed(2) + " ৳";
+
+    // কাটিং রিপোর্ট জেনারেট
+    generateCuttingReport(itemMeasurements);
+}
+
+function generateCuttingReport(itemMeasurements) {
+    let tbody = document.getElementById('cuttingReportBody');
+    tbody.innerHTML = '';
+
+    const BAR_186_INCH = 18.6 * 12;
+
+    for (let itemName in itemMeasurements) {
+        let cuts = itemMeasurements[itemName].slice();
+
+        if (cuts.length === 0) {
+            appendReportRow(tbody, itemName, 0, 0, "0 in");
+            continue;
+        }
+
+        cuts.sort((a, b) => b - a);
+
+        let barCount186 = 0;
+        let totalOffcutInches = 0;
+        let currentBarFreeSpace = 0;
+
+        cuts.forEach(piece => {
+            if (piece <= currentBarFreeSpace) {
+                currentBarFreeSpace -= piece;
+            } else {
+                if (currentBarFreeSpace > 0) {
+                    totalOffcutInches += currentBarFreeSpace;
+                }
+                barCount186++;
+                currentBarFreeSpace = BAR_186_INCH - piece;
+            }
+        });
+
+        totalOffcutInches += currentBarFreeSpace;
+
+        appendReportRow(tbody, itemName, barCount186, 0, totalOffcutInches.toFixed(1) + " in");
+    }
+}
+
+function appendReportRow(tbody, name, b18, b21, offcut) {
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${name}</td>
+        <td>${b18}</td>
+        <td>${b21}</td>
+        <td style="color: #d97706; font-weight: bold;">${offcut}</td>
+    `;
+    tbody.appendChild(tr);
 }

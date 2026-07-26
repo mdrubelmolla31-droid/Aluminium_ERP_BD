@@ -3,28 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thai Glass & Aluminium Calculator</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="icon-512.png">
+    <title>Aluminium ERP BD</title>
+    <style>
+        :root {
+            --bg-light: #f4f6f9;
+            --card-white: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --primary-blue: #1d61f2;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* ১. স্প্ল্যাশ স্ক্রিন */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: #1d61f2;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease;
+        }
+
+        .splash-content { text-align: center; }
+        .logo-box { font-size: 50px; margin-bottom: 10px; }
+        .powered-by { font-size: 13px; opacity: 0.8; }
+        .loader {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            animation: spin 0.8s linear infinite;
+            margin: 15px auto 0;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* ২. লক মোডাল (Product Key System) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+        .modal-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .lock-icon { font-size: 36px; margin-bottom: 8px; cursor: pointer; }
+        .sub-text { font-size: 13px; color: var(--text-muted); margin: 8px 0 15px; }
+        .device-id-box {
+            background: #eef2ff;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            border: 1px dashed var(--primary-blue);
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .wa-btn { background: #22c55e; color: white; margin-bottom: 10px; }
+        .activate-btn { background: var(--primary-blue); color: white; }
+        .divider { margin: 15px 0; color: var(--text-muted); font-size: 12px; }
+        .input-group { text-align: left; margin-bottom: 12px; }
+        .input-group label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* ৩. ছবির মতো মূল ড্যাশবোর্ড ইন্টারফেস */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: white;
+        }
+        .nav-icon-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .nav-title { font-size: 18px; font-weight: 700; color: var(--text-dark); }
+
+        .dashboard-body {
+            padding: 16px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* নীল ব্যানার */
+        .welcome-banner {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 22px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            margin-bottom: 20px;
+        }
+        .banner-text h2 { font-size: 18px; font-weight: 700; }
+        .banner-text p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+        .user-avatar {
+            background: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+        }
+
+        /* ছবির মতো গ্রিড */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .grid-card {
+            border-radius: 18px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            text-decoration: none;
+        }
+
+        .grid-card:active { transform: scale(0.96); }
+
+        .grid-card span {
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 10px;
+            color: #334155;
+            text-align: center;
+        }
+
+        .icon-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        /* ছবির শেড কালারসমূহ */
+        .bg-blue { background: #edf4ff; }
+        .icon-blue { background: #dbeafe; color: #2563eb; }
+
+        .bg-purple { background: #f5f3ff; }
+        .icon-purple { background: #ede9fe; color: #7c3aed; }
+
+        .bg-green { background: #f0fdf4; }
+        .icon-green { background: #dcfce7; color: #16a34a; }
+
+        .bg-orange { background: #fff7ed; }
+        .icon-orange { background: #ffedd5; color: #ea580c; }
+
+        .bg-red { background: #fef2f2; }
+        .icon-red { background: #fee2e2; color: #dc2626; }
+
+        .bg-teal { background: #f0fdfa; }
+        .icon-teal { background: #ccfbf1; color: #0d9488; }
+    </style>
 </head>
 <body>
 
-    <!-- স্প্ল্যাশ স্ক্রিন -->
+    <!-- ১. স্প্ল্যাশ স্ক্রিন -->
     <div id="splash-screen">
         <div class="splash-content">
-            <div class="logo-box">🪟</div>
-            <h2>Thai Glass Calculator</h2>
-            <p class="powered-by">Powered by Aluminium Tech</p>
+            <div class="logo-box">🏬</div>
+            <h2>Aluminium ERP BD</h2>
+            <p class="powered-by">Powered by Thai Tech</p>
             <div class="loader"></div>
         </div>
     </div>
 
-    <!-- অ্যাক্টিভেশন মোডাল (লক স্ক্রিন) -->
+    <!-- ২. অ্যাক্টিভেশন মোডাল (লক স্ক্রিন) -->
     <div id="activation-modal" class="modal-overlay" style="display: none;">
         <div class="modal-card">
-            <div class="lock-icon" id="secret-logo-tap">🔒</div>
+            <div class="lock-icon" id="secret-logo-tap">🔐</div>
             <h2>App Activation Required</h2>
-            <p class="sub-text">অ্যাপটি ব্যবহার করতে আপনার Device ID টি পাঠিয়ে Product Key সংগ্রহ করুন।</p>
+            <p class="sub-text">অ্যাপটি ব্যবহার করতে আপনার Device ID টি দিয়ে Product Key সংগ্রহ করুন।</p>
             
             <div class="device-id-box">
                 <span id="display-device-id">GENERATING...</span>
@@ -45,49 +257,166 @@
         </div>
     </div>
 
-    <!-- মূল অ্যাপ লেআউট -->
-    <div id="app-container" class="main-layout" style="display: none;">
+    <!-- ৩. ছবি অনুযায়ী ড্যাশবোর্ড (Dashboard UI) -->
+    <div id="app-container" style="display: none;">
         
-        <!-- হেডার -->
-        <header class="app-header">
-            <div class="brand-info">
-                <span class="app-logo">🪟</span>
-                <div>
-                    <h1 class="app-title">Thai Calculator</h1>
-                    <span class="badge">Pro Version</span>
-                </div>
-            </div>
-            <a href="https://wa.me/8801700000000?text=Hello,%20I%20need%20support" target="_blank" class="support-btn">
-                💬 Support
-            </a>
+        <header class="top-nav">
+            <button class="nav-icon-btn">☰</button>
+            <h1 class="nav-title">Dashboard</h1>
+            <button class="nav-icon-btn">🔔</button>
         </header>
 
-        <!-- মূল ইনপুট ও হিসাব সেকশন -->
-        <main class="content-body">
+        <main class="dashboard-body">
             
-            <div class="card">
-                <div class="card-header">
-                    <h3>📏 Window Measurement Input</h3>
+            <!-- নীল ওয়েলকাম ব্যানার -->
+            <div class="welcome-banner">
+                <div class="banner-text">
+                    <h2>Welcome, Admin</h2>
+                    <p>Aluminium ERP BD</p>
                 </div>
-                <div class="card-body">
-                    <!-- এখানে তোমার আগের হিসাবের ইনপুট ফিল্ড ও বাটন বসবে -->
-                    <p class="info-text">ইনপুট ফিল্ড ও ক্যালকুলেশন বোতামসমূহ এখানে লোড হবে।</p>
-                </div>
+                <div class="user-avatar">👤</div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h3>📊 Cutting Sheet & Material Cost</h3>
-                </div>
-                <div class="card-body">
-                    <!-- এখানে তোমার রেজাল্ট ও বারের হিসাব দেখাবে -->
-                    <p class="info-text">কাটিং রিপোর্ট ও ১৮.৬ / ২১ ফিট বারের হিসাব এখানে প্রদর্শিত হবে।</p>
-                </div>
+            <!-- গ্রিড কার্ডসমূহ -->
+            <div class="grid-container">
+                
+                <a href="company.html" class="grid-card bg-blue">
+                    <div class="icon-circle icon-blue">🏢</div>
+                    <span>Company</span>
+                </a>
+
+                <a href="settings.html" class="grid-card bg-purple">
+                    <div class="icon-circle icon-purple">📦</div>
+                    <span>Profile</span>
+                </a>
+
+                <a href="customer.html" class="grid-card bg-green">
+                    <div class="icon-circle icon-green">👤</div>
+                    <span>Customer</span>
+                </a>
+
+                <a href="Stock.html" class="grid-card bg-orange">
+                    <div class="icon-circle icon-orange">⬢</div>
+                    <span>Stock</span>
+                </a>
+
+                <a href="quotation.html" class="grid-card bg-red">
+                    <div class="icon-circle icon-red">📄</div>
+                    <span>Quotation</span>
+                </a>
+
+                <a href="calculator.html" class="grid-card bg-teal">
+                    <div class="icon-circle icon-teal">🧮</div>
+                    <span>Material Calculator</span>
+                </a>
+
             </div>
 
         </main>
     </div>
 
-    <script src="calculator.js"></script>
+    <script>
+        const MASTER_KEY = "THAI-BOSS-2026";
+        const OWNER_PHONE = "8801700000000"; 
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // স্প্ল্যাশ স্ক্রিন ২ সেকেন্ড পর গায়েব হবে
+            setTimeout(() => {
+                const splash = document.getElementById("splash-screen");
+                if (splash) {
+                    splash.style.opacity = "0";
+                    setTimeout(() => {
+                        splash.style.display = "none";
+                        checkAppActivation();
+                    }, 500);
+                }
+            }, 2000);
+
+            // সিক্রেট ট্যাপ ট্রিক (লক আইকনে ৫ বার ক্লিক করলে মাস্টার কি বসে যাবে)
+            let tapCount = 0;
+            const secretTapBtn = document.getElementById("secret-logo-tap");
+            if (secretTapBtn) {
+                secretTapBtn.addEventListener("click", () => {
+                    tapCount++;
+                    if (tapCount === 5) {
+                        tapCount = 0;
+                        document.getElementById("input-product-key").value = MASTER_KEY;
+                        alert("👑 Admin Mode Detected! Master Key Applied.");
+                    }
+                });
+            }
+        });
+
+        function getDeviceId() {
+            let devId = localStorage.getItem("app_device_id");
+            if (!devId) {
+                devId = "THAI-" + Math.floor(1000 + Math.random() * 9000);
+                localStorage.setItem("app_device_id", devId);
+            }
+            return devId;
+        }
+
+        function checkAppActivation() {
+            const isActivated = localStorage.getItem("app_activated");
+            const expiryDate = localStorage.getItem("app_expiry");
+            let now = new Date().getTime();
+
+            if (isActivated === "true" && expiryDate && now < parseInt(expiryDate)) {
+                document.getElementById("activation-modal").style.display = "none";
+                document.getElementById("app-container").style.display = "block";
+            } else {
+                document.getElementById("app-container").style.display = "none";
+                document.getElementById("activation-modal").style.display = "flex";
+
+                let deviceId = getDeviceId();
+                document.getElementById("display-device-id").innerText = deviceId;
+
+                let waMsg = encodeURIComponent(`Hello, my Device ID is: ${deviceId}. I need Product Key for Aluminium ERP BD.`);
+                document.getElementById("wa-share-link").href = `https://wa.me/${OWNER_PHONE}?text=${waMsg}`;
+            }
+        }
+
+        function submitProductKey() {
+            let userKey = document.getElementById("input-product-key").value.trim();
+            let deviceId = getDeviceId();
+
+            if (!userKey) {
+                alert("দয়া করে Product Key প্রবেশ করান!");
+                return;
+            }
+
+            if (userKey === MASTER_KEY) {
+                let farFuture = new Date().getTime() + (3650 * 24 * 60 * 60 * 1000);
+                localStorage.setItem("app_activated", "true");
+                localStorage.setItem("app_expiry", farFuture.toString());
+                alert("🎉 Master Key Accepted! Lifetime Access Granted.");
+                checkAppActivation();
+                return;
+            }
+
+            try {
+                let decoded = atob(userKey);
+                let parts = decoded.split("_");
+
+                if (parts.length === 3 && parts[0] === deviceId && parts[2] === "THAI_GLASS_SECRET_2026") {
+                    let expiryTimestamp = parseInt(parts[1]);
+                    let now = new Date().getTime();
+
+                    if (now < expiryTimestamp) {
+                        localStorage.setItem("app_activated", "true");
+                        localStorage.setItem("app_expiry", expiryTimestamp.toString());
+                        alert("✅ Activated Successfully!");
+                        checkAppActivation();
+                    } else {
+                        alert("❌ Product Key-এর মেয়াদ শেষ!");
+                    }
+                } else {
+                    alert("❌ ভুল Product Key!");
+                }
+            } catch (e) {
+                alert("❌ অবৈধ Product Key!");
+            }
+        }
+    </script>
 </body>
 </html>

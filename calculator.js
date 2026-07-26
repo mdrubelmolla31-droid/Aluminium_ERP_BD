@@ -1,5 +1,5 @@
 // =====================================
-// EXACT ALUMNIUN CUTTING CALCULATOR
+// EXACT ALUMNIUN CUTTING CALCULATOR (STRICT)
 // calculator.js
 // =====================================
 
@@ -90,12 +90,8 @@ function calculateMaterial() {
     let totalShutterTop = 0, totalShutterBottom = 0;
     let totalGlass = 0;
 
-    // Separate Height Pieces for Vertical Cutting
-    let heightPieces186 = [];
-    let remainingHeightFt = 0;
-
-    let outerWidthTotalFt = 0;
-    let shutterWidthTotalFt = 0;
+    let heightFt186 = 0;
+    let heightFt21 = 0;
 
     wins.forEach(win => {
         if (win.q > 0 && win.w > 0 && win.h > 0) {
@@ -118,17 +114,12 @@ function calculateMaterial() {
 
             totalGlass += ((win.w * win.h) / 144) * win.q;
 
-            // Height Logic: 4.5 ft (54") or lower heights form Full 18.6 ft Bars
+            // Height Logic (4.5 ft / 54 inch or lower -> 18.6 ft bar pool)
             if (win.h <= 54) {
-                for (let i = 0; i < win.q * 2; i++) {
-                    heightPieces186.push(win.h);
-                }
+                heightFt186 += oSide;
             } else {
-                remainingHeightFt += oSide;
+                heightFt21 += oSide;
             }
-
-            outerWidthTotalFt += oTop;
-            shutterWidthTotalFt += sTop;
         }
     });
 
@@ -136,23 +127,22 @@ function calculateMaterial() {
                             totalShutterLock + totalShutterInterlock +
                             totalShutterTop + totalShutterBottom;
 
-    // 2. Vertical Cutting Logic (18.6 ft only shows FULL PCS, Extra Ft always goes to 21 ft)
-    let full186Pcs = Math.floor(heightPieces186.reduce((a, b) => a + b, 0) / (18.6 * 12));
-    let leftoverInchesFrom186 = heightPieces186.reduce((a, b) => a + b, 0) % (18.6 * 12);
-    
-    // Add leftover inches from 18.6 cuts into 21 ft pool
-    let total21FtPool = remainingHeightFt + (leftoverInchesFrom186 / 12);
+    // 2. Strict Calculation Logic
+    // STRICT RULE: 18.6 ft ONLY takes full bars (Math.floor). ANY extra feet goes directly to 21 ft pool!
+    let full186Pcs = Math.floor(heightFt186 / 18.6);
+    let extraFtFrom186 = heightFt186 % 18.6;
 
+    let total21FtPool = heightFt21 + extraFtFrom186;
     let full21PcsVert = Math.floor(total21FtPool / 21);
     let extra21FtVert = Math.round(total21FtPool % 21);
 
-    // 3. Horizontal Cutting Logic (Outer Top/Bottom & Shutter Top/Bottom)
+    // Format Horizontal Items (Always 21 ft bar)
     let calcHorizontal21 = (totalFt) => {
         let pcs = Math.floor(totalFt / 21);
         let extra = Math.round(totalFt % 21);
-        if (pcs > 0 && extra > 0) return `${pcs} Pcs + ${extra} ft`;
+        if (pcs > 0 && extra > 0) return `${pcs} Pcs + ${extra}.0 ft`;
         if (pcs > 0) return `${pcs} Pcs`;
-        if (extra > 0) return `${extra} ft`;
+        if (extra > 0) return `${extra}.0 ft`;
         return "-";
     };
 
@@ -171,7 +161,7 @@ function calculateMaterial() {
     let sellingSqft = totalGlass > 0 ? sellingPrice / totalGlass : 0;
     let profitSqft = totalGlass > 0 ? profitAmount / totalGlass : 0;
 
-    // 4. Update UI
+    // 3. Update UI
     let setTxt = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
 
     // Material Details Outputs
@@ -197,9 +187,14 @@ function calculateMaterial() {
     setTxt("profitSqft", profitSqft.toFixed(2) + " ৳");
     setTxt("sellingPrice", sellingPrice.toFixed(2) + " ৳");
 
-    // Cutting Report Outputs (Exact match with shop rules)
+    // Cutting Report Outputs (Strict Format)
+    // 18.6 ft text can ONLY be "X Pcs" or "-"
     let str186 = full186Pcs > 0 ? `${full186Pcs} Pcs` : "-";
-    let str21Vert = full21PcsVert > 0 && extra21FtVert > 0 ? `${full21PcsVert} Pcs + ${extra21FtVert} ft` : (full21PcsVert > 0 ? `${full21PcsVert} Pcs` : `${extra21FtVert} ft`);
+
+    // 21 ft text gets all remaining extra feet
+    let str21Vert = full21PcsVert > 0 && extra21FtVert > 0 
+        ? `${full21PcsVert} Pcs + ${extra21FtVert}.0 ft` 
+        : (full21PcsVert > 0 ? `${full21PcsVert} Pcs` : `${extra21FtVert}.0 ft`);
 
     // Vertical Items
     setTxt("outerSide186", str186);
@@ -211,7 +206,7 @@ function calculateMaterial() {
     setTxt("shutterInterlock186", str186);
     setTxt("shutterInterlock21", str21Vert);
 
-    // Horizontal Items (ALWAYS ONLY 21 FT)
+    // Horizontal Items (STRICTLY ONLY 21 FT)
     setTxt("outerTop186", "-");
     setTxt("outerTop21", calcHorizontal21(totalOuterTop));
 

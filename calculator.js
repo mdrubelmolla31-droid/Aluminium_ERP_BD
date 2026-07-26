@@ -536,6 +536,10 @@ document.getElementById("shutterTop").innerHTML =
 
 document.getElementById("shutterBottom").innerHTML =
     totalShutterBottom.toFixed(2) + " ft";
+    document.getElementById("totalAluminium").innerHTML =
+    grandTotalAluminium.toFixed(2) + " ft";
+document.getElementById("glass").innerHTML =
+    totalGlass.toFixed(2) + " Sqft";
 
 // ============================
 // OPEN QUOTATION

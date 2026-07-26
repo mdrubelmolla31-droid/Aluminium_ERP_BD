@@ -11,27 +11,16 @@
             --card-bg: #ffffff;
             --text-main: #1c1e21;
             --text-muted: #606770;
-            --border-box: #b0c4de; /* স্পষ্ট বর্ডারের জন্য */
+            --border-box: #b0c4de;
             --input-border: #8ab4f8;
             --grey-highlight: #e9ecef;
             --green-highlight: #d1e7dd;
             --green-text: #0f5132;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 30px; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding-bottom: 30px;
-        }
-
-        /* Header */
         .top-header {
             background: var(--card-bg);
             padding: 14px 20px;
@@ -43,163 +32,66 @@
             z-index: 100;
         }
 
-        .back-btn {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            margin-right: 15px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: bold;
-        }
+        .back-btn { font-size: 20px; font-weight: bold; text-decoration: none; color: var(--text-main); margin-right: 15px; }
+        .page-title { font-size: 18px; font-weight: 700; }
 
-        .page-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
+        .container { max-width: 480px; margin: 12px auto; padding: 0 10px; }
 
-        .container {
-            max-width: 480px;
-            margin: 12px auto;
-            padding: 0 10px;
-        }
-
-        /* Card with Light Border */
         .card {
             background: var(--card-bg);
             border-radius: 10px;
             padding: 16px;
             margin-bottom: 14px;
-            border: 2px solid var(--border-box); /* হালকা স্পষ্ট বর্ডার */
+            border: 2px solid var(--border-box);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
 
-        .card-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 14px;
-            text-align: center;
-        }
+        .card-title { font-size: 16px; font-weight: 700; color: var(--primary-blue); margin-bottom: 14px; text-align: center; }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
 
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        /* Inputs & Dropdowns with Clear Light Borders */
-        input[type="text"],
-        input[type="number"],
-        select {
+        input[type="text"], input[type="number"], select {
             width: 100%;
             padding: 10px 12px;
             border-radius: 6px;
-            border: 1.5px solid var(--input-border); /* কালারফুল হালকা বর্ডার */
+            border: 1.5px solid var(--input-border);
             background-color: #ffffff;
             font-size: 14px;
-            color: var(--text-main);
             outline: none;
-            appearance: auto;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
         }
 
-        input:focus, select:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2);
-        }
+        input:focus, select:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2); }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
-        /* Window Sub-boxes with Distinct Light Borders */
         .window-box {
             background: #f8fafc;
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1.5px solid #cbd5e1; /* স্পষ্ট হালকা বর্ডার */
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1.5px solid #cbd5e1;
         }
 
-        .window-box-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 6px;
-        }
+        .window-box-title { font-size: 13px; font-weight: 700; color: var(--primary-blue); margin-bottom: 6px; }
 
-        /* Buttons */
-        .btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 16px 0;
-        }
-
-        .btn {
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            color: white;
-        }
-
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+        .btn { padding: 12px; border-radius: 6px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; color: white; }
         .btn-primary { background-color: var(--primary-blue); }
         .btn-success { background-color: #198754; }
 
-        /* Tables Styling */
-        .table-container {
-            border: 2px solid var(--border-box);
-            border-radius: 8px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .result-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #ffffff;
-        }
-
-        .result-table th {
-            background-color: var(--primary-blue);
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 700;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .result-table td {
-            padding: 9px 10px;
-            font-size: 13px;
-            border-bottom: 1px solid #e2e8f0;
-            color: var(--text-main);
-            text-align: center;
-        }
-
+        .table-container { border: 2px solid var(--border-box); border-radius: 8px; overflow: hidden; margin-top: 8px; }
+        .result-table { width: 100%; border-collapse: collapse; background: #ffffff; }
+        .result-table th { background-color: var(--primary-blue); color: #ffffff; font-size: 14px; padding: 10px; text-align: center; }
+        .result-table td { padding: 9px 10px; font-size: 13px; border-bottom: 1px solid #e2e8f0; text-align: center; }
         .row-grey { background-color: var(--grey-highlight) !important; font-weight: bold; }
         .row-green { background-color: var(--green-highlight) !important; font-weight: bold; color: var(--green-text) !important; }
-        .row-green td { color: var(--green-text) !important; }
     </style>
 </head>
 <body>
 
     <header class="top-header">
-        <a href="index.html" class="back-btn">←</a>
+        <a href="dashboard.html" class="back-btn">←</a>
         <h1 class="page-title">Material Calculator</h1>
     </header>
 
@@ -224,63 +116,91 @@
             </div>
         </div>
 
-        <!-- Aluminium & Glass Config (FIXED DROPDOWNS) -->
+        <!-- Configuration (অটো রেট লোড হবে) -->
         <div class="card">
             <div class="card-title">Aluminium & Glass Config</div>
-
             <div class="form-group">
                 <label>Company</label>
-                <select id="company">
+                <select id="company" onchange="autoFillRates()">
+                    <option value="">Select Company</option>
+                    <option value="KAI">KAI</option>
+                    <option value="BTA">BTA</option>
+                    <option value="EDF">EDF</option>
+                    <option value="ALFA">ALFA</option>
+                    <option value="MAX">MAX</option>
                     <option value="Chung Hua">Chung Hua</option>
-                    <option value="KAI">KAI Aluminium</option>
-                    <option value="BUPIL">BUPIL</option>
-                    <option value="Alco">Alco</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Series</label>
-                <select id="series">
+                <select id="series" onchange="autoFillRates()">
+                    <option value="">Select Series</option>
+                    <option value="Sliding Window 3&quot;">Sliding Window 3"</option>
+                    <option value="Sliding Window 4&quot;">Sliding Window 4"</option>
                     <option value="25 Series">25 Series</option>
                     <option value="30 Series">30 Series</option>
                     <option value="100mm Sliding">100mm Sliding</option>
                 </select>
             </div>
-
-            <div class="form-group">
-                <label>Alu Thickness</label>
-                <select id="aluThickness">
-                    <option value="1.2mm">1.2 mm</option>
-                    <option value="1.5mm">1.5 mm</option>
-                    <option value="2.0mm">2.0 mm</option>
-                </select>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Alu Thickness</label>
+                    <select id="aluThickness" onchange="autoFillRates()">
+                        <option value="">Select Thickness</option>
+                        <option value="1.0 mm">1.0 mm</option>
+                        <option value="1.2 mm">1.2 mm</option>
+                        <option value="1.4 mm">1.4 mm</option>
+                        <option value="1.6 mm">1.6 mm</option>
+                        <option value="1.8 mm">1.8 mm</option>
+                        <option value="2.0 mm">2.0 mm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Alu Colour</label>
+                    <select id="aluColour" onchange="autoFillRates()">
+                        <option value="">Select Colour</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Bronze">Bronze</option>
+                        <option value="Black">Black</option>
+                        <option value="White">White</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Glass Company</label>
-                <select id="glassCompany">
-                    <option value="PHP">PHP Float Glass</option>
-                    <option value="Nasir">Nasir Glass</option>
-                    <option value="Imported">Imported Glass</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Glass Thickness</label>
-                <select id="glassThickness">
-                    <option value="5mm">5 mm</option>
-                    <option value="6mm">6 mm</option>
-                    <option value="8mm">8 mm</option>
-                </select>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Glass Company</label>
+                    <select id="glassCompany" onchange="autoFillRates()">
+                        <option value="">Select Glass Co.</option>
+                        <option value="Xinyi">Xinyi</option>
+                        <option value="PHP">PHP</option>
+                        <option value="Nasir">Nasir</option>
+                        <option value="Bengal">Bengal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Glass Thickness</label>
+                    <select id="glassThickness" onchange="autoFillRates()">
+                        <option value="">Select Thickness</option>
+                        <option value="5 mm">5 mm</option>
+                        <option value="5.5 mm">5.5 mm</option>
+                        <option value="6 mm">6 mm</option>
+                        <option value="8 mm">8 mm</option>
+                        <option value="10 mm">10 mm</option>
+                    </select>
+                </div>
             </div>
 
             <div class="form-group">
                 <label>Glass Colour</label>
-                <select id="glassColour">
+                <select id="glassColour" onchange="autoFillRates()">
+                    <option value="">Select Colour</option>
                     <option value="Clear">Clear</option>
-                    <option value="Mercy Green">Mercy Green</option>
-                    <option value="Dark Blue">Dark Blue</option>
                     <option value="Black">Black</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="Bronze">Bronze</option>
+                    <option value="Reflective">Reflective</option>
                 </select>
             </div>
         </div>
@@ -288,8 +208,6 @@
         <!-- Window Measurements -->
         <div class="card">
             <div class="card-title">Window Measurements</div>
-
-            <!-- Window Sizes (1 to 5) -->
             <div class="window-box">
                 <div class="window-box-title">Window Size - 1</div>
                 <div class="grid-3">
@@ -298,7 +216,6 @@
                     <div><label>Qty</label><input type="number" class="w-qty" value="1"></div>
                 </div>
             </div>
-
             <div class="window-box">
                 <div class="window-box-title">Window Size - 2</div>
                 <div class="grid-3">
@@ -307,7 +224,6 @@
                     <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
                 </div>
             </div>
-
             <div class="window-box">
                 <div class="window-box-title">Window Size - 3</div>
                 <div class="grid-3">
@@ -316,39 +232,18 @@
                     <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
                 </div>
             </div>
-
-            <div class="window-box">
-                <div class="window-box-title">Window Size - 4</div>
-                <div class="grid-3">
-                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
-                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
-                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
-                </div>
-            </div>
-
-            <div class="window-box">
-                <div class="window-box-title">Window Size - 5</div>
-                <div class="grid-3">
-                    <div><label>Height</label><input type="number" class="w-height" placeholder="0"></div>
-                    <div><label>Width</label><input type="number" class="w-width" placeholder="0"></div>
-                    <div><label>Qty</label><input type="number" class="w-qty" value="0"></div>
-                </div>
-            </div>
         </div>
 
-        <!-- Action Buttons -->
         <div class="btn-group">
             <button class="btn btn-primary" onclick="calculateMaterial()">Calculate</button>
-            <button class="btn btn-success" onclick="alert('Quotation Feature Coming Soon')">Quotation</button>
+            <button class="btn btn-success" onclick="alert('Quotation তৈরি হচ্ছে...')">Quotation</button>
         </div>
 
-        <!-- Material Details Summary -->
+        <!-- Material Details -->
         <div class="card" style="padding:0; background:transparent; border:none; box-shadow:none;">
             <div class="table-container">
                 <table class="result-table">
-                    <thead>
-                        <tr><th colspan="2">Material Details</th></tr>
-                    </thead>
+                    <thead><tr><th colspan="2">Material Details</th></tr></thead>
                     <tbody>
                         <tr><td>Outer Side</td><td id="resOuterSide">0.00 ft</td></tr>
                         <tr><td>Outer Top</td><td id="resOuterTop">0.00 ft</td></tr>
@@ -372,17 +267,17 @@
             </div>
         </div>
 
-        <!-- Cutting Report (আপডেট করা টুকরো মাল সহ) -->
+        <!-- Cutting Report -->
         <div class="card" style="padding:0; background:transparent; border:none; box-shadow:none; margin-top:15px;">
             <h3 style="text-align:center; color:var(--primary-blue); margin-bottom:8px;">Cutting Report</h3>
             <div class="table-container">
                 <table class="result-table">
                     <thead>
                         <tr>
-                            <th style="width:35%;">Item</th>
+                            <th style="width:30%;">Item</th>
                             <th style="width:20%;">18.6 ft</th>
                             <th style="width:20%;">21 ft</th>
-                            <th style="width:25%;">টুকরো মাল (In)</th>
+                            <th style="width:30%;">টুকরো মাল (In)</th>
                         </tr>
                     </thead>
                     <tbody id="cuttingReportBody">
@@ -400,6 +295,6 @@
 
     </div>
 
-    <script src="calculator.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

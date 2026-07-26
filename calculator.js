@@ -7,7 +7,7 @@
 // =======================
 // GLOBAL DATA
 // =======================
-
+console.log(JSON.parse(localStorage.getItem("rates")));
 let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
 let totalOuterSide = 0;

@@ -21,6 +21,59 @@
             min-height: 100vh;
         }
 
+        /* Splash Screen Style */
+        #splashScreen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), 
+                        url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .splash-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #fbbf24;
+            text-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .splash-sub {
+            font-size: 13px;
+            color: #9ca3af;
+            margin-top: 6px;
+        }
+
+        .loader-bar {
+            width: 140px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-fill {
+            width: 100%;
+            height: 100%;
+            background: #d97706;
+            animation: loading 2.5s ease-in-out;
+        }
+
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+
         .mobile-app {
             width: 100%;
             max-width: 450px;
@@ -32,7 +85,7 @@
             position: relative;
         }
 
-        /* Header */
+        /* App Header Update */
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -41,9 +94,10 @@
         }
 
         .header-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: #f9fafb;
+            letter-spacing: 0.5px;
         }
 
         .icon-btn {
@@ -60,7 +114,7 @@
             user-select: none;
         }
 
-        /* Banner */
+        /* Welcome Banner */
         .welcome-card {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border-radius: 22px;
@@ -111,7 +165,7 @@
             border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
-        /* Menu Grid */
+        /* Grid Menu Update */
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -121,7 +175,7 @@
         .menu-card {
             background: #1f2937;
             border-radius: 20px;
-            padding: 22px 15px;
+            padding: 20px 15px;
             text-align: center;
             cursor: pointer;
             border: 1px solid #374151;
@@ -134,30 +188,31 @@
         }
 
         .icon-wrapper {
-            width: 58px;
-            height: 58px;
+            width: 54px;
+            height: 54px;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            margin: 0 auto 12px auto;
+            font-size: 26px;
+            margin: 0 auto 10px auto;
         }
 
         .card-label {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: #e5e7eb;
         }
 
         .bg-company { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
         .bg-profile { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+        .bg-rates { background: rgba(234, 179, 8, 0.15); color: #facc15; }
         .bg-customer { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
         .bg-stock { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
         .bg-quotation { background: rgba(239, 68, 68, 0.15); color: #f87171; }
         .bg-calc { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; }
 
-        /* Lock Screen / License Modal */
+        /* Modals */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -262,14 +317,24 @@
 </head>
 <body>
 
+<!-- Splash Screen -->
+<div id="splashScreen">
+    <div style="font-size: 50px;">🏗️</div>
+    <div class="splash-title">Welcome to Aluminium ERP BD</div>
+    <div class="splash-sub">Smart Business & Estimation System</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
 <div class="mobile-app">
+    <!-- Updated App Header -->
     <div class="app-header">
         <div class="icon-btn">☰</div>
-        <div class="header-title">Dashboard</div>
-        <!-- 5 Taps for Admin Master Key -->
-        <div class="icon-btn" id="lockIconBtn" onclick="handleLockTap()" title="Tap 5 times for Admin Master Key">🔒</div>
+        <div class="header-title">Aluminium ERP BD</div>
+        <!-- Strict 5 Taps Rules for Admin Master Key -->
+        <div class="icon-btn" id="lockIconBtn" onclick="handleLockTap()" title="Tap 5 times for Admin Access">🔒</div>
     </div>
 
+    <!-- Welcome Card -->
     <div class="welcome-card">
         <div>
             <h2 id="userNameDisplay">Welcome, User</h2>
@@ -279,7 +344,12 @@
         <div class="avatar-box" id="avatarDisplay" onclick="openProfileModal()">👤</div>
     </div>
 
+    <!-- Grid Menu with Rate Settings -->
     <div class="menu-grid">
+        <div class="menu-card" onclick="checkAccess('rates.html')">
+            <div class="icon-wrapper bg-rates">⚙️</div>
+            <div class="card-label">Rate Settings</div>
+        </div>
         <div class="menu-card" onclick="checkAccess('master.html')">
             <div class="icon-wrapper bg-company">🏢</div>
             <div class="card-label">Company</div>
@@ -315,6 +385,7 @@
         
         <div class="device-box" id="deviceIdDisplay">Device ID: Loading...</div>
         
+        <!-- Strict Security: Never autofills -->
         <input type="password" id="licenseKeyInput" placeholder="Enter License / Master Key" autocomplete="off">
         
         <button class="btn-primary" onclick="verifyLicenseKey()">Activate License</button>
@@ -343,7 +414,15 @@
     let tapTimer = null;
     let deviceID = "";
 
-    // Generate Unique Device ID based on Browser/Device Specs
+    // Hide Splash Screen after 2.8s
+    window.addEventListener("load", () => {
+        setTimeout(() => {
+            const splash = document.getElementById("splashScreen");
+            splash.style.opacity = "0";
+            splash.style.visibility = "hidden";
+        }, 2800);
+    });
+
     function generateDeviceID() {
         let savedID = localStorage.getItem("erp_device_id");
         if (!savedID) {
@@ -353,9 +432,7 @@
         return savedID;
     }
 
-    // Generate expected user license key for this specific Device ID
     function getValidUserKey(devID) {
-        // Simple secure formula for generating client keys based on ID
         return "KEY-" + devID.replace("ALU-", "") + "-PRO";
     }
 
@@ -363,7 +440,6 @@
         deviceID = generateDeviceID();
         document.getElementById("deviceIdDisplay").innerText = "Device ID: " + deviceID;
         
-        // Update WhatsApp Link with Device ID automatically
         let waMsg = encodeURIComponent(`Hello Rubel Molla, I need a License Key for Aluminium ERP.\nMy Device ID: ${deviceID}`);
         document.getElementById("waLink").href = `https://wa.me/8801676474412?text=${waMsg}`;
 
@@ -388,21 +464,21 @@
         }
     }
 
-    // 5-Tap Hidden Master Key Access Logic
+    // 5-Tap Hidden Master Key Entry Logic
     function handleLockTap() {
         tapCount++;
         clearTimeout(tapTimer);
 
         if (tapCount >= 5) {
             tapCount = 0;
-            openLicenseModal(true); // Open as Admin Mode
+            openLicenseModal(true);
         } else {
             tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
         }
     }
 
     function openLicenseModal(isAdmin = false) {
-        document.getElementById("licenseKeyInput").value = ""; // Always Empty Input
+        document.getElementById("licenseKeyInput").value = "";
         if (isAdmin) {
             document.getElementById("modalTitle").innerText = "🔑 Admin Master Key Entry";
         } else {
@@ -424,13 +500,13 @@
         let inputKey = document.getElementById("licenseKeyInput").value.trim();
         let validUserKey = getValidUserKey(deviceID);
 
-        // 1. MASTER KEY CHECK (For You Only)
+        // Strict Master Key for Admin Only
         if (inputKey === "mdrubelmolla1989") {
             alert("✅ Master Access Granted! Admin mode unlocked.");
             localStorage.setItem("erp_unlocked", "true");
             document.getElementById("licenseModal").style.display = "none";
         } 
-        // 2. CLIENT SPECIFIC LICENSE KEY CHECK
+        // User Specific License Key
         else if (inputKey === validUserKey) {
             alert("✅ Software Activated Successfully!");
             localStorage.setItem("erp_unlocked", "true");

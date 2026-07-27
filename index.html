@@ -9,11 +9,13 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
+        /* Premium Matte Dark Background */
         body {
-            background-color: #f3f4f6;
+            background-color: #0b0f19;
+            color: #f3f4f6;
             display: flex;
             justify-content: center;
             padding: 12px;
@@ -23,10 +25,11 @@
         .mobile-app {
             width: 100%;
             max-width: 450px;
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            background: #111827;
+            border-radius: 28px;
+            padding: 22px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            border: 1px solid #1f2937;
         }
 
         /* Top Bar */
@@ -34,53 +37,59 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .header-title {
             font-size: 20px;
             font-weight: 700;
-            color: #111827;
+            color: #f9fafb;
+            letter-spacing: 0.5px;
         }
 
         .icon-btn {
-            background: #f3f4f6;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            background: #1f2937;
+            border-radius: 12px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
+            border: 1px solid #374151;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        /* Premium Welcome Card */
+        /* Premium Titanium Gold Card */
         .welcome-card {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            border-radius: 20px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 22px;
             padding: 22px;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            border: 1px solid #d97706; /* Metallic Gold Border */
+            box-shadow: 0 8px 25px rgba(217, 119, 6, 0.15);
         }
 
         .welcome-card h2 {
             font-size: 22px;
             font-weight: 700;
+            color: #fbbf24; /* Gold Accent */
             margin-bottom: 4px;
         }
 
         .welcome-card p {
-            font-size: 14px;
-            opacity: 0.9;
+            font-size: 13px;
+            color: #9ca3af;
         }
 
         .avatar-box {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid #fbbf24;
             width: 54px;
             height: 54px;
             border-radius: 50%;
@@ -90,7 +99,7 @@
             font-size: 26px;
         }
 
-        /* 2-Column Menu Grid */
+        /* 2-Column Grid Menu */
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -98,57 +107,60 @@
         }
 
         .menu-card {
-            background: #ffffff;
-            border-radius: 18px;
+            background: #1f2937;
+            border-radius: 20px;
             padding: 22px 15px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            border: 1px solid #f1f5f9;
-            transition: transform 0.1s ease;
+            border: 1px solid #374151;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
         }
 
         .menu-card:active {
-            transform: scale(0.96);
+            transform: scale(0.95);
+            background: #111827;
         }
 
         .icon-wrapper {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
+            font-size: 28px;
             margin: 0 auto 12px auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .card-label {
             font-size: 15px;
-            font-weight: 700;
-            color: #1f2937;
+            font-weight: 600;
+            color: #e5e7eb;
         }
 
-        /* Premium Card Soft Colors */
-        .bg-company { background: #e0f2fe; color: #0284c7; }
-        .bg-profile { background: #f3e8ff; color: #9333ea; }
-        .bg-customer { background: #dcfce7; color: #16a34a; }
-        .bg-stock { background: #ffedd5; color: #ea580c; }
-        .bg-quotation { background: #ffe4e6; color: #e11d48; }
-        .bg-calc { background: #ccfbf1; color: #0d9488; }
+        /* Dark Premium Soft Accents */
+        .bg-company { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+        .bg-profile { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+        .bg-customer { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .bg-stock { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+        .bg-quotation { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+        .bg-calc { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; }
     </style>
 </head>
 <body>
 
 <div class="mobile-app">
-    <!-- Header -->
+    <!-- Top Header Bar -->
     <div class="app-header">
         <div class="icon-btn">☰</div>
         <div class="header-title">Dashboard</div>
-        <div class="icon-btn">🔔</div>
+        <!-- Aluminum Profile Icon instead of Bell -->
+        <div class="icon-btn" title="Aluminium Profiles">🏗️</div>
     </div>
 
-    <!-- Banner -->
+    <!-- Welcome Titanium Banner -->
     <div class="welcome-card">
         <div>
             <h2>Welcome, Admin</h2>
@@ -157,7 +169,7 @@
         <div class="avatar-box">👤</div>
     </div>
 
-    <!-- Grid Menu -->
+    <!-- 2-Column Menu Grid -->
     <div class="menu-grid">
         <div class="menu-card" onclick="location.href='master.html'">
             <div class="icon-wrapper bg-company">🏢</div>

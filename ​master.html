@@ -2,102 +2,90 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>Master Data - Aluminium ERP BD v2</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Master Settings - Aluminium ERP BD</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 12px; min-height: 100vh; }
+        .mobile-app { width: 100%; max-width: 450px; background: #0b0f19; border-radius: 28px; padding: 16px; position: relative; }
+        
+        .app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .back-btn { background: #192233; border: 1px solid #232e42; color: #f9fafb; font-size: 18px; border-radius: 12px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
+        .header-title { font-size: 18px; font-weight: 700; color: #f9fafb; }
+        
+        .card { background: #121929; border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 16px; }
+        .card h3 { color: #fbbf24; font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #232e42; padding-bottom: 8px; }
+        
+        .form-group { margin-bottom: 14px; text-align: left; }
+        .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #232e42; background: #192233; color: white; font-size: 14px; outline: none; }
+        .form-group textarea { resize: vertical; height: 80px; }
+
+        .btn-save { background: #d97706; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-save:active { transform: scale(0.98); }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>⚙️ Master Data Management</h2>
-    <p>ERP-এর জন্য সকল কোম্পানির কাস্টম লিস্ট ও ম্যাটেরিয়াল ব্র্যান্ড যোগ করুন</p>
-    <hr>
-
-    <div class="grid-3">
-        <!-- Aluminium Dropdowns -->
-        <div class="window-card">
-            <h4>অ্যালুমিনিয়াম কনফিগারেশন</h4>
-            <label>Aluminium Company</label>
-            <input type="text" id="addAluComp">
-            <button onclick="addMaster('aluCompany', 'addAluComp')">Add Company</button>
-
-            <label>Aluminium Series</label>
-            <input type="text" id="addAluSeries">
-            <button onclick="addMaster('aluSeries', 'addAluSeries')">Add Series</button>
-
-            <label>Aluminium Colour</label>
-            <input type="text" id="addAluColour">
-            <button onclick="addMaster('aluColour', 'addAluColour')">Add Colour</button>
-
-            <label>Aluminium Thickness</label>
-            <input type="text" id="addAluThick">
-            <button onclick="addMaster('aluThickness', 'addAluThick')">Add Thickness</button>
-        </div>
-
-        <!-- Glass Dropdowns -->
-        <div class="window-card">
-            <h4>গ্লাস কনফিগারেশন</h4>
-            <label>Glass Company</label>
-            <input type="text" id="addGlassComp">
-            <button onclick="addMaster('glassCompany', 'addGlassComp')">Add Company</button>
-
-            <label>Glass Thickness</label>
-            <input type="text" id="addGlassThick">
-            <button onclick="addMaster('glassThickness', 'addGlassThick')">Add Thickness</button>
-
-            <label>Glass Colour</label>
-            <input type="text" id="addGlassColour">
-            <button onclick="addMaster('glassColour', 'addGlassColour')">Add Colour</button>
-        </div>
-
-        <!-- Hardware & Accessories Dropdowns -->
-        <div class="window-card">
-            <h4>হার্ডওয়্যার ও এক্সেসরিজ</h4>
-            <label>Hardware Brand</label>
-            <input type="text" id="addHwBrand">
-            <button onclick="addMaster('hwBrand', 'addHwBrand')">Add Hardware</button>
-
-            <label>Lock Brand</label>
-            <input type="text" id="addLockBrand">
-            <button onclick="addMaster('lockBrand', 'addLockBrand')">Add Lock</button>
-
-            <label>Handle Brand</label>
-            <input type="text" id="addHandleBrand">
-            <button onclick="addMaster('handleBrand', 'addHandleBrand')">Add Handle</button>
-
-            <label>Roller Brand</label>
-            <input type="text" id="addRollerBrand">
-            <button onclick="addMaster('rollerBrand', 'addRollerBrand')">Add Roller</button>
-
-            <label>Rubber Type/Brand</label>
-            <input type="text" id="addRubber">
-            <button onclick="addMaster('rubber', 'addRubber')">Add Rubber</button>
-
-            <label>Screw Specs</label>
-            <input type="text" id="addScrew">
-            <button onclick="addMaster('screw', 'addScrew')">Add Screw</button>
-        </div>
+<div class="mobile-app">
+    <div class="app-header">
+        <a href="index.html" class="back-btn">←</a>
+        <div class="header-title">Company Settings</div>
+        <div style="width: 40px;"></div>
     </div>
 
-    <div class="btn-group">
-        <button onclick="location.href='calculator.html'">📐 Calculator Page</button>
-        <button class="btn-secondary" onclick="location.href='index.html'">📊 ERP Dashboard</button>
+    <div class="card">
+        <h3>🏢 কোম্পানি প্রোফাইল সেটআপ</h3>
+        <div class="form-group">
+            <label>কোম্পানির নাম (Company Name)</label>
+            <input type="text" id="compName" placeholder="যেমন: Molla Aluminium">
+        </div>
+        <div class="form-group">
+            <label>মোবাইল নম্বর (Phone Number)</label>
+            <input type="text" id="compPhone" placeholder="017XXXXXXXX">
+        </div>
+        <div class="form-group">
+            <label>ঠিকানা (Address)</label>
+            <textarea id="compAddress" placeholder="কোম্পানির ঠিকানা লিখুন..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>টার্মস এন্ড কন্ডিশন (Terms & Conditions)</label>
+            <textarea id="compTerms" placeholder="১. ৫০% এডভান্স প্রদান করতে হবে..."></textarea>
+        </div>
+
+        <button class="btn-save" onclick="saveMasterData()">Save Company Info</button>
     </div>
 </div>
 
-<script src="license.js"></script>
 <script>
-function addMaster(key, inputId) {
-    let val = document.getElementById(inputId)?.value.trim();
-    if (!val) { alert("নাম লিখুন!"); return; }
+    // Security check for page access
+    document.addEventListener("DOMContentLoaded", () => {
+        if (localStorage.getItem("erp_unlocked") !== "true") {
+            alert("অনুগ্রহ করে অ্যাপটি লাইসেন্স কি দিয়ে অ্যাক্টিভেট করুন।");
+            location.href = "index.html";
+            return;
+        }
 
-    let masterData = JSON.parse(localStorage.getItem("masterDataERP")) || {};
-    if (!masterData[key]) masterData[key] = [];
-    if (!masterData[key].includes(val)) masterData[key].push(val);
+        // Load existing master settings
+        document.getElementById("compName").value = localStorage.getItem("erp_comp_name") || "";
+        document.getElementById("compPhone").value = localStorage.getItem("erp_comp_phone") || "";
+        document.getElementById("compAddress").value = localStorage.getItem("erp_comp_address") || "";
+        document.getElementById("compTerms").value = localStorage.getItem("erp_comp_terms") || "১. ৫০% এডভান্স দিয়ে অর্ডার কনফার্ম করতে হবে।\n২. ডেলিভারির সময় সম্পূর্ণ বিল পরিশোধ করতে হবে।";
+    });
 
-    localStorage.setItem("masterDataERP", JSON.stringify(masterData));
-    document.getElementById(inputId).value = "";
-    alert("সফলভাবে যোগ হয়েছে!");
-}
+    function saveMasterData() {
+        let name = document.getElementById("compName").value.trim();
+        let phone = document.getElementById("compPhone").value.trim();
+        let address = document.getElementById("compAddress").value.trim();
+        let terms = document.getElementById("compTerms").value.trim();
+
+        localStorage.setItem("erp_comp_name", name);
+        localStorage.setItem("erp_comp_phone", phone);
+        localStorage.setItem("erp_comp_address", address);
+        localStorage.setItem("erp_comp_terms", terms);
+
+        alert("✅ কোম্পানি সেটিংস সফলভাবে সেভ হয়েছে!");
+    }
 </script>
 </body>
 </html>

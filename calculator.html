@@ -343,7 +343,7 @@
         }
     }
 
-    function calculateMaterials() {
+        function calculateMaterials() {
         let totalSqft = 0;
         let windowsList = [];
 
@@ -358,6 +358,143 @@
                 windowsList.push({ id: i, height: h, width: w, qty: q, sqft: sqft.toFixed(2) });
             }
         }
+
+        if (windowsList.length === 0) {
+            alert("অন্তত ১টি জানালার সঠিক Height, Width এবং Qty দিন!");
+            return;
+        }
+
+        // টুকরোগুলো আলাদা সাইজ অনুযায়ী জমানো
+        let heightPiecesOuter18 = [];
+        let heightPiecesOuter21 = [];
+        let heightPiecesShutter18 = [];
+        let heightPiecesShutter21 = [];
+
+        let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
+
+        windowsList.forEach(win => {
+            let hFt = win.height / 12;
+            let wFt = win.width / 12;
+            let qty = win.qty;
+
+            // মোট ফিট হিসাব
+            outSide += (hFt * 2) * qty;
+            outTop += wFt * qty;
+            outBot += wFt * qty;
+            shutLock += (hFt * 2) * qty;
+            shutInter += (hFt * 2) * qty;
+            shutTop += wFt * qty;
+            shutBot += wFt * qty;
+
+            // সঠিক লজিক: হয় ১৮.৬ ফিটে যাবে, না হয় ২১ ফিটে যাবে (দুটিতে একসাথে নয়)
+            for (let k = 0; k < qty * 2; k++) {
+                if (hFt <= 4.65) { 
+                    heightPiecesOuter18.push(hFt);
+                    heightPiecesShutter18.push(hFt);
+                } else {
+                    heightPiecesOuter21.push(hFt);
+                    heightPiecesShutter21.push(hFt);
+                }
+            }
+        });
+
+        let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
+        let glassSqft = totalSqft * 0.85;
+
+        // কস্টিং হিসাব
+        let aluCost = totAlu * activeRates.alu;
+        let glassCost = glassSqft * activeRates.glass;
+        let hwCost = totalSqft * activeRates.hw;
+        let fitCost = totalSqft * activeRates.fit;
+        let labourCost = totalSqft * activeRates.labour;
+
+        let matCost = aluCost + glassCost + hwCost + fitCost + labourCost;
+        let matCostSqft = totalSqft > 0 ? (matCost / totalSqft) : 0;
+        let costSqft = matCostSqft;
+        let profitSqft = (costSqft * activeRates.profit) / 100;
+        let sellRateSqft = costSqft + profitSqft;
+        let totalSellPrice = sellRateSqft * totalSqft;
+
+        // UI আপডেট - Material Details
+        document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
+        document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
+        document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
+        document.getElementById("res_shutLock").innerText = shutLock.toFixed(1) + " ft";
+        document.getElementById("res_shutInter").innerText = shutInter.toFixed(1) + " ft";
+        document.getElementById("res_shutTop").innerText = shutTop.toFixed(1) + " ft";
+        document.getElementById("res_shutBot").innerText = shutBot.toFixed(1) + " ft";
+
+        document.getElementById("res_totAlu").innerText = totAlu.toFixed(1) + " ft";
+        document.getElementById("res_glass").innerText = glassSqft.toFixed(1) + " Sqft";
+        document.getElementById("res_hw").innerText = hwCost.toFixed(0) + " ৳";
+        document.getElementById("res_fit").innerText = fitCost.toFixed(0) + " ৳";
+        document.getElementById("res_labour").innerText = labourCost.toFixed(0) + " ৳";
+
+        document.getElementById("res_matCost").innerText = matCost.toFixed(0) + " ৳";
+        document.getElementById("res_matCostSqft").innerText = matCostSqft.toFixed(1) + " ৳";
+        document.getElementById("res_sellRateSqft").innerText = sellRateSqft.toFixed(1) + " ৳";
+        document.getElementById("res_profitSqft").innerText = profitSqft.toFixed(1) + " ৳";
+        document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
+        document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
+
+        // --- কাটিং রিপোর্ট হিসাব ---
+        let pcs18_Side = getBarCountForPieces(heightPiecesOuter18, 18.6);
+        let pcs21_Side = getBarCountForPieces(heightPiecesOuter21, 21.0);
+
+        let pcs18_Lock = getBarCountForPieces(heightPiecesShutter18, 18.6);
+        let pcs21_Lock = getBarCountForPieces(heightPiecesShutter21, 21.0);
+
+        let pcs18_Inter = getBarCountForPieces(heightPiecesShutter18, 18.6);
+        let pcs21_Inter = getBarCountForPieces(heightPiecesShutter21, 21.0);
+
+        // টেক্সট ফরম্যাটিং
+        let txt18_Side = pcs18_Side > 0 ? `${pcs18_Side} Pcs` : "-";
+        let txt21_Side = pcs21_Side > 0 ? `${pcs21_Side} Pcs` : "-";
+
+        let txt18_Lock = pcs18_Lock > 0 ? `${pcs18_Lock} Pcs` : "-";
+        let txt21_Lock = pcs21_Lock > 0 ? `${pcs21_Lock} Pcs` : "-";
+
+        let txt18_Inter = pcs18_Inter > 0 ? `${pcs18_Inter} Pcs` : "-";
+        let txt21_Inter = pcs21_Inter > 0 ? `${pcs21_Inter} Pcs` : "-";
+
+        // উইডথ পার্ট (শুধুমাত্র ২১ ফিটে)
+        let cut21_outTop = calculateWidthBarFt(outTop, 21.0);
+        let cut21_outBot = calculateWidthBarFt(outBot, 21.0);
+        let cut21_shutTop = calculateWidthBarFt(shutTop, 21.0);
+        let cut21_shutBot = calculateWidthBarFt(shutBot, 21.0);
+
+        // টেবিল আপডেট
+        document.getElementById("cuttingReportBody").innerHTML = `
+            <tr><td>Outer Side</td><td>${txt18_Side}</td><td>${txt21_Side}</td></tr>
+            <tr><td>Outer Top</td><td>-</td><td>${cut21_outTop}</td></tr>
+            <tr><td>Outer Bottom</td><td>-</td><td>${cut21_outBot}</td></tr>
+            <tr><td>Shutter Lock</td><td>${txt18_Lock}</td><td>${txt21_Lock}</td></tr>
+            <tr><td>Shutter Interlock</td><td>${txt18_Inter}</td><td>${txt21_Inter}</td></tr>
+            <tr><td>Shutter Top</td><td>-</td><td>${cut21_shutTop}</td></tr>
+            <tr><td>Shutter Bottom</td><td>-</td><td>${cut21_shutBot}</td></tr>
+        `;
+
+        // কোটেশন ডাটা
+        calculatedData = {
+            customer: {
+                name: document.getElementById("custName").value,
+                mobile: document.getElementById("custMobile").value,
+                address: document.getElementById("custAddress").value
+            },
+            specifications: {
+                company: document.getElementById("selCompany").value,
+                series: document.getElementById("selSeries").value,
+                aluThick: document.getElementById("selAluThick").value,
+                glassComp: document.getElementById("selGlassComp").value,
+                glassThick: document.getElementById("selGlassThick").value,
+                glassColour: document.getElementById("selGlassColour").value
+            },
+            windows: windowsList,
+            totalSqft: totalSqft.toFixed(2),
+            sellRateSqft: sellRateSqft.toFixed(2),
+            totalSellPrice: totalSellPrice.toFixed(0)
+        };
+    }
 
         if (windowsList.length === 0) {
             alert("অন্তত ১টি জানালার সঠিক Height, Width এবং Qty দিন!");

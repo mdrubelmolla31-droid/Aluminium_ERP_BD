@@ -80,6 +80,24 @@
         .btn:hover {
             background-color: #1d4ed8;
         }
+        .btn-add {
+            background-color: #10b981;
+            margin-top: 10px;
+        }
+        .btn-add:hover {
+            background-color: #059669;
+        }
+        .btn-del {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-del:hover {
+            background-color: #dc2626;
+        }
         .report-header {
             background-color: #2563eb;
             color: white;
@@ -96,7 +114,7 @@
 <div class="container">
     <h2>Aluminium Estimation System</h2>
 
-    <!-- কাস্টমার তথ্য -->
+    <!-- Customer Details -->
     <div class="section">
         <h3>Customer Details</h3>
         <div class="grid-3">
@@ -115,7 +133,7 @@
         </div>
     </div>
 
-    <!-- মেটেরিয়াল স্পেসিফিকেশন -->
+    <!-- Specifications -->
     <div class="section">
         <h3>Specifications</h3>
         <div class="grid-3">
@@ -143,6 +161,17 @@
                 </select>
             </div>
             <div>
+                <label>Alu Colour</label>
+                <select id="selAluColour" onchange="updateAluRateByColour()">
+                    <option value="Silver">Silver</option>
+                    <option value="Bronze">Bronze</option>
+                    <option value="Champagne">Champagne</option>
+                    <option value="Black">Powder Coated Black</option>
+                    <option value="White">Powder Coated White</option>
+                    <option value="Wood">Wood Finish</option>
+                </select>
+            </div>
+            <div>
                 <label>Glass Company</label>
                 <select id="selGlassComp">
                     <option value="PHP">PHP</option>
@@ -167,7 +196,38 @@
         </div>
     </div>
 
-    <!-- উইন্ডো ইনপুট -->
+    <!-- Rates & Pricing Setup -->
+    <div class="section">
+        <h3>Rates & Pricing Config</h3>
+        <div class="grid-3">
+            <div>
+                <label>Alu Rate (/ft)</label>
+                <input type="number" id="rate_alu" value="150">
+            </div>
+            <div>
+                <label>Glass Rate (/sqft)</label>
+                <input type="number" id="rate_glass" value="120">
+            </div>
+            <div>
+                <label>Hardware (/sqft)</label>
+                <input type="number" id="rate_hw" value="35">
+            </div>
+            <div>
+                <label>Fittings (/sqft)</label>
+                <input type="number" id="rate_fit" value="35">
+            </div>
+            <div>
+                <label>Labour (/sqft)</label>
+                <input type="number" id="rate_labour" value="12">
+            </div>
+            <div>
+                <label>Profit Margin (%)</label>
+                <input type="number" id="rate_profit" value="5">
+            </div>
+        </div>
+    </div>
+
+    <!-- Window Input Section (Dynamic) -->
     <div class="section">
         <h3>Window Dimensions (Inches)</h3>
         <table>
@@ -177,20 +237,17 @@
                     <th>Height (in)</th>
                     <th>Width (in)</th>
                     <th>Qty</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr><td>W1</td><td><input type="number" id="w1_h"></td><td><input type="number" id="w1_w"></td><td><input type="number" id="w1_q"></td></tr>
-                <tr><td>W2</td><td><input type="number" id="w2_h"></td><td><input type="number" id="w2_w"></td><td><input type="number" id="w2_q"></td></tr>
-                <tr><td>W3</td><td><input type="number" id="w3_h"></td><td><input type="number" id="w3_w"></td><td><input type="number" id="w3_q"></td></tr>
-                <tr><td>W4</td><td><input type="number" id="w4_h"></td><td><input type="number" id="w4_w"></td><td><input type="number" id="w4_q"></td></tr>
-                <tr><td>W5</td><td><input type="number" id="w5_h"></td><td><input type="number" id="w5_w"></td><td><input type="number" id="w5_q"></td></tr>
+            <tbody id="windowTableBody">
             </tbody>
         </table>
+        <button class="btn btn-add" onclick="addWindowRow()">+ Add Window</button>
         <button class="btn" onclick="calculateMaterials()">Calculate</button>
     </div>
 
-    <!-- মেটেরিয়াল কস্টিং ও সামারি -->
+    <!-- Costing & Summary -->
     <div class="section">
         <h3>Material Details & Costing</h3>
         <table>
@@ -217,7 +274,7 @@
         </table>
     </div>
 
-    <!-- কাটিং রিপোর্ট (সংশোধিত লজিক) -->
+    <!-- Cutting Report -->
     <div class="section">
         <div class="report-header">Cutting Report</div>
         <table>
@@ -243,23 +300,65 @@
 </div>
 
 <script>
-    // ডিফল্ট রেট সেটআপ
-    const activeRates = {
-        alu: 150,      // প্রতি ফিট অ্যালুমিনিয়াম খরচ
-        glass: 120,    // প্রতি স্কয়ার ফিট গ্লাস খরচ
-        hw: 35,        // হার্ডওয়্যার খরচ / স্কয়ার ফিট
-        fit: 35,       // ফিটিংস খরচ / স্কয়ার ফিট
-        labour: 12,    // লেবার খরচ / স্কয়ার ফিট
-        profit: 5      // লাভ (%)
+    let windowCount = 0;
+
+    // কালার সিলেক্ট করার সাথে অ্যালুমিনিয়াম রেট অটোমেটিক চেঞ্জ হবে
+    function updateAluRateByColour() {
+        const colour = document.getElementById("selAluColour").value;
+        const aluInput = document.getElementById("rate_alu");
+        
+        switch(colour) {
+            case "Silver":
+                aluInput.value = 145;
+                break;
+            case "Bronze":
+            case "Champagne":
+                aluInput.value = 155;
+                break;
+            case "Black":
+            case "White":
+                aluInput.value = 165;
+                break;
+            case "Wood":
+                aluInput.value = 185;
+                break;
+            default:
+                aluInput.value = 150;
+        }
+    }
+
+    function addWindowRow() {
+        windowCount++;
+        const tbody = document.getElementById("windowTableBody");
+        const row = document.createElement("tr");
+        row.id = `winRow_${windowCount}`;
+        row.innerHTML = `
+            <td>W${windowCount}</td>
+            <td><input type="number" class="win-h" placeholder="0"></td>
+            <td><input type="number" class="win-w" placeholder="0"></td>
+            <td><input type="number" class="win-q" placeholder="0"></td>
+            <td><button class="btn-del" onclick="removeWindowRow('winRow_${windowCount}')">🗑️</button></td>
+        `;
+        tbody.appendChild(row);
+    }
+
+    function removeWindowRow(rowId) {
+        const row = document.getElementById(rowId);
+        if (row) {
+            row.remove();
+        }
+    }
+
+    window.onload = function() {
+        for (let i = 0; i < 3; i++) {
+            addWindowRow();
+        }
     };
 
-    let calculatedData = {};
-
-    // টুকরোগুলো দিয়ে বার (Bar) গণনার ফাংশন
     function getBarCountForPieces(pieces, barLength) {
         if (pieces.length === 0) return 0;
         
-        let sorted = [...pieces].sort((a, b) => b - a); // বড় থেকে ছোট সাজানো
+        let sorted = [...pieces].sort((a, b) => b - a);
         let bars = [];
 
         sorted.forEach(piece => {
@@ -279,7 +378,6 @@
         return bars.length;
     }
 
-    // ২১ ফিটের উইডথ হিসাব করার ফাংশন
     function calculateWidthBarFt(totalFt, barLength) {
         if (totalFt <= 0) return "-";
         let fullBars = Math.floor(totalFt / barLength);
@@ -294,29 +392,37 @@
         }
     }
 
-    // মূল ক্যালকুলেশন ফাংশন
     function calculateMaterials() {
+        let activeRates = {
+            alu: parseFloat(document.getElementById("rate_alu").value) || 0,
+            glass: parseFloat(document.getElementById("rate_glass").value) || 0,
+            hw: parseFloat(document.getElementById("rate_hw").value) || 0,
+            fit: parseFloat(document.getElementById("rate_fit").value) || 0,
+            labour: parseFloat(document.getElementById("rate_labour").value) || 0,
+            profit: parseFloat(document.getElementById("rate_profit").value) || 0
+        };
+
         let totalSqft = 0;
         let windowsList = [];
 
-        for (let i = 1; i <= 5; i++) {
-            let h = parseFloat(document.getElementById(`w${i}_h`).value) || 0;
-            let w = parseFloat(document.getElementById(`w${i}_w`).value) || 0;
-            let q = parseInt(document.getElementById(`w${i}_q`).value) || 0;
+        let rows = document.querySelectorAll("#windowTableBody tr");
+        rows.forEach((row, index) => {
+            let h = parseFloat(row.querySelector(".win-h").value) || 0;
+            let w = parseFloat(row.querySelector(".win-w").value) || 0;
+            let q = parseInt(row.querySelector(".win-q").value) || 0;
 
             if (w > 0 && h > 0 && q > 0) {
                 let sqft = ((w * h) / 144) * q;
                 totalSqft += sqft;
-                windowsList.push({ id: i, height: h, width: w, qty: q, sqft: sqft.toFixed(2) });
+                windowsList.push({ id: index + 1, height: h, width: w, qty: q, sqft: sqft.toFixed(2) });
             }
-        }
+        });
 
         if (windowsList.length === 0) {
             alert("অন্তত ১টি জানালার সঠিক Height, Width এবং Qty দিন!");
             return;
         }
 
-        // টুকরোগুলো আলাদা সাইজ অনুযায়ী জমানো
         let heightPiecesOuter18 = [];
         let heightPiecesOuter21 = [];
         let heightPiecesShutter18 = [];
@@ -329,7 +435,6 @@
             let wFt = win.width / 12;
             let qty = win.qty;
 
-            // মোট ফিট হিসাব
             outSide += (hFt * 2) * qty;
             outTop += wFt * qty;
             outBot += wFt * qty;
@@ -338,7 +443,6 @@
             shutTop += wFt * qty;
             shutBot += wFt * qty;
 
-            // সঠিক লজিক: হয় ১৮.৬ ফিটে যাবে, না হয় ২১ ফিটে যাবে (এক সাথে দুটোতে নয়)
             for (let k = 0; k < qty * 2; k++) {
                 if (hFt <= 4.65) { 
                     heightPiecesOuter18.push(hFt);
@@ -353,7 +457,6 @@
         let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
         let glassSqft = totalSqft * 0.85;
 
-        // কস্টিং হিসাব
         let aluCost = totAlu * activeRates.alu;
         let glassCost = glassSqft * activeRates.glass;
         let hwCost = totalSqft * activeRates.hw;
@@ -367,7 +470,6 @@
         let sellRateSqft = costSqft + profitSqft;
         let totalSellPrice = sellRateSqft * totalSqft;
 
-        // UI আপডেট - Material Details
         document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
         document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
         document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
@@ -389,7 +491,6 @@
         document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
 
-        // --- কাটিং রিপোর্ট হিসাব ---
         let pcs18_Side = getBarCountForPieces(heightPiecesOuter18, 18.6);
         let pcs21_Side = getBarCountForPieces(heightPiecesOuter21, 21.0);
 
@@ -399,7 +500,6 @@
         let pcs18_Inter = getBarCountForPieces(heightPiecesShutter18, 18.6);
         let pcs21_Inter = getBarCountForPieces(heightPiecesShutter21, 21.0);
 
-        // টেক্সট ফরম্যাটিং
         let txt18_Side = pcs18_Side > 0 ? `${pcs18_Side} Pcs` : "-";
         let txt21_Side = pcs21_Side > 0 ? `${pcs21_Side} Pcs` : "-";
 
@@ -409,13 +509,11 @@
         let txt18_Inter = pcs18_Inter > 0 ? `${pcs18_Inter} Pcs` : "-";
         let txt21_Inter = pcs21_Inter > 0 ? `${pcs21_Inter} Pcs` : "-";
 
-        // উইডথ পার্ট (শুধুমাত্র ২১ ফিটে)
         let cut21_outTop = calculateWidthBarFt(outTop, 21.0);
         let cut21_outBot = calculateWidthBarFt(outBot, 21.0);
         let cut21_shutTop = calculateWidthBarFt(shutTop, 21.0);
         let cut21_shutBot = calculateWidthBarFt(shutBot, 21.0);
 
-        // টেবিল আপডেট
         document.getElementById("cuttingReportBody").innerHTML = `
             <tr><td>Outer Side</td><td>${txt18_Side}</td><td>${txt21_Side}</td></tr>
             <tr><td>Outer Top</td><td>-</td><td>${cut21_outTop}</td></tr>

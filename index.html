@@ -30,6 +30,7 @@
             padding: 22px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
             border: 1px solid #1f2937;
+            position: relative;
         }
 
         /* Top Bar */
@@ -71,14 +72,15 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
-            border: 1px solid #d97706; /* Metallic Gold Border */
+            border: 1px solid #d97706;
             box-shadow: 0 8px 25px rgba(217, 119, 6, 0.15);
+            cursor: pointer;
         }
 
         .welcome-card h2 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
-            color: #fbbf24; /* Gold Accent */
+            color: #fbbf24;
             margin-bottom: 4px;
         }
 
@@ -88,15 +90,22 @@
         }
 
         .avatar-box {
-            background: rgba(251, 191, 36, 0.15);
-            border: 1px solid #fbbf24;
-            width: 54px;
-            height: 54px;
+            width: 58px;
+            height: 58px;
             border-radius: 50%;
+            border: 2px solid #fbbf24;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 26px;
+            overflow: hidden;
+            background: rgba(251, 191, 36, 0.15);
+        }
+
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* 2-Column Grid Menu */
@@ -147,6 +156,85 @@
         .bg-stock { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
         .bg-quotation { background: rgba(239, 68, 68, 0.15); color: #f87171; }
         .bg-calc { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; }
+
+        /* Profile Modal Style */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: #1f2937;
+            border: 1px solid #d97706;
+            padding: 24px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 360px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .modal-content h3 {
+            color: #fbbf24;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .modal-content input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #374151;
+            background: #111827;
+            color: white;
+            font-size: 15px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .modal-content input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn {
+            background: #374151;
+            padding: 10px;
+            border-radius: 10px;
+            display: block;
+            margin-bottom: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #9ca3af;
+            border: 1px dashed #fbbf24;
+        }
+
+        .save-btn {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .close-btn {
+            background: transparent;
+            color: #9ca3af;
+            border: none;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -156,17 +244,18 @@
     <div class="app-header">
         <div class="icon-btn">☰</div>
         <div class="header-title">Dashboard</div>
-        <!-- Aluminum Profile Icon instead of Bell -->
         <div class="icon-btn" title="Aluminium Profiles">🏗️</div>
     </div>
 
-    <!-- Welcome Titanium Banner -->
-    <div class="welcome-card">
+    <!-- Welcome Titanium Banner (Click to Edit) -->
+    <div class="welcome-card" onclick="openProfileModal()">
         <div>
-            <h2>Welcome, Admin</h2>
+            <h2 id="userNameDisplay">Welcome, Admin</h2>
             <p>Aluminium ERP BD v2</p>
         </div>
-        <div class="avatar-box">👤</div>
+        <div class="avatar-box" id="avatarDisplay">
+            👤
+        </div>
     </div>
 
     <!-- 2-Column Menu Grid -->
@@ -176,7 +265,7 @@
             <div class="card-label">Company</div>
         </div>
 
-        <div class="menu-card" onclick="alert('Profile Page Coming Soon!')">
+        <div class="menu-card" onclick="openProfileModal()">
             <div class="icon-wrapper bg-profile">👤</div>
             <div class="card-label">Profile</div>
         </div>
@@ -203,6 +292,73 @@
     </div>
 </div>
 
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="profileModal">
+    <div class="modal-content">
+        <h3>✏️ প্রোফাইল এডিট করুন</h3>
+        <input type="text" id="usernameInput" placeholder="আপনার নাম লিখুন...">
+        
+        <label for="imageInput" class="upload-btn">📷 প্রোফাইল ছবি সিলেক্ট করুন</label>
+        <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
+
+        <button class="save-btn" onclick="saveProfile()">সেভ করুন</button>
+        <button class="close-btn" onclick="closeProfileModal()">বাতিল</button>
+    </div>
+</div>
+
 <script src="license.js"></script>
+<script>
+    let tempImageData = "";
+
+    // Load Profile on Page Load
+    document.addEventListener("DOMContentLoaded", () => {
+        let savedName = localStorage.getItem("erp_user_name");
+        let savedImg = localStorage.getItem("erp_user_img");
+
+        if (savedName) {
+            document.getElementById("userNameDisplay").innerText = "Welcome, " + savedName;
+        }
+
+        if (savedImg) {
+            document.getElementById("avatarDisplay").innerHTML = `<img src="${savedImg}" alt="User">`;
+        }
+    });
+
+    function openProfileModal() {
+        let savedName = localStorage.getItem("erp_user_name") || "Admin";
+        document.getElementById("usernameInput").value = savedName;
+        document.getElementById("profileModal").style.display = "flex";
+    }
+
+    function closeProfileModal() {
+        document.getElementById("profileModal").style.display = "none";
+    }
+
+    function previewImage(event) {
+        let file = event.target.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                tempImageData = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function saveProfile() {
+        let name = document.getElementById("usernameInput").value.trim();
+        if (name) {
+            localStorage.setItem("erp_user_name", name);
+            document.getElementById("userNameDisplay").innerText = "Welcome, " + name;
+        }
+
+        if (tempImageData) {
+            localStorage.setItem("erp_user_img", tempImageData);
+            document.getElementById("avatarDisplay").innerHTML = `<img src="${tempImageData}" alt="User">`;
+        }
+
+        closeProfileModal();
+    }
+</script>
 </body>
 </html>

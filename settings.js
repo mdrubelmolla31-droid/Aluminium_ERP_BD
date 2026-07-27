@@ -1,101 +1,72 @@
-// পেজ লোড হলে সেভ হওয়া ডাটা লোড করবে
-document.addEventListener("DOMContentLoaded", function () {
-    loadSavedRates();
-});
+let rates = JSON.parse(localStorage.getItem("rates")) || [];
 
-// ১. মাস্টার ডাটা ড্রপডাউনে যুক্ত করার ফাংশন
-function addMasterData(selectId, inputId) {
-    let inputElem = document.getElementById(inputId);
-    let selectElem = document.getElementById(selectId);
+window.onload = function () {
+    loadMasterData();
+    loadRates();
+};
 
-    let val = inputElem.value.trim();
-    if (val === "") {
-        alert("অনুগ্রহ করে সঠিক নাম লিখুন!");
-        return;
-    }
-
-    let option = document.createElement("option");
-    option.text = val;
-    option.value = val;
-    option.selected = true;
-    selectElem.add(option);
-
-    inputElem.value = "";
-    alert(`${val} ড্রপডাউনে যোগ করা হয়েছে!`);
-}
-
-// ২. রেট সেভ করার ফাংশন
 function saveSettings() {
-    let rateData = {
-        id: Date.now(),
+    let rate = {
         company: document.getElementById("company").value,
         series: document.getElementById("series").value,
-        aluThickness: document.getElementById("aluThickness").value,
-        aluColour: document.getElementById("aluColour").value,
-        glassCompany: document.getElementById("glassCompany").value,
-        glassThickness: document.getElementById("glassThickness").value,
-        glassColour: document.getElementById("glassColour").value,
-        aluRate: document.getElementById("aluRate").value || 0,
-        glassRate: document.getElementById("glassRate").value || 0,
-        hardwareRate: document.getElementById("hardwareRate").value || 0,
-        fittingsRate: document.getElementById("fittingsRate").value || 0,
-        labourRate: document.getElementById("labourRate").value || 0,
-        profit: document.getElementById("profit").value || 0
+        aluRate: Number(document.getElementById("aluRate").value) || 0,
+        glassRate: Number(document.getElementById("glassRate").value) || 0,
+        hardwareRate: Number(document.getElementById("hardwareRate").value) || 0,
+        fittingsRate: Number(document.getElementById("fittingsRate").value) || 0,
+        labourRate: Number(document.getElementById("labourRate").value) || 0,
+        profit: Number(document.getElementById("profit").value) || 0
     };
 
-    if (!rateData.company || !rateData.series) {
-        alert("কমপক্ষে Company এবং Series সিলেক্ট করুন!");
-        return;
-    }
-
-    let rates = JSON.parse(localStorage.getItem("erp_rates") || "[]");
-    rates.push(rateData);
-    localStorage.setItem("erp_rates", JSON.stringify(rates));
-
-    alert("রেট সফলভাবে সেভ করা হয়েছে!");
-    loadSavedRates();
+    rates.push(rate);
+    localStorage.setItem("rates", JSON.stringify(rates));
+    loadRates();
+    alert("Rate Saved Successfully!");
 }
 
-// ৩. সেভ করা ডাটা টেবিলে দেখানোর ফাংশন
-function loadSavedRates() {
-    let tbody = document.getElementById("rateBody");
-    tbody.innerHTML = "";
-
-    let rates = JSON.parse(localStorage.getItem("erp_rates") || "[]");
-
-    if (rates.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="14" style="text-align:center; color:var(--text-muted);">কোনো সেভ করা রেট নেই</td></tr>`;
-        return;
-    }
-
-    rates.forEach(item => {
-        let tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${item.company}</td>
-            <td>${item.series}</td>
-            <td>${item.aluThickness}</td>
-            <td>${item.aluColour}</td>
-            <td>${item.glassCompany}</td>
-            <td>${item.glassThickness}</td>
-            <td>${item.glassColour}</td>
-            <td>৳${item.aluRate}</td>
-            <td>৳${item.glassRate}</td>
-            <td>৳${item.hardwareRate}</td>
-            <td>৳${item.fittingsRate}</td>
-            <td>৳${item.labourRate}</td>
-            <td>${item.profit}%</td>
-            <td><button class="btn-delete" onclick="deleteRate(${item.id})">🗑️</button></td>
-        `;
-        tbody.appendChild(tr);
+function loadRates() {
+    rates = JSON.parse(localStorage.getItem("rates")) || [];
+    let body = document.getElementById("rateBody");
+    if (!body) return;
+    body.innerHTML = "";
+    rates.forEach((r, i) => {
+        body.innerHTML += `<tr>
+            <td>${r.company}</td>
+            <td>${r.series}</td>
+            <td>${r.aluRate}</td>
+            <td>${r.glassRate}</td>
+            <td>${r.hardwareRate}</td>
+            <td>${r.profit}%</td>
+            <td><button style="background:#ef4444" onclick="deleteRate(${i})">Delete</button></td>
+        </tr>`;
     });
 }
 
-// ৪. রেট ডিলেট করার ফাংশন
-function deleteRate(id) {
-    if (confirm("আপনি কি এই রেটটি মুছে ফেলতে চান?")) {
-        let rates = JSON.parse(localStorage.getItem("erp_rates") || "[]");
-        rates = rates.filter(item => item.id !== id);
-        localStorage.setItem("erp_rates", JSON.stringify(rates));
-        loadSavedRates();
-    }
+function deleteRate(index) {
+    rates.splice(index, 1);
+    localStorage.setItem("rates", JSON.stringify(rates));
+    loadRates();
+}
+
+function addMaster(key, inputId) {
+    let val = document.getElementById(inputId)?.value.trim();
+    if (!val) return;
+    let data = JSON.parse(localStorage.getItem("masterData")) || {};
+    if (!data[key]) data[key] = [];
+    if (!data[key].includes(val)) data[key].push(val);
+    localStorage.setItem("masterData", JSON.stringify(data));
+    loadMasterData();
+    document.getElementById(inputId).value = "";
+}
+
+function loadMasterData() {
+    let data = JSON.parse(localStorage.getItem("masterData")) || {};
+    ["company", "series", "aluThickness"].forEach(key => {
+        let select = document.getElementById(key);
+        if (select && data[key]) {
+            select.innerHTML = "";
+            data[key].forEach(v => {
+                select.innerHTML += `<option value="${v}">${v}</option>`;
+            });
+        }
+    });
 }

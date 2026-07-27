@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Settings</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 10px;
+            color: #0f172a;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px;
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* মূল টাইটেল (সাদা কার্ডে নীল টেক্সট) */
+        h2.title {
+            color: #1d4ed8;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        h3.sub-title {
+            color: #1d4ed8;
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            margin-top: 10px;
+            color: #000000;
+        }
+
+        /* ইনপুট ফিল্ড ও ড্রপডাউন (ছবি অনুযায়ী হালকা ব্যাকগ্রাউন্ড) */
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 9px;
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #0f172a;
+            outline: none;
+        }
+
+        /* প্রাইমারি বাটন (ছবি অনুযায়ী ব্রাইট ব্লু) */
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #1d4ed8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-delete {
+            background-color: #1d4ed8;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* টেবিল স্টাইলিং (ছবি অনুযায়ী নীল হেডার) */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+            font-size: 12px;
+        }
+
+        th {
+            background-color: #1d4ed8;
+            color: white;
+            padding: 6px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid #1e40af;
+        }
+
+        td {
+            padding: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 class="title">Rate Settings</h2>
+
+    <!-- Master Data Section -->
+    <h3 class="sub-title">Master Data</h3>
+    
+    <label>New Company</label>
+    <input type="text" id="newCompany">
+    <button class="btn">Add Company</button>
+
+    <label>New Series</label>
+    <input type="text" id="newSeries">
+    <button class="btn">Add Series</button>
+
+    <label>New Aluminium Thickness</label>
+    <input type="text" id="newAluThick">
+    <button class="btn">Add Thickness</button>
+
+    <label>New Glass Company</label>
+    <input type="text" id="newGlassComp">
+    <button class="btn">Add Glass Company</button>
+
+    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0 10px 0;">
+
+    <!-- Input Section -->
+    <label>Company</label>
+    <select id="selCompany">
+        <option value="KAI">KAI</option>
+    </select>
+
+    <label>Series</label>
+    <select id="selSeries">
+        <option value="Sliding Window 3&quot;">Sliding Window 3"</option>
+    </select>
+
+    <label>Aluminium Thickness</label>
+    <select id="selAluThick">
+        <option value="1.0 mm">1.0 mm</option>
+    </select>
+
+    <label>Glass Company</label>
+    <select id="selGlassComp">
+        <option value="Xinyi">Xinyi</option>
+    </select>
+
+    <label>Glass Thickness</label>
+    <select id="selGlassThick">
+        <option value="5 mm">5 mm</option>
+    </select>
+
+    <label>Glass Colour</label>
+    <select id="selGlassColour">
+        <option value="Clear">Clear</option>
+    </select>
+
+    <label>Aluminium Rate (৳/ft)</label>
+    <input type="number" id="rateAlu">
+
+    <label>Glass Rate (৳/Sqft)</label>
+    <input type="number" id="rateGlass">
+
+    <label>Hardware Rate (৳/Sqft)</label>
+    <input type="number" id="rateHW">
+
+    <label>Fittings Rate (৳/Sqft)</label>
+    <input type="number" id="rateFit">
+
+    <label>Labour Rate (৳/Sqft)</label>
+    <input type="number" id="rateLabour">
+
+    <label>Profit (%)</label>
+    <input type="number" id="rateProfit">
+
+    <button class="btn" style="margin-top: 15px;">Save Rate</button>
+
+    <!-- Table Section -->
+    <h3 class="sub-title">Saved Rate List</h3>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Series</th>
+                    <th>Alu Thick</th>
+                    <th>Glass Co.</th>
+                    <th>Glass Thick</th>
+                    <th>Glass Colour</th>
+                    <th>Alu Rate</th>
+                    <th>Glass Rate</th>
+                    <th>HW Rate</th>
+                    <th>Fit Rate</th>
+                    <th>Labour</th>
+                    <th>Profit (%)</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MAX</td>
+                    <td>Sliding Window 3"</td>
+                    <td>1.0 mm</td>
+                    <td>Nasir</td>
+                    <td>6 mm</td>
+                    <td>Clear</td>
+                    <td>300</td>
+                    <td>150</td>
+                    <td>40</td>
+                    <td>30</td>
+                    <td>10</td>
+                    <td>20%</td>
+                    <td><button class="btn-delete">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // মোবাইলের ব্যাক বাটন চাপলে সোজা index.html-এ যাবে
+    window.onpopstate = function(event) {
+        window.location.href = "index.html";
+    };
+
+    window.onload = function() {
+        history.pushState({ page: "rateSettings" }, "Rate Settings", "#rateSettings");
+    };
+</script>
+
+</body>
+</html>

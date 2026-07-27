@@ -3,89 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Master Settings - Aluminium ERP BD</title>
+    <title>Company & Terms Settings - Aluminium ERP</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 12px; min-height: 100vh; }
-        .mobile-app { width: 100%; max-width: 450px; background: #0b0f19; border-radius: 28px; padding: 16px; position: relative; }
-        
-        .app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .back-btn { background: #192233; border: 1px solid #232e42; color: #f9fafb; font-size: 18px; border-radius: 12px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
-        .header-title { font-size: 18px; font-weight: 700; color: #f9fafb; }
-        
-        .card { background: #121929; border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 16px; }
-        .card h3 { color: #fbbf24; font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #232e42; padding-bottom: 8px; }
-        
-        .form-group { margin-bottom: 14px; text-align: left; }
-        .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #232e42; background: #192233; color: white; font-size: 14px; outline: none; }
-        .form-group textarea { resize: vertical; height: 80px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
 
-        .btn-save { background: #d97706; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; }
-        .btn-save:active { transform: scale(0.98); }
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            padding: 12px;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: #111827;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #1f2937;
+            padding-bottom: 10px;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            color: #fbbf24;
+        }
+
+        .back-btn {
+            background: #1f2937;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: #60a5fa;
+            margin: 15px 0 10px 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            color: #9ca3af;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"], input[type="tel"], textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #374151;
+            background: #1f2937;
+            color: white;
+            font-size: 13px;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 90px;
+        }
+
+        .btn-primary {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Permission Card Box */
+        .perm-box {
+            background: #1e293b;
+            border: 1px dashed #fbbf24;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        .perm-status {
+            font-weight: bold;
+            color: #4ade80;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
 
-<div class="mobile-app">
-    <div class="app-header">
-        <a href="index.html" class="back-btn">←</a>
-        <div class="header-title">Company Settings</div>
-        <div style="width: 40px;"></div>
+<div class="container">
+    <div class="header">
+        <h2>🏢 Master Settings</h2>
+        <button class="back-btn" onclick="location.href='index.html'">← Home</button>
     </div>
 
-    <div class="card">
-        <h3>🏢 কোম্পানি প্রোফাইল সেটআপ</h3>
-        <div class="form-group">
-            <label>কোম্পানির নাম (Company Name)</label>
-            <input type="text" id="compName" placeholder="যেমন: Molla Aluminium">
-        </div>
-        <div class="form-group">
-            <label>মোবাইল নম্বর (Phone Number)</label>
-            <input type="text" id="compPhone" placeholder="017XXXXXXXX">
-        </div>
-        <div class="form-group">
-            <label>ঠিকানা (Address)</label>
-            <textarea id="compAddress" placeholder="কোম্পানির ঠিকানা লিখুন..."></textarea>
-        </div>
-        <div class="form-group">
-            <label>টার্মস এন্ড কন্ডিশন (Terms & Conditions)</label>
-            <textarea id="compTerms" placeholder="১. ৫০% এডভান্স প্রদান করতে হবে..."></textarea>
-        </div>
-
-        <button class="btn-save" onclick="saveMasterData()">Save Company Info</button>
+    <!-- Storage Permission Info Box -->
+    <div class="perm-box">
+        <div style="color: #fbbf24; font-weight: bold;">💾 Local Storage Permission Status:</div>
+        <div class="perm-status" id="storageStatus">Checking storage access...</div>
     </div>
+
+    <!-- Company Information -->
+    <div class="section-title">🏢 কোম্পানির তথ্য (Quotation-এ দেখাবে)</div>
+    
+    <div class="form-group">
+        <label>কোম্পানির নাম</label>
+        <input type="text" id="compName" placeholder="e.g. Molla Aluminium & Glass">
+    </div>
+
+    <div class="form-group">
+        <label>মোবাইল নম্বর</label>
+        <input type="tel" id="compPhone" placeholder="017XXXXXXXX">
+    </div>
+
+    <div class="form-group">
+        <label>ঠিকানা</label>
+        <input type="text" id="compAddress" placeholder="দোকান/ফ্যাক্টরির ঠিকানা">
+    </div>
+
+    <!-- Terms & Conditions Section -->
+    <div class="section-title">📜 Terms & Conditions (শর্তাবলী)</div>
+    <div class="form-group">
+        <label>কোটেশনের নিচে দেখানোর জন্য শর্তাবলী লিখুন (প্রতিটি শর্ত নতুন লাইনে লিখুন)</label>
+        <textarea id="termsText" placeholder="১. মোট বিলের ৫০% এডভান্স প্রদান করতে হবে।&#10;২. কাজ শেষে বাকি টাকা পরিশোধ করতে হবে।&#10;৩. অর্ডার কনফার্মের ৭ দিনের মধ্যে মাল ডেলিভারি দেওয়া হবে।"></textarea>
+    </div>
+
+    <button class="btn-primary" onclick="saveMasterSettings()">Save Settings</button>
 </div>
 
+<!-- Auto Permission Modal (প্রথমবার প্রবেশের সময় পপ-আপ হবে) -->
 <script>
-    // Security check for page access
     document.addEventListener("DOMContentLoaded", () => {
-        if (localStorage.getItem("erp_unlocked") !== "true") {
-            alert("অনুগ্রহ করে অ্যাপটি লাইসেন্স কি দিয়ে অ্যাক্টিভেট করুন।");
-            location.href = "index.html";
-            return;
-        }
-
-        // Load existing master settings
-        document.getElementById("compName").value = localStorage.getItem("erp_comp_name") || "";
-        document.getElementById("compPhone").value = localStorage.getItem("erp_comp_phone") || "";
-        document.getElementById("compAddress").value = localStorage.getItem("erp_comp_address") || "";
-        document.getElementById("compTerms").value = localStorage.getItem("erp_comp_terms") || "১. ৫০% এডভান্স দিয়ে অর্ডার কনফার্ম করতে হবে।\n২. ডেলিভারির সময় সম্পূর্ণ বিল পরিশোধ করতে হবে।";
+        requestStoragePermission();
+        loadMasterSettings();
     });
 
-    function saveMasterData() {
+    // অটোমেটিক পারমিশন নেওয়ার লজিক (Persistent Storage Request)
+    async function requestStoragePermission() {
+        let statusEl = document.getElementById("storageStatus");
+        
+        if (navigator.storage && navigator.storage.persist) {
+            let isPersisted = await navigator.storage.persisted();
+            
+            if (!isPersisted) {
+                // প্রথমবার ইউজারের কাছ থেকে কনফার্মেশন পারমিশন চাইবে
+                let userGranted = confirm("⚠️ আপনার অ্যাপের ডাটা (রেট, কাস্টমার ও শর্তাবলী) সুরক্ষার জন্য অটোমেটিক স্টোরেজ পারমিশন এলাউ করুন।");
+                if (userGranted) {
+                    let granted = await navigator.storage.persist();
+                    if (granted) {
+                        statusEl.innerText = "✅ Storage Permanently Secured (অটোমেটিক সেভ পারমিটেড)";
+                        statusEl.style.color = "#4ade80";
+                    } else {
+                        statusEl.innerText = "⚠️ Standard Local Storage Active (Browser restriction)";
+                        statusEl.style.color = "#facc15";
+                    }
+                } else {
+                    statusEl.innerText = "⚠️ Permission Denied (সাধারণ স্টোরেজে ডাটা সেভ থাকবে)";
+                    statusEl.style.color = "#f87171";
+                }
+            } else {
+                statusEl.innerText = "✅ Storage Permanently Secured (অটো সেভ সক্রিয়)";
+                statusEl.style.color = "#4ade80";
+            }
+        } else {
+            statusEl.innerText = "✅ Local Storage Active";
+            statusEl.style.color = "#4ade80";
+        }
+    }
+
+    // মাস্টার ডাটা সেভ করা
+    function saveMasterSettings() {
         let name = document.getElementById("compName").value.trim();
         let phone = document.getElementById("compPhone").value.trim();
         let address = document.getElementById("compAddress").value.trim();
-        let terms = document.getElementById("compTerms").value.trim();
+        let terms = document.getElementById("termsText").value.trim();
 
-        localStorage.setItem("erp_comp_name", name);
-        localStorage.setItem("erp_comp_phone", phone);
-        localStorage.setItem("erp_comp_address", address);
-        localStorage.setItem("erp_comp_terms", terms);
+        let companyInfo = { name, phone, address, terms };
 
-        alert("✅ কোম্পানি সেটিংস সফলভাবে সেভ হয়েছে!");
+        localStorage.setItem("erp_company_info", JSON.stringify(companyInfo));
+        alert("✅ কোম্পানির তথ্য ও টার্মস সফলভাবে সেভ করা হয়েছে!");
+    }
+
+    // লোড ডাটা
+    function loadMasterSettings() {
+        let saved = localStorage.getItem("erp_company_info");
+        if (saved) {
+            let info = JSON.parse(saved);
+            document.getElementById("compName").value = info.name || "";
+            document.getElementById("compPhone").value = info.phone || "";
+            document.getElementById("compAddress").value = info.address || "";
+            document.getElementById("termsText").value = info.terms || "";
+        }
     }
 </script>
+
 </body>
 </html>

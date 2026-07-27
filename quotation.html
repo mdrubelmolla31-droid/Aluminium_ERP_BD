@@ -3,240 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation Generator - Aluminium ERP BD</title>
+    <title>Quotation - Aluminium ERP BD</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 12px; min-height: 100vh; }
-        .mobile-app { width: 100%; max-width: 450px; background: #0b0f19; border-radius: 28px; padding: 16px; position: relative; }
-        
-        .app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .back-btn { background: #192233; border: 1px solid #232e42; color: #f9fafb; font-size: 18px; border-radius: 12px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
-        .header-title { font-size: 18px; font-weight: 700; color: #f9fafb; }
-        
-        .card { background: #121929; border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 16px; }
-        .card h3 { color: #fbbf24; font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #232e42; padding-bottom: 8px; }
-        
-        .form-row { display: flex; gap: 10px; margin-bottom: 14px; }
-        .form-group { flex: 1; text-align: left; }
-        .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; }
-        .form-group input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #232e42; background: #192233; color: white; font-size: 14px; outline: none; }
-        
-        .btn-add { background: #2563eb; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 15px; }
-        .btn-print { background: #059669; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; }
-
-        /* Item Table */
-        .item-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 13px; }
-        .item-table th, .item-table td { border: 1px solid #232e42; padding: 8px; text-align: center; }
-        .item-table th { background: #192233; color: #fbbf24; }
-
-        /* Printable Area Styles */
-        @media print {
-            body { background: white; color: black; padding: 0; }
-            .mobile-app { max-width: 100%; background: white; padding: 0; }
-            .app-header, .no-print { display: none !important; }
-            .print-invoice { display: block !important; color: black; }
-            .print-invoice table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-            .print-invoice th, .print-invoice td { border: 1px solid #333; padding: 8px; text-align: left; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        .print-invoice { display: none; background: white; color: #111827; padding: 20px; border-radius: 12px; }
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .quote-card {
+            width: 100%;
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #cbd5e1;
+        }
+
+        .header-title {
+            text-align: center;
+            color: #1d4ed8;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .info-item span {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .table-box {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .table-box th {
+            background: #2563eb;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .table-box td {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
+        }
+
+        .spec-box {
+            margin-top: 15px;
+            background: #fafafa;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed #2563eb;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .total-box {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 16px;
+            font-weight: 800;
+            color: #1d4ed8;
+        }
+
+        .btn-print {
+            display: block;
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        @media print {
+            .btn-print { display: none; }
+            body { background: white; padding: 0; }
+            .quote-card { box-shadow: none; border: none; }
+        }
     </style>
 </head>
 <body>
 
-<div class="mobile-app">
-    <div class="app-header">
-        <a href="index.html" class="back-btn">←</a>
-        <div class="header-title">Quotation Generator</div>
-        <div style="width: 40px;"></div>
+<div class="quote-card">
+    <div class="header-title">Quotation Statement</div>
+
+    <!-- Customer Details -->
+    <div class="info-grid">
+        <div class="info-item">Name: <span id="qName">-</span></div>
+        <div class="info-item">Mobile: <span id="qMobile">-</span></div>
+        <div class="info-item" style="grid-column: span 2;">Address: <span id="qAddress">-</span></div>
     </div>
 
-    <!-- Input Form Card -->
-    <div class="card no-print">
-        <h3>👤 কাস্টমার ও বিল ইনফো</h3>
-        <div class="form-row">
-            <div class="form-group">
-                <label>কাস্টমারের নাম</label>
-                <input type="text" id="custName" placeholder="রহিম সাহেব">
-            </div>
-            <div class="form-group">
-                <label>মোবাইল নম্বর</label>
-                <input type="text" id="custPhone" placeholder="018XXXXXXXX">
-            </div>
-        </div>
-
-        <h3 style="margin-top: 10px;">📦 আইটেম যোগ করুন</h3>
-        <div class="form-group" style="margin-bottom: 10px;">
-            <label>বিবরণ (Item Description)</label>
-            <input type="text" id="itemDesc" placeholder="e.g. 2 Track Sliding Window (5mm Glass)">
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label>স্কয়ার ফিট (SFT)</label>
-                <input type="number" id="itemSft" placeholder="100">
-            </div>
-            <div class="form-group">
-                <label>রেট (টাকা/SFT)</label>
-                <input type="number" id="itemRate" placeholder="450">
-            </div>
-        </div>
-        <button class="btn-add" onclick="addItem()">+ Add Item to Quotation</button>
-
-        <!-- Added Items Table -->
-        <table class="item-table" id="itemTable">
-            <thead>
-                <tr>
-                    <th>বিবরণ</th>
-                    <th>SFT</th>
-                    <th>রেট</th>
-                    <th>মোট (টাকা)</th>
-                </tr>
-            </thead>
-            <tbody id="itemList">
-                <!-- Dynamic Items -->
-            </tbody>
-        </table>
-
-        <div style="text-align: right; font-weight: bold; font-size: 16px; color: #4ade80; margin-bottom: 15px;">
-            Total: <span id="grandTotal">0</span> Tk
-        </div>
-
-        <button class="btn-print" onclick="generateAndPrint()">🩻 View & Print Quotation</button>
+    <!-- Specification Summary -->
+    <div class="spec-box">
+        <strong>Material Specification:</strong><br>
+        Aluminium: <span id="qCompany">-</span> (<span id="qSeries">-</span>, <span id="qAluThick">-</span>)<br>
+        Glass: <span id="qGlassComp">-</span> (<span id="qGlassThick">-</span>, <span id="qGlassColour">-</span>)
     </div>
 
-    <!-- Print Preview / PDF Layout -->
-    <div class="print-invoice" id="printArea">
-        <div style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px;">
-            <h2 id="pCompName" style="margin-bottom: 4px;">Company Name</h2>
-            <p id="pCompPhone" style="font-size: 13px;">Phone: </p>
-            <p id="pCompAddress" style="font-size: 12px;">Address: </p>
-        </div>
+    <!-- Windows Size Table -->
+    <table class="table-box">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Size (Height × Width)</th>
+                <th>Qty</th>
+                <th>Total Sqft</th>
+            </tr>
+        </thead>
+        <tbody id="qWindowList">
+            <!-- Dynamic Rows -->
+        </tbody>
+    </table>
 
-        <div style="margin: 15px 0; display: flex; justify-content: space-between; font-size: 13px;">
-            <div>
-                <strong>Bill To:</strong> <span id="pCustName"></span><br>
-                <strong>Phone:</strong> <span id="pCustPhone"></span>
-            </div>
-            <div>
-                <strong>Date:</strong> <span id="pDate"></span>
-            </div>
-        </div>
-
-        <table>
-            <thead>
-                <tr style="background: #f3f4f6;">
-                    <th>#</th>
-                    <th>Description</th>
-                    <th>SFT</th>
-                    <th>Rate</th>
-                    <th>Amount</th>
-                </tr>
-            </thead>
-            <tbody id="pItemList"></tbody>
-        </table>
-
-        <div style="text-align: right; margin-top: 15px; font-weight: bold; font-size: 16px;">
-            Grand Total: <span id="pGrandTotal">0</span> BDT
-        </div>
-
-        <div style="margin-top: 30px; font-size: 11px; border-top: 1px solid #ccc; padding-top: 8px;">
-            <strong>Terms & Conditions:</strong><br>
-            <p id="pTerms" style="white-space: pre-line; margin-top: 4px;"></p>
+    <!-- Pricing Summary -->
+    <div class="spec-box" style="margin-top:20px;">
+        <div style="display:flex; justify-between; font-size:14px;">
+            <span>Total Area: <strong id="qTotalSqft">0</strong> Sqft</span>
+            <span style="margin-left: auto;">Rate per Sqft: <strong id="qRateSqft">0</strong> ৳</span>
         </div>
     </div>
+
+    <div class="total-box">
+        Total Selling Price: <span id="qTotalPrice">0</span> ৳
+    </div>
+
+    <button class="btn-print" onclick="window.print()">Print Quotation</button>
 </div>
 
 <script>
-    let items = [];
-
     document.addEventListener("DOMContentLoaded", () => {
-        if (localStorage.getItem("erp_unlocked") !== "true") {
-            alert("অনুগ্রহ করে অ্যাপটি লাইসেন্স কি দিয়ে অ্যাক্টিভেট করুন।");
-            location.href = "index.html";
-        }
-    });
+        let payload = JSON.parse(localStorage.getItem("erp_quotation_payload"));
 
-    function addItem() {
-        let desc = document.getElementById("itemDesc").value.trim();
-        let sft = parseFloat(document.getElementById("itemSft").value) || 0;
-        let rate = parseFloat(document.getElementById("itemRate").value) || 0;
-
-        if (!desc || sft <= 0 || rate <= 0) {
-            alert("সবগুলো ফিল্ড সঠিকভাবে পূরণ করুন!");
+        if (!payload) {
+            alert("কোন ডাটা পাওয়া যায়নি! দয়া করে ক্যালকুলেটর থেকে হিসাব করে আসুন।");
             return;
         }
-
-        let total = sft * rate;
-        items.push({ desc, sft, rate, total });
-
-        // Clear input fields
-        document.getElementById("itemDesc").value = "";
-        document.getElementById("itemSft").value = "";
-        document.getElementById("itemRate").value = "";
-
-        renderTable();
-    }
-
-    function renderTable() {
-        let tbody = document.getElementById("itemList");
-        tbody.innerHTML = "";
-        let grandTotal = 0;
-
-        items.forEach((item) => {
-            grandTotal += item.total;
-            tbody.innerHTML += `
-                <tr>
-                    <td>${item.desc}</td>
-                    <td>${item.sft}</td>
-                    <td>${item.rate}</td>
-                    <td>${item.total.toFixed(2)}</td>
-                </tr>
-            `;
-        });
-
-        document.getElementById("grandTotal").innerText = grandTotal.toFixed(2);
-    }
-
-    function generateAndPrint() {
-        if (items.length === 0) {
-            alert("কমপক্ষে একটি আইটেম যুক্ত করুন!");
-            return;
-        }
-
-        // Load Master Data
-        document.getElementById("pCompName").innerText = localStorage.getItem("erp_comp_name") || "Aluminium ERP BD";
-        document.getElementById("pCompPhone").innerText = "Phone: " + (localStorage.getItem("erp_comp_phone") || "N/A");
-        document.getElementById("pCompAddress").innerText = localStorage.getItem("erp_comp_address") || "";
-        document.getElementById("pTerms").innerText = localStorage.getItem("erp_comp_terms") || "";
 
         // Customer Info
-        document.getElementById("pCustName").innerText = document.getElementById("custName").value || "N/A";
-        document.getElementById("pCustPhone").innerText = document.getElementById("custPhone").value || "N/A";
-        document.getElementById("pDate").innerText = new Date().toLocaleDateString('en-GB');
+        document.getElementById("qName").innerText = payload.customer.name || "N/A";
+        document.getElementById("qMobile").innerText = payload.customer.mobile || "N/A";
+        document.getElementById("qAddress").innerText = payload.customer.address || "N/A";
 
-        // Print Items Table
-        let pTbody = document.getElementById("pItemList");
-        pTbody.innerHTML = "";
-        let total = 0;
+        // Specs
+        document.getElementById("qCompany").innerText = payload.specifications.company;
+        document.getElementById("qSeries").innerText = payload.specifications.series;
+        document.getElementById("qAluThick").innerText = payload.specifications.aluThick;
+        document.getElementById("qGlassComp").innerText = payload.specifications.glassComp;
+        document.getElementById("qGlassThick").innerText = payload.specifications.glassThick;
+        document.getElementById("qGlassColour").innerText = payload.specifications.glassColour;
 
-        items.forEach((item, index) => {
-            total += item.total;
-            pTbody.innerHTML += `
+        // Windows Table
+        let tbody = document.getElementById("qWindowList");
+        tbody.innerHTML = "";
+        payload.windows.forEach((w, index) => {
+            tbody.innerHTML += `
                 <tr>
                     <td>${index + 1}</td>
-                    <td>${item.desc}</td>
-                    <td>${item.sft}</td>
-                    <td>${item.rate}</td>
-                    <td>${item.total.toFixed(2)} Tk</td>
+                    <td>${w.height}" × ${w.width}"</td>
+                    <td>${w.qty} Pcs</td>
+                    <td>${w.sqft} Sqft</td>
                 </tr>
             `;
         });
 
-        document.getElementById("pGrandTotal").innerText = total.toFixed(2);
-
-        // Trigger Print Window
-        window.print();
-    }
+        // Totals
+        document.getElementById("qTotalSqft").innerText = payload.totalSqft;
+        document.getElementById("qRateSqft").innerText = payload.sellRateSqft;
+        document.getElementById("qTotalPrice").innerText = payload.totalSellPrice;
+    });
 </script>
+
 </body>
 </html>

@@ -23,7 +23,7 @@
 
         .calc-card {
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             background: #ffffff;
             border-radius: 12px;
             padding: 16px;
@@ -68,9 +68,12 @@
         .window-title {
             text-align: center;
             color: #2563eb;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             margin: 18px 0 10px 0;
+            background: #eff6ff;
+            padding: 6px;
+            border-radius: 6px;
         }
 
         .btn-grid {
@@ -93,7 +96,7 @@
         }
 
         .table-box {
-            background: #f8fafc;
+            background: #ffffff;
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid #e2e8f0;
@@ -116,30 +119,25 @@
         }
 
         td, th {
-            padding: 8px 12px;
+            padding: 8px 10px;
             border-bottom: 1px solid #e2e8f0;
             border-right: 1px solid #e2e8f0;
+            text-align: center;
         }
 
         th {
             background: #2563eb;
             color: white;
-            text-align: center;
         }
 
         td:first-child {
             color: #334155;
             text-align: left;
-        }
-
-        td:last-child {
-            text-align: right;
             font-weight: 600;
-            color: #0f172a;
         }
 
         tr:nth-child(even) {
-            background-color: #ffffff;
+            background-color: #f8fafc;
         }
     </style>
 </head>
@@ -148,12 +146,12 @@
 <div class="calc-card">
     <div class="calc-header">Material Calculator</div>
 
-    <!-- Customer Information -->
+    <!-- Customer Info -->
     <div class="form-group"><label>Customer Name</label><input type="text" id="custName"></div>
     <div class="form-group"><label>Mobile</label><input type="text" id="custMobile"></div>
     <div class="form-group"><label>Address</label><input type="text" id="custAddress"></div>
 
-    <!-- Material Specifications -->
+    <!-- Specifications -->
     <div class="form-group"><label>Company</label><select id="selCompany" onchange="autoFetchRates()"></select></div>
     <div class="form-group"><label>Series</label><select id="selSeries" onchange="autoFetchRates()"></select></div>
     <div class="form-group"><label>Aluminium Thickness</label><select id="selAluThick" onchange="autoFetchRates()"></select></div>
@@ -169,32 +167,27 @@
     </div>
     <div class="form-group"><label>Glass Colour</label><select id="selGlassColour" onchange="autoFetchRates()"></select></div>
 
-    <!-- Window Size Inputs (1 to 5) -> Height first, Width later -->
-    <!-- Window 1 -->
+    <!-- Window Sizes (1 to 5) -->
     <div class="window-title">Window Size - 1</div>
     <div class="form-group"><label>Height (Inch)</label><input type="number" id="w1_h"></div>
     <div class="form-group"><label>Width (Inch)</label><input type="number" id="w1_w"></div>
     <div class="form-group"><label>Quantity</label><input type="number" id="w1_q" value="1"></div>
 
-    <!-- Window 2 -->
     <div class="window-title">Window Size - 2</div>
     <div class="form-group"><label>Height (Inch)</label><input type="number" id="w2_h"></div>
     <div class="form-group"><label>Width (Inch)</label><input type="number" id="w2_w"></div>
     <div class="form-group"><label>Qty</label><input type="number" id="w2_q" value="0"></div>
 
-    <!-- Window 3 -->
     <div class="window-title">Window Size - 3</div>
     <div class="form-group"><label>Height (Inch)</label><input type="number" id="w3_h"></div>
     <div class="form-group"><label>Width (Inch)</label><input type="number" id="w3_w"></div>
     <div class="form-group"><label>Qty</label><input type="number" id="w3_q" value="0"></div>
 
-    <!-- Window 4 -->
     <div class="window-title">Window Size - 4</div>
     <div class="form-group"><label>Height (Inch)</label><input type="number" id="w4_h"></div>
     <div class="form-group"><label>Width (Inch)</label><input type="number" id="w4_w"></div>
     <div class="form-group"><label>Qty</label><input type="number" id="w4_q" value="0"></div>
 
-    <!-- Window 5 -->
     <div class="window-title">Window Size - 5</div>
     <div class="form-group"><label>Height (Inch)</label><input type="number" id="w5_h"></div>
     <div class="form-group"><label>Width (Inch)</label><input type="number" id="w5_w"></div>
@@ -206,7 +199,7 @@
         <button class="btn-quote" onclick="sendToQuotation()">Quotation</button>
     </div>
 
-    <!-- Material Details Result Table -->
+    <!-- Material Details Table -->
     <div class="table-box">
         <div class="table-head">Material Details</div>
         <table>
@@ -312,6 +305,33 @@
         }
     }
 
+    // স্মার্ট বার কাটিং অ্যালগরিদম (Height Cutting Optimizer)
+    function calculateSmartBarCutting(piecesNeeded, barLength) {
+        if (piecesNeeded.length === 0) return "-";
+        
+        // টুকরোগুলো বড় থেকে ছোট সাজানো
+        piecesNeeded.sort((a, b) => b - a);
+        
+        let barsUsed = 0;
+        let currentBarRem = 0;
+
+        for (let p of piecesNeeded) {
+            if (p <= currentBarRem) {
+                currentBarRem -= p;
+            } else {
+                barsUsed++;
+                currentBarRem = barLength - p;
+            }
+        }
+
+        let remFeet = Math.round(currentBarRem * 10) / 10;
+        if (remFeet > 0) {
+            return `${barsUsed} Pcs + ${remFeet} ft`;
+        } else {
+            return `${barsUsed} Pcs`;
+        }
+    }
+
     function calculateMaterials() {
         let totalSqft = 0;
         let windowsList = [];
@@ -333,7 +353,10 @@
             return;
         }
 
-        // রিয়েল অ্যালুমিনিয়াম লিনিয়ার ফিট হিসাব (প্রতি স্কয়ার ফিট অনুপাতের পরিবর্তে স্ট্যান্ডার্ড নিয়মে)
+        // টুকরোগুলোর তালিকা তৈরির অ্যারে
+        let heightPiecesOuter = [];
+        let heightPiecesShutter = [];
+
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
 
         windowsList.forEach(win => {
@@ -341,6 +364,7 @@
             let wFt = win.width / 12;
             let qty = win.qty;
 
+            // মেটেরিয়াল ডিটেইলসের মোট লিনিয়ার ফিট
             outSide += (hFt * 2) * qty;
             outTop += wFt * qty;
             outBot += wFt * qty;
@@ -348,6 +372,12 @@
             shutInter += (hFt * 2) * qty;
             shutTop += wFt * qty;
             shutBot += wFt * qty;
+
+            // কাটিং রিপোর্টের জন্য প্রতিটি কাটিং টুকরো জমা
+            for (let k = 0; k < qty * 2; k++) {
+                heightPiecesOuter.push(hFt); // Outer Side
+                heightPiecesShutter.push(hFt); // Shutter Lock & Interlock
+            }
         });
 
         let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
@@ -368,7 +398,7 @@
         let sellRateSqft = costSqft + profitSqft;
         let totalSellPrice = sellRateSqft * totalSqft;
 
-        // UI আপডেট
+        // UI আপডেট - Material Details
         document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
         document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
         document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
@@ -390,18 +420,43 @@
         document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
 
-        // কাটিং রিপোর্ট সিম্পল টেবিল আপডেট
+        // কাটিং রিপোর্ট লজিক (১৮.৬ ফিট নাকি ২১ ফিট বার লাগবে)
+        let maxSinglePiece = Math.max(...heightPiecesOuter);
+
+        let cut18_Side = "-", cut21_Side = "-";
+        let cut18_Lock = "-", cut21_Lock = "-";
+        let cut18_Inter = "-", cut21_Inter = "-";
+
+        if (maxSinglePiece <= 4.5) {
+            // ৪.৫ ফিট বা তার ছোট হলে ১৮.৬ ফিটের বারে হিসাব
+            cut18_Side = calculateSmartBarCutting([...heightPiecesOuter], 18.6);
+            cut18_Lock = calculateSmartBarCutting([...heightPiecesShutter], 18.6);
+            cut18_Inter = calculateSmartBarCutting([...heightPiecesShutter], 18.6);
+        } else {
+            // ৪.৫ ফিটের বেশি (যেমন ৭ ফিট) হলে ২১ ফিটের বারে হিসাব
+            cut21_Side = calculateSmartBarCutting([...heightPiecesOuter], 21.0);
+            cut21_Lock = calculateSmartBarCutting([...heightPiecesShutter], 21.0);
+            cut21_Inter = calculateSmartBarCutting([...heightPiecesShutter], 21.0);
+        }
+
+        // উইডথ পার্টগুলোর বার হিসাব (২১ ফিট ধরে)
+        let cut21_outTop = calculateSmartBarCutting(windowsList.flatMap(w => Array(w.qty).fill(w.width / 12)), 21.0);
+        let cut21_outBot = cut21_outTop;
+        let cut21_shutTop = calculateSmartBarCutting(windowsList.flatMap(w => Array(w.qty).fill(w.width / 12)), 21.0);
+        let cut21_shutBot = cut21_shutTop;
+
+        // কাটিং রিপোর্ট টেবিল ডাইনামিক রেন্ডারিং
         document.getElementById("cuttingReportBody").innerHTML = `
-            <tr><td>Outer Side</td><td>-</td><td>${outSide.toFixed(1)} ft</td></tr>
-            <tr><td>Outer Top</td><td>-</td><td>${outTop.toFixed(1)} ft</td></tr>
-            <tr><td>Outer Bottom</td><td>-</td><td>${outBot.toFixed(1)} ft</td></tr>
-            <tr><td>Shutter Lock</td><td>-</td><td>${shutLock.toFixed(1)} ft</td></tr>
-            <tr><td>Shutter Interlock</td><td>-</td><td>${shutInter.toFixed(1)} ft</td></tr>
-            <tr><td>Shutter Top</td><td>-</td><td>${shutTop.toFixed(1)} ft</td></tr>
-            <tr><td>Shutter Bottom</td><td>-</td><td>${shutBot.toFixed(1)} ft</td></tr>
+            <tr><td>Outer Side</td><td>${cut18_Side}</td><td>${cut21_Side}</td></tr>
+            <tr><td>Outer Top</td><td>-</td><td>${cut21_outTop}</td></tr>
+            <tr><td>Outer Bottom</td><td>-</td><td>${cut21_outBot}</td></tr>
+            <tr><td>Shutter Lock</td><td>${cut18_Lock}</td><td>${cut21_Lock}</td></tr>
+            <tr><td>Shutter Interlock</td><td>${cut18_Inter}</td><td>${cut21_Inter}</td></tr>
+            <tr><td>Shutter Top</td><td>-</td><td>${cut21_shutTop}</td></tr>
+            <tr><td>Shutter Bottom</td><td>-</td><td>${cut21_shutBot}</td></tr>
         `;
 
-        // কোটেশনের জন্য ডাটা পারফেক্টলি সেট করা
+        // কোটেশন ডাটা সেট
         calculatedData = {
             customer: {
                 name: document.getElementById("custName").value,
@@ -424,10 +479,7 @@
     }
 
     function sendToQuotation() {
-        if (!calculatedData) {
-            calculateMaterials();
-        }
-
+        if (!calculatedData) calculateMaterials();
         if (calculatedData && calculatedData.windows.length > 0) {
             localStorage.setItem("erp_quotation_payload", JSON.stringify(calculatedData));
             window.location.href = "quotation.html";

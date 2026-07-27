@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Master Data - Aluminium ERP BD v2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>⚙️ Master Data Management</h2>
+    <p>ERP-এর জন্য সকল কোম্পানির কাস্টম লিস্ট ও ম্যাটেরিয়াল ব্র্যান্ড যোগ করুন</p>
+    <hr>
+
+    <div class="grid-3">
+        <!-- Aluminium Dropdowns -->
+        <div class="window-card">
+            <h4>অ্যালুমিনিয়াম কনফিগারেশন</h4>
+            <label>Aluminium Company</label>
+            <input type="text" id="addAluComp">
+            <button onclick="addMaster('aluCompany', 'addAluComp')">Add Company</button>
+
+            <label>Aluminium Series</label>
+            <input type="text" id="addAluSeries">
+            <button onclick="addMaster('aluSeries', 'addAluSeries')">Add Series</button>
+
+            <label>Aluminium Colour</label>
+            <input type="text" id="addAluColour">
+            <button onclick="addMaster('aluColour', 'addAluColour')">Add Colour</button>
+
+            <label>Aluminium Thickness</label>
+            <input type="text" id="addAluThick">
+            <button onclick="addMaster('aluThickness', 'addAluThick')">Add Thickness</button>
+        </div>
+
+        <!-- Glass Dropdowns -->
+        <div class="window-card">
+            <h4>গ্লাস কনফিগারেশন</h4>
+            <label>Glass Company</label>
+            <input type="text" id="addGlassComp">
+            <button onclick="addMaster('glassCompany', 'addGlassComp')">Add Company</button>
+
+            <label>Glass Thickness</label>
+            <input type="text" id="addGlassThick">
+            <button onclick="addMaster('glassThickness', 'addGlassThick')">Add Thickness</button>
+
+            <label>Glass Colour</label>
+            <input type="text" id="addGlassColour">
+            <button onclick="addMaster('glassColour', 'addGlassColour')">Add Colour</button>
+        </div>
+
+        <!-- Hardware & Accessories Dropdowns -->
+        <div class="window-card">
+            <h4>হার্ডওয়্যার ও এক্সেসরিজ</h4>
+            <label>Hardware Brand</label>
+            <input type="text" id="addHwBrand">
+            <button onclick="addMaster('hwBrand', 'addHwBrand')">Add Hardware</button>
+
+            <label>Lock Brand</label>
+            <input type="text" id="addLockBrand">
+            <button onclick="addMaster('lockBrand', 'addLockBrand')">Add Lock</button>
+
+            <label>Handle Brand</label>
+            <input type="text" id="addHandleBrand">
+            <button onclick="addMaster('handleBrand', 'addHandleBrand')">Add Handle</button>
+
+            <label>Roller Brand</label>
+            <input type="text" id="addRollerBrand">
+            <button onclick="addMaster('rollerBrand', 'addRollerBrand')">Add Roller</button>
+
+            <label>Rubber Type/Brand</label>
+            <input type="text" id="addRubber">
+            <button onclick="addMaster('rubber', 'addRubber')">Add Rubber</button>
+
+            <label>Screw Specs</label>
+            <input type="text" id="addScrew">
+            <button onclick="addMaster('screw', 'addScrew')">Add Screw</button>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button onclick="location.href='calculator.html'">📐 Calculator Page</button>
+        <button class="btn-secondary" onclick="location.href='index.html'">📊 ERP Dashboard</button>
+    </div>
+</div>
+
+<script src="license.js"></script>
+<script>
+function addMaster(key, inputId) {
+    let val = document.getElementById(inputId)?.value.trim();
+    if (!val) { alert("নাম লিখুন!"); return; }
+
+    let masterData = JSON.parse(localStorage.getItem("masterDataERP")) || {};
+    if (!masterData[key]) masterData[key] = [];
+    if (!masterData[key].includes(val)) masterData[key].push(val);
+
+    localStorage.setItem("masterDataERP", JSON.stringify(masterData));
+    document.getElementById(inputId).value = "";
+    alert("সফলভাবে যোগ হয়েছে!");
+}
+</script>
+</body>
+</html>

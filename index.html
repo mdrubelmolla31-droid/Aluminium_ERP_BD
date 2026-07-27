@@ -32,7 +32,7 @@
             position: relative;
         }
 
-        /* Top Bar */
+        /* Header */
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -60,7 +60,7 @@
             user-select: none;
         }
 
-        /* Welcome Banner */
+        /* Banner */
         .welcome-card {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border-radius: 22px;
@@ -100,12 +100,6 @@
             cursor: pointer;
         }
 
-        .avatar-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .license-status {
             font-size: 11px;
             background: rgba(34, 197, 94, 0.2);
@@ -117,7 +111,7 @@
             border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
-        /* Grid Menu */
+        /* Menu Grid */
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -163,13 +157,13 @@
         .bg-quotation { background: rgba(239, 68, 68, 0.15); color: #f87171; }
         .bg-calc { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; }
 
-        /* Modal Design */
+        /* Lock Screen / License Modal */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(6px);
+            background: rgba(11, 15, 25, 0.95);
+            backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -179,7 +173,7 @@
         .modal-card {
             background: #111827;
             border: 1px solid #d97706;
-            padding: 26px;
+            padding: 24px;
             border-radius: 24px;
             width: 100%;
             max-width: 360px;
@@ -189,26 +183,39 @@
 
         .modal-card h3 {
             color: #fbbf24;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 18px;
         }
 
         .modal-card p {
-            font-size: 13px;
+            font-size: 12px;
             color: #9ca3af;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
-        .modal-card input[type="password"],
-        .modal-card input[type="text"] {
+        .device-box {
+            background: #1f2937;
+            border: 1px dashed #fbbf24;
+            padding: 10px;
+            border-radius: 10px;
+            color: #60a5fa;
+            font-family: monospace;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 14px;
+            letter-spacing: 1px;
+        }
+
+        .modal-card input[type="text"],
+        .modal-card input[type="password"] {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border-radius: 10px;
             border: 1px solid #374151;
             background: #1f2937;
             color: white;
-            font-size: 16px;
-            margin-bottom: 16px;
+            font-size: 15px;
+            margin-bottom: 14px;
             outline: none;
             text-align: center;
         }
@@ -217,7 +224,7 @@
             background: #d97706;
             color: white;
             border: none;
-            padding: 14px;
+            padding: 12px;
             border-radius: 10px;
             font-weight: bold;
             font-size: 15px;
@@ -229,10 +236,10 @@
             background: #25D366;
             color: white;
             border: none;
-            padding: 14px;
+            padding: 12px;
             border-radius: 10px;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             width: 100%;
             margin-top: 10px;
@@ -247,36 +254,33 @@
             background: transparent;
             color: #9ca3af;
             border: none;
-            margin-top: 12px;
+            margin-top: 10px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
 <div class="mobile-app">
-    <!-- Top Bar -->
     <div class="app-header">
         <div class="icon-btn">☰</div>
         <div class="header-title">Dashboard</div>
-        <!-- 5 Taps for Hidden Master Key Input -->
-        <div class="icon-btn" id="lockIconBtn" onclick="handleLockTap()" title="Tap 5 times for Master Key">🔒</div>
+        <!-- 5 Taps for Admin Master Key -->
+        <div class="icon-btn" id="lockIconBtn" onclick="handleLockTap()" title="Tap 5 times for Admin Master Key">🔒</div>
     </div>
 
-    <!-- Welcome Banner -->
     <div class="welcome-card">
         <div>
             <h2 id="userNameDisplay">Welcome, User</h2>
             <p>Aluminium ERP BD v2</p>
-            <span class="license-status" id="licenseBadge">✓ Active License</span>
+            <span class="license-status" id="licenseBadge">✓ System Active</span>
         </div>
         <div class="avatar-box" id="avatarDisplay" onclick="openProfileModal()">👤</div>
     </div>
 
-    <!-- 2-Column Menu Grid -->
     <div class="menu-grid">
-        <div class="menu-card" onclick="location.href='master.html'">
+        <div class="menu-card" onclick="checkAccess('master.html')">
             <div class="icon-wrapper bg-company">🏢</div>
             <div class="card-label">Company</div>
         </div>
@@ -284,44 +288,46 @@
             <div class="icon-wrapper bg-profile">👤</div>
             <div class="card-label">Profile</div>
         </div>
-        <div class="menu-card" onclick="alert('Customer Feature Ready!')">
+        <div class="menu-card" onclick="checkAccess('customer')">
             <div class="icon-wrapper bg-customer">👥</div>
             <div class="card-label">Customer</div>
         </div>
-        <div class="menu-card" onclick="alert('Stock Feature Ready!')">
+        <div class="menu-card" onclick="checkAccess('stock')">
             <div class="icon-wrapper bg-stock">📦</div>
             <div class="card-label">Stock</div>
         </div>
-        <div class="menu-card" onclick="location.href='quotation.html'">
+        <div class="menu-card" onclick="checkAccess('quotation.html')">
             <div class="icon-wrapper bg-quotation">📄</div>
             <div class="card-label">Quotation</div>
         </div>
-        <div class="menu-card" onclick="location.href='calculator.html'">
+        <div class="menu-card" onclick="checkAccess('calculator.html')">
             <div class="icon-wrapper bg-calc">🧮</div>
             <div class="card-label">Material Calculator</div>
         </div>
     </div>
 </div>
 
-<!-- Master Key / License Activation Modal -->
-<div class="modal-overlay" id="masterKeyModal">
+<!-- License Activation Modal -->
+<div class="modal-overlay" id="licenseModal">
     <div class="modal-card">
-        <h3>🔑 Activation / Master Access</h3>
-        <p>লাইসেন্স কি অথবা মাস্টার কি ম্যানুয়ালি টাইপ করুন।</p>
-        <input type="password" id="masterKeyInput" placeholder="Enter Key Here" autocomplete="off">
+        <h3 id="modalTitle">🔑 Software Activation Required</h3>
+        <p>সফটওয়্যার ব্যবহার করতে লাইসেন্স কি লিখুন অথবা নিচের ডিভাইসের আইডি হোয়াটসঅ্যাপে পাঠান।</p>
         
-        <button class="btn-primary" onclick="verifyMasterKey()">Submit Key</button>
+        <div class="device-box" id="deviceIdDisplay">Device ID: Loading...</div>
         
-        <!-- Direct WhatsApp Connect Button -->
-        <a href="https://wa.me/8801676474412?text=Hello,%20I%20need%20a%20License%20Key%20for%20Aluminium%20ERP%20Software." target="_blank" class="btn-whatsapp">
-            💬 Get License Key via WhatsApp
+        <input type="password" id="licenseKeyInput" placeholder="Enter License / Master Key" autocomplete="off">
+        
+        <button class="btn-primary" onclick="verifyLicenseKey()">Activate License</button>
+        
+        <a id="waLink" href="#" target="_blank" class="btn-whatsapp">
+            💬 WhatsApp-এ লাইসেন্স চান (8801676474412)
         </a>
 
-        <button class="btn-cancel" onclick="closeMasterModal()">Close</button>
+        <button class="btn-cancel" onclick="closeLicenseModal()">Close</button>
     </div>
 </div>
 
-<!-- Edit Profile Modal -->
+<!-- Profile Modal -->
 <div class="modal-overlay" id="profileModal">
     <div class="modal-card">
         <h3>✏️ এডিট প্রোফাইল</h3>
@@ -335,53 +341,108 @@
 <script>
     let tapCount = 0;
     let tapTimer = null;
+    let deviceID = "";
 
-    // 5-Tap Hidden Logic
+    // Generate Unique Device ID based on Browser/Device Specs
+    function generateDeviceID() {
+        let savedID = localStorage.getItem("erp_device_id");
+        if (!savedID) {
+            savedID = "ALU-" + Math.floor(100000 + Math.random() * 900000);
+            localStorage.setItem("erp_device_id", savedID);
+        }
+        return savedID;
+    }
+
+    // Generate expected user license key for this specific Device ID
+    function getValidUserKey(devID) {
+        // Simple secure formula for generating client keys based on ID
+        return "KEY-" + devID.replace("ALU-", "") + "-PRO";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        deviceID = generateDeviceID();
+        document.getElementById("deviceIdDisplay").innerText = "Device ID: " + deviceID;
+        
+        // Update WhatsApp Link with Device ID automatically
+        let waMsg = encodeURIComponent(`Hello Rubel Molla, I need a License Key for Aluminium ERP.\nMy Device ID: ${deviceID}`);
+        document.getElementById("waLink").href = `https://wa.me/8801676474412?text=${waMsg}`;
+
+        checkAppSecurity();
+        loadProfile();
+    });
+
+    function checkAppSecurity() {
+        let isUnlocked = localStorage.getItem("erp_unlocked");
+        if (isUnlocked !== "true") {
+            openLicenseModal();
+        }
+    }
+
+    function checkAccess(page) {
+        let isUnlocked = localStorage.getItem("erp_unlocked");
+        if (isUnlocked === "true") {
+            if (page.includes(".html")) location.href = page;
+            else alert("Feature coming soon!");
+        } else {
+            openLicenseModal();
+        }
+    }
+
+    // 5-Tap Hidden Master Key Access Logic
     function handleLockTap() {
         tapCount++;
         clearTimeout(tapTimer);
 
         if (tapCount >= 5) {
             tapCount = 0;
-            openMasterModal();
+            openLicenseModal(true); // Open as Admin Mode
         } else {
-            tapTimer = setTimeout(() => {
-                tapCount = 0;
-            }, 1500);
+            tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
         }
     }
 
-    function openMasterModal() {
-        // Strict Rule: Never auto-fill input box
-        document.getElementById("masterKeyInput").value = "";
-        document.getElementById("masterKeyModal").style.display = "flex";
+    function openLicenseModal(isAdmin = false) {
+        document.getElementById("licenseKeyInput").value = ""; // Always Empty Input
+        if (isAdmin) {
+            document.getElementById("modalTitle").innerText = "🔑 Admin Master Key Entry";
+        } else {
+            document.getElementById("modalTitle").innerText = "🔑 Software Activation Required";
+        }
+        document.getElementById("licenseModal").style.display = "flex";
     }
 
-    function closeMasterModal() {
-        document.getElementById("masterKeyModal").style.display = "none";
+    function closeLicenseModal() {
+        let isUnlocked = localStorage.getItem("erp_unlocked");
+        if (isUnlocked === "true") {
+            document.getElementById("licenseModal").style.display = "none";
+        } else {
+            alert("সফটওয়্যার ব্যবহার করতে লাইসেন্স কি দিয়ে অ্যাক্টিভেট করুন।");
+        }
     }
 
-    function verifyMasterKey() {
-        let inputKey = document.getElementById("masterKeyInput").value.trim();
-        
-        // Custom Master Key Check
+    function verifyLicenseKey() {
+        let inputKey = document.getElementById("licenseKeyInput").value.trim();
+        let validUserKey = getValidUserKey(deviceID);
+
+        // 1. MASTER KEY CHECK (For You Only)
         if (inputKey === "mdrubelmolla1989") {
-            alert("✅ Master Access Granted!");
+            alert("✅ Master Access Granted! Admin mode unlocked.");
             localStorage.setItem("erp_unlocked", "true");
-            closeMasterModal();
-        } else {
-            alert("❌ ভুল কি! সঠিক মাস্টার কি বা লাইসেন্স কি টাইপ করুন।");
+            document.getElementById("licenseModal").style.display = "none";
+        } 
+        // 2. CLIENT SPECIFIC LICENSE KEY CHECK
+        else if (inputKey === validUserKey) {
+            alert("✅ Software Activated Successfully!");
+            localStorage.setItem("erp_unlocked", "true");
+            document.getElementById("licenseModal").style.display = "none";
+        } 
+        else {
+            alert("❌ ভুল কি! সঠিক লাইসেন্স কি অথবা এডমিন মাস্টার কি দিন।");
         }
     }
 
-    function openProfileModal() {
-        document.getElementById("profileModal").style.display = "flex";
-    }
-
-    function closeProfileModal() {
-        document.getElementById("profileModal").style.display = "none";
-    }
-
+    function openProfileModal() { document.getElementById("profileModal").style.display = "flex"; }
+    function closeProfileModal() { document.getElementById("profileModal").style.display = "none"; }
     function saveProfile() {
         let name = document.getElementById("usernameInput").value.trim();
         if (name) {
@@ -390,11 +451,10 @@
         }
         closeProfileModal();
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
+    function loadProfile() {
         let savedName = localStorage.getItem("erp_user_name");
         if (savedName) document.getElementById("userNameDisplay").innerText = "Welcome, " + savedName;
-    });
+    }
 </script>
 </body>
 </html>

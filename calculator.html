@@ -7,80 +7,86 @@
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #0f172a;
+            background-color: #f1f5f9;
             margin: 0;
             padding: 15px;
-            color: #f8fafc;
+            color: #0f172a;
         }
         .app-container {
-            max-width: 650px;
+            max-width: 600px;
             margin: auto;
         }
         .nav-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 15px;
         }
         .nav-card {
-            background: #1e293b;
-            border: 2px solid #334155;
-            padding: 15px;
-            border-radius: 12px;
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.2s;
         }
         .nav-card.active {
-            border-color: #3b82f6;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+            border-color: #2563eb;
+            background-color: #eff6ff;
         }
-        .nav-icon { font-size: 28px; margin-bottom: 5px; display: block; }
-        .nav-title { font-weight: bold; font-size: 15px; color: #f8fafc; }
+        .nav-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+        .nav-title { font-weight: bold; font-size: 14px; color: #1e293b; }
 
         .card {
-            background: #1e293b;
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #334155;
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
         }
-        h2, h3 { margin-top: 0; color: #38bdf8; text-align: center; }
+        h3 {
+            margin-top: 0;
+            color: #2563eb;
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-        label { display: block; font-size: 12px; margin-bottom: 4px; color: #94a3b8; font-weight: bold; }
+        label { display: block; font-size: 12px; margin-bottom: 4px; color: #64748b; font-weight: bold; }
         input, select {
-            width: 100%; padding: 9px; box-sizing: border-box;
-            background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; font-size: 14px;
+            width: 100%; padding: 8px; box-sizing: border-box;
+            background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; color: #0f172a; font-size: 13px;
         }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #334155; padding: 8px; text-align: center; font-size: 13px; }
-        th { background-color: #2563eb; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
+        th, td { border: 1px solid #e2e8f0; padding: 8px; text-align: center; font-size: 13px; color: #334155; }
+        th { background-color: #2563eb; color: white; font-weight: 600; }
         
         .btn {
-            width: 100%; padding: 12px; background-color: #2563eb; color: white;
-            border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px;
+            width: 100%; padding: 10px; background-color: #2563eb; color: white;
+            border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 10px;
         }
         .btn-add { background-color: #10b981; }
         .btn-quote-nav { background-color: #8b5cf6; }
-        .btn-del { background-color: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; }
+        .btn-del { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; }
 
-        /* Final Quotation Print Card */
+        /* Quotation Output Template */
         #quotationStatementPage {
             display: none; background: #ffffff; color: #000; padding: 20px;
-            border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         .q-title {
-            color: #1d4ed8; text-align: center; font-size: 22px; font-weight: bold;
-            border-bottom: 2px solid #2563eb; padding-bottom: 8px; margin-bottom: 15px;
+            color: #1d4ed8; text-align: center; font-size: 20px; font-weight: bold;
+            border-bottom: 2px solid #2563eb; padding-bottom: 6px; margin-bottom: 12px;
         }
-        .q-box { background: #f8fafc; border-radius: 8px; padding: 10px; margin-bottom: 12px; font-size: 13px; color: #1e293b; }
-        .q-spec-box { border: 1px dashed #3b82f6; background: #eff6ff; border-radius: 8px; padding: 10px; margin-bottom: 12px; font-size: 13px; color: #1e293b; }
+        .q-box { background: #f8fafc; border-radius: 6px; padding: 8px 12px; margin-bottom: 10px; font-size: 13px; border: 1px solid #e2e8f0; }
+        .q-spec-box { border: 1px dashed #3b82f6; background: #eff6ff; border-radius: 6px; padding: 8px 12px; margin-bottom: 10px; font-size: 13px; }
         .q-table { width: 100%; border-collapse: collapse; }
         .q-table th { background: #2563eb; color: white; }
-        .q-table td, .q-table th { border: 1px solid #cbd5e1; padding: 8px; color: #000; }
-        .q-summary { border: 1px dashed #64748b; padding: 10px; text-align: center; border-radius: 8px; margin-top: 12px; font-size: 14px; font-weight: bold; color: #000; }
-        .q-total { color: #1d4ed8; font-size: 18px; font-weight: bold; text-align: center; margin: 15px 0 5px 0; }
+        .q-table td, .q-table th { border: 1px solid #cbd5e1; padding: 6px; }
+        .q-summary { border: 1px dashed #64748b; padding: 8px; text-align: center; border-radius: 6px; margin-top: 10px; font-size: 13px; font-weight: bold; }
+        .q-total { color: #1d4ed8; font-size: 16px; font-weight: bold; text-align: center; margin: 12px 0 5px 0; }
 
         @media print {
             body { background: white; padding: 0; }
@@ -105,7 +111,7 @@
         </div>
     </div>
 
-    <!-- ================= 1. CALCULATOR PAGE ================= -->
+    <!-- ================= CALCULATOR PAGE ================= -->
     <div id="calculatorPage" class="no-print">
         <!-- Specifications -->
         <div class="card">
@@ -162,16 +168,16 @@
         <div class="card">
             <h3>Rates & Profit Config</h3>
             <div class="grid-2">
-                <div><label>Alu Rate (/ft)</label><input type="number" id="rate_alu" value="150"></div>
-                <div><label>Glass Rate (/sqft)</label><input type="number" id="rate_glass" value="120"></div>
-                <div><label>Hardware (/sqft)</label><input type="number" id="rate_hw" value="30"></div>
-                <div><label>Fittings (/sqft)</label><input type="number" id="rate_fit" value="50"></div>
-                <div><label>Labour (/sqft)</label><input type="number" id="rate_labour" value="10"></div>
-                <div><label>Profit Margin (%)</label><input type="number" id="rate_profit" value="5"></div>
+                <div><label>Alu Rate (/ft)</label><input type="number" id="rate_alu" value="150" oninput="calculateMaterials()"></div>
+                <div><label>Glass Rate (/sqft)</label><input type="number" id="rate_glass" value="120" oninput="calculateMaterials()"></div>
+                <div><label>Hardware (/sqft)</label><input type="number" id="rate_hw" value="30" oninput="calculateMaterials()"></div>
+                <div><label>Fittings (/sqft)</label><input type="number" id="rate_fit" value="50" oninput="calculateMaterials()"></div>
+                <div><label>Labour (/sqft)</label><input type="number" id="rate_labour" value="10" oninput="calculateMaterials()"></div>
+                <div><label>Profit Margin (%)</label><input type="number" id="rate_profit" value="5" oninput="calculateMaterials()"></div>
             </div>
         </div>
 
-        <!-- Window Inputs -->
+        <!-- Window Dimensions -->
         <div class="card">
             <h3>Window Dimensions (Inches)</h3>
             <table>
@@ -187,37 +193,37 @@
                 <tbody id="windowTableBody"></tbody>
             </table>
             <button class="btn btn-add" onclick="addWindowRow()">+ Add Window</button>
-            <button class="btn" style="background:#3b82f6;" onclick="calculateMaterials()">Calculate</button>
+            <button class="btn" onclick="calculateMaterials()">Calculate</button>
         </div>
 
-        <!-- Internal Material Details & Costing Result -->
+        <!-- Material Details Table -->
         <div class="card">
-            <h3>Material Details & Costing</h3>
+            <h3>Material Details</h3>
             <table>
                 <tbody>
-                    <tr><td>Outer Side</td><td id="res_outSide">0 ft</td></tr>
-                    <tr><td>Outer Top</td><td id="res_outTop">0 ft</td></tr>
-                    <tr><td>Outer Bottom</td><td id="res_outBot">0 ft</td></tr>
-                    <tr><td>Shutter Lock</td><td id="res_shutLock">0 ft</td></tr>
-                    <tr><td>Shutter Interlock</td><td id="res_shutInter">0 ft</td></tr>
-                    <tr><td>Shutter Top</td><td id="res_shutTop">0 ft</td></tr>
-                    <tr><td>Shutter Bottom</td><td id="res_shutBot">0 ft</td></tr>
-                    <tr style="background:#334155;"><th>Total Aluminium</th><th id="res_totAlu">0 ft</th></tr>
-                    <tr><td>Glass</td><td id="res_glass">0 Sqft</td></tr>
-                    <tr><td>Hardware</td><td id="res_hw">0 ৳</td></tr>
-                    <tr><td>Fittings</td><td id="res_fit">0 ৳</td></tr>
-                    <tr><td>Labour</td><td id="res_labour">0 ৳</td></tr>
-                    <tr style="background:#334155;"><th>Material Cost</th><th id="res_matCost">0 ৳</th></tr>
-                    <tr><td>Material Cost / Sqft</td><td id="res_matCostSqft">0 ৳</td></tr>
-                    <tr><td>Cost / Sqft</td><td id="res_costSqft">0 ৳</td></tr>
-                    <tr><td>Profit / Sqft</td><td id="res_profitSqft">0 ৳</td></tr>
-                    <tr><td>Selling Price / Sqft</td><td id="res_sellRateSqft">0 ৳</td></tr>
-                    <tr style="background:#2563eb; font-size:16px;"><th>Selling Price</th><th id="res_totalSellPrice">0 ৳</th></tr>
+                    <tr><td>Outer Side</td><td id="res_outSide">0.00 ft</td></tr>
+                    <tr><td>Outer Top</td><td id="res_outTop">0.00 ft</td></tr>
+                    <tr><td>Outer Bottom</td><td id="res_outBot">0.00 ft</td></tr>
+                    <tr><td>Shutter Lock</td><td id="res_shutLock">0.00 ft</td></tr>
+                    <tr><td>Shutter Interlock</td><td id="res_shutInter">0.00 ft</td></tr>
+                    <tr><td>Shutter Top</td><td id="res_shutTop">0.00 ft</td></tr>
+                    <tr><td>Shutter Bottom</td><td id="res_shutBot">0.00 ft</td></tr>
+                    <tr style="background:#f1f5f9; font-weight:bold;"><td>Total Aluminium</td><td id="res_totAlu">0.00 ft</td></tr>
+                    <tr><td>Glass</td><td id="res_glass">0.00 Sqft</td></tr>
+                    <tr><td>Hardware</td><td id="res_hw">0.00 ৳</td></tr>
+                    <tr><td>Fittings</td><td id="res_fit">0.00 ৳</td></tr>
+                    <tr><td>Labour</td><td id="res_labour">0.00 ৳</td></tr>
+                    <tr><td>Material Cost</td><td id="res_matCost">0.00 ৳</td></tr>
+                    <tr><td>Material Cost / Sqft</td><td id="res_matCostSqft">0.00 ৳</td></tr>
+                    <tr><td>Selling Price / Sqft</td><td id="res_sellRateSqft">0.00 ৳</td></tr>
+                    <tr><td>Profit / Sqft</td><td id="res_profitSqft">0.00 ৳</td></tr>
+                    <tr><td>Cost / Sqft</td><td id="res_costSqft">0.00 ৳</td></tr>
+                    <tr style="background:#e0f2fe; font-weight:bold; color:#1d4ed8;"><td>Selling Price</td><td id="res_totalSellPrice">0.00 ৳</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Cutting Report -->
+        <!-- Cutting Report Table -->
         <div class="card">
             <h3>Cutting Report</h3>
             <table>
@@ -229,30 +235,30 @@
                     </tr>
                 </thead>
                 <tbody id="cuttingReportBody">
-                    <tr><td>Outer Side</td><td>-</td><td>-</td></tr>
-                    <tr><td>Outer Top</td><td>-</td><td>-</td></tr>
-                    <tr><td>Outer Bottom</td><td>-</td><td>-</td></tr>
-                    <tr><td>Shutter Lock</td><td>-</td><td>-</td></tr>
-                    <tr><td>Shutter Interlock</td><td>-</td><td>-</td></tr>
-                    <tr><td>Shutter Top</td><td>-</td><td>-</td></tr>
-                    <tr><td>Shutter Bottom</td><td>-</td><td>-</td></tr>
+                    <tr><td>Outer Side</td><td>0</td><td>0</td></tr>
+                    <tr><td>Outer Top</td><td>0</td><td>0</td></tr>
+                    <tr><td>Outer Bottom</td><td>0</td><td>0</td></tr>
+                    <tr><td>Shutter Lock</td><td>0</td><td>0</td></tr>
+                    <tr><td>Shutter Interlock</td><td>0</td><td>0</td></tr>
+                    <tr><td>Shutter Top</td><td>0</td><td>0</td></tr>
+                    <tr><td>Shutter Bottom</td><td>0</td><td>0</td></tr>
                 </tbody>
             </table>
             <button class="btn btn-quote-nav" onclick="switchTab('quotation')">Go To Quotation ➔</button>
         </div>
     </div>
 
-    <!-- ================= 2. QUOTATION INPUT PAGE ================= -->
+    <!-- ================= QUOTATION SETUP PAGE ================= -->
     <div id="quotationInputPage" class="no-print" style="display: none;">
         <div class="card">
-            <h3>Quotation Setup</h3>
+            <h3>Quotation Details</h3>
             <label>My Shop / Company Name</label>
             <input type="text" id="myCompany" value="RM COMPUTER">
             
             <label style="margin-top: 8px;">My Mobile Number</label>
             <input type="text" id="myMobile" value="01700000000">
 
-            <hr style="border-color: #334155; margin: 15px 0;">
+            <hr style="border-color: #cbd5e1; margin: 15px 0;">
 
             <label>Customer Name</label>
             <input type="text" id="custName" placeholder="Customer Name">
@@ -267,11 +273,11 @@
         </div>
     </div>
 
-    <!-- ================= 3. FINAL QUOTATION STATEMENT ================= -->
+    <!-- ================= FINAL STATEMENT ================= -->
     <div id="quotationStatementPage">
         <div class="q-title">Quotation Statement</div>
 
-        <div class="q-box" style="background: #e0f2fe; border: 1px solid #0284c7;">
+        <div class="q-box" style="background: #e0f2fe; border-color: #0284c7;">
             <strong>Supplier:</strong> <span id="out_myCompany"></span> &nbsp;|&nbsp; 
             <strong>Contact:</strong> <span id="out_myMobile"></span>
         </div>
@@ -323,21 +329,23 @@
         row.id = `winRow_${windowCount}`;
         row.innerHTML = `
             <td>${windowCount}</td>
-            <td><input type="number" class="win-h" value="54"></td>
-            <td><input type="number" class="win-w" value="60"></td>
-            <td><input type="number" class="win-q" value="1"></td>
+            <td><input type="number" class="win-h" value="54" oninput="calculateMaterials()"></td>
+            <td><input type="number" class="win-w" value="60" oninput="calculateMaterials()"></td>
+            <td><input type="number" class="win-q" value="1" oninput="calculateMaterials()"></td>
             <td><button class="btn-del" onclick="removeWindowRow('winRow_${windowCount}')">✕</button></td>
         `;
         tbody.appendChild(row);
+        calculateMaterials();
     }
 
     function removeWindowRow(rowId) {
         const row = document.getElementById(rowId);
         if (row) row.remove();
+        calculateMaterials();
     }
 
     window.onload = function() {
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 2; i++) {
             addWindowRow();
         }
     };
@@ -350,13 +358,12 @@
             document.getElementById("tab-calc").classList.add("active");
             document.getElementById("tab-quote").classList.remove("active");
         } else {
-            if(calculateMaterials()){
-                document.getElementById("calculatorPage").style.display = "none";
-                document.getElementById("quotationInputPage").style.display = "block";
-                document.getElementById("tab-calc").classList.remove("active");
-                document.getElementById("tab-quote").classList.add("active");
-                renderQuotationStatement();
-            }
+            calculateMaterials();
+            document.getElementById("calculatorPage").style.display = "none";
+            document.getElementById("quotationInputPage").style.display = "block";
+            document.getElementById("tab-calc").classList.remove("active");
+            document.getElementById("tab-quote").classList.add("active");
+            renderQuotationStatement();
         }
     }
 
@@ -376,15 +383,6 @@
             if (!placed) bars.push(piece);
         });
         return bars.length;
-    }
-
-    function calculateWidthBarFt(totalFt, barLength) {
-        if (totalFt <= 0) return "-";
-        let fullBars = Math.floor(totalFt / barLength);
-        let remFt = Math.round(totalFt % barLength);
-        if (fullBars > 0 && remFt > 0) return `${fullBars} Pcs + ${remFt} ft`;
-        else if (fullBars > 0 && remFt === 0) return `${fullBars} Pcs`;
-        else return `${remFt} ft`;
     }
 
     function calculateMaterials() {
@@ -413,13 +411,9 @@
             }
         });
 
-        if (windowsList.length === 0) {
-            alert("অনুগ্রহ করে জানালার সঠিক মাপ দিন!");
-            return false;
-        }
+        let heightPieces18 = [], heightPieces21 = [];
+        let widthPieces18 = [], widthPieces21 = [];
 
-        let heightPieces18 = [];
-        let heightPieces21 = [];
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
 
         windowsList.forEach(win => {
@@ -435,9 +429,16 @@
             shutTop += wFt * qty;
             shutBot += wFt * qty;
 
+            // Height Pcs Array
             for (let k = 0; k < qty * 2; k++) {
                 if (hFt <= 4.65) heightPieces18.push(hFt);
                 else heightPieces21.push(hFt);
+            }
+
+            // Width Pcs Array
+            for (let k = 0; k < qty; k++) {
+                if (wFt <= 4.65) widthPieces18.push(wFt);
+                else widthPieces21.push(wFt);
             }
         });
 
@@ -456,43 +457,42 @@
         let sellRateSqft = matCostSqft + profitSqft;
         let totalSellPrice = sellRateSqft * totalSqft;
 
-        // UI আপডেট - Material Details
-        document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
-        document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
-        document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
-        document.getElementById("res_shutLock").innerText = shutLock.toFixed(1) + " ft";
-        document.getElementById("res_shutInter").innerText = shutInter.toFixed(1) + " ft";
-        document.getElementById("res_shutTop").innerText = shutTop.toFixed(1) + " ft";
-        document.getElementById("res_shutBot").innerText = shutBot.toFixed(1) + " ft";
+        // UI Update
+        document.getElementById("res_outSide").innerText = outSide.toFixed(2) + " ft";
+        document.getElementById("res_outTop").innerText = outTop.toFixed(2) + " ft";
+        document.getElementById("res_outBot").innerText = outBot.toFixed(2) + " ft";
+        document.getElementById("res_shutLock").innerText = shutLock.toFixed(2) + " ft";
+        document.getElementById("res_shutInter").innerText = shutInter.toFixed(2) + " ft";
+        document.getElementById("res_shutTop").innerText = shutTop.toFixed(2) + " ft";
+        document.getElementById("res_shutBot").innerText = shutBot.toFixed(2) + " ft";
 
-        document.getElementById("res_totAlu").innerText = totAlu.toFixed(1) + " ft";
-        document.getElementById("res_glass").innerText = glassSqft.toFixed(1) + " Sqft";
-        document.getElementById("res_hw").innerText = Math.round(hwCost) + " ৳";
-        document.getElementById("res_fit").innerText = Math.round(fitCost) + " ৳";
-        document.getElementById("res_labour").innerText = Math.round(labourCost) + " ৳";
+        document.getElementById("res_totAlu").innerText = totAlu.toFixed(2) + " ft";
+        document.getElementById("res_glass").innerText = glassSqft.toFixed(2) + " Sqft";
+        document.getElementById("res_hw").innerText = hwCost.toFixed(2) + " ৳";
+        document.getElementById("res_fit").innerText = fitCost.toFixed(2) + " ৳";
+        document.getElementById("res_labour").innerText = labourCost.toFixed(2) + " ৳";
 
-        document.getElementById("res_matCost").innerText = Math.round(matCost) + " ৳";
-        document.getElementById("res_matCostSqft").innerText = matCostSqft.toFixed(1) + " ৳";
-        document.getElementById("res_sellRateSqft").innerText = sellRateSqft.toFixed(1) + " ৳";
-        document.getElementById("res_profitSqft").innerText = profitSqft.toFixed(1) + " ৳";
-        document.getElementById("res_costSqft").innerText = matCostSqft.toFixed(1) + " ৳";
-        document.getElementById("res_totalSellPrice").innerText = Math.round(totalSellPrice) + " ৳";
+        document.getElementById("res_matCost").innerText = matCost.toFixed(2) + " ৳";
+        document.getElementById("res_matCostSqft").innerText = matCostSqft.toFixed(2) + " ৳";
+        document.getElementById("res_sellRateSqft").innerText = sellRateSqft.toFixed(2) + " ৳";
+        document.getElementById("res_profitSqft").innerText = profitSqft.toFixed(2) + " ৳";
+        document.getElementById("res_costSqft").innerText = matCostSqft.toFixed(2) + " ৳";
+        document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(2) + " ৳";
 
-        // কাটিং রিপোর্ট
-        let pcs18 = getBarCountForPieces(heightPieces18, 18.6);
-        let pcs21 = getBarCountForPieces(heightPieces21, 21.0);
-
-        let txt18 = pcs18 > 0 ? `${pcs18} Pcs` : "-";
-        let txt21 = pcs21 > 0 ? `${pcs21} Pcs` : "-";
+        // Cutting Report Bar Numbers Calculation
+        let h18 = getBarCountForPieces(heightPieces18, 18.6);
+        let h21 = getBarCountForPieces(heightPieces21, 21.0);
+        let w18 = getBarCountForPieces(widthPieces18, 18.6);
+        let w21 = getBarCountForPieces(widthPieces21, 21.0);
 
         document.getElementById("cuttingReportBody").innerHTML = `
-            <tr><td>Outer Side</td><td>${txt18}</td><td>${txt21}</td></tr>
-            <tr><td>Outer Top</td><td>-</td><td>${calculateWidthBarFt(outTop, 21.0)}</td></tr>
-            <tr><td>Outer Bottom</td><td>-</td><td>${calculateWidthBarFt(outBot, 21.0)}</td></tr>
-            <tr><td>Shutter Lock</td><td>${txt18}</td><td>${txt21}</td></tr>
-            <tr><td>Shutter Interlock</td><td>${txt18}</td><td>${txt21}</td></tr>
-            <tr><td>Shutter Top</td><td>-</td><td>${calculateWidthBarFt(shutTop, 21.0)}</td></tr>
-            <tr><td>Shutter Bottom</td><td>-</td><td>${calculateWidthBarFt(shutBot, 21.0)}</td></tr>
+            <tr><td>Outer Side</td><td>${h18}</td><td>${h21}</td></tr>
+            <tr><td>Outer Top</td><td>${w18}</td><td>${w21}</td></tr>
+            <tr><td>Outer Bottom</td><td>${w18}</td><td>${w21}</td></tr>
+            <tr><td>Shutter Lock</td><td>${h18}</td><td>${h21}</td></tr>
+            <tr><td>Shutter Interlock</td><td>${h18}</td><td>${h21}</td></tr>
+            <tr><td>Shutter Top</td><td>${w18}</td><td>${w21}</td></tr>
+            <tr><td>Shutter Bottom</td><td>${w18}</td><td>${w21}</td></tr>
         `;
 
         globalCalcData = {
@@ -501,8 +501,6 @@
             sellRateSqft: sellRateSqft,
             totalSellPrice: totalSellPrice
         };
-
-        return true;
     }
 
     function renderQuotationStatement() {

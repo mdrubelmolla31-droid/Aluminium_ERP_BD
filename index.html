@@ -205,7 +205,6 @@
             color: #e5e7eb;
         }
 
-        /* Matches Icons/Colors Style */
         .bg-profile { background: #261f38; color: #a78bfa; }
         .bg-company { background: #1c273a; color: #60a5fa; }
         .bg-calc { background: #1c2e30; color: #2dd4bf; }
@@ -214,7 +213,7 @@
         .bg-rates { background: #2a251a; color: #facc15; }
         .bg-stock { background: #2a221a; color: #fb923c; }
 
-        /* Modals */
+        /* Modals Common */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -230,17 +229,19 @@
         .modal-card {
             background: #111827;
             border: 1px solid #d97706;
-            padding: 24px;
+            padding: 22px;
             border-radius: 24px;
             width: 100%;
-            max-width: 360px;
+            max-width: 380px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-card h3 {
             color: #fbbf24;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             font-size: 18px;
         }
 
@@ -263,18 +264,29 @@
             letter-spacing: 1px;
         }
 
+        .form-group-m {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        .form-group-m label {
+            display: block;
+            font-size: 11px;
+            color: #9ca3af;
+            margin-bottom: 4px;
+        }
+
         .modal-card input[type="text"],
-        .modal-card input[type="password"] {
+        .modal-card input[type="tel"],
+        .modal-card input[type="password"],
+        .modal-card textarea {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             border: 1px solid #374151;
             background: #1f2937;
             color: white;
-            font-size: 15px;
-            margin-bottom: 14px;
+            font-size: 14px;
             outline: none;
-            text-align: center;
         }
 
         .btn-primary {
@@ -284,9 +296,10 @@
             padding: 12px;
             border-radius: 10px;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             width: 100%;
+            margin-top: 8px;
         }
 
         .btn-whatsapp {
@@ -312,6 +325,68 @@
             color: #9ca3af;
             border: none;
             margin-top: 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Customer List UI in Modal */
+        .cust-list-container {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .cust-item {
+            background: #192233;
+            border: 1px solid #232e42;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cust-details h5 {
+            color: #f9fafb;
+            font-size: 14px;
+        }
+        .cust-details p {
+            color: #9ca3af;
+            font-size: 11px;
+            margin: 0;
+        }
+
+        .cust-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .call-btn-sm {
+            background: #059669;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .del-btn-sm {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             font-size: 12px;
         }
@@ -345,7 +420,7 @@
         <div class="avatar-box" id="avatarDisplay" onclick="openProfileModal()">👤</div>
     </div>
 
-    <!-- Grid Menu (Updated Order) -->
+    <!-- Grid Menu -->
     <div class="menu-grid">
         <!-- 1. Profile -->
         <div class="menu-card" onclick="openProfileModal()">
@@ -365,8 +440,8 @@
             <div class="card-label">Material Calculator</div>
         </div>
 
-        <!-- 4. Customer -->
-        <div class="menu-card" onclick="checkAccess('customer')">
+        <!-- 4. Customer (Direct Pop-up Modal) -->
+        <div class="menu-card" onclick="openCustomerModal()">
             <div class="icon-wrapper bg-customer">👥</div>
             <div class="card-label">Customer</div>
         </div>
@@ -421,10 +496,44 @@
     </div>
 </div>
 
+<!-- Customer Direct Modal -->
+<div class="modal-overlay" id="customerModal">
+    <div class="modal-card">
+        <h3>👥 কাস্টমার ম্যানেজমেন্ট</h3>
+        
+        <div class="form-group-m">
+            <label>নাম (Name)</label>
+            <input type="text" id="mCustName" placeholder="কাস্টমারের নাম">
+        </div>
+        <div class="form-group-m">
+            <label>ফোন নম্বর (Phone)</label>
+            <input type="tel" id="mCustPhone" placeholder="017XXXXXXXX">
+        </div>
+        <div class="form-group-m">
+            <label>ঠিকানা (Address)</label>
+            <input type="text" id="mCustAddress" placeholder="ঠিকানা (ঐচ্ছিক)">
+        </div>
+
+        <button class="btn-primary" onclick="saveCustomer()">+ Save Customer</button>
+
+        <hr style="border: 0; border-top: 1px solid #232e42; margin: 15px 0;">
+
+        <!-- Search & List inside Modal -->
+        <input type="text" id="mCustSearch" placeholder="🔍 কাস্টমার খুঁজুন..." oninput="renderCustomerList()" style="margin-bottom: 8px;">
+
+        <div class="cust-list-container" id="mCustList">
+            <!-- Dynamic Customers List -->
+        </div>
+
+        <button class="btn-cancel" onclick="closeCustomerModal()">Close</button>
+    </div>
+</div>
+
 <script>
     let tapCount = 0;
     let tapTimer = null;
     let deviceID = "";
+    let customersList = [];
 
     window.addEventListener("load", () => {
         setTimeout(() => {
@@ -456,6 +565,7 @@
 
         checkAppSecurity();
         loadProfile();
+        loadCustomersData();
     });
 
     function checkAppSecurity() {
@@ -538,6 +648,95 @@
     function loadProfile() {
         let savedName = localStorage.getItem("erp_user_name");
         if (savedName) document.getElementById("userNameDisplay").innerText = "Welcome, " + savedName;
+    }
+
+    /* --- Customer Modal Logic --- */
+    function openCustomerModal() {
+        if (localStorage.getItem("erp_unlocked") === "true") {
+            renderCustomerList();
+            document.getElementById("customerModal").style.display = "flex";
+        } else {
+            openLicenseModal();
+        }
+    }
+
+    function closeCustomerModal() {
+        document.getElementById("customerModal").style.display = "none";
+    }
+
+    function loadCustomersData() {
+        let saved = localStorage.getItem("erp_customers");
+        if (saved) {
+            customersList = JSON.parse(saved);
+        }
+    }
+
+    function saveCustomer() {
+        let name = document.getElementById("mCustName").value.trim();
+        let phone = document.getElementById("mCustPhone").value.trim();
+        let address = document.getElementById("mCustAddress").value.trim();
+
+        if (!name || !phone) {
+            alert("নাম এবং মোবাইল নম্বর অবশ্যই দিতে হবে!");
+            return;
+        }
+
+        let newCust = {
+            id: Date.now(),
+            name: name,
+            phone: phone,
+            address: address || "N/A"
+        };
+
+        customersList.unshift(newCust);
+        localStorage.setItem("erp_customers", JSON.stringify(customersList));
+
+        // Clear Inputs
+        document.getElementById("mCustName").value = "";
+        document.getElementById("mCustPhone").value = "";
+        document.getElementById("mCustAddress").value = "";
+
+        renderCustomerList();
+    }
+
+    function deleteCustomer(id) {
+        if (confirm("এই কাস্টমারটি মুছে ফেলতে চান?")) {
+            customersList = customersList.filter(c => c.id !== id);
+            localStorage.setItem("erp_customers", JSON.stringify(customersList));
+            renderCustomerList();
+        }
+    }
+
+    function renderCustomerList() {
+        let container = document.getElementById("mCustList");
+        let query = document.getElementById("mCustSearch").value.toLowerCase();
+        container.innerHTML = "";
+
+        let filtered = customersList.filter(c => 
+            c.name.toLowerCase().includes(query) || 
+            c.phone.includes(query)
+        );
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="text-align: center; color: #9ca3af; font-size: 12px; padding: 10px;">কোনো কাস্টমার নেই</div>`;
+            return;
+        }
+
+        filtered.forEach(c => {
+            container.innerHTML += `
+                <div class="cust-item">
+                    <div class="cust-details">
+                        <h5>${c.name}</h5>
+                        <p>📞 ${c.phone}</p>
+                        <p>📍 ${c.address}</p>
+                    </div>
+                    <div class="cust-actions">
+                        <a href="tel:${c.phone}" class="call-btn-sm" title="Call">📞</a>
+                        <button class="del-btn-sm" onclick="deleteCustomer(${c.id})">🗑️</button>
+                    </div>
+                </div>
+            `;
+        });
     }
 </script>
 </body>

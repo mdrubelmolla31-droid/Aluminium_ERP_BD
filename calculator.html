@@ -305,17 +305,15 @@
         }
     }
 
-    // স্মার্ট বার কাটিং অ্যালগরিদম (Height Cutting Optimizer)
+    // স্মার্ট বার কাটিং অ্যালগরিদম (রুবেল ভাইয়ের কাটিং রুলস অনুযায়ী)
     function calculateSmartBarCutting(piecesNeeded, barLength) {
-        if (piecesNeeded.length === 0) return "-";
+        if (!piecesNeeded || piecesNeeded.length === 0) return "-";
         
-        // টুকরোগুলো বড় থেকে ছোট সাজানো
-        piecesNeeded.sort((a, b) => b - a);
-        
+        let pieces = [...piecesNeeded].sort((a, b) => b - a);
         let barsUsed = 0;
         let currentBarRem = 0;
 
-        for (let p of piecesNeeded) {
+        for (let p of pieces) {
             if (p <= currentBarRem) {
                 currentBarRem -= p;
             } else {
@@ -325,6 +323,7 @@
         }
 
         let remFeet = Math.round(currentBarRem * 10) / 10;
+        
         if (remFeet > 0) {
             return `${barsUsed} Pcs + ${remFeet} ft`;
         } else {
@@ -353,9 +352,10 @@
             return;
         }
 
-        // টুকরোগুলোর তালিকা তৈরির অ্যারে
-        let heightPiecesOuter = [];
-        let heightPiecesShutter = [];
+        let heightPiecesOuter = [];   // Outer Side
+        let heightPiecesShutter = []; // Lock & Interlock
+        let widthPiecesOuter = [];    // Outer Top & Bottom (সব সময় 21 ft)
+        let widthPiecesShutter = [];  // Shutter Top & Bottom (সব সময় 21 ft)
 
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
 
@@ -364,7 +364,7 @@
             let wFt = win.width / 12;
             let qty = win.qty;
 
-            // মেটেরিয়াল ডিটেইলসের মোট লিনিয়ার ফিট
+            // মোট লিনিয়ার ফিট
             outSide += (hFt * 2) * qty;
             outTop += wFt * qty;
             outBot += wFt * qty;
@@ -373,10 +373,12 @@
             shutTop += wFt * qty;
             shutBot += wFt * qty;
 
-            // কাটিং রিপোর্টের জন্য প্রতিটি কাটিং টুকরো জমা
-            for (let k = 0; k < qty * 2; k++) {
-                heightPiecesOuter.push(hFt); // Outer Side
-                heightPiecesShutter.push(hFt); // Shutter Lock & Interlock
+            // কাটিং টুকরো জমা করা
+            for (let k = 0; k < qty; k++) {
+                heightPiecesOuter.push(hFt, hFt);
+                heightPiecesShutter.push(hFt, hFt);
+                widthPiecesOuter.push(wFt);
+                widthPiecesShutter.push(wFt);
             }
         });
 
@@ -392,7 +394,6 @@
 
         let matCost = aluCost + glassCost + hwCost + fitCost + labourCost;
         let matCostSqft = totalSqft > 0 ? (matCost / totalSqft) : 0;
-        
         let costSqft = matCostSqft;
         let profitSqft = (costSqft * activeRates.profit) / 100;
         let sellRateSqft = costSqft + profitSqft;
@@ -420,29 +421,28 @@
         document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
 
-        // কাটিং রিপোর্ট লজিক (১৮.৬ ফিট নাকি ২১ ফিট বার লাগবে)
-        let maxSinglePiece = Math.max(...heightPiecesOuter);
+        // কাটিং রিপোর্ট লজিক
+        let maxH = Math.max(...heightPiecesOuter);
 
         let cut18_Side = "-", cut21_Side = "-";
         let cut18_Lock = "-", cut21_Lock = "-";
         let cut18_Inter = "-", cut21_Inter = "-";
 
-        if (maxSinglePiece <= 4.5) {
-            // ৪.৫ ফিট বা তার ছোট হলে ১৮.৬ ফিটের বারে হিসাব
-            cut18_Side = calculateSmartBarCutting([...heightPiecesOuter], 18.6);
-            cut18_Lock = calculateSmartBarCutting([...heightPiecesShutter], 18.6);
-            cut18_Inter = calculateSmartBarCutting([...heightPiecesShutter], 18.6);
+        // হাইট প্রোফাইল: ৪.৬ ফিট পর্যন্ত হলে ১৮.৬ বারে কাটা সহজ, বেশি হলে ২১ ফিটে
+        if (maxH <= 4.6) {
+            cut18_Side = calculateSmartBarCutting(heightPiecesOuter, 18.6);
+            cut18_Lock = calculateSmartBarCutting(heightPiecesShutter, 18.6);
+            cut18_Inter = calculateSmartBarCutting(heightPiecesShutter, 18.6);
         } else {
-            // ৪.৫ ফিটের বেশি (যেমন ৭ ফিট) হলে ২১ ফিটের বারে হিসাব
-            cut21_Side = calculateSmartBarCutting([...heightPiecesOuter], 21.0);
-            cut21_Lock = calculateSmartBarCutting([...heightPiecesShutter], 21.0);
-            cut21_Inter = calculateSmartBarCutting([...heightPiecesShutter], 21.0);
+            cut21_Side = calculateSmartBarCutting(heightPiecesOuter, 21.0);
+            cut21_Lock = calculateSmartBarCutting(heightPiecesShutter, 21.0);
+            cut21_Inter = calculateSmartBarCutting(heightPiecesShutter, 21.0);
         }
 
-        // উইডথ পার্টগুলোর বার হিসাব (২১ ফিট ধরে)
-        let cut21_outTop = calculateSmartBarCutting(windowsList.flatMap(w => Array(w.qty).fill(w.width / 12)), 21.0);
+        // উইডথ প্রোফাইল: সব সময় ২১ ফিট বারে হিসাব
+        let cut21_outTop = calculateSmartBarCutting(widthPiecesOuter, 21.0);
         let cut21_outBot = cut21_outTop;
-        let cut21_shutTop = calculateSmartBarCutting(windowsList.flatMap(w => Array(w.qty).fill(w.width / 12)), 21.0);
+        let cut21_shutTop = calculateSmartBarCutting(widthPiecesShutter, 21.0);
         let cut21_shutBot = cut21_shutTop;
 
         // কাটিং রিপোর্ট টেবিল ডাইনামিক রেন্ডারিং
@@ -456,7 +456,7 @@
             <tr><td>Shutter Bottom</td><td>-</td><td>${cut21_shutBot}</td></tr>
         `;
 
-        // কোটেশন ডাটা সেট
+        // কোটেশন ডাটা
         calculatedData = {
             customer: {
                 name: document.getElementById("custName").value,
@@ -488,5 +488,6 @@
         }
     }
 </script>
+
 </body>
 </html>

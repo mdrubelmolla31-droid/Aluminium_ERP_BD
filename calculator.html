@@ -3,142 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Calculator - Aluminium ERP BD v2</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Material Calculator - Aluminium ERP BD</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 12px; min-height: 100vh; }
+        .mobile-app { width: 100%; max-width: 450px; background: #0b0f19; border-radius: 28px; padding: 16px; position: relative; }
+        
+        .app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .back-btn { background: #192233; border: 1px solid #232e42; color: #f9fafb; font-size: 18px; border-radius: 12px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
+        .header-title { font-size: 18px; font-weight: 700; color: #f9fafb; }
+        
+        .card { background: #121929; border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 16px; }
+        .card h3 { color: #fbbf24; font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #232e42; padding-bottom: 8px; }
+        
+        .form-row { display: flex; gap: 10px; margin-bottom: 14px; }
+        .form-group { flex: 1; text-align: left; }
+        .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #232e42; background: #192233; color: white; font-size: 14px; outline: none; }
+        
+        .btn-calc { background: #d97706; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; margin-top: 5px; }
+        .btn-calc:active { transform: scale(0.98); }
+
+        .result-box { display: none; background: #192233; border-radius: 14px; padding: 15px; margin-top: 15px; border: 1px dashed #3b82f6; }
+        .result-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #232e42; font-size: 14px; }
+        .result-item:last-child { border-bottom: none; }
+        .val-highlight { color: #4ade80; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>📐 Material Calculator & Cutting Engine</h2>
+<div class="mobile-app">
+    <div class="app-header">
+        <a href="index.html" class="back-btn">←</a>
+        <div class="header-title">Material Calculator</div>
+        <div style="width: 40px;"></div>
+    </div>
 
-    <!-- Customer & Specs Form -->
-    <div class="window-card">
-        <h3>কাস্টমার ও মেটেরিয়াল স্পেসিফিকেশন</h3>
+    <div class="card">
+        <h3>🧮 সাইজ ও পরিমাপ ইনপুট</h3>
         
-        <div class="form-group"><label>Customer Name</label><input type="text" id="customerName"></div>
-        <div class="form-group"><label>Mobile Number</label><input type="text" id="mobile"></div>
-        <div class="form-group"><label>Address</label><input type="text" id="address"></div>
-
-        <div class="form-group"><label>Aluminium Company</label><select id="aluCompany"></select></div>
-        <div class="form-group"><label>Aluminium Series</label><select id="aluSeries"></select></div>
-        <div class="form-group"><label>Aluminium Colour</label><select id="aluColour"></select></div>
-        <div class="form-group"><label>Aluminium Thickness</label><select id="aluThickness"></select></div>
-        <div class="form-group"><label>Glass Company</label><select id="glassCompany"></select></div>
-        <div class="form-group"><label>Glass Thickness</label><select id="glassThickness"></select></div>
-        <div class="form-group"><label>Glass Colour</label><select id="glassColour"></select></div>
-        <div class="form-group"><label>Hardware Brand</label><select id="hwBrand"></select></div>
-        <div class="form-group"><label>Lock Brand</label><select id="lockBrand"></select></div>
-    </div>
-
-    <!-- 5 Window Input Boxes -->
-    <div class="window-card">
-        <h3>🪟 জানালার সাইজ ও সংখ্যা (৫টি উইন্ডো বক্স)</h3>
-
-        <!-- Window 1 -->
-        <h4 style="margin-top:10px; color:#2563eb;">উইন্ডো ১:</h4>
-        <div class="window-grid">
-            <div><label>Height (in)</label><input type="number" id="h1" value="54"></div>
-            <div><label>Width (in)</label><input type="number" id="w1" value="60"></div>
-            <div><label>Qty</label><input type="number" id="q1" value="1"></div>
+        <div class="form-group" style="margin-bottom: 14px;">
+            <label>কাজের টাইপ (Item Type)</label>
+            <select id="itemType">
+                <option value="sliding">Sliding Window (২ পাল্লা)</option>
+                <option value="door">Aluminum Door (ডোর)</option>
+                <option value="fixed">Fixed Glass / Partition</option>
+            </select>
         </div>
 
-        <!-- Window 2 -->
-        <h4 style="margin-top:15px; color:#2563eb;">উইন্ডো ২:</h4>
-        <div class="window-grid">
-            <div><label>Height (in)</label><input type="number" id="h2" value="0"></div>
-            <div><label>Width (in)</label><input type="number" id="w2" value="0"></div>
-            <div><label>Qty</label><input type="number" id="q2" value="0"></div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>উচ্চতা / Height (ইঞ্চি)</label>
+                <input type="number" id="winHeight" placeholder="e.g. 48">
+            </div>
+            <div class="form-group">
+                <label>প্রস্থ / Width (ইঞ্চি)</label>
+                <input type="number" id="winWidth" placeholder="e.g. 60">
+            </div>
         </div>
 
-        <!-- Window 3 -->
-        <h4 style="margin-top:15px; color:#2563eb;">উইন্ডো ৩:</h4>
-        <div class="window-grid">
-            <div><label>Height (in)</label><input type="number" id="h3" value="0"></div>
-            <div><label>Width (in)</label><input type="number" id="w3" value="0"></div>
-            <div><label>Qty</label><input type="number" id="q3" value="0"></div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>পরিমাণ (Quantity)</label>
+                <input type="number" id="winQty" value="1">
+            </div>
         </div>
 
-        <!-- Window 4 -->
-        <h4 style="margin-top:15px; color:#2563eb;">উইন্ডো ৪:</h4>
-        <div class="window-grid">
-            <div><label>Height (in)</label><input type="number" id="h4" value="0"></div>
-            <div><label>Width (in)</label><input type="number" id="w4" value="0"></div>
-            <div><label>Qty</label><input type="number" id="q4" value="0"></div>
-        </div>
+        <button class="btn-calc" onclick="calculateMaterial()">Calculate Material</button>
 
-        <!-- Window 5 -->
-        <h4 style="margin-top:15px; color:#2563eb;">উইন্ডো ৫:</h4>
-        <div class="window-grid">
-            <div><label>Height (in)</label><input type="number" id="h5" value="0"></div>
-            <div><label>Width (in)</label><input type="number" id="w5" value="0"></div>
-            <div><label>Qty</label><input type="number" id="q5" value="0"></div>
-        </div>
-
-        <button onclick="calculateAllERP()">🧮 হিসাব ও কাটিং রিপোর্ট দেখুন</button>
-    </div>
-
-    <!-- Material Output Breakdown -->
-    <div class="window-card">
-        <h3>📦 মেটেরিয়াল ও পার্টস ব্রেকডাউন</h3>
-        <div style="overflow-x:auto;">
-            <table>
-                <thead>
-                    <tr><th>পার্টস / আইটেম</th><th>পরিমাণ / দৈর্ঘ্য</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Outer Side</td><td id="resOuterSide">0 ft</td></tr>
-                    <tr><td>Outer Top</td><td id="resOuterTop">0 ft</td></tr>
-                    <tr><td>Outer Bottom</td><td id="resOuterBottom">0 ft</td></tr>
-                    <tr><td>Shutter Lock</td><td id="resShutterLock">0 ft</td></tr>
-                    <tr><td>Shutter Interlock</td><td id="resInterlock">0 ft</td></tr>
-                    <tr><td>C Box Section</td><td id="resCBox">0 ft</td></tr>
-                    <tr><td>Bottom Beat</td><td id="resBottomBeat">0 ft</td></tr>
-                    <tr><td>Fixed Top Section</td><td id="resFixedTop">0 ft</td></tr>
-                    <tr><td>Fixed Bottom Section</td><td id="resFixedBottom">0 ft</td></tr>
-                    <tr><td>Rubber (গ্লাস রাবার)</td><td id="resRubber">0 Rft</td></tr>
-                    <tr><td>Screw (স্ক্রু)</td><td id="resScrew">0 Pcs</td></tr>
-                    <tr><th>Glass Area</th><th id="resGlassArea">0 Sqft</th></tr>
-                    <tr><th>Total Aluminium</th><th id="resTotalAlu">0 ft</th></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Financial Analysis -->
-    <div class="window-card">
-        <h3>💰 আর্থিক বিশ্লেষণ (Cost & Profit)</h3>
-        <div style="overflow-x:auto;">
-            <table>
-                <tr><td>ম্যাটেরিয়াল খরচ</td><td id="resMatCost">0 ৳</td></tr>
-                <tr><td>লেবার চার্জ</td><td id="resLabour">0 ৳</td></tr>
-                <tr><td>প্রফিট (Profit)</td><td id="resProfit">0 ৳</td></tr>
-                <tr><th>সর্বমোট বিক্রয় মূল্য</th><th id="resSellingPrice">0 ৳</th></tr>
-                <tr><th>প্রতি স্কয়ার ফিট খরচ</th><th id="resCostSqft">0 ৳</th></tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- Cutting Report -->
-    <div class="window-card">
-        <h3>✂️ কাটিং অপটিমাইজেশন রিপোর্ট</h3>
-        <div style="overflow-x:auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>আইটেম</th>
-                        <th>১৮.৬ ফুট বার</th>
-                        <th>টুকরো মালের মাপ (Offcuts)</th>
-                    </tr>
-                </thead>
-                <tbody id="cuttingBody">
-                    <!-- Dynamic Output -->
-                </tbody>
-            </table>
+        <div class="result-box" id="resultBox">
+            <div class="result-item">
+                <span>মোট স্কয়ার ফিট (SFT):</span>
+                <span class="val-highlight" id="resSft">0 SFT</span>
+            </div>
+            <div class="result-item">
+                <span>গ্লাস সাইজ (Glass Sqft):</span>
+                <span class="val-highlight" id="resGlass">0 SFT</span>
+            </div>
+            <div class="result-item">
+                <span>আনুমানিক সেকশন রানিং ফিট:</span>
+                <span class="val-highlight" id="resRft">0 RFT</span>
+            </div>
         </div>
     </div>
 </div>
 
-<script src="license.js"></script>
-<script src="calculator_erp.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        if (localStorage.getItem("erp_unlocked") !== "true") {
+            alert("অনুগ্রহ করে অ্যাপটি লাইসেন্স কি দিয়ে অ্যাক্টিভেট করুন।");
+            location.href = "index.html";
+        }
+    });
+
+    function calculateMaterial() {
+        let height = parseFloat(document.getElementById("winHeight").value) || 0;
+        let width = parseFloat(document.getElementById("winWidth").value) || 0;
+        let qty = parseInt(document.getElementById("winQty").value) || 1;
+
+        if (height <= 0 || width <= 0) {
+            alert("দয়া করে সঠিক সাইজ ইনপুট দিন!");
+            return;
+        }
+
+        // Calculation formulas
+        let totalSft = ((height * width) / 144) * qty;
+        let glassSft = totalSft * 0.85; // Standard deduction estimation
+        let runningFt = (((height + width) * 2) / 12) * qty;
+
+        document.getElementById("resSft").innerText = totalSft.toFixed(2) + " SFT";
+        document.getElementById("resGlass").innerText = glassSft.toFixed(2) + " SFT";
+        document.getElementById("resRft").innerText = runningFt.toFixed(2) + " RFT";
+
+        document.getElementById("resultBox").style.display = "block";
+    }
+</script>
 </body>
 </html>

@@ -6,7 +6,7 @@
     <title>Aluminium Estimator & Quotation</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background-color: #f4f7f6;
             margin: 0;
             padding: 15px;
@@ -104,18 +104,26 @@
             font-size: 18px;
         }
 
-        /* প্রিন্ট বা কোটেশন পেজের জন্য স্পেশাল স্টাইল */
+        /* প্রিন্ট / পেশাদার কোটেশনের জন্য পেজ স্টাইল */
+        #quotationInvoice {
+            display: none;
+        }
+
         @media print {
             body { background: white; padding: 0; }
-            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
-            .btn-group, .btn-del, .btn-add, .no-print { display: none !important; }
-            input, select { border: none; background: transparent; appearance: none; font-weight: bold; }
+            .no-print, .container { display: none !important; }
+            #quotationInvoice { display: block !important; width: 100%; padding: 20px; }
+            .quote-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            .quote-table th, .quote-table td { border: 1px solid #000; padding: 8px; text-align: center; }
+            .quote-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
+            .quote-info { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<!-- মূল অ্যাপ ইন্টারফেস -->
+<div class="container no-print">
     <h2>Aluminium Estimation System</h2>
 
     <!-- Customer Details -->
@@ -201,7 +209,7 @@
     </div>
 
     <!-- Rates & Pricing Setup -->
-    <div class="section no-print">
+    <div class="section">
         <h3>Rates & Pricing Config</h3>
         <div class="grid-3">
             <div>
@@ -241,14 +249,14 @@
                     <th>Height (in)</th>
                     <th>Width (in)</th>
                     <th>Qty</th>
-                    <th class="no-print">Action</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="windowTableBody">
             </tbody>
         </table>
         
-        <div class="btn-group no-print">
+        <div class="btn-group">
             <button class="btn btn-add" onclick="addWindowRow()">+ Add Window</button>
             <button class="btn" onclick="calculateMaterials()">Calculate</button>
             <button class="btn btn-quote" onclick="generateQuotation()">📄 Print Quotation</button>
@@ -304,7 +312,61 @@
             </tbody>
         </table>
     </div>
+</div>
 
+<!-- কাস্টমারের জন্য ক্লিন ও পেশাদার কোটেশন টেমপ্লেট (কেবল প্রিন্ট করার সময় দৃশ্যমান হবে) -->
+<div id="quotationInvoice">
+    <div class="quote-header">
+        <h2>PRICE QUOTATION</h2>
+        <p>Aluminium Fabrication & Glass Works</p>
+    </div>
+    <div class="quote-info">
+        <div>
+            <strong>Customer Details:</strong><br>
+            Name: <span id="q_custName"></span><br>
+            Mobile: <span id="q_custMobile"></span><br>
+            Address: <span id="q_custAddress"></span>
+        </div>
+        <div style="text-align: right;">
+            <strong>Specifications:</strong><br>
+            Alu: <span id="q_aluSpec"></span><br>
+            Glass: <span id="q_glassSpec"></span>
+        </div>
+    </div>
+
+    <table class="quote-table">
+        <thead>
+            <tr>
+                <th>Item #</th>
+                <th>Dimensions (Inches)</th>
+                <th>Qty</th>
+                <th>Area (Sqft)</th>
+                <th>Rate / Sqft</th>
+                <th>Total Price (৳)</th>
+            </tr>
+        </thead>
+        <tbody id="q_itemTable">
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" style="text-align: right;">Total Area & Amount:</th>
+                <th id="q_totSqft">0 Sqft</th>
+                <th>-</th>
+                <th id="q_grandTotal">0 ৳</th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+        <div>
+            <p>---------------------------</p>
+            <p>Customer Signature</p>
+        </div>
+        <div>
+            <p>---------------------------</p>
+            <p>Authorized Signature</p>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -330,7 +392,7 @@
             <td><input type="number" class="win-h" placeholder="0"></td>
             <td><input type="number" class="win-w" placeholder="0"></td>
             <td><input type="number" class="win-q" placeholder="0"></td>
-            <td class="no-print"><button class="btn-del" onclick="removeWindowRow('winRow_${windowCount}')">🗑️</button></td>
+            <td><button class="btn-del" onclick="removeWindowRow('winRow_${windowCount}')">🗑️</button></td>
         `;
         tbody.appendChild(row);
     }
@@ -346,13 +408,10 @@
         }
     };
 
-    // নির্দিষ্ট দৈর্ঘ্যের বারে কাটিং অপটিমাইজেশন হিসাব
     function getBarCountForPieces(pieces, barLength) {
         if (pieces.length === 0) return 0;
-        
         let sorted = [...pieces].sort((a, b) => b - a);
         let bars = [];
-
         sorted.forEach(piece => {
             let placed = false;
             for (let i = 0; i < bars.length; i++) {
@@ -362,11 +421,8 @@
                     break;
                 }
             }
-            if (!placed) {
-                bars.push(piece);
-            }
+            if (!placed) bars.push(piece);
         });
-
         return bars.length;
     }
 
@@ -374,15 +430,12 @@
         if (totalFt <= 0) return "-";
         let fullBars = Math.floor(totalFt / barLength);
         let remFt = Math.round(totalFt % barLength);
-
-        if (fullBars > 0 && remFt > 0) {
-            return `${fullBars} Pcs + ${remFt} ft`;
-        } else if (fullBars > 0 && remFt === 0) {
-            return `${fullBars} Pcs`;
-        } else {
-            return `${remFt} ft`;
-        }
+        if (fullBars > 0 && remFt > 0) return `${fullBars} Pcs + ${remFt} ft`;
+        else if (fullBars > 0 && remFt === 0) return `${fullBars} Pcs`;
+        else return `${remFt} ft`;
     }
+
+    let globalCalcData = {};
 
     function calculateMaterials() {
         let activeRates = {
@@ -406,18 +459,17 @@
             if (w > 0 && h > 0 && q > 0) {
                 let sqft = ((w * h) / 144) * q;
                 totalSqft += sqft;
-                windowsList.push({ height: h, width: w, qty: q, sqft: sqft });
+                windowsList.push({ id: index + 1, height: h, width: w, qty: q, sqft: sqft });
             }
         });
 
         if (windowsList.length === 0) {
             alert("অনুগ্রহ করে জানালার সঠিক Height, Width এবং Qty প্রদান করুন!");
-            return;
+            return false;
         }
 
         let heightPieces18 = [];
         let heightPieces21 = [];
-
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
 
         windowsList.forEach(win => {
@@ -433,20 +485,15 @@
             shutTop += wFt * qty;
             shutBot += wFt * qty;
 
-            // ৪.৬৫ ফিট বা তার ছোট হলে কেবল ১৮.৬ ফিট বারে যাবে, বড় হলে কেবল ২১ ফিট বারে যাবে
             for (let k = 0; k < qty * 2; k++) {
-                if (hFt <= 4.65) { 
-                    heightPieces18.push(hFt);
-                } else {
-                    heightPieces21.push(hFt);
-                }
+                if (hFt <= 4.65) heightPieces18.push(hFt);
+                else heightPieces21.push(hFt);
             }
         });
 
         let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
-        let glassSqft = totalSqft * 0.85; // আনুমানিক গ্লাস স্কয়ার ফিট
+        let glassSqft = totalSqft * 0.85;
 
-        // সঠিক কস্টিং গণনা
         let aluCost = totAlu * activeRates.alu;
         let glassCost = glassSqft * activeRates.glass;
         let hwCost = totalSqft * activeRates.hw;
@@ -460,7 +507,6 @@
         let sellRateSqft = costSqft + profitSqft;
         let totalSellPrice = sellRateSqft * totalSqft;
 
-        // UI আপডেট - Material Details
         document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
         document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
         document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
@@ -482,32 +528,63 @@
         document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
 
-        // কাটিং রিপোর্ট (সঠিক লজিক)
         let pcs18 = getBarCountForPieces(heightPieces18, 18.6);
         let pcs21 = getBarCountForPieces(heightPieces21, 21.0);
 
         let txt18 = pcs18 > 0 ? `${pcs18} Pcs` : "-";
         let txt21 = pcs21 > 0 ? `${pcs21} Pcs` : "-";
 
-        let cut21_outTop = calculateWidthBarFt(outTop, 21.0);
-        let cut21_outBot = calculateWidthBarFt(outBot, 21.0);
-        let cut21_shutTop = calculateWidthBarFt(shutTop, 21.0);
-        let cut21_shutBot = calculateWidthBarFt(shutBot, 21.0);
-
         document.getElementById("cuttingReportBody").innerHTML = `
             <tr><td>Outer Side</td><td>${txt18}</td><td>${txt21}</td></tr>
-            <tr><td>Outer Top</td><td>-</td><td>${cut21_outTop}</td></tr>
-            <tr><td>Outer Bottom</td><td>-</td><td>${cut21_outBot}</td></tr>
+            <tr><td>Outer Top</td><td>-</td><td>${calculateWidthBarFt(outTop, 21.0)}</td></tr>
+            <tr><td>Outer Bottom</td><td>-</td><td>${calculateWidthBarFt(outBot, 21.0)}</td></tr>
             <tr><td>Shutter Lock</td><td>${txt18}</td><td>${txt21}</td></tr>
             <tr><td>Shutter Interlock</td><td>${txt18}</td><td>${txt21}</td></tr>
-            <tr><td>Shutter Top</td><td>-</td><td>${cut21_shutTop}</td></tr>
-            <tr><td>Shutter Bottom</td><td>-</td><td>${cut21_shutBot}</td></tr>
+            <tr><td>Shutter Top</td><td>-</td><td>${calculateWidthBarFt(shutTop, 21.0)}</td></tr>
+            <tr><td>Shutter Bottom</td><td>-</td><td>${calculateWidthBarFt(shutBot, 21.0)}</td></tr>
         `;
+
+        // কোটেশনের ডাটা লোকাল অবজেক্টে সেভ করা হলো
+        globalCalcData = {
+            windowsList: windowsList,
+            totalSqft: totalSqft,
+            sellRateSqft: sellRateSqft,
+            totalSellPrice: totalSellPrice
+        };
+
+        return true;
     }
 
-    // কোটেশন প্রিন্ট বা পিডিএফ করার সুবিধা
+    // ক্লিন কোটেশন বিল প্রস্তুত করার ফাংশন
     function generateQuotation() {
-        calculateMaterials();
+        if (!calculateMaterials()) return;
+
+        document.getElementById("q_custName").innerText = document.getElementById("custName").value || "N/A";
+        document.getElementById("q_custMobile").innerText = document.getElementById("custMobile").value || "N/A";
+        document.getElementById("q_custAddress").innerText = document.getElementById("custAddress").value || "N/A";
+
+        document.getElementById("q_aluSpec").innerText = `${document.getElementById("selCompany").value} (${document.getElementById("selAluThick").value}, ${document.getElementById("selAluColour").value})`;
+        document.getElementById("q_glassSpec").innerText = `${document.getElementById("selGlassComp").value} (${document.getElementById("selGlassThick").value}, ${document.getElementById("selGlassColour").value})`;
+
+        let itemHTML = "";
+        globalCalcData.windowsList.forEach((win, index) => {
+            let winPrice = win.sqft * globalCalcData.sellRateSqft;
+            itemHTML += `
+                <tr>
+                    <td>W${index + 1}</td>
+                    <td>${win.height}" x ${win.width}"</td>
+                    <td>${win.qty} Pcs</td>
+                    <td>${win.sqft.toFixed(2)} Sqft</td>
+                    <td>${globalCalcData.sellRateSqft.toFixed(1)} ৳</td>
+                    <td>${winPrice.toFixed(0)} ৳</td>
+                </tr>
+            `;
+        });
+
+        document.getElementById("q_itemTable").innerHTML = itemHTML;
+        document.getElementById("q_totSqft").innerText = globalCalcData.totalSqft.toFixed(2) + " Sqft";
+        document.getElementById("q_grandTotal").innerText = globalCalcData.totalSellPrice.toFixed(0) + " ৳";
+
         window.print();
     }
 </script>

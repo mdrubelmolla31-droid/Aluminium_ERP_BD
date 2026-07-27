@@ -3,52 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminium Estimator & Quotation</title>
+    <title>Aluminium Estimator & Quotator</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #f4f7f6;
+            background-color: #0f172a;
             margin: 0;
             padding: 15px;
-            color: #333;
+            color: #f8fafc;
         }
-        .container {
-            max-width: 850px;
+        .app-container {
+            max-width: 600px;
             margin: auto;
-            background: #fff;
+        }
+        /* Navigation Tabs / Buttons */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .nav-card {
+            background: #1e293b;
+            border: 2px solid #334155;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-card:hover, .nav-card.active {
+            border-color: #3b82f6;
+            background: #1e293b;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+        }
+        .nav-card img, .nav-icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .nav-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #f8fafc;
+        }
+
+        /* Card Sections */
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
         }
         h2, h3 {
+            margin-top: 0;
+            color: #38bdf8;
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 15px;
         }
-        .section {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            background: #fafafa;
-        }
-        .grid-3 {
+        .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
         label {
             display: block;
-            font-size: 13px;
-            margin-bottom: 5px;
+            font-size: 12px;
+            margin-bottom: 4px;
+            color: #94a3b8;
             font-weight: bold;
         }
         input, select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
         }
         table {
             width: 100%;
@@ -56,331 +89,267 @@
             margin-top: 10px;
         }
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #334155;
             padding: 8px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
         }
-        th {
-            background-color: #2563eb;
-            color: white;
-        }
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
+        th { background-color: #2563eb; color: white; }
+        
         .btn {
-            flex: 1;
+            width: 100%;
             padding: 12px;
             background-color: #2563eb;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 15px;
-            cursor: pointer;
             font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
         }
-        .btn:hover { background-color: #1d4ed8; }
         .btn-add { background-color: #10b981; }
-        .btn-add:hover { background-color: #059669; }
-        .btn-quote { background-color: #8b5cf6; }
-        .btn-quote:hover { background-color: #7c3aed; }
-        .btn-del {
-            background-color: #ef4444;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .report-header {
-            background-color: #2563eb;
-            color: white;
-            padding: 10px;
-            border-radius: 5px 5px 0 0;
-            text-align: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
+        .btn-quote-nav { background-color: #8b5cf6; }
+        .btn-del { background-color: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; }
 
-        /* প্রিন্ট / পেশাদার কোটেশনের জন্য পেজ স্টাইল */
-        #quotationInvoice {
+        /* Quotation Output Template Style (Exact Look) */
+        #quotationStatementPage {
             display: none;
+            background: #ffffff;
+            color: #000;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .q-title {
+            color: #1d4ed8;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .q-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #1e293b;
+        }
+        .q-spec-box {
+            border: 1px dashed #3b82f6;
+            background: #eff6ff;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #1e293b;
+        }
+        .q-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .q-table th { background: #2563eb; color: white; }
+        .q-table td, .q-table th { border: 1px solid #cbd5e1; padding: 8px; color: #000; }
+        .q-summary {
+            border: 1px dashed #64748b;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+        }
+        .q-total {
+            color: #1d4ed8;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0 5px 0;
         }
 
         @media print {
             body { background: white; padding: 0; }
-            .no-print, .container { display: none !important; }
-            #quotationInvoice { display: block !important; width: 100%; padding: 20px; }
-            .quote-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-            .quote-table th, .quote-table td { border: 1px solid #000; padding: 8px; text-align: center; }
-            .quote-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
-            .quote-info { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; }
+            .no-print { display: none !important; }
+            #quotationStatementPage { display: block !important; box-shadow: none; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-<!-- মূল অ্যাপ ইন্টারফেস -->
-<div class="container no-print">
-    <h2>Aluminium Estimation System</h2>
+<div class="app-container">
 
-    <!-- Customer Details -->
-    <div class="section">
-        <h3>Customer Details</h3>
-        <div class="grid-3">
-            <div>
-                <label>Name</label>
-                <input type="text" id="custName" placeholder="Customer Name">
-            </div>
-            <div>
-                <label>Mobile</label>
-                <input type="text" id="custMobile" placeholder="Mobile Number">
-            </div>
-            <div>
-                <label>Address</label>
-                <input type="text" id="custAddress" placeholder="Address">
-            </div>
+    <!-- Top Navigation Buttons -->
+    <div class="nav-grid no-print">
+        <div class="nav-card" id="tab-calc" onclick="switchTab('calculator')">
+            <span class="nav-icon">🧮</span>
+            <span class="nav-title">Material Calculator</span>
+        </div>
+        <div class="nav-card" id="tab-quote" onclick="switchTab('quotation')">
+            <span class="nav-icon">📄</span>
+            <span class="nav-title">Quotation</span>
         </div>
     </div>
 
-    <!-- Specifications -->
-    <div class="section">
-        <h3>Specifications</h3>
-        <div class="grid-3">
-            <div>
-                <label>Company</label>
-                <select id="selCompany">
-                    <option value="Kai">Kai</option>
-                    <option value="Chunghua">Chunghua</option>
-                    <option value="BTA">BTA</option>
-                </select>
-            </div>
-            <div>
-                <label>Series</label>
-                <select id="selSeries">
-                    <option value="2 Channel">2 Channel</option>
-                    <option value="3 Channel">3 Channel</option>
-                </select>
-            </div>
-            <div>
-                <label>Alu Thickness</label>
-                <select id="selAluThick">
-                    <option value="1.2mm">1.2mm</option>
-                    <option value="1.5mm">1.5mm</option>
-                    <option value="2.0mm">2.0mm</option>
-                </select>
-            </div>
-            <div>
-                <label>Alu Colour</label>
-                <select id="selAluColour" onchange="updateAluRateByColour()">
-                    <option value="Silver">Silver</option>
-                    <option value="Bronze">Bronze</option>
-                    <option value="Champagne">Champagne</option>
-                    <option value="Black">Powder Coated Black</option>
-                    <option value="White">Powder Coated White</option>
-                    <option value="Wood">Wood Finish</option>
-                </select>
-            </div>
-            <div>
-                <label>Glass Company</label>
-                <select id="selGlassComp">
-                    <option value="PHP">PHP</option>
-                    <option value="Nasir">Nasir</option>
-                </select>
-            </div>
-            <div>
-                <label>Glass Thickness</label>
-                <select id="selGlassThick">
-                    <option value="5mm">5mm</option>
-                    <option value="6mm">6mm</option>
-                </select>
-            </div>
-            <div>
-                <label>Glass Colour</label>
-                <select id="selGlassColour">
-                    <option value="Clear">Clear</option>
-                    <option value="Tinted">Tinted</option>
-                    <option value="Frosted">Frosted</option>
-                </select>
+    <!-- ================= 1. MATERIAL CALCULATOR PAGE ================= -->
+    <div id="calculatorPage" class="no-print">
+        <div class="card">
+            <h3>Specifications</h3>
+            <div class="grid-2">
+                <div>
+                    <label>Company</label>
+                    <select id="selCompany">
+                        <option value="KAI">KAI</option>
+                        <option value="Chunghua">Chunghua</option>
+                        <option value="BTA">BTA</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Series</label>
+                    <select id="selSeries">
+                        <option value="Sliding Window 2">Sliding Window 2</option>
+                        <option value="Sliding Window 3">Sliding Window 3</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Alu Thickness</label>
+                    <select id="selAluThick">
+                        <option value="1.0 mm">1.0 mm</option>
+                        <option value="1.2 mm">1.2 mm</option>
+                        <option value="1.5 mm">1.5 mm</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Glass Company</label>
+                    <select id="selGlassComp">
+                        <option value="Nasir">Nasir</option>
+                        <option value="PHP">PHP</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Glass Thickness</label>
+                    <select id="selGlassThick">
+                        <option value="5 mm">5 mm</option>
+                        <option value="6 mm">6 mm</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Glass Colour</label>
+                    <select id="selGlassColour">
+                        <option value="Clear">Clear</option>
+                        <option value="Tinted">Tinted</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Rates & Pricing Setup -->
-    <div class="section">
-        <h3>Rates & Pricing Config</h3>
-        <div class="grid-3">
-            <div>
-                <label>Alu Rate (/ft)</label>
-                <input type="number" id="rate_alu" value="150">
-            </div>
-            <div>
-                <label>Glass Rate (/sqft)</label>
-                <input type="number" id="rate_glass" value="120">
-            </div>
-            <div>
-                <label>Hardware (/sqft)</label>
-                <input type="number" id="rate_hw" value="30">
-            </div>
-            <div>
-                <label>Fittings (/sqft)</label>
-                <input type="number" id="rate_fit" value="50">
-            </div>
-            <div>
-                <label>Labour (/sqft)</label>
-                <input type="number" id="rate_labour" value="10">
-            </div>
-            <div>
-                <label>Profit Margin (%)</label>
-                <input type="number" id="rate_profit" value="5">
+        <div class="card">
+            <h3>Rates & Profit Config</h3>
+            <div class="grid-2">
+                <div><label>Alu Rate (/ft)</label><input type="number" id="rate_alu" value="150"></div>
+                <div><label>Glass Rate (/sqft)</label><input type="number" id="rate_glass" value="120"></div>
+                <div><label>Hardware (/sqft)</label><input type="number" id="rate_hw" value="30"></div>
+                <div><label>Fittings (/sqft)</label><input type="number" id="rate_fit" value="50"></div>
+                <div><label>Labour (/sqft)</label><input type="number" id="rate_labour" value="10"></div>
+                <div><label>Profit Margin (%)</label><input type="number" id="rate_profit" value="5"></div>
             </div>
         </div>
-    </div>
 
-    <!-- Window Input Section -->
-    <div class="section">
-        <h3>Window Dimensions (Inches)</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Win #</th>
-                    <th>Height (in)</th>
-                    <th>Width (in)</th>
-                    <th>Qty</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="windowTableBody">
-            </tbody>
-        </table>
-        
-        <div class="btn-group">
+        <div class="card">
+            <h3>Window Dimensions (Inches)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Qty</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="windowTableBody"></tbody>
+            </table>
             <button class="btn btn-add" onclick="addWindowRow()">+ Add Window</button>
-            <button class="btn" onclick="calculateMaterials()">Calculate</button>
-            <button class="btn btn-quote" onclick="generateQuotation()">📄 Print Quotation</button>
+            <button class="btn btn-quote-nav" onclick="calculateAndGoQuotation()">Go To Quotation ➔</button>
         </div>
     </div>
 
-    <!-- Costing & Summary -->
-    <div class="section">
-        <h3>Material Details & Costing</h3>
-        <table>
-            <tbody>
-                <tr><td>Outer Side</td><td id="res_outSide">0 ft</td></tr>
-                <tr><td>Outer Top</td><td id="res_outTop">0 ft</td></tr>
-                <tr><td>Outer Bottom</td><td id="res_outBot">0 ft</td></tr>
-                <tr><td>Shutter Lock</td><td id="res_shutLock">0 ft</td></tr>
-                <tr><td>Shutter Interlock</td><td id="res_shutInter">0 ft</td></tr>
-                <tr><td>Shutter Top</td><td id="res_shutTop">0 ft</td></tr>
-                <tr><td>Shutter Bottom</td><td id="res_shutBot">0 ft</td></tr>
-                <tr><th>Total Aluminium</th><th id="res_totAlu">0 ft</th></tr>
-                <tr><td>Glass</td><td id="res_glass">0 Sqft</td></tr>
-                <tr><td>Hardware</td><td id="res_hw">0 ৳</td></tr>
-                <tr><td>Fittings</td><td id="res_fit">0 ৳</td></tr>
-                <tr><td>Labour</td><td id="res_labour">0 ৳</td></tr>
-                <tr><th>Material Cost</th><th id="res_matCost">0 ৳</th></tr>
-                <tr><td>Material Cost / Sqft</td><td id="res_matCostSqft">0 ৳</td></tr>
-                <tr><td>Cost / Sqft</td><td id="res_costSqft">0 ৳</td></tr>
-                <tr><td>Profit / Sqft</td><td id="res_profitSqft">0 ৳</td></tr>
-                <tr><td>Selling Price / Sqft</td><td id="res_sellRateSqft">0 ৳</td></tr>
-                <tr><th>Selling Price</th><th id="res_totalSellPrice">0 ৳</th></tr>
-            </tbody>
-        </table>
+    <!-- ================= 2. QUOTATION PAGE ================= -->
+    <div id="quotationInputPage" class="no-print" style="display: none;">
+        <div class="card">
+            <h3>Quotation Details Setup</h3>
+            <label>My Shop Name / Company</label>
+            <input type="text" id="myCompany" value="RM COMPUTER">
+            
+            <label style="margin-top: 8px;">My Mobile Number</label>
+            <input type="text" id="myMobile" value="01700000000">
+
+            <hr style="border-color: #334155; margin: 15px 0;">
+
+            <label>Customer Name</label>
+            <input type="text" id="custName" placeholder="Customer Name">
+
+            <label style="margin-top: 8px;">Customer Mobile</label>
+            <input type="text" id="custMobile" placeholder="Mobile Number">
+
+            <label style="margin-top: 8px;">Customer Address</label>
+            <input type="text" id="custAddress" placeholder="Address">
+
+            <button class="btn" style="background: #10b981; margin-top: 15px;" onclick="renderQuotationStatement()">Show Final Statement</button>
+        </div>
     </div>
 
-    <!-- Cutting Report -->
-    <div class="section">
-        <div class="report-header">Cutting Report</div>
-        <table>
+    <!-- ================= 3. FINAL QUOTATION STATEMENT (MATCHING YOUR SCREENSHOT) ================= -->
+    <div id="quotationStatementPage">
+        <div class="q-title">Quotation Statement</div>
+
+        <div class="q-box" style="background: #e0f2fe; border: 1px solid #0284c7;">
+            <strong>Supplier:</strong> <span id="out_myCompany"></span> &nbsp;|&nbsp; 
+            <strong>Contact:</strong> <span id="out_myMobile"></span>
+        </div>
+
+        <div class="q-box">
+            <strong>Name:</strong> <span id="out_custName"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Mobile:</strong> <span id="out_custMobile"></span><br>
+            <strong>Address:</strong> <span id="out_custAddress"></span>
+        </div>
+
+        <div class="q-spec-box">
+            <strong>Material Specification:</strong><br>
+            Aluminium: <span id="out_aluSpec"></span><br>
+            Glass: <span id="out_glassSpec"></span>
+        </div>
+
+        <table class="q-table">
             <thead>
                 <tr>
-                    <th>Item</th>
-                    <th>18.6 ft</th>
-                    <th>21 ft</th>
+                    <th>SL</th>
+                    <th>Size (Height × Width)</th>
+                    <th>Qty</th>
+                    <th>Total Sqft</th>
                 </tr>
             </thead>
-            <tbody id="cuttingReportBody">
-                <tr><td>Outer Side</td><td>-</td><td>-</td></tr>
-                <tr><td>Outer Top</td><td>-</td><td>-</td></tr>
-                <tr><td>Outer Bottom</td><td>-</td><td>-</td></tr>
-                <tr><td>Shutter Lock</td><td>-</td><td>-</td></tr>
-                <tr><td>Shutter Interlock</td><td>-</td><td>-</td></tr>
-                <tr><td>Shutter Top</td><td>-</td><td>-</td></tr>
-                <tr><td>Shutter Bottom</td><td>-</td><td>-</td></tr>
-            </tbody>
+            <tbody id="out_itemsTable"></tbody>
         </table>
-    </div>
-</div>
 
-<!-- কাস্টমারের জন্য ক্লিন ও পেশাদার কোটেশন টেমপ্লেট (কেবল প্রিন্ট করার সময় দৃশ্যমান হবে) -->
-<div id="quotationInvoice">
-    <div class="quote-header">
-        <h2>PRICE QUOTATION</h2>
-        <p>Aluminium Fabrication & Glass Works</p>
-    </div>
-    <div class="quote-info">
-        <div>
-            <strong>Customer Details:</strong><br>
-            Name: <span id="q_custName"></span><br>
-            Mobile: <span id="q_custMobile"></span><br>
-            Address: <span id="q_custAddress"></span>
+        <div class="q-summary">
+            Total Area: <span id="out_totSqft">0.00</span> Sqft &nbsp;&nbsp;&nbsp; Rate per Sqft: <span id="out_rateSqft">0.00</span> ৳
         </div>
-        <div style="text-align: right;">
-            <strong>Specifications:</strong><br>
-            Alu: <span id="q_aluSpec"></span><br>
-            Glass: <span id="q_glassSpec"></span>
+
+        <div class="q-total">
+            Total Selling Price: <span id="out_totalPrice">0</span> ৳
         </div>
+
+        <button class="btn btn-quote-nav no-print" onclick="window.print()">Print Quotation</button>
     </div>
 
-    <table class="quote-table">
-        <thead>
-            <tr>
-                <th>Item #</th>
-                <th>Dimensions (Inches)</th>
-                <th>Qty</th>
-                <th>Area (Sqft)</th>
-                <th>Rate / Sqft</th>
-                <th>Total Price (৳)</th>
-            </tr>
-        </thead>
-        <tbody id="q_itemTable">
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="3" style="text-align: right;">Total Area & Amount:</th>
-                <th id="q_totSqft">0 Sqft</th>
-                <th>-</th>
-                <th id="q_grandTotal">0 ৳</th>
-            </tr>
-        </tfoot>
-    </table>
-
-    <div style="margin-top: 50px; display: flex; justify-content: space-between;">
-        <div>
-            <p>---------------------------</p>
-            <p>Customer Signature</p>
-        </div>
-        <div>
-            <p>---------------------------</p>
-            <p>Authorized Signature</p>
-        </div>
-    </div>
 </div>
 
 <script>
     let windowCount = 0;
-
-    function updateAluRateByColour() {
-        const colour = document.getElementById("selAluColour").value;
-        const aluInput = document.getElementById("rate_alu");
-        
-        if (colour === "Silver") aluInput.value = 145;
-        else if (colour === "Bronze" || colour === "Champagne") aluInput.value = 155;
-        else if (colour === "Black" || colour === "White") aluInput.value = 165;
-        else if (colour === "Wood") aluInput.value = 185;
-    }
+    let globalCalcData = { windowsList: [], totalSqft: 0, sellRateSqft: 0, totalSellPrice: 0 };
 
     function addWindowRow() {
         windowCount++;
@@ -388,11 +357,11 @@
         const row = document.createElement("tr");
         row.id = `winRow_${windowCount}`;
         row.innerHTML = `
-            <td>W${windowCount}</td>
-            <td><input type="number" class="win-h" placeholder="0"></td>
-            <td><input type="number" class="win-w" placeholder="0"></td>
-            <td><input type="number" class="win-q" placeholder="0"></td>
-            <td><button class="btn-del" onclick="removeWindowRow('winRow_${windowCount}')">🗑️</button></td>
+            <td>${windowCount}</td>
+            <td><input type="number" class="win-h" value="54"></td>
+            <td><input type="number" class="win-w" value="60"></td>
+            <td><input type="number" class="win-q" value="1"></td>
+            <td><button class="btn-del" onclick="removeWindowRow('winRow_${windowCount}')">✕</button></td>
         `;
         tbody.appendChild(row);
     }
@@ -403,41 +372,24 @@
     }
 
     window.onload = function() {
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             addWindowRow();
         }
     };
 
-    function getBarCountForPieces(pieces, barLength) {
-        if (pieces.length === 0) return 0;
-        let sorted = [...pieces].sort((a, b) => b - a);
-        let bars = [];
-        sorted.forEach(piece => {
-            let placed = false;
-            for (let i = 0; i < bars.length; i++) {
-                if (bars[i] + piece <= barLength) {
-                    bars[i] += piece;
-                    placed = true;
-                    break;
-                }
-            }
-            if (!placed) bars.push(piece);
-        });
-        return bars.length;
+    function switchTab(tab) {
+        if (tab === 'calculator') {
+            document.getElementById("calculatorPage").style.display = "block";
+            document.getElementById("quotationInputPage").style.display = "none";
+            document.getElementById("quotationStatementPage").style.display = "none";
+            document.getElementById("tab-calc").classList.add("active");
+            document.getElementById("tab-quote").classList.remove("active");
+        } else {
+            calculateAndGoQuotation();
+        }
     }
 
-    function calculateWidthBarFt(totalFt, barLength) {
-        if (totalFt <= 0) return "-";
-        let fullBars = Math.floor(totalFt / barLength);
-        let remFt = Math.round(totalFt % barLength);
-        if (fullBars > 0 && remFt > 0) return `${fullBars} Pcs + ${remFt} ft`;
-        else if (fullBars > 0 && remFt === 0) return `${fullBars} Pcs`;
-        else return `${remFt} ft`;
-    }
-
-    let globalCalcData = {};
-
-    function calculateMaterials() {
+    function calculateAndGoQuotation() {
         let activeRates = {
             alu: parseFloat(document.getElementById("rate_alu").value) || 0,
             glass: parseFloat(document.getElementById("rate_glass").value) || 0,
@@ -464,14 +416,11 @@
         });
 
         if (windowsList.length === 0) {
-            alert("অনুগ্রহ করে জানালার সঠিক Height, Width এবং Qty প্রদান করুন!");
-            return false;
+            alert("অনুগ্রহ করে জানালার সঠিক মাপ দিন!");
+            return;
         }
 
-        let heightPieces18 = [];
-        let heightPieces21 = [];
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
-
         windowsList.forEach(win => {
             let hFt = win.height / 12;
             let wFt = win.width / 12;
@@ -484,11 +433,6 @@
             shutInter += (hFt * 2) * qty;
             shutTop += wFt * qty;
             shutBot += wFt * qty;
-
-            for (let k = 0; k < qty * 2; k++) {
-                if (hFt <= 4.65) heightPieces18.push(hFt);
-                else heightPieces21.push(hFt);
-            }
         });
 
         let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
@@ -502,49 +446,10 @@
 
         let matCost = aluCost + glassCost + hwCost + fitCost + labourCost;
         let matCostSqft = totalSqft > 0 ? (matCost / totalSqft) : 0;
-        let costSqft = matCostSqft;
-        let profitSqft = (costSqft * activeRates.profit) / 100;
-        let sellRateSqft = costSqft + profitSqft;
+        let profitSqft = (matCostSqft * activeRates.profit) / 100;
+        let sellRateSqft = matCostSqft + profitSqft;
         let totalSellPrice = sellRateSqft * totalSqft;
 
-        document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
-        document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
-        document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
-        document.getElementById("res_shutLock").innerText = shutLock.toFixed(1) + " ft";
-        document.getElementById("res_shutInter").innerText = shutInter.toFixed(1) + " ft";
-        document.getElementById("res_shutTop").innerText = shutTop.toFixed(1) + " ft";
-        document.getElementById("res_shutBot").innerText = shutBot.toFixed(1) + " ft";
-
-        document.getElementById("res_totAlu").innerText = totAlu.toFixed(1) + " ft";
-        document.getElementById("res_glass").innerText = glassSqft.toFixed(1) + " Sqft";
-        document.getElementById("res_hw").innerText = hwCost.toFixed(0) + " ৳";
-        document.getElementById("res_fit").innerText = fitCost.toFixed(0) + " ৳";
-        document.getElementById("res_labour").innerText = labourCost.toFixed(0) + " ৳";
-
-        document.getElementById("res_matCost").innerText = matCost.toFixed(0) + " ৳";
-        document.getElementById("res_matCostSqft").innerText = matCostSqft.toFixed(1) + " ৳";
-        document.getElementById("res_sellRateSqft").innerText = sellRateSqft.toFixed(1) + " ৳";
-        document.getElementById("res_profitSqft").innerText = profitSqft.toFixed(1) + " ৳";
-        document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
-        document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
-
-        let pcs18 = getBarCountForPieces(heightPieces18, 18.6);
-        let pcs21 = getBarCountForPieces(heightPieces21, 21.0);
-
-        let txt18 = pcs18 > 0 ? `${pcs18} Pcs` : "-";
-        let txt21 = pcs21 > 0 ? `${pcs21} Pcs` : "-";
-
-        document.getElementById("cuttingReportBody").innerHTML = `
-            <tr><td>Outer Side</td><td>${txt18}</td><td>${txt21}</td></tr>
-            <tr><td>Outer Top</td><td>-</td><td>${calculateWidthBarFt(outTop, 21.0)}</td></tr>
-            <tr><td>Outer Bottom</td><td>-</td><td>${calculateWidthBarFt(outBot, 21.0)}</td></tr>
-            <tr><td>Shutter Lock</td><td>${txt18}</td><td>${txt21}</td></tr>
-            <tr><td>Shutter Interlock</td><td>${txt18}</td><td>${txt21}</td></tr>
-            <tr><td>Shutter Top</td><td>-</td><td>${calculateWidthBarFt(shutTop, 21.0)}</td></tr>
-            <tr><td>Shutter Bottom</td><td>-</td><td>${calculateWidthBarFt(shutBot, 21.0)}</td></tr>
-        `;
-
-        // কোটেশনের ডাটা লোকাল অবজেক্টে সেভ করা হলো
         globalCalcData = {
             windowsList: windowsList,
             totalSqft: totalSqft,
@@ -552,40 +457,51 @@
             totalSellPrice: totalSellPrice
         };
 
-        return true;
+        // UI সুইচ করা
+        document.getElementById("calculatorPage").style.display = "none";
+        document.getElementById("quotationInputPage").style.display = "block";
+        document.getElementById("tab-calc").classList.remove("active");
+        document.getElementById("tab-quote").classList.add("active");
+
+        renderQuotationStatement();
     }
 
-    // ক্লিন কোটেশন বিল প্রস্তুত করার ফাংশন
-    function generateQuotation() {
-        if (!calculateMaterials()) return;
+    function renderQuotationStatement() {
+        document.getElementById("out_myCompany").innerText = document.getElementById("myCompany").value || "N/A";
+        document.getElementById("out_myMobile").innerText = document.getElementById("myMobile").value || "N/A";
 
-        document.getElementById("q_custName").innerText = document.getElementById("custName").value || "N/A";
-        document.getElementById("q_custMobile").innerText = document.getElementById("custMobile").value || "N/A";
-        document.getElementById("q_custAddress").innerText = document.getElementById("custAddress").value || "N/A";
+        document.getElementById("out_custName").innerText = document.getElementById("custName").value || "N/A";
+        document.getElementById("out_custMobile").innerText = document.getElementById("custMobile").value || "N/A";
+        document.getElementById("out_custAddress").innerText = document.getElementById("custAddress").value || "N/A";
 
-        document.getElementById("q_aluSpec").innerText = `${document.getElementById("selCompany").value} (${document.getElementById("selAluThick").value}, ${document.getElementById("selAluColour").value})`;
-        document.getElementById("q_glassSpec").innerText = `${document.getElementById("selGlassComp").value} (${document.getElementById("selGlassThick").value}, ${document.getElementById("selGlassColour").value})`;
+        let aluComp = document.getElementById("selCompany").value;
+        let aluSeries = document.getElementById("selSeries").value;
+        let aluThick = document.getElementById("selAluThick").value;
+        let glassComp = document.getElementById("selGlassComp").value;
+        let glassThick = document.getElementById("selGlassThick").value;
+        let glassColour = document.getElementById("selGlassColour").value;
 
-        let itemHTML = "";
-        globalCalcData.windowsList.forEach((win, index) => {
-            let winPrice = win.sqft * globalCalcData.sellRateSqft;
-            itemHTML += `
+        document.getElementById("out_aluSpec").innerText = `${aluComp} (${aluSeries}, ${aluThick})`;
+        document.getElementById("out_glassSpec").innerText = `${glassComp} (${glassThick}, ${glassColour})`;
+
+        let rowsHtml = "";
+        globalCalcData.windowsList.forEach((item, index) => {
+            rowsHtml += `
                 <tr>
-                    <td>W${index + 1}</td>
-                    <td>${win.height}" x ${win.width}"</td>
-                    <td>${win.qty} Pcs</td>
-                    <td>${win.sqft.toFixed(2)} Sqft</td>
-                    <td>${globalCalcData.sellRateSqft.toFixed(1)} ৳</td>
-                    <td>${winPrice.toFixed(0)} ৳</td>
+                    <td>${index + 1}</td>
+                    <td>${item.height}" × ${item.width}"</td>
+                    <td>${item.qty} Pcs</td>
+                    <td>${item.sqft.toFixed(2)} Sqft</td>
                 </tr>
             `;
         });
 
-        document.getElementById("q_itemTable").innerHTML = itemHTML;
-        document.getElementById("q_totSqft").innerText = globalCalcData.totalSqft.toFixed(2) + " Sqft";
-        document.getElementById("q_grandTotal").innerText = globalCalcData.totalSellPrice.toFixed(0) + " ৳";
+        document.getElementById("out_itemsTable").innerHTML = rowsHtml;
+        document.getElementById("out_totSqft").innerText = globalCalcData.totalSqft.toFixed(2);
+        document.getElementById("out_rateSqft").innerText = globalCalcData.sellRateSqft.toFixed(2);
+        document.getElementById("out_totalPrice").innerText = Math.round(globalCalcData.totalSellPrice);
 
-        window.print();
+        document.getElementById("quotationStatementPage").style.display = "block";
     }
 </script>
 

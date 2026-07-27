@@ -13,7 +13,7 @@
             color: #0f172a;
         }
         
-        /* Navigation Bar */
+        /* Navigation Bar (সব পেজেই থাকবে) */
         .navbar {
             background-color: #2563eb;
             color: white;
@@ -27,19 +27,20 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .nav-btn {
-            background: none;
+            background: rgba(255, 255, 255, 0.15);
             border: none;
             color: white;
-            font-size: 18px;
+            font-size: 15px;
+            font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 6px;
         }
-        .nav-btn:hover {
-            background-color: rgba(255, 255, 255, 0.15);
+        .nav-btn:active {
+            background-color: rgba(255, 255, 255, 0.3);
         }
         .nav-title {
             font-size: 16px;
@@ -108,16 +109,16 @@
 </head>
 <body>
 
-<!-- Navigation Bar -->
+<!-- Navigation Bar (সবসময় উপরে দৃশ্যমান থাকবে) -->
 <div class="navbar no-print">
-    <button class="nav-btn" onclick="goHome()">🏠 Home</button>
-    <div class="nav-title">Aluminium Calculator</div>
-    <button class="nav-btn" onclick="toggleMenu()">⋮</button>
+    <button class="nav-btn" onclick="goToMainDashboard()">🏠 Home</button>
+    <div class="nav-title" id="navTitle">Material Calculator</div>
+    <button class="nav-btn" style="background:none;" onclick="toggleMenu()">⋮</button>
 </div>
 
 <div class="app-container">
 
-    <!-- CALCULATOR PAGE -->
+    <!-- 1. CALCULATOR PAGE -->
     <div id="calculatorPage" class="no-print">
         <div class="card">
             <h3>Specifications</h3>
@@ -234,7 +235,7 @@
         </div>
     </div>
 
-    <!-- QUOTATION SETUP PAGE -->
+    <!-- 2. QUOTATION SETUP PAGE -->
     <div id="quotationInputPage" class="no-print" style="display: none;">
         <div class="card">
             <h3>Quotation Details</h3>
@@ -256,13 +257,13 @@
             <input type="text" id="custAddress" placeholder="Address">
 
             <div class="grid-2" style="margin-top: 15px;">
-                <button class="btn" style="background: #64748b;" onclick="goHome()">Back</button>
+                <button class="btn" style="background: #64748b;" onclick="window.history.back()">Back</button>
                 <button class="btn" style="background: #10b981;" onclick="renderQuotationStatement()">Show Statement</button>
             </div>
         </div>
     </div>
 
-    <!-- STATEMENT -->
+    <!-- 3. STATEMENT -->
     <div id="quotationStatementPage">
         <div class="q-title">Quotation Statement</div>
 
@@ -303,7 +304,7 @@
         </div>
 
         <div class="grid-2 no-print" style="margin-top: 10px;">
-            <button class="btn" style="background: #64748b;" onclick="backToQuotationInput()">Edit Info</button>
+            <button class="btn" style="background: #64748b;" onclick="window.history.back()">Edit Info</button>
             <button class="btn btn-quote-nav" onclick="window.print()">Print Statement</button>
         </div>
     </div>
@@ -311,27 +312,49 @@
 </div>
 
 <script>
+    // মূল ড্যাশবোর্ড/হোমপেজের ফাইল নেম
+    const homePageUrl = "index.html"; 
+
     let windowCount = 0;
     let globalCalcData = { windowsList: [], totalSqft: 0, sellRateSqft: 0, totalSellPrice: 0 };
 
-    // ডিফল্ট রেট (হিসাব করার জন্য)
     const defaultRates = {
-        alu: 150,
-        glass: 120,
-        hw: 30,
-        fit: 50,
-        labour: 10,
-        profit: 5
+        alu: 150, glass: 120, hw: 30, fit: 50, labour: 10, profit: 5
+    };
+
+    // --- NAVIGATION & BACK BUTTON LOGIC ---
+    
+    // ১ চাপে সরাসরি মূল ড্যাশবোর্ডে যাওয়ার ফাংশন
+    function goToMainDashboard() {
+        window.location.href = homePageUrl;
+    }
+
+    // ভিউ দেখানোর এবং ব্রাউজার হিস্ট্রি পুশ করার ফাংশন
+    function showPage(pageId, pageTitle, pushState = true) {
+        document.getElementById("calculatorPage").style.display = "none";
+        document.getElementById("quotationInputPage").style.display = "none";
+        document.getElementById("quotationStatementPage").style.display = "none";
+
+        document.getElementById(pageId).style.display = "block";
+        document.getElementById("navTitle").innerText = pageTitle;
+
+        if (pushState) {
+            history.pushState({ page: pageId, title: pageTitle }, pageTitle, "#" + pageId);
+        }
+    }
+
+    // মোবাইলের শারীরিক ব্যাক বাটন বা ব্রাউজারের ব্যাক বাটন চাপলে যা ঘটবে
+    window.onpopstate = function(event) {
+        if (event.state && event.state.page) {
+            showPage(event.state.page, event.state.title, false);
+        } else {
+            // যদি পেজের শুরুর ধাপে চলে আসে, তবে মোবাইলের ব্যাক বাটন চাপলে ড্যাশবোর্ডে নিয়ে যাবে
+            goToMainDashboard();
+        }
     };
 
     function toggleMenu() {
-        // পরবর্তীতে থ্রি ডট মেনুর ফিচার এখানে যোগ করতে পারবেন
-    }
-
-    function goHome() {
-        document.getElementById("calculatorPage").style.display = "block";
-        document.getElementById("quotationInputPage").style.display = "none";
-        document.getElementById("quotationStatementPage").style.display = "none";
+        // থ্রি ডট মেনু ফিচার
     }
 
     function addWindowRow() {
@@ -358,18 +381,51 @@
 
     window.onload = function() {
         addWindowRow();
+        // শুরুতে মূল ক্যালকুলেটর পেজের স্টেট সেভ করে নেওয়া
+        history.replaceState({ page: "calculatorPage", title: "Material Calculator" }, "Material Calculator", "#calculatorPage");
     };
 
     function goToQuotation() {
         calculateMaterials();
-        document.getElementById("calculatorPage").style.display = "none";
-        document.getElementById("quotationInputPage").style.display = "block";
-        document.getElementById("quotationStatementPage").style.display = "none";
+        showPage("quotationInputPage", "Quotation Setup");
     }
 
-    function backToQuotationInput() {
-        document.getElementById("quotationInputPage").style.display = "block";
-        document.getElementById("quotationStatementPage").style.display = "none";
+    function renderQuotationStatement() {
+        document.getElementById("out_myCompany").innerText = document.getElementById("myCompany").value || "N/A";
+        document.getElementById("out_myMobile").innerText = document.getElementById("myMobile").value || "N/A";
+
+        document.getElementById("out_custName").innerText = document.getElementById("custName").value || "N/A";
+        document.getElementById("out_custMobile").innerText = document.getElementById("custMobile").value || "N/A";
+        document.getElementById("out_custAddress").innerText = document.getElementById("custAddress").value || "N/A";
+
+        let aluComp = document.getElementById("selCompany").value;
+        let aluSeries = document.getElementById("selSeries").value;
+        let aluThick = document.getElementById("selAluThick").value;
+        let glassComp = document.getElementById("selGlassComp").value;
+        let glassThick = document.getElementById("selGlassThick").value;
+        let glassColour = document.getElementById("selGlassColour").value;
+
+        document.getElementById("out_aluSpec").innerText = `${aluComp} (${aluSeries}, ${aluThick})`;
+        document.getElementById("out_glassSpec").innerText = `${glassComp} (${glassThick}, ${glassColour})`;
+
+        let rowsHtml = "";
+        globalCalcData.windowsList.forEach((item, index) => {
+            rowsHtml += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.height}" × ${item.width}"</td>
+                    <td>${item.qty} Pcs</td>
+                    <td>${item.sqft.toFixed(2)} Sqft</td>
+                </tr>
+            `;
+        });
+
+        document.getElementById("out_itemsTable").innerHTML = rowsHtml;
+        document.getElementById("out_totSqft").innerText = globalCalcData.totalSqft.toFixed(2);
+        document.getElementById("out_rateSqft").innerText = globalCalcData.sellRateSqft.toFixed(2);
+        document.getElementById("out_totalPrice").innerText = Math.round(globalCalcData.totalSellPrice);
+
+        showPage("quotationStatementPage", "Quotation Statement");
     }
 
     function calcBars(totalFt, barLen) {
@@ -483,45 +539,6 @@
             sellRateSqft: sellRateSqft,
             totalSellPrice: totalSellPrice
         };
-    }
-
-    function renderQuotationStatement() {
-        document.getElementById("out_myCompany").innerText = document.getElementById("myCompany").value || "N/A";
-        document.getElementById("out_myMobile").innerText = document.getElementById("myMobile").value || "N/A";
-
-        document.getElementById("out_custName").innerText = document.getElementById("custName").value || "N/A";
-        document.getElementById("out_custMobile").innerText = document.getElementById("custMobile").value || "N/A";
-        document.getElementById("out_custAddress").innerText = document.getElementById("custAddress").value || "N/A";
-
-        let aluComp = document.getElementById("selCompany").value;
-        let aluSeries = document.getElementById("selSeries").value;
-        let aluThick = document.getElementById("selAluThick").value;
-        let glassComp = document.getElementById("selGlassComp").value;
-        let glassThick = document.getElementById("selGlassThick").value;
-        let glassColour = document.getElementById("selGlassColour").value;
-
-        document.getElementById("out_aluSpec").innerText = `${aluComp} (${aluSeries}, ${aluThick})`;
-        document.getElementById("out_glassSpec").innerText = `${glassComp} (${glassThick}, ${glassColour})`;
-
-        let rowsHtml = "";
-        globalCalcData.windowsList.forEach((item, index) => {
-            rowsHtml += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item.height}" × ${item.width}"</td>
-                    <td>${item.qty} Pcs</td>
-                    <td>${item.sqft.toFixed(2)} Sqft</td>
-                </tr>
-            `;
-        });
-
-        document.getElementById("out_itemsTable").innerHTML = rowsHtml;
-        document.getElementById("out_totSqft").innerText = globalCalcData.totalSqft.toFixed(2);
-        document.getElementById("out_rateSqft").innerText = globalCalcData.sellRateSqft.toFixed(2);
-        document.getElementById("out_totalPrice").innerText = Math.round(globalCalcData.totalSellPrice);
-
-        document.getElementById("quotationInputPage").style.display = "none";
-        document.getElementById("quotationStatementPage").style.display = "block";
     }
 </script>
 

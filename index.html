@@ -407,7 +407,8 @@
     <div class="app-header">
         <div class="icon-btn">☰</div>
         <div class="header-title">Aluminium ERP BD</div>
-        <div class="icon-btn" id="lockIconBtn" onclick="handleLockTap()" title="Tap 5 times for Admin Access">🔒</div>
+        <!-- Lock Icon: Will be hidden automatically once activated -->
+        <div class="icon-btn" id="lockIconBtn" onclick="openLicenseModal(true)" title="Admin / License Activation">🔒</div>
     </div>
 
     <!-- Welcome Card -->
@@ -440,7 +441,7 @@
             <div class="card-label">Material Calculator</div>
         </div>
 
-        <!-- 4. Customer (Direct Pop-up Modal) -->
+        <!-- 4. Customer Modal -->
         <div class="menu-card" onclick="openCustomerModal()">
             <div class="icon-wrapper bg-customer">👥</div>
             <div class="card-label">Customer</div>
@@ -530,8 +531,6 @@
 </div>
 
 <script>
-    let tapCount = 0;
-    let tapTimer = null;
     let deviceID = "";
     let customersList = [];
 
@@ -570,8 +569,13 @@
 
     function checkAppSecurity() {
         let isUnlocked = localStorage.getItem("erp_unlocked");
+        let lockBtn = document.getElementById("lockIconBtn");
+
         if (isUnlocked !== "true") {
+            lockBtn.style.display = "flex"; // Show lock if not unlocked
             openLicenseModal();
+        } else {
+            lockBtn.style.display = "none"; // Hide lock if already unlocked
         }
     }
 
@@ -582,18 +586,6 @@
             else alert("Feature coming soon!");
         } else {
             openLicenseModal();
-        }
-    }
-
-    function handleLockTap() {
-        tapCount++;
-        clearTimeout(tapTimer);
-
-        if (tapCount >= 5) {
-            tapCount = 0;
-            openLicenseModal(true);
-        } else {
-            tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
         }
     }
 
@@ -624,11 +616,13 @@
             alert("✅ Master Access Granted! Admin mode unlocked.");
             localStorage.setItem("erp_unlocked", "true");
             document.getElementById("licenseModal").style.display = "none";
+            checkAppSecurity(); // Update lock button visibility
         } 
         else if (inputKey === validUserKey) {
             alert("✅ Software Activated Successfully!");
             localStorage.setItem("erp_unlocked", "true");
             document.getElementById("licenseModal").style.display = "none";
+            checkAppSecurity(); // Update lock button visibility
         } 
         else {
             alert("❌ ভুল কি! সঠিক লাইসেন্স কি অথবা এডমিন মাস্টার কি দিন।");

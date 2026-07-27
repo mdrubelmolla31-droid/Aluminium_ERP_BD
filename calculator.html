@@ -17,9 +17,8 @@
             margin: auto;
         }
         .header-card {
-            background: #ffffff;
+            background: #eff6ff;
             border: 2px solid #2563eb;
-            background-color: #eff6ff;
             padding: 12px;
             border-radius: 8px;
             text-align: center;
@@ -85,7 +84,7 @@
 
 <div class="app-container">
 
-    <!-- Header (Top Quotation Tab Removed) -->
+    <!-- Header -->
     <div class="header-card no-print">
         <span class="header-title">🧮 Material Calculator</span>
     </div>
@@ -179,16 +178,18 @@
                     <tr><td>Shutter Top</td><td id="res_shutTop">0.00 ft</td></tr>
                     <tr><td>Shutter Bottom</td><td id="res_shutBot">0.00 ft</td></tr>
                     <tr style="background:#f1f5f9; font-weight:bold;"><td>Total Aluminium</td><td id="res_totAlu">0.00 ft</td></tr>
-                    <tr><td>Glass</td><td id="res_glass">0.00 Sqft</td></tr>
-                    <tr><td>Hardware</td><td id="res_hw">0.00</td></tr>
-                    <tr><td>Fittings</td><td id="res_fit">0.00</td></tr>
-                    <tr><td>Labour</td><td id="res_labour">0.00</td></tr>
-                    <tr><td>Material Cost</td><td id="res_matCost">0.00</td></tr>
-                    <tr><td>Material Cost / Sqft</td><td id="res_matCostSqft">0.00</td></tr>
-                    <tr><td>Selling Price / Sqft</td><td id="res_sellRateSqft">0.00</td></tr>
-                    <tr><td>Profit / Sqft</td><td id="res_profitSqft">0.00</td></tr>
+                    <tr><td>Total Window Area</td><td id="res_totalSqft">0.00 Sqft</td></tr>
+                    <tr><td>Glass Needed (85%)</td><td id="res_glass">0.00 Sqft</td></tr>
+                    <tr><td>Aluminium Cost</td><td id="res_aluCost">0.00</td></tr>
+                    <tr><td>Glass Cost</td><td id="res_glassCost">0.00</td></tr>
+                    <tr><td>Hardware Cost</td><td id="res_hw">0.00</td></tr>
+                    <tr><td>Fittings Cost</td><td id="res_fit">0.00</td></tr>
+                    <tr><td>Labour Cost</td><td id="res_labour">0.00</td></tr>
+                    <tr style="background:#f8fafc; font-weight:bold;"><td>Total Cost</td><td id="res_matCost">0.00</td></tr>
                     <tr><td>Cost / Sqft</td><td id="res_costSqft">0.00</td></tr>
-                    <tr style="background:#e0f2fe; font-weight:bold; color:#1d4ed8;"><td>Selling Price</td><td id="res_totalSellPrice">0.00</td></tr>
+                    <tr><td>Profit / Sqft</td><td id="res_profitSqft">0.00</td></tr>
+                    <tr><td>Selling Price / Sqft</td><td id="res_sellRateSqft">0.00</td></tr>
+                    <tr style="background:#e0f2fe; font-weight:bold; color:#1d4ed8;"><td>Total Selling Price</td><td id="res_totalSellPrice">0.00</td></tr>
                 </tbody>
             </table>
         </div>
@@ -199,8 +200,8 @@
                 <thead>
                     <tr>
                         <th>Item</th>
-                        <th>18.6 ft</th>
-                        <th>21 ft</th>
+                        <th>18.6 ft Bar</th>
+                        <th>21.0 ft Bar</th>
                     </tr>
                 </thead>
                 <tbody id="cuttingReportBody">
@@ -213,7 +214,6 @@
                     <tr><td>Shutter Bottom</td><td>0</td><td>0</td></tr>
                 </tbody>
             </table>
-            <!-- একমাত্র কোটেশন বাটন -->
             <button class="btn btn-quote-nav" onclick="goToQuotation()">Go To Quotation ➔</button>
         </div>
     </div>
@@ -240,7 +240,7 @@
             <input type="text" id="custAddress" placeholder="Address">
 
             <div class="grid-2" style="margin-top: 15px;">
-                <button class="btn" style="background: #64748b;" onclick="backToCalculator()"> Back</button>
+                <button class="btn" style="background: #64748b;" onclick="backToCalculator()">Back</button>
                 <button class="btn" style="background: #10b981;" onclick="renderQuotationStatement()">Show Statement</button>
             </div>
         </div>
@@ -321,9 +321,7 @@
     }
 
     window.onload = function() {
-        for (let i = 0; i < 2; i++) {
-            addWindowRow();
-        }
+        addWindowRow();
     };
 
     function goToQuotation() {
@@ -377,22 +375,24 @@
 
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
 
+        // ২ পাল্লার স্লাইডিং জানালার সঠিক রানিং ফিট সূত্রের হিসাব
         windowsList.forEach(win => {
             let hFt = win.height / 12;
             let wFt = win.width / 12;
             let qty = win.qty;
 
-            outSide += (hFt * 2) * qty;
-            outTop += wFt * qty;
-            outBot += wFt * qty;
-            shutLock += (hFt * 2) * qty;
-            shutInter += (hFt * 2) * qty;
-            shutTop += wFt * qty;
-            shutBot += wFt * qty;
+            outSide += (hFt * 2) * qty;       // বাম এবং ডান পার্ট
+            outTop += wFt * qty;             // টপ ট্রাক
+            outBot += wFt * qty;             // বটম ট্রাক
+            
+            shutLock += (hFt * 2) * qty;     // ২ টি শাটার লক
+            shutInter += (hFt * 2) * qty;    // ২ টি শাটার ইন্টারলক
+            shutTop += (wFt) * qty;          // ২ টি শাটারের মোট টপ
+            shutBot += (wFt) * qty;          // ২ টি শাটারের মোট বটম
         });
 
         let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
-        let glassSqft = totalSqft * 0.85;
+        let glassSqft = totalSqft * 0.85; // কাচের প্রকৃত মাপ (Frame deduction সহ)
 
         let aluCost = totAlu * activeRates.alu;
         let glassCost = glassSqft * activeRates.glass;
@@ -415,18 +415,22 @@
         document.getElementById("res_shutBot").innerText = shutBot.toFixed(2) + " ft";
 
         document.getElementById("res_totAlu").innerText = totAlu.toFixed(2) + " ft";
+        document.getElementById("res_totalSqft").innerText = totalSqft.toFixed(2) + " Sqft";
         document.getElementById("res_glass").innerText = glassSqft.toFixed(2) + " Sqft";
+
+        document.getElementById("res_aluCost").innerText = aluCost.toFixed(2);
+        document.getElementById("res_glassCost").innerText = glassCost.toFixed(2);
         document.getElementById("res_hw").innerText = hwCost.toFixed(2);
         document.getElementById("res_fit").innerText = fitCost.toFixed(2);
         document.getElementById("res_labour").innerText = labourCost.toFixed(2);
 
         document.getElementById("res_matCost").innerText = matCost.toFixed(2);
-        document.getElementById("res_matCostSqft").innerText = matCostSqft.toFixed(2);
-        document.getElementById("res_sellRateSqft").innerText = sellRateSqft.toFixed(2);
-        document.getElementById("res_profitSqft").innerText = profitSqft.toFixed(2);
         document.getElementById("res_costSqft").innerText = matCostSqft.toFixed(2);
+        document.getElementById("res_profitSqft").innerText = profitSqft.toFixed(2);
+        document.getElementById("res_sellRateSqft").innerText = sellRateSqft.toFixed(2);
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(2);
 
+        // Cutting Report (১৮.৬ ফুট এবং ২১ ফুট বারের হিসাব)
         let side18 = calcBars(outSide, 18.6);
         let side21 = side18 > 0 ? 0 : calcBars(outSide, 21.0);
 

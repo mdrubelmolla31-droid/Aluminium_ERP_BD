@@ -5,83 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aluminium ERP BD v2 Pro</title>
     <style>
-    /* --- Force Light Theme for Rate Settings Modal --- */
+/* --- Only Rate Settings Modal Light Theme --- */
 
-/* ১. পুরো ব্যাকগ্রাউন্ড এবং মেইন কার্ড সাদা করা */
-#rateModal, 
-#rateSettingsModal, 
-.modal, 
-.modal-content, 
-.modal-body, 
-div[class*="modal"] {
+#rateModal .modal-content, 
+#rateSettingsModal .modal-content,
+.rate-modal-content {
     background-color: #ffffff !important;
-    background: #ffffff !important;
     color: #0f172a !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* ২. মোডালের বাইরের ঝাপসা অংশ */
-#rateModal, #rateSettingsModal, .modal {
+#rateModal, #rateSettingsModal {
     background-color: rgba(0, 0, 0, 0.6) !important;
 }
 
-/* ৩. শিরোনাম / হেডিং (নীল রঙ) */
 #rateModal h2, #rateModal h3, 
 #rateSettingsModal h2, #rateSettingsModal h3,
-.modal-content h2, .modal-content h3, 
-.modal-content div, .modal-header {
+#rateModal .modal-header, #rateSettingsModal .modal-header {
     color: #1d4ed8 !important;
-}
-
-/* ৪. লেবেল ও লেখার রঙ কালো করা */
-#rateModal label, 
-#rateSettingsModal label, 
-.modal-content label, 
-.modal-content span {
-    color: #000000 !important;
+    text-align: center !important;
     font-weight: bold !important;
 }
 
-/* ৫. ইনপুট ফিল্ড ও ড্রপডাউন বক্স হালকা ধূসর করা */
+#rateModal label, #rateSettingsModal label,
+#rateModal .form-group-m label, #rateSettingsModal .form-group-m label {
+    color: #000000 !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+    display: block !important;
+    margin-top: 8px !important;
+    margin-bottom: 3px !important;
+}
+
 #rateModal input, #rateModal select, 
-#rateSettingsModal input, #rateSettingsModal select,
-.modal-content input, .modal-content select {
+#rateSettingsModal input, #rateSettingsModal select {
     background-color: #f1f5f9 !important;
     color: #0f172a !important;
     border: 1px solid #cbd5e1 !important;
     border-radius: 6px !important;
+    padding: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-/* ৬. বাটনগুলো ব্রাইট ব্লু করা */
-#rateModal button, 
-#rateSettingsModal button,
-.modal-content .btn, 
-.modal-content button {
+#rateModal button, #rateSettingsModal button,
+#rateModal .btn, #rateSettingsModal .btn,
+#rateModal .btn-blue-sm, #rateSettingsModal .btn-blue-sm {
     background-color: #1d4ed8 !important;
     color: #ffffff !important;
     border: none !important;
     border-radius: 6px !important;
+    padding: 9px !important;
     font-weight: bold !important;
+    cursor: pointer !important;
 }
 
-/* ৭. টেবিল স্টাইলিং */
-#rateModal table, #rateSettingsModal table, .modal-content table {
-    background-color: #ffffff !important;
-}
-
-#rateModal th, #rateSettingsModal th, .modal-content th {
+#rateModal .btn-save, #rateSettingsModal .btn-save,
+#rateModal #btnSaveRate, #rateSettingsModal #btnSaveRate {
     background-color: #1d4ed8 !important;
     color: #ffffff !important;
 }
 
-#rateModal td, #rateSettingsModal td, .modal-content td {
+#rateModal table, #rateSettingsModal table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background-color: #ffffff !important;
+    margin-top: 10px !important;
+}
+
+#rateModal th, #rateSettingsModal th {
+    background-color: #1d4ed8 !important;
+    color: #ffffff !important;
+    border: 1px solid #1e40af !important;
+    padding: 6px !important;
+    font-size: 12px !important;
+}
+
+#rateModal td, #rateSettingsModal td {
     background-color: #ffffff !important;
     color: #334155 !important;
     border: 1px solid #e2e8f0 !important;
+    padding: 6px !important;
+    font-size: 12px !important;
+    text-align: center !important;
 }
 
-}
-
-        * {
+       * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;

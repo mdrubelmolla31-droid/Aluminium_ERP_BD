@@ -5,117 +5,399 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Material Calculator - Aluminium ERP BD</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 12px; min-height: 100vh; }
-        .mobile-app { width: 100%; max-width: 450px; background: #0b0f19; border-radius: 28px; padding: 16px; position: relative; }
-        
-        .app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .back-btn { background: #192233; border: 1px solid #232e42; color: #f9fafb; font-size: 18px; border-radius: 12px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
-        .header-title { font-size: 18px; font-weight: 700; color: #f9fafb; }
-        
-        .card { background: #121929; border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 16px; }
-        .card h3 { color: #fbbf24; font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #232e42; padding-bottom: 8px; }
-        
-        .form-row { display: flex; gap: 10px; margin-bottom: 14px; }
-        .form-group { flex: 1; text-align: left; }
-        .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #232e42; background: #192233; color: white; font-size: 14px; outline: none; }
-        
-        .btn-calc { background: #d97706; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; margin-top: 5px; }
-        .btn-calc:active { transform: scale(0.98); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
 
-        .result-box { display: none; background: #192233; border-radius: 14px; padding: 15px; margin-top: 15px; border: 1px dashed #3b82f6; }
-        .result-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #232e42; font-size: 14px; }
-        .result-item:last-child { border-bottom: none; }
-        .val-highlight { color: #4ade80; font-weight: bold; }
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            display: flex;
+            justify-content: center;
+            padding: 12px;
+            min-height: 100vh;
+        }
+
+        .calc-card {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .calc-header {
+            text-align: center;
+            color: #1d4ed8;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #0f172a;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #2563eb;
+        }
+
+        /* Section Dividers for Windows */
+        .window-title {
+            text-align: center;
+            color: #2563eb;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 18px 0 10px 0;
+        }
+
+        /* Buttons Grid */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .btn-calc {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .btn-quote {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        /* Table Design */
+        .table-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            margin-top: 15px;
+        }
+
+        .table-head {
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        td:first-child {
+            color: #334155;
+            text-align: center;
+        }
+
+        td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ffffff;
+        }
     </style>
 </head>
 <body>
 
-<div class="mobile-app">
-    <div class="app-header">
-        <a href="index.html" class="back-btn">←</a>
-        <div class="header-title">Material Calculator</div>
-        <div style="width: 40px;"></div>
+<div class="calc-card">
+    <div class="calc-header">Material Calculator</div>
+
+    <!-- Customer Information -->
+    <div class="form-group"><label>Customer Name</label><input type="text" id="custName"></div>
+    <div class="form-group"><label>Mobile</label><input type="text" id="custMobile"></div>
+    <div class="form-group"><label>Address</label><input type="text" id="custAddress"></div>
+
+    <!-- Material Specifications -->
+    <div class="form-group"><label>Company</label><select id="selCompany" onchange="autoFetchRates()"></select></div>
+    <div class="form-group"><label>Series</label><select id="selSeries" onchange="autoFetchRates()"></select></div>
+    <div class="form-group"><label>Aluminium Thickness</label><select id="selAluThick" onchange="autoFetchRates()"></select></div>
+    <div class="form-group"><label>Glass Company</label><select id="selGlassComp" onchange="autoFetchRates()"></select></div>
+    <div class="form-group">
+        <label>Glass Thickness</label>
+        <select id="selGlassThick" onchange="autoFetchRates()">
+            <option value="5 mm">5 mm</option>
+            <option value="5.5 mm">5.5 mm</option>
+            <option value="6 mm">6 mm</option>
+            <option value="8 mm">8 mm</option>
+        </select>
+    </div>
+    <div class="form-group"><label>Glass Colour</label><select id="selGlassColour" onchange="autoFetchRates()"></select></div>
+
+    <!-- Window Size Inputs (1 to 5) -> Height first, Width/Length later -->
+    <!-- Window 1 -->
+    <div class="window-title">Window Size - 1</div>
+    <div class="form-group"><label>Height (Inch)</label><input type="number" id="w1_h"></div>
+    <div class="form-group"><label>Width (Inch)</label><input type="number" id="w1_w"></div>
+    <div class="form-group"><label>Quantity</label><input type="number" id="w1_q" value="1"></div>
+
+    <!-- Window 2 -->
+    <div class="window-title">Window Size - 2</div>
+    <div class="form-group"><label>Height (Inch)</label><input type="number" id="w2_h"></div>
+    <div class="form-group"><label>Width (Inch)</label><input type="number" id="w2_w"></div>
+    <div class="form-group"><label>Qty</label><input type="number" id="w2_q" value="0"></div>
+
+    <!-- Window 3 -->
+    <div class="window-title">Window Size - 3</div>
+    <div class="form-group"><label>Height (Inch)</label><input type="number" id="w3_h"></div>
+    <div class="form-group"><label>Width (Inch)</label><input type="number" id="w3_w"></div>
+    <div class="form-group"><label>Qty</label><input type="number" id="w3_q" value="0"></div>
+
+    <!-- Window 4 -->
+    <div class="window-title">Window Size - 4</div>
+    <div class="form-group"><label>Height (Inch)</label><input type="number" id="w4_h"></div>
+    <div class="form-group"><label>Width (Inch)</label><input type="number" id="w4_w"></div>
+    <div class="form-group"><label>Qty</label><input type="number" id="w4_q" value="0"></div>
+
+    <!-- Window 5 -->
+    <div class="window-title">Window Size - 5</div>
+    <div class="form-group"><label>Height (Inch)</label><input type="number" id="w5_h"></div>
+    <div class="form-group"><label>Width (Inch)</label><input type="number" id="w5_w"></div>
+    <div class="form-group"><label>Qty</label><input type="number" id="w5_q" value="0"></div>
+
+    <!-- Buttons -->
+    <div class="btn-grid">
+        <button class="btn-calc" onclick="calculateMaterials()">Calculate</button>
+        <button class="btn-quote" onclick="sendToQuotation()">Quotation</button>
     </div>
 
-    <div class="card">
-        <h3>🧮 সাইজ ও পরিমাপ ইনপুট</h3>
-        
-        <div class="form-group" style="margin-bottom: 14px;">
-            <label>কাজের টাইপ (Item Type)</label>
-            <select id="itemType">
-                <option value="sliding">Sliding Window (২ পাল্লা)</option>
-                <option value="door">Aluminum Door (ডোর)</option>
-                <option value="fixed">Fixed Glass / Partition</option>
-            </select>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label>উচ্চতা / Height (ইঞ্চি)</label>
-                <input type="number" id="winHeight" placeholder="e.g. 48">
-            </div>
-            <div class="form-group">
-                <label>প্রস্থ / Width (ইঞ্চি)</label>
-                <input type="number" id="winWidth" placeholder="e.g. 60">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label>পরিমাণ (Quantity)</label>
-                <input type="number" id="winQty" value="1">
-            </div>
-        </div>
-
-        <button class="btn-calc" onclick="calculateMaterial()">Calculate Material</button>
-
-        <div class="result-box" id="resultBox">
-            <div class="result-item">
-                <span>মোট স্কয়ার ফিট (SFT):</span>
-                <span class="val-highlight" id="resSft">0 SFT</span>
-            </div>
-            <div class="result-item">
-                <span>গ্লাস সাইজ (Glass Sqft):</span>
-                <span class="val-highlight" id="resGlass">0 SFT</span>
-            </div>
-            <div class="result-item">
-                <span>আনুমানিক সেকশন রানিং ফিট:</span>
-                <span class="val-highlight" id="resRft">0 RFT</span>
-            </div>
-        </div>
+    <!-- Material Details Result Table -->
+    <div class="table-box">
+        <div class="table-head">Material Details</div>
+        <table>
+            <tbody>
+                <tr><td>Outer Side</td><td id="res_outSide">0 ft</td></tr>
+                <tr><td>Outer Top</td><td id="res_outTop">0 ft</td></tr>
+                <tr><td>Outer Bottom</td><td id="res_outBot">0 ft</td></tr>
+                <tr><td>Shutter Lock</td><td id="res_shutLock">0 ft</td></tr>
+                <tr><td>Shutter Interlock</td><td id="res_shutInter">0 ft</td></tr>
+                <tr><td>Shutter Top</td><td id="res_shutTop">0 ft</td></tr>
+                <tr><td>Shutter Bottom</td><td id="res_shutBot">0 ft</td></tr>
+                <tr><td>Total Aluminium</td><td id="res_totAlu">0 ft</td></tr>
+                <tr><td>Glass</td><td id="res_glass">0 Sqft</td></tr>
+                <tr><td>Hardware</td><td id="res_hw">0 ৳</td></tr>
+                <tr><td>Fittings</td><td id="res_fit">0 ৳</td></tr>
+                <tr><td>Labour</td><td id="res_labour">0 ৳</td></tr>
+                <tr><td>Material Cost</td><td id="res_matCost">0 ৳</td></tr>
+                <tr><td>Material Cost / Sqft</td><td id="res_matCostSqft">0 ৳</td></tr>
+                <tr><td>Selling Price / Sqft</td><td id="res_sellRateSqft">0 ৳</td></tr>
+                <tr><td>Profit / Sqft</td><td id="res_profitSqft">0 ৳</td></tr>
+                <tr><td>Cost / Sqft</td><td id="res_costSqft">0 ৳</td></tr>
+                <tr><td>Selling Price</td><td id="res_totalSellPrice">0 ৳</td></tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 <script>
+    let masterData = {
+        companies: ["KAI", "MAX", "ALFA", "BTA", "Altec", "maxpro"],
+        series: ["Sliding Window 3\"", "Sliding Window 4\""],
+        aluThicks: ["1.0 mm", "1.2 mm", "1.4 mm"],
+        glassComps: ["Nasir", "PHP", "Bengal", "Akij", "Xinyi"],
+        glassColours: ["Clear", "Blue", "Green", "Dark Green", "Frosted"]
+    };
+
+    let activeRates = { alu: 0, glass: 0, hw: 0, fit: 0, labour: 0, profit: 0 };
+    let calculatedData = null;
+
     document.addEventListener("DOMContentLoaded", () => {
-        if (localStorage.getItem("erp_unlocked") !== "true") {
-            alert("অনুগ্রহ করে অ্যাপটি লাইসেন্স কি দিয়ে অ্যাক্টিভেট করুন।");
-            location.href = "index.html";
-        }
+        loadDropdowns();
+        autoFetchRates();
     });
 
-    function calculateMaterial() {
-        let height = parseFloat(document.getElementById("winHeight").value) || 0;
-        let width = parseFloat(document.getElementById("winWidth").value) || 0;
-        let qty = parseInt(document.getElementById("winQty").value) || 1;
+    function loadDropdowns() {
+        let stored = localStorage.getItem("erp_master_data");
+        if (stored) masterData = JSON.parse(stored);
 
-        if (height <= 0 || width <= 0) {
-            alert("দয়া করে সঠিক সাইজ ইনপুট দিন!");
+        fillSelect("selCompany", masterData.companies);
+        fillSelect("selSeries", masterData.series);
+        fillSelect("selAluThick", masterData.aluThicks);
+        fillSelect("selGlassComp", masterData.glassComps);
+        fillSelect("selGlassColour", masterData.glassColours);
+    }
+
+    function fillSelect(id, items) {
+        let sel = document.getElementById(id);
+        sel.innerHTML = "";
+        items.forEach(i => { sel.innerHTML += `<option value="${i}">${i}</option>`; });
+    }
+
+    function autoFetchRates() {
+        let savedRates = JSON.parse(localStorage.getItem("erp_saved_rates") || "[]");
+        let comp = document.getElementById("selCompany").value;
+        let series = document.getElementById("selSeries").value;
+        let aluThick = document.getElementById("selAluThick").value;
+
+        let found = savedRates.find(r => r.company === comp && r.series === series && r.aluThick === aluThick);
+        if (found) {
+            activeRates = {
+                alu: parseFloat(found.rateAlu) || 0,
+                glass: parseFloat(found.rateGlass) || 0,
+                hw: parseFloat(found.rateHw) || 0,
+                fit: parseFloat(found.rateFit) || 0,
+                labour: parseFloat(found.rateLabour) || 0,
+                profit: parseFloat(found.rateProfit) || 0
+            };
+        } else {
+            activeRates = { alu: 0, glass: 0, hw: 0, fit: 0, labour: 0, profit: 0 };
+        }
+    }
+
+    function calculateMaterials() {
+        let totalSqft = 0;
+        let windowsList = [];
+
+        // Loop through 5 window sizes (Height first, Width second)
+        for (let i = 1; i <= 5; i++) {
+            let h = parseFloat(document.getElementById(`w${i}_h`).value) || 0;
+            let w = parseFloat(document.getElementById(`w${i}_w`).value) || 0;
+            let q = parseInt(document.getElementById(`w${i}_q`).value) || 0;
+
+            if (w > 0 && h > 0 && q > 0) {
+                let sqft = ((w * h) / 144) * q;
+                totalSqft += sqft;
+                windowsList.push({ id: i, height: h, width: w, qty: q, sqft: sqft.toFixed(2) });
+            }
+        }
+
+        if (windowsList.length === 0) {
+            alert("অন্তত ১টি জানালার সঠিক Height, Width এবং Qty দিন!");
             return;
         }
 
-        // Calculation formulas
-        let totalSft = ((height * width) / 144) * qty;
-        let glassSft = totalSft * 0.85; // Standard deduction estimation
-        let runningFt = (((height + width) * 2) / 12) * qty;
+        // Standard Calculations
+        let outSide = totalSqft * 2.1;
+        let outTop = totalSqft * 1.0;
+        let outBot = totalSqft * 1.0;
+        let shutLock = totalSqft * 2.0;
+        let shutInter = totalSqft * 2.0;
+        let shutTop = totalSqft * 1.0;
+        let shutBot = totalSqft * 1.0;
 
-        document.getElementById("resSft").innerText = totalSft.toFixed(2) + " SFT";
-        document.getElementById("resGlass").innerText = glassSft.toFixed(2) + " SFT";
-        document.getElementById("resRft").innerText = runningFt.toFixed(2) + " RFT";
+        let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
+        let glassSqft = totalSqft * 0.85;
 
-        document.getElementById("resultBox").style.display = "block";
+        // Costing
+        let aluCost = totAlu * activeRates.alu;
+        let glassCost = glassSqft * activeRates.glass;
+        let hwCost = totalSqft * activeRates.hw;
+        let fitCost = totalSqft * activeRates.fit;
+        let labourCost = totalSqft * activeRates.labour;
+
+        let matCost = aluCost + glassCost + hwCost + fitCost + labourCost;
+        let matCostSqft = totalSqft > 0 ? (matCost / totalSqft) : 0;
+        
+        let costSqft = matCostSqft;
+        let profitSqft = (costSqft * activeRates.profit) / 100;
+        let sellRateSqft = costSqft + profitSqft;
+        let totalSellPrice = sellRateSqft * totalSqft;
+
+        // Set Results to UI
+        document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
+        document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
+        document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
+        document.getElementById("res_shutLock").innerText = shutLock.toFixed(1) + " ft";
+        document.getElementById("res_shutInter").innerText = shutInter.toFixed(1) + " ft";
+        document.getElementById("res_shutTop").innerText = shutTop.toFixed(1) + " ft";
+        document.getElementById("res_shutBot").innerText = shutBot.toFixed(1) + " ft";
+
+        document.getElementById("res_totAlu").innerText = totAlu.toFixed(1) + " ft";
+        document.getElementById("res_glass").innerText = glassSqft.toFixed(1) + " Sqft";
+        document.getElementById("res_hw").innerText = hwCost.toFixed(0) + " ৳";
+        document.getElementById("res_fit").innerText = fitCost.toFixed(0) + " ৳";
+        document.getElementById("res_labour").innerText = labourCost.toFixed(0) + " ৳";
+
+        document.getElementById("res_matCost").innerText = matCost.toFixed(0) + " ৳";
+        document.getElementById("res_matCostSqft").innerText = matCostSqft.toFixed(1) + " ৳";
+        document.getElementById("res_sellRateSqft").innerText = sellRateSqft.toFixed(1) + " ৳";
+        document.getElementById("res_profitSqft").innerText = profitSqft.toFixed(1) + " ৳";
+        document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
+        document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
+
+        // Save calculated payload for quotation transfer
+        calculatedData = {
+            customer: {
+                name: document.getElementById("custName").value,
+                mobile: document.getElementById("custMobile").value,
+                address: document.getElementById("custAddress").value
+            },
+            specifications: {
+                company: document.getElementById("selCompany").value,
+                series: document.getElementById("selSeries").value,
+                aluThick: document.getElementById("selAluThick").value,
+                glassComp: document.getElementById("selGlassComp").value,
+                glassThick: document.getElementById("selGlassThick").value,
+                glassColour: document.getElementById("selGlassColour").value
+            },
+            windows: windowsList,
+            totalSqft: totalSqft.toFixed(2),
+            sellRateSqft: sellRateSqft.toFixed(2)
+        };
+    }
+
+    function sendToQuotation() {
+        if (!calculatedData) {
+            calculateMaterials();
+        }
+
+        if (calculatedData && calculatedData.windows.length > 0) {
+            localStorage.setItem("erp_quotation_payload", JSON.stringify(calculatedData));
+            window.location.href = "quotation.html";
+        } else {
+            alert("কোটেশনে পাঠানোর আগে জানালার সঠিক মাপ ও পরিমাণ দিন!");
+        }
     }
 </script>
 </body>

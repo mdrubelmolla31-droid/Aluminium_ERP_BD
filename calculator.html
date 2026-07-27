@@ -540,6 +540,20 @@
             totalSellPrice: totalSellPrice
         };
     }
+    // ব্যাক বাটন ফিক্সিং কোড
+window.onpopstate = function(event) {
+    if (event.state && event.state.page) {
+        showPage(event.state.page, event.state.title, false);
+    } else {
+        window.location.href = "index.html";
+    }
+};
+
+window.onload = function() {
+    addWindowRow();
+    history.pushState({ page: "calculatorPage", title: "Material Calculator" }, "Material Calculator", "#calculatorPage");
+};
+
 </script>
 
 </body>

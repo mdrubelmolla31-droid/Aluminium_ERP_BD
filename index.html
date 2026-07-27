@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluminium ERP BD v2 - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>📊 Aluminium ERP BD v2 - Dashboard</h2>
+    <p style="color: #64748b; margin-bottom: 20px;">অ্যালুমিনিয়াম ও গ্লাস ফ্যাব্রিকেশন ম্যানেজমেন্ট সিস্টেম</p>
+
+    <!-- ERP Quick Stats -->
+    <div class="grid-3" style="margin-bottom: 20px;">
+        <div class="window-card" style="text-align: center;">
+            <h3>মোট কোটেশন (Total Quotations)</h3>
+            <h1 id="totalQuotation" style="color: #2563eb; font-size: 28px; margin-top: 5px;">0</h1>
+        </div>
+        <div class="window-card" style="text-align: center;">
+            <h3>মোট বিক্রি (Total Sales)</h3>
+            <h1 id="totalSale" style="color: #16a34a; font-size: 28px; margin-top: 5px;">0 ৳</h1>
+        </div>
+        <div class="window-card" style="text-align: center;">
+            <h3>গড় রেট (Avg / Sqft)</h3>
+            <h1 id="avgSqft" style="color: #d97706; font-size: 28px; margin-top: 5px;">0 ৳</h1>
+        </div>
+    </div>
+
+    <!-- Navigation Action Buttons -->
+    <div class="btn-group">
+        <button onclick="location.href='calculator.html'">📐 Material Calculator</button>
+        <button class="btn-secondary" onclick="location.href='master.html'">⚙️ Master Data Setup</button>
+    </div>
+
+    <hr style="margin: 20px 0;">
+
+    <!-- Search & Quotation History -->
+    <h3>🔍 কোটেশন সার্চ ও বিবরণী (Quotation History)</h3>
+    <input type="text" id="search" placeholder="কাস্টমারের নাম বা মোবাইল নাম্বার লিখে খুঁজুন..." onkeyup="searchQuotation()" style="margin-top: 10px; margin-bottom: 15px;">
+
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>তারিখ</th>
+                    <th>গ্রাহকের নাম</th>
+                    <th>মোবাইল</th>
+                    <th>কোম্পানি</th>
+                    <th>সিরিজ</th>
+                    <th>মোট টাকা</th>
+                    <th>অ্যাকশন</th>
+                </tr>
+            </thead>
+            <tbody id="quotationBody">
+                <!-- Javascript দিয়ে ডাটা লোড হবে -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="license.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    loadDashboardData();
+});
+
+function loadDashboardData() {
+    let quotations = JSON.parse(localStorage.getItem("quotationList")) || [];
+    let totalSale = 0;
+    let totalSqft = 0;
+
+    let tbody = document.getElementById("quotationBody");
+    if (tbody) tbody.innerHTML = "";
+
+    if (quotations.length === 0 && tbody) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#94a3b8;">কোনো কোটেশন রেকর্ড পাওয়া যায়নি</td></tr>`;
+    }
+
+    quotations.forEach((q, index) => {
+        let price = parseFloat(q.sellingPrice) || 0;
+        let sqft = parseFloat(q.glass) || 0;
+
+        totalSale += price;
+        totalSqft += sqft;
+
+        if (tbody && quotations.length > 0) {
+            tbody.innerHTML += `<tr>
+                <td>${q.date || 'N/A'}</td>
+                <td><b>${q.customerName || 'N/A'}</b></td>
+                <td>${q.mobile || 'N/A'}</td>
+                <td>${q.company || 'N/A'}</td>
+                <td>${q.series || 'N/A'}</td>
+                <td><b>${price.toFixed(2)} ৳</b></td>
+                <td>
+                    <button style="background:#ef4444; padding:6px 12px; font-size:12px;" onclick="deleteQuotation(${index})">ডিলিট</button>
+                </td>
+            </tr>`;
+        }
+    });
+
+    let avgSqft = totalSqft > 0 ? (totalSale / totalSqft) : 0;
+
+    document.getElementById("totalQuotation").innerText = quotations.length;
+    document.getElementById("totalSale").innerText = totalSale.toFixed(2) + " ৳";
+    document.getElementById("avgSqft").innerText = avgSqft.toFixed(2) + " ৳";
+}
+
+function searchQuotation() {
+    let input = document.getElementById("search").value.toLowerCase();
+    let rows = document.querySelectorAll("#quotationBody tr");
+    rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
+    });
+}
+
+function deleteQuotation(index) {
+    if (confirm("আপনি কি নিশ্চিত যে এই কোটেশনটি ডিলিট করতে চান?")) {
+        let quotations = JSON.parse(localStorage.getItem("quotationList")) || [];
+        quotations.splice(index, 1);
+        localStorage.setItem("quotationList", JSON.stringify(quotations));
+        loadDashboardData();
+    }
+}
+</script>
+</body>
+</html>

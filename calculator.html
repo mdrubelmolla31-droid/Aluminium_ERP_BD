@@ -65,7 +65,6 @@
             border-color: #2563eb;
         }
 
-        /* Section Dividers for Windows */
         .window-title {
             text-align: center;
             color: #2563eb;
@@ -74,7 +73,6 @@
             margin: 18px 0 10px 0;
         }
 
-        /* Buttons Grid */
         .btn-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -82,7 +80,7 @@
             margin: 20px 0;
         }
 
-        .btn-calc {
+        .btn-calc, .btn-quote {
             background: #2563eb;
             color: white;
             border: none;
@@ -91,20 +89,9 @@
             font-weight: 700;
             font-size: 15px;
             cursor: pointer;
+            text-align: center;
         }
 
-        .btn-quote {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-        }
-
-        /* Table Design */
         .table-box {
             background: #f8fafc;
             border-radius: 8px;
@@ -128,14 +115,21 @@
             font-size: 13px;
         }
 
-        td {
+        td, th {
             padding: 8px 12px;
             border-bottom: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #2563eb;
+            color: white;
+            text-align: center;
         }
 
         td:first-child {
             color: #334155;
-            text-align: center;
+            text-align: left;
         }
 
         td:last-child {
@@ -175,7 +169,7 @@
     </div>
     <div class="form-group"><label>Glass Colour</label><select id="selGlassColour" onchange="autoFetchRates()"></select></div>
 
-    <!-- Window Size Inputs (1 to 5) -> Height first, Width/Length later -->
+    <!-- Window Size Inputs (1 to 5) -> Height first, Width later -->
     <!-- Window 1 -->
     <div class="window-title">Window Size - 1</div>
     <div class="form-group"><label>Height (Inch)</label><input type="number" id="w1_h"></div>
@@ -235,6 +229,29 @@
                 <tr><td>Profit / Sqft</td><td id="res_profitSqft">0 ৳</td></tr>
                 <tr><td>Cost / Sqft</td><td id="res_costSqft">0 ৳</td></tr>
                 <tr><td>Selling Price</td><td id="res_totalSellPrice">0 ৳</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Cutting Report Table -->
+    <div class="table-box" style="margin-top: 20px;">
+        <div class="table-head">Cutting Report</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>18.6 ft</th>
+                    <th>21 ft</th>
+                </tr>
+            </thead>
+            <tbody id="cuttingReportBody">
+                <tr><td>Outer Side</td><td>-</td><td>-</td></tr>
+                <tr><td>Outer Top</td><td>-</td><td>-</td></tr>
+                <tr><td>Outer Bottom</td><td>-</td><td>-</td></tr>
+                <tr><td>Shutter Lock</td><td>-</td><td>-</td></tr>
+                <tr><td>Shutter Interlock</td><td>-</td><td>-</td></tr>
+                <tr><td>Shutter Top</td><td>-</td><td>-</td></tr>
+                <tr><td>Shutter Bottom</td><td>-</td><td>-</td></tr>
             </tbody>
         </table>
     </div>
@@ -299,7 +316,6 @@
         let totalSqft = 0;
         let windowsList = [];
 
-        // Loop through 5 window sizes (Height first, Width second)
         for (let i = 1; i <= 5; i++) {
             let h = parseFloat(document.getElementById(`w${i}_h`).value) || 0;
             let w = parseFloat(document.getElementById(`w${i}_w`).value) || 0;
@@ -317,19 +333,27 @@
             return;
         }
 
-        // Standard Calculations
-        let outSide = totalSqft * 2.1;
-        let outTop = totalSqft * 1.0;
-        let outBot = totalSqft * 1.0;
-        let shutLock = totalSqft * 2.0;
-        let shutInter = totalSqft * 2.0;
-        let shutTop = totalSqft * 1.0;
-        let shutBot = totalSqft * 1.0;
+        // রিয়েল অ্যালুমিনিয়াম লিনিয়ার ফিট হিসাব (প্রতি স্কয়ার ফিট অনুপাতের পরিবর্তে স্ট্যান্ডার্ড নিয়মে)
+        let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
+
+        windowsList.forEach(win => {
+            let hFt = win.height / 12;
+            let wFt = win.width / 12;
+            let qty = win.qty;
+
+            outSide += (hFt * 2) * qty;
+            outTop += wFt * qty;
+            outBot += wFt * qty;
+            shutLock += (hFt * 2) * qty;
+            shutInter += (hFt * 2) * qty;
+            shutTop += wFt * qty;
+            shutBot += wFt * qty;
+        });
 
         let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
         let glassSqft = totalSqft * 0.85;
 
-        // Costing
+        // কস্টিং হিসাব
         let aluCost = totAlu * activeRates.alu;
         let glassCost = glassSqft * activeRates.glass;
         let hwCost = totalSqft * activeRates.hw;
@@ -344,7 +368,7 @@
         let sellRateSqft = costSqft + profitSqft;
         let totalSellPrice = sellRateSqft * totalSqft;
 
-        // Set Results to UI
+        // UI আপডেট
         document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
         document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
         document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
@@ -366,7 +390,18 @@
         document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
 
-        // Save calculated payload for quotation transfer
+        // কাটিং রিপোর্ট সিম্পল টেবিল আপডেট
+        document.getElementById("cuttingReportBody").innerHTML = `
+            <tr><td>Outer Side</td><td>-</td><td>${outSide.toFixed(1)} ft</td></tr>
+            <tr><td>Outer Top</td><td>-</td><td>${outTop.toFixed(1)} ft</td></tr>
+            <tr><td>Outer Bottom</td><td>-</td><td>${outBot.toFixed(1)} ft</td></tr>
+            <tr><td>Shutter Lock</td><td>-</td><td>${shutLock.toFixed(1)} ft</td></tr>
+            <tr><td>Shutter Interlock</td><td>-</td><td>${shutInter.toFixed(1)} ft</td></tr>
+            <tr><td>Shutter Top</td><td>-</td><td>${shutTop.toFixed(1)} ft</td></tr>
+            <tr><td>Shutter Bottom</td><td>-</td><td>${shutBot.toFixed(1)} ft</td></tr>
+        `;
+
+        // কোটেশনের জন্য ডাটা পারফেক্টলি সেট করা
         calculatedData = {
             customer: {
                 name: document.getElementById("custName").value,
@@ -383,7 +418,8 @@
             },
             windows: windowsList,
             totalSqft: totalSqft.toFixed(2),
-            sellRateSqft: sellRateSqft.toFixed(2)
+            sellRateSqft: sellRateSqft.toFixed(2),
+            totalSellPrice: totalSellPrice.toFixed(0)
         };
     }
 

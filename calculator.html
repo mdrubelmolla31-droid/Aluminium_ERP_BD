@@ -9,22 +9,48 @@
             font-family: 'Segoe UI', Arial, sans-serif;
             background-color: #f8fafc;
             margin: 0;
-            padding: 12px;
+            padding: 0;
             color: #0f172a;
         }
+        
+        /* Navigation Bar */
+        .navbar {
+            background-color: #2563eb;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        .nav-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
         .app-container {
             max-width: 500px;
             margin: auto;
-        }
-        .header-card {
-            background: #eff6ff;
-            border: 2px solid #2563eb;
             padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 15px;
         }
-        .header-title { font-weight: bold; font-size: 16px; color: #1e293b; }
 
         .card {
             background: #ffffff;
@@ -82,12 +108,14 @@
 </head>
 <body>
 
-<div class="app-container">
+<!-- Navigation Bar -->
+<div class="navbar no-print">
+    <button class="nav-btn" onclick="goHome()">🏠 Home</button>
+    <div class="nav-title">Aluminium Calculator</div>
+    <button class="nav-btn" onclick="toggleMenu()">⋮</button>
+</div>
 
-    <!-- Header -->
-    <div class="header-card no-print">
-        <span class="header-title">🧮 Material Calculator</span>
-    </div>
+<div class="app-container">
 
     <!-- CALCULATOR PAGE -->
     <div id="calculatorPage" class="no-print">
@@ -133,18 +161,6 @@
                         <option value="Clear">Clear</option>
                     </select>
                 </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h3>Rates & Profit Config</h3>
-            <div class="grid-2">
-                <div><label>Alu Rate (/ft)</label><input type="number" id="rate_alu" value="150" oninput="calculateMaterials()"></div>
-                <div><label>Glass Rate (/sqft)</label><input type="number" id="rate_glass" value="120" oninput="calculateMaterials()"></div>
-                <div><label>Hardware (/sqft)</label><input type="number" id="rate_hw" value="30" oninput="calculateMaterials()"></div>
-                <div><label>Fittings (/sqft)</label><input type="number" id="rate_fit" value="50" oninput="calculateMaterials()"></div>
-                <div><label>Labour (/sqft)</label><input type="number" id="rate_labour" value="10" oninput="calculateMaterials()"></div>
-                <div><label>Profit Margin (%)</label><input type="number" id="rate_profit" value="5" oninput="calculateMaterials()"></div>
             </div>
         </div>
 
@@ -240,7 +256,7 @@
             <input type="text" id="custAddress" placeholder="Address">
 
             <div class="grid-2" style="margin-top: 15px;">
-                <button class="btn" style="background: #64748b;" onclick="backToCalculator()">Back</button>
+                <button class="btn" style="background: #64748b;" onclick="goHome()">Back</button>
                 <button class="btn" style="background: #10b981;" onclick="renderQuotationStatement()">Show Statement</button>
             </div>
         </div>
@@ -298,6 +314,26 @@
     let windowCount = 0;
     let globalCalcData = { windowsList: [], totalSqft: 0, sellRateSqft: 0, totalSellPrice: 0 };
 
+    // ডিফল্ট রেট (হিসাব করার জন্য)
+    const defaultRates = {
+        alu: 150,
+        glass: 120,
+        hw: 30,
+        fit: 50,
+        labour: 10,
+        profit: 5
+    };
+
+    function toggleMenu() {
+        // পরবর্তীতে থ্রি ডট মেনুর ফিচার এখানে যোগ করতে পারবেন
+    }
+
+    function goHome() {
+        document.getElementById("calculatorPage").style.display = "block";
+        document.getElementById("quotationInputPage").style.display = "none";
+        document.getElementById("quotationStatementPage").style.display = "none";
+    }
+
     function addWindowRow() {
         windowCount++;
         const tbody = document.getElementById("windowTableBody");
@@ -331,12 +367,6 @@
         document.getElementById("quotationStatementPage").style.display = "none";
     }
 
-    function backToCalculator() {
-        document.getElementById("calculatorPage").style.display = "block";
-        document.getElementById("quotationInputPage").style.display = "none";
-        document.getElementById("quotationStatementPage").style.display = "none";
-    }
-
     function backToQuotationInput() {
         document.getElementById("quotationInputPage").style.display = "block";
         document.getElementById("quotationStatementPage").style.display = "none";
@@ -348,14 +378,7 @@
     }
 
     function calculateMaterials() {
-        let activeRates = {
-            alu: parseFloat(document.getElementById("rate_alu").value) || 0,
-            glass: parseFloat(document.getElementById("rate_glass").value) || 0,
-            hw: parseFloat(document.getElementById("rate_hw").value) || 0,
-            fit: parseFloat(document.getElementById("rate_fit").value) || 0,
-            labour: parseFloat(document.getElementById("rate_labour").value) || 0,
-            profit: parseFloat(document.getElementById("rate_profit").value) || 0
-        };
+        let activeRates = defaultRates;
 
         let totalSqft = 0;
         let windowsList = [];
@@ -375,24 +398,23 @@
 
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
 
-        // ২ পাল্লার স্লাইডিং জানালার সঠিক রানিং ফিট সূত্রের হিসাব
         windowsList.forEach(win => {
             let hFt = win.height / 12;
             let wFt = win.width / 12;
             let qty = win.qty;
 
-            outSide += (hFt * 2) * qty;       // বাম এবং ডান পার্ট
-            outTop += wFt * qty;             // টপ ট্রাক
-            outBot += wFt * qty;             // বটম ট্রাক
+            outSide += (hFt * 2) * qty;       
+            outTop += wFt * qty;             
+            outBot += wFt * qty;             
             
-            shutLock += (hFt * 2) * qty;     // ২ টি শাটার লক
-            shutInter += (hFt * 2) * qty;    // ২ টি শাটার ইন্টারলক
-            shutTop += (wFt) * qty;          // ২ টি শাটারের মোট টপ
-            shutBot += (wFt) * qty;          // ২ টি শাটারের মোট বটম
+            shutLock += (hFt * 2) * qty;     
+            shutInter += (hFt * 2) * qty;    
+            shutTop += (wFt) * qty;          
+            shutBot += (wFt) * qty;          
         });
 
         let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
-        let glassSqft = totalSqft * 0.85; // কাচের প্রকৃত মাপ (Frame deduction সহ)
+        let glassSqft = totalSqft * 0.85;
 
         let aluCost = totAlu * activeRates.alu;
         let glassCost = glassSqft * activeRates.glass;
@@ -430,7 +452,6 @@
         document.getElementById("res_sellRateSqft").innerText = sellRateSqft.toFixed(2);
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(2);
 
-        // Cutting Report (১৮.৬ ফুট এবং ২১ ফুট বারের হিসাব)
         let side18 = calcBars(outSide, 18.6);
         let side21 = side18 > 0 ? 0 : calcBars(outSide, 21.0);
 

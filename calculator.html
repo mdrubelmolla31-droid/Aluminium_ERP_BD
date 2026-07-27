@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminium Estimator & Cutting Report</title>
+    <title>Aluminium Estimator & Quotation</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
             margin: 0;
             padding: 15px;
             color: #333;
         }
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: auto;
             background: #fff;
             padding: 20px;
@@ -23,6 +23,7 @@
         h2, h3 {
             text-align: center;
             color: #2c3e50;
+            margin-bottom: 15px;
         }
         .section {
             margin-bottom: 20px;
@@ -34,7 +35,7 @@
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            gap: 12px;
         }
         label {
             display: block;
@@ -64,39 +65,34 @@
             background-color: #2563eb;
             color: white;
         }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
         .btn {
-            display: block;
-            width: 100%;
+            flex: 1;
             padding: 12px;
             background-color: #2563eb;
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
-            margin-top: 15px;
             font-weight: bold;
         }
-        .btn:hover {
-            background-color: #1d4ed8;
-        }
-        .btn-add {
-            background-color: #10b981;
-            margin-top: 10px;
-        }
-        .btn-add:hover {
-            background-color: #059669;
-        }
+        .btn:hover { background-color: #1d4ed8; }
+        .btn-add { background-color: #10b981; }
+        .btn-add:hover { background-color: #059669; }
+        .btn-quote { background-color: #8b5cf6; }
+        .btn-quote:hover { background-color: #7c3aed; }
         .btn-del {
             background-color: #ef4444;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
-        }
-        .btn-del:hover {
-            background-color: #dc2626;
         }
         .report-header {
             background-color: #2563eb;
@@ -106,6 +102,14 @@
             text-align: center;
             font-weight: bold;
             font-size: 18px;
+        }
+
+        /* প্রিন্ট বা কোটেশন পেজের জন্য স্পেশাল স্টাইল */
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
+            .btn-group, .btn-del, .btn-add, .no-print { display: none !important; }
+            input, select { border: none; background: transparent; appearance: none; font-weight: bold; }
         }
     </style>
 </head>
@@ -197,7 +201,7 @@
     </div>
 
     <!-- Rates & Pricing Setup -->
-    <div class="section">
+    <div class="section no-print">
         <h3>Rates & Pricing Config</h3>
         <div class="grid-3">
             <div>
@@ -210,15 +214,15 @@
             </div>
             <div>
                 <label>Hardware (/sqft)</label>
-                <input type="number" id="rate_hw" value="35">
+                <input type="number" id="rate_hw" value="30">
             </div>
             <div>
                 <label>Fittings (/sqft)</label>
-                <input type="number" id="rate_fit" value="35">
+                <input type="number" id="rate_fit" value="50">
             </div>
             <div>
                 <label>Labour (/sqft)</label>
-                <input type="number" id="rate_labour" value="12">
+                <input type="number" id="rate_labour" value="10">
             </div>
             <div>
                 <label>Profit Margin (%)</label>
@@ -227,7 +231,7 @@
         </div>
     </div>
 
-    <!-- Window Input Section (Dynamic) -->
+    <!-- Window Input Section -->
     <div class="section">
         <h3>Window Dimensions (Inches)</h3>
         <table>
@@ -237,14 +241,18 @@
                     <th>Height (in)</th>
                     <th>Width (in)</th>
                     <th>Qty</th>
-                    <th>Action</th>
+                    <th class="no-print">Action</th>
                 </tr>
             </thead>
             <tbody id="windowTableBody">
             </tbody>
         </table>
-        <button class="btn btn-add" onclick="addWindowRow()">+ Add Window</button>
-        <button class="btn" onclick="calculateMaterials()">Calculate</button>
+        
+        <div class="btn-group no-print">
+            <button class="btn btn-add" onclick="addWindowRow()">+ Add Window</button>
+            <button class="btn" onclick="calculateMaterials()">Calculate</button>
+            <button class="btn btn-quote" onclick="generateQuotation()">📄 Print Quotation</button>
+        </div>
     </div>
 
     <!-- Costing & Summary -->
@@ -302,29 +310,14 @@
 <script>
     let windowCount = 0;
 
-    // কালার সিলেক্ট করার সাথে অ্যালুমিনিয়াম রেট অটোমেটিক চেঞ্জ হবে
     function updateAluRateByColour() {
         const colour = document.getElementById("selAluColour").value;
         const aluInput = document.getElementById("rate_alu");
         
-        switch(colour) {
-            case "Silver":
-                aluInput.value = 145;
-                break;
-            case "Bronze":
-            case "Champagne":
-                aluInput.value = 155;
-                break;
-            case "Black":
-            case "White":
-                aluInput.value = 165;
-                break;
-            case "Wood":
-                aluInput.value = 185;
-                break;
-            default:
-                aluInput.value = 150;
-        }
+        if (colour === "Silver") aluInput.value = 145;
+        else if (colour === "Bronze" || colour === "Champagne") aluInput.value = 155;
+        else if (colour === "Black" || colour === "White") aluInput.value = 165;
+        else if (colour === "Wood") aluInput.value = 185;
     }
 
     function addWindowRow() {
@@ -337,16 +330,14 @@
             <td><input type="number" class="win-h" placeholder="0"></td>
             <td><input type="number" class="win-w" placeholder="0"></td>
             <td><input type="number" class="win-q" placeholder="0"></td>
-            <td><button class="btn-del" onclick="removeWindowRow('winRow_${windowCount}')">🗑️</button></td>
+            <td class="no-print"><button class="btn-del" onclick="removeWindowRow('winRow_${windowCount}')">🗑️</button></td>
         `;
         tbody.appendChild(row);
     }
 
     function removeWindowRow(rowId) {
         const row = document.getElementById(rowId);
-        if (row) {
-            row.remove();
-        }
+        if (row) row.remove();
     }
 
     window.onload = function() {
@@ -355,6 +346,7 @@
         }
     };
 
+    // নির্দিষ্ট দৈর্ঘ্যের বারে কাটিং অপটিমাইজেশন হিসাব
     function getBarCountForPieces(pieces, barLength) {
         if (pieces.length === 0) return 0;
         
@@ -414,19 +406,17 @@
             if (w > 0 && h > 0 && q > 0) {
                 let sqft = ((w * h) / 144) * q;
                 totalSqft += sqft;
-                windowsList.push({ id: index + 1, height: h, width: w, qty: q, sqft: sqft.toFixed(2) });
+                windowsList.push({ height: h, width: w, qty: q, sqft: sqft });
             }
         });
 
         if (windowsList.length === 0) {
-            alert("অন্তত ১টি জানালার সঠিক Height, Width এবং Qty দিন!");
+            alert("অনুগ্রহ করে জানালার সঠিক Height, Width এবং Qty প্রদান করুন!");
             return;
         }
 
-        let heightPiecesOuter18 = [];
-        let heightPiecesOuter21 = [];
-        let heightPiecesShutter18 = [];
-        let heightPiecesShutter21 = [];
+        let heightPieces18 = [];
+        let heightPieces21 = [];
 
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
 
@@ -443,20 +433,20 @@
             shutTop += wFt * qty;
             shutBot += wFt * qty;
 
+            // ৪.৬৫ ফিট বা তার ছোট হলে কেবল ১৮.৬ ফিট বারে যাবে, বড় হলে কেবল ২১ ফিট বারে যাবে
             for (let k = 0; k < qty * 2; k++) {
                 if (hFt <= 4.65) { 
-                    heightPiecesOuter18.push(hFt);
-                    heightPiecesShutter18.push(hFt);
+                    heightPieces18.push(hFt);
                 } else {
-                    heightPiecesOuter21.push(hFt);
-                    heightPiecesShutter21.push(hFt);
+                    heightPieces21.push(hFt);
                 }
             }
         });
 
         let totAlu = outSide + outTop + outBot + shutLock + shutInter + shutTop + shutBot;
-        let glassSqft = totalSqft * 0.85;
+        let glassSqft = totalSqft * 0.85; // আনুমানিক গ্লাস স্কয়ার ফিট
 
+        // সঠিক কস্টিং গণনা
         let aluCost = totAlu * activeRates.alu;
         let glassCost = glassSqft * activeRates.glass;
         let hwCost = totalSqft * activeRates.hw;
@@ -470,6 +460,7 @@
         let sellRateSqft = costSqft + profitSqft;
         let totalSellPrice = sellRateSqft * totalSqft;
 
+        // UI আপডেট - Material Details
         document.getElementById("res_outSide").innerText = outSide.toFixed(1) + " ft";
         document.getElementById("res_outTop").innerText = outTop.toFixed(1) + " ft";
         document.getElementById("res_outBot").innerText = outBot.toFixed(1) + " ft";
@@ -491,23 +482,12 @@
         document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
 
-        let pcs18_Side = getBarCountForPieces(heightPiecesOuter18, 18.6);
-        let pcs21_Side = getBarCountForPieces(heightPiecesOuter21, 21.0);
+        // কাটিং রিপোর্ট (সঠিক লজিক)
+        let pcs18 = getBarCountForPieces(heightPieces18, 18.6);
+        let pcs21 = getBarCountForPieces(heightPieces21, 21.0);
 
-        let pcs18_Lock = getBarCountForPieces(heightPiecesShutter18, 18.6);
-        let pcs21_Lock = getBarCountForPieces(heightPiecesShutter21, 21.0);
-
-        let pcs18_Inter = getBarCountForPieces(heightPiecesShutter18, 18.6);
-        let pcs21_Inter = getBarCountForPieces(heightPiecesShutter21, 21.0);
-
-        let txt18_Side = pcs18_Side > 0 ? `${pcs18_Side} Pcs` : "-";
-        let txt21_Side = pcs21_Side > 0 ? `${pcs21_Side} Pcs` : "-";
-
-        let txt18_Lock = pcs18_Lock > 0 ? `${pcs18_Lock} Pcs` : "-";
-        let txt21_Lock = pcs21_Lock > 0 ? `${pcs21_Lock} Pcs` : "-";
-
-        let txt18_Inter = pcs18_Inter > 0 ? `${pcs18_Inter} Pcs` : "-";
-        let txt21_Inter = pcs21_Inter > 0 ? `${pcs21_Inter} Pcs` : "-";
+        let txt18 = pcs18 > 0 ? `${pcs18} Pcs` : "-";
+        let txt21 = pcs21 > 0 ? `${pcs21} Pcs` : "-";
 
         let cut21_outTop = calculateWidthBarFt(outTop, 21.0);
         let cut21_outBot = calculateWidthBarFt(outBot, 21.0);
@@ -515,14 +495,20 @@
         let cut21_shutBot = calculateWidthBarFt(shutBot, 21.0);
 
         document.getElementById("cuttingReportBody").innerHTML = `
-            <tr><td>Outer Side</td><td>${txt18_Side}</td><td>${txt21_Side}</td></tr>
+            <tr><td>Outer Side</td><td>${txt18}</td><td>${txt21}</td></tr>
             <tr><td>Outer Top</td><td>-</td><td>${cut21_outTop}</td></tr>
             <tr><td>Outer Bottom</td><td>-</td><td>${cut21_outBot}</td></tr>
-            <tr><td>Shutter Lock</td><td>${txt18_Lock}</td><td>${txt21_Lock}</td></tr>
-            <tr><td>Shutter Interlock</td><td>${txt18_Inter}</td><td>${txt21_Inter}</td></tr>
+            <tr><td>Shutter Lock</td><td>${txt18}</td><td>${txt21}</td></tr>
+            <tr><td>Shutter Interlock</td><td>${txt18}</td><td>${txt21}</td></tr>
             <tr><td>Shutter Top</td><td>-</td><td>${cut21_shutTop}</td></tr>
             <tr><td>Shutter Bottom</td><td>-</td><td>${cut21_shutBot}</td></tr>
         `;
+    }
+
+    // কোটেশন প্রিন্ট বা পিডিএফ করার সুবিধা
+    function generateQuotation() {
+        calculateMaterials();
+        window.print();
     }
 </script>
 

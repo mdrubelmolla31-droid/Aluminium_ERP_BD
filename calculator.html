@@ -305,15 +305,14 @@
         }
     }
 
-    // ১. হাইটের জন্য আস্ত বার (Pcs) হিসাব করার ফাংশন
-    function calculateHeightBarPcs(piecesNeeded, barLength) {
-        if (!piecesNeeded || piecesNeeded.length === 0) return "-";
-        
-        let pieces = [...piecesNeeded].sort((a, b) => b - a);
+    // ১. নির্দিষ্ট দৈর্ঘ্যের বার থেকে টুকরোগুলো কত পিস লাগবে তা বের করার অ্যালগরিদম
+    function getBarCountForPieces(pieces, barLength) {
+        if (!pieces || pieces.length === 0) return 0;
+        let sorted = [...pieces].sort((a, b) => b - a);
         let barsUsed = 0;
         let currentBarRem = 0;
 
-        for (let p of pieces) {
+        for (let p of sorted) {
             if (p <= currentBarRem) {
                 currentBarRem -= p;
             } else {
@@ -321,8 +320,7 @@
                 currentBarRem = barLength - p;
             }
         }
-
-        return `${barsUsed} Pcs`;
+        return barsUsed;
     }
 
     // ২. উইডথের জন্য ২১ ফিটের হিসাব (২১ ফিটের কম হলে ফিট, বেশি হলে Pcs + ft)
@@ -366,8 +364,11 @@
             return;
         }
 
-        let heightPiecesOuter = [];   // Outer Side
-        let heightPiecesShutter = []; // Lock & Interlock
+        // টুকরোগুলো আলাদা সাইজ অনুযায়ী জমানো
+        let heightPiecesOuter18 = [];
+        let heightPiecesOuter21 = [];
+        let heightPiecesShutter18 = [];
+        let heightPiecesShutter21 = [];
 
         let outSide = 0, outTop = 0, outBot = 0, shutLock = 0, shutInter = 0, shutTop = 0, shutBot = 0;
 
@@ -385,10 +386,15 @@
             shutTop += wFt * qty;
             shutBot += wFt * qty;
 
-            // হাইট টুকরো জমানো
-            for (let k = 0; k < qty; k++) {
-                heightPiecesOuter.push(hFt, hFt);
-                heightPiecesShutter.push(hFt, hFt);
+            // হাইট অনুযায়ী ১৮.৬ নাকি ২১ ফিটের বারে যাবে তা ভাগ করা
+            for (let k = 0; k < qty * 2; k++) {
+                if (hFt <= 4.6) {
+                    heightPiecesOuter18.push(hFt);
+                    heightPiecesShutter18.push(hFt);
+                } else {
+                    heightPiecesOuter21.push(hFt);
+                    heightPiecesShutter21.push(hFt);
+                }
             }
         });
 
@@ -431,37 +437,39 @@
         document.getElementById("res_costSqft").innerText = costSqft.toFixed(1) + " ৳";
         document.getElementById("res_totalSellPrice").innerText = totalSellPrice.toFixed(0) + " ৳";
 
-        // --- কাটিং রিপোর্ট লজিক ---
-        let maxH = Math.max(...heightPiecesOuter);
+        // --- কাটিং রিপোর্ট সঠিক হিসাব ---
+        let pcs18_Side = getBarCountForPieces(heightPiecesOuter18, 18.6);
+        let pcs21_Side = getBarCountForPieces(heightPiecesOuter21, 21.0);
 
-        let cut18_Side = "-", cut21_Side = "-";
-        let cut18_Lock = "-", cut21_Lock = "-";
-        let cut18_Inter = "-", cut21_Inter = "-";
+        let pcs18_Lock = getBarCountForPieces(heightPiecesShutter18, 18.6);
+        let pcs21_Lock = getBarCountForPieces(heightPiecesShutter21, 21.0);
 
-        // হাইট পার্ট: ৪.৬ ফিট বা ছোট হলে ১৮.৬, বড় হলে ২১
-        if (maxH <= 4.6) {
-            cut18_Side = calculateHeightBarPcs(heightPiecesOuter, 18.6);
-            cut18_Lock = calculateHeightBarPcs(heightPiecesShutter, 18.6);
-            cut18_Inter = calculateHeightBarPcs(heightPiecesShutter, 18.6);
-        } else {
-            cut21_Side = calculateHeightBarPcs(heightPiecesOuter, 21.0);
-            cut21_Lock = calculateHeightBarPcs(heightPiecesShutter, 21.0);
-            cut21_Inter = calculateHeightBarPcs(heightPiecesShutter, 21.0);
-        }
+        let pcs18_Inter = getBarCountForPieces(heightPiecesShutter18, 18.6);
+        let pcs21_Inter = getBarCountForPieces(heightPiecesShutter21, 21.0);
 
-        // উইডথ পার্ট: ২১ ফিটের হিসাব
+        // টেক্সট ফরম্যাটিং (না থাকলে '-')
+        let txt18_Side = pcs18_Side > 0 ? `${pcs18_Side} Pcs` : "-";
+        let txt21_Side = pcs21_Side > 0 ? `${pcs21_Side} Pcs` : "-";
+
+        let txt18_Lock = pcs18_Lock > 0 ? `${pcs18_Lock} Pcs` : "-";
+        let txt21_Lock = pcs21_Lock > 0 ? `${pcs21_Lock} Pcs` : "-";
+
+        let txt18_Inter = pcs18_Inter > 0 ? `${pcs18_Inter} Pcs` : "-";
+        let txt21_Inter = pcs21_Inter > 0 ? `${pcs21_Inter} Pcs` : "-";
+
+        // উইডথ পার্ট
         let cut21_outTop = calculateWidthBarFt(outTop, 21.0);
         let cut21_outBot = calculateWidthBarFt(outBot, 21.0);
         let cut21_shutTop = calculateWidthBarFt(shutTop, 21.0);
         let cut21_shutBot = calculateWidthBarFt(shutBot, 21.0);
 
-        // কাটিং রিপোর্ট টেবিল আপডেট
+        // টেবিল ডাইনামিক আপডেট
         document.getElementById("cuttingReportBody").innerHTML = `
-            <tr><td>Outer Side</td><td>${cut18_Side}</td><td>${cut21_Side}</td></tr>
+            <tr><td>Outer Side</td><td>${txt18_Side}</td><td>${txt21_Side}</td></tr>
             <tr><td>Outer Top</td><td>-</td><td>${cut21_outTop}</td></tr>
             <tr><td>Outer Bottom</td><td>-</td><td>${cut21_outBot}</td></tr>
-            <tr><td>Shutter Lock</td><td>${cut18_Lock}</td><td>${cut21_Lock}</td></tr>
-            <tr><td>Shutter Interlock</td><td>${cut18_Inter}</td><td>${cut21_Inter}</td></tr>
+            <tr><td>Shutter Lock</td><td>${txt18_Lock}</td><td>${txt21_Lock}</td></tr>
+            <tr><td>Shutter Interlock</td><td>${txt18_Inter}</td><td>${txt21_Inter}</td></tr>
             <tr><td>Shutter Top</td><td>-</td><td>${cut21_shutTop}</td></tr>
             <tr><td>Shutter Bottom</td><td>-</td><td>${cut21_shutBot}</td></tr>
         `;

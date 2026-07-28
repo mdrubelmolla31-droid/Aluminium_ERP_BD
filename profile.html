@@ -1,300 +1,125 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminum Profile Manager</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aluminum Profile</title>
+  <style>
+    body {
+      background-color: #0b1325;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 15px;
+    }
 
-        body {
-            background-color: #0b0f19;
-            color: #f3f4f6;
-            padding: 16px;
-            display: flex;
-            justify-content: center;
-        }
+    /* হেডার সেকশন (মুছুন বাটন ছাড়া) */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 600px;
-        }
+    .back-btn {
+      background-color: #1a2a47;
+      color: #4ba3e3;
+      border: 1px solid #2d4570;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
 
-        /* Top Header */
-        .header-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #1e293b;
-        }
+    .header-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0 auto;
+    }
 
-        .back-btn {
-            background: #1e293b;
-            color: #38bdf8;
-            border: 1px solid #334155;
-            padding: 8px 14px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-        }
+    /* সার্চ বার */
+    .search-box {
+      width: 100%;
+      padding: 12px;
+      background-color: #132038;
+      border: 1px solid #25395c;
+      border-radius: 8px;
+      color: #fff;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
 
-        .page-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffffff;
-        }
+    .selected-title {
+      color: #4ba3e3;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
 
-        .clear-btn {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    /* ডাটা কার্ড */
+    .profile-card {
+      background-color: #111d33;
+      border: 1px solid #1f3354;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
 
-        .clear-btn:active {
-            transform: scale(0.95);
-        }
+    .die-tag {
+      display: inline-block;
+      background-color: #17325c;
+      color: #4ba3e3;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
 
-        /* 5 Main Category Buttons Grid */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
+    .item-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 4px 0;
+    }
 
-        .cat-card {
-            background: #111827;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            padding: 16px 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .cat-card:hover, .cat-card.active {
-            border-color: #3b82f6;
-            background: #1e293b;
-        }
-
-        .cat-card.active {
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
-        }
-
-        .cat-icon {
-            font-size: 24px;
-        }
-
-        .cat-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #e5e7eb;
-        }
-
-        .full-width-card {
-            grid-column: span 2;
-        }
-
-        /* Search Box */
-        .search-box {
-            width: 100%;
-            padding: 12px;
-            background: #111827;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 14px;
-            margin-bottom: 16px;
-            outline: none;
-        }
-
-        .section-header {
-            font-size: 15px;
-            font-weight: bold;
-            color: #38bdf8;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Data List */
-        .profile-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .profile-card {
-            background: #111827;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            padding: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .die-badge {
-            background: rgba(56, 189, 248, 0.1);
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-weight: bold;
-            font-size: 13px;
-            display: inline-block;
-            margin-bottom: 6px;
-        }
-
-        .profile-info {
-            flex-grow: 1;
-        }
-
-        .profile-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #f3f4f6;
-            margin-bottom: 4px;
-        }
-
-        .profile-spec {
-            font-size: 12px;
-            color: #9ca3af;
-        }
-
-        .empty-msg {
-            text-align: center;
-            color: #6b7280;
-            padding: 30px;
-            font-size: 14px;
-            background: #111827;
-            border-radius: 12px;
-            border: 1px dashed #1e293b;
-        }
-    </style>
+    .item-desc {
+      color: #8fa3bf;
+      font-size: 13px;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Header -->
-        <div class="header-bar">
-            <a href="index.html" class="back-btn">⬅ Back</a>
-            <div class="page-title">Aluminum Profile</div>
-            <button class="clear-btn" onclick="clearAllData()">🗑️ মুছুন</button>
-        </div>
+  <!-- হেডার (মুছুন বাটন ছাড়া) -->
+  <div class="top-bar">
+    <button class="back-btn" onclick="history.back()">← Back</button>
+    <div class="header-title">Aluminum Profile</div>
+  </div>
 
-        <!-- 5টি অপশন -->
-        <div class="category-grid">
-            <!-- ১. Curtain Wall (কার্টেন ওয়াল) -->
-            <div class="cat-card active" onclick="selectCategory(this, 'Curtain Wall (কার্টেন ওয়াল)')">
-                <div class="cat-icon">🏛️</div>
-                <div class="cat-title">Curtain Wall (কার্টেন ওয়াল)</div>
-            </div>
+  <!-- সার্চ বার -->
+  <input type="text" class="search-box" placeholder="Search item...">
 
-            <!-- ২. Sliding Profile (স্লাইডিং প্রোফাইল) -->
-            <div class="cat-card" onclick="selectCategory(this, 'Sliding Profile (স্লাইডিং প্রোফাইল)')">
-                <div class="cat-icon">🚪</div>
-                <div class="cat-title">Sliding Profile (স্লাইডিং প্রোফাইল)</div>
-            </div>
+  <div class="selected-title">Selected Category: Sliding Profile (স্লাইডিং প্রোফাইল)</div>
 
-            <!-- ৩. EDF Book (পিডিএফ বুক) -->
-            <div class="cat-card" onclick="selectCategory(this, 'EDF Book (পিডিএফ বুক)')">
-                <div class="cat-icon">📖</div>
-                <div class="cat-title">EDF Book (পিডিএফ বুক)</div>
-            </div>
-
-            <!-- ৪. DTL Catalog (ডিটেইল ক্যাটালগ) -->
-            <div class="cat-card" onclick="selectCategory(this, 'DTL Catalog (ডিটেইল ক্যাটালগ)')">
-                <div class="cat-icon">📋</div>
-                <div class="cat-title">DTL Catalog (ডিটেইল ক্যাটালগ)</div>
-            </div>
-
-            <!-- ৫. EDF All (ইডিএফ অল) -->
-            <div class="cat-card full-width-card" onclick="selectCategory(this, 'EDF All (ইডিএফ অল)')">
-                <div class="cat-icon">📚</div>
-                <div class="cat-title">EDF All (ইডিএফ অল)</div>
-            </div>
-        </div>
-
-        <!-- সার্চ বক্স -->
-        <input type="text" id="searchInput" class="search-box" placeholder="Search item..." onkeyup="filterProfiles()">
-
-        <!-- সেকশন টাইটেল -->
-        <div class="section-header">
-            <span id="selectedCatTitle">Selected Category: Curtain Wall (কার্টেন ওয়াল)</span>
-        </div>
-
-        <!-- প্রোফাইল লিস্ট -->
-        <div class="profile-list" id="profileList">
-            <!-- কার্টেন ওয়ালের ডাটা -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9558BB</span>
-                    <div class="profile-name">Half (113x34.3.0mm)</div>
-                    <div class="profile-spec">Thick: 2.3mm | Nose: 16mm | Length: 21'-0"</div>
-                </div>
-            </div>
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9558AB</span>
-                    <div class="profile-name">(113x64.3.0mm) 5.Bit</div>
-                    <div class="profile-spec">Thick: 3mm | Nose: 16mm | Length: 21'-0"</div>
-                </div>
-            </div>
-        </div>
+  <!-- ডাটা কার্ড লিস্ট -->
+  <div id="profile-container">
+    <div class="profile-card">
+      <div class="die-tag">Die No: 2121N</div>
+      <div class="item-title">3" Sliding outer top</div>
+      <div class="item-desc">General Model | Length: 21'-0"</div>
     </div>
 
-    <script>
-        function selectCategory(element, catName) {
-            let cards = document.querySelectorAll('.cat-card');
-            cards.forEach(card => card.classList.remove('active'));
-            element.classList.add('active');
+    <div class="profile-card">
+      <div class="die-tag">Die No: 2120 A</div>
+      <div class="item-title">3" Sliding outer Low Bottom</div>
+      <div class="item-desc">General Model | Length: 21'-0"</div>
+    </div>
 
-            document.getElementById('selectedCatTitle').innerText = "Selected Category: " + catName;
-        }
+    <div class="profile-card">
+      <div class="die-tag">Die No: 1437 B</div>
+      <div class="item-title">4" Sliding outer top</div>
+      <div class="item-desc">Outer Frame 91mm (With Net) | Length: 21'-0"</div>
+    </div>
+  </div>
 
-        function clearAllData() {
-            if (confirm("আপনি কি নিশ্চিত যে সব তথ্য মুছে ফেলতে চান?")) {
-                document.getElementById('profileList').innerHTML = `
-                    <div class="empty-msg">
-                        সব ডাটা মুছে ফেলা হয়েছে! 🗑️
-                    </div>
-                `;
-            }
-        }
-
-        function filterProfiles() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('profile-card');
-
-            for (let i = 0; i < cards.length; i++) {
-                let text = cards[i].innerText.toLowerCase();
-                if (text.includes(input)) {
-                    cards[i].style.display = "flex";
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-        }
-    </script>
 </body>
 </html>

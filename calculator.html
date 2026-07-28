@@ -243,28 +243,28 @@
 </head>
 <body>
 
-    <!-- 📌 Top Bar -->
+    <!-- 📌 Top Bar (হোম বাটন ঠিক করা হয়েছে) -->
     <div class="top-bar">
-        <a href="calculator.html" class="top-btn">🏠 Home</a>
+        <button class="top-btn" onclick="window.location.reload()">🏠 Home</button>
         <button class="top-btn" onclick="openHistoryModal()">📜 History</button>
     </div>
 
-    <!-- 🏬 1. My Store / Contact Details (আপনার তথ্য) -->
+    <!-- 🏬 1. My Store / Contact Details -->
     <div class="card" style="border: 1px solid #93c5fd; background: #eff6ff;">
         <div class="card-title" style="color: #1d4ed8;">My Store / Contact Info (আপনার তথ্য)</div>
         <div class="grid-2">
             <div class="input-group">
                 <label>Shop/Your Name</label>
-                <input type="text" id="myShopName" class="input-control" placeholder="e.g. RM Thai Aluminum" value="RM Thai Aluminum">
+                <input type="text" id="myShopName" class="input-control" value="RM Thai Aluminum">
             </div>
             <div class="input-group">
                 <label>My Mobile Number</label>
-                <input type="text" id="myPhone" class="input-control" placeholder="01676474412" value="01676474412">
+                <input type="text" id="myPhone" class="input-control" value="01676474412">
             </div>
         </div>
     </div>
 
-    <!-- 👤 2. Customer Details (কাস্টমারের তথ্য) -->
+    <!-- 👤 2. Customer Details -->
     <div class="card">
         <div class="card-title">Customer Details</div>
         <div class="input-group" style="margin-bottom:10px;">
@@ -427,8 +427,8 @@
             </tbody>
         </table>
 
-        <!-- 📄 Go to Quotation Button -->
-        <a href="quotation.html" class="btn-go-quotation" onclick="saveForQuotation()">Go To Quotation ➔</a>
+        <!-- 📄 Go to Quotation Button (ক্লিক করলে ডাটা সেভ হয়ে রিডাইরেক্ট হবে) -->
+        <button class="btn-go-quotation" onclick="goToQuotation()">Go To Quotation ➔</button>
     </div>
 
     <!-- 📜 History Modal -->
@@ -629,8 +629,8 @@
             openHistoryModal();
         }
 
-        // 📄 Save Data for Quotation Page
-        function saveForQuotation() {
+        // 📄 Go to Quotation Page Function (সম্পূর্ণ ডাটা সঠিকভাবে সেভ করে পেজে নিয়ে যাবে)
+        function goToQuotation() {
             const data = {
                 myShopName: document.getElementById("myShopName").value || "RM Thai Aluminum",
                 myPhone: document.getElementById("myPhone").value || "01676474412",
@@ -640,6 +640,7 @@
                 company: document.getElementById("companySelect").value,
                 series: document.getElementById("seriesSelect").value,
                 aluThick: document.getElementById("aluThick").value,
+                aluColor: document.getElementById("aluColor").value,
                 glassComp: document.getElementById("glassComp").value,
                 glassThick: document.getElementById("glassThick").value,
                 glassColor: document.getElementById("glassColor").value,
@@ -647,6 +648,7 @@
                 totalPrice: document.getElementById("resSellingPrice").innerText
             };
             localStorage.setItem("active_quotation", JSON.stringify(data));
+            window.location.href = "quotation.html";
         }
     </script>
 </body>

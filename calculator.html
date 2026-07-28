@@ -168,6 +168,22 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .btn-quotation {
+            width: 100%;
+            padding: 11px;
+            background: #d97706;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
 
         /* Results Table */
@@ -380,7 +396,7 @@
         </table>
 
         <button class="btn-add" onclick="addRow()">+ Add Window</button>
-        <button class="btn-calc" onclick="calculateMaterials()">Calculate & Save</button>
+        <button class="btn-calc" onclick="calculateMaterials()">Calculate & Save History</button>
     </div>
 
     <!-- 📊 Material Details -->
@@ -394,6 +410,10 @@
             <tr><td>Shutter Interlock</td><td class="text-right" id="resShutterInter">0 ft</td></tr>
             <tr><td>Glass Area</td><td class="text-right" id="resGlassArea">0 sqft</td></tr>
         </table>
+        
+        <div style="margin-top: 15px;">
+            <a href="quotation.html" class="btn-quotation" onclick="sendToQuotation()">🚀 Send to Quotation</a>
+        </div>
     </div>
 
     <!-- 📜 Sidebar History Drawer -->
@@ -411,6 +431,7 @@
 
     <script>
         let rowCounter = 1;
+        let lastCalculatedData = null;
 
         function addRow() {
             rowCounter++;
@@ -447,6 +468,7 @@
             let totalHeightFt = 0;
             let totalWidthFt = 0;
             let totalGlassSqft = 0;
+            let totalQtyCount = 0;
 
             heights.forEach((hEl, idx) => {
                 const h = parseFloat(hEl.value) || 0;
@@ -456,6 +478,7 @@
                 totalHeightFt += (h / 12) * 2 * q;
                 totalWidthFt += (w / 12) * q;
                 totalGlassSqft += ((h * w) / 144) * q;
+                totalQtyCount += q;
             });
 
             const outerSide = totalHeightFt.toFixed(2);
@@ -474,8 +497,8 @@
             document.getElementById("resGlassArea").innerText = glassSqft + " sqft";
             document.getElementById("resultCard").style.display = "block";
 
-            // Save to History
-            const record = {
+            // Prepare Data for Quotation & History
+            lastCalculatedData = {
                 id: Date.now(),
                 date: new Date().toLocaleDateString('en-GB'),
                 name: custName,
@@ -483,12 +506,27 @@
                 address: custAddress,
                 series: document.getElementById("seriesSelect").value,
                 company: document.getElementById("companySelect").value,
+                aluThick: document.getElementById("aluThickSelect").value,
+                glassComp: document.getElementById("glassCompSelect").value,
+                glassThick: document.getElementById("glassThickSelect").value,
+                glassColor: document.getElementById("glassColorSelect").value,
+                totalQty: totalQtyCount,
                 glassSqft: glassSqft,
-                outerSide: outerSide
+                outerSide: outerSide,
+                outerTop: outerTop
             };
 
-            saveHistory(record);
+            saveHistory(lastCalculatedData);
             alert("হিসাব সম্পন্ন হয়েছে এবং হিস্ট্রিতে সেভ করা হয়েছে!");
+        }
+
+        function sendToQuotation() {
+            if (!lastCalculatedData) {
+                // যদি সরাসরি ক্লিক করে হিসাব না করে থাকে, তবে শেষ হিসাবটি তুলে নেবে
+                calculateMaterials();
+            }
+            // Quotation পেজে পাঠানোর জন্য লোকাল স্টোরেজে সেভ করা হলো
+            localStorage.setItem("quotation_active_data", JSON.stringify(lastCalculatedData));
         }
 
         function saveHistory(record) {

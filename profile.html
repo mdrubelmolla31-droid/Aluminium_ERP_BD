@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminum Profile Catalog</title>
+    <title>Aluminum Profile Manager</title>
     <style>
         * {
             margin: 0;
@@ -25,7 +25,7 @@
             max-width: 600px;
         }
 
-        /* Header */
+        /* Top Header */
         .header-bar {
             display: flex;
             align-items: center;
@@ -52,7 +52,67 @@
             color: #ffffff;
         }
 
-        /* Search Box */
+        .clear-btn {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .clear-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 5 Main Category Buttons Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .cat-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 16px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cat-card:hover, .cat-card.active {
+            border-color: #3b82f6;
+            background: #1e293b;
+        }
+
+        .cat-card.active {
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .cat-icon {
+            font-size: 24px;
+        }
+
+        .cat-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .full-width-card {
+            grid-column: span 2;
+        }
+
+        /* Search & Info Section */
         .search-box {
             width: 100%;
             padding: 12px;
@@ -65,35 +125,14 @@
             outline: none;
         }
 
-        .search-box:focus {
-            border-color: #3b82f6;
-        }
-
-        /* Category Tabs */
-        .menu-tabs {
+        .section-header {
+            font-size: 15px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-bottom: 12px;
             display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-
-        .tab-btn {
-            background: #111827;
-            border: 1px solid #1e293b;
-            color: #9ca3af;
-            padding: 10px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        .tab-btn.active {
-            background: #1d4ed8;
-            color: #ffffff;
-            border-color: #3b82f6;
+            justify-content: space-between;
+            align-items: center;
         }
 
         /* Data List */
@@ -111,11 +150,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: border-color 0.2s;
-        }
-
-        .profile-card:hover {
-            border-color: #3b82f6;
         }
 
         .die-badge {
@@ -133,7 +167,6 @@
 
         .profile-info {
             flex-grow: 1;
-            padding-right: 12px;
         }
 
         .profile-name {
@@ -141,7 +174,6 @@
             font-weight: 600;
             color: #f3f4f6;
             margin-bottom: 4px;
-            line-height: 1.4;
         }
 
         .profile-spec {
@@ -149,15 +181,14 @@
             color: #9ca3af;
         }
 
-        .length-tag {
-            background: #1e293b;
-            color: #fbbf24;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: bold;
-            white-space: nowrap;
-            border: 1px solid #334155;
+        .empty-msg {
+            text-align: center;
+            color: #6b7280;
+            padding: 30px;
+            font-size: 14px;
+            background: #111827;
+            border-radius: 12px;
+            border: 1px dashed #1e293b;
         }
     </style>
 </head>
@@ -168,324 +199,99 @@
         <div class="header-bar">
             <a href="index.html" class="back-btn">⬅ Back</a>
             <div class="page-title">Aluminum Profile</div>
-            <div></div>
+            <button class="clear-btn" onclick="clearAllData()">🗑️ মুছুন</button>
         </div>
 
-        <!-- 3টি ফাংশন/ক্যাটাগরি মেনু -->
-        <div class="menu-tabs">
-            <button class="tab-btn active">🏛️ Curtain Wall Catalog</button>
-            <button class="tab-btn">🚪 Sliding Section</button>
-            <button class="tab-btn">🪟 Casement / Partition</button>
+        <!-- 5টি মূল অপশন / ক্যাটাগরি -->
+        <div class="category-grid">
+            <!-- ১. কার্টেন ওয়াল -->
+            <div class="cat-card active" onclick="selectCategory(this, 'Curtain Wall')">
+                <div class="cat-icon">🏛️</div>
+                <div class="cat-title">1. Curtain Wall</div>
+            </div>
+
+            <!-- ২. স্লাইডিং ওয়াল/প্রোফাইল -->
+            <div class="cat-card" onclick="selectCategory(this, 'Sliding Profile')">
+                <div class="cat-icon">🚪</div>
+                <div class="cat-title">2. Sliding Profile</div>
+            </div>
+
+            <!-- ৩. পিডিএফ বুক -->
+            <div class="cat-card" onclick="selectCategory(this, 'PDF Book')">
+                <div class="cat-icon">📖</div>
+                <div class="cat-title">3. PDF Book</div>
+            </div>
+
+            <!-- ৪. ডিটেইল ক্যাটালগ -->
+            <div class="cat-card" onclick="selectCategory(this, 'Detail Catalog')">
+                <div class="cat-icon">📋</div>
+                <div class="cat-title">4. Detail Catalog</div>
+            </div>
+
+            <!-- ৫. পিডিএফ অল (Full Width) -->
+            <div class="cat-card full-width-card" onclick="selectCategory(this, 'PDF All')">
+                <div class="cat-icon">📚</div>
+                <div class="cat-title">5. PDF All</div>
+            </div>
         </div>
 
-        <!-- Search Input -->
-        <input type="text" id="searchInput" class="search-box" placeholder="Search by Die No or Profile Name..." onkeyup="filterProfiles()">
+        <!-- সার্চ বক্স -->
+        <input type="text" id="searchInput" class="search-box" placeholder="Search item..." onkeyup="filterProfiles()">
 
-        <!-- Profile List Item -->
+        <!-- সেকশন টাইটেল -->
+        <div class="section-header">
+            <span id="selectedCatTitle">Selected Category: Curtain Wall</span>
+        </div>
+
+        <!-- প্রোফাইল লিস্ট -->
         <div class="profile-list" id="profileList">
-
-            <!-- Item 1 -->
+            <!-- কার্টেন ওয়ালের ডাটা বা তথ্য এখানে দেখাবে -->
             <div class="profile-card">
                 <div class="profile-info">
                     <span class="die-badge">Die No: 9558BB</span>
                     <div class="profile-name">Half (113x34.3.0mm)</div>
-                    <div class="profile-spec">Thick: 2.3mm | Nose: 16mm</div>
+                    <div class="profile-spec">Thick: 2.3mm | Nose: 16mm | Length: 21'-0"</div>
                 </div>
-                <div class="length-tag">21'-0"</div>
             </div>
-
-            <!-- Item 2 -->
             <div class="profile-card">
                 <div class="profile-info">
                     <span class="die-badge">Die No: 9558AB</span>
                     <div class="profile-name">(113x64.3.0mm) 5.Bit</div>
-                    <div class="profile-spec">Thick: 3mm | Nose: 16mm</div>
+                    <div class="profile-spec">Thick: 3mm | Nose: 16mm | Length: 21'-0"</div>
                 </div>
-                <div class="length-tag">21'-0"</div>
             </div>
-
-            <!-- Item 3 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9581A</span>
-                    <div class="profile-name">(51x51mm) S.Bit</div>
-                    <div class="profile-spec">Thick: 2.1mm | Nose: 17mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9441B</span>
-                    <div class="profile-name">(61.0x65.mm)</div>
-                    <div class="profile-spec">Thick: 2.5mm | Nose: 17mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9441D</span>
-                    <div class="profile-name">(108x70mm)</div>
-                    <div class="profile-spec">Thick: 2.3mm | Nose: 17mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 6 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9441C</span>
-                    <div class="profile-name">(108x70mm)</div>
-                    <div class="profile-spec">Thick: 2.3mm | Nose: 17mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 7 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9562A</span>
-                    <div class="profile-name">Curtain Wall (5.Bit) (50x101.4mm)</div>
-                    <div class="profile-spec">Thick: 3mm | Nose: 18mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 8 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: AL-9563A</span>
-                    <div class="profile-name">Top & Side (Half), (26.7mm X 101.4mm)</div>
-                    <div class="profile-spec">Thick: 3mm | Nose: 18mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 9 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 7324</span>
-                    <div class="profile-name">Curtain Wall (45 X 31 mm) (5.Bit)</div>
-                    <div class="profile-spec">Thick: 2mm | Nose: 18mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 10 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 7324A</span>
-                    <div class="profile-name">Curtain Wall Half (45 X 27.50 mm)</div>
-                    <div class="profile-spec">Thick: 2mm | Nose: 18mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 11 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9568</span>
-                    <div class="profile-name">(106x45.4mm) (D. Bit)</div>
-                    <div class="profile-spec">Thick: 1.85mm | Nose: 19mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 12 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9547</span>
-                    <div class="profile-name">Curtain Wall (115 X 64 mm), (D Bit)</div>
-                    <div class="profile-spec">Thick: 3mm | Nose: 19mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 13 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9548</span>
-                    <div class="profile-name">Top & Side Half (115 X 29 mm)</div>
-                    <div class="profile-spec">Thick: 3mm | Nose: 19mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 14 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9660</span>
-                    <div class="profile-name">(50x100mm) D.Bit</div>
-                    <div class="profile-spec">Thick: 2.5mm | Nose: 19mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 15 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9577NF</span>
-                    <div class="profile-name">(63.5mmx81mm) Single</div>
-                    <div class="profile-spec">Thick: 1.8mm | Nose: 24mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 16 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9583NF</span>
-                    <div class="profile-name">Half (34mmx81mm)</div>
-                    <div class="profile-spec">Thick: 1.8mm | Nose: 24mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 17 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9560H</span>
-                    <div class="profile-name">(50.8x50.8mm) (D.Bit)</div>
-                    <div class="profile-spec">Thick: 2.5mm | Nose: 24mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 18 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9569H</span>
-                    <div class="profile-name">(39.80mmx49.20mm)</div>
-                    <div class="profile-spec">Thick: 2.5mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 19 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9570H</span>
-                    <div class="profile-name">(51.20mmx49.20mm)</div>
-                    <div class="profile-spec">Thick: 1.70mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 20 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9583N</span>
-                    <div class="profile-name">Half (81x34mm)</div>
-                    <div class="profile-spec">Thick: 2.0mm | Nose: 24mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 21 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9564</span>
-                    <div class="profile-name">(81x64mm) D.Bit</div>
-                    <div class="profile-spec">Thick: 2.5mm | Nose: 24mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 22 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9576N</span>
-                    <div class="profile-name">(81x63.5mm) D.Bit</div>
-                    <div class="profile-spec">Thick: 2.0mm | Nose: 24mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 23 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9577M</span>
-                    <div class="profile-name">(63.5x81mm) S.Bit</div>
-                    <div class="profile-spec">Thick: 2.0mm | Nose: 24mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 24 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 9580H</span>
-                    <div class="profile-name">(50.8x101.6mm) (D.Bit)</div>
-                    <div class="profile-spec">Thick: 2.5mm | Nose: 24mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 25 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 7227</span>
-                    <div class="profile-name">(37.0x31mm) Bottom Open</div>
-                    <div class="profile-spec">Thick: 2.0mm | Nose: 27mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 26 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 7802</span>
-                    <div class="profile-name">Curtain Wall (125x60mm)</div>
-                    <div class="profile-spec">Thick: 2.5mm | Nose: 29.8mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 27 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 7803</span>
-                    <div class="profile-name">Half Section (125x30mm)</div>
-                    <div class="profile-spec">Thick: 2.0mm | Nose: 29.8mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 28 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 7805</span>
-                    <div class="profile-name">45x60mm</div>
-                    <div class="profile-spec">Thick: 2.0mm | Nose: 29.8mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
-            <!-- Item 29 -->
-            <div class="profile-card">
-                <div class="profile-info">
-                    <span class="die-badge">Die No: 7806</span>
-                    <div class="profile-name">Cover (37.5x4.25mm)</div>
-                    <div class="profile-spec">Thick: 1.0mm</div>
-                </div>
-                <div class="length-tag">21'-0"</div>
-            </div>
-
         </div>
     </div>
 
     <script>
-        // সার্চ ফিল্টার ফাংশন
+        // ৫টি অপশন সিলেক্ট করার ফাংশন
+        function selectCategory(element, catName) {
+            let cards = document.querySelectorAll('.cat-card');
+            cards.forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
+
+            document.getElementById('selectedCatTitle').innerText = "Selected Category: " + catName;
+        }
+
+        // সব মুছে ফেলার ফাংশন
+        function clearAllData() {
+            if (confirm("আপনি কি নিশ্চিত যে সব তথ্য মুছে ফেলতে চান?")) {
+                document.getElementById('profileList').innerHTML = `
+                    <div class="empty-msg">
+                        সব ডাটা মুছে ফেলা হয়েছে! 🗑️
+                    </div>
+                `;
+            }
+        }
+
+        // সার্চ ফাংশন
         function filterProfiles() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('profile-card');
 
             for (let i = 0; i < cards.length; i++) {
-                let cardText = cards[i].innerText.toLowerCase();
-                if (cardText.includes(input)) {
+                let text = cards[i].innerText.toLowerCase();
+                if (text.includes(input)) {
                     cards[i].style.display = "flex";
                 } else {
                     cards[i].style.display = "none";

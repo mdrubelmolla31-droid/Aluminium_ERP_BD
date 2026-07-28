@@ -249,17 +249,17 @@
         <button class="top-btn" onclick="openHistoryModal()">📜 History</button>
     </div>
 
-    <!-- 🏬 1. My Store / Contact Details (আপানার তথ্য) -->
+    <!-- 🏬 1. My Store / Contact Details (আপনার তথ্য) -->
     <div class="card" style="border: 1px solid #93c5fd; background: #eff6ff;">
         <div class="card-title" style="color: #1d4ed8;">My Store / Contact Info (আপনার তথ্য)</div>
         <div class="grid-2">
             <div class="input-group">
                 <label>Shop/Your Name</label>
-                <input type="text" id="myShopName" class="input-control" placeholder="e.g. RM COMPUTER / Aluminium Shop" value="RM COMPUTER">
+                <input type="text" id="myShopName" class="input-control" placeholder="e.g. RM Thai Aluminum" value="RM Thai Aluminum">
             </div>
             <div class="input-group">
                 <label>My Mobile Number</label>
-                <input type="text" id="myPhone" class="input-control" placeholder="01812691877" value="01812691877">
+                <input type="text" id="myPhone" class="input-control" placeholder="01676474412" value="01676474412">
             </div>
         </div>
     </div>
@@ -629,11 +629,11 @@
             openHistoryModal();
         }
 
-        // 📄 Save Data for Quotation Page (আপনার নাম ও মোবাইল সহ পাস হবে)
+        // 📄 Save Data for Quotation Page
         function saveForQuotation() {
             const data = {
-                myShopName: document.getElementById("myShopName").value || "RM COMPUTER",
-                myPhone: document.getElementById("myPhone").value || "01812691877",
+                myShopName: document.getElementById("myShopName").value || "RM Thai Aluminum",
+                myPhone: document.getElementById("myPhone").value || "01676474412",
                 custName: document.getElementById("custName").value || "N/A",
                 custPhone: document.getElementById("custPhone").value || "N/A",
                 custAddress: document.getElementById("custAddress").value || "N/A",

@@ -3,210 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation - Aluminium ERP BD</title>
+    <title>Quotation Statement</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        body {
-            background-color: #f8fafc;
-            color: #0f172a;
-            padding: 16px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .quote-card {
-            width: 100%;
-            max-width: 600px;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            border: 1px solid #cbd5e1;
-        }
-
-        .header-title {
-            text-align: center;
-            color: #1d4ed8;
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #2563eb;
-            padding-bottom: 8px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            background: #f1f5f9;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .info-item span {
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .table-box {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 13px;
-        }
-
-        .table-box th {
-            background: #2563eb;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .table-box td {
-            padding: 10px;
-            border: 1px solid #cbd5e1;
-            text-align: center;
-        }
-
-        .spec-box {
-            margin-top: 15px;
-            background: #fafafa;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px dashed #2563eb;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .total-box {
-            margin-top: 20px;
-            text-align: right;
-            font-size: 16px;
-            font-weight: 800;
-            color: #1d4ed8;
-        }
-
-        .btn-print {
-            display: block;
-            width: 100%;
-            background: #2563eb;
-            color: white;
-            text-align: center;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 16px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-
-        @media print {
-            .btn-print { display: none; }
-            body { background: white; padding: 0; }
-            .quote-card { box-shadow: none; border: none; }
-        }
+        body { font-family: sans-serif; padding: 20px; background: #f8fafc; color: #1e293b; }
+        .invoice-box { max-width: 600px; margin: auto; padding: 20px; background: white; border-radius: 10px; border: 1px solid #e2e8f0; }
+        .header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin-bottom: 15px; }
+        .header h2 { color: #2563eb; margin-bottom: 5px; }
+        .info-grid { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .table th, .table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .table th { background: #f1f5f9; }
+        .btn-print { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        @media print { .btn-print { display: none; } }
     </style>
 </head>
 <body>
 
-<div class="quote-card">
-    <div class="header-title">Quotation Statement</div>
-
-    <!-- Customer Details -->
-    <div class="info-grid">
-        <div class="info-item">Name: <span id="qName">-</span></div>
-        <div class="info-item">Mobile: <span id="qMobile">-</span></div>
-        <div class="info-item" style="grid-column: span 2;">Address: <span id="qAddress">-</span></div>
-    </div>
-
-    <!-- Specification Summary -->
-    <div class="spec-box">
-        <strong>Material Specification:</strong><br>
-        Aluminium: <span id="qCompany">-</span> (<span id="qSeries">-</span>, <span id="qAluThick">-</span>)<br>
-        Glass: <span id="qGlassComp">-</span> (<span id="qGlassThick">-</span>, <span id="qGlassColour">-</span>)
-    </div>
-
-    <!-- Windows Size Table -->
-    <table class="table-box">
-        <thead>
-            <tr>
-                <th>SL</th>
-                <th>Size (Height × Width)</th>
-                <th>Qty</th>
-                <th>Total Sqft</th>
-            </tr>
-        </thead>
-        <tbody id="qWindowList">
-            <!-- Dynamic Rows -->
-        </tbody>
-    </table>
-
-    <!-- Pricing Summary -->
-    <div class="spec-box" style="margin-top:20px;">
-        <div style="display:flex; justify-between; font-size:14px;">
-            <span>Total Area: <strong id="qTotalSqft">0</strong> Sqft</span>
-            <span style="margin-left: auto;">Rate per Sqft: <strong id="qRateSqft">0</strong> ৳</span>
+    <div class="invoice-box">
+        <div class="header">
+            <h2 id="qShopName">--</h2>
+            <p>Mobile: <span id="qShopPhone">--</span></p>
         </div>
-    </div>
 
-    <div class="total-box">
-        Total Selling Price: <span id="qTotalPrice">0</span> ৳
-    </div>
+        <div class="info-grid">
+            <div>
+                <strong>Customer Info:</strong><br>
+                Name: <span id="qCustName">--</span><br>
+                Phone: <span id="qCustPhone">--</span><br>
+                Address: <span id="qCustAddress">--</span>
+            </div>
+            <div style="text-align: right;">
+                <strong>Specs:</strong><br>
+                Alu: <span id="qAluSpec">--</span><br>
+                Glass: <span id="qGlassSpec">--</span>
+            </div>
+        </div>
 
-    <button class="btn-print" onclick="window.print()">Print Quotation</button>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        let payload = JSON.parse(localStorage.getItem("erp_quotation_payload"));
-
-        if (!payload) {
-            alert("কোন ডাটা পাওয়া যায়নি! দয়া করে ক্যালকুলেটর থেকে হিসাব করে আসুন।");
-            return;
-        }
-
-        // Customer Info
-        document.getElementById("qName").innerText = payload.customer.name || "N/A";
-        document.getElementById("qMobile").innerText = payload.customer.mobile || "N/A";
-        document.getElementById("qAddress").innerText = payload.customer.address || "N/A";
-
-        // Specs
-        document.getElementById("qCompany").innerText = payload.specifications.company;
-        document.getElementById("qSeries").innerText = payload.specifications.series;
-        document.getElementById("qAluThick").innerText = payload.specifications.aluThick;
-        document.getElementById("qGlassComp").innerText = payload.specifications.glassComp;
-        document.getElementById("qGlassThick").innerText = payload.specifications.glassThick;
-        document.getElementById("qGlassColour").innerText = payload.specifications.glassColour;
-
-        // Windows Table
-        let tbody = document.getElementById("qWindowList");
-        tbody.innerHTML = "";
-        payload.windows.forEach((w, index) => {
-            tbody.innerHTML += `
+        <h4>Window Dimensions</h4>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>${index + 1}</td>
-                    <td>${w.height}" × ${w.width}"</td>
-                    <td>${w.qty} Pcs</td>
-                    <td>${w.sqft} Sqft</td>
+                    <th>#</th>
+                    <th>Height (in)</th>
+                    <th>Width (in)</th>
+                    <th>Qty</th>
                 </tr>
-            `;
-        });
+            </thead>
+            <tbody id="qWinTable"></tbody>
+        </table>
 
-        // Totals
-        document.getElementById("qTotalSqft").innerText = payload.totalSqft;
-        document.getElementById("qRateSqft").innerText = payload.sellRateSqft;
-        document.getElementById("qTotalPrice").innerText = payload.totalSellPrice;
-    });
-</script>
+        <br>
+        <div style="text-align: right; font-size: 15px;">
+            <p>Total Area: <strong id="qTotalArea">0.00 Sqft</strong></p>
+            <p style="font-size: 18px; color: #2563eb;">Total Price: <strong id="qTotalPrice">0.00 ৳</strong></p>
+        </div>
 
+        <button class="btn-print" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
+    <script>
+        const data = JSON.parse(localStorage.getItem("active_quotation"));
+
+        if (data) {
+            document.getElementById("qShopName").innerText = data.myShopName;
+            document.getElementById("qShopPhone").innerText = data.myPhone;
+            document.getElementById("qCustName").innerText = data.custName;
+            document.getElementById("qCustPhone").innerText = data.custPhone;
+            document.getElementById("qCustAddress").innerText = data.custAddress;
+
+            document.getElementById("qAluSpec").innerText = `${data.company} (${data.aluThick}, ${data.aluColor})`;
+            document.getElementById("qGlassSpec").innerText = `${data.glassComp} (${data.glassThick}, ${data.glassColor})`;
+
+            document.getElementById("qTotalArea").innerText = data.totalArea;
+            document.getElementById("qTotalPrice").innerText = data.totalPrice;
+
+            const tbody = document.getElementById("qWinTable");
+            tbody.innerHTML = "";
+            if (data.windows && data.windows.length > 0) {
+                data.windows.forEach((win, index) => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${win.height}</td>
+                            <td>${win.width}</td>
+                            <td>${win.qty}</td>
+                        </tr>
+                    `;
+                });
+            }
+        }
+    </script>
 </body>
 </html>

@@ -112,7 +112,7 @@
             grid-column: span 2;
         }
 
-        /* Search & Info Section */
+        /* Search Box */
         .search-box {
             width: 100%;
             padding: 12px;
@@ -202,36 +202,36 @@
             <button class="clear-btn" onclick="clearAllData()">🗑️ মুছুন</button>
         </div>
 
-        <!-- 5টি মূল অপশন / ক্যাটাগরি -->
+        <!-- 5টি অপশন -->
         <div class="category-grid">
-            <!-- ১. কার্টেন ওয়াল -->
-            <div class="cat-card active" onclick="selectCategory(this, 'Curtain Wall')">
+            <!-- ১. Curtain Wall (কার্টেন ওয়াল) -->
+            <div class="cat-card active" onclick="selectCategory(this, 'Curtain Wall (কার্টেন ওয়াল)')">
                 <div class="cat-icon">🏛️</div>
-                <div class="cat-title">1. Curtain Wall</div>
+                <div class="cat-title">Curtain Wall (কার্টেন ওয়াল)</div>
             </div>
 
-            <!-- ২. স্লাইডিং ওয়াল/প্রোফাইল -->
-            <div class="cat-card" onclick="selectCategory(this, 'Sliding Profile')">
+            <!-- ২. Sliding Profile (স্লাইডিং প্রোফাইল) -->
+            <div class="cat-card" onclick="selectCategory(this, 'Sliding Profile (স্লাইডিং প্রোফাইল)')">
                 <div class="cat-icon">🚪</div>
-                <div class="cat-title">2. Sliding Profile</div>
+                <div class="cat-title">Sliding Profile (স্লাইডিং প্রোফাইল)</div>
             </div>
 
-            <!-- ৩. পিডিএফ বুক -->
-            <div class="cat-card" onclick="selectCategory(this, 'PDF Book')">
+            <!-- ৩. EDF Book (পিডিএফ বুক) -->
+            <div class="cat-card" onclick="selectCategory(this, 'EDF Book (পিডিএফ বুক)')">
                 <div class="cat-icon">📖</div>
-                <div class="cat-title">3. PDF Book</div>
+                <div class="cat-title">EDF Book (পিডিএফ বুক)</div>
             </div>
 
-            <!-- ৪. ডিটেইল ক্যাটালগ -->
-            <div class="cat-card" onclick="selectCategory(this, 'Detail Catalog')">
+            <!-- ৪. DTL Catalog (ডিটেইল ক্যাটালগ) -->
+            <div class="cat-card" onclick="selectCategory(this, 'DTL Catalog (ডিটেইল ক্যাটালগ)')">
                 <div class="cat-icon">📋</div>
-                <div class="cat-title">4. Detail Catalog</div>
+                <div class="cat-title">DTL Catalog (ডিটেইল ক্যাটালগ)</div>
             </div>
 
-            <!-- ৫. পিডিএফ অল (Full Width) -->
-            <div class="cat-card full-width-card" onclick="selectCategory(this, 'PDF All')">
+            <!-- ৫. EDF All (ইডিএফ অল) -->
+            <div class="cat-card full-width-card" onclick="selectCategory(this, 'EDF All (ইডিএফ অল)')">
                 <div class="cat-icon">📚</div>
-                <div class="cat-title">5. PDF All</div>
+                <div class="cat-title">EDF All (ইডিএফ অল)</div>
             </div>
         </div>
 
@@ -240,12 +240,12 @@
 
         <!-- সেকশন টাইটেল -->
         <div class="section-header">
-            <span id="selectedCatTitle">Selected Category: Curtain Wall</span>
+            <span id="selectedCatTitle">Selected Category: Curtain Wall (কার্টেন ওয়াল)</span>
         </div>
 
         <!-- প্রোফাইল লিস্ট -->
         <div class="profile-list" id="profileList">
-            <!-- কার্টেন ওয়ালের ডাটা বা তথ্য এখানে দেখাবে -->
+            <!-- কার্টেন ওয়ালের ডাটা -->
             <div class="profile-card">
                 <div class="profile-info">
                     <span class="die-badge">Die No: 9558BB</span>
@@ -264,7 +264,6 @@
     </div>
 
     <script>
-        // ৫টি অপশন সিলেক্ট করার ফাংশন
         function selectCategory(element, catName) {
             let cards = document.querySelectorAll('.cat-card');
             cards.forEach(card => card.classList.remove('active'));
@@ -273,7 +272,6 @@
             document.getElementById('selectedCatTitle').innerText = "Selected Category: " + catName;
         }
 
-        // সব মুছে ফেলার ফাংশন
         function clearAllData() {
             if (confirm("আপনি কি নিশ্চিত যে সব তথ্য মুছে ফেলতে চান?")) {
                 document.getElementById('profileList').innerHTML = `
@@ -284,7 +282,6 @@
             }
         }
 
-        // সার্চ ফাংশন
         function filterProfiles() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('profile-card');

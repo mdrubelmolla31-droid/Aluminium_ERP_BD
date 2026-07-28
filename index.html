@@ -51,13 +51,14 @@
             font-size: 20px;
         }
 
+        /* Real Aluminium Profile Image */
         .header-logo {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 10px;
             border: 1px solid #3b82f6;
             object-fit: cover;
-            background: #1e293b;
+            background: #ffffff;
         }
 
         /* User Card */
@@ -93,23 +94,31 @@
             font-size: 12px;
         }
 
-        .avatar-circle {
+        /* Profile Avatar with Image Upload Click */
+        .avatar-container {
             position: absolute;
             right: 16px;
             top: 50%;
             transform: translateY(-50%);
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
+            cursor: pointer;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fbbf24;
             background: #1d4ed8;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            border: 2px solid #fbbf24;
+            font-size: 24px;
         }
 
-        /* Menu Grid */
+        /* Dashboard Grid */
         .grid-menu {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -182,10 +191,24 @@
             user-select: all;
         }
 
+        .btn-whatsapp {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            background: #25d366;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
         .lock-input {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 8px 0 12px 0;
             background: #1e293b;
             border: 1px solid #334155;
             color: white;
@@ -231,36 +254,44 @@
 </head>
 <body>
 
-    <!-- 🔒 প্রথমবার খোলার লাইসেন্স / লক স্ক্রিন -->
+    <!-- 🔒 প্রথমবার অ্যাপ ওপেন করলে এই স্ক্রিন আসবে -->
     <div class="lock-overlay" id="lockScreen">
         <div class="lock-box">
-            <!-- ৫ বার চাপার জন্য লক আইকন -->
+            <!-- ৫ বার ক্লিক করার সিক্রেট আইকন -->
             <div class="lock-icon" id="lockIcon" onclick="handleLockClick()">🔒</div>
             
             <h3 id="lockTitle" style="color: #ffffff; font-size: 16px;">Device License Key</h3>
-            <p id="lockSub" style="color: #9ca3af; font-size: 11px; margin-top: 4px;">আপনার ডিভাইস আইডিটি পাঠান এবং প্রোডাক্ট কী সংগ্রহ করুন</p>
+            <p id="lockSub" style="color: #9ca3af; font-size: 11px; margin-top: 4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
             
-            <!-- ডিভাইস আইডি প্রদর্শনী -->
             <div class="device-id-box" id="deviceIdDisplay">ALU-LOADING</div>
 
-            <input type="text" id="keyInput" class="lock-input" placeholder="e.g. KEY-XXXXXX-PRO">
+            <!-- সরাসরি হোয়াটসঅ্যাপে ডিভাইস আইডি পাঠানোর বাটন -->
+            <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">📲 Send Device ID to WhatsApp</a>
+
+            <input type="text" id="keyInput" class="lock-input" placeholder="Enter Product Key">
             <button class="btn-unlock" onclick="validateKey()">Activate License</button>
         </div>
     </div>
 
-    <!-- 🏠 মূল ড্যাশবোর্ড -->
+    <!-- 🏠 মূল ক্লিন হোম পেজ -->
     <div class="dashboard-container">
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
-            <img src="https://img.icons8.com/color/96/steel-i-beam.png" alt="Aluminium Profile" class="header-logo">
+            <!-- আসল অ্যালুমিনিয়াম সেকশন প্রফেশনাল ছবি -->
+            <img src="https://i.ibb.co/L5kL2C5/aluminium-profiles.jpg" alt="Aluminium Section" class="header-logo" onerror="this.src='https://img.icons8.com/color/96/steel-i-beam.png'">
         </div>
 
         <div class="user-card">
             <div class="user-title">Welcome, রুবেল মোল্লা</div>
             <div class="user-sub">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
-            <div class="avatar-circle">👤</div>
+            
+            <!-- ইউজারের নিজের ছবি সিলেক্ট করার অপশন -->
+            <div class="avatar-container" onclick="document.getElementById('profilePicker').click()">
+                <img id="userProfileImage" class="avatar-img" src="" alt="👤" onerror="this.outerHTML='<div class=\'avatar-img\'>👤</div>'">
+            </div>
+            <input type="file" id="profilePicker" accept="image/*" style="display: none;" onchange="updateProfilePicture(this)">
         </div>
 
         <div class="grid-menu">
@@ -296,7 +327,7 @@
         </div>
     </div>
 
-    <!-- সাইডবার পপ-আপ -->
+    <!-- সাইডবার (Relock অপশন ডিলিট করা হয়েছে) -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
@@ -304,7 +335,6 @@
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding: 2px 8px;">✕</button>
             </div>
             <a href="#" class="sidebar-menu-item">⚙️ Admin Panel</a>
-            <a href="#" class="sidebar-menu-item" onclick="relockApp()">🔒 Relock License</a>
             <a href="master.html" class="sidebar-menu-item">📦 Master Data</a>
         </div>
     </div>
@@ -315,14 +345,12 @@
         let generatedDeviceId = "";
         let expectedProductKey = "";
 
-        // এডমিন মাস্টার কী (স্পেস ছাড়া)
         const MASTER_KEY = "mdrubelmolla1989";
+        const ADMIN_PHONE = "8801676474412"; // আপনার হোয়াটসঅ্যাপ নম্বর
 
-        // ডিভাইস থেকে ইউনিক আইডি জেনারেট করার লজিক
         function generateDeviceId() {
             let savedId = localStorage.getItem("app_device_id");
             if (!savedId) {
-                // র্যান্ডম ৬ অক্ষরের ইউনিক আইডি
                 const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
                 let randomStr = "";
                 for (let i = 0; i < 6; i++) {
@@ -335,21 +363,42 @@
         }
 
         window.onload = function() {
-            // ১. আনলক চেক
+            // ১. সেভ করা ইউজার ছবি লোড
+            const savedPic = localStorage.getItem("user_custom_profile_pic");
+            if (savedPic) {
+                document.getElementById("userProfileImage").src = savedPic;
+            }
+
+            // ২. আনলক স্ট্যাটাস চেক
             if (localStorage.getItem("app_unlocked") === "true") {
                 document.getElementById("lockScreen").style.display = "none";
             } else {
-                // ২. ডিভাইস আইডি ও কাঙ্ক্ষিত লাইসেন্স কী সেটআপ
                 generatedDeviceId = generateDeviceId();
-                document.getElementById("deviceIdDisplay").innerText = "ID: " + generatedDeviceId;
+                document.getElementById("deviceIdDisplay").innerText = "Device ID: " + generatedDeviceId;
                 
-                // ডিভাইস আইডি অনুসারে KEY-XXXXXX-PRO ফরম্যাট তৈরি
+                // হোয়াটসঅ্যাপ ডাইরেক্ট লিঙ্ক
+                const waMessage = encodeURIComponent("Hello Rubel Bhai, please give me the product key for my Device ID: " + generatedDeviceId);
+                document.getElementById("whatsappLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMessage;
+
                 const codePart = generatedDeviceId.replace("ALU-", "");
                 expectedProductKey = "KEY-" + codePart + "-PRO";
             }
         };
 
-        // লক আইকনে ৫ বার ক্লিক করলে মাস্টার কী অপশন চালু হবে
+        // ইউজারের ছবি চেঞ্জ করার ফাংশন
+        function updateProfilePicture(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgData = e.target.result;
+                    document.getElementById("userProfileImage").src = imgData;
+                    localStorage.setItem("user_custom_profile_pic", imgData);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // ৫ বার ক্লিকে মাস্টার কী মোড
         function handleLockClick() {
             clickCount++;
             if (clickCount >= 5 && !isMasterMode) {
@@ -357,13 +406,14 @@
                 document.getElementById("lockTitle").innerText = "🔑 Admin Master Key";
                 document.getElementById("lockTitle").style.color = "#fbbf24";
                 document.getElementById("deviceIdDisplay").style.display = "none";
+                document.getElementById("whatsappLink").style.display = "none";
                 document.getElementById("keyInput").placeholder = "Enter Master Key";
                 document.getElementById("lockIcon").innerText = "🔑";
                 alert("Admin Master Key Mode Activated!");
             }
         }
 
-        // কী ভ্যালিডেশন
+        // কী যাচাইকরণ
         function validateKey() {
             const inputVal = document.getElementById("keyInput").value.trim();
 
@@ -377,7 +427,7 @@
                 if (inputVal.toUpperCase() === expectedProductKey) {
                     unlockSystem();
                 } else {
-                    alert("ভুল প্রোডাক্ট কী (Product Key)! সঠিকভাবে 'KEY-XXXXXX-PRO' ফরম্যাটে প্রবেশ করান।");
+                    alert("ভুল প্রোডাক্ট কী (Product Key)!");
                 }
             }
         }
@@ -391,11 +441,6 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.style.display = (sidebar.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function relockApp() {
-            localStorage.removeItem("app_unlocked");
-            location.reload();
         }
     </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Calculator</title>
+    <title>Aluminium & Glass Calculator</title>
     <style>
         * {
             margin: 0;
@@ -20,38 +20,64 @@
             margin: 0 auto;
         }
 
-        /* Top Navigation Buttons */
-        .top-nav {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .nav-btn {
-            background: #ffffff;
-            border: 2px solid #2563eb;
-            color: #2563eb;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: bold;
-            text-align: center;
-            text-decoration: none;
+        /* 📌 Top Bar with Home & Three Dot Menu */
+        .top-bar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+            position: relative;
         }
 
-        .nav-btn.active {
+        .top-btn {
             background: #ffffff;
-            border-color: #2563eb;
-            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            color: #2563eb;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
         }
 
-        /* Cards */
+        /* Menu Dropdown */
+        .menu-container {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 42px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 170px;
+            z-index: 100;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 14px;
+            color: #1e293b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f1f5f9;
+            color: #2563eb;
+        }
+
+        /* Cards Layout */
         .card {
             background: #ffffff;
             border-radius: 16px;
@@ -62,40 +88,40 @@
 
         .card-title {
             color: #2563eb;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: bold;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
-        /* Forms Grid */
+        /* Grids & Inputs */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .input-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             color: #475569;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .input-control {
             width: 100%;
-            padding: 10px 12px;
+            padding: 9px 10px;
             background: #f8fafc;
             border: 1px solid #cbd5e1;
             color: #0f172a;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
         }
 
-        /* Tables */
+        /* Dynamic Table for Unlimited Windows */
         .win-table {
             width: 100%;
             border-collapse: collapse;
@@ -105,35 +131,35 @@
         .win-table th {
             background: #2563eb;
             color: white;
-            padding: 10px 6px;
-            font-size: 13px;
+            padding: 8px 4px;
+            font-size: 12px;
         }
 
         .win-table td {
-            padding: 6px 4px;
+            padding: 6px 2px;
             text-align: center;
             border-bottom: 1px solid #e2e8f0;
         }
 
         .win-table input {
             width: 100%;
-            padding: 8px;
+            padding: 8px 4px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .btn-add {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #10b981;
             color: white;
             border: none;
             border-radius: 8px;
             font-weight: bold;
-            font-size: 15px;
-            margin-bottom: 10px;
+            font-size: 14px;
+            margin-bottom: 8px;
             cursor: pointer;
         }
 
@@ -149,15 +175,15 @@
             cursor: pointer;
         }
 
-        /* Details Table */
+        /* Reports Tables */
         .report-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .report-table td, .report-table th {
-            padding: 10px;
+            padding: 9px;
             border: 1px solid #e2e8f0;
         }
 
@@ -189,7 +215,6 @@
             color: #0369a1 !important;
         }
 
-        /* Cutting Report Table Header */
         .cutting-table th {
             background-color: #2563eb;
             color: white;
@@ -199,37 +224,25 @@
         .cutting-table td {
             text-align: center !important;
         }
-
-        .btn-go-quotation {
-            width: 100%;
-            padding: 14px;
-            background: #8b5cf6;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-        }
     </style>
 </head>
 <body>
 
-    <!-- 🔀 Top Navigation -->
-    <div class="top-nav">
-        <a href="calculator.html" class="nav-btn active">🧮 Material Calculator</a>
-        <a href="quotation.html" class="nav-btn">📄 Quotation</a>
+    <!-- 📌 Top Navigation Bar -->
+    <div class="top-bar">
+        <a href="index.html" class="top-btn">🏠 Home</a>
+        
+        <div class="menu-container">
+            <button class="top-btn" onclick="toggleMenu()">☰ Menu</button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="history.html">📜 Calculator History</a>
+            </div>
+        </div>
     </div>
 
-    <!-- 👤 Customer Details -->
+    <!-- 👤 1. Customer Details -->
     <div class="card">
-        <div class="card-title" style="font-size:16px;">Customer Details</div>
+        <div class="card-title">Customer Details</div>
         <div class="input-group" style="margin-bottom:10px;">
             <label>Customer Name</label>
             <input type="text" id="custName" class="input-control" placeholder="Enter Name">
@@ -246,12 +259,14 @@
         </div>
     </div>
 
-    <!-- ⚙️ Specifications -->
+    <!-- ⚙️ 2. Item Specification Options -->
     <div class="card">
-        <div class="card-title">Specifications</div>
+        <div class="card-title">Item Specifications</div>
+        
+        <!-- Aluminium Specs -->
         <div class="grid-2">
             <div class="input-group">
-                <label>Company</label>
+                <label>Aluminium Company</label>
                 <select id="companySelect" class="input-control">
                     <option value="KAI">KAI</option>
                     <option value="ALCO">ALCO</option>
@@ -260,11 +275,12 @@
                 </select>
             </div>
             <div class="input-group">
-                <label>Series</label>
-                <select id="seriesSelect" class="input-control">
-                    <option value="Sliding Window 2">Sliding Window 2</option>
-                    <option value="Sliding Window 3">Sliding Window 3"</option>
-                    <option value="Sliding Window 4">Sliding Window 4"</option>
+                <label>Alu Colour</label>
+                <select id="aluColor" class="input-control">
+                    <option value="Silver">Silver</option>
+                    <option value="Bronze">Bronze</option>
+                    <option value="Black">Black</option>
+                    <option value="White Coating">White Coating</option>
                 </select>
             </div>
         </div>
@@ -276,23 +292,28 @@
                     <option value="1.0 mm">1.0 mm</option>
                     <option value="1.2 mm">1.2 mm</option>
                     <option value="1.5 mm">1.5 mm</option>
+                    <option value="2.0 mm">2.0 mm</option>
                 </select>
             </div>
             <div class="input-group">
-                <label>Glass Company</label>
-                <select id="glassComp" class="input-control">
-                    <option value="Nasir">Nasir</option>
-                    <option value="PHP">PHP</option>
+                <label>Series</label>
+                <select id="seriesSelect" class="input-control">
+                    <option value="Sliding 2">Sliding 2"</option>
+                    <option value="Sliding 3">Sliding 3"</option>
+                    <option value="Sliding 4">Sliding 4"</option>
                 </select>
             </div>
         </div>
 
+        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #e2e8f0;">
+
+        <!-- Glass Specs -->
         <div class="grid-2">
             <div class="input-group">
-                <label>Glass Thickness</label>
-                <select id="glassThick" class="input-control">
-                    <option value="5 mm">5 mm</option>
-                    <option value="6 mm">6 mm</option>
+                <label>Glass Company</label>
+                <select id="glassComp" class="input-control">
+                    <option value="Nasir">Nasir Glass</option>
+                    <option value="PHP">PHP Glass</option>
                 </select>
             </div>
             <div class="input-group">
@@ -301,77 +322,53 @@
                     <option value="Clear">Clear</option>
                     <option value="Bronze">Bronze</option>
                     <option value="Dark Grey">Dark Grey</option>
+                    <option value="Green">Green</option>
                 </select>
             </div>
         </div>
-    </div>
 
-    <!-- 💰 Rates & Profit Config -->
-    <div class="card">
-        <div class="card-title">Rates & Profit Config</div>
-        <div class="grid-2">
-            <div class="input-group">
-                <label>Alu Rate (/ft)</label>
-                <input type="number" id="rateAlu" class="input-control" value="150">
-            </div>
-            <div class="input-group">
-                <label>Glass Rate (/sqft)</label>
-                <input type="number" id="rateGlass" class="input-control" value="120">
-            </div>
-        </div>
-        <div class="grid-2">
-            <div class="input-group">
-                <label>Hardware (/sqft)</label>
-                <input type="number" id="rateHardware" class="input-control" value="30">
-            </div>
-            <div class="input-group">
-                <label>Fittings (/sqft)</label>
-                <input type="number" id="rateFittings" class="input-control" value="50">
-            </div>
-        </div>
-        <div class="grid-2">
-            <div class="input-group">
-                <label>Labour (/sqft)</label>
-                <input type="number" id="rateLabour" class="input-control" value="10">
-            </div>
-            <div class="input-group">
-                <label>Profit Margin (%)</label>
-                <input type="number" id="profitMargin" class="input-control" value="5">
-            </div>
+        <div class="input-group">
+            <label>Glass Thickness</label>
+            <select id="glassThick" class="input-control">
+                <option value="5mm">5 mm</option>
+                <option value="5.5mm">5.5 mm</option>
+                <option value="6mm">6 mm</option>
+                <option value="8mm">8 mm</option>
+            </select>
         </div>
     </div>
 
-    <!-- 📐 Window Dimensions -->
+    <!-- 📐 3. Unlimited Window Selection (Inches) -->
     <div class="card">
         <div class="card-title">Window Dimensions (Inches)</div>
         <table class="win-table">
             <thead>
                 <tr>
-                    <th style="width: 10%;">#</th>
-                    <th>Height</th>
-                    <th>Width</th>
+                    <th style="width: 8%;">#</th>
+                    <th>Height (in)</th>
+                    <th>Width (in)</th>
                     <th>Qty</th>
-                    <th style="width: 15%;">Action</th>
+                    <th style="width: 12%;">Action</th>
                 </tr>
             </thead>
             <tbody id="windowTableBody">
                 <tr>
                     <td>1</td>
-                    <td><input type="number" class="win-h" value="54"></td>
-                    <td><input type="number" class="win-w" value="60"></td>
-                    <td><input type="number" class="win-q" value="1"></td>
-                    <td><button onclick="removeRow(this)" style="background:#ef4444; color:white; border:none; padding:6px 10px; border-radius:6px; font-weight:bold; cursor:pointer;">✕</button></td>
+                    <td><input type="number" class="win-h" value="54" placeholder="H"></td>
+                    <td><input type="number" class="win-w" value="60" placeholder="W"></td>
+                    <td><input type="number" class="win-q" value="1" placeholder="Q"></td>
+                    <td><button onclick="removeRow(this)" style="background:#ef4444; color:white; border:none; padding:5px 8px; border-radius:6px; cursor:pointer;">✕</button></td>
                 </tr>
             </tbody>
         </table>
 
-        <button class="btn-add" onclick="addRow()">+ Add Window</button>
-        <button class="btn-calc" onclick="calculateAll()">Calculate</button>
+        <button class="btn-add" onclick="addRow()">+ Add Another Window</button>
+        <button class="btn-calc" onclick="calculateAll()">Calculate Material & Cutting</button>
     </div>
 
-    <!-- 📊 Material Details & Costing -->
+    <!-- 📊 4. Material Details & Costing Summary -->
     <div class="card" id="matDetailsCard" style="display: none;">
-        <div class="card-title">Material Details & Costing</div>
+        <div class="card-title">Material Details</div>
         <table class="report-table">
             <tr><td>Outer Side</td><td id="resOuterSide">0.00 ft</td></tr>
             <tr><td>Outer Top</td><td id="resOuterTop">0.00 ft</td></tr>
@@ -381,28 +378,20 @@
             <tr><td>Shutter Top</td><td id="resShutterTop">0.00 ft</td></tr>
             <tr><td>Shutter Bottom</td><td id="resShutterBottom">0.00 ft</td></tr>
             <tr class="highlight-row"><td>Total Aluminium</td><td id="resTotalAlu">0.00 ft</td></tr>
-            <tr><td>Glass</td><td id="resGlassArea">0.00 Sqft</td></tr>
-            <tr><td>Hardware</td><td id="resHardwareCost">0.00 ৳</td></tr>
-            <tr><td>Fittings</td><td id="resFittingsCost">0.00 ৳</td></tr>
-            <tr><td>Labour</td><td id="resLabourCost">0.00 ৳</td></tr>
-            <tr class="highlight-row"><td>Material Cost</td><td id="resMaterialCost">0.00 ৳</td></tr>
-            <tr><td>Material Cost / Sqft</td><td id="resCostPerSqft">0.00 ৳</td></tr>
-            <tr><td>Selling Price / Sqft</td><td id="resSellingPerSqft">0.00 ৳</td></tr>
-            <tr><td>Profit / Sqft</td><td id="resProfitPerSqft">0.00 ৳</td></tr>
-            <tr><td>Cost / Sqft</td><td id="resCostPerSqft2">0.00 ৳</td></tr>
-            <tr class="selling-price-row"><td>Selling Price</td><td id="resSellingPrice">0.00 ৳</td></tr>
+            <tr><td>Total Glass Area</td><td id="resGlassArea">0.00 Sqft</td></tr>
+            <tr class="selling-price-row"><td>Total Estimated Cost</td><td id="resSellingPrice">0.00 ৳</td></tr>
         </table>
     </div>
 
-    <!-- ✂️ Cutting Report -->
+    <!-- ✂️ 5. Cutting Report (Optimized Bar Selection) -->
     <div class="card" id="cuttingReportCard" style="display: none;">
-        <div class="card-title">Cutting Report</div>
+        <div class="card-title">Cutting Report (Bar Count)</div>
         <table class="report-table cutting-table">
             <thead>
                 <tr>
-                    <th style="text-align: left;">Item</th>
-                    <th style="width: 25%;">18.6 ft</th>
-                    <th style="width: 25%;">21 ft</th>
+                    <th style="text-align: left;">Section Name</th>
+                    <th style="width: 30%;">18.6 ft Bars</th>
+                    <th style="width: 30%;">21.0 ft Bars</th>
                 </tr>
             </thead>
             <tbody>
@@ -415,50 +404,80 @@
                 <tr><td style="text-align: left;">Shutter Bottom</td><td id="cutShutterBottom18">0</td><td id="cutShutterBottom21">0</td></tr>
             </tbody>
         </table>
-
-        <a href="quotation.html" class="btn-go-quotation" onclick="saveForQuotation()">Go To Quotation ➔</a>
     </div>
 
     <script>
-        let rowCounter = 1;
+        // Toggle Three-Dot Menu
+        function toggleMenu() {
+            const menu = document.getElementById("dropdownMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
 
+        // Close menu on clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.top-btn')) {
+                const dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Add Window Row
         function addRow() {
-            rowCounter++;
             const tbody = document.getElementById("windowTableBody");
+            const rowCount = tbody.children.length + 1;
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td>${rowCounter}</td>
-                <td><input type="number" class="win-h" value="54"></td>
-                <td><input type="number" class="win-w" value="60"></td>
-                <td><input type="number" class="win-q" value="1"></td>
-                <td><button onclick="removeRow(this)" style="background:#ef4444; color:white; border:none; padding:6px 10px; border-radius:6px; font-weight:bold; cursor:pointer;">✕</button></td>
+                <td>${rowCount}</td>
+                <td><input type="number" class="win-h" value="54" placeholder="H"></td>
+                <td><input type="number" class="win-w" value="60" placeholder="W"></td>
+                <td><input type="number" class="win-q" value="1" placeholder="Q"></td>
+                <td><button onclick="removeRow(this)" style="background:#ef4444; color:white; border:none; padding:5px 8px; border-radius:6px; cursor:pointer;">✕</button></td>
             `;
             tbody.appendChild(tr);
         }
 
+        // Remove Window Row
         function removeRow(btn) {
             if (document.querySelectorAll("#windowTableBody tr").length > 1) {
                 btn.closest("tr").remove();
+                reindexRows();
             }
         }
 
+        function reindexRows() {
+            const rows = document.querySelectorAll("#windowTableBody tr");
+            rows.forEach((row, idx) => {
+                row.children[0].innerText = idx + 1;
+            });
+        }
+
+        // Main Calculation with Smart Algorithm
         function calculateAll() {
             const heights = document.querySelectorAll(".win-h");
             const widths = document.querySelectorAll(".win-w");
             const qtys = document.querySelectorAll(".win-q");
+
+            let heightPieces = []; // Lengths for Side, Lock, Interlock
+            let widthPieces = [];  // Lengths for Top, Bottom
 
             let outerSideFt = 0, outerTopFt = 0, outerBottomFt = 0;
             let shutterLockFt = 0, shutterInterlockFt = 0, shutterTopFt = 0, shutterBottomFt = 0;
             let totalGlassSqft = 0;
 
             heights.forEach((hEl, i) => {
-                const h = parseFloat(hEl.value) || 0;
-                const w = parseFloat(widths[i].value) || 0;
-                const q = parseFloat(qtys[i].value) || 0;
+                const h = parseFloat(hEl.value) || 0; // Inches
+                const w = parseFloat(widths[i].value) || 0; // Inches
+                const q = parseInt(qtys[i].value) || 0;
 
                 const hFt = h / 12;
                 const wFt = w / 12;
 
+                // Sum of Lengths (RFT)
                 outerSideFt += (hFt * 2) * q;
                 outerTopFt += wFt * q;
                 outerBottomFt += wFt * q;
@@ -469,33 +488,64 @@
                 shutterBottomFt += wFt * q;
 
                 totalGlassSqft += ((h * w) / 144) * q;
+
+                // Push pieces into array for optimization
+                for (let k = 0; k < q; k++) {
+                    heightPieces.push(h, h); // 2 Side / 2 Lock / 2 Interlock per window
+                    widthPieces.push(w, w);  // 2 Top / 2 Bottom per window
+                }
             });
 
             const totalAluFt = outerSideFt + outerTopFt + outerBottomFt + shutterLockFt + shutterInterlockFt + shutterTopFt + shutterBottomFt;
 
-            // Rates
-            const rAlu = parseFloat(document.getElementById("rateAlu").value) || 0;
-            const rGlass = parseFloat(document.getElementById("rateGlass").value) || 0;
-            const rHw = parseFloat(document.getElementById("rateHardware").value) || 0;
-            const rFit = parseFloat(document.getElementById("rateFittings").value) || 0;
-            const rLab = parseFloat(document.getElementById("rateLabour").value) || 0;
-            const pMargin = parseFloat(document.getElementById("profitMargin").value) || 0;
+            // 🧠 Smart Cutting Algorithm (First-Fit Decreasing Strategy)
+            function calculateSmartBars(pieces) {
+                let bar18Count = 0;
+                let bar21Count = 0;
 
-            // Costs
-            const aluCost = totalAluFt * rAlu;
-            const glassCost = totalGlassSqft * rGlass;
-            const hwCost = totalGlassSqft * rHw;
-            const fitCost = totalGlassSqft * rFit;
-            const labCost = totalGlassSqft * rLab;
+                // Sort largest to smallest for best fitting
+                let sortedPieces = [...pieces].sort((a, b) => b - a);
 
-            const totalMaterialCost = aluCost + glassCost + hwCost + fitCost + labCost;
-            const costPerSqft = totalGlassSqft > 0 ? (totalMaterialCost / totalGlassSqft) : 0;
+                const BAR_18_INCH = 18.6 * 12; // 223.2 Inches
+                const BAR_21_INCH = 21 * 12;   // 252 Inches
 
-            const profitPerSqft = costPerSqft * (pMargin / 100);
-            const sellingPerSqft = costPerSqft + profitPerSqft;
-            const grandSellingPrice = sellingPerSqft * totalGlassSqft;
+                while (sortedPieces.length > 0) {
+                    let largestPiece = sortedPieces[0];
 
-            // Fill Details
+                    // ৭ ফিট (৮৪ ইঞ্চি) বা ৪*৪ ফিট ৫টা ইত্যাদির বিশেষ লজিক মেনে ২১ ফিট বার বেছে নেওয়া
+                    let currentBarCapacity = (largestPiece >= 72 || (largestPiece >= 48 && sortedPieces.length >= 8)) ? BAR_21_INCH : BAR_18_INCH;
+
+                    if (currentBarCapacity === BAR_21_INCH) {
+                        bar21Count++;
+                    } else {
+                        bar18Count++;
+                    }
+
+                    // অবশিষ্ট খালি জায়গায় ছোট বা মিক্স পিস ফিট করানো (e.g. 5ft + 3ft + 2ft)
+                    for (let j = 0; j < sortedPieces.length; ) {
+                        if (sortedPieces[j] <= currentBarCapacity) {
+                            currentBarCapacity -= sortedPieces[j];
+                            sortedPieces.splice(j, 1); 
+                        } else {
+                            j++;
+                        }
+                    }
+                }
+
+                return { bar18: bar18Count, bar21: bar21Count };
+            }
+
+            // Run Algorithm for Height and Width pieces
+            let sideBars = calculateSmartBars(heightPieces);
+            let topBotBars = calculateSmartBars(widthPieces);
+
+            // Cost Calculation (Default rates)
+            const aluCost = totalAluFt * 150;
+            const glassCost = totalGlassSqft * 120;
+            const extraCost = totalGlassSqft * 90; // Hardware + Labour + Fitting
+            const grandTotal = aluCost + glassCost + extraCost;
+
+            // UI Update - Material Details Table
             document.getElementById("resOuterSide").innerText = outerSideFt.toFixed(2) + " ft";
             document.getElementById("resOuterTop").innerText = outerTopFt.toFixed(2) + " ft";
             document.getElementById("resOuterBottom").innerText = outerBottomFt.toFixed(2) + " ft";
@@ -504,62 +554,34 @@
             document.getElementById("resShutterTop").innerText = shutterTopFt.toFixed(2) + " ft";
             document.getElementById("resShutterBottom").innerText = shutterBottomFt.toFixed(2) + " ft";
             document.getElementById("resTotalAlu").innerText = totalAluFt.toFixed(2) + " ft";
-
             document.getElementById("resGlassArea").innerText = totalGlassSqft.toFixed(2) + " Sqft";
-            document.getElementById("resHardwareCost").innerText = hwCost.toFixed(2) + " ৳";
-            document.getElementById("resFittingsCost").innerText = fitCost.toFixed(2) + " ৳";
-            document.getElementById("resLabourCost").innerText = labCost.toFixed(2) + " ৳";
+            document.getElementById("resSellingPrice").innerText = grandTotal.toFixed(2) + " ৳";
 
-            document.getElementById("resMaterialCost").innerText = totalMaterialCost.toFixed(2) + " ৳";
-            document.getElementById("resCostPerSqft").innerText = costPerSqft.toFixed(2) + " ৳";
-            document.getElementById("resSellingPerSqft").innerText = sellingPerSqft.toFixed(2) + " ৳";
-            document.getElementById("resProfitPerSqft").innerText = profitPerSqft.toFixed(2) + " ৳";
-            document.getElementById("resCostPerSqft2").innerText = costPerSqft.toFixed(2) + " ৳";
-            document.getElementById("resSellingPrice").innerText = grandSellingPrice.toFixed(2) + " ৳";
+            // UI Update - Cutting Report
+            document.getElementById("cutOuterSide18").innerText = sideBars.bar18;
+            document.getElementById("cutOuterSide21").innerText = sideBars.bar21;
 
-            // Fill Cutting Report (18.6ft & 21ft bars calculation)
-            document.getElementById("cutOuterSide18").innerText = Math.ceil(outerSideFt / 18.6);
-            document.getElementById("cutOuterSide21").innerText = 0;
+            document.getElementById("cutOuterTop18").innerText = topBotBars.bar18;
+            document.getElementById("cutOuterTop21").innerText = topBotBars.bar21;
 
-            document.getElementById("cutOuterTop18").innerText = 0;
-            document.getElementById("cutOuterTop21").innerText = Math.ceil(outerTopFt / 21);
+            document.getElementById("cutOuterBottom18").innerText = topBotBars.bar18;
+            document.getElementById("cutOuterBottom21").innerText = topBotBars.bar21;
 
-            document.getElementById("cutOuterBottom18").innerText = 0;
-            document.getElementById("cutOuterBottom21").innerText = Math.ceil(outerBottomFt / 21);
+            document.getElementById("cutShutterLock18").innerText = sideBars.bar18;
+            document.getElementById("cutShutterLock21").innerText = sideBars.bar21;
 
-            document.getElementById("cutShutterLock18").innerText = Math.ceil(shutterLockFt / 18.6);
-            document.getElementById("cutShutterLock21").innerText = 0;
+            document.getElementById("cutShutterInter18").innerText = sideBars.bar18;
+            document.getElementById("cutShutterInter21").innerText = sideBars.bar21;
 
-            document.getElementById("cutShutterInter18").innerText = Math.ceil(shutterInterlockFt / 18.6);
-            document.getElementById("cutShutterInter21").innerText = 0;
+            document.getElementById("cutShutterTop18").innerText = topBotBars.bar18;
+            document.getElementById("cutShutterTop21").innerText = topBotBars.bar21;
 
-            document.getElementById("cutShutterTop18").innerText = 0;
-            document.getElementById("cutShutterTop21").innerText = Math.ceil(shutterTopFt / 21);
+            document.getElementById("cutShutterBottom18").innerText = topBotBars.bar18;
+            document.getElementById("cutShutterBottom21").innerText = topBotBars.bar21;
 
-            document.getElementById("cutShutterBottom18").innerText = 0;
-            document.getElementById("cutShutterBottom21").innerText = Math.ceil(shutterBottomFt / 21);
-
-            // Display Tables
+            // Display Report Cards
             document.getElementById("matDetailsCard").style.display = "block";
             document.getElementById("cuttingReportCard").style.display = "block";
-        }
-
-        function saveForQuotation() {
-            const data = {
-                name: document.getElementById("custName").value || "N/A",
-                phone: document.getElementById("custPhone").value || "N/A",
-                address: document.getElementById("custAddress").value || "N/A",
-                company: document.getElementById("companySelect").value,
-                series: document.getElementById("seriesSelect").value,
-                aluThick: document.getElementById("aluThick").value,
-                glassComp: document.getElementById("glassComp").value,
-                glassThick: document.getElementById("glassThick").value,
-                glassColor: document.getElementById("glassColor").value,
-                totalArea: document.getElementById("resGlassArea").innerText,
-                ratePerSqft: document.getElementById("resSellingPerSqft").innerText,
-                totalPrice: document.getElementById("resSellingPrice").innerText
-            };
-            localStorage.setItem("active_quotation", JSON.stringify(data));
         }
     </script>
 </body>

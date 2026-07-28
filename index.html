@@ -51,14 +51,14 @@
             font-size: 20px;
         }
 
-        /* Full Aluminium Brands Grid Header Logo */
+        /* Header Developer Photo Icon */
         .header-logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            border: 1px solid #3b82f6;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid #3b82f6;
             object-fit: cover;
-            background: #ffffff;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
         }
 
         /* User Card */
@@ -269,10 +269,9 @@
 </head>
 <body>
 
-    <!-- 🔒 ফার্স্ট টাইম সিকিউরিটি আনলক স্ক্রিন -->
+    <!-- 🔒 আনলক স্ক্রিন -->
     <div class="lock-overlay" id="lockScreen">
         <div class="lock-box">
-            <!-- ৫ বার ক্লিকে এডমিন মাস্টার মোড -->
             <div class="lock-icon" id="lockIcon" onclick="handleLockClick()">🔒</div>
             
             <h3 id="lockTitle" style="color: #ffffff; font-size: 16px;">Device License Key</h3>
@@ -292,8 +291,9 @@
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
-            <!-- পুরো অ্যালুমিনিয়াম ব্র্যান্ড গ্রিডের ছবি -->
-            <img src="https://i.ibb.co/C5P1Lhh/aluminium-brand-grid.jpg" alt="Aluminium Brands Grid" class="header-logo" onerror="this.src='https://img.icons8.com/color/96/steel-i-beam.png'">
+            
+            <!-- 👤 হেডারে আপনার নিজের ছবি -->
+            <img src="https://i.ibb.co/3ykCjYx/developer-rubel.jpg" alt="Developer" class="header-logo">
         </div>
 
         <div class="user-card">
@@ -304,7 +304,6 @@
             <div class="user-sub">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
             
-            <!-- গ্যালারি থেকে নিজস্ব প্রোফাইল পিকচার সিলেক্ট -->
             <div class="avatar-container" onclick="document.getElementById('profilePicker').click()">
                 <div id="avatarDisplay" class="avatar-img">👤</div>
             </div>
@@ -344,7 +343,7 @@
         </div>
     </div>
 
-    <!-- সাইডবার (Relock মুক্ত) -->
+    <!-- সাইডবার -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
@@ -440,7 +439,6 @@
                 document.getElementById("deviceIdDisplay").style.display = "none";
                 document.getElementById("whatsappLink").style.display = "none";
                 document.getElementById("keyInput").placeholder = "Enter Master Key";
-                document.getElementById("lockIcon").innerText = "🔑";
                 alert("Admin Master Key Mode Activated!");
             }
         }

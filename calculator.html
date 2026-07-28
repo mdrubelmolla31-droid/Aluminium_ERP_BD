@@ -20,7 +20,7 @@
             margin: 0 auto;
         }
 
-        /* 📌 Top Bar with Home & Three Dot Menu */
+        /* 📌 Top Navigation Bar */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -45,7 +45,6 @@
             cursor: pointer;
         }
 
-        /* Menu Dropdown */
         .menu-container {
             position: relative;
         }
@@ -121,7 +120,7 @@
             outline: none;
         }
 
-        /* Dynamic Table for Unlimited Windows */
+        /* Dynamic Table */
         .win-table {
             width: 100%;
             border-collapse: collapse;
@@ -224,11 +223,29 @@
         .cutting-table td {
             text-align: center !important;
         }
+
+        .btn-go-quotation {
+            width: 100%;
+            padding: 14px;
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 
-    <!-- 📌 Top Navigation Bar -->
+    <!-- 📌 Top Bar -->
     <div class="top-bar">
         <a href="index.html" class="top-btn">🏠 Home</a>
         
@@ -263,7 +280,6 @@
     <div class="card">
         <div class="card-title">Item Specifications</div>
         
-        <!-- Aluminium Specs -->
         <div class="grid-2">
             <div class="input-group">
                 <label>Aluminium Company</label>
@@ -307,7 +323,6 @@
 
         <hr style="margin: 10px 0; border: 0; border-top: 1px solid #e2e8f0;">
 
-        <!-- Glass Specs -->
         <div class="grid-2">
             <div class="input-group">
                 <label>Glass Company</label>
@@ -338,7 +353,7 @@
         </div>
     </div>
 
-    <!-- 📐 3. Unlimited Window Selection (Inches) -->
+    <!-- 📐 3. Unlimited Window Selection -->
     <div class="card">
         <div class="card-title">Window Dimensions (Inches)</div>
         <table class="win-table">
@@ -354,9 +369,9 @@
             <tbody id="windowTableBody">
                 <tr>
                     <td>1</td>
-                    <td><input type="number" class="win-h" value="54" placeholder="H"></td>
-                    <td><input type="number" class="win-w" value="60" placeholder="W"></td>
-                    <td><input type="number" class="win-q" value="1" placeholder="Q"></td>
+                    <td><input type="number" class="win-h" value="54"></td>
+                    <td><input type="number" class="win-w" value="60"></td>
+                    <td><input type="number" class="win-q" value="1"></td>
                     <td><button onclick="removeRow(this)" style="background:#ef4444; color:white; border:none; padding:5px 8px; border-radius:6px; cursor:pointer;">✕</button></td>
                 </tr>
             </tbody>
@@ -366,7 +381,7 @@
         <button class="btn-calc" onclick="calculateAll()">Calculate Material & Cutting</button>
     </div>
 
-    <!-- 📊 4. Material Details & Costing Summary -->
+    <!-- 📊 4. Material Details -->
     <div class="card" id="matDetailsCard" style="display: none;">
         <div class="card-title">Material Details</div>
         <table class="report-table">
@@ -383,7 +398,7 @@
         </table>
     </div>
 
-    <!-- ✂️ 5. Cutting Report (Optimized Bar Selection) -->
+    <!-- ✂️ 5. Cutting Report (Fixed Rules for Top & Bottom) -->
     <div class="card" id="cuttingReportCard" style="display: none;">
         <div class="card-title">Cutting Report (Bar Count)</div>
         <table class="report-table cutting-table">
@@ -396,24 +411,25 @@
             </thead>
             <tbody>
                 <tr><td style="text-align: left;">Outer Side</td><td id="cutOuterSide18">0</td><td id="cutOuterSide21">0</td></tr>
-                <tr><td style="text-align: left;">Outer Top</td><td id="cutOuterTop18">0</td><td id="cutOuterTop21">0</td></tr>
-                <tr><td style="text-align: left;">Outer Bottom</td><td id="cutOuterBottom18">0</td><td id="cutOuterBottom21">0</td></tr>
+                <tr><td style="text-align: left;">Outer Top</td><td>0</td><td id="cutOuterTop21">0</td></tr>
+                <tr><td style="text-align: left;">Outer Bottom</td><td>0</td><td id="cutOuterBottom21">0</td></tr>
                 <tr><td style="text-align: left;">Shutter Lock</td><td id="cutShutterLock18">0</td><td id="cutShutterLock21">0</td></tr>
                 <tr><td style="text-align: left;">Shutter Interlock</td><td id="cutShutterInter18">0</td><td id="cutShutterInter21">0</td></tr>
-                <tr><td style="text-align: left;">Shutter Top</td><td id="cutShutterTop18">0</td><td id="cutShutterTop21">0</td></tr>
-                <tr><td style="text-align: left;">Shutter Bottom</td><td id="cutShutterBottom18">0</td><td id="cutShutterBottom21">0</td></tr>
+                <tr><td style="text-align: left;">Shutter Top</td><td>0</td><td id="cutShutterTop21">0</td></tr>
+                <tr><td style="text-align: left;">Shutter Bottom</td><td>0</td><td id="cutShutterBottom21">0</td></tr>
             </tbody>
         </table>
+
+        <!-- 📄 Go to Quotation Button -->
+        <a href="quotation.html" class="btn-go-quotation" onclick="saveForQuotation()">Go To Quotation ➔</a>
     </div>
 
     <script>
-        // Toggle Three-Dot Menu
         function toggleMenu() {
             const menu = document.getElementById("dropdownMenu");
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
 
-        // Close menu on clicking outside
         window.onclick = function(event) {
             if (!event.target.matches('.top-btn')) {
                 const dropdowns = document.getElementsByClassName("dropdown-menu");
@@ -426,22 +442,20 @@
             }
         }
 
-        // Add Window Row
         function addRow() {
             const tbody = document.getElementById("windowTableBody");
             const rowCount = tbody.children.length + 1;
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${rowCount}</td>
-                <td><input type="number" class="win-h" value="54" placeholder="H"></td>
-                <td><input type="number" class="win-w" value="60" placeholder="W"></td>
-                <td><input type="number" class="win-q" value="1" placeholder="Q"></td>
+                <td><input type="number" class="win-h" value="54"></td>
+                <td><input type="number" class="win-w" value="60"></td>
+                <td><input type="number" class="win-q" value="1"></td>
                 <td><button onclick="removeRow(this)" style="background:#ef4444; color:white; border:none; padding:5px 8px; border-radius:6px; cursor:pointer;">✕</button></td>
             `;
             tbody.appendChild(tr);
         }
 
-        // Remove Window Row
         function removeRow(btn) {
             if (document.querySelectorAll("#windowTableBody tr").length > 1) {
                 btn.closest("tr").remove();
@@ -456,28 +470,26 @@
             });
         }
 
-        // Main Calculation with Smart Algorithm
         function calculateAll() {
             const heights = document.querySelectorAll(".win-h");
             const widths = document.querySelectorAll(".win-w");
             const qtys = document.querySelectorAll(".win-q");
 
-            let heightPieces = []; // Lengths for Side, Lock, Interlock
-            let widthPieces = [];  // Lengths for Top, Bottom
+            let heightPieces = []; 
+            let widthPieces = [];  
 
             let outerSideFt = 0, outerTopFt = 0, outerBottomFt = 0;
             let shutterLockFt = 0, shutterInterlockFt = 0, shutterTopFt = 0, shutterBottomFt = 0;
             let totalGlassSqft = 0;
 
             heights.forEach((hEl, i) => {
-                const h = parseFloat(hEl.value) || 0; // Inches
-                const w = parseFloat(widths[i].value) || 0; // Inches
+                const h = parseFloat(hEl.value) || 0;
+                const w = parseFloat(widths[i].value) || 0;
                 const q = parseInt(qtys[i].value) || 0;
 
                 const hFt = h / 12;
                 const wFt = w / 12;
 
-                // Sum of Lengths (RFT)
                 outerSideFt += (hFt * 2) * q;
                 outerTopFt += wFt * q;
                 outerBottomFt += wFt * q;
@@ -489,63 +501,74 @@
 
                 totalGlassSqft += ((h * w) / 144) * q;
 
-                // Push pieces into array for optimization
                 for (let k = 0; k < q; k++) {
-                    heightPieces.push(h, h); // 2 Side / 2 Lock / 2 Interlock per window
-                    widthPieces.push(w, w);  // 2 Top / 2 Bottom per window
+                    heightPieces.push(h, h);
+                    widthPieces.push(w, w);
                 }
             });
 
             const totalAluFt = outerSideFt + outerTopFt + outerBottomFt + shutterLockFt + shutterInterlockFt + shutterTopFt + shutterBottomFt;
 
-            // 🧠 Smart Cutting Algorithm (First-Fit Decreasing Strategy)
-            function calculateSmartBars(pieces) {
+            // 🧠 অ্যালগরিদম - সাইড ও লকিং সেকশনের জন্য (১৮.৬ ও ২১ ফিট মিক্সড)
+            function calculateHeightBars(pieces) {
                 let bar18Count = 0;
                 let bar21Count = 0;
-
-                // Sort largest to smallest for best fitting
                 let sortedPieces = [...pieces].sort((a, b) => b - a);
 
-                const BAR_18_INCH = 18.6 * 12; // 223.2 Inches
-                const BAR_21_INCH = 21 * 12;   // 252 Inches
+                const BAR_18 = 18.6 * 12;
+                const BAR_21 = 21 * 12;
 
                 while (sortedPieces.length > 0) {
-                    let largestPiece = sortedPieces[0];
+                    let maxPiece = sortedPieces[0];
+                    let capacity = (maxPiece >= 72) ? BAR_21 : BAR_18;
 
-                    // ৭ ফিট (৮৪ ইঞ্চি) বা ৪*৪ ফিট ৫টা ইত্যাদির বিশেষ লজিক মেনে ২১ ফিট বার বেছে নেওয়া
-                    let currentBarCapacity = (largestPiece >= 72 || (largestPiece >= 48 && sortedPieces.length >= 8)) ? BAR_21_INCH : BAR_18_INCH;
+                    if (capacity === BAR_21) bar21Count++;
+                    else bar18Count++;
 
-                    if (currentBarCapacity === BAR_21_INCH) {
-                        bar21Count++;
-                    } else {
-                        bar18Count++;
-                    }
-
-                    // অবশিষ্ট খালি জায়গায় ছোট বা মিক্স পিস ফিট করানো (e.g. 5ft + 3ft + 2ft)
                     for (let j = 0; j < sortedPieces.length; ) {
-                        if (sortedPieces[j] <= currentBarCapacity) {
-                            currentBarCapacity -= sortedPieces[j];
-                            sortedPieces.splice(j, 1); 
+                        if (sortedPieces[j] <= capacity) {
+                            capacity -= sortedPieces[j];
+                            sortedPieces.splice(j, 1);
                         } else {
                             j++;
                         }
                     }
                 }
-
                 return { bar18: bar18Count, bar21: bar21Count };
             }
 
-            // Run Algorithm for Height and Width pieces
-            let sideBars = calculateSmartBars(heightPieces);
-            let topBotBars = calculateSmartBars(widthPieces);
+            // 🧠 অ্যালগরিদম - টপ এবং বটমের জন্য (শুধু ২১ ফিট বার দিয়ে হবে)
+            function calculateOnly21FtBars(pieces) {
+                let bar21Count = 0;
+                let sortedPieces = [...pieces].sort((a, b) => b - a);
+                const BAR_21 = 21 * 12;
 
-            // Cost Calculation (Default rates)
+                while (sortedPieces.length > 0) {
+                    let capacity = BAR_21;
+                    bar21Count++;
+
+                    for (let j = 0; j < sortedPieces.length; ) {
+                        if (sortedPieces[j] <= capacity) {
+                            capacity -= sortedPieces[j];
+                            sortedPieces.splice(j, 1);
+                        } else {
+                            j++;
+                        }
+                    }
+                }
+                return bar21Count;
+            }
+
+            let sideBars = calculateHeightBars(heightPieces);
+            let topBotBars21 = calculateOnly21FtBars(widthPieces);
+
+            // Costing
             const aluCost = totalAluFt * 150;
             const glassCost = totalGlassSqft * 120;
-            const extraCost = totalGlassSqft * 90; // Hardware + Labour + Fitting
+            const extraCost = totalGlassSqft * 90;
             const grandTotal = aluCost + glassCost + extraCost;
 
-            // UI Update - Material Details Table
+            // Update UI
             document.getElementById("resOuterSide").innerText = outerSideFt.toFixed(2) + " ft";
             document.getElementById("resOuterTop").innerText = outerTopFt.toFixed(2) + " ft";
             document.getElementById("resOuterBottom").innerText = outerBottomFt.toFixed(2) + " ft";
@@ -557,15 +580,12 @@
             document.getElementById("resGlassArea").innerText = totalGlassSqft.toFixed(2) + " Sqft";
             document.getElementById("resSellingPrice").innerText = grandTotal.toFixed(2) + " ৳";
 
-            // UI Update - Cutting Report
+            // Update Cutting Report (Top and Bottom Strictly 21ft)
             document.getElementById("cutOuterSide18").innerText = sideBars.bar18;
             document.getElementById("cutOuterSide21").innerText = sideBars.bar21;
 
-            document.getElementById("cutOuterTop18").innerText = topBotBars.bar18;
-            document.getElementById("cutOuterTop21").innerText = topBotBars.bar21;
-
-            document.getElementById("cutOuterBottom18").innerText = topBotBars.bar18;
-            document.getElementById("cutOuterBottom21").innerText = topBotBars.bar21;
+            document.getElementById("cutOuterTop21").innerText = topBotBars21;
+            document.getElementById("cutOuterBottom21").innerText = topBotBars21;
 
             document.getElementById("cutShutterLock18").innerText = sideBars.bar18;
             document.getElementById("cutShutterLock21").innerText = sideBars.bar21;
@@ -573,15 +593,45 @@
             document.getElementById("cutShutterInter18").innerText = sideBars.bar18;
             document.getElementById("cutShutterInter21").innerText = sideBars.bar21;
 
-            document.getElementById("cutShutterTop18").innerText = topBotBars.bar18;
-            document.getElementById("cutShutterTop21").innerText = topBotBars.bar21;
+            document.getElementById("cutShutterTop21").innerText = topBotBars21;
+            document.getElementById("cutShutterBottom21").innerText = topBotBars21;
 
-            document.getElementById("cutShutterBottom18").innerText = topBotBars.bar18;
-            document.getElementById("cutShutterBottom21").innerText = topBotBars.bar21;
-
-            // Display Report Cards
             document.getElementById("matDetailsCard").style.display = "block";
             document.getElementById("cuttingReportCard").style.display = "block";
+
+            // 💾 Save to Calculator History (Local Storage)
+            saveToHistory({
+                date: new Date().toLocaleDateString('bn-BD'),
+                name: document.getElementById("custName").value || "GUEST",
+                phone: document.getElementById("custPhone").value || "N/A",
+                totalGlass: totalGlassSqft.toFixed(2),
+                totalPrice: grandTotal.toFixed(2)
+            });
+        }
+
+        // 💾 Save History Function
+        function saveToHistory(calcData) {
+            let history = JSON.parse(localStorage.getItem("calc_history")) || [];
+            history.unshift(calcData); // Add new entry at top
+            localStorage.setItem("calc_history", JSON.stringify(history));
+        }
+
+        // 📄 Quotation Data Pass
+        function saveForQuotation() {
+            const data = {
+                name: document.getElementById("custName").value || "N/A",
+                phone: document.getElementById("custPhone").value || "N/A",
+                address: document.getElementById("custAddress").value || "N/A",
+                company: document.getElementById("companySelect").value,
+                series: document.getElementById("seriesSelect").value,
+                aluThick: document.getElementById("aluThick").value,
+                glassComp: document.getElementById("glassComp").value,
+                glassThick: document.getElementById("glassThick").value,
+                glassColor: document.getElementById("glassColor").value,
+                totalArea: document.getElementById("resGlassArea").innerText,
+                totalPrice: document.getElementById("resSellingPrice").innerText
+            };
+            localStorage.setItem("active_quotation", JSON.stringify(data));
         }
     </script>
 </body>

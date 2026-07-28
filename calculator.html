@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Calculator - Aluminium ERP BD</title>
+    <title>Material Calculator</title>
     <style>
         * {
             margin: 0;
@@ -13,279 +13,224 @@
         }
 
         body {
-            background-color: #0b0f19;
-            color: #f3f4f6;
+            background-color: #f1f5f9;
+            color: #1e293b;
             padding: 12px;
             max-width: 500px;
             margin: 0 auto;
         }
 
-        /* Header */
-        .header {
+        /* Top Navigation Buttons */
+        .top-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .nav-btn {
+            background: #ffffff;
+            border: 2px solid #2563eb;
+            color: #2563eb;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            background: #1e293b;
-            padding: 10px 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            border: 1px solid #334155;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .btn-home {
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: bold;
+        .nav-btn.active {
+            background: #ffffff;
+            border-color: #2563eb;
+            color: #1e293b;
         }
 
-        .header-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .icon-menu {
-            font-size: 22px;
-            cursor: pointer;
-            color: #38bdf8;
-            background: none;
-            border: none;
-        }
-
-        /* Card Container */
+        /* Cards */
         .card {
-            background: #111827;
-            border: 1px solid #1e293b;
+            background: #ffffff;
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
         .card-title {
-            color: #38bdf8;
-            font-size: 16px;
+            color: #2563eb;
+            font-size: 18px;
             font-weight: bold;
             text-align: center;
-            margin-bottom: 14px;
-            border-bottom: 1px solid #1e293b;
-            padding-bottom: 8px;
+            margin-bottom: 16px;
         }
 
-        .input-group {
+        /* Forms Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             margin-bottom: 12px;
         }
 
         .input-group label {
             display: block;
-            font-size: 12px;
-            color: #9ca3af;
-            margin-bottom: 4px;
+            font-size: 13px;
+            color: #475569;
+            font-weight: 600;
+            margin-bottom: 6px;
         }
 
         .input-control {
             width: 100%;
-            padding: 9px 12px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: white;
+            padding: 10px 12px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 14px;
             outline: none;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        /* Window Table */
-        .window-table {
+        /* Tables */
+        .win-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 12px;
         }
 
-        .window-table th {
-            background: #1d4ed8;
+        .win-table th {
+            background: #2563eb;
             color: white;
-            padding: 8px;
-            font-size: 12px;
-        }
-
-        .window-table td {
-            padding: 6px 4px;
-            text-align: center;
-        }
-
-        .window-table input {
-            width: 100%;
-            padding: 6px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: white;
-            border-radius: 6px;
-            text-align: center;
+            padding: 10px 6px;
             font-size: 13px;
         }
 
-        .btn-remove {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
+        .win-table td {
+            padding: 6px 4px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        /* Buttons */
+        .win-table input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+
         .btn-add {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: #10b981;
             color: white;
             border: none;
             border-radius: 8px;
             font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 10px;
             cursor: pointer;
-            margin-bottom: 8px;
-            font-size: 13px;
         }
 
         .btn-calc {
             width: 100%;
-            padding: 11px;
+            padding: 12px;
             background: #2563eb;
             color: white;
             border: none;
             border-radius: 8px;
             font-weight: bold;
+            font-size: 15px;
             cursor: pointer;
-            font-size: 14px;
         }
 
-        .btn-quotation {
-            width: 100%;
-            padding: 11px;
-            background: #d97706;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-            margin-top: 12px;
-        }
-
-        /* Report Tables */
-        .result-table {
+        /* Details Table */
+        .report-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 14px;
         }
 
-        .result-table td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #1e293b;
-            font-size: 13px;
+        .report-table td, .report-table th {
+            padding: 10px;
+            border: 1px solid #e2e8f0;
         }
 
-        .text-right {
+        .report-table tr td:first-child {
+            color: #334155;
+        }
+
+        .report-table tr td:last-child {
             text-align: right;
-            font-weight: bold;
-            color: #fbbf24;
+            font-weight: 600;
         }
 
-        .text-highlight {
-            color: #10b981;
+        .highlight-row {
+            background-color: #eff6ff;
+            font-weight: bold;
+        }
+
+        .highlight-row td {
+            color: #1e3a8a !important;
+        }
+
+        .selling-price-row {
+            background-color: #e0f2fe;
             font-weight: bold;
             font-size: 15px;
         }
 
-        /* Sidebar History */
-        .sidebar-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            z-index: 9999;
-            justify-content: flex-end;
+        .selling-price-row td {
+            color: #0369a1 !important;
         }
 
-        .sidebar-content {
-            background: #111827;
-            width: 85%;
-            max-width: 380px;
-            height: 100%;
-            padding: 16px;
-            border-left: 1px solid #1e293b;
-            overflow-y: auto;
+        /* Cutting Report Table Header */
+        .cutting-table th {
+            background-color: #2563eb;
+            color: white;
+            text-align: center;
         }
 
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #1e293b;
-            padding-bottom: 10px;
-            margin-bottom: 16px;
+        .cutting-table td {
+            text-align: center !important;
         }
 
-        .history-card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .history-btn-del {
-            position: absolute;
-            top: 10px; right: 10px;
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid #ef4444;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-        }
-
-        .btn-clear-all {
+        .btn-go-quotation {
             width: 100%;
-            padding: 8px;
-            background: #ef4444;
+            padding: 14px;
+            background: #8b5cf6;
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 12px;
+            border-radius: 10px;
             font-weight: bold;
-            margin-bottom: 12px;
+            font-size: 16px;
+            margin-top: 16px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- 🏠 Header -->
-    <div class="header">
-        <a href="index.html" class="btn-home">🏠 Home</a>
-        <div class="header-title">Material Calculator</div>
-        <button class="icon-menu" onclick="toggleHistoryDrawer()">☰</button>
+    <!-- 🔀 Top Navigation -->
+    <div class="top-nav">
+        <a href="calculator.html" class="nav-btn active">🧮 Material Calculator</a>
+        <a href="quotation.html" class="nav-btn">📄 Quotation</a>
     </div>
 
-    <!-- 👤 Customer Info -->
+    <!-- 👤 Customer Details -->
     <div class="card">
-        <div class="card-title">Customer Details</div>
-        <div class="input-group">
+        <div class="card-title" style="font-size:16px;">Customer Details</div>
+        <div class="input-group" style="margin-bottom:10px;">
             <label>Customer Name</label>
             <input type="text" id="custName" class="input-control" placeholder="Enter Name">
         </div>
@@ -303,7 +248,7 @@
 
     <!-- ⚙️ Specifications -->
     <div class="card">
-        <div class="card-title">Specifications & Bar Size</div>
+        <div class="card-title">Specifications</div>
         <div class="grid-2">
             <div class="input-group">
                 <label>Company</label>
@@ -317,45 +262,81 @@
             <div class="input-group">
                 <label>Series</label>
                 <select id="seriesSelect" class="input-control">
-                    <option value="Sliding Window 3&quot;">Sliding Window 3"</option>
-                    <option value="Sliding Window 4&quot;">Sliding Window 4"</option>
+                    <option value="Sliding Window 2">Sliding Window 2</option>
+                    <option value="Sliding Window 3">Sliding Window 3"</option>
+                    <option value="Sliding Window 4">Sliding Window 4"</option>
                 </select>
             </div>
         </div>
 
         <div class="grid-2">
             <div class="input-group">
-                <label>Alu Bar Standard Size</label>
-                <select id="barSizeSelect" class="input-control">
-                    <option value="18.5">18.5 Feet Bar (সাড়ে ১৮ ফিট)</option>
-                    <option value="21.0">21.0 Feet Bar (২১ ফিট)</option>
-                </select>
-            </div>
-            <div class="input-group">
                 <label>Alu Thickness</label>
-                <select id="aluThickSelect" class="input-control">
+                <select id="aluThick" class="input-control">
                     <option value="1.0 mm">1.0 mm</option>
                     <option value="1.2 mm">1.2 mm</option>
                     <option value="1.5 mm">1.5 mm</option>
                 </select>
             </div>
-        </div>
-
-        <div class="grid-2">
             <div class="input-group">
                 <label>Glass Company</label>
-                <select id="glassCompSelect" class="input-control">
+                <select id="glassComp" class="input-control">
                     <option value="Nasir">Nasir</option>
                     <option value="PHP">PHP</option>
                 </select>
             </div>
+        </div>
+
+        <div class="grid-2">
             <div class="input-group">
-                <label>Glass Thickness & Type</label>
-                <select id="glassThickSelect" class="input-control">
-                    <option value="5 mm Clear">5 mm Clear</option>
-                    <option value="5 mm Tinted">5 mm Tinted</option>
-                    <option value="6 mm Clear">6 mm Clear</option>
+                <label>Glass Thickness</label>
+                <select id="glassThick" class="input-control">
+                    <option value="5 mm">5 mm</option>
+                    <option value="6 mm">6 mm</option>
                 </select>
+            </div>
+            <div class="input-group">
+                <label>Glass Colour</label>
+                <select id="glassColor" class="input-control">
+                    <option value="Clear">Clear</option>
+                    <option value="Bronze">Bronze</option>
+                    <option value="Dark Grey">Dark Grey</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- 💰 Rates & Profit Config -->
+    <div class="card">
+        <div class="card-title">Rates & Profit Config</div>
+        <div class="grid-2">
+            <div class="input-group">
+                <label>Alu Rate (/ft)</label>
+                <input type="number" id="rateAlu" class="input-control" value="150">
+            </div>
+            <div class="input-group">
+                <label>Glass Rate (/sqft)</label>
+                <input type="number" id="rateGlass" class="input-control" value="120">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="input-group">
+                <label>Hardware (/sqft)</label>
+                <input type="number" id="rateHardware" class="input-control" value="30">
+            </div>
+            <div class="input-group">
+                <label>Fittings (/sqft)</label>
+                <input type="number" id="rateFittings" class="input-control" value="50">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="input-group">
+                <label>Labour (/sqft)</label>
+                <input type="number" id="rateLabour" class="input-control" value="10">
+            </div>
+            <div class="input-group">
+                <label>Profit Margin (%)</label>
+                <input type="number" id="profitMargin" class="input-control" value="5">
             </div>
         </div>
     </div>
@@ -363,14 +344,14 @@
     <!-- 📐 Window Dimensions -->
     <div class="card">
         <div class="card-title">Window Dimensions (Inches)</div>
-        <table class="window-table">
+        <table class="win-table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th style="width: 10%;">#</th>
                     <th>Height</th>
                     <th>Width</th>
                     <th>Qty</th>
-                    <th>Action</th>
+                    <th style="width: 15%;">Action</th>
                 </tr>
             </thead>
             <tbody id="windowTableBody">
@@ -379,48 +360,67 @@
                     <td><input type="number" class="win-h" value="54"></td>
                     <td><input type="number" class="win-w" value="60"></td>
                     <td><input type="number" class="win-q" value="1"></td>
-                    <td><button class="btn-remove" onclick="removeRow(this)">✕</button></td>
+                    <td><button onclick="removeRow(this)" style="background:#ef4444; color:white; border:none; padding:6px 10px; border-radius:6px; font-weight:bold; cursor:pointer;">✕</button></td>
                 </tr>
             </tbody>
         </table>
 
         <button class="btn-add" onclick="addRow()">+ Add Window</button>
-        <button class="btn-calc" onclick="calculateMaterials()">Calculate & Generate Cutting Report</button>
+        <button class="btn-calc" onclick="calculateAll()">Calculate</button>
     </div>
 
-    <!-- 📊 Material & Cutting Report -->
-    <div class="card" id="resultCard" style="display: none;">
-        <div class="card-title">📦 Cutting & Material Report</div>
-        <table class="result-table">
-            <tr><td>Outer Side (২ পাশ)</td><td class="text-right" id="resOuterSide">0 ft</td></tr>
-            <tr><td>Outer Top (উপর)</td><td class="text-right" id="resOuterTop">0 ft</td></tr>
-            <tr><td>Outer Bottom (নিচ)</td><td class="text-right" id="resOuterBottom">0 ft</td></tr>
-            <tr><td>Shutter Lock (শাটার লক)</td><td class="text-right" id="resShutterLock">0 ft</td></tr>
-            <tr><td>Shutter Interlock (ইন্টারলক)</td><td class="text-right" id="resShutterInter">0 ft</td></tr>
-            <tr style="background: rgba(56, 189, 248, 0.1);"><td><strong>Total Alu Length Needed</strong></td><td class="text-right" id="resTotalAluFt" style="color:#38bdf8;">0 ft</td></tr>
-            <tr style="background: rgba(16, 185, 129, 0.1);"><td><strong>Total Full Bars Needed</strong></td><td class="text-right text-highlight" id="resTotalBars">0 Bars</td></tr>
-            <tr><td>Glass Area Required</td><td class="text-right" id="resGlassArea">0 sqft</td></tr>
+    <!-- 📊 Material Details & Costing -->
+    <div class="card" id="matDetailsCard" style="display: none;">
+        <div class="card-title">Material Details & Costing</div>
+        <table class="report-table">
+            <tr><td>Outer Side</td><td id="resOuterSide">0.00 ft</td></tr>
+            <tr><td>Outer Top</td><td id="resOuterTop">0.00 ft</td></tr>
+            <tr><td>Outer Bottom</td><td id="resOuterBottom">0.00 ft</td></tr>
+            <tr><td>Shutter Lock</td><td id="resShutterLock">0.00 ft</td></tr>
+            <tr><td>Shutter Interlock</td><td id="resShutterInterlock">0.00 ft</td></tr>
+            <tr><td>Shutter Top</td><td id="resShutterTop">0.00 ft</td></tr>
+            <tr><td>Shutter Bottom</td><td id="resShutterBottom">0.00 ft</td></tr>
+            <tr class="highlight-row"><td>Total Aluminium</td><td id="resTotalAlu">0.00 ft</td></tr>
+            <tr><td>Glass</td><td id="resGlassArea">0.00 Sqft</td></tr>
+            <tr><td>Hardware</td><td id="resHardwareCost">0.00 ৳</td></tr>
+            <tr><td>Fittings</td><td id="resFittingsCost">0.00 ৳</td></tr>
+            <tr><td>Labour</td><td id="resLabourCost">0.00 ৳</td></tr>
+            <tr class="highlight-row"><td>Material Cost</td><td id="resMaterialCost">0.00 ৳</td></tr>
+            <tr><td>Material Cost / Sqft</td><td id="resCostPerSqft">0.00 ৳</td></tr>
+            <tr><td>Selling Price / Sqft</td><td id="resSellingPerSqft">0.00 ৳</td></tr>
+            <tr><td>Profit / Sqft</td><td id="resProfitPerSqft">0.00 ৳</td></tr>
+            <tr><td>Cost / Sqft</td><td id="resCostPerSqft2">0.00 ৳</td></tr>
+            <tr class="selling-price-row"><td>Selling Price</td><td id="resSellingPrice">0.00 ৳</td></tr>
         </table>
-        
-        <a href="quotation.html" class="btn-quotation" onclick="sendToQuotation()">🚀 Send to Quotation</a>
     </div>
 
-    <!-- 📜 Sidebar History Drawer -->
-    <div class="sidebar-overlay" id="historyDrawer">
-        <div class="sidebar-content">
-            <div class="sidebar-header">
-                <h3 style="color:#38bdf8;">📜 Calculation History</h3>
-                <button onclick="toggleHistoryDrawer()" style="background:none; border:none; color:white; font-size:18px;">✕</button>
-            </div>
-            
-            <button class="btn-clear-all" onclick="clearAllHistory()">🗑️ Delete All History</button>
-            <div id="historyList"></div>
-        </div>
+    <!-- ✂️ Cutting Report -->
+    <div class="card" id="cuttingReportCard" style="display: none;">
+        <div class="card-title">Cutting Report</div>
+        <table class="report-table cutting-table">
+            <thead>
+                <tr>
+                    <th style="text-align: left;">Item</th>
+                    <th style="width: 25%;">18.6 ft</th>
+                    <th style="width: 25%;">21 ft</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td style="text-align: left;">Outer Side</td><td id="cutOuterSide18">0</td><td id="cutOuterSide21">0</td></tr>
+                <tr><td style="text-align: left;">Outer Top</td><td id="cutOuterTop18">0</td><td id="cutOuterTop21">0</td></tr>
+                <tr><td style="text-align: left;">Outer Bottom</td><td id="cutOuterBottom18">0</td><td id="cutOuterBottom21">0</td></tr>
+                <tr><td style="text-align: left;">Shutter Lock</td><td id="cutShutterLock18">0</td><td id="cutShutterLock21">0</td></tr>
+                <tr><td style="text-align: left;">Shutter Interlock</td><td id="cutShutterInter18">0</td><td id="cutShutterInter21">0</td></tr>
+                <tr><td style="text-align: left;">Shutter Top</td><td id="cutShutterTop18">0</td><td id="cutShutterTop21">0</td></tr>
+                <tr><td style="text-align: left;">Shutter Bottom</td><td id="cutShutterBottom18">0</td><td id="cutShutterBottom21">0</td></tr>
+            </tbody>
+        </table>
+
+        <a href="quotation.html" class="btn-go-quotation" onclick="saveForQuotation()">Go To Quotation ➔</a>
     </div>
 
     <script>
         let rowCounter = 1;
-        let lastCalculatedData = null;
 
         function addRow() {
             rowCounter++;
@@ -431,156 +431,135 @@
                 <td><input type="number" class="win-h" value="54"></td>
                 <td><input type="number" class="win-w" value="60"></td>
                 <td><input type="number" class="win-q" value="1"></td>
-                <td><button class="btn-remove" onclick="removeRow(this)">✕</button></td>
+                <td><button onclick="removeRow(this)" style="background:#ef4444; color:white; border:none; padding:6px 10px; border-radius:6px; font-weight:bold; cursor:pointer;">✕</button></td>
             `;
             tbody.appendChild(tr);
         }
 
         function removeRow(btn) {
-            const row = btn.closest("tr");
             if (document.querySelectorAll("#windowTableBody tr").length > 1) {
-                row.remove();
-            } else {
-                alert("At least one window is required!");
+                btn.closest("tr").remove();
             }
         }
 
-        function calculateMaterials() {
-            const custName = document.getElementById("custName").value.trim() || "Unknown Customer";
-            const custPhone = document.getElementById("custPhone").value.trim() || "N/A";
-            const custAddress = document.getElementById("custAddress").value.trim() || "N/A";
-
-            const selectedBarLen = parseFloat(document.getElementById("barSizeSelect").value);
-
+        function calculateAll() {
             const heights = document.querySelectorAll(".win-h");
             const widths = document.querySelectorAll(".win-w");
             const qtys = document.querySelectorAll(".win-q");
 
-            let totalHeightFt = 0;
-            let totalWidthFt = 0;
+            let outerSideFt = 0, outerTopFt = 0, outerBottomFt = 0;
+            let shutterLockFt = 0, shutterInterlockFt = 0, shutterTopFt = 0, shutterBottomFt = 0;
             let totalGlassSqft = 0;
-            let totalQtyCount = 0;
 
-            heights.forEach((hEl, idx) => {
+            heights.forEach((hEl, i) => {
                 const h = parseFloat(hEl.value) || 0;
-                const w = parseFloat(widths[idx].value) || 0;
-                const q = parseFloat(qtys[idx].value) || 0;
+                const w = parseFloat(widths[i].value) || 0;
+                const q = parseFloat(qtys[i].value) || 0;
 
-                totalHeightFt += (h / 12) * 2 * q; // ২ পাশ
-                totalWidthFt += (w / 12) * q;       // উপর বা নিচ
+                const hFt = h / 12;
+                const wFt = w / 12;
+
+                outerSideFt += (hFt * 2) * q;
+                outerTopFt += wFt * q;
+                outerBottomFt += wFt * q;
+
+                shutterLockFt += (hFt * 2) * q;
+                shutterInterlockFt += (hFt * 2) * q;
+                shutterTopFt += wFt * q;
+                shutterBottomFt += wFt * q;
+
                 totalGlassSqft += ((h * w) / 144) * q;
-                totalQtyCount += q;
             });
 
-            const outerSide = totalHeightFt;
-            const outerTop = totalWidthFt;
-            const outerBottom = totalWidthFt;
-            const shutterLock = totalHeightFt;
-            const shutterInter = totalHeightFt;
+            const totalAluFt = outerSideFt + outerTopFt + outerBottomFt + shutterLockFt + shutterInterlockFt + shutterTopFt + shutterBottomFt;
 
-            // মোট কত ফিট অ্যালুমিনিয়াম লাগে
-            const grandTotalAluFt = outerSide + outerTop + outerBottom + shutterLock + shutterInter;
+            // Rates
+            const rAlu = parseFloat(document.getElementById("rateAlu").value) || 0;
+            const rGlass = parseFloat(document.getElementById("rateGlass").value) || 0;
+            const rHw = parseFloat(document.getElementById("rateHardware").value) || 0;
+            const rFit = parseFloat(document.getElementById("rateFittings").value) || 0;
+            const rLab = parseFloat(document.getElementById("rateLabour").value) || 0;
+            const pMargin = parseFloat(document.getElementById("profitMargin").value) || 0;
 
-            // নির্বাচিত বার সাইজ (১৮.৫ ফিট বা ২১ ফিট) অনুযায়ী কতগুলো ফুল বার লাগবে
-            const totalBarsNeeded = Math.ceil(grandTotalAluFt / selectedBarLen);
+            // Costs
+            const aluCost = totalAluFt * rAlu;
+            const glassCost = totalGlassSqft * rGlass;
+            const hwCost = totalGlassSqft * rHw;
+            const fitCost = totalGlassSqft * rFit;
+            const labCost = totalGlassSqft * rLab;
 
-            // UI-তে প্রদর্শন
-            document.getElementById("resOuterSide").innerText = outerSide.toFixed(2) + " ft";
-            document.getElementById("resOuterTop").innerText = outerTop.toFixed(2) + " ft";
-            document.getElementById("resOuterBottom").innerText = outerBottom.toFixed(2) + " ft";
-            document.getElementById("resShutterLock").innerText = shutterLock.toFixed(2) + " ft";
-            document.getElementById("resShutterInter").innerText = shutterInter.toFixed(2) + " ft";
-            
-            document.getElementById("resTotalAluFt").innerText = grandTotalAluFt.toFixed(2) + " ft";
-            document.getElementById("resTotalBars").innerText = totalBarsNeeded + " Bars (" + selectedBarLen + " ft bar)";
-            document.getElementById("resGlassArea").innerText = totalGlassSqft.toFixed(2) + " sqft";
-            
-            document.getElementById("resultCard").style.display = "block";
+            const totalMaterialCost = aluCost + glassCost + hwCost + fitCost + labCost;
+            const costPerSqft = totalGlassSqft > 0 ? (totalMaterialCost / totalGlassSqft) : 0;
 
-            // ডাটা স্ট্রাকচার
-            lastCalculatedData = {
-                id: Date.now(),
-                date: new Date().toLocaleDateString('en-GB'),
-                name: custName,
-                phone: custPhone,
-                address: custAddress,
-                series: document.getElementById("seriesSelect").value,
+            const profitPerSqft = costPerSqft * (pMargin / 100);
+            const sellingPerSqft = costPerSqft + profitPerSqft;
+            const grandSellingPrice = sellingPerSqft * totalGlassSqft;
+
+            // Fill Details
+            document.getElementById("resOuterSide").innerText = outerSideFt.toFixed(2) + " ft";
+            document.getElementById("resOuterTop").innerText = outerTopFt.toFixed(2) + " ft";
+            document.getElementById("resOuterBottom").innerText = outerBottomFt.toFixed(2) + " ft";
+            document.getElementById("resShutterLock").innerText = shutterLockFt.toFixed(2) + " ft";
+            document.getElementById("resShutterInterlock").innerText = shutterInterlockFt.toFixed(2) + " ft";
+            document.getElementById("resShutterTop").innerText = shutterTopFt.toFixed(2) + " ft";
+            document.getElementById("resShutterBottom").innerText = shutterBottomFt.toFixed(2) + " ft";
+            document.getElementById("resTotalAlu").innerText = totalAluFt.toFixed(2) + " ft";
+
+            document.getElementById("resGlassArea").innerText = totalGlassSqft.toFixed(2) + " Sqft";
+            document.getElementById("resHardwareCost").innerText = hwCost.toFixed(2) + " ৳";
+            document.getElementById("resFittingsCost").innerText = fitCost.toFixed(2) + " ৳";
+            document.getElementById("resLabourCost").innerText = labCost.toFixed(2) + " ৳";
+
+            document.getElementById("resMaterialCost").innerText = totalMaterialCost.toFixed(2) + " ৳";
+            document.getElementById("resCostPerSqft").innerText = costPerSqft.toFixed(2) + " ৳";
+            document.getElementById("resSellingPerSqft").innerText = sellingPerSqft.toFixed(2) + " ৳";
+            document.getElementById("resProfitPerSqft").innerText = profitPerSqft.toFixed(2) + " ৳";
+            document.getElementById("resCostPerSqft2").innerText = costPerSqft.toFixed(2) + " ৳";
+            document.getElementById("resSellingPrice").innerText = grandSellingPrice.toFixed(2) + " ৳";
+
+            // Fill Cutting Report (18.6ft & 21ft bars calculation)
+            document.getElementById("cutOuterSide18").innerText = Math.ceil(outerSideFt / 18.6);
+            document.getElementById("cutOuterSide21").innerText = 0;
+
+            document.getElementById("cutOuterTop18").innerText = 0;
+            document.getElementById("cutOuterTop21").innerText = Math.ceil(outerTopFt / 21);
+
+            document.getElementById("cutOuterBottom18").innerText = 0;
+            document.getElementById("cutOuterBottom21").innerText = Math.ceil(outerBottomFt / 21);
+
+            document.getElementById("cutShutterLock18").innerText = Math.ceil(shutterLockFt / 18.6);
+            document.getElementById("cutShutterLock21").innerText = 0;
+
+            document.getElementById("cutShutterInter18").innerText = Math.ceil(shutterInterlockFt / 18.6);
+            document.getElementById("cutShutterInter21").innerText = 0;
+
+            document.getElementById("cutShutterTop18").innerText = 0;
+            document.getElementById("cutShutterTop21").innerText = Math.ceil(shutterTopFt / 21);
+
+            document.getElementById("cutShutterBottom18").innerText = 0;
+            document.getElementById("cutShutterBottom21").innerText = Math.ceil(shutterBottomFt / 21);
+
+            // Display Tables
+            document.getElementById("matDetailsCard").style.display = "block";
+            document.getElementById("cuttingReportCard").style.display = "block";
+        }
+
+        function saveForQuotation() {
+            const data = {
+                name: document.getElementById("custName").value || "N/A",
+                phone: document.getElementById("custPhone").value || "N/A",
+                address: document.getElementById("custAddress").value || "N/A",
                 company: document.getElementById("companySelect").value,
-                barSize: selectedBarLen,
-                totalBars: totalBarsNeeded,
-                glassSqft: totalGlassSqft.toFixed(2),
-                totalAluFt: grandTotalAluFt.toFixed(2)
+                series: document.getElementById("seriesSelect").value,
+                aluThick: document.getElementById("aluThick").value,
+                glassComp: document.getElementById("glassComp").value,
+                glassThick: document.getElementById("glassThick").value,
+                glassColor: document.getElementById("glassColor").value,
+                totalArea: document.getElementById("resGlassArea").innerText,
+                ratePerSqft: document.getElementById("resSellingPerSqft").innerText,
+                totalPrice: document.getElementById("resSellingPrice").innerText
             };
-
-            saveHistory(lastCalculatedData);
-            alert("কাটিং রিপোর্ট তৈরি হয়েছে এবং হিস্ট্রিতে সেভ করা হয়েছে!");
-        }
-
-        function sendToQuotation() {
-            if (!lastCalculatedData) {
-                calculateMaterials();
-            }
-            localStorage.setItem("quotation_active_data", JSON.stringify(lastCalculatedData));
-        }
-
-        function saveHistory(record) {
-            let history = JSON.parse(localStorage.getItem("calc_history")) || [];
-            history.unshift(record);
-            localStorage.setItem("calc_history", JSON.stringify(history));
-            renderHistory();
-        }
-
-        function renderHistory() {
-            const historyList = document.getElementById("historyList");
-            let history = JSON.parse(localStorage.getItem("calc_history")) || [];
-
-            if (history.length === 0) {
-                historyList.innerHTML = `<p style="color:#9ca3af; text-align:center; font-size:13px; margin-top:20px;">No history available</p>`;
-                return;
-            }
-
-            let html = "";
-            history.forEach(item => {
-                html += `
-                    <div class="history-card">
-                        <button class="history-btn-del" onclick="deleteHistoryItem(${item.id})">Delete</button>
-                        <div style="color:#fbbf24; font-weight:bold; font-size:14px;">👤 ${item.name}</div>
-                        <div style="color:#9ca3af; font-size:11px; margin-top:2px;">📞 ${item.phone} | 📍 ${item.address}</div>
-                        <div style="font-size:12px; color:#e5e7eb; margin-top:6px;">
-                            <strong>Series:</strong> ${item.series} (${item.company})<br>
-                            <strong>Total Bars Needed:</strong> <span style="color:#10b981;">${item.totalBars} Pcs (${item.barSize} ft)</span><br>
-                            <strong>Glass Area:</strong> ${item.glassSqft} sqft
-                        </div>
-                        <div style="font-size:10px; color:#6b7280; text-align:right; margin-top:4px;">${item.date}</div>
-                    </div>
-                `;
-            });
-
-            historyList.innerHTML = html;
-        }
-
-        function deleteHistoryItem(id) {
-            let history = JSON.parse(localStorage.getItem("calc_history")) || [];
-            history = history.filter(item => item.id !== id);
-            localStorage.setItem("calc_history", JSON.stringify(history));
-            renderHistory();
-        }
-
-        function clearAllHistory() {
-            if (confirm("আপনি কি সমস্ত হিস্ট্রি ডিলিট করতে চান?")) {
-                localStorage.removeItem("calc_history");
-                renderHistory();
-            }
-        }
-
-        function toggleHistoryDrawer() {
-            const drawer = document.getElementById("historyDrawer");
-            if (drawer.style.display === "flex") {
-                drawer.style.display = "none";
-            } else {
-                renderHistory();
-                drawer.style.display = "flex";
-            }
+            localStorage.setItem("active_quotation", JSON.stringify(data));
         }
     </script>
 </body>

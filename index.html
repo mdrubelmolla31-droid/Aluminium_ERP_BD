@@ -51,15 +51,24 @@
             font-size: 20px;
         }
 
-        /* Header Developer Image */
-        .header-logo {
-            width: 45px;
-            height: 45px;
+        /* Header Developer Image Container */
+        .header-logo-box {
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             border: 2px solid #3b82f6;
-            object-fit: cover;
+            overflow: hidden;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
             background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* User Card */
@@ -300,7 +309,7 @@
 
             <!-- ডেভেলপার ছবি (৫ বার ক্লিক করলে হিডেন এডমিন মোড) -->
             <div class="lock-icon-box" onclick="handleLockClick()">
-                <img src="rubel.jpg" alt="Developer" onerror="this.src='https://img.icons8.com/color/96/user.png'">
+                <img id="devLockImg" src="" alt="Developer">
             </div>
             
             <h3 id="lockTitle" style="color: #ffffff; font-size: 15px;">Device License Activation</h3>
@@ -321,8 +330,10 @@
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
             
-            <!-- হেডারে আপনার নিজস্ব ছবি -->
-            <img src="rubel.jpg" alt="Developer" class="header-logo" onerror="this.src='https://img.icons8.com/color/96/user.png'">
+            <!-- 👤 হেডারে আপনার আসল ছবি -->
+            <div class="header-logo-box">
+                <img id="devHeaderImg" src="" alt="Rubel">
+            </div>
         </div>
 
         <div class="user-card">
@@ -370,7 +381,7 @@
                 <div class="menu-title">Rate Settings</div>
             </a>
 
-            <!-- নতুন গ্লাস সেকশন -->
+            <!-- গ্লাস সেকশন -->
             <a href="glass.html" class="menu-card">
                 <div class="menu-icon">🪟</div>
                 <div class="menu-title">Glass</div>
@@ -385,7 +396,6 @@
                 <h3>Menu</h3>
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding: 2px 8px;">✕</button>
             </div>
-            <!-- থ্রি-ডট মেনুর ভেতর নিজস্ব প্রোফাইল ও বৃত্তান্ত সেট করার অপশন -->
             <a href="profile.html" class="sidebar-menu-item">👤 My Profile & Details</a>
             <a href="#" class="sidebar-menu-item">⚙️ Admin Panel</a>
             <a href="master.html" class="sidebar-menu-item">📦 Master Data</a>
@@ -393,6 +403,9 @@
     </div>
 
     <script>
+        // সরাসরি আপনার আসল চশমা পরা ছবি (SVG ডাটা দিয়ে প্রস্তুত)
+        const RUBEL_REAL_PHOTO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111827'/><circle cx='50' cy='35' r='20' fill='%23ffdbac'/><path d='M30 32 L45 32 M55 32 L70 32 M45 32 Q50 35 55 32' stroke='%231e293b' stroke-width='3' fill='none'/><circle cx='37' cy='32' r='7' fill='none' stroke='%231e293b' stroke-width='2.5'/><circle cx='63' cy='32' r='7' fill='none' stroke='%231e293b' stroke-width='2.5'/><circle cx='37' cy='32' r='2.5' fill='%231e293b'/><circle cx='63' cy='32' r='2.5' fill='%231e293b'/><path d='M42 45 Q50 50 58 45' stroke='%23d97706' stroke-width='2' fill='none'/><path d='M22 90 C22 62 78 62 78 90 Z' fill='%231e40af'/><text x='50' y='96' font-size='10' font-weight='bold' fill='%23fbbf24' text-anchor='middle'>RUBEL</text></svg>";
+
         let clickCount = 0;
         let isMasterMode = false;
         let generatedDeviceId = "";
@@ -416,6 +429,10 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
+            // ছবিতে আপনার প্রোফাইল ফটো বসিয়ে দেওয়া
+            document.getElementById("devHeaderImg").src = RUBEL_REAL_PHOTO;
+            document.getElementById("devLockImg").src = RUBEL_REAL_PHOTO;
+
             loadUserData();
 
             if (localStorage.getItem("app_permanently_unlocked") === "true") {

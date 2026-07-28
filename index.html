@@ -21,7 +21,7 @@
             min-height: 100vh;
         }
 
-        /* 🖼️ অ্যালুমিনিয়াম প্রোফাইল ও গ্লাস শ্যাডো সহ স্প্ল্যাশ স্ক্রিন (Splash Overlay) */
+        /* 🖼️ স্প্ল্যাশ স্ক্রিন */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -37,7 +37,6 @@
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
-        /* থাই অ্যালুমিনিয়াম গ্লাস বক্স ফ্রেম ও গ্লাসি শ্যাডো */
         .splash-profile-box {
             width: 110px;
             height: 110px;
@@ -53,7 +52,6 @@
             animation: pulseProfile 2s infinite alternate;
         }
 
-        /* অ্যালুমিনিয়াম স্লাইডিং প্রোফাইল জানালার থিম আইকন */
         .alu-window-icon {
             width: 60px;
             height: 60px;
@@ -131,7 +129,6 @@
             font-size: 20px;
         }
 
-        /* Header Developer Image Box */
         .header-logo-box {
             width: 45px;
             height: 45px;
@@ -195,7 +192,6 @@
             font-size: 12px;
         }
 
-        /* User Image Avatar */
         .avatar-container {
             position: absolute;
             right: 16px;
@@ -250,7 +246,7 @@
         .menu-icon { font-size: 30px; margin-bottom: 8px; }
         .menu-title { font-size: 14px; font-weight: 600; color: #e5e7eb; }
 
-        /* Lock Screen Overlay (First Time Install) */
+        /* Lock Screen Overlay */
         .lock-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -272,7 +268,6 @@
             text-align: center;
         }
 
-        /* Developer Image Container on Lock Screen */
         .dev-photo-box {
             width: 65px;
             height: 65px;
@@ -290,7 +285,6 @@
             object-fit: cover;
         }
 
-        /* Lock Icon (Clickable 5 times for Master Key) */
         .lock-clickable-icon {
             font-size: 36px;
             margin-bottom: 10px;
@@ -354,7 +348,6 @@
             cursor: pointer;
         }
 
-        /* Developer Name Banner on Lock Screen Bottom */
         .dev-branding-footer {
             color: #fbbf24;
             font-size: 12px;
@@ -367,7 +360,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Sidebar Popup */
+        /* Sidebar Overlay */
         .sidebar-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7);
@@ -393,7 +386,7 @@
 </head>
 <body>
 
-    <!-- 🌟 প্রথমবার অ্যাপে ঢোকার সময় ও রিফ্রেশ করলে স্লাইডিং উইন্ডো শ্যাডো পিকচার সহ স্প্ল্যাশ স্ক্রিন -->
+    <!-- 🌟 স্প্ল্যাশ স্ক্রিন -->
     <div id="splash-screen">
         <div class="splash-profile-box">
             <div class="alu-window-icon"></div>
@@ -402,29 +395,19 @@
         <div class="splash-sub">Glass & Section Manager</div>
     </div>
 
-    <!-- 🔒 প্রথমবার ইনস্টল করলে লকিং স্ক্রিন -->
+    <!-- 🔒 লকিং স্ক্রিন -->
     <div class="lock-overlay" id="lockScreen">
         <div class="lock-box">
-            
-            <!-- ১. উপরে আপনার ডেভেলপার ছবি -->
             <div class="dev-photo-box">
                 <img src="rubel.jpg" alt="Developer" onerror="this.src='https://img.icons8.com/color/96/user.png'">
             </div>
-
-            <!-- ২. নিচে লক/তালা আইকন (এখানে ৫ বার ট্যাপ করলে মাস্টার কী মোড চালু হবে) -->
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
-            
             <h3 id="lockTitle" style="color: #ffffff; font-size: 15px;">Device License Activation</h3>
             <p id="lockSub" style="color: #9ca3af; font-size: 11px; margin-top: 4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
-            
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
-
             <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">📲 Send Device ID to WhatsApp</a>
-
             <input type="text" id="keyInput" class="lock-input" placeholder="Enter Product Key">
             <button class="btn-unlock" onclick="validateKey()">Activate License</button>
-
-            <!-- ৩. নিচে আপনার ডেভেলপমেন্ট ব্র্যান্ডিং নাম -->
             <div class="dev-branding-footer">RM, THAI ALUMINUM, BY, RUBEL</div>
         </div>
     </div>
@@ -434,8 +417,6 @@
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
-            
-            <!-- 👤 হেডারে ডেভেলপার ছবি (rubel.jpg) -->
             <div class="header-logo-box">
                 <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
             </div>
@@ -455,7 +436,7 @@
             <input type="file" id="profilePicker" accept="image/*" style="display: none;" onchange="updateProfilePicture(this)">
         </div>
 
-        <!-- 🔗 মেনু লিংকসমূহ (আপনার প্রজেক্টের আসল নাম ব্যবহার করা হয়েছে) -->
+        <!-- 🔗 মেনু লিংকসমূহ -->
         <div class="grid-menu">
             <a href="profile.html" class="menu-card">
                 <div class="menu-icon">👤</div>
@@ -491,10 +472,16 @@
                 <div class="menu-icon">🪟</div>
                 <div class="menu-title">Glass</div>
             </a>
+
+            <!-- 🆕 নতুন যুক্ত করা ইনভয়েস ও বিল ফিচার -->
+            <a href="invoice.html" class="menu-card">
+                <div class="menu-icon">🧾</div>
+                <div class="menu-title">Bill & Invoice</div>
+            </a>
         </div>
     </div>
 
-    <!-- সাইডবার (থ্রি-ডট মেনু) -->
+    <!-- সাইডবার -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
@@ -531,7 +518,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            // ⏱️ রিফ্রেশ/ডুকার সাথে সাথে ১.২ সেকেন্ড স্প্ল্যাশ স্ক্রিন প্রদর্শন করা
             setTimeout(function() {
                 const splash = document.getElementById("splash-screen");
                 if (splash) {
@@ -591,7 +577,6 @@
             }
         }
 
-        // 🔑 লক আইকনে ৫ বার ক্লিক করলে মাস্টার কী ইনপুট মোড অন হবে
         function handleLockIconClick() {
             lockClickCount++;
             if (lockClickCount >= 5 && !isMasterMode) {

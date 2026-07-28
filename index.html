@@ -321,7 +321,7 @@
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
             
-            <!-- 👤 হেডারে শুধু আপনার নিজস্ব ছবি দেখা যাবে -->
+            <!-- হেডারে আপনার নিজস্ব ছবি -->
             <img src="rubel.jpg" alt="Developer" class="header-logo" onerror="this.src='https://img.icons8.com/color/96/user.png'">
         </div>
 
@@ -330,7 +330,6 @@
                 <div class="user-title" id="userNameDisplay">Welcome, User</div>
                 <button class="edit-name-btn" onclick="changeUserName()">✏️</button>
             </div>
-            <!-- ড্যাশবোর্ডে পূর্বের মতো ভার্সন লেখা -->
             <div class="user-sub">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
             
@@ -351,7 +350,7 @@
                 <div class="menu-title">Company</div>
             </a>
 
-            <a href="calculator.html" class="menu-card">
+            <a href="material-calculator.html" class="menu-card">
                 <div class="menu-icon">🧮</div>
                 <div class="menu-title">Material Calculator</div>
             </a>
@@ -370,16 +369,24 @@
                 <div class="menu-icon">⚙️</div>
                 <div class="menu-title">Rate Settings</div>
             </a>
+
+            <!-- নতুন গ্লাস সেকশন -->
+            <a href="glass.html" class="menu-card">
+                <div class="menu-icon">🪟</div>
+                <div class="menu-title">Glass</div>
+            </a>
         </div>
     </div>
 
-    <!-- সাইডবার -->
+    <!-- সাইডবার (থ্রি-ডট মেনু) -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
                 <h3>Menu</h3>
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding: 2px 8px;">✕</button>
             </div>
+            <!-- থ্রি-ডট মেনুর ভেতর নিজস্ব প্রোফাইল ও বৃত্তান্ত সেট করার অপশন -->
+            <a href="profile.html" class="sidebar-menu-item">👤 My Profile & Details</a>
             <a href="#" class="sidebar-menu-item">⚙️ Admin Panel</a>
             <a href="master.html" class="sidebar-menu-item">📦 Master Data</a>
         </div>

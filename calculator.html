@@ -210,7 +210,7 @@
             text-decoration: none;
         }
 
-        /* 📜 History Modal Popup Style */
+        /* History Modal Popup Style */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -245,20 +245,35 @@
 
     <!-- 📌 Top Bar -->
     <div class="top-bar">
-        <a href="index.html" class="top-btn">🏠 Home</a>
+        <a href="calculator.html" class="top-btn">🏠 Home</a>
         <button class="top-btn" onclick="openHistoryModal()">📜 History</button>
     </div>
 
-    <!-- 👤 1. Customer Details -->
+    <!-- 🏬 1. My Store / Contact Details (আপানার তথ্য) -->
+    <div class="card" style="border: 1px solid #93c5fd; background: #eff6ff;">
+        <div class="card-title" style="color: #1d4ed8;">My Store / Contact Info (আপনার তথ্য)</div>
+        <div class="grid-2">
+            <div class="input-group">
+                <label>Shop/Your Name</label>
+                <input type="text" id="myShopName" class="input-control" placeholder="e.g. RM COMPUTER / Aluminium Shop" value="RM COMPUTER">
+            </div>
+            <div class="input-group">
+                <label>My Mobile Number</label>
+                <input type="text" id="myPhone" class="input-control" placeholder="01812691877" value="01812691877">
+            </div>
+        </div>
+    </div>
+
+    <!-- 👤 2. Customer Details (কাস্টমারের তথ্য) -->
     <div class="card">
         <div class="card-title">Customer Details</div>
         <div class="input-group" style="margin-bottom:10px;">
             <label>Customer Name</label>
-            <input type="text" id="custName" class="input-control" placeholder="Enter Name">
+            <input type="text" id="custName" class="input-control" placeholder="Enter Customer Name">
         </div>
         <div class="grid-2">
             <div class="input-group">
-                <label>Mobile Number</label>
+                <label>Customer Mobile</label>
                 <input type="text" id="custPhone" class="input-control" placeholder="017xxxxxxxx">
             </div>
             <div class="input-group">
@@ -268,7 +283,7 @@
         </div>
     </div>
 
-    <!-- ⚙️ 2. Item Specifications -->
+    <!-- ⚙️ 3. Item Specifications -->
     <div class="card">
         <div class="card-title">Item Specifications</div>
         
@@ -345,7 +360,7 @@
         </div>
     </div>
 
-    <!-- 📐 3. Window Dimensions -->
+    <!-- 📐 4. Window Dimensions -->
     <div class="card">
         <div class="card-title">Window Dimensions (Inches)</div>
         <table class="win-table">
@@ -373,7 +388,7 @@
         <button class="btn-calc" onclick="calculateAll()">Calculate Material & Cutting</button>
     </div>
 
-    <!-- 📊 4. Material Details -->
+    <!-- 📊 5. Material Details -->
     <div class="card" id="matDetailsCard" style="display: none;">
         <div class="card-title">Material Details</div>
         <table class="report-table">
@@ -390,7 +405,7 @@
         </table>
     </div>
 
-    <!-- ✂️ 5. Cutting Report (Strict 21ft Logic for Top/Bottom) -->
+    <!-- ✂️ 6. Cutting Report -->
     <div class="card" id="cuttingReportCard" style="display: none;">
         <div class="card-title">Cutting Report (Bar Count)</div>
         <table class="report-table cutting-table">
@@ -423,9 +438,7 @@
                 <h3 style="color:#2563eb;">Calculator History</h3>
                 <button onclick="closeHistoryModal()" style="border:none; background:none; font-size:18px; cursor:pointer;">✕</button>
             </div>
-            <div id="historyList">
-                <!-- History Items Will Load Here -->
-            </div>
+            <div id="historyList"></div>
             <button onclick="clearHistory()" style="width:100%; padding:8px; background:#ef4444; color:white; border:none; border-radius:6px; margin-top:10px; cursor:pointer;">Clear All History</button>
         </div>
     </div>
@@ -480,25 +493,24 @@
                 const wFt = w / 12;
 
                 outerSideFt += (hFt * 2) * q;
-                outerTopFt += wFt * q;
-                outerBottomFt += wFt * q;
+                outerTopFt += wFt * q;          
+                outerBottomFt += wFt * q;       
 
                 shutterLockFt += (hFt * 2) * q;
                 shutterInterlockFt += (hFt * 2) * q;
-                shutterTopFt += wFt * q;
-                shutterBottomFt += wFt * q;
+                shutterTopFt += wFt * q;        
+                shutterBottomFt += wFt * q;     
 
                 totalGlassSqft += ((h * w) / 144) * q;
 
                 for (let k = 0; k < q; k++) {
                     heightPieces.push(h, h);
-                    widthPieces.push(w, w);
+                    widthPieces.push(w); 
                 }
             });
 
             const totalAluFt = outerSideFt + outerTopFt + outerBottomFt + shutterLockFt + shutterInterlockFt + shutterTopFt + shutterBottomFt;
 
-            // Height-based calculation (18.6 vs 21 ft)
             function calculateHeightBars(pieces) {
                 let bar18Count = 0;
                 let bar21Count = 0;
@@ -523,7 +535,6 @@
                 return { bar18: bar18Count, bar21: bar21Count };
             }
 
-            // Strictly 21ft calculation for Top & Bottom
             function calculateOnly21FtBars(pieces) {
                 let bar21Count = 0;
                 let sortedPieces = [...pieces].sort((a, b) => b - a);
@@ -546,13 +557,11 @@
             let sideBars = calculateHeightBars(heightPieces);
             let topBotBars21 = calculateOnly21FtBars(widthPieces);
 
-            // Cost Calculation
             const aluCost = totalAluFt * 150;
             const glassCost = totalGlassSqft * 120;
             const extraCost = totalGlassSqft * 90;
             const grandTotal = aluCost + glassCost + extraCost;
 
-            // Display Results
             document.getElementById("resOuterSide").innerText = outerSideFt.toFixed(2) + " ft";
             document.getElementById("resOuterTop").innerText = outerTopFt.toFixed(2) + " ft";
             document.getElementById("resOuterBottom").innerText = outerBottomFt.toFixed(2) + " ft";
@@ -564,7 +573,6 @@
             document.getElementById("resGlassArea").innerText = totalGlassSqft.toFixed(2) + " Sqft";
             document.getElementById("resSellingPrice").innerText = grandTotal.toFixed(2) + " ৳";
 
-            // Update Cutting Report
             document.getElementById("cutOuterSide18").innerText = sideBars.bar18;
             document.getElementById("cutOuterSide21").innerText = sideBars.bar21;
             document.getElementById("cutOuterTop21").innerText = topBotBars21;
@@ -579,7 +587,6 @@
             document.getElementById("matDetailsCard").style.display = "block";
             document.getElementById("cuttingReportCard").style.display = "block";
 
-            // 💾 Auto Save To LocalStorage History
             saveToHistory({
                 date: new Date().toLocaleDateString('bn-BD') + " " + new Date().toLocaleTimeString('bn-BD'),
                 name: document.getElementById("custName").value || "GUEST",
@@ -589,14 +596,12 @@
             });
         }
 
-        // 💾 Save History Function
         function saveToHistory(data) {
             let history = JSON.parse(localStorage.getItem("alu_calc_history")) || [];
             history.unshift(data);
             localStorage.setItem("alu_calc_history", JSON.stringify(history));
         }
 
-        // 📜 Open/Close History Modal
         function openHistoryModal() {
             const historyList = document.getElementById("historyList");
             let history = JSON.parse(localStorage.getItem("alu_calc_history")) || [];
@@ -624,12 +629,14 @@
             openHistoryModal();
         }
 
-        // 📄 Save Quotation Data
+        // 📄 Save Data for Quotation Page (আপনার নাম ও মোবাইল সহ পাস হবে)
         function saveForQuotation() {
             const data = {
-                name: document.getElementById("custName").value || "N/A",
-                phone: document.getElementById("custPhone").value || "N/A",
-                address: document.getElementById("custAddress").value || "N/A",
+                myShopName: document.getElementById("myShopName").value || "RM COMPUTER",
+                myPhone: document.getElementById("myPhone").value || "01812691877",
+                custName: document.getElementById("custName").value || "N/A",
+                custPhone: document.getElementById("custPhone").value || "N/A",
+                custAddress: document.getElementById("custAddress").value || "N/A",
                 company: document.getElementById("companySelect").value,
                 series: document.getElementById("seriesSelect").value,
                 aluThick: document.getElementById("aluThick").value,

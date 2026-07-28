@@ -210,7 +210,7 @@
             text-decoration: none;
         }
 
-        /* History Modal Popup Style */
+        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -243,15 +243,15 @@
 </head>
 <body>
 
-    <!-- 📌 Top Bar (হোম বাটন ঠিক করা হয়েছে) -->
+    <!-- 📌 Top Bar (হোম বাটন সঠিক পেজে যাওয়ার লিঙ্ক সহ) -->
     <div class="top-bar">
-        <button class="top-btn" onclick="window.location.reload()">🏠 Home</button>
+        <a href="index.html" class="top-btn">🏠 Home</a>
         <button class="top-btn" onclick="openHistoryModal()">📜 History</button>
     </div>
 
     <!-- 🏬 1. My Store / Contact Details -->
     <div class="card" style="border: 1px solid #93c5fd; background: #eff6ff;">
-        <div class="card-title" style="color: #1d4ed8;">My Store / Contact Info (আপনার তথ্য)</div>
+        <div class="card-title" style="color: #1d4ed8;">My Store / Contact Info</div>
         <div class="grid-2">
             <div class="input-group">
                 <label>Shop/Your Name</label>
@@ -427,7 +427,6 @@
             </tbody>
         </table>
 
-        <!-- 📄 Go to Quotation Button (ক্লিক করলে ডাটা সেভ হয়ে রিডাইরেক্ট হবে) -->
         <button class="btn-go-quotation" onclick="goToQuotation()">Go To Quotation ➔</button>
     </div>
 
@@ -629,9 +628,23 @@
             openHistoryModal();
         }
 
-        // 📄 Go to Quotation Page Function (সম্পূর্ণ ডাটা সঠিকভাবে সেভ করে পেজে নিয়ে যাবে)
+        // 📄 সম্পূর্ণ কাস্টমার এবং দোকানের ডাটা সেভ করে কোটেশনে পাঠানোর সঠিক নিয়ম
         function goToQuotation() {
-            const data = {
+            // উইন্ডো লিস্ট নেওয়া
+            const heights = document.querySelectorAll(".win-h");
+            const widths = document.querySelectorAll(".win-w");
+            const qtys = document.querySelectorAll(".win-q");
+            let windowsList = [];
+
+            heights.forEach((hEl, i) => {
+                windowsList.push({
+                    height: hEl.value,
+                    width: widths[i].value,
+                    qty: qtys[i].value
+                });
+            });
+
+            const fullData = {
                 myShopName: document.getElementById("myShopName").value || "RM Thai Aluminum",
                 myPhone: document.getElementById("myPhone").value || "01676474412",
                 custName: document.getElementById("custName").value || "N/A",
@@ -645,9 +658,11 @@
                 glassThick: document.getElementById("glassThick").value,
                 glassColor: document.getElementById("glassColor").value,
                 totalArea: document.getElementById("resGlassArea").innerText,
-                totalPrice: document.getElementById("resSellingPrice").innerText
+                totalPrice: document.getElementById("resSellingPrice").innerText,
+                windows: windowsList
             };
-            localStorage.setItem("active_quotation", JSON.stringify(data));
+
+            localStorage.setItem("active_quotation", JSON.stringify(fullData));
             window.location.href = "quotation.html";
         }
     </script>

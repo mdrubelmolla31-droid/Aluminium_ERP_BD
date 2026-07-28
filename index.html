@@ -21,6 +21,86 @@
             min-height: 100vh;
         }
 
+        /* 🖼️ অ্যালুমিনিয়াম প্রোফাইল ও গ্লাস শ্যাডো সহ স্প্ল্যাশ স্ক্রিন (Splash Overlay) */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0b0f19 0%, #111827 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        /* থাই অ্যালুমিনিয়াম গ্লাস বক্স ফ্রেম ও গ্লাসি শ্যাডো */
+        .splash-profile-box {
+            width: 110px;
+            height: 110px;
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid #3b82f6;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+            animation: pulseProfile 2s infinite alternate;
+        }
+
+        /* অ্যালুমিনিয়াম স্লাইডিং প্রোফাইল জানালার থিম আইকন */
+        .alu-window-icon {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #60a5fa;
+            border-radius: 6px;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(96, 165, 250, 0.4);
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
+        }
+
+        .alu-window-icon::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 50%;
+            width: 3px;
+            background: #60a5fa;
+            transform: translateX(-50%);
+        }
+
+        .alu-window-icon::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 3px;
+            background: #60a5fa;
+            transform: translateY(-50%);
+        }
+
+        .splash-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .splash-sub {
+            color: #3b82f6;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        @keyframes pulseProfile {
+            0% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); transform: scale(0.98); }
+            100% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); transform: scale(1.02); }
+        }
+
         .dashboard-container {
             width: 100%;
             max-width: 450px;
@@ -313,6 +393,15 @@
 </head>
 <body>
 
+    <!-- 🌟 প্রথমবার অ্যাপে ঢোকার সময় ও রিফ্রেশ করলে স্লাইডিং উইন্ডো শ্যাডো পিকচার সহ স্প্ল্যাশ স্ক্রিন -->
+    <div id="splash-screen">
+        <div class="splash-profile-box">
+            <div class="alu-window-icon"></div>
+        </div>
+        <div class="splash-title">Aluminium ERP BD</div>
+        <div class="splash-sub">Glass & Section Manager</div>
+    </div>
+
     <!-- 🔒 প্রথমবার ইনস্টল করলে লকিং স্ক্রিন -->
     <div class="lock-overlay" id="lockScreen">
         <div class="lock-box">
@@ -442,6 +531,15 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
+            // ⏱️ রিফ্রেশ/ডুকার সাথে সাথে ১.২ সেকেন্ড স্প্ল্যাশ স্ক্রিন প্রদর্শন করা
+            setTimeout(function() {
+                const splash = document.getElementById("splash-screen");
+                if (splash) {
+                    splash.style.opacity = "0";
+                    splash.style.visibility = "hidden";
+                }
+            }, 1200);
+
             loadUserData();
 
             if (localStorage.getItem("app_permanently_unlocked") === "true") {

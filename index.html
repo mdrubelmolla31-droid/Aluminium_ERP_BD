@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminium ERP BD v2</title>
+    <title>RM, THAI ALUMINUM, BY, RUBEL</title>
     <style>
         * {
             margin: 0;
@@ -36,9 +36,12 @@
         }
 
         .header-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: #ffffff;
+            text-align: center;
+            flex: 1;
+            padding: 0 8px;
         }
 
         .icon-btn {
@@ -51,14 +54,25 @@
             font-size: 20px;
         }
 
-        /* Header Developer Photo Icon */
-        .header-logo {
-            width: 45px;
-            height: 45px;
+        /* Header Developer Photo Container */
+        .header-logo-container {
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             border: 2px solid #3b82f6;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .header-logo-container img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
         }
 
         /* User Card */
@@ -93,8 +107,9 @@
         }
 
         .user-sub {
-            color: #9ca3af;
-            font-size: 13px;
+            color: #3b82f6;
+            font-size: 12px;
+            font-weight: 600;
             margin-bottom: 12px;
         }
 
@@ -269,12 +284,12 @@
 </head>
 <body>
 
-    <!-- 🔒 আনলক স্ক্রিন -->
+    <!-- 🔒 ফার্স্ট টাইম সিকিউরিটি আনলক স্ক্রিন -->
     <div class="lock-overlay" id="lockScreen">
         <div class="lock-box">
             <div class="lock-icon" id="lockIcon" onclick="handleLockClick()">🔒</div>
             
-            <h3 id="lockTitle" style="color: #ffffff; font-size: 16px;">Device License Key</h3>
+            <h3 id="lockTitle" style="color: #ffffff; font-size: 15px;">Device License Activation</h3>
             <p id="lockSub" style="color: #9ca3af; font-size: 11px; margin-top: 4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
             
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
@@ -292,8 +307,10 @@
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
             
-            <!-- 👤 হেডারে আপনার নিজের ছবি -->
-            <img src="https://i.ibb.co/3ykCjYx/developer-rubel.jpg" alt="Developer" class="header-logo">
+            <!-- 👤 সরাসরি ইমবেড করা ডেভেলপার ফটো (কখনোই নষ্ট হবে না) -->
+            <div class="header-logo-container">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%231d4ed8'/><circle cx='50' cy='35' r='18' fill='%23fbbf24'/><path d='M20 82 C20 60, 80 60, 80 82 Z' fill='%23f3f4f6'/><text x='50' y='92' font-size='11' font-weight='bold' fill='%23ffffff' text-anchor='middle'>RUBEL</text></svg>" id="devHeaderImg" alt="Developer Rubel">
+            </div>
         </div>
 
         <div class="user-card">
@@ -301,7 +318,8 @@
                 <div class="user-title" id="userNameDisplay">Welcome, User</div>
                 <button class="edit-name-btn" onclick="changeUserName()">✏️</button>
             </div>
-            <div class="user-sub">Aluminium ERP BD v2</div>
+            <!-- নির্দিষ্ট ব্র্যান্ড লেখা -->
+            <div class="user-sub">RM, THAI ALUMINUM, BY, RUBEL</div>
             <span class="status-badge">✓ System Active</span>
             
             <div class="avatar-container" onclick="document.getElementById('profilePicker').click()">
@@ -380,6 +398,12 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             loadUserData();
+
+            // আপনার ছবি যদি লোকাল মেমোরিতে সেভ থাকে তবে সেটা হেডারে দেখাবে
+            const savedDevPic = localStorage.getItem("app_developer_photo");
+            if (savedDevPic) {
+                document.getElementById("devHeaderImg").src = savedDevPic;
+            }
 
             if (localStorage.getItem("app_permanently_unlocked") === "true") {
                 document.getElementById("lockScreen").style.display = "none";

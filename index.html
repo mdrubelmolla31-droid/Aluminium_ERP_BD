@@ -51,24 +51,23 @@
             font-size: 20px;
         }
 
-        /* Header Developer Image Container */
+        /* Header Logo Avatar Fix */
         .header-logo-box {
-            width: 46px;
-            height: 46px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             border: 2px solid #3b82f6;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-            background: #1e293b;
+            background: #1d4ed8;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            overflow: hidden;
         }
 
-        .header-logo-box img {
+        .header-logo-box svg {
             width: 100%;
             height: 100%;
-            object-fit: cover;
         }
 
         /* User Card */
@@ -217,12 +216,7 @@
             overflow: hidden;
             cursor: pointer;
             user-select: none;
-        }
-
-        .lock-icon-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            background: #1d4ed8;
         }
 
         .device-id-box {
@@ -307,9 +301,9 @@
             <!-- নির্দিষ্ট ডেভলপার লেখা -->
             <div class="dev-branding">RM, THAI ALUMINUM, BY, RUBEL</div>
 
-            <!-- ডেভেলপার ছবি (৫ বার ক্লিক করলে হিডেন এডমিন মোড) -->
-            <div class="lock-icon-box" onclick="handleLockClick()">
-                <img id="devLockImg" src="" alt="Developer">
+            <!-- ডেভেলপার ছবি -->
+            <div class="lock-icon-box" onclick="handleLockClick()" id="lockDevLogo">
+                <!-- SVG Icon Added -->
             </div>
             
             <h3 id="lockTitle" style="color: #ffffff; font-size: 15px;">Device License Activation</h3>
@@ -330,9 +324,9 @@
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
             
-            <!-- 👤 হেডারে আপনার আসল ছবি -->
-            <div class="header-logo-box">
-                <img id="devHeaderImg" src="" alt="Rubel">
+            <!-- 👤 হেডারে শুধু আপনার চশমা পরা কাস্টম ভেক্টর আইকন -->
+            <div class="header-logo-box" id="headerDevLogo">
+                <!-- SVG Icon Added -->
             </div>
         </div>
 
@@ -350,6 +344,7 @@
             <input type="file" id="profilePicker" accept="image/*" style="display: none;" onchange="updateProfilePicture(this)">
         </div>
 
+        <!-- 🔗 মেনু লিংকসমূহ আপনার GitHub ফাইলের সাথে মিলিয়ে দেওয়া হয়েছে -->
         <div class="grid-menu">
             <a href="profile.html" class="menu-card">
                 <div class="menu-icon">👤</div>
@@ -361,7 +356,7 @@
                 <div class="menu-title">Company</div>
             </a>
 
-            <a href="material-calculator.html" class="menu-card">
+            <a href="calculator.html" class="menu-card">
                 <div class="menu-icon">🧮</div>
                 <div class="menu-title">Material Calculator</div>
             </a>
@@ -381,7 +376,6 @@
                 <div class="menu-title">Rate Settings</div>
             </a>
 
-            <!-- গ্লাস সেকশন -->
             <a href="glass.html" class="menu-card">
                 <div class="menu-icon">🪟</div>
                 <div class="menu-title">Glass</div>
@@ -389,7 +383,7 @@
         </div>
     </div>
 
-    <!-- সাইডবার (থ্রি-ডট মেনু) -->
+    <!-- সাইডবার (থ্রি-ডট/হ্যামবার্গার মেনু) -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
@@ -403,8 +397,8 @@
     </div>
 
     <script>
-        // সরাসরি আপনার আসল চশমা পরা ছবি (SVG ডাটা দিয়ে প্রস্তুত)
-        const RUBEL_REAL_PHOTO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111827'/><circle cx='50' cy='35' r='20' fill='%23ffdbac'/><path d='M30 32 L45 32 M55 32 L70 32 M45 32 Q50 35 55 32' stroke='%231e293b' stroke-width='3' fill='none'/><circle cx='37' cy='32' r='7' fill='none' stroke='%231e293b' stroke-width='2.5'/><circle cx='63' cy='32' r='7' fill='none' stroke='%231e293b' stroke-width='2.5'/><circle cx='37' cy='32' r='2.5' fill='%231e293b'/><circle cx='63' cy='32' r='2.5' fill='%231e293b'/><path d='M42 45 Q50 50 58 45' stroke='%23d97706' stroke-width='2' fill='none'/><path d='M22 90 C22 62 78 62 78 90 Z' fill='%231e40af'/><text x='50' y='96' font-size='10' font-weight='bold' fill='%23fbbf24' text-anchor='middle'>RUBEL</text></svg>";
+        // চশমা পড়া ডেভেলপার কাস্টম আইকন
+        const DEV_SVG = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0f172a"/><circle cx="50" cy="38" r="22" fill="#ffdbac"/><path d="M30 35 L45 35 M55 35 L70 35 M45 35 Q50 38 55 35" stroke="#1e293b" stroke-width="3" fill="none"/><circle cx="37" cy="35" r="7.5" fill="none" stroke="#1e293b" stroke-width="2.5"/><circle cx="63" cy="35" r="7.5" fill="none" stroke="#1e293b" stroke-width="2.5"/><circle cx="37" cy="35" r="2.5" fill="#1e293b"/><circle cx="63" cy="35" r="2.5" fill="#1e293b"/><path d="M42 48 Q50 53 58 48" stroke="#d97706" stroke-width="2" fill="none"/><path d="M20 95 C20 65 80 65 80 95 Z" fill="#1d4ed8"/><text x="50" y="93" font-size="9" font-weight="bold" fill="#fbbf24" text-anchor="middle">RUBEL</text></svg>`;
 
         let clickCount = 0;
         let isMasterMode = false;
@@ -429,9 +423,9 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            // ছবিতে আপনার প্রোফাইল ফটো বসিয়ে দেওয়া
-            document.getElementById("devHeaderImg").src = RUBEL_REAL_PHOTO;
-            document.getElementById("devLockImg").src = RUBEL_REAL_PHOTO;
+            // আইকন বসানো
+            document.getElementById("headerDevLogo").innerHTML = DEV_SVG;
+            document.getElementById("lockDevLogo").innerHTML = DEV_SVG;
 
             loadUserData();
 

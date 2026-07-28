@@ -5,92 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quotation Statement</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f8fafc; color: #1e293b; }
-        .invoice-box { max-width: 600px; margin: auto; padding: 20px; background: white; border-radius: 10px; border: 1px solid #e2e8f0; }
-        .header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin-bottom: 15px; }
-        .header h2 { color: #2563eb; margin-bottom: 5px; }
-        .info-grid { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; }
-        .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; padding: 16px; max-width: 500px; margin: 0 auto; }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .top-btn { background: #ffffff; border: 1px solid #cbd5e1; color: #2563eb; padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; text-decoration: none; }
+
+        .card { background: #ffffff; border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .card-title { color: #2563eb; font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 16px; border-bottom: 2px solid #2563eb; padding-bottom: 8px; }
+
+        .info-box { background: #f1f5f9; border-radius: 10px; padding: 12px; margin-bottom: 12px; font-size: 14px; line-height: 1.6; }
+        .info-box strong { color: #0f172a; }
+
+        .spec-box { border: 1px dashed #2563eb; background: #eff6ff; border-radius: 10px; padding: 12px; margin-bottom: 12px; font-size: 13px; line-height: 1.5; }
+
+        .table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
         .table th, .table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
-        .table th { background: #f1f5f9; }
-        .btn-print { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; margin-top: 15px; cursor: pointer; }
-        @media print { .btn-print { display: none; } }
+        .table th { background: #2563eb; color: white; }
+
+        .total-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 10px; text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 12px; }
+        .price-tag { color: #2563eb; font-size: 18px; font-weight: bold; text-align: center; margin-top: 10px; }
+
+        .btn-print { width: 100%; padding: 14px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; }
+
+        @media print {
+            .top-bar, .btn-print { display: none; }
+            body { padding: 0; background: white; }
+            .card { box-shadow: none; padding: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="invoice-box">
-        <div class="header">
-            <h2 id="qShopName">--</h2>
-            <p>Mobile: <span id="qShopPhone">--</span></p>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="index.html" class="top-btn">🏠 Home</a>
+        <a href="calculator.html" class="top-btn">🔙 Edit Calculator</a>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Quotation Statement</div>
+
+        <!-- Shop Info -->
+        <div class="info-box" style="background: #e0f2fe; border: 1px solid #bae6fd;">
+            <div style="font-size: 16px; font-weight: bold; color: #0369a1;" id="qShopName">--</div>
+            <div>Mobile: <span id="qShopPhone">--</span></div>
         </div>
 
-        <div class="info-grid">
-            <div>
-                <strong>Customer Info:</strong><br>
-                Name: <span id="qCustName">--</span><br>
-                Phone: <span id="qCustPhone">--</span><br>
-                Address: <span id="qCustAddress">--</span>
-            </div>
-            <div style="text-align: right;">
-                <strong>Specs:</strong><br>
-                Alu: <span id="qAluSpec">--</span><br>
-                Glass: <span id="qGlassSpec">--</span>
-            </div>
+        <!-- Customer Info -->
+        <div class="info-box">
+            <div><strong>Customer Name:</strong> <span id="qCustName">--</span></div>
+            <div><strong>Mobile:</strong> <span id="qCustPhone">--</span></div>
+            <div><strong>Address:</strong> <span id="qCustAddress">--</span></div>
         </div>
 
-        <h4>Window Dimensions</h4>
+        <!-- Material Specification -->
+        <div class="spec-box">
+            <strong style="color: #1d4ed8;">Material Specification:</strong><br>
+            <strong>Aluminium:</strong> <span id="qAluSpec">--</span><br>
+            <strong>Glass:</strong> <span id="qGlassSpec">--</span>
+        </div>
+
+        <!-- Windows Table -->
         <table class="table">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Height (in)</th>
-                    <th>Width (in)</th>
+                    <th>SL</th>
+                    <th>Size (Height × Width)</th>
                     <th>Qty</th>
+                    <th>Total Sqft</th>
                 </tr>
             </thead>
             <tbody id="qWinTable"></tbody>
         </table>
 
-        <br>
-        <div style="text-align: right; font-size: 15px;">
-            <p>Total Area: <strong id="qTotalArea">0.00 Sqft</strong></p>
-            <p style="font-size: 18px; color: #2563eb;">Total Price: <strong id="qTotalPrice">0.00 ৳</strong></p>
+        <!-- Totals -->
+        <div class="total-box">
+            Total Area: <span id="qTotalArea">0.00 Sqft</span> | Rate per Sqft: <span id="qRate">0.00 ৳</span>
         </div>
 
-        <button class="btn-print" onclick="window.print()">Print / Save PDF</button>
+        <div class="price-tag">
+            Total Selling Price: <span id="qTotalPrice">0 ৳</span>
+        </div>
+
+        <br>
+        <button class="btn-print" onclick="window.print()">Print Quotation</button>
     </div>
 
     <script>
         const data = JSON.parse(localStorage.getItem("active_quotation"));
 
         if (data) {
-            document.getElementById("qShopName").innerText = data.myShopName;
-            document.getElementById("qShopPhone").innerText = data.myPhone;
-            document.getElementById("qCustName").innerText = data.custName;
-            document.getElementById("qCustPhone").innerText = data.custPhone;
-            document.getElementById("qCustAddress").innerText = data.custAddress;
+            // ১. দোকানের তথ্য
+            document.getElementById("qShopName").innerText = data.myShopName || "RM Thai Aluminum";
+            document.getElementById("qShopPhone").innerText = data.myPhone || "01676474412";
 
-            document.getElementById("qAluSpec").innerText = `${data.company} (${data.aluThick}, ${data.aluColor})`;
+            // ২. কাস্টমারের তথ্য (যা আগে শপের তথ্য দিয়ে পরিবর্তন হয়ে যাচ্ছিল)
+            document.getElementById("qCustName").innerText = data.custName || "N/A";
+            document.getElementById("qCustPhone").innerText = data.custPhone || "N/A";
+            document.getElementById("qCustAddress").innerText = data.custAddress || "N/A";
+
+            // ৩. মেটেরিয়াল স্পেসিফিকেশন
+            document.getElementById("qAluSpec").innerText = `${data.company} (${data.series}, ${data.aluThick}, ${data.aluColor})`;
             document.getElementById("qGlassSpec").innerText = `${data.glassComp} (${data.glassThick}, ${data.glassColor})`;
 
-            document.getElementById("qTotalArea").innerText = data.totalArea;
-            document.getElementById("qTotalPrice").innerText = data.totalPrice;
-
+            // ৪. উইন্ডো টেবিল ডাটা
             const tbody = document.getElementById("qWinTable");
             tbody.innerHTML = "";
+            let totalSqftCalc = 0;
+
             if (data.windows && data.windows.length > 0) {
                 data.windows.forEach((win, index) => {
+                    const h = parseFloat(win.height) || 0;
+                    const w = parseFloat(win.width) || 0;
+                    const q = parseInt(win.qty) || 0;
+                    const sqft = ((h * w) / 144) * q;
+                    totalSqftCalc += sqft;
+
                     tbody.innerHTML += `
                         <tr>
                             <td>${index + 1}</td>
-                            <td>${win.height}</td>
-                            <td>${win.width}</td>
-                            <td>${win.qty}</td>
+                            <td>${h}" × ${w}"</td>
+                            <td>${q} Pcs</td>
+                            <td>${sqft.toFixed(2)} Sqft</td>
                         </tr>
                     `;
                 });
             }
+
+            // ৫. হিসাবের মোট তথ্য
+            const totalPriceNum = parseFloat(data.totalPrice.replace(/[^0-9.]/g, '')) || 0;
+            const ratePerSqft = totalSqftCalc > 0 ? (totalPriceNum / totalSqftCalc) : 0;
+
+            document.getElementById("qTotalArea").innerText = totalSqftCalc.toFixed(2) + " Sqft";
+            document.getElementById("qRate").innerText = ratePerSqft.toFixed(2) + " ৳";
+            document.getElementById("qTotalPrice").innerText = data.totalPrice;
         }
     </script>
 </body>

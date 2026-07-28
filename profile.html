@@ -17,7 +17,6 @@
     .top-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       margin-bottom: 20px;
     }
 
@@ -35,55 +34,48 @@
       font-size: 20px;
       font-weight: bold;
       margin: 0 auto;
+      transform: translateX(-20px); /* সেন্টারে আনার জন্য */
     }
 
-    /* সার্চ বার */
-    .search-box {
-      width: 100%;
-      padding: 12px;
-      background-color: #132038;
-      border: 1px solid #25395c;
-      border-radius: 8px;
-      color: #fff;
-      margin-bottom: 15px;
-      box-sizing: border-box;
+    /* কার্ড গ্রিড লেআউট (২ টি করে কার্ড) */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
     }
 
-    .selected-title {
-      color: #4ba3e3;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-
-    /* ডাটা কার্ড */
-    .profile-card {
+    /* সিঙ্গেল কার্ড ডিজাইন */
+    .menu-card {
       background-color: #111d33;
       border: 1px solid #1f3354;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 12px;
+      border-radius: 12px;
+      padding: 20px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .die-tag {
-      display: inline-block;
-      background-color: #17325c;
-      color: #4ba3e3;
-      padding: 4px 10px;
-      border-radius: 6px;
+    .menu-card:hover {
+      background-color: #172847;
+      border-color: #2b497a;
+    }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
       font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 8px;
+      font-weight: 500;
+      color: #e1e7f0;
+      line-height: 1.4;
     }
 
-    .item-title {
-      font-size: 16px;
-      font-weight: bold;
-      margin: 4px 0;
-    }
-
-    .item-desc {
-      color: #8fa3bf;
-      font-size: 13px;
+    /* ফুল উইডথ কার্ড (EDF All এর জন্য) */
+    .full-width {
+      grid-column: span 2;
     }
   </style>
 </head>
@@ -95,30 +87,39 @@
     <div class="header-title">Aluminum Profile</div>
   </div>
 
-  <!-- সার্চ বার -->
-  <input type="text" class="search-box" placeholder="Search item...">
+  <!-- কার্ডগুলোর গ্রিড -->
+  <div class="card-grid">
 
-  <div class="selected-title">Selected Category: Sliding Profile (স্লাইডিং প্রোফাইল)</div>
-
-  <!-- ডাটা কার্ড লিস্ট -->
-  <div id="profile-container">
-    <div class="profile-card">
-      <div class="die-tag">Die No: 2121N</div>
-      <div class="item-title">3" Sliding outer top</div>
-      <div class="item-desc">General Model | Length: 21'-0"</div>
+    <!-- ১. Curtain Wall -->
+    <div class="menu-card">
+      <div class="card-icon">🏛️</div>
+      <div class="card-title">Curtain Wall<br>(কার্টেন ওয়াল)</div>
     </div>
 
-    <div class="profile-card">
-      <div class="die-tag">Die No: 2120 A</div>
-      <div class="item-title">3" Sliding outer Low Bottom</div>
-      <div class="item-desc">General Model | Length: 21'-0"</div>
+    <!-- ২. Sliding Profile -->
+    <div class="menu-card">
+      <div class="card-icon">🚪</div>
+      <div class="card-title">Sliding Profile<br>(স্লাইডিং প্রোফাইল)</div>
     </div>
 
-    <div class="profile-card">
-      <div class="die-tag">Die No: 1437 B</div>
-      <div class="item-title">4" Sliding outer top</div>
-      <div class="item-desc">Outer Frame 91mm (With Net) | Length: 21'-0"</div>
+    <!-- ৩. EDF Book -->
+    <div class="menu-card">
+      <div class="card-icon">📖</div>
+      <div class="card-title">EDF Book<br>(ইডিএফ বুক)</div>
     </div>
+
+    <!-- ৪. Detail Catalog -->
+    <div class="menu-card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Detail Catalog<br>(ডিটেইল ক্যাটালগ)</div>
+    </div>
+
+    <!-- ৫. EDF All (ফুল উইডথ) -->
+    <div class="menu-card full-width">
+      <div class="card-icon">📚</div>
+      <div class="card-title">EDF All<br>(ইডিএফ অল)</div>
+    </div>
+
   </div>
 
 </body>

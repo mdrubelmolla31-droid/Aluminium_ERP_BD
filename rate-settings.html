@@ -176,6 +176,10 @@
     <input type="text" id="newAluThick">
     <button class="btn-blue" onclick="addMasterData('aluThickness', 'newAluThick')">Add Thickness</button>
 
+    <label>New Aluminium Colour</label>
+    <input type="text" id="newAluColour">
+    <button class="btn-blue" onclick="addMasterData('aluColour', 'newAluColour')">Add Aluminium Colour</button>
+
     <label>New Glass Company</label>
     <input type="text" id="newGlassComp">
     <button class="btn-blue" onclick="addMasterData('glassCompany', 'newGlassComp')">Add Glass Company</button>
@@ -198,6 +202,9 @@
     <label>Aluminium Thickness</label>
     <select id="aluThickness"></select>
 
+    <label>Aluminium Colour</label>
+    <select id="aluColour"></select>
+
     <label>Glass Company</label>
     <select id="glassCompany"></select>
 
@@ -207,7 +214,7 @@
     <label>Glass Colour</label>
     <select id="glassColour"></select>
 
-    <!-- Rate Inputs (সম্পূর্ণ ফাঁকা ও ক্লিন) -->
+    <!-- Rate Inputs -->
     <label>Aluminium Rate (৳/ft)</label>
     <input type="number" id="aluRate">
 
@@ -264,6 +271,7 @@
       company: ['KAI', 'MAX', 'ALFA', 'BTA', 'Altec'],
       series: ['Sliding Window 3"', 'Sliding Window 4"'],
       aluThickness: ['1.0 mm', '1.2 mm', '1.4 mm'],
+      aluColour: ['Silver', 'White', 'Black', 'Chocolate', 'Wood', 'Red'],
       glassCompany: ['Nasir', 'Xinyi', 'Bengal', 'Akij'],
       glassThickness: ['5 mm', '6 mm', '8 mm', '10 mm'],
       glassColour: ['Clear', 'Blue', 'Green', 'Dark Grey']
@@ -280,6 +288,7 @@
       fillSelect('company', masterData.company);
       fillSelect('series', masterData.series);
       fillSelect('aluThickness', masterData.aluThickness);
+      fillSelect('aluColour', masterData.aluColour);
       fillSelect('glassCompany', masterData.glassCompany);
       fillSelect('glassThickness', masterData.glassThickness);
       fillSelect('glassColour', masterData.glassColour);
@@ -315,7 +324,7 @@
         company: document.getElementById('company').value,
         series: document.getElementById('series').value,
         aluThick: document.getElementById('aluThickness').value,
-        aluColour: 'Silver',
+        aluColour: document.getElementById('aluColour').value,
         glassCo: document.getElementById('glassCompany').value,
         glassThick: document.getElementById('glassThickness').value,
         glassColour: document.getElementById('glassColour').value,
@@ -329,7 +338,6 @@
 
       savedRates.push(rateData);
       localStorage.setItem('savedRates', JSON.stringify(savedRates));
-      localStorage.setItem('activeRate', JSON.stringify(rateData));
       renderTable();
       clearInputs();
     }

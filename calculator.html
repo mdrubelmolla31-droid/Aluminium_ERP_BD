@@ -6,10 +6,11 @@
   <title>RM Thai Aluminium - Calculator</title>
 
   <style>
-    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
     .container { max-width: 650px; margin: 0 auto; }
 
+    /* ১. হেডার কার্ড (শপ নাম ও নম্বর) */
     .header-card {
       background: linear-gradient(135deg, #1e3a8a, #2563eb);
       color: white;
@@ -71,6 +72,7 @@
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
+    /* মেটেরিয়াল টেবিল */
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
     .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .mat-table td:first-child { text-align: left; color: #334155; font-weight: 500; }
@@ -104,13 +106,13 @@
 
 <div class="container">
 
-  <!-- শপের নাম ও ফোন নম্বর -->
+  <!-- ১. শপের নাম ও ফোন নম্বর (হেডার) -->
   <div class="header-card">
     <h2>RM Thai Aluminium</h2>
     <p>মোবাইল: 01700-000000 | 01800-000000</p>
   </div>
 
-  <!-- ১. Customer Details Section -->
+  <!-- ২. Customer Details Section -->
   <div class="card">
     <div class="card-title">Customer Details</div>
     
@@ -137,7 +139,7 @@
     </div>
   </div>
 
-  <!-- ২. Item Specifications -->
+  <!-- ৩. Item Specifications Section -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     
@@ -193,7 +195,7 @@
     </div>
   </div>
 
-  <!-- ৩. Window Dimensions -->
+  <!-- ৪. Window Dimensions Section -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table class="input-table">
@@ -207,7 +209,7 @@
     <button class="btn btn-calc" type="button" onclick="calculateAll()">Calculate</button>
   </div>
 
-  <!-- ৪. Material Details -->
+  <!-- ৫. Material Details (রেজাল্ট সেকশন) -->
   <div class="card">
     <div class="card-title">Material Details</div>
     
@@ -245,7 +247,7 @@
     </table>
   </div>
 
-  <!-- ৫. Cutting Report -->
+  <!-- ৬. Cutting Report Section -->
   <div class="card">
     <div class="card-title">Cutting Report</div>
     <table class="report-table">
@@ -323,7 +325,7 @@
     return str.toString().toLowerCase().replace(/[^a-z0-9]/g, '');
   }
 
-  // ১০০% নিখুঁত ম্যাচিং ফাংশন
+  // সেটিংসে সেভ থাকা ডাটার সাথে ম্যাচিং করার লজিক
   function getRateFromSettings(company, series, thickness, color) {
     let savedList = JSON.parse(localStorage.getItem('rateList')) || 
                     JSON.parse(localStorage.getItem('rateSettingsData')) || 
@@ -331,10 +333,9 @@
                     JSON.parse(localStorage.getItem('settingsData')) || [];
 
     if (!savedList || savedList.length === 0) {
-      return { success: false, msg: "সেটিংসে কোনো রেট সেভ করা নেই! আগে সেটিংস থেকে রেট যোগ করুন।" };
+      return { success: false, msg: "সেটিংসে কোনো রেট সেভ করা নেই! আগে সেটিংস পেজ থেকে রেট যুক্ত করুন।" };
     }
 
-    // নিখুঁত ফিল্টারিং: আপনি যা সিলেক্ট করেছেন তা অবিকল মিলতে হবে
     let matched = savedList.find(item => {
       let itemCo = cleanStr(item.company || item.aluCompany || item.Company);
       let itemSeries = cleanStr(item.series || item.aluSeries || item.Series);
@@ -347,11 +348,10 @@
              itemColor === cleanStr(color);
     });
 
-    // ডাটা না মিললে সরাসরি Error ফেরত দেবে (কোনো ভুল/আন্দাজি রেট দেখাবে না)
     if (!matched) {
       return { 
         success: false, 
-        msg: `রেট পাওয়া যায়নি! কোম্পানি: ${company}, সিরিজ: ${series}, থিকনেস: ${thickness}, কালার: ${color} — এই নির্দিষ্ট কম্বিনেশনের রেট সেটিংস পেজে যুক্ত করুন।` 
+        msg: `রেট পাওয়া যায়নি! কোম্পানি: ${company}, সিরিজ: ${series}, থিকনেস: ${thickness}, কালার: ${color} — এই নির্দিষ্ট কম্বিনেশনের রেট সেটিংসে যুক্ত করুন।` 
       };
     }
 
@@ -384,7 +384,7 @@
       errDiv.innerText = rateData.msg;
       errDiv.style.display = 'block';
       alert(rateData.msg);
-      return; // নিখুঁত রেট না পেলে এখানেই ক্যালকুলেশন বন্ধ হয়ে যাবে
+      return; 
     }
 
     let heights = document.querySelectorAll('.w-h');

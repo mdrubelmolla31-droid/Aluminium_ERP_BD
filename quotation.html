@@ -3,44 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RM Thai Aluminum Calculator & Quotation</title>
+  <title>Aluminium Quotation Maker</title>
   <!-- HTML2PDF Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f4f6f9; margin: 0; padding: 10px; color: #333; }
     .container { max-width: 600px; margin: 0 auto; }
     
     .card {
       background: #ffffff;
       padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       margin-bottom: 15px;
-      border: 1px solid #e1e8ed;
     }
 
     .card-title {
       color: #1a73e8;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
       text-align: center;
-      margin-top: 0;
       margin-bottom: 12px;
     }
 
     .row { display: flex; gap: 8px; margin-bottom: 8px; }
     .col { flex: 1; }
 
-    label { display: block; font-size: 12px; color: #555; margin-bottom: 4px; font-weight: 600; }
+    label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
     input, select {
       width: 100%;
-      padding: 8px 10px;
+      padding: 8px;
       font-size: 13px;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      outline: none;
-      background-color: #fafafa;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
     }
 
     .btn {
@@ -55,153 +52,103 @@
     }
 
     .btn-add { background-color: #10b981; color: white; }
-    .btn-calc { background-color: #2563eb; color: white; }
-    .btn-pdf { background-color: #059669; color: white; font-size: 15px; }
-    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+    .btn-pdf { background-color: #2563eb; color: white; font-size: 15px; }
+    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; }
 
-    /* Window Table inside Calculator */
-    .win-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
-    .win-table th, .win-table td { border: 1px solid #e5e7eb; padding: 6px; text-align: center; font-size: 12px; }
-    .win-table th { background-color: #2563eb; color: white; }
+    /* Input Table */
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid #ddd; padding: 6px; text-align: center; font-size: 12px; }
+    th { background-color: #2563eb; color: white; }
 
-    /* Material Result Box */
-    .material-box { background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 13px; }
-    .material-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #cbd5e1; }
-    .material-row.total { font-weight: bold; color: #1e3a8a; border-bottom: none; font-size: 14px; margin-top: 4px; }
-
-    /* Printable Quotation Sheet */
-    #quotationPrintArea {
+    /* PDF Print Wrapper */
+    #pdfPrintWrapper {
       background: #ffffff;
       padding: 20px;
+      color: #000000;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #e2e8f0;
       border-radius: 6px;
-      color: #000;
     }
-    .shop-header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 8px; margin-bottom: 12px; }
-    .shop-name { font-size: 20px; font-weight: bold; color: #2563eb; margin: 0; }
-    .shop-details { font-size: 12px; color: #444; margin-top: 2px; }
 
-    .info-flex { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 12px; background: #f1f5f9; padding: 8px; border-radius: 4px; }
-    
-    .quot-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    .quot-table th, .quot-table td { border: 1px solid #333; padding: 6px; text-align: center; font-size: 11px; }
-    .quot-table th { background-color: #2563eb; color: white; }
+    .pdf-header {
+      text-align: center;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
 
-    .total-box { margin-top: 12px; text-align: right; font-size: 14px; font-weight: bold; color: #2563eb; }
+    .pdf-title { font-size: 20px; font-weight: bold; color: #2563eb; margin: 0; }
+    .pdf-subtitle { font-size: 12px; color: #444; margin-top: 4px; }
+
+    .pdf-info-grid {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 8px 5px; font-size: 11px; text-align: center; }
+    .pdf-table th { background-color: #f1f5f9; color: #000; font-weight: bold; }
+
+    .pdf-total {
+      margin-top: 15px;
+      text-align: right;
+      font-size: 15px;
+      font-weight: bold;
+      color: #2563eb;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
 
-    <!-- 1. STORE & CONTACT INFO -->
+    <!-- 1. শপ ও কন্টাক্ট ইনফো -->
     <div class="card">
       <div class="card-title">My Store / Contact Info</div>
       <div class="row">
         <div class="col">
           <label>Shop/Your Name</label>
-          <input type="text" id="shopName" value="RM Thai Aluminum">
+          <input type="text" id="shopName" value="RM Thai Aluminum" oninput="runCalculation()">
         </div>
         <div class="col">
           <label>My Mobile Number</label>
-          <input type="text" id="shopPhone" value="01676474412">
+          <input type="text" id="shopPhone" value="01676474412" oninput="runCalculation()">
         </div>
       </div>
     </div>
 
-    <!-- 2. CUSTOMER DETAILS -->
+    <!-- 2. কাস্টমার ডিটেইলস -->
     <div class="card">
       <div class="card-title">Customer Details</div>
       <div class="row">
         <div class="col">
           <label>Customer Name</label>
-          <input type="text" id="custName" value="Asad" placeholder="Customer Name">
+          <input type="text" id="custName" value="Josim" oninput="runCalculation()">
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label>Customer Mobile</label>
-          <input type="text" id="custPhone" value="০১৯৭৬NDT২২৪৬৬" placeholder="Mobile Number">
+          <input type="text" id="custPhone" value="019768322466" oninput="runCalculation()">
         </div>
         <div class="col">
           <label>Address</label>
-          <input type="text" id="custAddress" value="বন্দর" placeholder="Address">
+          <input type="text" id="custAddress" value="বন্দর" oninput="runCalculation()">
         </div>
       </div>
     </div>
 
-    <!-- 3. ITEM SPECIFICATIONS -->
-    <div class="card">
-      <div class="card-title">Item Specifications</div>
-      <div class="row">
-        <div class="col">
-          <label>Aluminium Company</label>
-          <select id="aluCompany">
-            <option selected>KAI</option>
-            <option>Chung Hua</option>
-            <option>Altech</option>
-          </select>
-        </div>
-        <div class="col">
-          <label>Alu Colour</label>
-          <select id="aluColor">
-            <option selected>Silver</option>
-            <option>Bronze</option>
-            <option>Black</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <label>Alu Thickness</label>
-          <select id="aluThickness">
-            <option selected>1.0 mm</option>
-            <option>1.2 mm</option>
-            <option>1.5 mm</option>
-          </select>
-        </div>
-        <div class="col">
-          <label>Series</label>
-          <select id="aluSeries">
-            <option selected>Sliding 3"</option>
-            <option>Sliding 4"</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <label>Glass Company</label>
-          <select id="glassCompany">
-            <option selected>Nasir Glass</option>
-            <option>PHP Glass</option>
-          </select>
-        </div>
-        <div class="col">
-          <label>Glass Colour</label>
-          <select id="glassColor">
-            <option selected>Clear</option>
-            <option>Dark Green</option>
-            <option>Blue Tint</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <label>Glass Thickness</label>
-          <select id="glassThickness">
-            <option selected>5 mm</option>
-            <option>6 mm</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. WINDOW DIMENSIONS -->
+    <!-- 3. জানালার মাপ ও সংখ্যা -->
     <div class="card">
       <div class="card-title">Window Dimensions (Inches)</div>
-      <table class="win-table">
+      <table>
         <thead>
           <tr>
             <th>#</th>
@@ -211,92 +158,73 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody id="windowListBody">
-          <!-- Default Row from your screenshot -->
+        <tbody id="winTableBody">
           <tr>
             <td>1</td>
-            <td><input type="number" class="win-h" value="54" oninput="calculateMaterial()"></td>
-            <td><input type="number" class="win-w" value="60" oninput="calculateMaterial()"></td>
-            <td><input type="number" class="win-qty" value="1" oninput="calculateMaterial()"></td>
-            <td><button class="btn-danger" onclick="removeRow(this)">X</button></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td><input type="number" class="win-h" value="54" oninput="calculateMaterial()"></td>
-            <td><input type="number" class="win-w" value="60" oninput="calculateMaterial()"></td>
-            <td><input type="number" class="win-qty" value="1" oninput="calculateMaterial()"></td>
-            <td><button class="btn-danger" onclick="removeRow(this)">X</button></td>
+            <td><input type="number" class="w-h" value="54" oninput="runCalculation()"></td>
+            <td><input type="number" class="w-w" value="60" oninput="runCalculation()"></td>
+            <td><input type="number" class="w-q" value="1" oninput="runCalculation()"></td>
+            <td><button class="btn-danger" onclick="this.parentElement.parentElement.remove(); runCalculation();">X</button></td>
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-add" onclick="addWindowRow()">+ Add Another Window</button>
+      <button class="btn btn-add" onclick="addRow()">+ Add Another Window</button>
     </div>
 
-    <!-- 5. MATERIAL DETAILS & SELLING PRICE -->
+    <!-- 4. রেট ও টোটাল হিসেব -->
     <div class="card">
-      <div class="card-title">Material & Price Summary</div>
-      <div class="material-box">
-        <div class="material-row"><span>Total Aluminium:</span> <span id="resAluFt">0.00 ft</span></div>
-        <div class="material-row"><span>Total Glass Area:</span> <span id="resGlassSqft">0.00 Sqft</span></div>
-      </div>
-
-      <div class="row" style="margin-top: 10px;">
+      <div class="card-title">Pricing</div>
+      <div class="row">
         <div class="col">
-          <label>Customer Selling Rate (৳/Sqft)</label>
-          <input type="number" id="sellingRate" value="450" placeholder="e.g. 450" oninput="calculateMaterial()">
+          <label>Selling Rate (৳/Sqft)</label>
+          <input type="number" id="sellingRate" value="450" oninput="runCalculation()">
         </div>
         <div class="col">
-          <label>Total Selling Price (৳)</label>
-          <input type="number" id="grandSellingPrice" readonly style="background:#e2e8f0; font-weight:bold; color:#1e3a8a;">
+          <label>Total Price (৳)</label>
+          <input type="number" id="calcTotalPrice" readonly style="background:#eee; font-weight:bold;">
         </div>
       </div>
-
-      <button class="btn btn-pdf" onclick="generateAndDownloadQuotation()">Generate HD Quotation & Download PDF</button>
+      <button class="btn btn-pdf" onclick="downloadHD_PDF()">Download Quotation PDF ➔</button>
     </div>
 
-    <!-- 6. AUTOMATIC HD QUOTATION PREVIEW (কোনো কিছু রি-ফর্ম টাইপ করতে হবে না) -->
+    <!-- 5. কোটেশন প্রিভিউ (শুধু প্রয়োজনীয় তথ্যগুলো যাবে) -->
     <div class="card">
-      <div class="card-title">Live Quotation Preview</div>
-      <div id="quotationPrintArea">
-        
-        <div class="shop-header">
-          <p class="shop-name" id="pShopName">RM Thai Aluminum</p>
-          <div class="shop-details">Mobile: <span id="pShopPhone">01676474412</span></div>
+      <div class="card-title">Quotation Preview</div>
+      <div id="pdfPrintWrapper">
+        <div class="pdf-header">
+          <p class="pdf-title" id="pShop">RM Thai Aluminum</p>
+          <p class="pdf-subtitle">Mobile: <span id="pPhone">01676474412</span></p>
         </div>
 
-        <div class="info-flex">
+        <div class="pdf-info-grid">
           <div>
-            <div><b>Customer:</b> <span id="pCustName">Asad</span></div>
-            <div><b>Mobile:</b> <span id="pCustPhone">--</span></div>
-            <div><b>Address:</b> <span id="pCustAddress">--</span></div>
+            <div><b>Customer Name:</b> <span id="pCust">Josim</span></div>
+            <div><b>Mobile:</b> <span id="pCustMob">019768322466</span></div>
+            <div><b>Address:</b> <span id="pAddr">বন্দর</span></div>
           </div>
           <div style="text-align: right;">
-            <div><b>Qtn No:</b> <span id="pQtnNo">#1001</span></div>
-            <div><b>Date:</b> <span id="pDate">--/--/----</span></div>
+            <div><b>Quotation No:</b> <span id="pQtnNo">#7019</span></div>
+            <div><b>Date:</b> <span id="pDate">2026-07-29</span></div>
           </div>
         </div>
 
-        <div style="font-size: 11px; font-weight: bold; margin-bottom: 6px; color: #1e3a8a;" id="pSpecSummary">
-          Specification: KAI | Silver | 1.0 mm | Sliding 3" | Nasir Glass (5 mm Clear)
-        </div>
-
-        <table class="quot-table">
+        <table class="pdf-table">
           <thead>
             <tr>
               <th>#</th>
               <th>Window Size (H x W)</th>
-              <th>Qty</th>
+              <th>Qty (টি)</th>
               <th>Total Sqft</th>
               <th>Rate (৳/Sqft)</th>
               <th>Total Price (৳)</th>
             </tr>
           </thead>
-          <tbody id="qtnTableBody">
-            <!-- অটোমেটিক এখানে চলে আসবে -->
+          <tbody id="pdfTableBody">
+            <!-- অটোমেটিক ডাটা হিসাব হয়ে বসবে -->
           </tbody>
         </table>
 
-        <div class="total-box">
+        <div class="pdf-total">
           Grand Total Amount: ৳<span id="pGrandTotal">0.00</span>
         </div>
       </div>
@@ -306,43 +234,34 @@
 
   <script>
     window.onload = function() {
-      calculateMaterial();
+      runCalculation();
     };
 
-    function addWindowRow() {
-      let tbody = document.getElementById('windowListBody');
+    function addRow() {
+      let tbody = document.getElementById('winTableBody');
       let count = tbody.children.length + 1;
       let tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${count}</td>
-        <td><input type="number" class="win-h" value="54" oninput="calculateMaterial()"></td>
-        <td><input type="number" class="win-w" value="60" oninput="calculateMaterial()"></td>
-        <td><input type="number" class="win-qty" value="1" oninput="calculateMaterial()"></td>
-        <td><button class="btn-danger" onclick="removeRow(this)">X</button></td>
+        <td><input type="number" class="w-h" value="54" oninput="runCalculation()"></td>
+        <td><input type="number" class="w-w" value="60" oninput="runCalculation()"></td>
+        <td><input type="number" class="w-q" value="1" oninput="runCalculation()"></td>
+        <td><button class="btn-danger" onclick="this.parentElement.parentElement.remove(); runCalculation();">X</button></td>
       `;
       tbody.appendChild(tr);
-      calculateMaterial();
+      runCalculation();
     }
 
-    function removeRow(btn) {
-      btn.parentElement.parentElement.remove();
-      calculateMaterial();
-    }
-
-    // অটো ক্যালকুলেশন ও কোটেশন আপডেট (কখনোই রি-টাইপ করা লাগবে না)
-    function calculateMaterial() {
-      let heights = document.querySelectorAll('.win-h');
-      let widths = document.querySelectorAll('.win-w');
-      let qtys = document.querySelectorAll('.win-qty');
-
-      let totalGlassSqft = 0;
-      let totalAluFt = 0;
-
-      let qtnTableBody = document.getElementById('qtnTableBody');
-      qtnTableBody.innerHTML = '';
-
+    function runCalculation() {
+      let heights = document.querySelectorAll('.w-h');
+      let widths = document.querySelectorAll('.w-w');
+      let qtys = document.querySelectorAll('.w-q');
       let rate = parseFloat(document.getElementById('sellingRate').value) || 0;
-      let grandTotalPrice = 0;
+
+      let pdfBody = document.getElementById('pdfTableBody');
+      pdfBody.innerHTML = '';
+
+      let grandTotal = 0;
 
       for (let i = 0; i < heights.length; i++) {
         let h = parseFloat(heights[i].value) || 0;
@@ -350,78 +269,49 @@
         let q = parseFloat(qtys[i].value) || 0;
 
         if (h > 0 && w > 0 && q > 0) {
-          // ইঞ্চিকে স্কয়ার ফিটে পরিবর্তন: (Height * Width) / 144 * Qty
-          let singleSqft = (h * w) / 144;
-          let rowTotalSqft = singleSqft * q;
-          totalGlassSqft += rowTotalSqft;
+          // ইঞ্চিকে স্কয়ার ফিটে রূপান্তর: (উচ্চতা × চওড়া / ১৪৪) × সংখ্যা
+          let sqft = ((h * w) / 144) * q;
+          let rowTotal = sqft * rate;
+          grandTotal += rowTotal;
 
-          // অ্যালুমিনিয়াম আনুমানিক রানিং ফিট হিসেব
-          let perimeterFt = ((h + w) * 2) / 12;
-          totalAluFt += perimeterFt * q;
-
-          let rowPrice = rowTotalSqft * rate;
-          grandTotalPrice += rowPrice;
-
-          // সরাসরি কোটেশন টেবিলে রো যোগ করা
-          qtnTableBody.innerHTML += `
+          pdfBody.innerHTML += `
             <tr>
               <td>${i + 1}</td>
               <td>${h}" x ${w}"</td>
-              <td>${q} টি</td>
-              <td>${rowTotalSqft.toFixed(2)}</td>
+              <td>${q}</td>
+              <td>${sqft.toFixed(2)} Sqft</td>
               <td>৳${rate}</td>
-              <td>৳${rowPrice.toFixed(2)}</td>
+              <td>৳${rowTotal.toFixed(2)}</td>
             </tr>
           `;
         }
       }
 
-      document.getElementById('resGlassSqft').innerText = totalGlassSqft.toFixed(2) + " Sqft";
-      document.getElementById('resAluFt').innerText = totalAluFt.toFixed(2) + " ft";
-      document.getElementById('grandSellingPrice').value = grandTotalPrice.toFixed(2);
-      document.getElementById('pGrandTotal').innerText = grandTotalPrice.toFixed(2);
+      document.getElementById('calcTotalPrice').value = grandTotal.toFixed(2);
+      document.getElementById('pGrandTotal').innerText = grandTotal.toFixed(2);
 
-      // লাইভ কোটেশন হেডার সিঙ্ক
-      syncHeaderData();
-    }
+      // Header Data Sync
+      document.getElementById('pShop').innerText = document.getElementById('shopName').value || '';
+      document.getElementById('pPhone').innerText = document.getElementById('shopPhone').value || '';
+      document.getElementById('pCust').innerText = document.getElementById('custName').value || '';
+      document.getElementById('pCustMob').innerText = document.getElementById('custPhone').value || '';
+      document.getElementById('pAddr').innerText = document.getElementById('custAddress').value || '';
 
-    function syncHeaderData() {
-      document.getElementById('pShopName').innerText = document.getElementById('shopName').value || 'My Shop';
-      document.getElementById('pShopPhone').innerText = document.getElementById('shopPhone').value || '';
-      document.getElementById('pCustName').innerText = document.getElementById('custName').value || 'Customer';
-      document.getElementById('pCustPhone').innerText = document.getElementById('custPhone').value || '';
-      document.getElementById('pCustAddress').innerText = document.getElementById('custAddress').value || '';
-
-      // স্পেসিফিকেশন লাইন
-      let aluCo = document.getElementById('aluCompany').value;
-      let aluCol = document.getElementById('aluColor').value;
-      let aluTh = document.getElementById('aluThickness').value;
-      let aluSer = document.getElementById('aluSeries').value;
-      let glsCo = document.getElementById('glassCompany').value;
-      let glsTh = document.getElementById('glassThickness').value;
-      let glsCol = document.getElementById('glassColor').value;
-
-      document.getElementById('pSpecSummary').innerText = 
-        `Specification: ${aluCo} (${aluCol}, ${aluTh}, ${aluSer}) | ${glsCo} (${glsTh} ${glsCol} Glass)`;
-
-      let today = new Date().toLocaleDateString();
+      let today = new Date().toISOString().split('T')[0];
       document.getElementById('pDate').innerText = today;
     }
 
-    // HD PDF এক ক্লিকে ডাউনলোড
-    function generateAndDownloadQuotation() {
-      calculateMaterial();
-      
-      let custName = document.getElementById('custName').value || 'Customer';
-      let qtnNo = '#' + Math.floor(1000 + Math.random() * 9000);
-      document.getElementById('pQtnNo').innerText = qtnNo;
+    function downloadHD_PDF() {
+      runCalculation();
 
-      const element = document.getElementById('quotationPrintArea');
-      const opt = {
-        margin:       10,
-        filename:     `Quotation_${custName}_${qtnNo}.pdf`,
+      let cust = document.getElementById('custName').value || 'Customer';
+      let element = document.getElementById('pdfPrintWrapper');
+
+      let opt = {
+        margin:       [10, 10, 10, 10],
+        filename:     `Quotation_${cust}.pdf`,
         image:        { type: 'jpeg', quality: 1.0 },
-        html2canvas:  { scale: 3, useCORS: true, letterRendering: true },
+        html2canvas:  { scale: 2, useCORS: true },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 

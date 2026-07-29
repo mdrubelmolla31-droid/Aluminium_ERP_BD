@@ -59,7 +59,7 @@
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
 
-    /* Material Details Table (২য় ছবির ডিজাইন অনুযায়ী) */
+    /* Material Details Table (২য় ছবির মূল লেআউট) */
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
     .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .mat-table td:first-child { text-align: left; color: #334155; font-weight: 500; }
@@ -72,16 +72,16 @@
 
     .error-text { color: #ef4444 !important; font-weight: bold !important; }
 
-    table.input-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    table.input-table th, table.input-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
-    table.input-table th { background-color: #1e3a8a; color: white; font-weight: 600; }
+    table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    table.input-table th, table.input-table td, table.report-table th, table.report-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+    table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- ১. কনফিগারেশন ড্রপডাউন সেকশন -->
+  <!-- ১. কনফিগারেশন সেকশন -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     
@@ -89,8 +89,8 @@
       <div class="col">
         <label>Series</label>
         <select id="aluSeries" onchange="toggleNetSection()">
-          <option value="3">Sliding 3"</option>
-          <option value="4">Sliding 4"</option>
+          <option value="Sliding Window 3">Sliding Window 3"</option>
+          <option value="Sliding Window 4">Sliding Window 4"</option>
         </select>
       </div>
       <div class="col">
@@ -126,7 +126,7 @@
     </div>
   </div>
 
-  <!-- ২. ইনপুট উইন্ডো সাইজ -->
+  <!-- ২. উইন্ডো ইনপুট -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table class="input-table">
@@ -139,7 +139,7 @@
     <button class="btn btn-calc" onclick="calculateAll()">Calculate</button>
   </div>
 
-  <!-- ৩. সম্পূর্ণ Material Details টেবিল (২য় ছবির হুবহু ডিজাইন) -->
+  <!-- ৩. Material Details (দ্বিতীয় ছবির পূর্ণাঙ্গ টেবিল) -->
   <div class="card">
     <div class="card-title">Material Details</div>
     
@@ -153,15 +153,14 @@
         <tr><td>Shutter Top</td><td><span id="mShutterTop">0.00</span> ft</td></tr>
         <tr><td>Shutter Bottom</td><td><span id="mShutterBottom">0.00</span> ft</td></tr>
         
-        <!-- নেট সেকশন যদি একটিভ থাকে তবেই দেখাবে -->
         <tr id="netRow" style="display: none;"><td>Net Section Frame</td><td><span id="mNetSection">0.00</span> ft</td></tr>
 
         <tr class="highlight-blue"><td>Total Aluminium</td><td><span id="mTotalAlu">0.00</span> ft</td></tr>
         
-        <tr><td>Glass Area</td><td><span id="mGlassSqft">0.00</span> Sqft</td></tr>
-        <tr><td>Hardware Cost</td><td><span id="mHardware">0.00</span> ৳</td></tr>
-        <tr><td>Fittings Charge</td><td><span id="mFittings">0.00</span> ৳</td></tr>
-        <tr><td>Labour Charge</td><td><span id="mLabour">0.00</span> ৳</td></tr>
+        <tr><td>Glass</td><td><span id="mGlassSqft">0.00</span> Sqft</td></tr>
+        <tr><td>Hardware</td><td><span id="mHardware">0.00</span> ৳</td></tr>
+        <tr><td>Fittings</td><td><span id="mFittings">0.00</span> ৳</td></tr>
+        <tr><td>Labour</td><td><span id="mLabour">0.00</span> ৳</td></tr>
         
         <tr class="highlight"><td>Material Cost</td><td><span id="mMaterialCost">0.00</span> ৳</td></tr>
         <tr><td>Material Cost / Sqft</td><td><span id="mCostPerSqft">0.00</span> ৳</td></tr>
@@ -174,6 +173,29 @@
     </table>
   </div>
 
+  <!-- ৪. কাটিং রিপোর্ট (Cutting Report) - আগের মতো অপরিবর্তিত -->
+  <div class="card">
+    <div class="card-title">Cutting Report</div>
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>18.6 ft Bar</th>
+          <th>21 ft Bar</th>
+        </tr>
+      </thead>
+      <tbody id="cuttingReportBody">
+        <tr><td>Outer Side</td><td id="cOuterSide18">0</td><td id="cOuterSide21">0</td></tr>
+        <tr><td>Outer Top</td><td id="cOuterTop18">0</td><td id="cOuterTop21">0</td></tr>
+        <tr><td>Outer Bottom</td><td id="cOuterBottom18">0</td><td id="cOuterBottom21">0</td></tr>
+        <tr><td>Shutter Lock</td><td id="cShutterLock18">0</td><td id="cShutterLock21">0</td></tr>
+        <tr><td>Shutter Interlock</td><td id="cShutterInterlock18">0</td><td id="cShutterInterlock21">0</td></tr>
+        <tr><td>Shutter Top</td><td id="cShutterTop18">0</td><td id="cShutterTop21">0</td></tr>
+        <tr><td>Shutter Bottom</td><td id="cShutterBottom18">0</td><td id="cShutterBottom21">0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
 
 <script>
@@ -181,12 +203,11 @@
     addRow();
   };
 
-  // ৪" সিরিজ সিলেক্ট করা হলে Net Section এনাবল হবে
   function toggleNetSection() {
     let series = document.getElementById('aluSeries').value;
     let netSelect = document.getElementById('netSection');
     
-    if (series === '4') {
+    if (series.includes('4')) {
       netSelect.disabled = false;
     } else {
       netSelect.disabled = true;
@@ -219,66 +240,68 @@
   }
 
   // ----------------------------------------------------
-  // ১. রেট সেটিংস থেকে ডাটা চেক করার ফাংশন
+  // রেট ম্যাচিং ফাংশন (সেটিংস তালিকার সাথে হুবহু মেলানো)
   // ----------------------------------------------------
-  function getRateFromSettings(company, color, thickness, glassThickness) {
-    // LocalStorage থেকে রেট সেটিংসের জমা হওয়া ডাটা আনা
-    let savedRates = JSON.parse(localStorage.getItem('rateSettingsData')) || {};
+  function getRateFromSettings(company, series, thickness, color, glassThickness) {
+    let savedList = JSON.parse(localStorage.getItem('rateList')) || JSON.parse(localStorage.getItem('rateSettingsData')) || [];
 
-    // আপনার ডাইনামিক ভ্যারিয়েবল কী (Key) তৈরি
-    let aluKey = `${company}_${color}_${thickness}`;
-    let glassKey = `${glassThickness}_Glass`;
+    // তালিকার সাথে ফিল্টার করে মিলিয়ে নেওয়া
+    let matched = savedList.find(item => 
+      item.company === company &&
+      item.series === series &&
+      item.aluThick === thickness &&
+      item.aluColor === color &&
+      item.glassThick === glassThickness
+    );
 
-    let aluRate = savedRates[aluKey];
-    let glassRate = savedRates[glassKey];
-
-    // যদি রেট সেটিংসে রেট না থাকে
-    if (!aluRate || !glassRate) {
-      let missingItem = !aluRate ? aluKey : glassKey;
+    if (!matched) {
       return {
         success: false,
-        message: `⚠️ Rate Not Found!\n"${missingItem}" এর রেট এখনো রেট সেটিংসে সেট করা হয় নাই।`
+        message: `⚠️ Rate Not Found!\n"${company} - ${series} - ${color} - ${thickness}" এর রেট সেটিংসে ম্যাচ করে নাই।`
       };
     }
 
     return {
       success: true,
-      aluRate: parseFloat(aluRate),
-      glassRate: parseFloat(glassRate)
+      aluRate: parseFloat(matched.aluRate) || 0,
+      glassRate: parseFloat(matched.glassRate) || 0,
+      hwRate: parseFloat(matched.hwRate) || 0,
+      fitRate: parseFloat(matched.fitRate) || 0,
+      labourRate: parseFloat(matched.labour) || 0,
+      profit: parseFloat(matched.profit) || 0
     };
   }
 
   // ----------------------------------------------------
-  // ২. মূল ক্যালকুলেশন ফাংশন
+  // মূল ক্যালকুলেশন এবং কাটিং রিপোর্ট
   // ----------------------------------------------------
   function calculateAll() {
     let company = document.getElementById('aluCompany').value;
-    let color = document.getElementById('aluColor').value;
+    let series = document.getElementById('aluSeries').value;
     let thickness = document.getElementById('aluThickness').value;
+    let color = document.getElementById('aluColor').value;
     let glassThickness = document.getElementById('glassThickness').value;
 
-    // সেটিংস থেকে রেট চেক করা হচ্ছে
-    let rateData = getRateFromSettings(company, color, thickness, glassThickness);
+    let rateData = getRateFromSettings(company, series, thickness, color, glassThickness);
 
-    // রেট না পাওয়া গেলে সরাসরি "Rate Not Found" দেখাবে
     if (!rateData.success) {
       alert(rateData.message);
-      
       let errorFields = ['mMaterialCost', 'mCostPerSqft', 'mCostPerSqft2', 'mSellingRatePerSqft', 'mProfitPerSqft', 'mSellingPrice'];
       errorFields.forEach(id => {
         let el = document.getElementById(id);
-        el.innerText = "Rate Not Found";
-        el.classList.add('error-text');
+        if(el) {
+          el.innerText = "Rate Not Found";
+          el.classList.add('error-text');
+        }
       });
-      return; // ক্যালকুলেশন এখানেই থেমে যাবে
+      return;
     }
 
-    // রেট পাওয়া গেলে আগের এরর টেক্সট সরাতে হবে
     let errorFields = ['mMaterialCost', 'mCostPerSqft', 'mCostPerSqft2', 'mSellingRatePerSqft', 'mProfitPerSqft', 'mSellingPrice'];
-    errorFields.forEach(id => document.getElementById(id).classList.remove('error-text'));
-
-    let aluRate = rateData.aluRate;
-    let glassRate = rateData.glassRate;
+    errorFields.forEach(id => {
+      let el = document.getElementById(id);
+      if(el) el.classList.remove('error-text');
+    });
 
     let heights = document.querySelectorAll('.w-h');
     let widths = document.querySelectorAll('.w-w');
@@ -312,14 +335,14 @@
         totalSqft += (hFt * wFt) * q;
 
         if (isNetActive) {
-          netFt += ((hFt * 2) + (wFt * 2)) * q; // পরে কাস্টম নেট ফর্মুলা বসানো হবে
+          netFt += ((hFt * 2) + (wFt * 2)) * q;
         }
       }
     }
 
     let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
 
-    // মেটেরিয়াল মাপ টেবিলে প্রদর্শন
+    // Material Details টেবিল আপডেট
     document.getElementById('mOuterSide').innerText = outerH.toFixed(2);
     document.getElementById('mOuterTop').innerText = outerTop.toFixed(2);
     document.getElementById('mOuterBottom').innerText = outerBottom.toFixed(2);
@@ -337,16 +360,16 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // টাকার হিসাব
+    // টাকার সঠিক হিসাব
     let glassSqft = totalSqft * 0.85; 
-    let hardwareCost = totalSqft * 15;
-    let fittingsCharge = totalSqft * 25;
-    let labourCharge = totalSqft * 5;
+    let hardwareCost = totalSqft * rateData.hwRate;
+    let fittingsCharge = totalSqft * rateData.fitRate;
+    let labourCharge = totalSqft * rateData.labourRate;
 
-    let totalMaterialCost = (totalAlu * aluRate) + (glassSqft * glassRate) + hardwareCost + fittingsCharge + labourCharge;
+    let totalMaterialCost = (totalAlu * rateData.aluRate) + (glassSqft * rateData.glassRate) + hardwareCost + fittingsCharge + labourCharge;
     
     let costPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;
-    let profitPerSqft = 25.27; // প্রফিট মার্জিন
+    let profitPerSqft = rateData.profit; 
     let sellingRatePerSqft = costPerSqft + profitPerSqft;
     let sellingPrice = totalSqft * sellingRatePerSqft;
 
@@ -360,6 +383,24 @@
     document.getElementById('mSellingRatePerSqft').innerText = sellingRatePerSqft.toFixed(2);
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
+
+    // ----------------------------------------------------
+    // কাটিং রিপোর্ট বার হিসেব (১৮.৬ ফিট ও ২১ ফিট)
+    // ----------------------------------------------------
+    let items = [
+      { id18: 'cOuterSide18', id21: 'cOuterSide21', ft: outerH },
+      { id18: 'cOuterTop18', id21: 'cOuterTop21', ft: outerTop },
+      { id18: 'cOuterBottom18', id21: 'cOuterBottom21', ft: outerBottom },
+      { id18: 'cShutterLock18', id21: 'cShutterLock21', ft: shutterLock },
+      { id18: 'cShutterInterlock18', id21: 'cShutterInterlock21', ft: shutterInterlock },
+      { id18: 'cShutterTop18', id21: 'cShutterTop21', ft: shutterTop },
+      { id18: 'cShutterBottom18', id21: 'cShutterBottom21', ft: shutterBottom }
+    ];
+
+    items.forEach(item => {
+      document.getElementById(item.id18).innerText = Math.ceil(item.ft / 18.6) || 0;
+      document.getElementById(item.id21).innerText = Math.ceil(item.ft / 21) || 0;
+    });
   }
 </script>
 

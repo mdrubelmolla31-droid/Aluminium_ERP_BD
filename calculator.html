@@ -414,92 +414,6 @@
     return matched;
   }
 
-  function calculateAll() {
-    let rateData = getMatchedRate();
-
-    let heights = document.querySelectorAll('.w-h');
-    let widths = document.querySelectorAll('.w-w');
-    let qtys = document.querySelectorAll('.w-q');
-
-    let outerH = 0, outerTop = 0, outerBottom = 0;
-    let shutterLock = 0, shutterInterlock = 0, shutterTop = 0, shutterBottom = 0;
-    let totalSqft = 0;
-    let totalRunningLength = 0;
-
-    let seriesVal = document.getElementById('aluSeries').value;
-    let isNetActive = seriesVal && seriesVal.includes('4') && document.getElementById('netSection').value !== 'none';
-
-    for (let i = 0; i < heights.length; i++) {
-      let h = parseFloat(heights[i].value) || 0;
-      let w = parseFloat(widths[i].value) || 0;
-      let q = parseFloat(qtys[i].value) || 0;
-
-      if (h > 0 && w > 0 && q > 0) {
-        let hFt = h / 12;
-        let wFt = w / 12;
-        
-        let oSide = hFt * 2 * q;
-        let oTop = wFt * q;
-        let oBot = wFt * q;
-        let sLock = hFt * 2 * q;
-        let sInt = hFt * 2 * q;
-        let sTop = wFt * 2 * q;
-        let sBot = wFt * 2 * q;
-
-        outerH += oSide;
-        outerTop += oTop;
-        outerBottom += oBot;
-        shutterLock += sLock;
-        shutterInterlock += sInt;
-        shutterTop += sTop;
-        shutterBottom += sBot;
-
-        totalSqft += (hFt * wFt * q);
-        totalRunningLength += (oSide + oTop + oBot + sLock + sInt + sTop + sBot);
-      }
-    }
-
-    let netFt = isNetActive ? (totalRunningLength / 2) : 0;
-    let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
-
-    document.getElementById('mOuterSide').innerText = outerH.toFixed(2);
-    document.getElementById('mOuterTop').innerText = outerTop.toFixed(2);
-    document.getElementById('mOuterBottom').innerText = outerBottom.toFixed(2);
-    document.getElementById('mShutterLock').innerText = shutterLock.toFixed(2);
-    document.getElementById('mShutterInterlock').innerText = shutterInterlock.toFixed(2);
-    document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
-    document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
-
-    let netMeshSqft = 0;
-    if (isNetActive) {
-      netMeshSqft = (totalSqft / 2);
-      document.getElementById('netRow').style.display = 'table-row';
-      document.getElementById('netMeshRow').style.display = 'table-row';
-      document.getElementById('mNetSection').innerText = netFt.toFixed(2);
-      document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
-      document.getElementById('netCuttingSection').style.display = 'block';
-      
-      document.getElementById('cNetLen').innerText = netFt.toFixed(2) + " ft";
-      document.getElementById('cNetBar').innerText = Math.ceil(netFt / 21);
-    } else {
-      document.getElementById('netRow').style.display = 'none';
-      document.getElementById('netMeshRow').style.display = 'none';
-      document.getElementById('netCuttingSection').style.display = 'none';
-    }
-
-    document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
-
-    // লজিক: হাইট ৫৪ ইঞ্চি (সাড়ে ৪ ফিট) বা তার কম হলে ১৮.৫ ফিটের বার, বেশি হলে ২১ ফিটের বার হিসেবে বারের সংখ্যা হিসাব করবে
-    let sampleHeightInches = heights.length > 0 ? (parseFloat(heights[0].value) || 54) : 54;
-    let bar18Limit = (sampleHeightInches <= 54) ? 18.5 : 21;
-
-    // কাটিং টেবিলের হিসাব আপডেট
-    document.getElementById('c18_outerSideLen').innerText = outerH.toFixed(2) + " ft";
-    document.getElementById('c18_outerSideBar').innerText = Math.ceil(outerH / bar18Limit);
-
-    document.getElementById('c18_lockLen').innerText = shutterLock.toFixed(2) + " ft";
-    document.getElementById('c18_lockBar').innerText = Math.ceil(shutterLock / bar18Limit);
-  // বাস্তব কাটিং অ্যালগরিদম: পিসগুলো মিলিয়ে কয়টা বার লাগবে তা বের করার ফাংশন
   function getBarCount(pieces, barLen) {
     if (!pieces || pieces.length === 0) return 0;
     let arr = pieces.slice();
@@ -660,4 +574,7 @@
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
   }
+</script>
 
+</body>
+</html>

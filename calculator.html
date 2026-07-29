@@ -244,9 +244,9 @@
         <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (18.5 ft)</th></tr>
       </thead>
       <tbody id="cuttingReportBody18">
-        <tr><td>Outer Side (18.5 ft)</td><td><span id="ft18OuterSide">0.00</span> ft</td><td id="c18OuterSideBar">0</td></tr>
-        <tr><td>Shutter Lock (18.5 ft)</td><td><span id="ft18ShutterLock">0.00</span> ft</td><td id="c18ShutterLockBar">0</td></tr>
-        <tr><td>Shutter Interlock (18.5 ft)</td><td><span id="ft18ShutterInterlock">0.00</span> ft</td><td id="c18ShutterInterlockBar">0</td></tr>
+        <tr><td>Outer Side (18.5 ft)</td><td><span id="ft18OuterSide">0.00</span> ft</td><td id="c18OuterSideBar">0.0</td></tr>
+        <tr><td>Shutter Lock (18.5 ft)</td><td><span id="ft18ShutterLock">0.00</span> ft</td><td id="c18ShutterLockBar">0.0</td></tr>
+        <tr><td>Shutter Interlock (18.5 ft)</td><td><span id="ft18ShutterInterlock">0.00</span> ft</td><td id="c18ShutterInterlockBar">0.0</td></tr>
       </tbody>
     </table>
 
@@ -307,7 +307,7 @@
       <td class="row-index"></td>
       <td><input type="number" class="w-h" placeholder="Height" value="84"></td>
       <td><input type="number" class="w-w" placeholder="Width" value="72"></td>
-      <td><input type="number" class="w-q" value="5"></td>
+      <td><input type="number" class="w-q" value="4"></td>
       <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
@@ -338,30 +338,25 @@
 
     if (!savedList || savedList.length === 0) {
       return {
-        aluRate: 200,
+        aluRate: 250,
         glassRate: 150,
         netRate: 100,
-        hwRate: 40,
+        hwRate: 45,
         fitRate: 45,
         labourRate: 10,
-        profit: 5 
+        profit: 7 
       };
     }
 
-    // বর্তমান সিলেক্টেড ভেরিয়েশনগুলো ধরে নেওয়া হলো
     let curSeries = document.getElementById('aluSeries').value.trim();
     let curAluThick = document.getElementById('aluThickness').value.trim();
     let curAluColor = document.getElementById('aluColor').value.trim();
-    let curGlassThick = document.getElementById('glassThickness').value.trim();
-    let curGlassColor = document.getElementById('glassColor').value.trim();
 
-    // ভেরিয়েশন ম্যাচিং লজিক: সেভ করা লিস্ট থেকে হুবহু মিলে যাওয়া রেট খুঁজে বের করা
     let matched = savedList.find(item => {
       let iSeries = (item.series || item.AluSeries || "").trim();
       let iThick = (item.aluThickness || item.AluThickness || "").trim();
       let iColor = (item.aluColor || item.AluColor || "").trim();
       
-      // যদি রেট লিস্টে ফিল্ডগুলো থাকে, তবে মিলিয়ে দেখবে
       let matchSeries = !iSeries || iSeries === curSeries;
       let matchThick = !iThick || iThick === curAluThick;
       let matchColor = !iColor || iColor === curAluColor;
@@ -369,7 +364,6 @@
       return matchSeries && matchThick && matchColor;
     });
 
-    // যদি নিখুঁত ম্যাচ না পাওয়া যায়, তবে লিস্টের প্রথমটি ফলব্যাক হিসেবে ধরবে যাতে কোড ভেঙে না যায়
     if (!matched) {
       matched = savedList[0];
     }
@@ -442,18 +436,15 @@
         shutterTop_21 += sTop;
         shutterBottom_21 += sBot;
 
-        if (h >= 84 || h === 48 || h === 80 || h >= 60) {
-          outerH_21 += oSide;
-          shutterLock_21 += sLock;
-          shutterInterlock_21 += sInt;
-        } else if (h === 54 || h === 52) {
+        // আপনার রুলস অনুযায়ী ১৮.৫ ও ২১ ফুটের বার বিভাজন এবং টুকরা মালের হিসাব লজিক
+        if (h <= 54) { 
           outerH_18 += oSide;
           shutterLock_18 += sLock;
           shutterInterlock_18 += sInt;
         } else {
-          outerH_18 += oSide;
-          shutterLock_18 += sLock;
-          shutterInterlock_18 += sInt;
+          outerH_21 += oSide;
+          shutterLock_21 += sLock;
+          shutterInterlock_21 += sInt;
         }
 
         let winSqft = hFt * wFt * q;
@@ -474,13 +465,15 @@
     document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
     document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
 
+    // ১৮.৫ ফুটের বার সরাসরি পিস (দশমিকসহ পিস দেখানোর ব্যবস্থা)
     document.getElementById('ft18OuterSide').innerText = outerH_18.toFixed(2);
-    document.getElementById('c18OuterSideBar').innerText = (outerH_18 > 0 ? (outerH_18 / 18.5).toFixed(1) : "0");
+    document.getElementById('c18OuterSideBar').innerText = (outerH_18 > 0 ? (outerH_18 / 18.5).toFixed(1) : "0.0");
     document.getElementById('ft18ShutterLock').innerText = shutterLock_18.toFixed(2);
-    document.getElementById('c18ShutterLockBar').innerText = (shutterLock_18 > 0 ? (shutterLock_18 / 18.5).toFixed(1) : "0");
+    document.getElementById('c18ShutterLockBar').innerText = (shutterLock_18 > 0 ? (shutterLock_18 / 18.5).toFixed(1) : "0.0");
     document.getElementById('ft18ShutterInterlock').innerText = shutterInterlock_18.toFixed(2);
-    document.getElementById('c18ShutterInterlockBar').innerText = (shutterInterlock_18 > 0 ? (shutterInterlock_18 / 18.5).toFixed(1) : "0");
+    document.getElementById('c18ShutterInterlockBar').innerText = (shutterInterlock_18 > 0 ? (shutterInterlock_18 / 18.5).toFixed(1) : "0.0");
 
+    // ২১ ফুটের বার ফুল পিস (Integer / Ceil)
     document.getElementById('ft21OuterSide').innerText = outerH_21.toFixed(2);
     document.getElementById('c21OuterSideBar').innerText = (outerH_21 > 0 ? Math.ceil(outerH_21 / 21) : "0");
     
@@ -527,6 +520,7 @@
     let labourCharge = totalSqft * rateData.labourRate;
     let netMeshCost = isNetActive ? (netMeshSqft * rateData.netRate) : 0;
 
+    // রেট সেটিংস থেকে পাওয়া সঠিক রেট অনুযায়ী কস্টিং ও প্রাইসিং
     let totalMaterialCost = (totalAlu * rateData.aluRate) + (glassSqft * rateData.glassRate) + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
     
     let costPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;

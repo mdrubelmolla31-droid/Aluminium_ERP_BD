@@ -63,7 +63,6 @@
     th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
     th { background-color: #1e3a8a; color: white; font-weight: 600; }
 
-    /* PDF/Print Template Layout */
     .printable-area {
       background: #ffffff;
       padding: 20px;
@@ -125,20 +124,6 @@
       padding-top: 5px;
       font-weight: bold;
       font-size: 12px;
-    }
-
-    /* Print Logic CSS */
-    @media print {
-      body * { visibility: hidden; }
-      .print-active, .print-active * { visibility: visible; }
-      .print-active {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 0;
-        border: none;
-      }
     }
   </style>
 </head>
@@ -237,8 +222,8 @@
     </div>
     
     <div class="btn-group">
-      <button class="btn btn-win-pdf" onclick="printWindowQuotation()">📄 Window Quotation PDF</button>
-      <button class="btn btn-mat-pdf" onclick="printMaterialQuotation()">📦 Material Details PDF</button>
+      <button class="btn btn-win-pdf" onclick="openPrintWindow('winQuotationView')">📄 Window Quotation PDF</button>
+      <button class="btn btn-mat-pdf" onclick="openPrintWindow('matQuotationView')">📦 Material Details PDF</button>
     </div>
   </div>
 
@@ -473,21 +458,43 @@
     });
   }
 
-  function printWindowQuotation() {
+  // একদম আলাদা প্রিন্ট উইন্ডো খোলার ফাংশন (যা সাদা আসা বন্ধ করবে)
+  function openPrintWindow(elementId) {
     runCalculation();
-    saveHistory();
-    let elem = document.getElementById('winQuotationView');
-    elem.classList.add('print-active');
-    window.print();
-    elem.classList.remove('print-active');
-  }
+    if(elementId === 'winQuotationView') {
+      saveHistory();
+    }
 
-  function printMaterialQuotation() {
-    runCalculation();
-    let elem = document.getElementById('matQuotationView');
-    elem.classList.add('print-active');
-    window.print();
-    elem.classList.remove('print-active');
+    let content = document.getElementById(elementId).innerHTML;
+    let printWindow = window.open('', '', 'height=800,width=800');
+
+    printWindow.document.write('<html><head><title>Quotation Print</title>');
+    printWindow.document.write('<style>');
+    printWindow.document.write(`
+      body { font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; color: #000; }
+      .pdf-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 14px; }
+      .pdf-title { font-size: 22px; font-weight: 800; color: #1e3a8a; margin: 0; }
+      .pdf-subtitle { font-size: 13px; font-weight: 600; color: #334155; margin-top: 4px; }
+      .pdf-info-box { display: flex; justify-content: space-between; font-size: 13px; background: #f8fafc; padding: 10px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #cbd5e1; line-height: 1.5; }
+      .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+      .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 8px 6px; font-size: 13px; font-weight: 600; text-align: center; }
+      .pdf-table th { background-color: #f1f5f9; color: #000; }
+      .pdf-grand-total { text-align: right; font-size: 18px; font-weight: 800; color: #1e3a8a; margin-top: 14px; border-top: 1.5px solid #000; padding-top: 6px; }
+      .terms-box { margin-top: 25px; background: #fff7ed; border-left: 4px solid #f97316; padding: 10px 14px; font-size: 12px; border-radius: 2px; }
+      .signature-container { display: flex; justify-content: space-between; margin-top: 60px; padding: 0 20px; }
+      .sig-line { border-top: 1.5px solid #000; width: 180px; text-align: center; padding-top: 5px; font-weight: bold; font-size: 12px; }
+    `);
+    printWindow.document.write('</style></head><body>');
+    printWindow.document.write(content);
+    printWindow.document.write('</body></html>');
+
+    printWindow.document.close();
+    printWindow.focus();
+
+    setTimeout(function() {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
   }
 </script>
 

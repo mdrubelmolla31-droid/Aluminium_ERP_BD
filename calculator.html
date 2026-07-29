@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RM Thai Aluminium - Calculator</title>
+  <title>RM. Thai Aluminium - Calculator</title>
 
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -15,12 +15,23 @@
       color: white;
       padding: 16px;
       border-radius: 8px;
-      text-align: center;
       margin-bottom: 16px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
-    .header-card h2 { margin: 0 0 6px 0; font-size: 22px; }
-    .header-card p { margin: 0; font-size: 14px; opacity: 0.9; }
+    .header-card .header-input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .header-card input {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      font-weight: bold;
+    }
+    .header-card input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
 
     .card {
       background: #ffffff;
@@ -104,9 +115,14 @@
 
 <div class="container">
 
+  <!-- হেডার অংশ - নাম ও মোবাইল নম্বর ডিফল্টভাবে সেট করা -->
   <div class="header-card">
-    <h2>RM Thai Aluminium</h2>
-    <p>মোবাইল: 01700-000000 | 01800-000000</p>
+    <div class="header-input-row">
+      <input type="text" id="headerShopName" value="RM. Thai Aluminium" placeholder="প্রতিষ্ঠানের নাম">
+    </div>
+    <div class="header-input-row">
+      <input type="text" id="headerPhone" value="01676474412" placeholder="মোবাইল নম্বর">
+    </div>
   </div>
 
   <div class="card">
@@ -207,20 +223,20 @@
   </div>
 
   <div class="card">
-    <div class="card-title">Cutting Report</div>
+    <div class="card-title">Cutting Report (21 ft Bar Standard)</div>
     <table class="report-table">
       <thead>
-        <tr><th>Item</th><th>18.6 ft Bar</th><th>21 ft Bar</th></tr>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>21 ft Bar Needed</th></tr>
       </thead>
       <tbody id="cuttingReportBody">
-        <tr><td>Outer Side</td><td id="cOuterSide18">0</td><td id="cOuterSide21">0</td></tr>
-        <tr><td>Outer Top</td><td id="cOuterTop18">0</td><td id="cOuterTop21">0</td></tr>
-        <tr><td>Outer Bottom</td><td id="cOuterBottom18">0</td><td id="cOuterBottom21">0</td></tr>
-        <tr><td>Shutter Lock</td><td id="cShutterLock18">0</td><td id="cShutterLock21">0</td></tr>
-        <tr><td>Shutter Interlock</td><td id="cShutterInterlock18">0</td><td id="cShutterInterlock21">0</td></tr>
-        <tr><td>Shutter Top</td><td id="cShutterTop18">0</td><td id="cShutterTop21">0</td></tr>
-        <tr><td>Shutter Bottom</td><td id="cShutterBottom18">0</td><td id="cShutterBottom21">0</td></tr>
-        <tr id="cNetRow" style="display: none;"><td>Net Frame</td><td id="cNet18">0</td><td id="cNet21">0</td></tr>
+        <tr><td>Outer Side</td><td><span id="ftOuterSide">0.00</span> ft</td><td id="cOuterSide21">0</td></tr>
+        <tr><td>Outer Top</td><td><span id="ftOuterTop">0.00</span> ft</td><td id="cOuterTop21">0</td></tr>
+        <tr><td>Outer Bottom</td><td><span id="ftOuterBottom">0.00</span> ft</td><td id="cOuterBottom21">0</td></tr>
+        <tr><td>Shutter Lock</td><td><span id="ftShutterLock">0.00</span> ft</td><td id="cShutterLock21">0</td></tr>
+        <tr><td>Shutter Interlock</td><td><span id="ftShutterInterlock">0.00</span> ft</td><td id="cShutterInterlock21">0</td></tr>
+        <tr><td>Shutter Top</td><td><span id="ftShutterTop">0.00</span> ft</td><td id="cShutterTop21">0</td></tr>
+        <tr><td>Shutter Bottom</td><td><span id="ftShutterBottom">0.00</span> ft</td><td id="cShutterBottom21">0</td></tr>
+        <tr id="cNetRow" style="display: none;"><td>Net Frame</td><td><span id="ftNet">0.00</span> ft</td><td id="cNet21">0</td></tr>
       </tbody>
     </table>
   </div>
@@ -363,6 +379,14 @@
     document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
     document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
 
+    document.getElementById('ftOuterSide').innerText = outerH.toFixed(2);
+    document.getElementById('ftOuterTop').innerText = outerTop.toFixed(2);
+    document.getElementById('ftOuterBottom').innerText = outerBottom.toFixed(2);
+    document.getElementById('ftShutterLock').innerText = shutterLock.toFixed(2);
+    document.getElementById('ftShutterInterlock').innerText = shutterInterlock.toFixed(2);
+    document.getElementById('ftShutterTop').innerText = shutterTop.toFixed(2);
+    document.getElementById('ftShutterBottom').innerText = shutterBottom.toFixed(2);
+
     let netMeshSqft = 0;
     if (isNetActive) {
       netMeshSqft = (totalSqft / 2);
@@ -372,6 +396,7 @@
 
       document.getElementById('mNetSection').innerText = netFt.toFixed(2);
       document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
+      document.getElementById('ftNet').innerText = netFt.toFixed(2);
     } else {
       document.getElementById('netRow').style.display = 'none';
       document.getElementById('netMeshRow').style.display = 'none';
@@ -390,7 +415,6 @@
     
     let costPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;
     
-    // সরাসরি রেটগুলোর যোগফলের উপর প্রফিট হিসাব (যেমন: ৪৪৫ এর উপর ৫% = ৪৬৭.২৫)
     let baseSumRates = rateData.aluRate + rateData.glassRate + rateData.hwRate + rateData.fitRate + rateData.labourRate;
     let profitPerSqft = baseSumRates * (rateData.profit / 100); 
     let sellingRatePerSqft = baseSumRates + profitPerSqft;
@@ -408,21 +432,20 @@
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
 
     let items = [
-      { id18: 'cOuterSide18', id21: 'cOuterSide21', ft: outerH },
-      { id18: 'cOuterTop18', id21: 'cOuterTop21', ft: outerTop },
-      { id18: 'cOuterBottom18', id21: 'cOuterBottom21', ft: outerBottom },
-      { id18: 'cShutterLock18', id21: 'cShutterLock21', ft: shutterLock },
-      { id18: 'cShutterInterlock18', id21: 'cShutterInterlock21', ft: shutterInterlock },
-      { id18: 'cShutterTop18', id21: 'cShutterTop21', ft: shutterTop },
-      { id18: 'cShutterBottom18', id21: 'cShutterBottom21', ft: shutterBottom }
+      { id21: 'cOuterSide21', ft: outerH },
+      { id21: 'cOuterTop21', ft: outerTop },
+      { id21: 'cOuterBottom21', ft: outerBottom },
+      { id21: 'cShutterLock21', ft: shutterLock },
+      { id21: 'cShutterInterlock21', ft: shutterInterlock },
+      { id21: 'cShutterTop21', ft: shutterTop },
+      { id21: 'cShutterBottom21', ft: shutterBottom }
     ];
 
     if (isNetActive) {
-      items.push({ id18: 'cNet18', id21: 'cNet21', ft: netFt });
+      items.push({ id21: 'cNet21', ft: netFt });
     }
 
     items.forEach(item => {
-      document.getElementById(item.id18).innerText = Math.ceil(item.ft / 18.6) || 0;
       document.getElementById(item.id21).innerText = Math.ceil(item.ft / 21) || 0;
     });
   }

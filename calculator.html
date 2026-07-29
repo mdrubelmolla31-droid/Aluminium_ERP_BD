@@ -115,7 +115,7 @@
 
 <div class="container">
 
-  <!-- হেডার অংশ - নাম ও মোবাইল নম্বর ডিফল্টভাবে সেট করা -->
+  <!-- হেডার অংশ -->
   <div class="header-card">
     <div class="header-input-row">
       <input type="text" id="headerShopName" value="RM. Thai Aluminium" placeholder="প্রতিষ্ঠানের নাম">
@@ -223,20 +223,20 @@
   </div>
 
   <div class="card">
-    <div class="card-title">Cutting Report (21 ft Bar Standard)</div>
+    <div class="card-title">Cutting Report (Bar Calculation)</div>
     <table class="report-table">
       <thead>
-        <tr><th>Item</th><th>Total Length (ft)</th><th>21 ft Bar Needed</th></tr>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (Customized)</th></tr>
       </thead>
       <tbody id="cuttingReportBody">
-        <tr><td>Outer Side</td><td><span id="ftOuterSide">0.00</span> ft</td><td id="cOuterSide21">0</td></tr>
-        <tr><td>Outer Top</td><td><span id="ftOuterTop">0.00</span> ft</td><td id="cOuterTop21">0</td></tr>
-        <tr><td>Outer Bottom</td><td><span id="ftOuterBottom">0.00</span> ft</td><td id="cOuterBottom21">0</td></tr>
-        <tr><td>Shutter Lock</td><td><span id="ftShutterLock">0.00</span> ft</td><td id="cShutterLock21">0</td></tr>
-        <tr><td>Shutter Interlock</td><td><span id="ftShutterInterlock">0.00</span> ft</td><td id="cShutterInterlock21">0</td></tr>
-        <tr><td>Shutter Top</td><td><span id="ftShutterTop">0.00</span> ft</td><td id="cShutterTop21">0</td></tr>
-        <tr><td>Shutter Bottom</td><td><span id="ftShutterBottom">0.00</span> ft</td><td id="cShutterBottom21">0</td></tr>
-        <tr id="cNetRow" style="display: none;"><td>Net Frame</td><td><span id="ftNet">0.00</span> ft</td><td id="cNet21">0</td></tr>
+        <tr><td>Outer Side</td><td><span id="ftOuterSide">0.00</span> ft</td><td id="cOuterSideBar">0</td></tr>
+        <tr><td>Outer Top</td><td><span id="ftOuterTop">0.00</span> ft</td><td id="cOuterTopBar">0</td></tr>
+        <tr><td>Outer Bottom</td><td><span id="ftOuterBottom">0.00</span> ft</td><td id="cOuterBottomBar">0</td></tr>
+        <tr><td>Shutter Lock</td><td><span id="ftShutterLock">0.00</span> ft</td><td id="cShutterLockBar">0</td></tr>
+        <tr><td>Shutter Interlock</td><td><span id="ftShutterInterlock">0.00</span> ft</td><td id="cShutterInterlockBar">0</td></tr>
+        <tr><td>Shutter Top</td><td><span id="ftShutterTop">0.00</span> ft</td><td id="cShutterTopBar">0</td></tr>
+        <tr><td>Shutter Bottom</td><td><span id="ftShutterBottom">0.00</span> ft</td><td id="cShutterBottomBar">0</td></tr>
+        <tr id="cNetRow" style="display: none;"><td>Net Frame</td><td><span id="ftNet">0.00</span> ft</td><td id="cNetBar">0</td></tr>
       </tbody>
     </table>
   </div>
@@ -431,23 +431,29 @@
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
 
-    let items = [
-      { id21: 'cOuterSide21', ft: outerH },
-      { id21: 'cOuterTop21', ft: outerTop },
-      { id21: 'cOuterBottom21', ft: outerBottom },
-      { id21: 'cShutterLock21', ft: shutterLock },
-      { id21: 'cShutterInterlock21', ft: shutterInterlock },
-      { id21: 'cShutterTop21', ft: shutterTop },
-      { id21: 'cShutterBottom21', ft: shutterBottom }
-    ];
+    // আপনার কাস্টম ফর্মুলা অনুযায়ী বার ক্যালকুলেশন লজিক (৫৪ ইঞ্চি বা সাড়ে ৪ ফিট উচ্চতার জন্য ১৮.৬ বার ইত্যাদি বা স্ট্যান্ডার্ড মাপ অনুযায়ী)
+    let getCustomBarCount = (ftVal, heightInches) => {
+      if (heights.length > 0) {
+        let h = parseFloat(heights[0].value) || 0;
+        // যদি উচ্চতা ৫৪ ইঞ্চি (সাড়ে ৪ ফিট) হয়
+        if (h === 54) {
+          return (ftVal / 18.6).toFixed(1);
+        }
+      }
+      return Math.ceil(ftVal / 21);
+    };
+
+    document.getElementById('cOuterSideBar').innerText = getCustomBarCount(outerH);
+    document.getElementById('cOuterTopBar').innerText = getCustomBarCount(outerTop);
+    document.getElementById('cOuterBottomBar').innerText = getCustomBarCount(outerBottom);
+    document.getElementById('cShutterLockBar').innerText = getCustomBarCount(shutterLock);
+    document.getElementById('cShutterInterlockBar').innerText = getCustomBarCount(shutterInterlock);
+    document.getElementById('cShutterTopBar').innerText = getCustomBarCount(shutterTop);
+    document.getElementById('cShutterBottomBar').innerText = getCustomBarCount(shutterBottom);
 
     if (isNetActive) {
-      items.push({ id21: 'cNet21', ft: netFt });
+      document.getElementById('cNetBar').innerText = getCustomBarCount(netFt);
     }
-
-    items.forEach(item => {
-      document.getElementById(item.id21).innerText = Math.ceil(item.ft / 21) || 0;
-    });
   }
 </script>
 

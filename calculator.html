@@ -237,8 +237,8 @@
   <div class="card">
     <div class="card-title">Cutting Reports (Bar Distribution)</div>
     
-    <!-- সেকশন ১: সাড়ে ১৮/সাড়ে ১৮.৫ ফুটের বার সেকশন (শুধুমাত্র সাইড, লক ও ইন্টারলক) -->
-    <div class="section-title">18.5 ft / 18.6 ft Bar Section (Outer Side, Shutter Lock, Interlock)</div>
+    <!-- সেকশন ১: সাড়ে ১৮.৫ ফুটের বার সেকশন -->
+    <div class="section-title">18.5 ft Bar Section (Outer Side, Shutter Lock, Interlock)</div>
     <table class="report-table">
       <thead>
         <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (18.5 ft)</th></tr>
@@ -250,7 +250,7 @@
       </tbody>
     </table>
 
-    <!-- সেকশন ২: ২১ ফুটের বার সেকশন (আউটার টপ, বটম, শাটার টপ, বটম এবং বড় হাইটের সাইড/লক) -->
+    <!-- সেকশন ২: ২১ ফুটের বার সেকশন (সর্বদা সঠিক Math.ceil বা পূর্ণসংখ্যা হিসাব) -->
     <div class="section-title">21 ft Bar Section (Outer Top/Bottom, Shutter Top/Bottom & 21ft Sides)</div>
     <table class="report-table">
       <thead>
@@ -291,9 +291,9 @@
     let tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="row-index"></td>
-      <td><input type="number" class="w-h" placeholder="Height" value="54"></td>
+      <td><input type="number" class="w-h" placeholder="Height" value="48"></td>
       <td><input type="number" class="w-w" placeholder="Width" value="60"></td>
-      <td><input type="number" class="w-q" value="1"></td>
+      <td><input type="number" class="w-q" value="5"></td>
       <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
@@ -362,16 +362,12 @@
     let widths = document.querySelectorAll('.w-w');
     let qtys = document.querySelectorAll('.w-q');
 
-    // টোটাল ম্যাটেরিয়াল
     let outerH = 0, outerTop = 0, outerBottom = 0;
     let shutterLock = 0, shutterInterlock = 0, shutterTop = 0, shutterBottom = 0;
     let netFt = 0;
     let totalSqft = 0;
 
-    // ১৮.৫/১৮.৬ ফুট বারের জন্য (শুধুমাত্র আউটার সাইড, শাটার লক, ইন্টারলক ছোট হাইটের ক্ষেত্রে)
     let outerH_18 = 0, shutterLock_18 = 0, shutterInterlock_18 = 0;
-
-    // ২১ ফুট বারের জন্য (আউটার টপ, বটম, শাটার টপ, বটম এবং বড় হাইটের সাইড/লক)
     let outerH_21 = 0, outerTop_21 = 0, outerBottom_21 = 0;
     let shutterLock_21 = 0, shutterInterlock_21 = 0, shutterTop_21 = 0, shutterBottom_21 = 0;
 
@@ -402,14 +398,13 @@
         shutterTop += sTop;
         shutterBottom += sBot;
 
-        // আপনার নিয়ম অনুযায়ী আউটার টপ, আউটার বটম, শাটার টপ, শাটার বটম সবসময় ২১ ফুটের বারে যাবে
+        // আউটার টপ, বটম এবং শাটার টপ, বটম সবসময় ২১ ফুটের বারে যাবে
         outerTop_21 += oTop;
         outerBottom_21 += oBot;
         shutterTop_21 += sTop;
         shutterBottom_21 += sBot;
 
-        // হাইট যদি বড় হয় (যেমন ৭ ফুট বা ৮৪ ইঞ্চি বা তার বেশি), তবে আউটার সাইড, লক ও ইন্টারলক ২১ ফুটের বারে যাবে
-        // অন্যথায় (যেমন সাড়ে ৪ ফুট বা ছোট হাইট) সাড়ে ১৮ ফুটের বারে যাবে
+        // সাইড ও লকগুলোর ক্ষেত্রে হাইট অনুযায়ী ভাগ হবে
         if (h >= 84) {
           outerH_21 += oSide;
           shutterLock_21 += sLock;
@@ -439,7 +434,7 @@
     document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
     document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
 
-    // ১৮.৫/১৮.৬ ফুট সেকশন মান বসানো
+    // ১৮.৫ ফুট সেকশন
     document.getElementById('ft18OuterSide').innerText = outerH_18.toFixed(2);
     document.getElementById('c18OuterSideBar').innerText = (outerH_18 > 0 ? (outerH_18 / 18.5).toFixed(1) : "0");
     document.getElementById('ft18ShutterLock').innerText = shutterLock_18.toFixed(2);
@@ -447,19 +442,25 @@
     document.getElementById('ft18ShutterInterlock').innerText = shutterInterlock_18.toFixed(2);
     document.getElementById('c18ShutterInterlockBar').innerText = (shutterInterlock_18 > 0 ? (shutterInterlock_18 / 18.5).toFixed(1) : "0");
 
-    // ২১ ফুট সেকশন মান বসানো (যেখানে আউটার টপ/বটম ও শাটার টপ/বটম সবসময় ২১ এর হয়)
+    // ২১ ফুট সেকশন (সর্বদা সঠিক Math.ceil বা পূর্ণসংখ্যা হিসাব)
     document.getElementById('ft21OuterSide').innerText = outerH_21.toFixed(2);
     document.getElementById('c21OuterSideBar').innerText = (outerH_21 > 0 ? Math.ceil(outerH_21 / 21) : "0");
+    
     document.getElementById('ft21OuterTop').innerText = outerTop_21.toFixed(2);
     document.getElementById('c21OuterTopBar').innerText = (outerTop_21 > 0 ? Math.ceil(outerTop_21 / 21) : "0");
+    
     document.getElementById('ft21OuterBottom').innerText = outerBottom_21.toFixed(2);
     document.getElementById('c21OuterBottomBar').innerText = (outerBottom_21 > 0 ? Math.ceil(outerBottom_21 / 21) : "0");
+    
     document.getElementById('ft21ShutterLock').innerText = shutterLock_21.toFixed(2);
     document.getElementById('c21ShutterLockBar').innerText = (shutterLock_21 > 0 ? Math.ceil(shutterLock_21 / 21) : "0");
+    
     document.getElementById('ft21ShutterInterlock').innerText = shutterInterlock_21.toFixed(2);
     document.getElementById('c21ShutterInterlockBar').innerText = (shutterInterlock_21 > 0 ? Math.ceil(shutterInterlock_21 / 21) : "0");
+    
     document.getElementById('ft21ShutterTop').innerText = shutterTop_21.toFixed(2);
     document.getElementById('c21ShutterTopBar').innerText = (shutterTop_21 > 0 ? Math.ceil(shutterTop_21 / 21) : "0");
+    
     document.getElementById('ft21ShutterBottom').innerText = shutterBottom_21.toFixed(2);
     document.getElementById('c21ShutterBottomBar').innerText = (shutterBottom_21 > 0 ? Math.ceil(shutterBottom_21 / 21) : "0");
 

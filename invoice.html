@@ -10,14 +10,23 @@
     
     .container { max-width: 750px; margin: 0 auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 2px solid #1e3a8a; position: relative; }
 
-    /* টপ ব্যাক বাটন */
+    /* টপ ব্যাক বার */
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .back-btn { background: #1e293b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
 
-    /* হেডার ডিজাইন */
-    .invoice-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 12px; margin-bottom: 15px; }
-    .shop-title { font-size: 26px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; margin: 4px 0; border: none; background: transparent; text-align: center; width: 100%; outline: none; }
-    .shop-slogan { font-size: 12px; color: #475569; font-weight: 600; }
+    /* হেডার ডিজাইন (প্রথম ছবির আদলে ও লোগো বক্সসহ) */
+    .invoice-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 12px; margin-bottom: 15px; position: relative; }
+    
+    .header-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    
+    /* লোগো বক্স (অ্যালুমিনিয়াম বার বা প্রফাইলের ছবি বসানোর জন্য) */
+    .logo-box { width: 65px; height: 50px; border: 1px solid #1e3a8a; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 4px; overflow: hidden; }
+    .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+    .header-center-info { flex-grow: 1; text-align: center; }
+    .shop-slogan { font-size: 11px; color: #475569; font-weight: 600; }
+    .shop-title { font-size: 24px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; margin: 2px 0; border: none; background: transparent; text-align: center; width: 100%; outline: none; }
+    
     .shop-details { font-size: 13px; color: #334155; margin-top: 6px; display: flex; flex-direction: column; gap: 3px; align-items: center; }
     .shop-details input { border: 1px dashed transparent; text-align: center; font-size: 13px; color: #334155; background: transparent; width: 80%; }
     .shop-details input:hover, .shop-details input:focus { border-color: #cbd5e1; background: #f8fafc; outline: none; border-radius: 4px; }
@@ -82,11 +91,26 @@
     <span style="font-size: 13px; color: #64748b; font-weight: 600;">Bill & Invoice Management</span>
   </div>
 
-  <!-- হেডার সেকশন -->
+  <!-- হেডার সেকশন (লোগো বক্সসহ প্রথম ছবির আদলে) -->
   <div class="invoice-header">
-    <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
-    <input type="text" class="shop-title" value="RM THAI ALUMINIUM">
-    <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
+    <div class="header-top-row">
+      <!-- বাম পাশের লোগো/অ্যালুমিনিয়াম বার বক্স -->
+      <div class="logo-box">
+        <img src="1000060250.jpg" alt="Logo 1" onerror="this.src='https://img.icons8.com/color/96/aluminium.png'">
+      </div>
+      
+      <div class="header-center-info">
+        <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
+        <input type="text" class="shop-title" value="RM THAI ALUMINIUM">
+        <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
+      </div>
+
+      <!-- ডান পাশের লোগো/অ্যালুমিনিয়াম বার বক্স -->
+      <div class="logo-box">
+        <img src="1000054468.jpg" alt="Logo 2" onerror="this.src='https://img.icons8.com/color/96/aluminium.png'">
+      </div>
+    </div>
+
     <div class="shop-details">
       <input type="text" value="Proprietor: Rubel Molla | Mobile: 01676-474412">
       <input type="text" value="Address: 47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216">
@@ -169,7 +193,7 @@
     let today = new Date().toISOString().split('T')[0];
     document.getElementById('billDate').value = today;
     
-    // ডিফলต์ ৩টি রো যোগ করা
+    // আগের নিয়মে ডিফলต์ ৩টি রো যোগ করা
     addInvoiceRow();
     addInvoiceRow();
     addInvoiceRow();

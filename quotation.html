@@ -3,71 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluminium Quotation</title>
+  <title>Aluminium Quotation Manager</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
-    * { box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { background-color: #f4f6f9; margin: 0; padding: 10px; color: #333; }
-    .container { max-width: 650px; margin: 0 auto; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
+    .container { max-width: 700px; margin: 0 auto; }
     
-    .card { 
-      background: #fff; 
-      padding: 15px; 
-      border-radius: 10px; 
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
-      margin-bottom: 15px; 
+    .card {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
     }
-    
-    .card-title { color: #1a73e8; font-size: 16px; font-weight: bold; text-align: center; margin-bottom: 12px; }
-    .row { display: flex; gap: 8px; margin-bottom: 8px; }
-    .col { flex: 1; }
-    label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
-    input, select { width: 100%; padding: 8px; font-size: 13px; border: 1px solid #ccc; border-radius: 5px; }
-    
-    .btn { 
-      width: 100%; 
-      padding: 10px; 
-      border: none; 
-      border-radius: 6px; 
-      font-weight: bold; 
-      cursor: pointer; 
-      font-size: 14px; 
-      margin-top: 8px; 
-    }
-    
-    .btn-add { background-color: #10b981; color: white; }
-    .btn-pdf { background-color: #059669; color: white; font-size: 15px; }
-    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
-    
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    th, td { border: 1px solid #ddd; padding: 6px; text-align: center; font-size: 12px; }
-    th { background-color: #2563eb; color: white; }
-    
-    /* Printable Quotation Design */
-    #printableQuotation { 
-      background: #fff; 
-      padding: 15px; 
-      border: 1px solid #cbd5e1; 
-      border-radius: 6px; 
-    }
-    .pdf-header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 5px; margin-bottom: 10px; }
-    .pdf-title { font-size: 18px; font-weight: bold; color: #2563eb; margin: 0; }
-    .pdf-info { display: flex; justify-content: space-between; font-size: 12px; background: #f8fafc; padding: 8px; border-radius: 4px; margin-bottom: 10px; border: 1px solid #ddd; }
-    .pdf-table { width: 100%; border-collapse: collapse; }
-    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; font-size: 11px; text-align: center; }
-    .pdf-table th { background-color: #f1f5f9; color: #000; }
 
-    /* CSS for Print/PDF Mode */
-    @media print {
-      body * { visibility: hidden; }
-      #printableQuotation, #printableQuotation * { visibility: visible; }
-      #printableQuotation { 
-        position: absolute; 
-        left: 0; 
-        top: 0; 
-        width: 100%; 
-        border: none; 
-        padding: 0; 
-      }
+    .card-title {
+      color: #1e40af;
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #eff6ff;
+      padding-bottom: 6px;
+    }
+
+    .row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .col { flex: 1; }
+
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #334155; }
+    input, select {
+      width: 100%;
+      padding: 9px;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background-color: #fff;
+    }
+
+    .btn-group { display: flex; gap: 8px; margin-top: 10px; }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .btn-add { background-color: #10b981; color: white; width: 100%; }
+    .btn-win-pdf { background-color: #2563eb; color: white; }
+    .btn-mat-pdf { background-color: #0d9488; color: white; }
+    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+    .btn-open { background-color: #2563eb; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+    th { background-color: #1e3a8a; color: white; font-weight: 600; }
+
+    /* PDF Template A4 Settings */
+    .pdf-container {
+      background: #ffffff;
+      padding: 25px;
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      color: #000;
+    }
+
+    .pdf-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 14px; }
+    .pdf-title { font-size: 22px; font-weight: 800; color: #1e3a8a; margin: 0; }
+    .pdf-subtitle { font-size: 13px; font-weight: 600; color: #334155; margin-top: 4px; }
+
+    .pdf-info-box {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border: 1px solid #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 8px 4px; font-size: 12px; font-weight: 600; }
+    .pdf-table th { background-color: #f1f5f9; color: #000; font-size: 13px; }
+
+    .pdf-grand-total {
+      text-align: right;
+      font-size: 17px;
+      font-weight: 800;
+      color: #1e3a8a;
+      margin-top: 14px;
+      border-top: 1px solid #000;
+      padding-top: 6px;
+    }
+
+    .terms-box {
+      margin-top: 25px;
+      background: #fff7ed;
+      border-left: 4px solid #f97316;
+      padding: 10px 14px;
+      font-size: 12px;
+      border-radius: 2px;
+    }
+
+    .signature-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding: 0 20px;
+    }
+
+    .sig-line {
+      border-top: 1.5px solid #000;
+      width: 180px;
+      text-align: center;
+      padding-top: 5px;
+      font-weight: bold;
+      font-size: 12px;
     }
   </style>
 </head>
@@ -75,12 +134,12 @@
 
 <div class="container">
 
-  <!-- ১. শপ ইনফো -->
+  <!-- ১. দোকান/স্টোর ইনফো -->
   <div class="card">
     <div class="card-title">My Store / Contact Info</div>
     <div class="row">
-      <div class="col"><label>Shop Name</label><input type="text" id="shopName" value="RM Thai Aluminum" oninput="runCalculation()"></div>
-      <div class="col"><label>Mobile Number</label><input type="text" id="shopPhone" value="01676474412" oninput="runCalculation()"></div>
+      <div class="col"><label>Shop/Your Name</label><input type="text" id="shopName" value="RM Thai Aluminum" oninput="runCalculation()"></div>
+      <div class="col"><label>My Mobile Number</label><input type="text" id="shopPhone" value="01676474412" oninput="runCalculation()"></div>
     </div>
   </div>
 
@@ -96,27 +155,48 @@
     </div>
   </div>
 
-  <!-- ৩. স্পেসিফিকেশন -->
+  <!-- ৩. মেটেরিয়াল স্পেসিফিকেশন -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     <div class="row">
-      <div class="col"><label>Aluminium Company</label><select id="aluCompany" onchange="runCalculation()"><option>KAI</option><option>Altech</option></select></div>
-      <div class="col"><label>Alu Colour</label><select id="aluColor" onchange="runCalculation()"><option>Silver</option><option>Bronze</option></select></div>
+      <div class="col">
+        <label>Aluminium Company</label>
+        <select id="aluCompany" onchange="runCalculation()"><option>KAI</option><option>Altech</option><option>BTA</option></select>
+      </div>
+      <div class="col">
+        <label>Alu Colour</label>
+        <select id="aluColor" onchange="runCalculation()"><option>Silver</option><option>Bronze</option><option>Black</option></select>
+      </div>
     </div>
     <div class="row">
-      <div class="col"><label>Alu Thickness</label><select id="aluThickness" onchange="runCalculation()"><option>1.0 mm</option><option>1.2 mm</option></select></div>
-      <div class="col"><label>Series</label><select id="aluSeries" onchange="runCalculation()"><option>Sliding 3"</option></select></div>
+      <div class="col">
+        <label>Alu Thickness</label>
+        <select id="aluThickness" onchange="runCalculation()"><option>1.0 mm</option><option>1.2 mm</option><option>1.5 mm</option></select>
+      </div>
+      <div class="col">
+        <label>Series</label>
+        <select id="aluSeries" onchange="runCalculation()"><option>Sliding 3"</option><option>Sliding 4"</option></select>
+      </div>
     </div>
     <div class="row">
-      <div class="col"><label>Glass Company</label><select id="glassCompany" onchange="runCalculation()"><option>Nasir Glass</option></select></div>
-      <div class="col"><label>Glass Colour</label><select id="glassColor" onchange="runCalculation()"><option>Clear</option></select></div>
+      <div class="col">
+        <label>Glass Company</label>
+        <select id="glassCompany" onchange="runCalculation()"><option>Nasir Glass</option><option>PHP</option></select>
+      </div>
+      <div class="col">
+        <label>Glass Colour</label>
+        <select id="glassColor" onchange="runCalculation()"><option>Clear</option><option>Tinted</option><option>Frosted</option></select>
+      </div>
     </div>
     <div class="row">
-      <div class="col"><label>Glass Thickness</label><select id="glassThickness" onchange="runCalculation()"><option>5 mm</option></select></div>
+      <div class="col">
+        <label>Glass Thickness</label>
+        <select id="glassThickness" onchange="runCalculation()"><option>5 mm</option><option>6 mm</option></select>
+      </div>
     </div>
   </div>
 
-  <!-- ৪. জানালার ইনপুট -->
+  <!-- ৪. জানালার মাপ ইনপুট -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table>
@@ -136,53 +216,105 @@
     <button class="btn btn-add" onclick="addRow()">+ Add Another Window</button>
   </div>
 
-  <!-- ৫. প্রাইসিং এবং ডাউনলোড -->
+  <!-- ৫. প্রাইসিং ও কোটেশন বাটন -->
   <div class="card">
-    <div class="card-title">Pricing & Save Options</div>
+    <div class="card-title">Pricing & Download Quotation</div>
     <div class="row">
       <div class="col"><label>Selling Rate (৳/Sqft)</label><input type="number" id="sellingRate" value="450" oninput="runCalculation()"></div>
-      <div class="col"><label>Total Price (৳)</label><input type="number" id="calcTotalPrice" readonly style="background:#eee; font-weight:bold;"></div>
+      <div class="col"><label>Total Price (৳)</label><input type="number" id="calcTotalPrice" readonly style="background:#f1f5f9; font-weight:bold;"></div>
     </div>
-    <button class="btn btn-pdf" onclick="downloadPDF()">📄 Download PDF</button>
+    
+    <div class="btn-group">
+      <button class="btn btn-win-pdf" onclick="downloadWindowQuotation()">📄 Window Quotation PDF</button>
+      <button class="btn btn-mat-pdf" onclick="downloadMaterialQuotation()">📦 Material Details PDF</button>
+    </div>
   </div>
 
-  <!-- ৬. লাইভ প্রিভিউ -->
+  <!-- ৬. উইন্ডো কোটেশন প্রিভিউ -->
   <div class="card">
-    <div class="card-title">Live Quotation Preview</div>
-    <div id="printableQuotation">
+    <div class="card-title">Live Window Quotation Preview</div>
+    <div class="pdf-container" id="winQuotationView">
       <div class="pdf-header">
         <p class="pdf-title" id="pShop"></p>
-        <p style="margin:2px; font-size:12px;">Mobile: <span id="pPhone"></span></p>
+        <p class="pdf-subtitle">Mobile: <span id="pPhone"></span></p>
       </div>
 
-      <div class="pdf-info">
+      <div class="pdf-info-box">
         <div>
           <div><b>Customer:</b> <span id="pCust"></span></div>
           <div><b>Mobile:</b> <span id="pCustMob"></span></div>
           <div><b>Address:</b> <span id="pAddr"></span></div>
         </div>
-        <div style="text-align:right;">
+        <div style="text-align: right;">
           <div><b>Date:</b> <span id="pDate"></span></div>
         </div>
       </div>
 
-      <div style="font-size: 11px; margin-bottom: 8px; color: #2563eb; font-weight: bold;" id="pSpec"></div>
+      <div style="font-size: 12px; margin-bottom: 8px; color: #1e3a8a; font-weight: bold;" id="pSpec"></div>
 
       <table class="pdf-table">
         <thead>
-          <tr><th>#</th><th>Size (H x W)</th><th>Qty</th><th>Sqft</th><th>Rate</th><th>Total</th></tr>
+          <tr><th>#</th><th>Size (H x W)</th><th>Qty</th><th>Sqft</th><th>Rate</th><th>Total Price</th></tr>
         </thead>
         <tbody id="pdfTableBody"></tbody>
       </table>
 
-      <h3 style="text-align:right; color:#2563eb; margin-top:10px;">Grand Total: ৳<span id="pGrandTotal">0.00</span></h3>
+      <div class="pdf-grand-total">Grand Total Amount: ৳<span id="pGrandTotal">0.00</span></div>
+
+      <div class="terms-box">
+        <b>Terms & Conditions:</b><br>
+        1. 50% advance payment is required for order confirmation.<br>
+        2. 30% payment to be cleared during the progress of work.<br>
+        3. The remaining 20% balance must be paid upon completion of work.
+      </div>
+
+      <div class="signature-container">
+        <div class="sig-line">Customer's Signature</div>
+        <div class="sig-line">Authorised Signature</div>
+      </div>
     </div>
+  </div>
+
+  <!-- ৭. মেটেরিয়াল ডিটেইলস প্রিভিউ (গোপন/ডাউনলোডের জন্য) -->
+  <div style="display:none;">
+    <div class="pdf-container" id="matQuotationView">
+      <div class="pdf-header">
+        <p class="pdf-title" id="mShop"></p>
+        <p class="pdf-subtitle">Material Details Calculation Sheet</p>
+      </div>
+
+      <div class="pdf-info-box">
+        <div><b>Specification:</b> <span id="mSpec"></span></div>
+        <div><b>Date:</b> <span id="mDate"></span></div>
+      </div>
+
+      <table class="pdf-table">
+        <thead>
+          <tr><th>Material Name</th><th>Est. Length (Feet)</th><th>Req. Bars (21 Ft)</th><th>Req. Bars (18.6 Ft)</th></tr>
+        </thead>
+        <tbody id="matTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ৮. সেভ করা কোটেশন হিস্ট্রি -->
+  <div class="card">
+    <div class="card-title">Saved Quotation History</div>
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Customer</th><th>Total (৳)</th><th>Action</th></tr>
+      </thead>
+      <tbody id="historyTableBody"></tbody>
+    </table>
   </div>
 
 </div>
 
 <script>
-  window.onload = function() { runCalculation(); };
+  window.onload = function() {
+    runCalculation();
+    renderHistory();
+  };
 
   function addRow() {
     let tbody = document.getElementById('winTableBody');
@@ -211,15 +343,18 @@
   }
 
   function runCalculation() {
+    // ১. টেক্সট ফিলাপ
     document.getElementById('pShop').innerText = document.getElementById('shopName').value;
     document.getElementById('pPhone').innerText = document.getElementById('shopPhone').value;
-    document.getElementById('pCust').innerText = document.getElementById('custName').value;
-    document.getElementById('pCustMob').innerText = document.getElementById('custPhone').value;
-    document.getElementById('pAddr').innerText = document.getElementById('custAddress').value;
+    document.getElementById('pCust').innerText = document.getElementById('custName').value || 'N/A';
+    document.getElementById('pCustMob').innerText = document.getElementById('custPhone').value || 'N/A';
+    document.getElementById('pAddr').innerText = document.getElementById('custAddress').value || 'N/A';
 
-    let alu = `${document.getElementById('aluCompany').value} (${document.getElementById('aluColor').value}, ${document.getElementById('aluThickness').value})`;
-    let gls = `${document.getElementById('glassCompany').value} (${document.getElementById('glassThickness').value} ${document.getElementById('glassColor').value})`;
-    document.getElementById('pSpec').innerText = `Spec: ${alu} | ${gls}`;
+    document.getElementById('mShop').innerText = document.getElementById('shopName').value;
+
+    let spec = `Spec: ${document.getElementById('aluCompany').value} (${document.getElementById('aluColor').value}, ${document.getElementById('aluThickness').value}, ${document.getElementById('aluSeries').value}) | ${document.getElementById('glassCompany').value} (${document.getElementById('glassThickness').value} ${document.getElementById('glassColor').value})`;
+    document.getElementById('pSpec').innerText = spec;
+    document.getElementById('mSpec').innerText = spec;
 
     let heights = document.querySelectorAll('.w-h');
     let widths = document.querySelectorAll('.w-w');
@@ -228,7 +363,9 @@
 
     let tbody = document.getElementById('pdfTableBody');
     tbody.innerHTML = '';
-    let totalAmt = 0;
+    let grandTotal = 0;
+
+    let totalOuterH = 0, totalOuterW = 0, totalShutterH = 0, totalShutterW = 0;
 
     for (let i = 0; i < heights.length; i++) {
       let h = parseFloat(heights[i].value) || 0;
@@ -238,7 +375,7 @@
       if (h > 0 && w > 0 && q > 0) {
         let sqft = ((h * w) / 144) * q;
         let rowTotal = sqft * rate;
-        totalAmt += rowTotal;
+        grandTotal += rowTotal;
 
         tbody.innerHTML += `
           <tr>
@@ -250,17 +387,116 @@
             <td>৳${rowTotal.toFixed(2)}</td>
           </tr>
         `;
+
+        // মেটেরিয়াল এরিয়া ক্যালকুলেশন
+        totalOuterH += (h / 12) * 2 * q;
+        totalOuterW += (w / 12) * q;
+        totalShutterH += (h / 12) * 4 * q;
+        totalShutterW += (w / 12) * 4 * q;
       }
     }
 
-    document.getElementById('calcTotalPrice').value = totalAmt.toFixed(2);
-    document.getElementById('pGrandTotal').innerText = totalAmt.toFixed(2);
-    document.getElementById('pDate').innerText = new Date().toLocaleDateString('en-US');
+    document.getElementById('calcTotalPrice').value = grandTotal.toFixed(2);
+    document.getElementById('pGrandTotal').innerText = grandTotal.toFixed(2);
+
+    let today = new Date().toLocaleDateString('en-US');
+    document.getElementById('pDate').innerText = today;
+    document.getElementById('mDate').innerText = today;
+
+    // মেটেরিয়াল টেবিল সাজানো
+    let matBody = document.getElementById('matTableBody');
+    let materials = [
+      { name: "Outer Side", ft: totalOuterH },
+      { name: "Outer Top", ft: totalOuterW },
+      { name: "Outer Bottom", ft: totalOuterW },
+      { name: "Shutter Lock", ft: totalShutterH / 2 },
+      { name: "Shutter Interlock", ft: totalShutterH / 2 },
+      { name: "Shutter Top", ft: totalShutterW / 2 },
+      { name: "Shutter Bottom", ft: totalShutterW / 2 }
+    ];
+
+    matBody.innerHTML = '';
+    materials.forEach(m => {
+      let b21 = Math.ceil(m.ft / 21);
+      let b18 = Math.ceil(m.ft / 18.6);
+      matBody.innerHTML += `
+        <tr>
+          <td><b>${m.name}</b></td>
+          <td>${m.ft.toFixed(2)} ft</td>
+          <td>${b21} Pcs</td>
+          <td>${b18} Pcs</td>
+        </tr>
+      `;
+    });
   }
 
-  function downloadPDF() {
+  function saveHistory() {
+    let history = JSON.parse(localStorage.getItem('qtn_history_db') || '[]');
+    let obj = {
+      id: Date.now(),
+      date: new Date().toLocaleDateString('en-US'),
+      cust: document.getElementById('custName').value || 'Unknown',
+      total: document.getElementById('calcTotalPrice').value
+    };
+    history.unshift(obj);
+    localStorage.setItem('qtn_history_db', JSON.stringify(history));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    let history = JSON.parse(localStorage.getItem('qtn_history_db') || '[]');
+    let tbody = document.getElementById('historyTableBody');
+    tbody.innerHTML = '';
+
+    if(history.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4">No Saved History</td></tr>';
+      return;
+    }
+
+    history.forEach(item => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${item.date}</td>
+          <td><b>${item.cust}</b></td>
+          <td>৳${item.total}</td>
+          <td><button class="btn-open" onclick="alert('History Record Saved!')">Saved</button></td>
+        </tr>
+      `;
+    });
+  }
+
+  function downloadWindowQuotation() {
     runCalculation();
-    window.print();
+    saveHistory();
+
+    let element = document.getElementById('winQuotationView');
+    let cust = document.getElementById('custName').value || 'Customer';
+
+    let opt = {
+      margin:       [10, 10, 10, 10],
+      filename:     `Window_Quotation_${cust}.pdf`,
+      image:        { type: 'jpeg', quality: 1.0 },
+      html2canvas:  { scale: 3, useCORS: true },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+  }
+
+  function downloadMaterialQuotation() {
+    runCalculation();
+
+    let element = document.getElementById('matQuotationView');
+
+    let opt = {
+      margin:       [10, 10, 10, 10],
+      filename:     `Material_Details.pdf`,
+      image:        { type: 'jpeg', quality: 1.0 },
+      html2canvas:  { scale: 3, useCORS: true },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
   }
 </script>
 

@@ -135,17 +135,17 @@
       <div class="row">
         <div class="col">
           <label>Customer Name</label>
-          <input type="text" id="custName" value="Asad">
+          <input type="text" id="custName" value="মাহমুদ">
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label>Customer Mobile</label>
-          <input type="text" id="custPhone" value="019768322466">
+          <input type="text" id="custPhone" value="01864637357">
         </div>
         <div class="col">
           <label>Address</label>
-          <input type="text" id="custAddress" value="বন্দর">
+          <input type="text" id="custAddress" value="পাবনা">
         </div>
       </div>
     </div>
@@ -252,9 +252,9 @@
 
         <div class="pdf-info-grid">
           <div>
-            <div><b>Customer:</b> <span id="pCust">Asad</span></div>
-            <div><b>Mobile:</b> <span id="pCustMob">019768322466</span></div>
-            <div><b>Address:</b> <span id="pAddr">বন্দর</span></div>
+            <div><b>Customer:</b> <span id="pCust">মাহমুদ</span></div>
+            <div><b>Mobile:</b> <span id="pCustMob">01864637357</span></div>
+            <div><b>Address:</b> <span id="pAddr">পাবনা</span></div>
           </div>
           <div style="text-align: right;">
             <div><b>Qtn No:</b> <span id="pQtnNo">#1001</span></div>
@@ -318,6 +318,7 @@
     };
 
     function attachGlobalListeners() {
+      // টাইপ করার সাথে সাথে রিয়েল-টাইমে আপডেট করার জন্য
       document.addEventListener('input', runCalculation);
       document.addEventListener('change', runCalculation);
     }
@@ -351,14 +352,14 @@
     }
 
     function runCalculation() {
-      // ১. শপ ও কাস্টমার ডাটা
+      // ১. কাস্টমার ও শপ ডাটা সিঙ্ক
       document.getElementById('pShop').innerText = document.getElementById('shopName').value || '';
       document.getElementById('pPhone').innerText = document.getElementById('shopPhone').value || '';
       document.getElementById('pCust').innerText = document.getElementById('custName').value || '';
       document.getElementById('pCustMob').innerText = document.getElementById('custPhone').value || '';
       document.getElementById('pAddr').innerText = document.getElementById('custAddress').value || '';
 
-      // ২. স্পেসিফিকেশন
+      // ২. স্পেসিফিকেশন সিঙ্ক
       let aluCo = document.getElementById('aluCompany').value;
       let aluCol = document.getElementById('aluColor').value;
       let aluTh = document.getElementById('aluThickness').value;
@@ -369,7 +370,7 @@
 
       document.getElementById('pSpec').innerText = `Specification: ${aluCo} (${aluCol}, ${aluTh}, ${aluSer}) | ${glsCo} (${glsTh} ${glsCol} Glass)`;
 
-      // ৩. সাইজ ও দাম হিসেব
+      // ৩. সব জানালার হিসাব করা
       let heights = document.querySelectorAll('.w-h');
       let widths = document.querySelectorAll('.w-w');
       let qtys = document.querySelectorAll('.w-q');
@@ -410,7 +411,7 @@
       document.getElementById('pDate').innerText = today;
     }
 
-    // --- হিস্ট্রি ও সেভ ফাংশন শুরু ---
+    // --- সেভ ও হিস্ট্রি লোড ---
 
     function getHistoryData() {
       let data = localStorage.getItem('thai_qtn_history');
@@ -454,7 +455,6 @@
         windows: windows
       };
 
-      // আপডেট বা নতুন যুক্ত
       let existingIndex = history.findIndex(item => item.id === qtnObj.id);
       if (existingIndex > -1) {
         history[existingIndex] = qtnObj;
@@ -464,7 +464,7 @@
 
       localStorage.setItem('thai_qtn_history', JSON.stringify(history));
       currentQtnId = qtnObj.id;
-      alert("কোটেশন সফলভাবে সেভ হয়েছে!");
+      alert("কোটেশনটি সফলভাবে সেভ হয়েছে!");
       renderHistoryTable();
     }
 
@@ -515,7 +515,6 @@
       document.getElementById('glassThickness').value = qtn.glassThickness || '5 mm';
       document.getElementById('sellingRate').value = qtn.rate || 450;
 
-      // জানালার টেবিল লোড
       let tbody = document.getElementById('winTableBody');
       tbody.innerHTML = '';
 

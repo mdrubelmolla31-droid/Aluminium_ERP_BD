@@ -6,78 +6,86 @@
   <title>Rate Settings - RM Thai Aluminium</title>
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
-    .container { max-width: 650px; margin: 0 auto; }
+    body { background-color: #f1f5f9; margin: 0; padding: 10px; color: #0f172a; }
+    .container { max-width: 600px; margin: 0 auto; }
 
     .card {
       background: #ffffff;
-      padding: 16px;
+      padding: 14px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      margin-bottom: 16px;
-      border: 1px solid #e2e8f0;
+      margin-bottom: 14px;
+      border: 1px solid #cbd5e1;
     }
 
     .card-title {
-      color: #1e40af;
-      font-size: 18px;
+      color: #1d4ed8;
+      font-size: 17px;
       font-weight: 700;
       text-align: center;
-      margin-bottom: 14px;
-      border-bottom: 2px solid #eff6ff;
-      padding-bottom: 6px;
-    }
-
-    /* ছবির মতো একটির নিচে একটি ফিল্ড সাজানোর স্টাইল */
-    .form-group {
       margin-bottom: 12px;
     }
 
-    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #334155; }
-    
-    input, select {
-      width: 100%;
+    .master-section {
+      background: #f8fafc;
       padding: 10px;
-      font-size: 14px;
-      border: 1px solid #cbd5e1;
       border-radius: 6px;
-      background-color: #fff;
-      margin-bottom: 6px;
-    }
-
-    .btn-action {
-      width: 100%;
-      padding: 10px;
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
+      border: 1px solid #e2e8f0;
       margin-bottom: 14px;
     }
 
-    .btn-action:hover { background-color: #1d4ed8; }
+    .master-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .field-group { margin-bottom: 10px; }
+    label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 3px; color: #334155; }
+    
+    input, select {
+      width: 100%;
+      padding: 8px;
+      font-size: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+
+    .btn-add {
+      width: 100%;
+      padding: 8px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    .btn-add:hover { background-color: #1d4ed8; }
 
     .btn-save {
       width: 100%;
-      padding: 12px;
+      padding: 11px;
       background-color: #1d4ed8;
       color: white;
       border: none;
       border-radius: 6px;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       margin-top: 10px;
     }
 
-    /* টেবিল যাতে এক স্ক্রিনে সুন্দর দেখায় */
+    /* ছবিটার স্টাইলে টেবিল যাতে এক স্ক্রিনে ফুল রো দেখায় */
     .table-container {
       width: 100%;
       overflow-x: auto;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .rate-table {
@@ -89,8 +97,8 @@
     .rate-table th {
       background-color: #2563eb;
       color: white;
-      padding: 6px 2px;
-      font-size: 10px;
+      padding: 5px 1px;
+      font-size: 9px;
       font-weight: 600;
       text-align: center;
       border: 1px solid #1d4ed8;
@@ -98,11 +106,11 @@
     }
 
     .rate-table td {
-      padding: 7px 2px;
+      padding: 6px 1px;
       border: 1px solid #cbd5e1;
       text-align: center;
       color: #0f172a;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 500;
       white-space: nowrap;
     }
@@ -113,10 +121,10 @@
       background-color: #ef4444;
       color: white;
       border: none;
-      padding: 3px 6px;
-      border-radius: 4px;
+      padding: 2px 4px;
+      border-radius: 3px;
       cursor: pointer;
-      font-size: 10px;
+      font-size: 9px;
     }
   </style>
 </head>
@@ -124,117 +132,101 @@
 
 <div class="container">
 
-  <!-- মাস্টার ডাটা ও রেট সেটিংস ইনপুট সেকশন -->
   <div class="card">
     <div class="card-title">Rate Settings</div>
-    <div style="text-align:center; font-weight:bold; color:#2563eb; margin-bottom:12px; font-size:14px;">Master Data</div>
 
-    <!-- নিউ কোম্পানি অ্যাড -->
-    <div class="form-group">
-      <label>New Company</label>
-      <input type="text" id="newCompanyName" placeholder="Enter Company Name">
-      <button class="btn-action" onclick="addCompany()">Add Company</button>
+    <!-- Master Data Section (হুবহু ছবির মতো) -->
+    <div class="master-section">
+      <div class="master-title">Master Data</div>
+
+      <div class="field-group">
+        <label>New Company</label>
+        <input type="text" id="newCompanyName" placeholder="Company Name">
+        <button class="btn-add" onclick="addMasterItem('companyList', 'newCompanyName', 'Company')">Add Company</button>
+      </div>
+
+      <div class="field-group">
+        <label>New Series</label>
+        <input type="text" id="newSeriesName" placeholder="Series Name">
+        <button class="btn-add" onclick="addMasterItem('seriesList', 'newSeriesName', 'Series')">Add Series</button>
+      </div>
+
+      <div class="field-group">
+        <label>New Aluminium Thickness</label>
+        <input type="text" id="newThickName" placeholder="e.g. 1.2 mm">
+        <button class="btn-add" onclick="addMasterItem('thickList', 'newThickName', 'Alu Thickness')">Add Thickness</button>
+      </div>
+
+      <div class="field-group">
+        <label>New Glass Company</label>
+        <input type="text" id="newGlassCoName" placeholder="Glass Co. Name">
+        <button class="btn-add" onclick="addMasterItem('glassCoList', 'newGlassCoName', 'Glass Company')">Add Glass Company</button>
+      </div>
     </div>
 
-    <!-- নিউ সিরিজ অ্যাড -->
-    <div class="form-group">
-      <label>New Series</label>
-      <input type="text" id="newSeriesName" placeholder="Enter Series Name">
-      <button class="btn-action" onclick="addSeries()">Add Series</button>
-    </div>
-
-    <!-- নিউ থিকনেস অ্যাড -->
-    <div class="form-group">
-      <label>New Aluminium Thickness</label>
-      <input type="text" id="newThickName" placeholder="Enter Thickness (e.g. 1.2 mm)">
-      <button class="btn-action" onclick="addThickness()">Add Thickness</button>
-    </div>
-
-    <!-- নিউ গ্লাস কোম্পানি অ্যাড -->
-    <div class="form-group">
-      <label>New Glass Company</label>
-      <input type="text" id="newGlassCoName" placeholder="Enter Glass Company">
-      <button class="btn-action" onclick="addGlassCompany()">Add Glass Company</button>
-    </div>
-
-    <!-- ড্রপডাউন সিলেকশন এবং রেট ইনপুট -->
-    <div class="form-group">
+    <!-- Main Form Selection (আপনার দেওয়া রিকোয়ারমেন্ট অনুযায়ী নতুন ৩টি ফিল্ড উপরে যুক্ত করা হয়েছে) -->
+    <div class="field-group">
       <label>Company</label>
-      <select id="companySelect"></select>
+      <select id="company"><option value="KAI">KAI</option><option value="BTA">BTA</option><option value="ALFA">ALFA</option></select>
     </div>
 
-    <div class="form-group">
+    <div class="field-group">
       <label>Series</label>
-      <select id="seriesSelect"></select>
+      <select id="series"><option value="Sliding Window 3&quot;">Sliding Window 3"</option><option value="Sliding Window 4&quot;">Sliding Window 4"</option></select>
     </div>
 
-    <div class="form-group">
-      <label>Aluminium Thickness</label>
-      <select id="thicknessSelect"></select>
-    </div>
-
-    <div class="form-group">
+    <!-- আপনার চাহিদা অনুযায়ী এখানে অ্যালুমিনিয়াম কালার, গ্লাস কালার ও গ্লাস থিকনেস উপরে বসানো হলো -->
+    <div class="field-group">
       <label>Aluminium Colour</label>
-      <select id="aluColorSelect">
-        <option>Silver</option>
-        <option>Bronze</option>
-        <option>Black</option>
-        <option>Anodized</option>
-      </select>
+      <select id="aluColor"><option value="Silver">Silver</option><option value="Bronze">Bronze</option><option value="Black">Black</option></select>
     </div>
 
-    <div class="form-group">
-      <label>Glass Company</label>
-      <select id="glassCompanySelect"></select>
-    </div>
-
-    <div class="form-group">
-      <label>Glass Thickness</label>
-      <select id="glassThicknessSelect">
-        <option>5 mm</option>
-        <option>5.5 mm</option>
-        <option>6 mm</option>
-        <option>8 mm</option>
-      </select>
-    </div>
-
-    <div class="form-group">
+    <div class="field-group">
       <label>Glass Colour</label>
-      <select id="glassColorSelect">
-        <option>Clear</option>
-        <option>Blue</option>
-        <option>Green</option>
-        <option>Dark Blue</option>
-        <option>Mercury</option>
-      </select>
+      <select id="glassColour"><option value="Clear">Clear</option><option value="Blue">Blue</option><option value="Green">Green</option></select>
     </div>
 
-    <div class="form-group">
+    <div class="field-group">
+      <label>Glass Thickness</label>
+      <select id="glassThickness"><option value="5 mm">5 mm</option><option value="5.5 mm">5.5 mm</option><option value="6 mm">6 mm</option></select>
+    </div>
+
+    <div class="field-group">
+      <label>Aluminium Thickness</label>
+      <select id="aluThickness"><option value="1.0 mm">1.0 mm</option><option value="1.2 mm">1.2 mm</option><option value="1.5 mm">1.5 mm</option></select>
+    </div>
+
+    <div class="field-group">
+      <label>Glass Company</label>
+      <select id="glassCompany"><option value="Nasir">Nasir</option><option value="Bengal">Bengal</option><option value="PHP">PHP</option></select>
+    </div>
+
+    <div class="field-group">
       <label>Aluminium Rate (৳/ft)</label>
       <input type="number" id="aluRate" placeholder="180">
     </div>
 
-    <div class="form-group">
+    <div class="field-group">
       <label>Glass Rate (৳/Sqft)</label>
-      <input type="number" id="glassRate" placeholder="125">
+      <input type="number" id="glassRate" placeholder="145">
     </div>
 
-    <div class="form-group">
+    <div class="field-group">
       <label>Hardware Rate (৳/Sqft)</label>
-      <input type="number" id="hwRate" placeholder="30">
+      <input type="number" id="hwRate" placeholder="35">
     </div>
 
-    <div class="form-group">
+    <div class="field-group">
       <label>Fittings Rate (৳/Sqft)</label>
       <input type="number" id="fitRate" placeholder="30">
     </div>
 
-    <div class="form-group">
+    <div class="field-group">
       <label>Labour Rate (৳/Sqft)</label>
       <input type="number" id="labourRate" placeholder="10">
     </div>
 
-    <div class="form-group">
+    <div class="field-group">
       <label>Profit (%)</label>
       <input type="number" id="profit" placeholder="20">
     </div>
@@ -242,7 +234,7 @@
     <button class="btn-save" onclick="saveRate()">Save Rate</button>
   </div>
 
-  <!-- সেভ হওয়া রেটের তালিকা টেবিল -->
+  <!-- Saved Rate List Table (ছবির মতো কমপ্যাক্ট ও এক স্ক্রিনে দৃশ্যমান) -->
   <div class="card">
     <div class="card-title">Saved Rate List</div>
     
@@ -251,7 +243,7 @@
         <thead>
           <tr>
             <th style="width: 8%;">Company</th>
-            <th style="width: 12%;">Series</th>
+            <th style="width: 13%;">Series</th>
             <th style="width: 7%;">Alu</th>
             <th style="width: 8%;">Glass</th>
             <th style="width: 7%;">Thick</th>
@@ -262,7 +254,7 @@
             <th style="width: 5%;">Fit</th>
             <th style="width: 6%;">Labour</th>
             <th style="width: 6%;">Profit</th>
-            <th style="width: 4%;">X</th>
+            <th style="width: 5%;">Action</th>
           </tr>
         </thead>
         <tbody id="rateTableBody">
@@ -275,78 +267,35 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    loadDropdowns();
     loadRateList();
   });
 
-  function getStorageData(key, defaultVal) {
-    return JSON.parse(localStorage.getItem(key)) || defaultVal;
-  }
-
-  function setStorageData(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-  }
-
-  function loadDropdowns() {
-    let companies = getStorageData('companyList', ['KAI', 'MAX', 'ALFA', 'BTA']);
-    let series = getStorageData('seriesList', ['Sliding Window 3"', 'Sliding Window 4"']);
-    let thickness = getStorageData('thickList', ['1.0 mm', '1.2 mm', '1.4 mm']);
-    let glassCo = getStorageData('glassCoList', ['Nasir', 'Bengal', 'PHP']);
-
-    populateSelect('companySelect', companies);
-    populateSelect('seriesSelect', series);
-    populateSelect('thicknessSelect', thickness);
-    populateSelect('glassCompanySelect', glassCo);
-  }
-
-  function populateSelect(elementId, items) {
-    let select = document.getElementById(elementId);
-    select.innerHTML = '';
-    items.forEach(item => {
-      let opt = document.createElement('option');
-      opt.value = item;
-      opt.textContent = item;
-      select.appendChild(opt);
-    });
-  }
-
-  function addCompany() {
-    let val = document.getElementById('newCompanyName').value.trim();
-    if(!val) return alert("কোম্পানির নাম লিখুন!");
-    let list = getStorageData('companyList', ['KAI', 'MAX', 'ALFA', 'BTA']);
-    if(!list.includes(val)) { list.push(val); setStorageData('companyList', list); loadDropdowns(); document.getElementById('newCompanyName').value=''; alert("কোম্পানি যুক্ত হয়েছে!"); }
-  }
-
-  function addSeries() {
-    let val = document.getElementById('newSeriesName').value.trim();
-    if(!val) return alert("সিরিজের নাম লিখুন!");
-    let list = getStorageData('seriesList', ['Sliding Window 3"', 'Sliding Window 4"']);
-    if(!list.includes(val)) { list.push(val); setStorageData('seriesList', list); loadDropdowns(); document.getElementById('newSeriesName').value=''; alert("সিরিজ যুক্ত হয়েছে!"); }
-  }
-
-  function addThickness() {
-    let val = document.getElementById('newThickName').value.trim();
-    if(!val) return alert("থিকনেস লিখুন!");
-    let list = getStorageData('thickList', ['1.0 mm', '1.2 mm', '1.4 mm']);
-    if(!list.includes(val)) { list.push(val); setStorageData('thickList', list); loadDropdowns(); document.getElementById('newThickName').value=''; alert("থিকনেস যুক্ত হয়েছে!"); }
-  }
-
-  function addGlassCompany() {
-    let val = document.getElementById('newGlassCoName').value.trim();
-    if(!val) return alert("গ্লাস কোম্পানির নাম লিখুন!");
-    let list = getStorageData('glassCoList', ['Nasir', 'Bengal', 'PHP']);
-    if(!list.includes(val)) { list.push(val); setStorageData('glassCoList', list); loadDropdowns(); document.getElementById('newGlassCoName').value=''; alert("গ্লাস কোম্পানি যুক্ত হয়েছে!"); }
+  function addMasterItem(storageKey, inputId, labelName) {
+    let val = document.getElementById(inputId).value.trim();
+    if (!val) {
+      alert(labelName + " এর নাম লিখুন!");
+      return;
+    }
+    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
+    if (!list.includes(val)) {
+      list.push(val);
+      localStorage.setItem(storageKey, JSON.stringify(list));
+      alert(labelName + " সফলভাবে যোগ হয়েছে!");
+      document.getElementById(inputId).value = '';
+    } else {
+      alert("এই নামটি ইতিমধ্যে আছে!");
+    }
   }
 
   function saveRate() {
     let rateData = {
-      company: document.getElementById('companySelect').value,
-      series: document.getElementById('seriesSelect').value,
-      aluThick: document.getElementById('thicknessSelect').value,
-      aluColor: document.getElementById('aluColorSelect').value,
-      glassCo: document.getElementById('glassCompanySelect').value,
-      glassThick: document.getElementById('glassThicknessSelect').value,
-      glassColor: document.getElementById('glassColorSelect').value,
+      company: document.getElementById('company').value,
+      series: document.getElementById('series').value,
+      aluThickness: document.getElementById('aluThickness').value,
+      glassCompany: document.getElementById('glassCompany').value,
+      glassThickness: document.getElementById('glassThickness').value,
+      aluColour: document.getElementById('aluColour').value,
+      glassColour: document.getElementById('glassColour').value,
       aluRate: parseFloat(document.getElementById('aluRate').value) || 0,
       glassRate: parseFloat(document.getElementById('glassRate').value) || 0,
       hwRate: parseFloat(document.getElementById('hwRate').value) || 0,
@@ -355,21 +304,21 @@
       profit: parseFloat(document.getElementById('profit').value) || 0
     };
 
-    let rateList = getStorageData('rateList', []);
+    let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
     rateList.push(rateData);
-    setStorageData('rateList', rateList);
+    localStorage.setItem('rateList', JSON.stringify(rateList));
 
     alert("রেট সফলভাবে সেভ হয়েছে!");
     loadRateList();
   }
 
   function loadRateList() {
-    let rateList = getStorageData('rateList', []);
+    let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
     let tbody = document.getElementById('rateTableBody');
     tbody.innerHTML = '';
 
     if (rateList.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="13" style="padding:10px; font-size:12px;">কোনো রেট সেভ করা নেই</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="13" style="padding:10px; font-size:11px;">কোনো রেট সেভ করা নেই</td></tr>';
       return;
     }
 
@@ -380,10 +329,10 @@
       tr.innerHTML = `
         <td>${item.company || '-'}</td>
         <td>${sName}</td>
-        <td>${item.aluThick || '-'}</td>
-        <td>${item.glassCo || '-'}</td>
-        <td>${item.glassThick || '-'}</td>
-        <td>${item.glassColor || '-'}</td>
+        <td>${item.aluThickness || '-'}</td>
+        <td>${item.glassCompany || '-'}</td>
+        <td>${item.glassThickness || '-'}</td>
+        <td>${item.glassColour || item.aluColour || '-'}</td>
         <td>${item.aluRate}</td>
         <td>${item.glassRate}</td>
         <td>${item.hwRate}</td>
@@ -397,10 +346,10 @@
   }
 
   function deleteRate(index) {
-    if (confirm("আপনি কি এই রেটটি মুছে ফেলতে চান?")) {
-      let rateList = getStorageData('rateList', []);
+    if (confirm("রেটটি মুছে ফেলতে চান?")) {
+      let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
       rateList.splice(index, 1);
-      setStorageData('rateList', rateList);
+      localStorage.setItem('rateList', JSON.stringify(rateList));
       loadRateList();
     }
   }

@@ -120,11 +120,11 @@
       <div class="row">
         <div class="col">
           <label>Shop/Your Name</label>
-          <input type="text" id="shopName" value="RM Thai Aluminum">
+          <input type="text" id="shopName" value="RM Thai Aluminum" oninput="runCalculation()">
         </div>
         <div class="col">
           <label>My Mobile Number</label>
-          <input type="text" id="shopPhone" value="01676474412">
+          <input type="text" id="shopPhone" value="01676474412" oninput="runCalculation()">
         </div>
       </div>
     </div>
@@ -135,17 +135,17 @@
       <div class="row">
         <div class="col">
           <label>Customer Name</label>
-          <input type="text" id="custName" value="মাহমুদ">
+          <input type="text" id="custName" value="রাসেল" oninput="runCalculation()">
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label>Customer Mobile</label>
-          <input type="text" id="custPhone" value="01864637357">
+          <input type="text" id="custPhone" value="01864637357" oninput="runCalculation()">
         </div>
         <div class="col">
           <label>Address</label>
-          <input type="text" id="custAddress" value="পাবনা">
+          <input type="text" id="custAddress" value="কুমিল্লা" oninput="runCalculation()">
         </div>
       </div>
     </div>
@@ -156,37 +156,37 @@
       <div class="row">
         <div class="col">
           <label>Aluminium Company</label>
-          <select id="aluCompany"><option>KAI</option><option>Altech</option></select>
+          <select id="aluCompany" onchange="runCalculation()"><option>KAI</option><option>Altech</option></select>
         </div>
         <div class="col">
           <label>Alu Colour</label>
-          <select id="aluColor"><option>Silver</option><option>Bronze</option></select>
+          <select id="aluColor" onchange="runCalculation()"><option>Silver</option><option>Bronze</option></select>
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label>Alu Thickness</label>
-          <select id="aluThickness"><option>1.0 mm</option><option>1.2 mm</option></select>
+          <select id="aluThickness" onchange="runCalculation()"><option>1.0 mm</option><option>1.2 mm</option></select>
         </div>
         <div class="col">
           <label>Series</label>
-          <select id="aluSeries"><option>Sliding 3"</option></select>
+          <select id="aluSeries" onchange="runCalculation()"><option>Sliding 3"</option></select>
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label>Glass Company</label>
-          <select id="glassCompany"><option>Nasir Glass</option></select>
+          <select id="glassCompany" onchange="runCalculation()"><option>Nasir Glass</option></select>
         </div>
         <div class="col">
           <label>Glass Colour</label>
-          <select id="glassColor"><option>Clear</option></select>
+          <select id="glassColor" onchange="runCalculation()"><option>Clear</option></select>
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label>Glass Thickness</label>
-          <select id="glassThickness"><option>5 mm</option></select>
+          <select id="glassThickness" onchange="runCalculation()"><option>5 mm</option></select>
         </div>
       </div>
     </div>
@@ -207,9 +207,9 @@
         <tbody id="winTableBody">
           <tr>
             <td class="row-index">1</td>
-            <td><input type="number" class="w-h" value="54"></td>
-            <td><input type="number" class="w-w" value="60"></td>
-            <td><input type="number" class="w-q" value="1"></td>
+            <td><input type="number" class="w-h" value="54" oninput="runCalculation()"></td>
+            <td><input type="number" class="w-w" value="60" oninput="runCalculation()"></td>
+            <td><input type="number" class="w-q" value="1" oninput="runCalculation()"></td>
             <td><button class="btn-danger" onclick="removeRow(this)">X</button></td>
           </tr>
         </tbody>
@@ -223,7 +223,7 @@
       <div class="row">
         <div class="col">
           <label>Selling Rate (৳/Sqft)</label>
-          <input type="number" id="sellingRate" value="450">
+          <input type="number" id="sellingRate" value="450" oninput="runCalculation()">
         </div>
         <div class="col">
           <label>Total Price (৳)</label>
@@ -246,25 +246,23 @@
       <div class="card-title">Live Quotation Preview</div>
       <div id="pdfPrintWrapper">
         <div class="pdf-header">
-          <p class="pdf-title" id="pShop">RM Thai Aluminum</p>
-          <p class="pdf-subtitle">Mobile: <span id="pPhone">01676474412</span></p>
+          <p class="pdf-title" id="pShop"></p>
+          <p class="pdf-subtitle">Mobile: <span id="pPhone"></span></p>
         </div>
 
         <div class="pdf-info-grid">
           <div>
-            <div><b>Customer:</b> <span id="pCust">মাহমুদ</span></div>
-            <div><b>Mobile:</b> <span id="pCustMob">01864637357</span></div>
-            <div><b>Address:</b> <span id="pAddr">পাবনা</span></div>
+            <div><b>Customer:</b> <span id="pCust"></span></div>
+            <div><b>Mobile:</b> <span id="pCustMob"></span></div>
+            <div><b>Address:</b> <span id="pAddr"></span></div>
           </div>
           <div style="text-align: right;">
             <div><b>Qtn No:</b> <span id="pQtnNo">#1001</span></div>
-            <div><b>Date:</b> <span id="pDate">7/29/2026</span></div>
+            <div><b>Date:</b> <span id="pDate"></span></div>
           </div>
         </div>
 
-        <div style="font-size: 11px; margin-bottom: 8px; color: #2563eb; font-weight: bold;" id="pSpec">
-          Specification: KAI (Silver, 1.0 mm, Sliding 3") | Nasir Glass (5 mm Clear Glass)
-        </div>
+        <div style="font-size: 11px; margin-bottom: 8px; color: #2563eb; font-weight: bold;" id="pSpec"></div>
 
         <table class="pdf-table">
           <thead>
@@ -278,7 +276,7 @@
             </tr>
           </thead>
           <tbody id="pdfTableBody">
-            <!-- অটোমেটিক লোড হবে -->
+            <!-- জাভাস্ক্রিপ্ট দিয়ে আপডেট হবে -->
           </tbody>
         </table>
 
@@ -301,7 +299,6 @@
           </tr>
         </thead>
         <tbody id="historyTableBody">
-          <!-- সেভ করা ডাটা দেখাবে -->
         </tbody>
       </table>
     </div>
@@ -313,24 +310,17 @@
 
     window.onload = function() {
       runCalculation();
-      attachGlobalListeners();
       renderHistoryTable();
     };
-
-    function attachGlobalListeners() {
-      // টাইপ করার সাথে সাথে রিয়েল-টাইমে আপডেট করার জন্য
-      document.addEventListener('input', runCalculation);
-      document.addEventListener('change', runCalculation);
-    }
 
     function addRow(h = 54, w = 60, q = 1) {
       let tbody = document.getElementById('winTableBody');
       let tr = document.createElement('tr');
       tr.innerHTML = `
         <td class="row-index"></td>
-        <td><input type="number" class="w-h" value="${h}"></td>
-        <td><input type="number" class="w-w" value="${w}"></td>
-        <td><input type="number" class="w-q" value="${q}"></td>
+        <td><input type="number" class="w-h" value="${h}" oninput="runCalculation()"></td>
+        <td><input type="number" class="w-w" value="${w}" oninput="runCalculation()"></td>
+        <td><input type="number" class="w-q" value="${q}" oninput="runCalculation()"></td>
         <td><button class="btn-danger" onclick="removeRow(this)">X</button></td>
       `;
       tbody.appendChild(tr);

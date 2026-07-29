@@ -80,7 +80,6 @@
       margin-top: 10px;
     }
 
-    /* টেবিল যাতে ছবির মতো এক স্ক্রিনে ফুল রো দেখায় */
     .table-container {
       width: 100%;
       overflow-x: auto;
@@ -91,7 +90,7 @@
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
-      min-width: 750px; /* যাতে সব কলাম একসাথে সুন্দরভাবে ফিট হয় এবং স্ক্রোল করা যায় */
+      min-width: 800px;
     }
 
     .rate-table th {
@@ -180,6 +179,7 @@
       <select id="aluThickness"><option value="1.0 mm">1.0 mm</option><option value="1.2 mm">1.2 mm</option><option value="1.5 mm">1.5 mm</option></select>
     </div>
 
+    <!-- Aluminium Colour -->
     <div class="field-group">
       <label>Aluminium Colour</label>
       <select id="aluColour"><option value="Silver">Silver</option><option value="Bronze">Bronze</option><option value="Black">Black</option></select>
@@ -190,11 +190,13 @@
       <select id="glassCompany"><option value="Nasir">Nasir</option><option value="Bengal">Bengal</option><option value="PHP">PHP</option></select>
     </div>
 
+    <!-- Glass Thickness -->
     <div class="field-group">
       <label>Glass Thickness</label>
       <select id="glassThickness"><option value="5 mm">5 mm</option><option value="5.5 mm">5.5 mm</option><option value="6 mm">6 mm</option></select>
     </div>
 
+    <!-- Glass Colour -->
     <div class="field-group">
       <label>Glass Colour</label>
       <select id="glassColour"><option value="Clear">Clear</option><option value="Blue">Blue</option><option value="Green">Green</option></select>
@@ -233,7 +235,7 @@
     <button class="btn-save" onclick="saveRate()">Save Rate</button>
   </div>
 
-  <!-- Saved Rate List Table (ছবির হুবহু কলাম অর্ডার অনুযায়ী) -->
+  <!-- Saved Rate List Table -->
   <div class="card">
     <div class="card-title">Saved Rate List</div>
     

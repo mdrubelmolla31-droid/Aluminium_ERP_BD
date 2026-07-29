@@ -3,87 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rate Settings - One Screen View</title>
+  <title>Rate Settings - RM Thai Aluminium</title>
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f1f5f9; margin: 0; padding: 8px; color: #0f172a; }
-    .container { max-width: 100%; margin: 0 auto; }
+    body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
+    .container { max-width: 650px; margin: 0 auto; }
 
     .card {
       background: #ffffff;
-      padding: 12px;
+      padding: 16px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       border: 1px solid #e2e8f0;
     }
 
     .card-title {
       color: #1e40af;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
       border-bottom: 2px solid #eff6ff;
-      padding-bottom: 4px;
+      padding-bottom: 6px;
     }
 
-    .row { display: flex; gap: 6px; margin-bottom: 8px; }
+    /* ইনপুট ফর্ম আগের মতো বড় ও সুন্দর রাখা হয়েছে */
+    .row { display: flex; gap: 10px; margin-bottom: 12px; }
     .col { flex: 1; }
 
-    label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 2px; color: #334155; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #334155; }
     input, select {
       width: 100%;
-      padding: 6px;
-      font-size: 12px;
+      padding: 10px;
+      font-size: 14px;
       border: 1px solid #cbd5e1;
-      border-radius: 4px;
+      border-radius: 6px;
       background-color: #fff;
     }
 
     .btn-save {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background-color: #1d4ed8;
       color: white;
       border: none;
       border-radius: 6px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
-      margin-top: 6px;
+      margin-top: 10px;
     }
 
-    /* এক স্ক্রিনশটে পুরো রো দেখানোর বিশেষ টেবিল স্টাইল */
+    .btn-save:hover { background-color: #1e40af; }
+
+    /* নিচের টেবিল এক স্ক্রিনে ফুল রো দেখানোর জন্য কম্প্যাক্ট ডিজাইন */
     .table-container {
       width: 100%;
-      overflow-x: hidden; /* স্ক্রল বন্ধ, সব এক ফ্রেমে থাকবে */
-      margin-top: 8px;
+      overflow-x: auto;
+      margin-top: 10px;
     }
 
     .rate-table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* কলামগুলো যেন ঠিকমতো চেপে ধরে সেটে যায় */
+      table-layout: fixed;
     }
 
     .rate-table th {
       background-color: #2563eb;
       color: white;
-      padding: 4px 1px;
-      font-size: 8px; /* ছোট ফন্ট যাতে এক স্ক্রিনে ধরে */
+      padding: 6px 2px;
+      font-size: 10px;
       font-weight: 600;
       text-align: center;
       border: 1px solid #1d4ed8;
-      word-wrap: break-word;
+      word-break: break-word;
     }
 
     .rate-table td {
-      padding: 5px 1px;
+      padding: 7px 2px;
       border: 1px solid #cbd5e1;
       text-align: center;
       color: #0f172a;
-      font-size: 9px; /* এক লাইনে সব দেখানোর জন্য সাইজ অ্যাডজাস্টড */
+      font-size: 11px;
       font-weight: 500;
       white-space: nowrap;
     }
@@ -94,10 +97,10 @@
       background-color: #ef4444;
       color: white;
       border: none;
-      padding: 2px 4px;
-      border-radius: 3px;
+      padding: 3px 6px;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 8px;
+      font-size: 10px;
     }
   </style>
 </head>
@@ -105,13 +108,13 @@
 
 <div class="container">
 
-  <!-- রেট ইনপুট ফরম -->
+  <!-- ১. রেট ইনপুট ফরম (আগের মতো বড় ও সুন্দর) -->
   <div class="card">
     <div class="card-title">Rate Settings Input</div>
 
     <div class="row">
       <div class="col">
-        <label>Alu Co.</label>
+        <label>Aluminium Company</label>
         <select id="aluCompany"><option>KAI</option><option>Altech</option><option>BTA</option></select>
       </div>
       <div class="col">
@@ -121,8 +124,11 @@
           <option value="Sliding Window 4">Sliding Window 4"</option>
         </select>
       </div>
+    </div>
+
+    <div class="row">
       <div class="col">
-        <label>Alu Thick</label>
+        <label>Alu Thickness</label>
         <select id="aluThickness"><option>1.0 mm</option><option>1.2 mm</option><option>1.5 mm</option></select>
       </div>
       <div class="col">
@@ -133,45 +139,51 @@
 
     <div class="row">
       <div class="col">
-        <label>Glass Co.</label>
+        <label>Glass Company</label>
         <select id="glassCompany"><option>Nasir</option><option>PHP</option><option>Other</option></select>
       </div>
       <div class="col">
-        <label>Glass Thick</label>
+        <label>Glass Thickness</label>
         <select id="glassThickness"><option>5 mm</option><option>6 mm</option></select>
-      </div>
-      <div class="col">
-        <label>Glass Colour</label>
-        <select id="glassColor"><option>Clear</option><option>Dark Blue</option><option>Green</option></select>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <label>Alu Rate</label>
-        <input type="number" id="aluRate" placeholder="180">
+        <label>Glass Colour</label>
+        <select id="glassColor"><option>Clear</option><option>Dark Blue</option><option>Green</option><option>Mercury</option></select>
       </div>
       <div class="col">
-        <label>Glass Rate</label>
+        <label>Alu Rate (৳/Ft)</label>
+        <input type="number" id="aluRate" placeholder="180">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label>Glass Rate (৳/Sqft)</label>
         <input type="number" id="glassRate" placeholder="125">
       </div>
       <div class="col">
-        <label>Net Rate</label>
+        <label>Net Mesh Rate (৳/Sqft)</label>
         <input type="number" id="netRate" placeholder="45">
-      </div>
-      <div class="col">
-        <label>HW Rate</label>
-        <input type="number" id="hwRate" placeholder="30">
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <label>Fit Rate</label>
-        <input type="number" id="fitRate" placeholder="30">
+        <label>HW Rate (৳/Sqft)</label>
+        <input type="number" id="hwRate" placeholder="30">
       </div>
       <div class="col">
-        <label>Labour Rate</label>
+        <label>Fit Rate (৳/Sqft)</label>
+        <input type="number" id="fitRate" placeholder="30">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label>Labour Rate (৳/Sqft)</label>
         <input type="number" id="labourRate" placeholder="10">
       </div>
       <div class="col">
@@ -183,7 +195,7 @@
     <button class="btn-save" onclick="saveRate()">Save Rate</button>
   </div>
 
-  <!-- এক স্ক্রিনশটে পুরো রো দেখার টেবিল -->
+  <!-- ২. সেভ হওয়া রেটের তালিকা (টেবিল এক স্ক্রিনে দেখার জন্য) -->
   <div class="card">
     <div class="card-title">Saved Rate List</div>
     
@@ -192,7 +204,7 @@
         <thead>
           <tr>
             <th style="width: 7%;">Co.</th>
-            <th style="width: 13%;">Series</th>
+            <th style="width: 14%;">Series</th>
             <th style="width: 8%;">Thick</th>
             <th style="width: 8%;">Color</th>
             <th style="width: 8%;">G.Co</th>
@@ -243,7 +255,7 @@
     rateList.push(rateData);
     localStorage.setItem('rateList', JSON.stringify(rateList));
 
-    alert("রেট সেভ হয়েছে!");
+    alert("রেট সফলভাবে সেভ হয়েছে!");
     loadRateList();
   }
 
@@ -253,14 +265,12 @@
     tbody.innerHTML = '';
 
     if (rateList.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="15" style="font-size:10px;">কোনো রেট নেই</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="15" style="padding:10px; font-size:12px;">কোনো রেট সেভ করা নেই</td></tr>';
       return;
     }
 
     rateList.forEach((item, index) => {
       let tr = document.createElement('tr');
-      
-      // শর্ট নাম করে দেওয়া হলো যাতে পুরো রো এক স্ক্রিনে আঁটে
       let sName = item.aluSeries ? item.aluSeries.replace('Sliding Window', 'SW') : '-';
 
       tr.innerHTML = `
@@ -285,7 +295,7 @@
   }
 
   function deleteRate(index) {
-    if (confirm("মুছে ফেলবেন?")) {
+    if (confirm("আপনি কি এই রেটটি মুছে ফেলতে চান?")) {
       let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
       rateList.splice(index, 1);
       localStorage.setItem('rateList', JSON.stringify(rateList));

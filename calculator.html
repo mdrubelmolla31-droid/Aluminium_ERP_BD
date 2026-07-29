@@ -157,15 +157,15 @@
         <label>Series</label>
         <select id="aluSeries" onchange="toggleNetSection()">
           <option value="Sliding Window 3">Sliding Window 3"</option>
-          <option value="Sliding Window 4">Sliding Window 4"</option>
+          <option value="Sliding Window 4" selected>Sliding Window 4"</option>
         </select>
       </div>
       <div class="col">
         <label>Net Section</label>
-        <select id="netSection" disabled>
-          <option value="none">None / No Net</option>
+        <select id="netSection">
           <option value="ss_net">SS Net Section</option>
           <option value="nylon_net">Nylon Net Section</option>
+          <option value="none">None / No Net</option>
         </select>
       </div>
     </div>
@@ -212,7 +212,7 @@
         <tr><td>Shutter Top</td><td><span id="mShutterTop">0.00</span> ft</td></tr>
         <tr><td>Shutter Bottom</td><td><span id="mShutterBottom">0.00</span> ft</td></tr>
         
-        <tr id="netRow" style="display: none;"><td>Net Frame Aluminium</td><td><span id="mNetSection">0.00</span> ft</td></tr>
+        <tr id="netRow" style="display: none;"><td>Net Frame Aluminium (Half of Total)</td><td><span id="mNetSection">0.00</span> ft</td></tr>
 
         <tr class="highlight-blue"><td>Total Aluminium</td><td><span id="mTotalAlu">0.00</span> ft</td></tr>
         
@@ -250,7 +250,7 @@
       </tbody>
     </table>
 
-    <!-- সেকশন ২: ২১ ফুটের বার সেকশন (সর্বদা সঠিক Math.ceil বা পূর্ণসংখ্যা হিসাব) -->
+    <!-- সেকশন ২: ২১ ফুটের বার সেকশন -->
     <div class="section-title">21 ft Bar Section (Outer Top/Bottom, Shutter Top/Bottom & 21ft Sides)</div>
     <table class="report-table">
       <thead>
@@ -266,6 +266,19 @@
         <tr><td>Shutter Bottom (Always 21 ft)</td><td><span id="ft21ShutterBottom">0.00</span> ft</td><td id="c21ShutterBottomBar">0</td></tr>
       </tbody>
     </table>
+
+    <!-- সেকশন ৩: নেট সেকশন (শুধুমাত্র ৪ ইঞ্চি সিরিজে দৃশ্যমান, ২১ ফুটের বার, রানিং মালের অর্ধেক) -->
+    <div id="netCuttingCard" style="display: none;">
+      <div class="section-title" style="background-color: #f0fdf4; color: #166534;">Net Section (21 ft Bar - Half of Total Running Length)</div>
+      <table class="report-table">
+        <thead>
+          <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (21 ft)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Net Section Aluminium (21 ft Bar)</td><td><span id="ftNetSection">0.00</span> ft</td><td id="cNetSectionBar">0</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div>
@@ -273,6 +286,7 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     addRow();
+    toggleNetSection();
   });
 
   function toggleNetSection() {
@@ -291,8 +305,8 @@
     let tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="row-index"></td>
-      <td><input type="number" class="w-h" placeholder="Height" value="48"></td>
-      <td><input type="number" class="w-w" placeholder="Width" value="60"></td>
+      <td><input type="number" class="w-h" placeholder="Height" value="84"></td>
+      <td><input type="number" class="w-w" placeholder="Width" value="72"></td>
       <td><input type="number" class="w-q" value="5"></td>
       <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
     `;
@@ -364,14 +378,14 @@
 
     let outerH = 0, outerTop = 0, outerBottom = 0;
     let shutterLock = 0, shutterInterlock = 0, shutterTop = 0, shutterBottom = 0;
-    let netFt = 0;
     let totalSqft = 0;
+    let totalRunningLength = 0;
 
     let outerH_18 = 0, shutterLock_18 = 0, shutterInterlock_18 = 0;
     let outerH_21 = 0, outerTop_21 = 0, outerBottom_21 = 0;
     let shutterLock_21 = 0, shutterInterlock_21 = 0, shutterTop_21 = 0, shutterBottom_21 = 0;
 
-    let isNetActive = document.getElementById('netSection').disabled === false && document.getElementById('netSection').value !== 'none';
+    let isNetActive = document.getElementById('aluSeries').value.includes('4') && document.getElementById('netSection').value !== 'none';
 
     for (let i = 0; i < heights.length; i++) {
       let h = parseFloat(heights[i].value) || 0;
@@ -404,11 +418,15 @@
         shutterTop_21 += sTop;
         shutterBottom_21 += sBot;
 
-        // সাইড ও লকগুলোর ক্ষেত্রে হাইট অনুযায়ী ভাগ হবে
-        if (h >= 84) {
+        // হাইট অনুযায়ী অপ্টিমাইজেশন লজিক (৭ ফুট বা ৪ ফুট বা বড় মাপ ২১ ফুটে, সাড়ে ৪ ফুট ১৮.৫ ফুটে)
+        if (h >= 84 || h === 48 || h === 80 || h >= 60) {
           outerH_21 += oSide;
           shutterLock_21 += sLock;
           shutterInterlock_21 += sInt;
+        } else if (h === 54 || h === 52) {
+          outerH_18 += oSide;
+          shutterLock_18 += sLock;
+          shutterInterlock_18 += sInt;
         } else {
           outerH_18 += oSide;
           shutterLock_18 += sLock;
@@ -418,12 +436,13 @@
         let winSqft = hFt * wFt * q;
         totalSqft += winSqft;
 
-        if (isNetActive) {
-          netFt += ((hFt * 2) + (wFt * 2)) * q;
-        }
+        // সব জানালার মোট রানিং হিসাব
+        totalRunningLength += (oSide + oTop + oBot + sLock + sInt + sTop + sBot);
       }
     }
 
+    // নেট সেকশন হবে মোট রানিং মালের ঠিক অর্ধেক
+    let netFt = isNetActive ? (totalRunningLength / 2) : 0;
     let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
 
     document.getElementById('mOuterSide').innerText = outerH.toFixed(2);
@@ -469,11 +488,16 @@
       netMeshSqft = (totalSqft / 2);
       document.getElementById('netRow').style.display = 'table-row';
       document.getElementById('netMeshRow').style.display = 'table-row';
+      document.getElementById('netCuttingCard').style.display = 'block';
       document.getElementById('mNetSection').innerText = netFt.toFixed(2);
       document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
+      
+      document.getElementById('ftNetSection').innerText = netFt.toFixed(2);
+      document.getElementById('cNetSectionBar').innerText = (netFt > 0 ? Math.ceil(netFt / 21) : "0");
     } else {
       document.getElementById('netRow').style.display = 'none';
       document.getElementById('netMeshRow').style.display = 'none';
+      document.getElementById('netCuttingCard').style.display = 'none';
     }
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);

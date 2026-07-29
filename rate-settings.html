@@ -1,387 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rate Settings</title>
+  <title>Rate Settings - One Screen View</title>
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f1f5f9; margin: 0; padding: 8px; color: #0f172a; }
+    .container { max-width: 100%; margin: 0 auto; }
 
-    body {
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 10px;
-    }
-
-    .container {
-      max-width: 450px;
-      margin: 0 auto;
+    .card {
       background: #ffffff;
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    /* শিরোনাম */
-    .title {
-      color: #1a73e8;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      margin-top: 5px;
-      margin-bottom: 2px;
-    }
-
-    .sub-title {
-      color: #1a73e8;
-      text-align: center;
-      font-size: 15px;
-      font-weight: bold;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       margin-bottom: 12px;
-      border-bottom: 1px solid #e0e0e0;
-      padding-bottom: 6px;
+      border: 1px solid #e2e8f0;
     }
 
-    .section-title {
-      color: #1a73e8;
-      text-align: center;
+    .card-title {
+      color: #1e40af;
       font-size: 16px;
-      font-weight: bold;
-      margin-top: 15px;
+      font-weight: 700;
+      text-align: center;
       margin-bottom: 10px;
+      border-bottom: 2px solid #eff6ff;
+      padding-bottom: 4px;
     }
 
-    /* লেবেল ও ইনপুট বক্স */
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      color: #000000;
-      margin-top: 10px;
-      margin-bottom: 4px;
-    }
+    .row { display: flex; gap: 6px; margin-bottom: 8px; }
+    .col { flex: 1; }
 
-    input[type="text"],
-    input[type="number"],
-    select {
+    label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 2px; color: #334155; }
+    input, select {
       width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #dcdcdc;
-      border-radius: 6px;
-      background-color: #fdfdfd;
-      outline: none;
-    }
-
-    select {
-      background-color: #f2f2f2;
-      color: #333;
-    }
-
-    /* বাটন স্টাইল */
-    .btn-blue {
-      width: 100%;
-      background-color: #1a73e8;
-      color: white;
-      border: none;
-      padding: 11px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    .btn-blue:active {
-      background-color: #0d5bbb;
-    }
-
-    .btn-dark-blue {
-      width: 100%;
-      background-color: #0b4cb4;
-      color: white;
-      border: none;
-      padding: 11px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 12px;
-    }
-
-    /* টেবিল স্টাইল (Saved Rate List) */
-    .table-container {
-      width: 100%;
-      overflow-x: auto;
-      margin-top: 12px;
+      padding: 6px;
+      font-size: 12px;
+      border: 1px solid #cbd5e1;
       border-radius: 4px;
-      border: 1px solid #1a73e8;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 650px;
       background-color: #fff;
     }
 
-    th {
-      background-color: #1a73e8;
+    .btn-save {
+      width: 100%;
+      padding: 10px;
+      background-color: #1d4ed8;
       color: white;
-      font-size: 11px;
-      padding: 8px 4px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    /* এক স্ক্রিনশটে পুরো রো দেখানোর বিশেষ টেবিল স্টাইল */
+    .table-container {
+      width: 100%;
+      overflow-x: hidden; /* স্ক্রল বন্ধ, সব এক ফ্রেমে থাকবে */
+      margin-top: 8px;
+    }
+
+    .rate-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed; /* কলামগুলো যেন ঠিকমতো চেপে ধরে সেটে যায় */
+    }
+
+    .rate-table th {
+      background-color: #2563eb;
+      color: white;
+      padding: 4px 1px;
+      font-size: 8px; /* ছোট ফন্ট যাতে এক স্ক্রিনে ধরে */
+      font-weight: 600;
       text-align: center;
-      border: 1px solid #1565c0;
+      border: 1px solid #1d4ed8;
+      word-wrap: break-word;
+    }
+
+    .rate-table td {
+      padding: 5px 1px;
+      border: 1px solid #cbd5e1;
+      text-align: center;
+      color: #0f172a;
+      font-size: 9px; /* এক লাইনে সব দেখানোর জন্য সাইজ অ্যাডজাস্টড */
+      font-weight: 500;
       white-space: nowrap;
     }
 
-    td {
-      font-size: 11px;
-      padding: 8px 4px;
-      text-align: center;
-      border: 1px solid #e0e0e0;
-      color: #333;
-    }
+    .rate-table tr:nth-child(even) { background-color: #f8fafc; }
 
-    .btn-delete {
-      background-color: #1a73e8;
+    .btn-del {
+      background-color: #ef4444;
       color: white;
       border: none;
-      padding: 5px 10px;
-      border-radius: 4px;
-      font-size: 11px;
+      padding: 2px 4px;
+      border-radius: 3px;
       cursor: pointer;
+      font-size: 8px;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="title">Rate Settings</div>
-    <div class="sub-title">Master Data</div>
+<div class="container">
 
-    <!-- Master Data Inputs -->
-    <label>New Company</label>
-    <input type="text" id="newCompany">
-    <button class="btn-blue" onclick="addMasterData('company', 'newCompany')">Add Company</button>
+  <!-- রেট ইনপুট ফরম -->
+  <div class="card">
+    <div class="card-title">Rate Settings Input</div>
 
-    <label>New Series</label>
-    <input type="text" id="newSeries">
-    <button class="btn-blue" onclick="addMasterData('series', 'newSeries')">Add Series</button>
+    <div class="row">
+      <div class="col">
+        <label>Alu Co.</label>
+        <select id="aluCompany"><option>KAI</option><option>Altech</option><option>BTA</option></select>
+      </div>
+      <div class="col">
+        <label>Series</label>
+        <select id="aluSeries">
+          <option value="Sliding Window 3">Sliding Window 3"</option>
+          <option value="Sliding Window 4">Sliding Window 4"</option>
+        </select>
+      </div>
+      <div class="col">
+        <label>Alu Thick</label>
+        <select id="aluThickness"><option>1.0 mm</option><option>1.2 mm</option><option>1.5 mm</option></select>
+      </div>
+      <div class="col">
+        <label>Alu Colour</label>
+        <select id="aluColor"><option>Silver</option><option>Bronze</option><option>Black</option></select>
+      </div>
+    </div>
 
-    <label>New Aluminium Thickness</label>
-    <input type="text" id="newAluThick">
-    <button class="btn-blue" onclick="addMasterData('aluThickness', 'newAluThick')">Add Thickness</button>
+    <div class="row">
+      <div class="col">
+        <label>Glass Co.</label>
+        <select id="glassCompany"><option>Nasir</option><option>PHP</option><option>Other</option></select>
+      </div>
+      <div class="col">
+        <label>Glass Thick</label>
+        <select id="glassThickness"><option>5 mm</option><option>6 mm</option></select>
+      </div>
+      <div class="col">
+        <label>Glass Colour</label>
+        <select id="glassColor"><option>Clear</option><option>Dark Blue</option><option>Green</option></select>
+      </div>
+    </div>
 
-    <label>New Aluminium Colour</label>
-    <input type="text" id="newAluColour">
-    <button class="btn-blue" onclick="addMasterData('aluColour', 'newAluColour')">Add Aluminium Colour</button>
+    <div class="row">
+      <div class="col">
+        <label>Alu Rate</label>
+        <input type="number" id="aluRate" placeholder="180">
+      </div>
+      <div class="col">
+        <label>Glass Rate</label>
+        <input type="number" id="glassRate" placeholder="125">
+      </div>
+      <div class="col">
+        <label>Net Rate</label>
+        <input type="number" id="netRate" placeholder="45">
+      </div>
+      <div class="col">
+        <label>HW Rate</label>
+        <input type="number" id="hwRate" placeholder="30">
+      </div>
+    </div>
 
-    <label>New Glass Company</label>
-    <input type="text" id="newGlassComp">
-    <button class="btn-blue" onclick="addMasterData('glassCompany', 'newGlassComp')">Add Glass Company</button>
+    <div class="row">
+      <div class="col">
+        <label>Fit Rate</label>
+        <input type="number" id="fitRate" placeholder="30">
+      </div>
+      <div class="col">
+        <label>Labour Rate</label>
+        <input type="number" id="labourRate" placeholder="10">
+      </div>
+      <div class="col">
+        <label>Profit (%)</label>
+        <input type="number" id="profit" placeholder="15">
+      </div>
+    </div>
 
-    <label>New Glass Thickness</label>
-    <input type="text" id="newGlassThick">
-    <button class="btn-blue" onclick="addMasterData('glassThickness', 'newGlassThick')">Add Glass Thickness</button>
+    <button class="btn-save" onclick="saveRate()">Save Rate</button>
+  </div>
 
-    <label>New Glass Colour</label>
-    <input type="text" id="newGlassColour">
-    <button class="btn-blue" onclick="addMasterData('glassColour', 'newGlassColour')">Add Glass Colour</button>
-
-    <!-- Dropdowns -->
-    <label>Company</label>
-    <select id="company"></select>
-
-    <label>Series</label>
-    <select id="series"></select>
-
-    <label>Aluminium Thickness</label>
-    <select id="aluThickness"></select>
-
-    <label>Aluminium Colour</label>
-    <select id="aluColour"></select>
-
-    <label>Glass Company</label>
-    <select id="glassCompany"></select>
-
-    <label>Glass Thickness</label>
-    <select id="glassThickness"></select>
-
-    <label>Glass Colour</label>
-    <select id="glassColour"></select>
-
-    <!-- Rate Inputs -->
-    <label>Aluminium Rate (৳/ft)</label>
-    <input type="number" id="aluRate">
-
-    <label>Glass Rate (৳/Sqft)</label>
-    <input type="number" id="glassRate">
-
-    <label>Hardware Rate (৳/Sqft)</label>
-    <input type="number" id="hwRate">
-
-    <label>Fittings Rate (৳/Sqft)</label>
-    <input type="number" id="fitRate">
-
-    <label>Labour Rate (৳/Sqft)</label>
-    <input type="number" id="labourRate">
-
-    <label>Profit (%)</label>
-    <input type="number" id="profit">
-
-    <button class="btn-dark-blue" onclick="saveRate()">Save Rate</button>
-
-    <!-- Saved List -->
-    <div class="section-title">Saved Rate List</div>
-
+  <!-- এক স্ক্রিনশটে পুরো রো দেখার টেবিল -->
+  <div class="card">
+    <div class="card-title">Saved Rate List</div>
+    
     <div class="table-container">
-      <table>
+      <table class="rate-table">
         <thead>
           <tr>
-            <th>Company</th>
-            <th>Series</th>
-            <th>Alu Thick</th>
-            <th>Alu Colour</th>
-            <th>Glass Co.</th>
-            <th>Glass Thick</th>
-            <th>Glass Colour</th>
-            <th>Alu Rate</th>
-            <th>Glass Rate</th>
-            <th>HW Rate</th>
-            <th>Fit Rate</th>
-            <th>Labour</th>
-            <th>Profit (%)</th>
-            <th>Delete</th>
+            <th style="width: 7%;">Co.</th>
+            <th style="width: 13%;">Series</th>
+            <th style="width: 8%;">Thick</th>
+            <th style="width: 8%;">Color</th>
+            <th style="width: 8%;">G.Co</th>
+            <th style="width: 7%;">G.Thk</th>
+            <th style="width: 8%;">G.Clr</th>
+            <th style="width: 6%;">Alu</th>
+            <th style="width: 6%;">Gls</th>
+            <th style="width: 6%;">Net</th>
+            <th style="width: 5%;">HW</th>
+            <th style="width: 5%;">Fit</th>
+            <th style="width: 5%;">Lab</th>
+            <th style="width: 5%;">Prf%</th>
+            <th style="width: 3%;">X</th>
           </tr>
         </thead>
         <tbody id="rateTableBody">
-          <!-- ডাটা এখানে দেখাবে -->
         </tbody>
       </table>
     </div>
   </div>
 
-  <script>
-    // ডিফল্ট ড্রপডাউন ডাটা
-    let masterData = JSON.parse(localStorage.getItem('masterData')) || {
-      company: ['KAI', 'MAX', 'ALFA', 'BTA', 'Altec'],
-      series: ['Sliding Window 3"', 'Sliding Window 4"'],
-      aluThickness: ['1.0 mm', '1.2 mm', '1.4 mm'],
-      aluColour: ['Silver', 'White', 'Black', 'Chocolate', 'Wood', 'Red'],
-      glassCompany: ['Nasir', 'Xinyi', 'Bengal', 'Akij'],
-      glassThickness: ['5 mm', '6 mm', '8 mm', '10 mm'],
-      glassColour: ['Clear', 'Blue', 'Green', 'Dark Grey']
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    loadRateList();
+  });
+
+  function saveRate() {
+    let rateData = {
+      aluCompany: document.getElementById('aluCompany').value,
+      aluSeries: document.getElementById('aluSeries').value,
+      aluThickness: document.getElementById('aluThickness').value,
+      aluColor: document.getElementById('aluColor').value,
+      glassCompany: document.getElementById('glassCompany').value,
+      glassThickness: document.getElementById('glassThickness').value,
+      glassColor: document.getElementById('glassColor').value,
+      aluRate: parseFloat(document.getElementById('aluRate').value) || 0,
+      glassRate: parseFloat(document.getElementById('glassRate').value) || 0,
+      netRate: parseFloat(document.getElementById('netRate').value) || 0,
+      hwRate: parseFloat(document.getElementById('hwRate').value) || 0,
+      fitRate: parseFloat(document.getElementById('fitRate').value) || 0,
+      labourRate: parseFloat(document.getElementById('labourRate').value) || 0,
+      profit: parseFloat(document.getElementById('profit').value) || 0
     };
 
-    let savedRates = JSON.parse(localStorage.getItem('savedRates')) || [];
+    let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
+    rateList.push(rateData);
+    localStorage.setItem('rateList', JSON.stringify(rateList));
 
-    window.onload = function() {
-      loadDropdowns();
-      renderTable();
-    };
+    alert("রেট সেভ হয়েছে!");
+    loadRateList();
+  }
 
-    function loadDropdowns() {
-      fillSelect('company', masterData.company);
-      fillSelect('series', masterData.series);
-      fillSelect('aluThickness', masterData.aluThickness);
-      fillSelect('aluColour', masterData.aluColour);
-      fillSelect('glassCompany', masterData.glassCompany);
-      fillSelect('glassThickness', masterData.glassThickness);
-      fillSelect('glassColour', masterData.glassColour);
+  function loadRateList() {
+    let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
+    let tbody = document.getElementById('rateTableBody');
+    tbody.innerHTML = '';
+
+    if (rateList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="15" style="font-size:10px;">কোনো রেট নেই</td></tr>';
+      return;
     }
 
-    function fillSelect(elementId, items) {
-      let select = document.getElementById(elementId);
-      select.innerHTML = '';
-      if(items && items.length > 0) {
-        items.forEach(item => {
-          select.innerHTML += `<option value="${item}">${item}</option>`;
-        });
-      }
+    rateList.forEach((item, index) => {
+      let tr = document.createElement('tr');
+      
+      // শর্ট নাম করে দেওয়া হলো যাতে পুরো রো এক স্ক্রিনে আঁটে
+      let sName = item.aluSeries ? item.aluSeries.replace('Sliding Window', 'SW') : '-';
+
+      tr.innerHTML = `
+        <td>${item.aluCompany || '-'}</td>
+        <td>${sName}</td>
+        <td>${item.aluThickness || '-'}</td>
+        <td>${item.aluColor || '-'}</td>
+        <td>${item.glassCompany || '-'}</td>
+        <td>${item.glassThickness || '-'}</td>
+        <td>${item.glassColor || '-'}</td>
+        <td>${item.aluRate}</td>
+        <td>${item.glassRate}</td>
+        <td>${item.netRate}</td>
+        <td>${item.hwRate}</td>
+        <td>${item.fitRate}</td>
+        <td>${item.labourRate}</td>
+        <td>${item.profit}%</td>
+        <td><button class="btn-del" onclick="deleteRate(${index})">X</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function deleteRate(index) {
+    if (confirm("মুছে ফেলবেন?")) {
+      let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
+      rateList.splice(index, 1);
+      localStorage.setItem('rateList', JSON.stringify(rateList));
+      loadRateList();
     }
+  }
+</script>
 
-    function addMasterData(type, inputId) {
-      let val = document.getElementById(inputId).value.trim();
-      if (val) {
-        if (!masterData[type]) {
-          masterData[type] = [];
-        }
-        if (!masterData[type].includes(val)) {
-          masterData[type].push(val);
-          localStorage.setItem('masterData', JSON.stringify(masterData));
-          loadDropdowns();
-          document.getElementById(inputId).value = '';
-        }
-      }
-    }
-
-    function saveRate() {
-      let rateData = {
-        company: document.getElementById('company').value,
-        series: document.getElementById('series').value,
-        aluThick: document.getElementById('aluThickness').value,
-        aluColour: document.getElementById('aluColour').value,
-        glassCo: document.getElementById('glassCompany').value,
-        glassThick: document.getElementById('glassThickness').value,
-        glassColour: document.getElementById('glassColour').value,
-        aluRate: parseFloat(document.getElementById('aluRate').value) || 0,
-        glassRate: parseFloat(document.getElementById('glassRate').value) || 0,
-        hwRate: parseFloat(document.getElementById('hwRate').value) || 0,
-        fitRate: parseFloat(document.getElementById('fitRate').value) || 0,
-        labourRate: parseFloat(document.getElementById('labourRate').value) || 0,
-        profit: parseFloat(document.getElementById('profit').value) || 0
-      };
-
-      savedRates.push(rateData);
-      localStorage.setItem('savedRates', JSON.stringify(savedRates));
-      renderTable();
-      clearInputs();
-    }
-
-    function clearInputs() {
-      document.getElementById('aluRate').value = '';
-      document.getElementById('glassRate').value = '';
-      document.getElementById('hwRate').value = '';
-      document.getElementById('fitRate').value = '';
-      document.getElementById('labourRate').value = '';
-      document.getElementById('profit').value = '';
-    }
-
-    function renderTable() {
-      let tbody = document.getElementById('rateTableBody');
-      tbody.innerHTML = '';
-
-      savedRates.forEach((item, index) => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${item.company}</td>
-            <td>${item.series}</td>
-            <td>${item.aluThick}</td>
-            <td>${item.aluColour}</td>
-            <td>${item.glassCo}</td>
-            <td>${item.glassThick}</td>
-            <td>${item.glassColour}</td>
-            <td>${item.aluRate}</td>
-            <td>${item.glassRate}</td>
-            <td>${item.hwRate}</td>
-            <td>${item.fitRate}</td>
-            <td>${item.labourRate}</td>
-            <td>${item.profit}%</td>
-            <td><button class="btn-delete" onclick="deleteRate(${index})">Delete</button></td>
-          </tr>
-        `;
-      });
-    }
-
-    function deleteRate(index) {
-      savedRates.splice(index, 1);
-      localStorage.setItem('savedRates', JSON.stringify(savedRates));
-      renderTable();
-    }
-  </script>
 </body>
 </html>

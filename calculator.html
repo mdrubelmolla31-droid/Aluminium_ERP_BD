@@ -275,13 +275,11 @@
   }
 
   function getRateFromSettings() {
-    // লোকালস্টোরেজ থেকে সব সম্ভাব্য কি (Key) চেক করা হচ্ছে
     let savedList = JSON.parse(localStorage.getItem('rateList')) || 
                     JSON.parse(localStorage.getItem('rateSettingsData')) || 
                     JSON.parse(localStorage.getItem('rates')) || [];
 
     if (!savedList || savedList.length === 0) {
-      // যদি লোকালস্টোরেজে ডাটা না থাকে, তবে আপনার স্ক্রিনশটের সেভ করা মানগুলো ডিফল্ট ধরে হিসাব করবে
       return {
         aluRate: 200,
         glassRate: 150,
@@ -289,11 +287,10 @@
         hwRate: 40,
         fitRate: 45,
         labourRate: 10,
-        profit: 5 // ৫% প্রফিট
+        profit: 5 
       };
     }
 
-    // তালিকা থেকে প্রথম বা ম্যাচিং রেটিংসটি নেওয়া
     let matched = savedList[0];
     let parseNum = (val) => {
       if (!val) return 0;
@@ -338,7 +335,6 @@
         let hFt = h / 12;
         let wFt = w / 12;
         
-        // সঠিক ফর্মুলা অনুযায়ী অ্যালুমিনিয়াম ফুটের হিসাব
         outerH += (hFt * 2) * q;
         outerTop += wFt * q;
         outerBottom += wFt * q;
@@ -348,7 +344,6 @@
         shutterTop += (wFt * 2) * q;
         shutterBottom += (wFt * 2) * q;
 
-        // সঠিক স্কয়ার ফিট হিসাব (প্রতি উইন্ডোর ক্ষেত্রফল * পরিমাণ)
         let winSqft = hFt * wFt * q;
         totalSqft += winSqft;
 
@@ -385,7 +380,7 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    let glassSqft = totalSqft; // মোট স্কয়ার ফিট অনুযায়ী গ্লাস এরিয়া
+    let glassSqft = totalSqft; 
     let hardwareCost = totalSqft * rateData.hwRate;
     let fittingsCharge = totalSqft * rateData.fitRate;
     let labourCharge = totalSqft * rateData.labourRate;
@@ -394,9 +389,11 @@
     let totalMaterialCost = (totalAlu * rateData.aluRate) + (glassSqft * rateData.glassRate) + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
     
     let costPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;
-    let profitRate = rateData.profit; // ৫% বা নির্দিষ্ট টাকা
-    let profitPerSqft = costPerSqft * (profitRate / 100); 
-    let sellingRatePerSqft = costPerSqft + profitPerSqft;
+    
+    // সরাসরি রেটগুলোর যোগফলের উপর প্রফিট হিসাব (যেমন: ৪৪৫ এর উপর ৫% = ৪৬৭.২৫)
+    let baseSumRates = rateData.aluRate + rateData.glassRate + rateData.hwRate + rateData.fitRate + rateData.labourRate;
+    let profitPerSqft = baseSumRates * (rateData.profit / 100); 
+    let sellingRatePerSqft = baseSumRates + profitPerSqft;
     let sellingPrice = totalSqft * sellingRatePerSqft;
 
     document.getElementById('mGlassSqft').innerText = glassSqft.toFixed(2);

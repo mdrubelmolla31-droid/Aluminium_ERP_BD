@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aluminium Quotation Manager</title>
+  
+  <!-- PDF তৈরি করার বিশ্বস্ত লাইব্রেরি -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
@@ -63,6 +68,7 @@
     th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
     th { background-color: #1e3a8a; color: white; font-weight: 600; }
 
+    /* PDF Template Area */
     .printable-area {
       background: #ffffff;
       padding: 20px;
@@ -222,8 +228,8 @@
     </div>
     
     <div class="btn-group">
-      <button class="btn btn-win-pdf" onclick="openPrintWindow('winQuotationView')">📄 Window Quotation PDF</button>
-      <button class="btn btn-mat-pdf" onclick="openPrintWindow('matQuotationView')">📦 Material Details PDF</button>
+      <button class="btn btn-win-pdf" onclick="downloadDirectPDF('winQuotationView', 'Window_Quotation.pdf')">📄 Window Quotation PDF</button>
+      <button class="btn btn-mat-pdf" onclick="downloadDirectPDF('matQuotationView', 'Material_Details.pdf')">📦 Material Details PDF</button>
     </div>
   </div>
 
@@ -458,43 +464,31 @@
     });
   }
 
-  // একদম আলাদা প্রিন্ট উইন্ডো খোলার ফাংশন (যা সাদা আসা বন্ধ করবে)
-  function openPrintWindow(elementId) {
+  // সরাসরি ডায়রেক্ট ফাইল ডাউনলোড ফাংশন (সাদা হওয়া এবং প্রিন্ট এরর হওয়া বন্ধ করবে)
+  function downloadDirectPDF(elementId, fileName) {
     runCalculation();
     if(elementId === 'winQuotationView') {
       saveHistory();
     }
 
-    let content = document.getElementById(elementId).innerHTML;
-    let printWindow = window.open('', '', 'height=800,width=800');
+    const { jsPDF } = window.jspdf;
+    const element = document.getElementById(elementId);
 
-    printWindow.document.write('<html><head><title>Quotation Print</title>');
-    printWindow.document.write('<style>');
-    printWindow.document.write(`
-      body { font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; color: #000; }
-      .pdf-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 14px; }
-      .pdf-title { font-size: 22px; font-weight: 800; color: #1e3a8a; margin: 0; }
-      .pdf-subtitle { font-size: 13px; font-weight: 600; color: #334155; margin-top: 4px; }
-      .pdf-info-box { display: flex; justify-content: space-between; font-size: 13px; background: #f8fafc; padding: 10px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #cbd5e1; line-height: 1.5; }
-      .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-      .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 8px 6px; font-size: 13px; font-weight: 600; text-align: center; }
-      .pdf-table th { background-color: #f1f5f9; color: #000; }
-      .pdf-grand-total { text-align: right; font-size: 18px; font-weight: 800; color: #1e3a8a; margin-top: 14px; border-top: 1.5px solid #000; padding-top: 6px; }
-      .terms-box { margin-top: 25px; background: #fff7ed; border-left: 4px solid #f97316; padding: 10px 14px; font-size: 12px; border-radius: 2px; }
-      .signature-container { display: flex; justify-content: space-between; margin-top: 60px; padding: 0 20px; }
-      .sig-line { border-top: 1.5px solid #000; width: 180px; text-align: center; padding-top: 5px; font-weight: bold; font-size: 12px; }
-    `);
-    printWindow.document.write('</style></head><body>');
-    printWindow.document.write(content);
-    printWindow.document.write('</body></html>');
+    html2canvas(element, {
+      scale: 2, // কোয়ালিটি HD রাখার জন্য
+      useCORS: true,
+      logging: false
+    }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
 
-    printWindow.document.close();
-    printWindow.focus();
-
-    setTimeout(function() {
-      printWindow.print();
-      printWindow.close();
-    }, 500);
+      const imgWidth = 210; // A4 Standard width
+      const pageHeight = 295; 
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save(fileName);
+    });
   }
 </script>
 

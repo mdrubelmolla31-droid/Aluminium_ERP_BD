@@ -90,7 +90,7 @@
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
-      min-width: 800px;
+      min-width: 850px;
     }
 
     .rate-table th {
@@ -141,65 +141,80 @@
       <div class="field-group">
         <label>New Company</label>
         <input type="text" id="newCompanyName" placeholder="Company Name">
-        <button class="btn-add" onclick="addMasterItem('companyList', 'newCompanyName', 'Company')">Add Company</button>
+        <button class="btn-add" onclick="addMasterItem('companyList', 'newCompanyName', 'Company', 'company')">Add Company</button>
       </div>
 
       <div class="field-group">
         <label>New Series</label>
         <input type="text" id="newSeriesName" placeholder="Series Name">
-        <button class="btn-add" onclick="addMasterItem('seriesList', 'newSeriesName', 'Series')">Add Series</button>
+        <button class="btn-add" onclick="addMasterItem('seriesList', 'newSeriesName', 'Series', 'series')">Add Series</button>
       </div>
 
       <div class="field-group">
         <label>New Aluminium Thickness</label>
         <input type="text" id="newThickName" placeholder="e.g. 1.2 mm">
-        <button class="btn-add" onclick="addMasterItem('thickList', 'newThickName', 'Alu Thickness')">Add Thickness</button>
+        <button class="btn-add" onclick="addMasterItem('thickList', 'newThickName', 'Alu Thickness', 'aluThickness')">Add Thickness</button>
+      </div>
+
+      <div class="field-group">
+        <label>New Aluminium Colour</label>
+        <input type="text" id="newAluColourName" placeholder="e.g. Silver">
+        <button class="btn-add" onclick="addMasterItem('aluColourList', 'newAluColourName', 'Alu Colour', 'aluColour')">Add Alu Colour</button>
       </div>
 
       <div class="field-group">
         <label>New Glass Company</label>
         <input type="text" id="newGlassCoName" placeholder="Glass Co. Name">
-        <button class="btn-add" onclick="addMasterItem('glassCoList', 'newGlassCoName', 'Glass Company')">Add Glass Company</button>
+        <button class="btn-add" onclick="addMasterItem('glassCoList', 'newGlassCoName', 'Glass Company', 'glassCompany')">Add Glass Company</button>
+      </div>
+
+      <div class="field-group">
+        <label>New Glass Thickness</label>
+        <input type="text" id="newGlassThickName" placeholder="e.g. 6 mm">
+        <button class="btn-add" onclick="addMasterItem('glassThickList', 'newGlassThickName', 'Glass Thickness', 'glassThickness')">Add Glass Thickness</button>
+      </div>
+
+      <div class="field-group">
+        <label>New Glass Colour</label>
+        <input type="text" id="newGlassColourName" placeholder="e.g. Blue">
+        <button class="btn-add" onclick="addMasterItem('glassColourList', 'newGlassColourName', 'Glass Colour', 'glassColour')">Add Glass Colour</button>
       </div>
     </div>
 
     <!-- Main Inputs -->
     <div class="field-group">
       <label>Company</label>
-      <select id="company"><option value="KAI">KAI</option><option value="BTA">BTA</option><option value="ALFA">ALFA</option></select>
+      <select id="company"></select>
     </div>
 
     <div class="field-group">
       <label>Series</label>
-      <select id="series"><option value="Sliding Window 3&quot;">Sliding Window 3"</option><option value="Sliding Window 4&quot;">Sliding Window 4"</option></select>
+      <select id="series"></select>
     </div>
 
     <div class="field-group">
       <label>Aluminium Thickness</label>
-      <select id="aluThickness"><option value="1.0 mm">1.0 mm</option><option value="1.2 mm">1.2 mm</option><option value="1.5 mm">1.5 mm</option></select>
+      <select id="aluThickness"></select>
     </div>
 
-    <!-- Aluminium Colour -->
     <div class="field-group">
       <label>Aluminium Colour</label>
-      <select id="aluColour"><option value="Silver">Silver</option><option value="Bronze">Bronze</option><option value="Black">Black</option></select>
+      <select id="aluColour"></select>
     </div>
 
     <div class="field-group">
       <label>Glass Company</label>
-      <select id="glassCompany"><option value="Nasir">Nasir</option><option value="Bengal">Bengal</option><option value="PHP">PHP</option></select>
+      <select id="glassCompany"></select>
     </div>
 
-    <!-- Glass Thickness -->
     <div class="field-group">
       <label>Glass Thickness</label>
-      <select id="glassThickness"><option value="5 mm">5 mm</option><option value="5.5 mm">5.5 mm</option><option value="6 mm">6 mm</option></select>
+      <select id="glassThickness"></select>
     </div>
 
-    <!-- Glass Colour -->
     <div class="field-group">
       <label>Glass Colour</label>
-      <select id="glassColour"><option value="Clear">Clear</option><option value="Blue">Blue</option><option value="Green">Green</option></select>
+      <select id="glassColour"></select>
     </div>
 
     <div class="field-group">
@@ -269,10 +284,48 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    initDropdowns();
     loadRateList();
   });
 
-  function addMasterItem(storageKey, inputId, labelName) {
+  // ডিফল্ট কিছু ডাটা সেট করার জন্য যদি লোকালস্টোরেজ খালি থাকে
+  function initDropdowns() {
+    checkAndSetDefault('companyList', ['KAI', 'BTA', 'ALFA']);
+    checkAndSetDefault('seriesList', ['Sliding Window 3"', 'Sliding Window 4"']);
+    checkAndSetDefault('thickList', ['1.0 mm', '1.2 mm', '1.5 mm']);
+    checkAndSetDefault('aluColourList', ['Silver', 'Bronze', 'Black']);
+    checkAndSetDefault('glassCoList', ['Nasir', 'Bengal', 'PHP']);
+    checkAndSetDefault('glassThickList', ['5 mm', '5.5 mm', '6 mm']);
+    checkAndSetDefault('glassColourList', ['Clear', 'Blue', 'Green']);
+
+    populateDropdown('companyList', 'company');
+    populateDropdown('seriesList', 'series');
+    populateDropdown('thickList', 'aluThickness');
+    populateDropdown('aluColourList', 'aluColour');
+    populateDropdown('glassCoList', 'glassCompany');
+    populateDropdown('glassThickList', 'glassThickness');
+    populateDropdown('glassColourList', 'glassColour');
+  }
+
+  function checkAndSetDefault(key, defaults) {
+    if (!localStorage.getItem(key)) {
+      localStorage.setItem(key, JSON.stringify(defaults));
+    }
+  }
+
+  function populateDropdown(storageKey, selectId) {
+    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let select = document.getElementById(selectId);
+    select.innerHTML = '';
+    list.forEach(item => {
+      let opt = document.createElement('option');
+      opt.value = item;
+      opt.textContent = item;
+      select.appendChild(opt);
+    });
+  }
+
+  function addMasterItem(storageKey, inputId, labelName, selectId) {
     let val = document.getElementById(inputId).value.trim();
     if (!val) {
       alert(labelName + " এর নাম লিখুন!");
@@ -282,8 +335,9 @@
     if (!list.includes(val)) {
       list.push(val);
       localStorage.setItem(storageKey, JSON.stringify(list));
-      alert(labelName + " সফলভাবে যোগ হয়েছে!");
       document.getElementById(inputId).value = '';
+      populateDropdown(storageKey, selectId);
+      alert(labelName + " সফলভাবে যোগ হয়েছে!");
     } else {
       alert("এই নামটি ইতিমধ্যে আছে!");
     }

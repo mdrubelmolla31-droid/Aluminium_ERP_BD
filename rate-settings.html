@@ -180,6 +180,14 @@
     <input type="text" id="newGlassComp">
     <button class="btn-blue" onclick="addMasterData('glassCompany', 'newGlassComp')">Add Glass Company</button>
 
+    <label>New Glass Thickness</label>
+    <input type="text" id="newGlassThick">
+    <button class="btn-blue" onclick="addMasterData('glassThickness', 'newGlassThick')">Add Glass Thickness</button>
+
+    <label>New Glass Colour</label>
+    <input type="text" id="newGlassColour">
+    <button class="btn-blue" onclick="addMasterData('glassColour', 'newGlassColour')">Add Glass Colour</button>
+
     <!-- Dropdowns -->
     <label>Company</label>
     <select id="company"></select>
@@ -194,39 +202,29 @@
     <select id="glassCompany"></select>
 
     <label>Glass Thickness</label>
-    <select id="glassThickness">
-      <option value="5 mm">5 mm</option>
-      <option value="6 mm">6 mm</option>
-      <option value="8 mm">8 mm</option>
-      <option value="10 mm">10 mm</option>
-    </select>
+    <select id="glassThickness"></select>
 
     <label>Glass Colour</label>
-    <select id="glassColour">
-      <option value="Clear">Clear</option>
-      <option value="Blue">Blue</option>
-      <option value="Green">Green</option>
-      <option value="Dark Grey">Dark Grey</option>
-    </select>
+    <select id="glassColour"></select>
 
-    <!-- Rate Inputs -->
+    <!-- Rate Inputs (সম্পূর্ণ ফাঁকা ও ক্লিন) -->
     <label>Aluminium Rate (৳/ft)</label>
-    <input type="number" id="aluRate" placeholder="190">
+    <input type="number" id="aluRate">
 
     <label>Glass Rate (৳/Sqft)</label>
-    <input type="number" id="glassRate" placeholder="130">
+    <input type="number" id="glassRate">
 
     <label>Hardware Rate (৳/Sqft)</label>
-    <input type="number" id="hwRate" placeholder="30">
+    <input type="number" id="hwRate">
 
     <label>Fittings Rate (৳/Sqft)</label>
-    <input type="number" id="fitRate" placeholder="30">
+    <input type="number" id="fitRate">
 
     <label>Labour Rate (৳/Sqft)</label>
-    <input type="number" id="labourRate" placeholder="10">
+    <input type="number" id="labourRate">
 
     <label>Profit (%)</label>
-    <input type="number" id="profit" placeholder="5">
+    <input type="number" id="profit">
 
     <button class="btn-dark-blue" onclick="saveRate()">Save Rate</button>
 
@@ -266,7 +264,9 @@
       company: ['KAI', 'MAX', 'ALFA', 'BTA', 'Altec'],
       series: ['Sliding Window 3"', 'Sliding Window 4"'],
       aluThickness: ['1.0 mm', '1.2 mm', '1.4 mm'],
-      glassCompany: ['Nasir', 'Xinyi', 'Bengal', 'Akij']
+      glassCompany: ['Nasir', 'Xinyi', 'Bengal', 'Akij'],
+      glassThickness: ['5 mm', '6 mm', '8 mm', '10 mm'],
+      glassColour: ['Clear', 'Blue', 'Green', 'Dark Grey']
     };
 
     let savedRates = JSON.parse(localStorage.getItem('savedRates')) || [];
@@ -281,19 +281,26 @@
       fillSelect('series', masterData.series);
       fillSelect('aluThickness', masterData.aluThickness);
       fillSelect('glassCompany', masterData.glassCompany);
+      fillSelect('glassThickness', masterData.glassThickness);
+      fillSelect('glassColour', masterData.glassColour);
     }
 
     function fillSelect(elementId, items) {
       let select = document.getElementById(elementId);
       select.innerHTML = '';
-      items.forEach(item => {
-        select.innerHTML += `<option value="${item}">${item}</option>`;
-      });
+      if(items && items.length > 0) {
+        items.forEach(item => {
+          select.innerHTML += `<option value="${item}">${item}</option>`;
+        });
+      }
     }
 
     function addMasterData(type, inputId) {
       let val = document.getElementById(inputId).value.trim();
       if (val) {
+        if (!masterData[type]) {
+          masterData[type] = [];
+        }
         if (!masterData[type].includes(val)) {
           masterData[type].push(val);
           localStorage.setItem('masterData', JSON.stringify(masterData));
@@ -324,6 +331,16 @@
       localStorage.setItem('savedRates', JSON.stringify(savedRates));
       localStorage.setItem('activeRate', JSON.stringify(rateData));
       renderTable();
+      clearInputs();
+    }
+
+    function clearInputs() {
+      document.getElementById('aluRate').value = '';
+      document.getElementById('glassRate').value = '';
+      document.getElementById('hwRate').value = '';
+      document.getElementById('fitRate').value = '';
+      document.getElementById('labourRate').value = '';
+      document.getElementById('profit').value = '';
     }
 
     function renderTable() {

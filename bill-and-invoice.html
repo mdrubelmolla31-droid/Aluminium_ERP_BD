@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice - Bill Management</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
+    .container { max-width: 750px; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; }
+
+    /* হেডার এডিটেবল সেকশন */
+    .invoice-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 12px; margin-bottom: 15px; }
+    .invoice-header input { text-align: center; font-weight: bold; border: 1px dashed #cbd5e1; padding: 4px; border-radius: 4px; width: 80%; }
+    .shop-title { font-size: 24px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; margin-bottom: 4px; }
+    .shop-slogan { font-size: 12px; color: #475569; margin-bottom: 8px; }
+    .shop-details input { font-size: 13px; color: #334155; margin: 2px 0; }
+
+    /* কাস্টমার ও বিল ইনফো */
+    .meta-box { display: flex; justify-content: space-between; margin-bottom: 15px; gap: 10px; font-size: 14px; }
+    .meta-left { flex: 2; display: flex; flex-direction: column; gap: 6px; }
+    .meta-right { flex: 1; display: flex; flex-direction: column; gap: 6px; text-align: right; }
+    .meta-box input { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; }
+
+    /* টেবিল ডিজাইন */
+    .invoice-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+    .invoice-table th, .invoice-table td { border: 1px solid #1e3a8a; padding: 8px; font-size: 13px; text-align: center; }
+    .invoice-table th { background-color: #1e3a8a; color: white; font-weight: 600; }
+    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 13px; }
+    .invoice-table td:nth-child(2) input { text-align: left; }
+
+    /* মোট টাকা ও কথায় প্রকাশ */
+    .total-section { display: flex; justify-content: flex-end; margin-bottom: 15px; }
+    .total-box { border: 1px solid #1e3a8a; padding: 8px 15px; font-weight: bold; font-size: 15px; background: #eff6ff; display: flex; gap: 20px; align-items: center; }
+    .total-box input { border: 1px solid #cbd5e1; padding: 4px 8px; width: 120px; text-align: right; font-weight: bold; background: #fff; }
+
+    .in-words { margin-bottom: 20px; font-size: 13px; font-weight: 600; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px; }
+    .in-words input { border: none; border-bottom: 1px dotted #334155; width: 75%; font-weight: normal; }
+
+    /* শর্তাবলী */
+    .terms { background: #fffbeb; border: 1px solid #fde68a; padding: 10px; border-radius: 4px; font-size: 11px; color: #92400e; margin-bottom: 30px; }
+    .terms ol { margin: 0; padding-left: 15px; }
+
+    /* স্বাক্ষর */
+    .signature-box { display: flex; justify-content: space-between; margin-top: 40px; font-size: 13px; font-weight: 600; }
+    .sig-line { border-top: 1px solid #0f172a; width: 180px; text-align: center; padding-top: 4px; }
+
+    /* বাটন */
+    .btn-container { text-align: center; margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
+    .btn { padding: 10px 20px; font-size: 14px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; color: white; }
+    .btn-add { background-color: #10b981; }
+    .btn-print { background-color: #2563eb; }
+    .btn-del { background-color: #ef4444; padding: 4px 8px; font-size: 11px; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+      .btn-container, .btn-del, .btn-add { display: none; }
+      input { border: none !important; background: transparent !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- হেডার (ইউজার এডিট করতে পারবে) -->
+  <div class="invoice-header">
+    <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
+    <input type="text" class="shop-title" value="RM THAI ALUMINIUM" style="font-size: 22px; text-align: center;">
+    <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
+    <div class="shop-details" style="display: flex; flex-direction: column; gap: 4px; align-items: center; margin-top: 6px;">
+      <div style="display: flex; gap: 10px; width: 80%;">
+        <input type="text" value="Proprietor: Rubel Molla" style="text-align: center;">
+        <input type="text" value="Mobile: 01676-474412" style="text-align: center;">
+      </div>
+      <input type="text" value="Address: 47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216" style="text-align: center; width: 80%;">
+    </div>
+  </div>
+
+  <!-- কাস্টমার ও বিল ডিটেইলস -->
+  <div class="meta-box">
+    <div class="meta-left">
+      <div><strong>Customer Name:</strong> <input type="text" id="custName" placeholder="গ্রাহকের নাম লিখুন" style="width: 70%;"></div>
+      <div><strong>Address:</strong> <input type="text" id="custAddress" placeholder="ঠিকানা লিখুন" style="width: 78%;"></div>
+    </div>
+    <div class="meta-right">
+      <div><strong>Bill No:</strong> <input type="text" id="billNo" value="01" style="width: 100px;"></div>
+      <div><strong>Date:</strong> <input type="date" id="billDate" style="width: 130px;"></div>
+    </div>
+  </div>
+
+  <!-- আইটেম টেবিল -->
+  <table class="invoice-table">
+    <thead>
+      <tr>
+        <th style="width: 8%;">SL</th>
+        <th style="width: 42%;">DESCRIPTION OF WORK</th>
+        <th style="width: 20%;">QTY / SIZE</th>
+        <th style="width: 15%;">RATE</th>
+        <th style="width: 15%;">AMOUNT</th>
+        <th class="no-print" style="width: 5%;">Act</th>
+      </tr>
+    </thead>
+    <tbody id="invoiceTableBody">
+      <!-- ডাইনামিক রো এখানে যুক্ত হবে -->
+    </tbody>
+  </table>
+
+  <button class="btn btn-add no-print" type="button" onclick="addInvoiceRow()">+ Add Item</button>
+
+  <!-- গ্র্যান্ড টোটাল -->
+  <div class="total-section">
+    <div class="total-box">
+      <span>Grand Total =</span>
+      <span>Tk. <input type="text" id="grandTotal" readonly value="0.00"></span>
+    </div>
+  </div>
+
+  <!-- কথায় প্রকাশ -->
+  <div class="in-words">
+    <strong>In Words:</strong> <input type="text" id="inWords" placeholder="টাকার পরিমাণ কথায় লিখুন">
+  </div>
+
+  <!-- শর্তাবলী -->
+  <div class="terms">
+    <strong>Terms & Conditions:</strong>
+    <ol>
+      <li>50% advance payment is required for order confirmation.</li>
+      <li>30% payment to be cleared during the progress of work.</li>
+      <li>The remaining 20% balance must be paid upon completion of work.</li>
+    </ol>
+  </div>
+
+  <!-- স্বাক্ষর সেকশন -->
+  <div class="signature-box">
+    <div>
+      <div class="sig-line" style="margin-top: 25px;">Customer's Signature</div>
+    </div>
+    <div>
+      <div class="sig-line" style="margin-top: 25px;">Authorised Signature</div>
+    </div>
+  </div>
+
+  <!-- প্রিন্ট বাটন -->
+  <div class="btn-container">
+    <button class="btn btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // আজকের তারিখ অটো সেট করা
+    let today = new Date().toISOString().split('T')[0];
+    document.getElementById('billDate').value = today;
+    
+    // ডিফলต์ ৩টি রো যোগ করা
+    addInvoiceRow();
+    addInvoiceRow();
+    addInvoiceRow();
+  });
+
+  function addInvoiceRow() {
+    let tbody = document.getElementById('invoiceTableBody');
+    let rowCount = tbody.rows.length + 1;
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${rowCount < 10 ? '0' + rowCount : rowCount}</td>
+      <td><input type="text" placeholder="কাজের বিবরণ"></td>
+      <td><input type="text" placeholder="পরিমাণ বা মাপ"></td>
+      <td><input type="number" class="item-rate" placeholder="0" oninput="calculateInvoice()"></td>
+      <td><input type="number" class="item-amount" placeholder="0" oninput="calculateInvoice()"></td>
+      <td class="no-print"><button class="btn btn-del" type="button" onclick="removeInvoiceRow(this)">X</button></td>
+    `;
+    tbody.appendChild(tr);
+    updateRowIndices();
+  }
+
+  function removeInvoiceRow(btn) {
+    let tbody = document.getElementById('invoiceTableBody');
+    if (tbody.rows.length > 1) {
+      btn.closest('tr').remove();
+      updateRowIndices();
+      calculateInvoice();
+    } else {
+      alert("কমপক্ষে একটি রো থাকতে হবে!");
+    }
+  }
+
+  function updateRowIndices() {
+    let rows = document.querySelectorAll('#invoiceTableBody tr');
+    rows.forEach((row, index) => {
+      let num = index + 1;
+      row.cells[0].innerText = num < 10 ? '0' + num : num;
+    });
+  }
+
+  function calculateInvoice() {
+    let amounts = document.querySelectorAll('.item-amount');
+    let total = 0;
+    amounts.forEach(inp => {
+      let val = parseFloat(inp.value) || 0;
+      total += val;
+    });
+    document.getElementById('grandTotal').value = total.toFixed(2);
+  }
+</script>
+
+</body>
+</html>

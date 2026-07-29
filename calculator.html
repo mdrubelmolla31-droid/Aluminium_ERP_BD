@@ -109,6 +109,18 @@
     table.input-table th, table.input-table td, table.report-table th, table.report-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
     table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; }
     table.input-table input { padding: 6px; text-align: center; }
+    
+    .section-title {
+      font-size: 14px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-top: 14px;
+      margin-bottom: 4px;
+      background: #eff6ff;
+      padding: 6px;
+      border-radius: 4px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -223,20 +235,35 @@
   </div>
 
   <div class="card">
-    <div class="card-title">Cutting Report (Bar Calculation)</div>
+    <div class="card-title">Cutting Reports (Bar Distribution)</div>
+    
+    <!-- সেকশন ১: সাড়ে ১৮/সাড়ে ১৮.৫ ফুটের বার সেকশন (শুধুমাত্র সাইড, লক ও ইন্টারলক) -->
+    <div class="section-title">18.5 ft / 18.6 ft Bar Section (Outer Side, Shutter Lock, Interlock)</div>
     <table class="report-table">
       <thead>
-        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (Customized)</th></tr>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (18.5 ft)</th></tr>
       </thead>
-      <tbody id="cuttingReportBody">
-        <tr><td>Outer Side</td><td><span id="ftOuterSide">0.00</span> ft</td><td id="cOuterSideBar">0</td></tr>
-        <tr><td>Outer Top</td><td><span id="ftOuterTop">0.00</span> ft</td><td id="cOuterTopBar">0</td></tr>
-        <tr><td>Outer Bottom</td><td><span id="ftOuterBottom">0.00</span> ft</td><td id="cOuterBottomBar">0</td></tr>
-        <tr><td>Shutter Lock</td><td><span id="ftShutterLock">0.00</span> ft</td><td id="cShutterLockBar">0</td></tr>
-        <tr><td>Shutter Interlock</td><td><span id="ftShutterInterlock">0.00</span> ft</td><td id="cShutterInterlockBar">0</td></tr>
-        <tr><td>Shutter Top</td><td><span id="ftShutterTop">0.00</span> ft</td><td id="cShutterTopBar">0</td></tr>
-        <tr><td>Shutter Bottom</td><td><span id="ftShutterBottom">0.00</span> ft</td><td id="cShutterBottomBar">0</td></tr>
-        <tr id="cNetRow" style="display: none;"><td>Net Frame</td><td><span id="ftNet">0.00</span> ft</td><td id="cNetBar">0</td></tr>
+      <tbody id="cuttingReportBody18">
+        <tr><td>Outer Side (18.5 ft)</td><td><span id="ft18OuterSide">0.00</span> ft</td><td id="c18OuterSideBar">0</td></tr>
+        <tr><td>Shutter Lock (18.5 ft)</td><td><span id="ft18ShutterLock">0.00</span> ft</td><td id="c18ShutterLockBar">0</td></tr>
+        <tr><td>Shutter Interlock (18.5 ft)</td><td><span id="ft18ShutterInterlock">0.00</span> ft</td><td id="c18ShutterInterlockBar">0</td></tr>
+      </tbody>
+    </table>
+
+    <!-- সেকশন ২: ২১ ফুটের বার সেকশন (আউটার টপ, বটম, শাটার টপ, বটম এবং বড় হাইটের সাইড/লক) -->
+    <div class="section-title">21 ft Bar Section (Outer Top/Bottom, Shutter Top/Bottom & 21ft Sides)</div>
+    <table class="report-table">
+      <thead>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (21 ft)</th></tr>
+      </thead>
+      <tbody id="cuttingReportBody21">
+        <tr><td>Outer Side (21 ft)</td><td><span id="ft21OuterSide">0.00</span> ft</td><td id="c21OuterSideBar">0</td></tr>
+        <tr><td>Outer Top (Always 21 ft)</td><td><span id="ft21OuterTop">0.00</span> ft</td><td id="c21OuterTopBar">0</td></tr>
+        <tr><td>Outer Bottom (Always 21 ft)</td><td><span id="ft21OuterBottom">0.00</span> ft</td><td id="c21OuterBottomBar">0</td></tr>
+        <tr><td>Shutter Lock (21 ft)</td><td><span id="ft21ShutterLock">0.00</span> ft</td><td id="c21ShutterLockBar">0</td></tr>
+        <tr><td>Shutter Interlock (21 ft)</td><td><span id="ft21ShutterInterlock">0.00</span> ft</td><td id="c21ShutterInterlockBar">0</td></tr>
+        <tr><td>Shutter Top (Always 21 ft)</td><td><span id="ft21ShutterTop">0.00</span> ft</td><td id="c21ShutterTopBar">0</td></tr>
+        <tr><td>Shutter Bottom (Always 21 ft)</td><td><span id="ft21ShutterBottom">0.00</span> ft</td><td id="c21ShutterBottomBar">0</td></tr>
       </tbody>
     </table>
   </div>
@@ -335,10 +362,18 @@
     let widths = document.querySelectorAll('.w-w');
     let qtys = document.querySelectorAll('.w-q');
 
+    // টোটাল ম্যাটেরিয়াল
     let outerH = 0, outerTop = 0, outerBottom = 0;
     let shutterLock = 0, shutterInterlock = 0, shutterTop = 0, shutterBottom = 0;
     let netFt = 0;
     let totalSqft = 0;
+
+    // ১৮.৫/১৮.৬ ফুট বারের জন্য (শুধুমাত্র আউটার সাইড, শাটার লক, ইন্টারলক ছোট হাইটের ক্ষেত্রে)
+    let outerH_18 = 0, shutterLock_18 = 0, shutterInterlock_18 = 0;
+
+    // ২১ ফুট বারের জন্য (আউটার টপ, বটম, শাটার টপ, বটম এবং বড় হাইটের সাইড/লক)
+    let outerH_21 = 0, outerTop_21 = 0, outerBottom_21 = 0;
+    let shutterLock_21 = 0, shutterInterlock_21 = 0, shutterTop_21 = 0, shutterBottom_21 = 0;
 
     let isNetActive = document.getElementById('netSection').disabled === false && document.getElementById('netSection').value !== 'none';
 
@@ -351,14 +386,39 @@
         let hFt = h / 12;
         let wFt = w / 12;
         
-        outerH += (hFt * 2) * q;
-        outerTop += wFt * q;
-        outerBottom += wFt * q;
+        let oSide = hFt * 2 * q;
+        let oTop = wFt * q;
+        let oBot = wFt * q;
+        let sLock = hFt * 2 * q;
+        let sInt = hFt * 2 * q;
+        let sTop = wFt * 2 * q;
+        let sBot = wFt * 2 * q;
 
-        shutterLock += (hFt * 2) * q;
-        shutterInterlock += (hFt * 2) * q;
-        shutterTop += (wFt * 2) * q;
-        shutterBottom += (wFt * 2) * q;
+        outerH += oSide;
+        outerTop += oTop;
+        outerBottom += oBot;
+        shutterLock += sLock;
+        shutterInterlock += sInt;
+        shutterTop += sTop;
+        shutterBottom += sBot;
+
+        // আপনার নিয়ম অনুযায়ী আউটার টপ, আউটার বটম, শাটার টপ, শাটার বটম সবসময় ২১ ফুটের বারে যাবে
+        outerTop_21 += oTop;
+        outerBottom_21 += oBot;
+        shutterTop_21 += sTop;
+        shutterBottom_21 += sBot;
+
+        // হাইট যদি বড় হয় (যেমন ৭ ফুট বা ৮৪ ইঞ্চি বা তার বেশি), তবে আউটার সাইড, লক ও ইন্টারলক ২১ ফুটের বারে যাবে
+        // অন্যথায় (যেমন সাড়ে ৪ ফুট বা ছোট হাইট) সাড়ে ১৮ ফুটের বারে যাবে
+        if (h >= 84) {
+          outerH_21 += oSide;
+          shutterLock_21 += sLock;
+          shutterInterlock_21 += sInt;
+        } else {
+          outerH_18 += oSide;
+          shutterLock_18 += sLock;
+          shutterInterlock_18 += sInt;
+        }
 
         let winSqft = hFt * wFt * q;
         totalSqft += winSqft;
@@ -379,28 +439,40 @@
     document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
     document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
 
-    document.getElementById('ftOuterSide').innerText = outerH.toFixed(2);
-    document.getElementById('ftOuterTop').innerText = outerTop.toFixed(2);
-    document.getElementById('ftOuterBottom').innerText = outerBottom.toFixed(2);
-    document.getElementById('ftShutterLock').innerText = shutterLock.toFixed(2);
-    document.getElementById('ftShutterInterlock').innerText = shutterInterlock.toFixed(2);
-    document.getElementById('ftShutterTop').innerText = shutterTop.toFixed(2);
-    document.getElementById('ftShutterBottom').innerText = shutterBottom.toFixed(2);
+    // ১৮.৫/১৮.৬ ফুট সেকশন মান বসানো
+    document.getElementById('ft18OuterSide').innerText = outerH_18.toFixed(2);
+    document.getElementById('c18OuterSideBar').innerText = (outerH_18 > 0 ? (outerH_18 / 18.5).toFixed(1) : "0");
+    document.getElementById('ft18ShutterLock').innerText = shutterLock_18.toFixed(2);
+    document.getElementById('c18ShutterLockBar').innerText = (shutterLock_18 > 0 ? (shutterLock_18 / 18.5).toFixed(1) : "0");
+    document.getElementById('ft18ShutterInterlock').innerText = shutterInterlock_18.toFixed(2);
+    document.getElementById('c18ShutterInterlockBar').innerText = (shutterInterlock_18 > 0 ? (shutterInterlock_18 / 18.5).toFixed(1) : "0");
+
+    // ২১ ফুট সেকশন মান বসানো (যেখানে আউটার টপ/বটম ও শাটার টপ/বটম সবসময় ২১ এর হয়)
+    document.getElementById('ft21OuterSide').innerText = outerH_21.toFixed(2);
+    document.getElementById('c21OuterSideBar').innerText = (outerH_21 > 0 ? Math.ceil(outerH_21 / 21) : "0");
+    document.getElementById('ft21OuterTop').innerText = outerTop_21.toFixed(2);
+    document.getElementById('c21OuterTopBar').innerText = (outerTop_21 > 0 ? Math.ceil(outerTop_21 / 21) : "0");
+    document.getElementById('ft21OuterBottom').innerText = outerBottom_21.toFixed(2);
+    document.getElementById('c21OuterBottomBar').innerText = (outerBottom_21 > 0 ? Math.ceil(outerBottom_21 / 21) : "0");
+    document.getElementById('ft21ShutterLock').innerText = shutterLock_21.toFixed(2);
+    document.getElementById('c21ShutterLockBar').innerText = (shutterLock_21 > 0 ? Math.ceil(shutterLock_21 / 21) : "0");
+    document.getElementById('ft21ShutterInterlock').innerText = shutterInterlock_21.toFixed(2);
+    document.getElementById('c21ShutterInterlockBar').innerText = (shutterInterlock_21 > 0 ? Math.ceil(shutterInterlock_21 / 21) : "0");
+    document.getElementById('ft21ShutterTop').innerText = shutterTop_21.toFixed(2);
+    document.getElementById('c21ShutterTopBar').innerText = (shutterTop_21 > 0 ? Math.ceil(shutterTop_21 / 21) : "0");
+    document.getElementById('ft21ShutterBottom').innerText = shutterBottom_21.toFixed(2);
+    document.getElementById('c21ShutterBottomBar').innerText = (shutterBottom_21 > 0 ? Math.ceil(shutterBottom_21 / 21) : "0");
 
     let netMeshSqft = 0;
     if (isNetActive) {
       netMeshSqft = (totalSqft / 2);
       document.getElementById('netRow').style.display = 'table-row';
       document.getElementById('netMeshRow').style.display = 'table-row';
-      document.getElementById('cNetRow').style.display = 'table-row';
-
       document.getElementById('mNetSection').innerText = netFt.toFixed(2);
       document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
-      document.getElementById('ftNet').innerText = netFt.toFixed(2);
     } else {
       document.getElementById('netRow').style.display = 'none';
       document.getElementById('netMeshRow').style.display = 'none';
-      document.getElementById('cNetRow').style.display = 'none';
     }
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
@@ -430,30 +502,6 @@
     document.getElementById('mSellingRatePerSqft').innerText = sellingRatePerSqft.toFixed(2);
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
-
-    // আপনার কাস্টম ফর্মুলা অনুযায়ী বার ক্যালকুলেশন লজিক (৫৪ ইঞ্চি বা সাড়ে ৪ ফিট উচ্চতার জন্য ১৮.৬ বার ইত্যাদি বা স্ট্যান্ডার্ড মাপ অনুযায়ী)
-    let getCustomBarCount = (ftVal, heightInches) => {
-      if (heights.length > 0) {
-        let h = parseFloat(heights[0].value) || 0;
-        // যদি উচ্চতা ৫৪ ইঞ্চি (সাড়ে ৪ ফিট) হয়
-        if (h === 54) {
-          return (ftVal / 18.6).toFixed(1);
-        }
-      }
-      return Math.ceil(ftVal / 21);
-    };
-
-    document.getElementById('cOuterSideBar').innerText = getCustomBarCount(outerH);
-    document.getElementById('cOuterTopBar').innerText = getCustomBarCount(outerTop);
-    document.getElementById('cOuterBottomBar').innerText = getCustomBarCount(outerBottom);
-    document.getElementById('cShutterLockBar').innerText = getCustomBarCount(shutterLock);
-    document.getElementById('cShutterInterlockBar').innerText = getCustomBarCount(shutterInterlock);
-    document.getElementById('cShutterTopBar').innerText = getCustomBarCount(shutterTop);
-    document.getElementById('cShutterBottomBar').innerText = getCustomBarCount(shutterBottom);
-
-    if (isNetActive) {
-      document.getElementById('cNetBar').innerText = getCustomBarCount(netFt);
-    }
   }
 </script>
 

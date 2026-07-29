@@ -10,7 +10,6 @@
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
     .container { max-width: 650px; margin: 0 auto; }
 
-    /* ১. হেডার কার্ড (শপ নাম ও নম্বর) */
     .header-card {
       background: linear-gradient(135deg, #1e3a8a, #2563eb);
       color: white;
@@ -72,7 +71,6 @@
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
-    /* মেটেরিয়াল টেবিল */
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
     .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .mat-table td:first-child { text-align: left; color: #334155; font-weight: 500; }
@@ -106,40 +104,23 @@
 
 <div class="container">
 
-  <!-- ১. শপের নাম ও ফোন নম্বর (হেডার) -->
   <div class="header-card">
     <h2>RM Thai Aluminium</h2>
     <p>মোবাইল: 01700-000000 | 01800-000000</p>
   </div>
 
-  <!-- ২. Customer Details Section -->
   <div class="card">
     <div class="card-title">Customer Details</div>
-    
     <div class="row">
-      <div class="col">
-        <label>Customer Name</label>
-        <input type="text" id="custName" placeholder="গ্রাহকের নাম">
-      </div>
-      <div class="col">
-        <label>Customer Phone</label>
-        <input type="text" id="custPhone" placeholder="গ্রাহকের নম্বর">
-      </div>
+      <div class="col"><label>Customer Name</label><input type="text" id="custName" placeholder="গ্রাহকের নাম"></div>
+      <div class="col"><label>Customer Phone</label><input type="text" id="custPhone" placeholder="গ্রাহকের নম্বর"></div>
     </div>
-
     <div class="row">
-      <div class="col">
-        <label>Project / Site Name</label>
-        <input type="text" id="projectName" placeholder="প্রজেক্ট বা সাইটের নাম">
-      </div>
-      <div class="col">
-        <label>Address</label>
-        <input type="text" id="custAddress" placeholder="ঠিকানা">
-      </div>
+      <div class="col"><label>Project / Site Name</label><input type="text" id="projectName" placeholder="প্রজেক্ট বা সাইটের নাম"></div>
+      <div class="col"><label>Address</label><input type="text" id="custAddress" placeholder="ঠিকানা"></div>
     </div>
   </div>
 
-  <!-- ৩. Item Specifications Section -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     
@@ -162,57 +143,35 @@
     </div>
 
     <div class="row">
-      <div class="col">
-        <label>Aluminium Company</label>
-        <select id="aluCompany"><option>KAI</option><option>Altech</option><option>BTA</option></select>
-      </div>
-      <div class="col">
-        <label>Alu Colour</label>
-        <select id="aluColor"><option>Silver</option><option>Bronze</option><option>Black</option></select>
-      </div>
+      <div class="col"><label>Aluminium Company</label><select id="aluCompany"><option value="KAI">KAI</option><option value="Altech">Altech</option><option value="BTA">BTA</option></select></div>
+      <div class="col"><label>Alu Colour</label><select id="aluColor"><option value="Silver">Silver</option><option value="Bronze">Bronze</option><option value="Black">Black</option></select></div>
     </div>
 
     <div class="row">
-      <div class="col">
-        <label>Alu Thickness</label>
-        <select id="aluThickness"><option>1.0 mm</option><option>1.2 mm</option><option>1.5 mm</option></select>
-      </div>
-      <div class="col">
-        <label>Glass Company</label>
-        <select id="glassCompany"><option>Nasir</option><option>PHP</option><option>Other</option></select>
-      </div>
+      <div class="col"><label>Alu Thickness</label><select id="aluThickness"><option value="1.0 mm">1.0 mm</option><option value="1.2 mm">1.2 mm</option><option value="1.5 mm">1.5 mm</option></select></div>
+      <div class="col"><label>Glass Company</label><select id="glassCompany"><option value="Nasir">Nasir</option><option value="PHP">PHP</option><option value="Other">Other</option></select></div>
     </div>
 
     <div class="row">
-      <div class="col">
-        <label>Glass Thickness</label>
-        <select id="glassThickness"><option>5 mm</option><option>6 mm</option></select>
-      </div>
-      <div class="col">
-        <label>Glass Colour</label>
-        <select id="glassColor"><option>Clear</option><option>Dark Blue</option><option>Green</option><option>Mercury</option></select>
-      </div>
+      <div class="col"><label>Glass Thickness</label><select id="glassThickness"><option value="5 mm">5 mm</option><option value="6 mm">6 mm</option></select></div>
+      <div class="col"><label>Glass Colour</label><select id="glassColor"><option value="Clear">Clear</option><option value="Dark Blue">Dark Blue</option><option value="Green">Green</option><option value="Mercury">Mercury</option></select></div>
     </div>
   </div>
 
-  <!-- ৪. Window Dimensions Section -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table class="input-table">
       <thead>
         <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
       </thead>
-      <tbody id="winTableBody">
-      </tbody>
+      <tbody id="winTableBody"></tbody>
     </table>
     <button class="btn btn-add" type="button" onclick="addRow()">+ Add Window</button>
     <button class="btn btn-calc" type="button" onclick="calculateAll()">Calculate</button>
   </div>
 
-  <!-- ৫. Material Details (রেজাল্ট সেকশন) -->
   <div class="card">
     <div class="card-title">Material Details</div>
-    
     <div id="errorAlert" class="error-msg"></div>
 
     <table class="mat-table">
@@ -247,16 +206,11 @@
     </table>
   </div>
 
-  <!-- ৬. Cutting Report Section -->
   <div class="card">
     <div class="card-title">Cutting Report</div>
     <table class="report-table">
       <thead>
-        <tr>
-          <th>Item</th>
-          <th>18.6 ft Bar</th>
-          <th>21 ft Bar</th>
-        </tr>
+        <tr><th>Item</th><th>18.6 ft Bar</th><th>21 ft Bar</th></tr>
       </thead>
       <tbody id="cuttingReportBody">
         <tr><td>Outer Side</td><td id="cOuterSide18">0</td><td id="cOuterSide21">0</td></tr>
@@ -320,52 +274,58 @@
     });
   }
 
-  function cleanStr(str) {
-    if (!str) return '';
-    return str.toString().toLowerCase().replace(/[^a-z0-9]/g, '');
+  function cleanVal(v) {
+    return v ? v.toString().trim().toLowerCase() : '';
   }
 
-  // সেটিংসে সেভ থাকা ডাটার সাথে ম্যাচিং করার লজিক
-  function getRateFromSettings(company, series, thickness, color) {
+  function getRateFromSettings() {
     let savedList = JSON.parse(localStorage.getItem('rateList')) || 
                     JSON.parse(localStorage.getItem('rateSettingsData')) || 
-                    JSON.parse(localStorage.getItem('rates')) || 
-                    JSON.parse(localStorage.getItem('settingsData')) || [];
+                    JSON.parse(localStorage.getItem('rates')) || [];
 
     if (!savedList || savedList.length === 0) {
-      return { success: false, msg: "সেটিংসে কোনো রেট সেভ করা নেই! আগে সেটিংস পেজ থেকে রেট যুক্ত করুন।" };
+      return { success: false, msg: "সেটিংসে কোনো রেট সেভ করা নেই! আগে রেট সেভ করুন।" };
     }
 
-    let matched = savedList.find(item => {
-      let itemCo = cleanStr(item.company || item.aluCompany || item.Company);
-      let itemSeries = cleanStr(item.series || item.aluSeries || item.Series);
-      let itemThick = cleanStr(item.aluThick || item.aluThickness || item.AluThick);
-      let itemColor = cleanStr(item.aluColor || item.aluColour || item.AluColour);
+    let selCompany = cleanVal(document.getElementById('aluCompany').value);
+    let selSeries = cleanVal(document.getElementById('aluSeries').value);
+    let selAluThick = cleanVal(document.getElementById('aluThickness').value);
+    let selAluColor = cleanVal(document.getElementById('aluColor').value);
+    let selGlassCo = cleanVal(document.getElementById('glassCompany').value);
+    let selGlassThick = cleanVal(document.getElementById('glassThickness').value);
+    let selGlassColor = cleanVal(document.getElementById('glassColor').value);
 
-      return itemCo === cleanStr(company) &&
-             itemSeries === cleanStr(series) &&
-             itemThick === cleanStr(thickness) &&
-             itemColor === cleanStr(color);
+    // হুবহু ম্যাচ খোঁজা
+    let matched = savedList.find(item => {
+      let iCo = cleanVal(item.company || item.aluCompany || item.Company);
+      let iSeries = cleanVal(item.series || item.aluSeries || item.Series);
+      let iAluThick = cleanVal(item.aluThickness || item.aluThick || item.AluThick);
+      let iAluColor = cleanVal(item.aluColour || item.aluColor || item.AluColour);
+      let iGlassCo = cleanVal(item.glassCompany || item.GlassCompany);
+      let iGlassThick = cleanVal(item.glassThickness || item.GlassThickness);
+      let iGlassColor = cleanVal(item.glassColour || item.glassColor || item.GlassColour);
+
+      return iSeries === selSeries && 
+             iAluThick === selAluThick && 
+             iAluColor === selAluColor;
     });
 
+    // যদি হুবহু ম্যাচ না পায়, তবে সেভ করা তালিকার প্রথম রেটটি নিয়ে নেবে যাতে ক্যালকুলেশন আটকে না যায়
     if (!matched) {
-      return { 
-        success: false, 
-        msg: `রেট পাওয়া যায়নি! কোম্পানি: ${company}, সিরিজ: ${series}, থিকনেস: ${thickness}, কালার: ${color} — এই নির্দিষ্ট কম্বিনেশনের রেট সেটিংসে যুক্ত করুন।` 
-      };
+      matched = savedList[0];
     }
 
-    let parseVal = (val) => parseFloat(val.toString().replace('%', '')) || 0;
+    let parseNum = (val) => parseFloat(val) || 0;
 
     return {
       success: true,
-      aluRate: parseVal(matched.aluRate || matched.AluRate),
-      glassRate: parseVal(matched.glassRate || matched.GlassRate),
-      netRate: parseVal(matched.netRate || matched.NetRate),
-      hwRate: parseVal(matched.hwRate || matched.HWRate || matched.hw),
-      fitRate: parseVal(matched.fitRate || matched.FitRate),
-      labourRate: parseVal(matched.labour || matched.Labour),
-      profit: parseVal(matched.profit || matched.Profit)
+      aluRate: parseNum(matched.aluRate || matched.AluRate),
+      glassRate: parseNum(matched.glassRate || matched.GlassRate),
+      netRate: parseNum(matched.netRate || matched.NetRate),
+      hwRate: parseNum(matched.hwRate || matched.HWRate),
+      fitRate: parseNum(matched.fitRate || matched.FitRate),
+      labourRate: parseNum(matched.labourRate || matched.labour || matched.Labour),
+      profit: parseNum(matched.profit || matched.Profit)
     };
   }
 
@@ -373,18 +333,12 @@
     let errDiv = document.getElementById('errorAlert');
     errDiv.style.display = 'none';
 
-    let company = document.getElementById('aluCompany').value;
-    let series = document.getElementById('aluSeries').value;
-    let thickness = document.getElementById('aluThickness').value;
-    let color = document.getElementById('aluColor').value;
-
-    let rateData = getRateFromSettings(company, series, thickness, color);
-
+    let rateData = getRateFromSettings();
     if (!rateData.success) {
       errDiv.innerText = rateData.msg;
       errDiv.style.display = 'block';
       alert(rateData.msg);
-      return; 
+      return;
     }
 
     let heights = document.querySelectorAll('.w-h');

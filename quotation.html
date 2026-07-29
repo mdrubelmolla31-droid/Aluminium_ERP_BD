@@ -4,38 +4,78 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aluminium Quotation</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f4f6f9; margin: 0; padding: 10px; color: #333; }
     .container { max-width: 650px; margin: 0 auto; }
-    .card { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; }
+    
+    .card { 
+      background: #fff; 
+      padding: 15px; 
+      border-radius: 10px; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
+      margin-bottom: 15px; 
+    }
+    
     .card-title { color: #1a73e8; font-size: 16px; font-weight: bold; text-align: center; margin-bottom: 12px; }
     .row { display: flex; gap: 8px; margin-bottom: 8px; }
     .col { flex: 1; }
     label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
     input, select { width: 100%; padding: 8px; font-size: 13px; border: 1px solid #ccc; border-radius: 5px; }
-    .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 8px; }
+    
+    .btn { 
+      width: 100%; 
+      padding: 10px; 
+      border: none; 
+      border-radius: 6px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      font-size: 14px; 
+      margin-top: 8px; 
+    }
+    
     .btn-add { background-color: #10b981; color: white; }
-    .btn-save { background-color: #f59e0b; color: white; }
-    .btn-pdf { background-color: #059669; color: white; }
+    .btn-pdf { background-color: #059669; color: white; font-size: 15px; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+    
     table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     th, td { border: 1px solid #ddd; padding: 6px; text-align: center; font-size: 12px; }
     th { background-color: #2563eb; color: white; }
-    #pdfPrintWrapper { background: #fff; padding: 15px; border: 1px solid #cbd5e1; border-radius: 6px; }
+    
+    /* Printable Quotation Design */
+    #printableQuotation { 
+      background: #fff; 
+      padding: 15px; 
+      border: 1px solid #cbd5e1; 
+      border-radius: 6px; 
+    }
     .pdf-header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 5px; margin-bottom: 10px; }
     .pdf-title { font-size: 18px; font-weight: bold; color: #2563eb; margin: 0; }
-    .pdf-info { display: flex; justify-content: space-between; font-size: 12px; background: #f8fafc; padding: 8px; border-radius: 4px; margin-bottom: 10px; }
+    .pdf-info { display: flex; justify-content: space-between; font-size: 12px; background: #f8fafc; padding: 8px; border-radius: 4px; margin-bottom: 10px; border: 1px solid #ddd; }
     .pdf-table { width: 100%; border-collapse: collapse; }
-    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; font-size: 11px; }
+    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; font-size: 11px; text-align: center; }
+    .pdf-table th { background-color: #f1f5f9; color: #000; }
+
+    /* CSS for Print/PDF Mode */
+    @media print {
+      body * { visibility: hidden; }
+      #printableQuotation, #printableQuotation * { visibility: visible; }
+      #printableQuotation { 
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        width: 100%; 
+        border: none; 
+        padding: 0; 
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- শপ ইনফো -->
+  <!-- ১. শপ ইনফো -->
   <div class="card">
     <div class="card-title">My Store / Contact Info</div>
     <div class="row">
@@ -44,11 +84,11 @@
     </div>
   </div>
 
-  <!-- কাস্টমার ইনফো -->
+  <!-- ২. কাস্টমার ইনফো -->
   <div class="card">
     <div class="card-title">Customer Details</div>
     <div class="row">
-      <div class="col"><label>Customer Name</label><input type="text" id="custName" placeholder="কাস্টমারের নাম লিখুন" oninput="runCalculation()"></div>
+      <div class="col"><label>Customer Name</label><input type="text" id="custName" placeholder="কাস্টমারের নাম" oninput="runCalculation()"></div>
     </div>
     <div class="row">
       <div class="col"><label>Customer Mobile</label><input type="text" id="custPhone" placeholder="মোবাইল নম্বর" oninput="runCalculation()"></div>
@@ -56,7 +96,7 @@
     </div>
   </div>
 
-  <!-- স্পেসিফিকেশন -->
+  <!-- ৩. স্পেসিফিকেশন -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     <div class="row">
@@ -76,7 +116,7 @@
     </div>
   </div>
 
-  <!-- জানালার ইনপুট -->
+  <!-- ৪. জানালার ইনপুট -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table>
@@ -96,20 +136,20 @@
     <button class="btn btn-add" onclick="addRow()">+ Add Another Window</button>
   </div>
 
-  <!-- প্রাইসিং -->
+  <!-- ৫. প্রাইসিং এবং ডাউনলোড -->
   <div class="card">
     <div class="card-title">Pricing & Save Options</div>
     <div class="row">
       <div class="col"><label>Selling Rate (৳/Sqft)</label><input type="number" id="sellingRate" value="450" oninput="runCalculation()"></div>
       <div class="col"><label>Total Price (৳)</label><input type="number" id="calcTotalPrice" readonly style="background:#eee; font-weight:bold;"></div>
     </div>
-    <button class="btn btn-pdf" onclick="downloadHD_PDF()">📄 Download PDF</button>
+    <button class="btn btn-pdf" onclick="downloadPDF()">📄 Download PDF</button>
   </div>
 
-  <!-- লাইভ প্রিভিউ -->
+  <!-- ৬. লাইভ প্রিভিউ -->
   <div class="card">
     <div class="card-title">Live Quotation Preview</div>
-    <div id="pdfPrintWrapper">
+    <div id="printableQuotation">
       <div class="pdf-header">
         <p class="pdf-title" id="pShop"></p>
         <p style="margin:2px; font-size:12px;">Mobile: <span id="pPhone"></span></p>
@@ -218,11 +258,9 @@
     document.getElementById('pDate').innerText = new Date().toLocaleDateString('en-US');
   }
 
-  function downloadHD_PDF() {
+  function downloadPDF() {
     runCalculation();
-    let cust = document.getElementById('custName').value || 'Quotation';
-    let element = document.getElementById('pdfPrintWrapper');
-    html2pdf().set({ margin: 10, filename: `${cust}.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2 }, jsPDF: { format: 'a4' } }).from(element).save();
+    window.print();
   }
 </script>
 

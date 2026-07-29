@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluminium Calculator</title>
+  <title>Aluminium Calculator with Net</title>
 
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
@@ -80,7 +80,7 @@
 
 <div class="container">
 
-  <!-- ১. কনফিগারেশন সেকশন (সকল ড্রপডাউনসহ) -->
+  <!-- ১. Item Specifications -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     
@@ -136,7 +136,7 @@
     </div>
   </div>
 
-  <!-- ২. উইন্ডো মাপ ইনপুট -->
+  <!-- ২. Window Dimensions -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table class="input-table">
@@ -149,7 +149,7 @@
     <button class="btn btn-calc" onclick="calculateAll()">Calculate</button>
   </div>
 
-  <!-- ৩. Material Details (দ্বিতীয় ছবির হুবহু ডিজাইন) -->
+  <!-- ৩. Material Details -->
   <div class="card">
     <div class="card-title">Material Details</div>
     
@@ -163,11 +163,13 @@
         <tr><td>Shutter Top</td><td><span id="mShutterTop">0.00</span> ft</td></tr>
         <tr><td>Shutter Bottom</td><td><span id="mShutterBottom">0.00</span> ft</td></tr>
         
-        <tr id="netRow" style="display: none;"><td>Net Section Frame</td><td><span id="mNetSection">0.00</span> ft</td></tr>
+        <tr id="netRow" style="display: none;"><td>Net Frame Aluminium</td><td><span id="mNetSection">0.00</span> ft</td></tr>
 
         <tr class="highlight-blue"><td>Total Aluminium</td><td><span id="mTotalAlu">0.00</span> ft</td></tr>
         
         <tr><td>Glass Area</td><td><span id="mGlassSqft">0.00</span> Sqft</td></tr>
+        <tr id="netMeshRow" style="display: none;"><td>Net Mesh Area</td><td><span id="mNetMeshSqft">0.00</span> Sqft</td></tr>
+        
         <tr><td>Hardware Cost</td><td><span id="mHardware">0.00</span> ৳</td></tr>
         <tr><td>Fittings Charge</td><td><span id="mFittings">0.00</span> ৳</td></tr>
         <tr><td>Labour Charge</td><td><span id="mLabour">0.00</span> ৳</td></tr>
@@ -183,7 +185,7 @@
     </table>
   </div>
 
-  <!-- ৪. কাটিং রিপোর্ট (Cutting Report) -->
+  <!-- ৪. Cutting Report -->
   <div class="card">
     <div class="card-title">Cutting Report</div>
     <table class="report-table">
@@ -202,6 +204,7 @@
         <tr><td>Shutter Interlock</td><td id="cShutterInterlock18">0</td><td id="cShutterInterlock21">0</td></tr>
         <tr><td>Shutter Top</td><td id="cShutterTop18">0</td><td id="cShutterTop21">0</td></tr>
         <tr><td>Shutter Bottom</td><td id="cShutterBottom18">0</td><td id="cShutterBottom21">0</td></tr>
+        <tr id="cNetRow" style="display: none;"><td>Net Frame</td><td id="cNet18">0</td><td id="cNet21">0</td></tr>
       </tbody>
     </table>
   </div>
@@ -249,21 +252,32 @@
     rows.forEach((row, i) => row.querySelector('.row-index').innerText = i + 1);
   }
 
-  // ----------------------------------------------------
-  // রেট ম্যাচিং ফাংশন (সবকটি ফিল্ডের সাথে মিলিয়ে দেখা)
-  // ----------------------------------------------------
-  function getRateFromSettings(company, series, thickness, color, glassCo, glassThick, glassColor) {
-    let savedList = JSON.parse(localStorage.getItem('rateList')) || JSON.parse(localStorage.getItem('rateSettingsData')) || [];
+  function cleanStr(str) {
+    if (!str) return '';
+    return str.toString().toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
 
-    // কড়া ফিল্টারিং - সবকটি কন্ডিশন মিলিয়ে দেখা হচ্ছে
+  function getRateFromSettings(company, series, thickness, color, glassCo, glassThick, glassColor) {
+    let savedList = JSON.parse(localStorage.getItem('rateList')) || 
+                    JSON.parse(localStorage.getItem('rateSettingsData')) || 
+                    JSON.parse(localStorage.getItem('rates')) || [];
+
     let matched = savedList.find(item => {
-      let matchCo = !item.company || item.company.trim().toLowerCase() === company.trim().toLowerCase();
-      let matchSeries = !item.series || item.series.trim().toLowerCase() === series.trim().toLowerCase();
-      let matchThick = !item.aluThick || item.aluThick.trim().toLowerCase() === thickness.trim().toLowerCase();
-      let matchColor = !item.aluColor || item.aluColor.trim().toLowerCase() === color.trim().toLowerCase();
-      let matchGlassCo = !item.glassCo || item.glassCo.trim().toLowerCase() === glassCo.trim().toLowerCase();
-      let matchGlassThick = !item.glassThick || item.glassThick.trim().toLowerCase() === glassThick.trim().toLowerCase();
-      let matchGlassColor = !item.glassColor || item.glassColor.trim().toLowerCase() === glassColor.trim().toLowerCase();
+      let itemCo = cleanStr(item.company || item.aluCompany || item.Company);
+      let itemSeries = cleanStr(item.series || item.aluSeries || item.Series);
+      let itemThick = cleanStr(item.aluThick || item.aluThickness || item.AluThick);
+      let itemColor = cleanStr(item.aluColor || item.aluColour || item.AluColour);
+      let itemGlassCo = cleanStr(item.glassCo || item.glassCompany || item.GlassCo);
+      let itemGlassThick = cleanStr(item.glassThick || item.glassThickness || item.GlassThick);
+      let itemGlassColor = cleanStr(item.glassColor || item.glassColour || item.GlassColour);
+
+      let matchCo = !itemCo || itemCo === cleanStr(company);
+      let matchSeries = !itemSeries || itemSeries === cleanStr(series);
+      let matchThick = !itemThick || itemThick === cleanStr(thickness);
+      let matchColor = !itemColor || itemColor === cleanStr(color);
+      let matchGlassCo = !itemGlassCo || itemGlassCo === cleanStr(glassCo);
+      let matchGlassThick = !itemGlassThick || itemGlassThick === cleanStr(glassThick);
+      let matchGlassColor = !itemGlassColor || itemGlassColor === cleanStr(glassColor);
 
       return matchCo && matchSeries && matchThick && matchColor && matchGlassCo && matchGlassThick && matchGlassColor;
     });
@@ -275,20 +289,23 @@
       };
     }
 
+    let parseVal = (val) => {
+      if (!val) return 0;
+      return parseFloat(val.toString().replace('%', '')) || 0;
+    };
+
     return {
       success: true,
-      aluRate: parseFloat(matched.aluRate) || 0,
-      glassRate: parseFloat(matched.glassRate) || 0,
-      hwRate: parseFloat(matched.hwRate) || 0,
-      fitRate: parseFloat(matched.fitRate) || 0,
-      labourRate: parseFloat(matched.labour) || 0,
-      profit: parseFloat(matched.profit) || 0
+      aluRate: parseVal(matched.aluRate || matched.AluRate),
+      glassRate: parseVal(matched.glassRate || matched.GlassRate),
+      netRate: parseVal(matched.netRate || matched.NetRate) || 40, // డిఫాల్ట్ నెట్ రేట్
+      hwRate: parseVal(matched.hwRate || matched.HW'Rate || matched.hw),
+      fitRate: parseVal(matched.fitRate || matched.FitRate),
+      labourRate: parseVal(matched.labour || matched.Labour),
+      profit: parseVal(matched.profit || matched.Profit)
     };
   }
 
-  // ----------------------------------------------------
-  // ক্যালকুলেশন
-  // ----------------------------------------------------
   function calculateAll() {
     let company = document.getElementById('aluCompany').value;
     let series = document.getElementById('aluSeries').value;
@@ -351,6 +368,7 @@
         totalSqft += (hFt * wFt) * q;
 
         if (isNetActive) {
+          // নেটের অ্যালুমিনিয়াম ফ্রেম ও জালের হিসাব
           netFt += ((hFt * 2) + (wFt * 2)) * q;
         }
       }
@@ -366,11 +384,19 @@
     document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
     document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
 
+    let netMeshSqft = 0;
     if (isNetActive) {
+      netMeshSqft = (totalSqft / 2); // ১টি সাটার নেটের ফ্রেমের জন্য
       document.getElementById('netRow').style.display = 'table-row';
+      document.getElementById('netMeshRow').style.display = 'table-row';
+      document.getElementById('cNetRow').style.display = 'table-row';
+
       document.getElementById('mNetSection').innerText = netFt.toFixed(2);
+      document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
     } else {
       document.getElementById('netRow').style.display = 'none';
+      document.getElementById('netMeshRow').style.display = 'none';
+      document.getElementById('cNetRow').style.display = 'none';
     }
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
@@ -379,8 +405,9 @@
     let hardwareCost = totalSqft * rateData.hwRate;
     let fittingsCharge = totalSqft * rateData.fitRate;
     let labourCharge = totalSqft * rateData.labourRate;
+    let netMeshCost = isNetActive ? (netMeshSqft * rateData.netRate) : 0;
 
-    let totalMaterialCost = (totalAlu * rateData.aluRate) + (glassSqft * rateData.glassRate) + hardwareCost + fittingsCharge + labourCharge;
+    let totalMaterialCost = (totalAlu * rateData.aluRate) + (glassSqft * rateData.glassRate) + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
     
     let costPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;
     let profitPerSqft = rateData.profit; 
@@ -398,7 +425,6 @@
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
 
-    // Cutting Report
     let items = [
       { id18: 'cOuterSide18', id21: 'cOuterSide21', ft: outerH },
       { id18: 'cOuterTop18', id21: 'cOuterTop21', ft: outerTop },
@@ -408,6 +434,10 @@
       { id18: 'cShutterTop18', id21: 'cShutterTop21', ft: shutterTop },
       { id18: 'cShutterBottom18', id21: 'cShutterBottom21', ft: shutterBottom }
     ];
+
+    if (isNetActive) {
+      items.push({ id18: 'cNet18', id21: 'cNet21', ft: netFt });
+    }
 
     items.forEach(item => {
       document.getElementById(item.id18).innerText = Math.ceil(item.ft / 18.6) || 0;

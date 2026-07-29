@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluminium Calculator with Net</title>
+  <title>Aluminium Calculator</title>
 
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
@@ -57,7 +57,7 @@
 
     .btn-calc { background-color: #2563eb; color: white; margin-top: 10px; }
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
-    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
     .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
@@ -72,8 +72,9 @@
     .error-text { color: #ef4444 !important; font-weight: bold !important; }
 
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    table.input-table th, table.input-table td, table.report-table th, table.report-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+    table.input-table th, table.input-table td, table.report-table th, table.report-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
     table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; }
+    table.input-table input { padding: 6px; text-align: center; }
   </style>
 </head>
 <body>
@@ -143,10 +144,12 @@
       <thead>
         <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
       </thead>
-      <tbody id="winTableBody"></tbody>
+      <tbody id="winTableBody">
+        <!-- এখানে ইনপুট রো লোড হবে -->
+      </tbody>
     </table>
-    <button class="btn btn-add" onclick="addRow()">+ Add Window</button>
-    <button class="btn btn-calc" onclick="calculateAll()">Calculate</button>
+    <button class="btn btn-add" type="button" onclick="addRow()">+ Add Window</button>
+    <button class="btn btn-calc" type="button" onclick="calculateAll()">Calculate</button>
   </div>
 
   <!-- ৩. Material Details -->
@@ -212,9 +215,10 @@
 </div>
 
 <script>
-  window.onload = function() {
+  // পেজ লোড হলেই ১টি রো তৈরি হবে
+  document.addEventListener("DOMContentLoaded", function() {
     addRow();
-  };
+  });
 
   function toggleNetSection() {
     let series = document.getElementById('aluSeries').value;
@@ -233,23 +237,30 @@
     let tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="row-index"></td>
-      <td><input type="number" class="w-h" placeholder="0" value="54"></td>
-      <td><input type="number" class="w-w" placeholder="0" value="60"></td>
+      <td><input type="number" class="w-h" placeholder="Height" value="54"></td>
+      <td><input type="number" class="w-w" placeholder="Width" value="60"></td>
       <td><input type="number" class="w-q" value="1"></td>
-      <td><button class="btn-danger" onclick="removeRow(this)">X</button></td>
+      <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
     updateIndexes();
   }
 
   function removeRow(btn) {
-    btn.parentElement.parentElement.remove();
-    updateIndexes();
+    let rows = document.querySelectorAll('#winTableBody tr');
+    if (rows.length > 1) {
+      btn.closest('tr').remove();
+      updateIndexes();
+    } else {
+      alert("কমপক্ষে একটি উইন্ডো থাকতে হবে!");
+    }
   }
 
   function updateIndexes() {
     let rows = document.querySelectorAll('#winTableBody tr');
-    rows.forEach((row, i) => row.querySelector('.row-index').innerText = i + 1);
+    rows.forEach((row, i) => {
+      row.querySelector('.row-index').innerText = i + 1;
+    });
   }
 
   function cleanStr(str) {
@@ -298,8 +309,8 @@
       success: true,
       aluRate: parseVal(matched.aluRate || matched.AluRate),
       glassRate: parseVal(matched.glassRate || matched.GlassRate),
-      netRate: parseVal(matched.netRate || matched.NetRate) || 40, // డిఫాల్ట్ నెట్ రేట్
-      hwRate: parseVal(matched.hwRate || matched.HW'Rate || matched.hw),
+      netRate: parseVal(matched.netRate || matched.NetRate) || 40,
+      hwRate: parseVal(matched.hwRate || matched.HWRate || matched.hw),
       fitRate: parseVal(matched.fitRate || matched.FitRate),
       labourRate: parseVal(matched.labour || matched.Labour),
       profit: parseVal(matched.profit || matched.Profit)
@@ -368,7 +379,6 @@
         totalSqft += (hFt * wFt) * q;
 
         if (isNetActive) {
-          // নেটের অ্যালুমিনিয়াম ফ্রেম ও জালের হিসাব
           netFt += ((hFt * 2) + (wFt * 2)) * q;
         }
       }
@@ -386,7 +396,7 @@
 
     let netMeshSqft = 0;
     if (isNetActive) {
-      netMeshSqft = (totalSqft / 2); // ১টি সাটার নেটের ফ্রেমের জন্য
+      netMeshSqft = (totalSqft / 2);
       document.getElementById('netRow').style.display = 'table-row';
       document.getElementById('netMeshRow').style.display = 'table-row';
       document.getElementById('cNetRow').style.display = 'table-row';

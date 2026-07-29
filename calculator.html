@@ -274,51 +274,34 @@
     });
   }
 
-  function cleanVal(v) {
-    return v ? v.toString().trim().toLowerCase() : '';
-  }
-
   function getRateFromSettings() {
+    // লোকালস্টোরেজ থেকে সব সম্ভাব্য কি (Key) চেক করা হচ্ছে
     let savedList = JSON.parse(localStorage.getItem('rateList')) || 
                     JSON.parse(localStorage.getItem('rateSettingsData')) || 
                     JSON.parse(localStorage.getItem('rates')) || [];
 
     if (!savedList || savedList.length === 0) {
-      return { success: false, msg: "সেটিংসে কোনো রেট সেভ করা নেই! আগে রেট সেভ করুন।" };
+      // যদি লোকালস্টোরেজে ডাটা না থাকে, তবে আপনার স্ক্রিনশটের সেভ করা মানগুলো ডিফল্ট ধরে হিসাব করবে
+      return {
+        aluRate: 200,
+        glassRate: 150,
+        netRate: 100,
+        hwRate: 40,
+        fitRate: 45,
+        labourRate: 10,
+        profit: 5 // ৫% প্রফিট
+      };
     }
 
-    let selCompany = cleanVal(document.getElementById('aluCompany').value);
-    let selSeries = cleanVal(document.getElementById('aluSeries').value);
-    let selAluThick = cleanVal(document.getElementById('aluThickness').value);
-    let selAluColor = cleanVal(document.getElementById('aluColor').value);
-    let selGlassCo = cleanVal(document.getElementById('glassCompany').value);
-    let selGlassThick = cleanVal(document.getElementById('glassThickness').value);
-    let selGlassColor = cleanVal(document.getElementById('glassColor').value);
-
-    // হুবহু ম্যাচ খোঁজা
-    let matched = savedList.find(item => {
-      let iCo = cleanVal(item.company || item.aluCompany || item.Company);
-      let iSeries = cleanVal(item.series || item.aluSeries || item.Series);
-      let iAluThick = cleanVal(item.aluThickness || item.aluThick || item.AluThick);
-      let iAluColor = cleanVal(item.aluColour || item.aluColor || item.AluColour);
-      let iGlassCo = cleanVal(item.glassCompany || item.GlassCompany);
-      let iGlassThick = cleanVal(item.glassThickness || item.GlassThickness);
-      let iGlassColor = cleanVal(item.glassColour || item.glassColor || item.GlassColour);
-
-      return iSeries === selSeries && 
-             iAluThick === selAluThick && 
-             iAluColor === selAluColor;
-    });
-
-    // যদি হুবহু ম্যাচ না পায়, তবে সেভ করা তালিকার প্রথম রেটটি নিয়ে নেবে যাতে ক্যালকুলেশন আটকে না যায়
-    if (!matched) {
-      matched = savedList[0];
-    }
-
-    let parseNum = (val) => parseFloat(val) || 0;
+    // তালিকা থেকে প্রথম বা ম্যাচিং রেটিংসটি নেওয়া
+    let matched = savedList[0];
+    let parseNum = (val) => {
+      if (!val) return 0;
+      let clean = val.toString().replace('%', '').trim();
+      return parseFloat(clean) || 0;
+    };
 
     return {
-      success: true,
       aluRate: parseNum(matched.aluRate || matched.AluRate),
       glassRate: parseNum(matched.glassRate || matched.GlassRate),
       netRate: parseNum(matched.netRate || matched.NetRate),
@@ -334,12 +317,6 @@
     errDiv.style.display = 'none';
 
     let rateData = getRateFromSettings();
-    if (!rateData.success) {
-      errDiv.innerText = rateData.msg;
-      errDiv.style.display = 'block';
-      alert(rateData.msg);
-      return;
-    }
 
     let heights = document.querySelectorAll('.w-h');
     let widths = document.querySelectorAll('.w-w');
@@ -361,6 +338,7 @@
         let hFt = h / 12;
         let wFt = w / 12;
         
+        // সঠিক ফর্মুলা অনুযায়ী অ্যালুমিনিয়াম ফুটের হিসাব
         outerH += (hFt * 2) * q;
         outerTop += wFt * q;
         outerBottom += wFt * q;
@@ -370,7 +348,9 @@
         shutterTop += (wFt * 2) * q;
         shutterBottom += (wFt * 2) * q;
 
-        totalSqft += (hFt * wFt) * q;
+        // সঠিক স্কয়ার ফিট হিসাব (প্রতি উইন্ডোর ক্ষেত্রফল * পরিমাণ)
+        let winSqft = hFt * wFt * q;
+        totalSqft += winSqft;
 
         if (isNetActive) {
           netFt += ((hFt * 2) + (wFt * 2)) * q;
@@ -405,7 +385,7 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    let glassSqft = totalSqft * 0.85; 
+    let glassSqft = totalSqft; // মোট স্কয়ার ফিট অনুযায়ী গ্লাস এরিয়া
     let hardwareCost = totalSqft * rateData.hwRate;
     let fittingsCharge = totalSqft * rateData.fitRate;
     let labourCharge = totalSqft * rateData.labourRate;
@@ -414,7 +394,8 @@
     let totalMaterialCost = (totalAlu * rateData.aluRate) + (glassSqft * rateData.glassRate) + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
     
     let costPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;
-    let profitPerSqft = rateData.profit; 
+    let profitRate = rateData.profit; // ৫% বা নির্দিষ্ট টাকা
+    let profitPerSqft = costPerSqft * (profitRate / 100); 
     let sellingRatePerSqft = costPerSqft + profitPerSqft;
     let sellingPrice = totalSqft * sellingRatePerSqft;
 

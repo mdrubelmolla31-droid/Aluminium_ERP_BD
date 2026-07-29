@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluminium Calculator</title>
+  <title>RM Thai Aluminium - Calculator</title>
 
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
-    .container { max-width: 600px; margin: 0 auto; }
+    .container { max-width: 650px; margin: 0 auto; }
+
+    .header-card {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .header-card h2 { margin: 0 0 6px 0; font-size: 22px; }
+    .header-card p { margin: 0; font-size: 14px; opacity: 0.9; }
 
     .card {
       background: #ffffff;
@@ -69,7 +81,18 @@
     .mat-table tr.highlight-grand { background-color: #e0f2fe; }
     .mat-table tr.highlight-grand td { font-weight: 800; color: #0369a1; font-size: 15px; }
 
-    .error-text { color: #ef4444 !important; font-weight: bold !important; }
+    .error-msg {
+      background-color: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 13px;
+      text-align: center;
+      margin-bottom: 10px;
+      display: none;
+    }
 
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     table.input-table th, table.input-table td, table.report-table th, table.report-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
@@ -81,7 +104,40 @@
 
 <div class="container">
 
-  <!-- ১. Item Specifications -->
+  <!-- শপের নাম ও ফোন নম্বর -->
+  <div class="header-card">
+    <h2>RM Thai Aluminium</h2>
+    <p>মোবাইল: 01700-000000 | 01800-000000</p>
+  </div>
+
+  <!-- ১. Customer Details Section -->
+  <div class="card">
+    <div class="card-title">Customer Details</div>
+    
+    <div class="row">
+      <div class="col">
+        <label>Customer Name</label>
+        <input type="text" id="custName" placeholder="গ্রাহকের নাম">
+      </div>
+      <div class="col">
+        <label>Customer Phone</label>
+        <input type="text" id="custPhone" placeholder="গ্রাহকের নম্বর">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label>Project / Site Name</label>
+        <input type="text" id="projectName" placeholder="প্রজেক্ট বা সাইটের নাম">
+      </div>
+      <div class="col">
+        <label>Address</label>
+        <input type="text" id="custAddress" placeholder="ঠিকানা">
+      </div>
+    </div>
+  </div>
+
+  <!-- ২. Item Specifications -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     
@@ -137,7 +193,7 @@
     </div>
   </div>
 
-  <!-- ২. Window Dimensions -->
+  <!-- ৩. Window Dimensions -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table class="input-table">
@@ -145,17 +201,18 @@
         <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
       </thead>
       <tbody id="winTableBody">
-        <!-- এখানে ইনপুট রো লোড হবে -->
       </tbody>
     </table>
     <button class="btn btn-add" type="button" onclick="addRow()">+ Add Window</button>
     <button class="btn btn-calc" type="button" onclick="calculateAll()">Calculate</button>
   </div>
 
-  <!-- ৩. Material Details -->
+  <!-- ৪. Material Details -->
   <div class="card">
     <div class="card-title">Material Details</div>
     
+    <div id="errorAlert" class="error-msg"></div>
+
     <table class="mat-table">
       <tbody>
         <tr><td>Outer Side</td><td><span id="mOuterSide">0.00</span> ft</td></tr>
@@ -188,7 +245,7 @@
     </table>
   </div>
 
-  <!-- ৪. Cutting Report -->
+  <!-- ৫. Cutting Report -->
   <div class="card">
     <div class="card-title">Cutting Report</div>
     <table class="report-table">
@@ -215,7 +272,6 @@
 </div>
 
 <script>
-  // পেজ লোড হলেই ১টি রো তৈরি হবে
   document.addEventListener("DOMContentLoaded", function() {
     addRow();
   });
@@ -223,7 +279,6 @@
   function toggleNetSection() {
     let series = document.getElementById('aluSeries').value;
     let netSelect = document.getElementById('netSection');
-    
     if (series.includes('4')) {
       netSelect.disabled = false;
     } else {
@@ -268,48 +323,45 @@
     return str.toString().toLowerCase().replace(/[^a-z0-9]/g, '');
   }
 
-  function getRateFromSettings(company, series, thickness, color, glassCo, glassThick, glassColor) {
+  // ১০০% নিখুঁত ম্যাচিং ফাংশন
+  function getRateFromSettings(company, series, thickness, color) {
     let savedList = JSON.parse(localStorage.getItem('rateList')) || 
                     JSON.parse(localStorage.getItem('rateSettingsData')) || 
-                    JSON.parse(localStorage.getItem('rates')) || [];
+                    JSON.parse(localStorage.getItem('rates')) || 
+                    JSON.parse(localStorage.getItem('settingsData')) || [];
 
+    if (!savedList || savedList.length === 0) {
+      return { success: false, msg: "সেটিংসে কোনো রেট সেভ করা নেই! আগে সেটিংস থেকে রেট যোগ করুন।" };
+    }
+
+    // নিখুঁত ফিল্টারিং: আপনি যা সিলেক্ট করেছেন তা অবিকল মিলতে হবে
     let matched = savedList.find(item => {
       let itemCo = cleanStr(item.company || item.aluCompany || item.Company);
       let itemSeries = cleanStr(item.series || item.aluSeries || item.Series);
       let itemThick = cleanStr(item.aluThick || item.aluThickness || item.AluThick);
       let itemColor = cleanStr(item.aluColor || item.aluColour || item.AluColour);
-      let itemGlassCo = cleanStr(item.glassCo || item.glassCompany || item.GlassCo);
-      let itemGlassThick = cleanStr(item.glassThick || item.glassThickness || item.GlassThick);
-      let itemGlassColor = cleanStr(item.glassColor || item.glassColour || item.GlassColour);
 
-      let matchCo = !itemCo || itemCo === cleanStr(company);
-      let matchSeries = !itemSeries || itemSeries === cleanStr(series);
-      let matchThick = !itemThick || itemThick === cleanStr(thickness);
-      let matchColor = !itemColor || itemColor === cleanStr(color);
-      let matchGlassCo = !itemGlassCo || itemGlassCo === cleanStr(glassCo);
-      let matchGlassThick = !itemGlassThick || itemGlassThick === cleanStr(glassThick);
-      let matchGlassColor = !itemGlassColor || itemGlassColor === cleanStr(glassColor);
-
-      return matchCo && matchSeries && matchThick && matchColor && matchGlassCo && matchGlassThick && matchGlassColor;
+      return itemCo === cleanStr(company) &&
+             itemSeries === cleanStr(series) &&
+             itemThick === cleanStr(thickness) &&
+             itemColor === cleanStr(color);
     });
 
+    // ডাটা না মিললে সরাসরি Error ফেরত দেবে (কোনো ভুল/আন্দাজি রেট দেখাবে না)
     if (!matched) {
-      return {
-        success: false,
-        message: `⚠️ Rate Not Found!\nসেটিংস পেজে সিলেক্ট করা স্পেসিফিকেশনের রেট পাওয়া যায় নাই।`
+      return { 
+        success: false, 
+        msg: `রেট পাওয়া যায়নি! কোম্পানি: ${company}, সিরিজ: ${series}, থিকনেস: ${thickness}, কালার: ${color} — এই নির্দিষ্ট কম্বিনেশনের রেট সেটিংস পেজে যুক্ত করুন।` 
       };
     }
 
-    let parseVal = (val) => {
-      if (!val) return 0;
-      return parseFloat(val.toString().replace('%', '')) || 0;
-    };
+    let parseVal = (val) => parseFloat(val.toString().replace('%', '')) || 0;
 
     return {
       success: true,
       aluRate: parseVal(matched.aluRate || matched.AluRate),
       glassRate: parseVal(matched.glassRate || matched.GlassRate),
-      netRate: parseVal(matched.netRate || matched.NetRate) || 40,
+      netRate: parseVal(matched.netRate || matched.NetRate),
       hwRate: parseVal(matched.hwRate || matched.HWRate || matched.hw),
       fitRate: parseVal(matched.fitRate || matched.FitRate),
       labourRate: parseVal(matched.labour || matched.Labour),
@@ -318,34 +370,22 @@
   }
 
   function calculateAll() {
+    let errDiv = document.getElementById('errorAlert');
+    errDiv.style.display = 'none';
+
     let company = document.getElementById('aluCompany').value;
     let series = document.getElementById('aluSeries').value;
     let thickness = document.getElementById('aluThickness').value;
     let color = document.getElementById('aluColor').value;
-    let glassCo = document.getElementById('glassCompany').value;
-    let glassThick = document.getElementById('glassThickness').value;
-    let glassColor = document.getElementById('glassColor').value;
 
-    let rateData = getRateFromSettings(company, series, thickness, color, glassCo, glassThick, glassColor);
+    let rateData = getRateFromSettings(company, series, thickness, color);
 
     if (!rateData.success) {
-      alert(rateData.message);
-      let errorFields = ['mMaterialCost', 'mCostPerSqft', 'mCostPerSqft2', 'mSellingRatePerSqft', 'mProfitPerSqft', 'mSellingPrice'];
-      errorFields.forEach(id => {
-        let el = document.getElementById(id);
-        if(el) {
-          el.innerText = "Rate Not Found";
-          el.classList.add('error-text');
-        }
-      });
-      return;
+      errDiv.innerText = rateData.msg;
+      errDiv.style.display = 'block';
+      alert(rateData.msg);
+      return; // নিখুঁত রেট না পেলে এখানেই ক্যালকুলেশন বন্ধ হয়ে যাবে
     }
-
-    let errorFields = ['mMaterialCost', 'mCostPerSqft', 'mCostPerSqft2', 'mSellingRatePerSqft', 'mProfitPerSqft', 'mSellingPrice'];
-    errorFields.forEach(id => {
-      let el = document.getElementById(id);
-      if(el) el.classList.remove('error-text');
-    });
 
     let heights = document.querySelectorAll('.w-h');
     let widths = document.querySelectorAll('.w-w');

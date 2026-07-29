@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RM. Thai Aluminium - Calculator</title>
+  <title>RM. Thai Aluminium - Calculator & Cutting List</title>
 
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -19,8 +19,9 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       text-align: center;
     }
-    .header-card h2 { margin: 0 0 5px 0; font-size: 20px; }
-    .header-card p { margin: 0; font-size: 13px; opacity: 0.9; }
+    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; }
+    .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; }
+    .header-card .shop-details { font-size: 12px; opacity: 0.9; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 6px; margin-top: 6px; }
 
     .card {
       background: #ffffff;
@@ -84,18 +85,6 @@
     table.input-table th, table.input-table td, table.report-table th, table.report-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
     table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; }
     table.input-table input { padding: 6px; text-align: center; }
-    
-    .section-title {
-      font-size: 14px;
-      font-weight: bold;
-      color: #1e3a8a;
-      margin-top: 14px;
-      margin-bottom: 4px;
-      background: #eff6ff;
-      padding: 6px;
-      border-radius: 4px;
-      text-align: center;
-    }
 
     .notice-box {
       background-color: #eff6ff;
@@ -113,9 +102,13 @@
 
 <div class="container">
 
+  <!-- হেডার সেকশন: নাম ও ফোন নম্বরসহ -->
   <div class="header-card">
     <h2>RM. Thai Aluminium</h2>
     <p>Costing & Quotation Calculator</p>
+    <div class="shop-details">
+      প্রোপ্রাইটর: মোঃ রহিম | মোবাইল: 01700-000000, 01800-000000
+    </div>
   </div>
 
   <div class="card">
@@ -204,6 +197,23 @@
     </table>
   </div>
 
+  <!-- কাটিং লিস্ট / কাটিং টেবিল সেকশন -->
+  <div class="card">
+    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল</div>
+    <div class="notice-box">উইন্ডোর সাইজ অনুযায়ী কাটিং মালের তালিকা (ফিটে)</div>
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>মালের নাম (Profile)</th>
+          <th>কাটিং মাপ (ফিটে)</th>
+        </tr>
+      </thead>
+      <tbody id="cuttingTableBody">
+        <tr><td colspan="2">ডাটা হিসাব করা হচ্ছে...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
 
 <script>
@@ -281,7 +291,6 @@
     });
   }
 
-  // রেট সেটিংস থেকে হুবহু ম্যাচ করে রেট তুলে আনা
   function getMatchedRate() {
     let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
 
@@ -293,7 +302,6 @@
     let curGlassThick = document.getElementById('glassThickness').value;
     let curGlassColor = document.getElementById('glassColour').value;
 
-    // ১. প্রথমে হুবহু ভেরিয়েশন ম্যাচ করার চেষ্টা করবে
     let matched = rateList.find(item => 
       item.company === curCompany &&
       item.series === curSeries &&
@@ -304,7 +312,6 @@
       item.glassColour === curGlassColor
     );
 
-    // ২. হুবহু না পেলে শুধু সিরিজ ও থিকনেস মিলিয়ে খুঁজবে
     if (!matched) {
       matched = rateList.find(item => 
         item.series === curSeries &&
@@ -312,7 +319,6 @@
       );
     }
 
-    // ৩. তাও না পেলে তালিকার প্রথমটি বা ডিফল্ট সেফ রেট ধরবে যাতে লস না হয়
     if (!matched) {
       matched = rateList[0] || {
         aluRate: 250,
@@ -398,6 +404,22 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
+    // কাটিং টেবিল আপডেট করা
+    let cuttingBody = document.getElementById('cuttingTableBody');
+    let cuttingHtml = `
+      <tr><td>Outer Side (আউটার সাইড)</td><td>${outerH.toFixed(2)} ft</td></tr>
+      <tr><td>Outer Top (আউটার টপ)</td><td>${outerTop.toFixed(2)} ft</td></tr>
+      <tr><td>Outer Bottom (আউটার বটম)</td><td>${outerBottom.toFixed(2)} ft</td></tr>
+      <tr><td>Shutter Lock (শাটার লক)</td><td>${shutterLock.toFixed(2)} ft</td></tr>
+      <tr><td>Shutter Interlock (শাটার ইন্টারলক)</td><td>${shutterInterlock.toFixed(2)} ft</td></tr>
+      <tr><td>Shutter Top (শাটার টপ)</td><td>${shutterTop.toFixed(2)} ft</td></tr>
+      <tr><td>Shutter Bottom (শাটার বটম)</td><td>${shutterBottom.toFixed(2)} ft</td></tr>
+    `;
+    if (isNetActive) {
+      cuttingHtml += `<tr><td>Net Frame Aluminium (নেট ফ্রেম)</td><td>${netFt.toFixed(2)} ft</td></tr>`;
+    }
+    cuttingBody.innerHTML = cuttingHtml;
+
     let glassSqft = totalSqft; 
     let aluTotalCost = totalAlu * (rateData.aluRate || 0);
     let glassTotalCost = glassSqft * (rateData.glassRate || 0);
@@ -408,7 +430,6 @@
 
     let totalMaterialCost = aluTotalCost + glassTotalCost + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
     
-    // প্রফিট হিসাব
     let baseSumRates = (rateData.aluRate || 0) + (rateData.glassRate || 0) + (rateData.hwRate || 0) + (rateData.fitRate || 0) + (rateData.labourRate || 0);
     let profitPercent = rateData.profit || 0;
     let profitPerSqft = baseSumRates * (profitPercent / 100); 

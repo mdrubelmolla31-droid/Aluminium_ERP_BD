@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quotation & Calculation Invoice</title>
-  <!-- HTML2PDF Library for High Quality HD PDF -->
+  <title>Customer Quotation</title>
+  <!-- HTML2PDF Library for High-Definition PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     * {
@@ -19,7 +19,7 @@
     }
 
     .container {
-      max-width: 800px;
+      max-width: 650px;
       margin: 0 auto;
     }
 
@@ -34,6 +34,7 @@
     h2, h3 {
       color: #1a73e8;
       margin-top: 0;
+      text-align: center;
     }
 
     label {
@@ -44,48 +45,76 @@
       margin-bottom: 4px;
     }
 
-    input[type="text"], input[type="date"] {
+    input, select {
       width: 100%;
-      padding: 10px;
+      padding: 9px;
       font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 6px;
       outline: none;
+      background-color: #fdfdfd;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .row .col {
+      flex: 1;
     }
 
     .btn {
       width: 100%;
-      padding: 12px;
+      padding: 11px;
       border: none;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 14px;
       margin-top: 10px;
     }
 
+    .btn-primary { background-color: #1a73e8; color: white; }
     .btn-success { background-color: #28a745; color: white; }
-    .btn-danger { background-color: #dc3545; color: white; padding: 6px 10px; font-size: 12px; width: auto; }
+    .btn-danger { background-color: #dc3545; color: white; padding: 4px 6px; font-size: 11px; width: auto; }
 
-    /* Printable Quotation Sheet (HD) */
+    /* Printable Quotation Area (HD Format) */
     #quotationPrintArea {
       background: #ffffff;
       padding: 20px;
       border: 1px solid #ddd;
       border-radius: 6px;
+      color: #000;
     }
 
-    .header-table {
-      width: 100%;
-      margin-bottom: 15px;
+    .shop-header {
+      text-align: center;
       border-bottom: 2px solid #1a73e8;
-      padding-bottom: 8px;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
     }
 
-    .header-title {
-      font-size: 20px;
+    .shop-name {
+      font-size: 22px;
       font-weight: bold;
       color: #1a73e8;
+      margin: 0;
+    }
+
+    .shop-details, .cust-details {
+      font-size: 13px;
+      margin: 3px 0;
+      color: #333;
+    }
+
+    .info-flex {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      background: #f9f9f9;
+      padding: 8px;
+      border-radius: 5px;
     }
 
     .quot-table {
@@ -95,21 +124,22 @@
     }
 
     .quot-table th, .quot-table td {
-      border: 1px solid #333;
-      padding: 8px;
+      border: 1px solid #444;
+      padding: 7px 5px;
       text-align: center;
       font-size: 12px;
     }
 
     .quot-table th {
-      background-color: #f0f4f8;
-      font-weight: bold;
+      background-color: #1a73e8;
+      color: white;
+      white-space: nowrap;
     }
 
     .total-box {
       margin-top: 15px;
       text-align: right;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       color: #1a73e8;
     }
@@ -129,7 +159,7 @@
     }
 
     .history-table th {
-      background-color: #1a73e8;
+      background-color: #333;
       color: white;
     }
   </style>
@@ -138,74 +168,128 @@
 
   <div class="container">
 
-    <!-- Customer Details Form -->
+    <!-- Item Input & Calculator Form -->
     <div class="card">
-      <h2>Quotation Details</h2>
-      <label>Customer Name</label>
-      <input type="text" id="custName" placeholder="কাস্টমারের নাম লিখুন">
+      <h2>Calculation & Quotation Maker</h2>
 
-      <label>Customer Phone</label>
-      <input type="text" id="custPhone" placeholder="ফোন নম্বর লিখুন">
+      <!-- Shop Info -->
+      <div class="row">
+        <div class="col">
+          <label>Shop Name</label>
+          <input type="text" id="shopName" value="Aluminium & Glass House">
+        </div>
+        <div class="col">
+          <label>Shop Mobile No</label>
+          <input type="text" id="shopPhone" value="01700-000000">
+        </div>
+      </div>
 
-      <label>Date</label>
-      <input type="date" id="quotDate">
+      <!-- Customer Info -->
+      <div class="row">
+        <div class="col">
+          <label>Customer Name</label>
+          <input type="text" id="custName" placeholder="কাস্টমারের নাম">
+        </div>
+        <div class="col">
+          <label>Customer Mobile</label>
+          <input type="text" id="custPhone" placeholder="কাস্টমারের মোবাইল">
+        </div>
+      </div>
 
+      <label>Item Description / Specification</label>
+      <input type="text" id="itemDesc" value="KAI 3&quot; Sliding Window | Silver | 5mm Clear Glass">
+
+      <!-- Measurement Inputs -->
+      <div class="row">
+        <div class="col">
+          <label>Width (Inch/Ft)</label>
+          <input type="number" id="itemWidth" placeholder="Width" oninput="calculateItem()">
+        </div>
+        <div class="col">
+          <label>Height (Inch/Ft)</label>
+          <input type="number" id="itemHeight" placeholder="Height" oninput="calculateItem()">
+        </div>
+        <div class="col">
+          <label>Qty (টি)</label>
+          <input type="number" id="itemQty" value="1" placeholder="Qty" oninput="calculateItem()">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label>Total Sqft</label>
+          <input type="number" id="itemSqft" placeholder="Sqft" oninput="calculateItem()">
+        </div>
+        <div class="col">
+          <label>Selling Rate (৳/Sqft)</label>
+          <input type="number" id="itemSellingRate" placeholder="Selling Rate" oninput="calculateItem()">
+        </div>
+        <div class="col">
+          <label>Total Price (৳)</label>
+          <input type="number" id="itemTotal" placeholder="Total" readonly style="background:#eee;">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="addItemToQuotation()">Add to Quotation</button>
       <button class="btn btn-success" onclick="downloadHD_PDF()">Download HD PDF & Save History</button>
     </div>
 
-    <!-- Printable Quotation Section -->
+    <!-- Printable Quotation Sheet Preview -->
     <div class="card">
       <div id="quotationPrintArea">
-        <table class="header-table">
-          <tr>
-            <td style="text-align: left;">
-              <div class="header-title">ALUMINIUM FABRICATION</div>
-              <div style="font-size: 11px; color: #555;">High-Quality Glass & Aluminium Works</div>
-            </td>
-            <td style="text-align: right; font-size: 12px;">
-              <b>Quotation No:</b> <span id="lblQuotNo">#1001</span><br>
-              <b>Date:</b> <span id="lblDate">--/--/----</span>
-            </td>
-          </tr>
-        </table>
-
-        <div style="font-size: 13px; margin-bottom: 10px;">
-          <b>Customer Name:</b> <span id="lblCustName">--</span><br>
-          <b>Phone:</b> <span id="lblCustPhone">--</span>
+        
+        <!-- Shop Header -->
+        <div class="shop-header">
+          <p class="shop-name" id="printShopName">Aluminium & Glass House</p>
+          <p class="shop-details">Mobile: <span id="printShopPhone">01700-000000</span></p>
         </div>
 
-        <!-- Dynamic Calculation Table -->
+        <!-- Customer & Date Info -->
+        <div class="info-flex">
+          <div>
+            <div class="cust-details"><b>Customer:</b> <span id="printCustName">--</span></div>
+            <div class="cust-details"><b>Mobile:</b> <span id="printCustPhone">--</span></div>
+          </div>
+          <div style="text-align: right;">
+            <div class="cust-details"><b>Qtn No:</b> <span id="printQtnNo">#1001</span></div>
+            <div class="cust-details"><b>Date:</b> <span id="printDate">--/--/----</span></div>
+          </div>
+        </div>
+
+        <!-- Clean Customer Quotation Table -->
         <table class="quot-table">
           <thead>
             <tr>
               <th>#</th>
-              <th>Specification / Description</th>
+              <th>Description</th>
+              <th>Size</th>
+              <th>Qty</th>
               <th>Total Sqft</th>
-              <th>Unit Price (৳/Sqft)</th>
+              <th>Selling Rate (৳)</th>
               <th>Total Price (৳)</th>
+              <th>Action</th>
             </tr>
           </thead>
-          <tbody id="pdfTableBody">
-            <!-- ক্যালকুলেটরের ডাটা অটোমেটিক এখানে আসবে -->
+          <tbody id="quotationTableBody">
+            <!-- ডাইনামিক ফিল্ড -->
           </tbody>
         </table>
 
         <div class="total-box">
-          Grand Total Selling Price: ৳<span id="lblGrandTotal">0.00</span>
+          Grand Total Selling Price: ৳<span id="printGrandTotal">0.00</span>
         </div>
       </div>
     </div>
 
-    <!-- History List -->
+    <!-- Quotation History Section -->
     <div class="card">
       <h3>Quotation History</h3>
       <table class="history-table">
         <thead>
           <tr>
-            <th>Quot No</th>
+            <th>Qtn No</th>
             <th>Customer</th>
-            <th>Date</th>
-            <th>Total Price</th>
+            <th>Total Amount</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -218,117 +302,178 @@
   </div>
 
   <script>
-    // ক্যালকুলেটর থেকে ডাটা ও হিস্ট্রি লোড
-    let savedCalculations = JSON.parse(localStorage.getItem('savedCalculations')) || JSON.parse(localStorage.getItem('savedRates')) || [];
+    let currentItems = JSON.parse(localStorage.getItem('tempQtnItems')) || [];
     let quotationHistory = JSON.parse(localStorage.getItem('quotationHistory')) || [];
 
     window.onload = function() {
-      document.getElementById('quotDate').valueAsDate = new Date();
       renderQuotationTable();
       renderHistory();
     };
 
-    function renderQuotationTable() {
-      let tbody = document.getElementById('pdfTableBody');
-      tbody.innerHTML = '';
-      let grandTotal = 0;
+    // রিয়েল-টাইম অটো ক্যালকুলেশন
+    function calculateItem() {
+      let w = parseFloat(document.getElementById('itemWidth').value) || 0;
+      let h = parseFloat(document.getElementById('itemHeight').value) || 0;
+      let qty = parseFloat(document.getElementById('itemQty').value) || 1;
+      let sqftInput = document.getElementById('itemSqft');
+      let rate = parseFloat(document.getElementById('itemSellingRate').value) || 0;
+      
+      let singleSqft = 0;
+      let totalSqft = 0;
 
-      if (savedCalculations.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5">ক্যালকুলেটর থেকে কোনো সেভ করা ডাটা পাওয়া যায়নি!</td></tr>`;
+      if(w > 0 && h > 0) {
+        // জানালার একটির স্কয়ার ফিট (ফিট হলে সরাসরি w*h, ইঞ্চিতে হলে (w*h)/144 করতে পারেন)
+        singleSqft = (w * h); 
+        totalSqft = singleSqft * qty;
+        sqftInput.value = totalSqft.toFixed(2);
+      } else {
+        totalSqft = parseFloat(sqftInput.value) || 0;
+      }
+
+      let totalPrice = totalSqft * rate;
+      document.getElementById('itemTotal').value = totalPrice.toFixed(2);
+    }
+
+    // কোটেশন টেবিলে আইটেম যোগ করা
+    function addItemToQuotation() {
+      let desc = document.getElementById('itemDesc').value;
+      let w = document.getElementById('itemWidth').value || '-';
+      let h = document.getElementById('itemHeight').value || '-';
+      let size = (w !== '-' && h !== '-') ? `${w}" x ${h}"` : 'Custom';
+      let qty = parseFloat(document.getElementById('itemQty').value) || 1;
+      let totalSqft = parseFloat(document.getElementById('itemSqft').value) || 0;
+      let rate = parseFloat(document.getElementById('itemSellingRate').value) || 0;
+      let totalPrice = parseFloat(document.getElementById('itemTotal').value) || 0;
+
+      if(totalSqft <= 0 || rate <= 0) {
+        alert('দয়া করে স্কয়ার ফিট এবং সেলিং রেট সঠিকভাবে বসান!');
         return;
       }
 
-      savedCalculations.forEach((item, index) => {
-        // ক্যালকুলেটরের আসল হিসাব বের করা
-        let sqft = parseFloat(item.totalSqft || item.sqft) || 100; // স্কয়ার ফিট
-        let unitRate = parseFloat(item.unitPrice || item.sellingPricePerSqft) || 
-                       ((parseFloat(item.aluRate)||0) + (parseFloat(item.glassRate)||0) + (parseFloat(item.hwRate)||0) + (parseFloat(item.fitRate)||0) + (parseFloat(item.labourRate)||0));
-        
-        let totalPrice = parseFloat(item.totalSellingPrice) || (sqft * unitRate);
-        grandTotal += totalPrice;
+      let newItem = { desc, size, qty, totalSqft, rate, totalPrice };
+      currentItems.push(newItem);
+      localStorage.setItem('tempQtnItems', JSON.stringify(currentItems));
+      
+      renderQuotationTable();
+      clearInputs();
+    }
 
-        let description = `${item.company || ''} ${item.series || ''} (${item.aluColour || 'Alu'}) | Glass: ${item.glassCo || ''} ${item.glassThick || ''} ${item.glassColour || ''}`;
+    function clearInputs() {
+      document.getElementById('itemWidth').value = '';
+      document.getElementById('itemHeight').value = '';
+      document.getElementById('itemQty').value = '1';
+      document.getElementById('itemSqft').value = '';
+      document.getElementById('itemSellingRate').value = '';
+      document.getElementById('itemTotal').value = '';
+    }
 
+    // কোটেশন টেবিল রেন্ডার করা
+    function renderQuotationTable() {
+      let tbody = document.getElementById('quotationTableBody');
+      tbody.innerHTML = '';
+      let grandTotal = 0;
+
+      if(currentItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8">কোনো আইটেম যোগ করা হয়নি</td></tr>`;
+        document.getElementById('printGrandTotal').innerText = '0.00';
+        return;
+      }
+
+      currentItems.forEach((item, index) => {
+        grandTotal += item.totalPrice;
         tbody.innerHTML += `
           <tr>
             <td>${index + 1}</td>
-            <td style="text-align: left;">${description}</td>
-            <td>${sqft.toFixed(2)}</td>
-            <td>৳${unitRate.toFixed(2)}</td>
-            <td>৳${totalPrice.toFixed(2)}</td>
+            <td style="text-align:left;">${item.desc}</td>
+            <td>${item.size}</td>
+            <td>${item.qty} টি</td>
+            <td>${item.totalSqft.toFixed(2)}</td>
+            <td>৳${item.rate}</td>
+            <td>৳${item.totalPrice.toFixed(2)}</td>
+            <td><button class="btn-danger" onclick="deleteItem(${index})">X</button></td>
           </tr>
         `;
       });
 
-      document.getElementById('lblGrandTotal').innerText = grandTotal.toFixed(2);
+      document.getElementById('printGrandTotal').innerText = grandTotal.toFixed(2);
     }
 
-    // HD PDF জেনারেট এবং হিস্ট্রিতে সেভ করা
+    function deleteItem(index) {
+      currentItems.splice(index, 1);
+      localStorage.setItem('tempQtnItems', JSON.stringify(currentItems));
+      renderQuotationTable();
+    }
+
+    // HD PDF ডাউনলোড এবং হিস্ট্রি সেভ
     function downloadHD_PDF() {
-      let custName = document.getElementById('custName').value.trim() || 'Valued Customer';
-      let custPhone = document.getElementById('custPhone').value.trim() || 'N/A';
-      let dateVal = document.getElementById('quotDate').value;
-      let qNo = '#' + Math.floor(1000 + Math.random() * 9000);
-      let grandTotal = document.getElementById('lblGrandTotal').innerText;
+      let shopName = document.getElementById('shopName').value;
+      let shopPhone = document.getElementById('shopPhone').value;
+      let custName = document.getElementById('custName').value || 'General Customer';
+      let custPhone = document.getElementById('custPhone').value || 'N/A';
+      
+      document.getElementById('printShopName').innerText = shopName;
+      document.getElementById('printShopPhone').innerText = shopPhone;
+      document.getElementById('printCustName').innerText = custName;
+      document.getElementById('printCustPhone').innerText = custPhone;
+      
+      let qtnNo = '#' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('printQtnNo').innerText = qtnNo;
+      
+      let today = new Date().toLocaleDateString();
+      document.getElementById('printDate').innerText = today;
 
-      document.getElementById('lblCustName').innerText = custName;
-      document.getElementById('lblCustPhone').innerText = custPhone;
-      document.getElementById('lblDate').innerText = dateVal;
-      document.getElementById('lblQuotNo').innerText = qNo;
+      let grandTotal = document.getElementById('printGrandTotal').innerText;
 
-      // ১. হিস্ট্রিতে সেভ
-      let historyItem = {
-        id: qNo,
-        name: custName,
-        phone: custPhone,
-        date: dateVal,
-        total: grandTotal
+      // হিস্ট্রিতে সেভ করা
+      let historyObj = {
+        qtnNo: qtnNo,
+        custName: custName,
+        total: grandTotal,
+        date: today
       };
 
-      quotationHistory.unshift(historyItem);
+      quotationHistory.unshift(historyObj);
       localStorage.setItem('quotationHistory', JSON.stringify(quotationHistory));
       renderHistory();
 
-      // ২. HD PDF ফাইল ডাউনলোড (High Scale)
+      // HD PDF
       const element = document.getElementById('quotationPrintArea');
       const opt = {
-        margin:       [10, 10, 10, 10],
-        filename:     `Quotation_${custName}_${qNo}.pdf`,
+        margin:       10,
+        filename:     `Quotation_${custName}_${qtnNo}.pdf`,
         image:        { type: 'jpeg', quality: 1.0 },
-        html2canvas:  { scale: 3, useCORS: true, letterRendering: true }, // scale 3 নিশ্চিত করে লেখা ঘোলা হবে না
+        html2canvas:  { scale: 3, useCORS: true, letterRendering: true },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
       html2pdf().set(opt).from(element).save();
     }
 
+    // হিস্ট্রি টেবিল
     function renderHistory() {
       let tbody = document.getElementById('historyTableBody');
       tbody.innerHTML = '';
 
-      if (quotationHistory.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5">কোনো কোটেশন হিস্ট্রি নেই</td></tr>`;
+      if(quotationHistory.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4">কোনো হিস্ট্রি নেই</td></tr>`;
         return;
       }
 
-      quotationHistory.forEach((item, index) => {
+      quotationHistory.forEach((h, idx) => {
         tbody.innerHTML += `
           <tr>
-            <td>${item.id}</td>
-            <td>${item.name}</td>
-            <td>${item.date}</td>
-            <td>৳${item.total}</td>
-            <td>
-              <button class="btn-danger" onclick="deleteHistory(${index})">Delete</button>
-            </td>
+            <td>${h.qtnNo}</td>
+            <td>${h.custName}</td>
+            <td>৳${h.total}</td>
+            <td><button class="btn-danger" onclick="deleteHistory(${idx})">Delete</button></td>
           </tr>
         `;
       });
     }
 
-    function deleteHistory(index) {
-      if (confirm('আপনি কি এই কোটেশন হিস্ট্রিটি ডিলিট করতে চান?')) {
-        quotationHistory.splice(index, 1);
+    function deleteHistory(idx) {
+      if(confirm('হিস্ট্রিটি ডিলিট করতে চান?')) {
+        quotationHistory.splice(idx, 1);
         localStorage.setItem('quotationHistory', JSON.stringify(quotationHistory));
         renderHistory();
       }

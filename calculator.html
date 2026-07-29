@@ -21,7 +21,26 @@
     }
     .header-card h2 { margin: 0 0 5px 0; font-size: 22px; }
     .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; }
-    .header-card .shop-details { font-size: 12px; opacity: 0.9; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 6px; margin-top: 6px; }
+    
+    .shop-input-box {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 8px;
+      border-radius: 6px;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .shop-input-box input {
+      padding: 6px 10px;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 4px;
+      background: #fff;
+      color: #0f172a;
+      text-align: center;
+      font-weight: 600;
+    }
 
     .card {
       background: #ffffff;
@@ -83,8 +102,21 @@
 
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     table.input-table th, table.input-table td, table.report-table th, table.report-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
-    table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; }
+    table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 12px; }
     table.input-table input { padding: 6px; text-align: center; }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      background: #eff6ff;
+      padding: 8px;
+      border-radius: 4px;
+      text-align: center;
+      border: 1px solid #bfdbfe;
+    }
 
     .notice-box {
       background-color: #eff6ff;
@@ -102,12 +134,14 @@
 
 <div class="container">
 
-  <!-- হেডার সেকশন: নাম ও ফোন নম্বরসহ -->
+  <!-- হেডার সেকশন: ডিফল্ট নাম ও নম্বরসহ -->
   <div class="header-card">
     <h2>RM. Thai Aluminium</h2>
     <p>Costing & Quotation Calculator</p>
-    <div class="shop-details">
-      প্রোপ্রাইটর: মোঃ রহিম | মোবাইল: 01700-000000, 01800-000000
+    
+    <div class="shop-input-box">
+      <input type="text" id="shopOwnerName" value="RM. Thai Aluminium" placeholder="দোকানের নাম লিখুন" oninput="saveHeaderInfo()">
+      <input type="text" id="shopPhone" value="01676474412" placeholder="মোবাইল নম্বর লিখুন" oninput="saveHeaderInfo()">
     </div>
   </div>
 
@@ -197,21 +231,52 @@
     </table>
   </div>
 
-  <!-- কাটিং লিস্ট / কাটিং টেবিল সেকশন -->
+  <!-- কাটিং টেবিল সেকশন -->
   <div class="card">
     <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল</div>
-    <div class="notice-box">উইন্ডোর সাইজ অনুযায়ী কাটিং মালের তালিকা (ফিটে)</div>
+    
+    <!-- ১৮.৫ ফিট বার সেকশন -->
+    <div class="section-title">18.5 ft Bar Section (Outer Side, Shutter Lock, Interlock)</div>
     <table class="report-table">
       <thead>
-        <tr>
-          <th>মালের নাম (Profile)</th>
-          <th>কাটিং মাপ (ফিটে)</th>
-        </tr>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (18.5 ft)</th></tr>
       </thead>
-      <tbody id="cuttingTableBody">
-        <tr><td colspan="2">ডাটা হিসাব করা হচ্ছে...</td></tr>
+      <tbody id="cutting18Body">
+        <tr><td>Outer Side (18.5 ft)</td><td id="c18_outerSideLen">0.00 ft</td><td id="c18_outerSideBar">0</td></tr>
+        <tr><td>Shutter Lock (18.5 ft)</td><td id="c18_lockLen">0.00 ft</td><td id="c18_lockBar">0</td></tr>
+        <tr><td>Shutter Interlock (18.5 ft)</td><td id="c18_intLen">0.00 ft</td><td id="c18_intBar">0</td></tr>
       </tbody>
     </table>
+
+    <!-- ২১ ফিট বার সেকশন -->
+    <div class="section-title" style="margin-top: 16px;">21 ft Bar Section (Outer Top/Bottom, Shutter Top/Bottom & 21ft Sides)</div>
+    <table class="report-table">
+      <thead>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (21 ft)</th></tr>
+      </thead>
+      <tbody id="cutting21Body">
+        <tr><td>Outer Side (21 ft)</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
+        <tr><td>Outer Top (Always 21 ft)</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
+        <tr><td>Outer Bottom (Always 21 ft)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
+        <tr><td>Shutter Lock (21 ft)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
+        <tr><td>Shutter Interlock (21 ft)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
+        <tr><td>Shutter Top (Always 21 ft)</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
+        <tr><td>Shutter Bottom (Always 21 ft)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
+      </tbody>
+    </table>
+
+    <!-- নেট সেকশন (যদি থাকে) -->
+    <div id="netCuttingSection" style="display: none;">
+      <div class="section-title" style="margin-top: 16px;">Net Section (21 ft Bar - Half of Total Running Length)</div>
+      <table class="report-table">
+        <thead>
+          <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (21 ft)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Net Section Aluminium (21 ft Bar)</td><td id="cNetLen">0.00 ft</td><td id="cNetBar">0</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div>
@@ -219,6 +284,7 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     initCalculatorDropdowns();
+    loadHeaderInfo();
     addRow();
     toggleNetSection();
     calculateAll();
@@ -245,6 +311,20 @@
       opt.textContent = item;
       select.appendChild(opt);
     });
+  }
+
+  function saveHeaderInfo() {
+    let name = document.getElementById('shopOwnerName').value;
+    let phone = document.getElementById('shopPhone').value;
+    localStorage.setItem('rm_shop_name', name);
+    localStorage.setItem('rm_shop_phone', phone);
+  }
+
+  function loadHeaderInfo() {
+    let name = localStorage.getItem('rm_shop_name') || 'RM. Thai Aluminium';
+    let phone = localStorage.getItem('rm_shop_phone') || '01676474412';
+    document.getElementById('shopOwnerName').value = name;
+    document.getElementById('shopPhone').value = phone;
   }
 
   function toggleNetSection() {
@@ -397,28 +477,48 @@
       document.getElementById('netMeshRow').style.display = 'table-row';
       document.getElementById('mNetSection').innerText = netFt.toFixed(2);
       document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
+      document.getElementById('netCuttingSection').style.display = 'block';
+      
+      document.getElementById('cNetLen').innerText = netFt.toFixed(2) + " ft";
+      document.getElementById('cNetBar').innerText = Math.ceil(netFt / 21);
     } else {
       document.getElementById('netRow').style.display = 'none';
       document.getElementById('netMeshRow').style.display = 'none';
+      document.getElementById('netCuttingSection').style.display = 'none';
     }
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // কাটিং টেবিল আপডেট করা
-    let cuttingBody = document.getElementById('cuttingTableBody');
-    let cuttingHtml = `
-      <tr><td>Outer Side (আউটার সাইড)</td><td>${outerH.toFixed(2)} ft</td></tr>
-      <tr><td>Outer Top (আউটার টপ)</td><td>${outerTop.toFixed(2)} ft</td></tr>
-      <tr><td>Outer Bottom (আউটার বটম)</td><td>${outerBottom.toFixed(2)} ft</td></tr>
-      <tr><td>Shutter Lock (শাটার লক)</td><td>${shutterLock.toFixed(2)} ft</td></tr>
-      <tr><td>Shutter Interlock (শাটার ইন্টারলক)</td><td>${shutterInterlock.toFixed(2)} ft</td></tr>
-      <tr><td>Shutter Top (শাটার টপ)</td><td>${shutterTop.toFixed(2)} ft</td></tr>
-      <tr><td>Shutter Bottom (শাটার বটম)</td><td>${shutterBottom.toFixed(2)} ft</td></tr>
-    `;
-    if (isNetActive) {
-      cuttingHtml += `<tr><td>Net Frame Aluminium (নেট ফ্রেম)</td><td>${netFt.toFixed(2)} ft</td></tr>`;
-    }
-    cuttingBody.innerHTML = cuttingHtml;
+    // কাটিং টেবিল আপডেট (18.5 ft ও 21 ft বার হিসাব)
+    document.getElementById('c18_outerSideLen').innerText = outerH.toFixed(2) + " ft";
+    document.getElementById('c18_outerSideBar').innerText = Math.ceil(outerH / 18.5);
+
+    document.getElementById('c18_lockLen').innerText = shutterLock.toFixed(2) + " ft";
+    document.getElementById('c18_lockBar').innerText = Math.ceil(shutterLock / 18.5);
+
+    document.getElementById('c18_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
+    document.getElementById('c18_intBar').innerText = Math.ceil(shutterInterlock / 18.5);
+
+    document.getElementById('c21_outerSideLen').innerText = outerH.toFixed(2) + " ft";
+    document.getElementById('c21_outerSideBar').innerText = Math.ceil(outerH / 21);
+
+    document.getElementById('c21_topLen').innerText = outerTop.toFixed(2) + " ft";
+    document.getElementById('c21_topBar').innerText = Math.ceil(outerTop / 21);
+
+    document.getElementById('c21_botLen').innerText = outerBottom.toFixed(2) + " ft";
+    document.getElementById('c21_botBar').innerText = Math.ceil(outerBottom / 21);
+
+    document.getElementById('c21_lockLen').innerText = shutterLock.toFixed(2) + " ft";
+    document.getElementById('c21_lockBar').innerText = Math.ceil(shutterLock / 21);
+
+    document.getElementById('c21_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
+    document.getElementById('c21_intBar').innerText = Math.ceil(shutterInterlock / 21);
+
+    document.getElementById('c21_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
+    document.getElementById('c21_sTopBar').innerText = Math.ceil(shutterTop / 21);
+
+    document.getElementById('c21_sBotLen').innerText = shutterBottom.toFixed(2) + " ft";
+    document.getElementById('c21_sBotBar').innerText = Math.ceil(shutterBottom / 21);
 
     let glassSqft = totalSqft; 
     let aluTotalCost = totalAlu * (rateData.aluRate || 0);

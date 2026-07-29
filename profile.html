@@ -13,7 +13,7 @@
       padding: 15px;
     }
 
-    /* হেডার সেকশন (মুছুন বাটন ছাড়া) */
+    /* হেডার সেকশন */
     .top-bar {
       display: flex;
       align-items: center;
@@ -45,7 +45,13 @@
       margin-top: 20px;
     }
 
-    /* সিঙ্গেল কার্ড ডিজাইন */
+    /* লিঙ্ক ও কার্ডের স্টাইল */
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
     .menu-card {
       background-color: #111d33;
       border: 1px solid #1f3354;
@@ -81,7 +87,7 @@
 </head>
 <body>
 
-  <!-- হেডার (মুছুন বাটন ছাড়া) -->
+  <!-- হেডার -->
   <div class="top-bar">
     <button class="back-btn" onclick="history.back()">← Back</button>
     <div class="header-title">Aluminum Profile</div>
@@ -102,11 +108,13 @@
       <div class="card-title">Sliding Profile<br>(স্লাইডিং প্রোফাইল)</div>
     </div>
 
-    <!-- ৩. EDF Book -->
-    <div class="menu-card">
-      <div class="card-icon">📖</div>
-      <div class="card-title">EDF Book<br>(ইডিএফ বুক)</div>
-    </div>
+    <!-- ৩. EDF Book (ফাইল লিঙ্ক যুক্ত করা হয়েছে) -->
+    <a href="EDF_Book.pdf" target="_blank" class="card-link">
+      <div class="menu-card">
+        <div class="card-icon">📖</div>
+        <div class="card-title">EDF Book<br>(ইডিএফ বুক)</div>
+      </div>
+    </a>
 
     <!-- ৪. Detail Catalog -->
     <div class="menu-card">

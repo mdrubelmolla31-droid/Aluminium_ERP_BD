@@ -59,7 +59,6 @@
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
 
-    /* Material Details Table (২য় ছবির মূল লেআউট) */
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
     .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .mat-table td:first-child { text-align: left; color: #334155; font-weight: 500; }
@@ -81,7 +80,7 @@
 
 <div class="container">
 
-  <!-- ১. কনফিগারেশন সেকশন -->
+  <!-- ১. কনফিগারেশন সেকশন (সকল ড্রপডাউনসহ) -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     
@@ -120,13 +119,24 @@
         <select id="aluThickness"><option>1.0 mm</option><option>1.2 mm</option><option>1.5 mm</option></select>
       </div>
       <div class="col">
+        <label>Glass Company</label>
+        <select id="glassCompany"><option>Nasir</option><option>PHP</option><option>Other</option></select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
         <label>Glass Thickness</label>
         <select id="glassThickness"><option>5 mm</option><option>6 mm</option></select>
+      </div>
+      <div class="col">
+        <label>Glass Colour</label>
+        <select id="glassColor"><option>Clear</option><option>Dark Blue</option><option>Green</option><option>Mercury</option></select>
       </div>
     </div>
   </div>
 
-  <!-- ২. উইন্ডো ইনপুট -->
+  <!-- ২. উইন্ডো মাপ ইনপুট -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table class="input-table">
@@ -139,7 +149,7 @@
     <button class="btn btn-calc" onclick="calculateAll()">Calculate</button>
   </div>
 
-  <!-- ৩. Material Details (দ্বিতীয় ছবির পূর্ণাঙ্গ টেবিল) -->
+  <!-- ৩. Material Details (দ্বিতীয় ছবির হুবহু ডিজাইন) -->
   <div class="card">
     <div class="card-title">Material Details</div>
     
@@ -157,10 +167,10 @@
 
         <tr class="highlight-blue"><td>Total Aluminium</td><td><span id="mTotalAlu">0.00</span> ft</td></tr>
         
-        <tr><td>Glass</td><td><span id="mGlassSqft">0.00</span> Sqft</td></tr>
-        <tr><td>Hardware</td><td><span id="mHardware">0.00</span> ৳</td></tr>
-        <tr><td>Fittings</td><td><span id="mFittings">0.00</span> ৳</td></tr>
-        <tr><td>Labour</td><td><span id="mLabour">0.00</span> ৳</td></tr>
+        <tr><td>Glass Area</td><td><span id="mGlassSqft">0.00</span> Sqft</td></tr>
+        <tr><td>Hardware Cost</td><td><span id="mHardware">0.00</span> ৳</td></tr>
+        <tr><td>Fittings Charge</td><td><span id="mFittings">0.00</span> ৳</td></tr>
+        <tr><td>Labour Charge</td><td><span id="mLabour">0.00</span> ৳</td></tr>
         
         <tr class="highlight"><td>Material Cost</td><td><span id="mMaterialCost">0.00</span> ৳</td></tr>
         <tr><td>Material Cost / Sqft</td><td><span id="mCostPerSqft">0.00</span> ৳</td></tr>
@@ -173,7 +183,7 @@
     </table>
   </div>
 
-  <!-- ৪. কাটিং রিপোর্ট (Cutting Report) - আগের মতো অপরিবর্তিত -->
+  <!-- ৪. কাটিং রিপোর্ট (Cutting Report) -->
   <div class="card">
     <div class="card-title">Cutting Report</div>
     <table class="report-table">
@@ -240,24 +250,28 @@
   }
 
   // ----------------------------------------------------
-  // রেট ম্যাচিং ফাংশন (সেটিংস তালিকার সাথে হুবহু মেলানো)
+  // রেট ম্যাচিং ফাংশন (সবকটি ফিল্ডের সাথে মিলিয়ে দেখা)
   // ----------------------------------------------------
-  function getRateFromSettings(company, series, thickness, color, glassThickness) {
+  function getRateFromSettings(company, series, thickness, color, glassCo, glassThick, glassColor) {
     let savedList = JSON.parse(localStorage.getItem('rateList')) || JSON.parse(localStorage.getItem('rateSettingsData')) || [];
 
-    // তালিকার সাথে ফিল্টার করে মিলিয়ে নেওয়া
-    let matched = savedList.find(item => 
-      item.company === company &&
-      item.series === series &&
-      item.aluThick === thickness &&
-      item.aluColor === color &&
-      item.glassThick === glassThickness
-    );
+    // কড়া ফিল্টারিং - সবকটি কন্ডিশন মিলিয়ে দেখা হচ্ছে
+    let matched = savedList.find(item => {
+      let matchCo = !item.company || item.company.trim().toLowerCase() === company.trim().toLowerCase();
+      let matchSeries = !item.series || item.series.trim().toLowerCase() === series.trim().toLowerCase();
+      let matchThick = !item.aluThick || item.aluThick.trim().toLowerCase() === thickness.trim().toLowerCase();
+      let matchColor = !item.aluColor || item.aluColor.trim().toLowerCase() === color.trim().toLowerCase();
+      let matchGlassCo = !item.glassCo || item.glassCo.trim().toLowerCase() === glassCo.trim().toLowerCase();
+      let matchGlassThick = !item.glassThick || item.glassThick.trim().toLowerCase() === glassThick.trim().toLowerCase();
+      let matchGlassColor = !item.glassColor || item.glassColor.trim().toLowerCase() === glassColor.trim().toLowerCase();
+
+      return matchCo && matchSeries && matchThick && matchColor && matchGlassCo && matchGlassThick && matchGlassColor;
+    });
 
     if (!matched) {
       return {
         success: false,
-        message: `⚠️ Rate Not Found!\n"${company} - ${series} - ${color} - ${thickness}" এর রেট সেটিংসে ম্যাচ করে নাই।`
+        message: `⚠️ Rate Not Found!\nসেটিংস পেজে সিলেক্ট করা স্পেসিফিকেশনের রেট পাওয়া যায় নাই।`
       };
     }
 
@@ -273,16 +287,18 @@
   }
 
   // ----------------------------------------------------
-  // মূল ক্যালকুলেশন এবং কাটিং রিপোর্ট
+  // ক্যালকুলেশন
   // ----------------------------------------------------
   function calculateAll() {
     let company = document.getElementById('aluCompany').value;
     let series = document.getElementById('aluSeries').value;
     let thickness = document.getElementById('aluThickness').value;
     let color = document.getElementById('aluColor').value;
-    let glassThickness = document.getElementById('glassThickness').value;
+    let glassCo = document.getElementById('glassCompany').value;
+    let glassThick = document.getElementById('glassThickness').value;
+    let glassColor = document.getElementById('glassColor').value;
 
-    let rateData = getRateFromSettings(company, series, thickness, color, glassThickness);
+    let rateData = getRateFromSettings(company, series, thickness, color, glassCo, glassThick, glassColor);
 
     if (!rateData.success) {
       alert(rateData.message);
@@ -342,7 +358,6 @@
 
     let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
 
-    // Material Details টেবিল আপডেট
     document.getElementById('mOuterSide').innerText = outerH.toFixed(2);
     document.getElementById('mOuterTop').innerText = outerTop.toFixed(2);
     document.getElementById('mOuterBottom').innerText = outerBottom.toFixed(2);
@@ -360,7 +375,6 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // টাকার সঠিক হিসাব
     let glassSqft = totalSqft * 0.85; 
     let hardwareCost = totalSqft * rateData.hwRate;
     let fittingsCharge = totalSqft * rateData.fitRate;
@@ -384,9 +398,7 @@
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
 
-    // ----------------------------------------------------
-    // কাটিং রিপোর্ট বার হিসেব (১৮.৬ ফিট ও ২১ ফিট)
-    // ----------------------------------------------------
+    // Cutting Report
     let items = [
       { id18: 'cOuterSide18', id21: 'cOuterSide21', ft: outerH },
       { id18: 'cOuterTop18', id21: 'cOuterTop21', ft: outerTop },

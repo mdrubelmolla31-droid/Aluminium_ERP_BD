@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluminium Quotation Maker</title>
+  <title>Aluminium Quotation & History</title>
   <!-- HTML2PDF Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f4f6f9; margin: 0; padding: 10px; color: #333; }
-    .container { max-width: 600px; margin: 0 auto; }
+    .container { max-width: 650px; margin: 0 auto; }
     
     .card {
       background: #ffffff;
@@ -52,13 +52,18 @@
     }
 
     .btn-add { background-color: #10b981; color: white; }
-    .btn-pdf { background-color: #2563eb; color: white; font-size: 15px; }
-    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; }
+    .btn-save { background-color: #f59e0b; color: white; font-size: 15px; }
+    .btn-pdf { background-color: #059669; color: white; font-size: 15px; }
+    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+    .btn-open { background-color: #2563eb; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
 
     /* Input Table */
     table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     th, td { border: 1px solid #ddd; padding: 6px; text-align: center; font-size: 12px; }
     th { background-color: #2563eb; color: white; }
+
+    /* History Table */
+    .history-table th { background-color: #475569; }
 
     /* PDF Print Wrapper */
     #pdfPrintWrapper {
@@ -67,7 +72,7 @@
       color: #000000;
       width: 100%;
       box-sizing: border-box;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #cbd5e1;
       border-radius: 6px;
     }
 
@@ -109,43 +114,84 @@
 
   <div class="container">
 
-    <!-- 1. শপ ও কন্টাক্ট ইনফো -->
+    <!-- ১. শপ ইনফো -->
     <div class="card">
       <div class="card-title">My Store / Contact Info</div>
       <div class="row">
         <div class="col">
           <label>Shop/Your Name</label>
-          <input type="text" id="shopName" value="RM Thai Aluminum" oninput="runCalculation()">
+          <input type="text" id="shopName" value="RM Thai Aluminum">
         </div>
         <div class="col">
           <label>My Mobile Number</label>
-          <input type="text" id="shopPhone" value="01676474412" oninput="runCalculation()">
+          <input type="text" id="shopPhone" value="01676474412">
         </div>
       </div>
     </div>
 
-    <!-- 2. কাস্টমার ডিটেইলস -->
+    <!-- ২. কাস্টমার ইনফো -->
     <div class="card">
       <div class="card-title">Customer Details</div>
       <div class="row">
         <div class="col">
           <label>Customer Name</label>
-          <input type="text" id="custName" value="Josim" oninput="runCalculation()">
+          <input type="text" id="custName" value="Asad">
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label>Customer Mobile</label>
-          <input type="text" id="custPhone" value="019768322466" oninput="runCalculation()">
+          <input type="text" id="custPhone" value="019768322466">
         </div>
         <div class="col">
           <label>Address</label>
-          <input type="text" id="custAddress" value="বন্দর" oninput="runCalculation()">
+          <input type="text" id="custAddress" value="বন্দর">
         </div>
       </div>
     </div>
 
-    <!-- 3. জানালার মাপ ও সংখ্যা -->
+    <!-- ৩. স্পেসিফিকেশন -->
+    <div class="card">
+      <div class="card-title">Item Specifications</div>
+      <div class="row">
+        <div class="col">
+          <label>Aluminium Company</label>
+          <select id="aluCompany"><option>KAI</option><option>Altech</option></select>
+        </div>
+        <div class="col">
+          <label>Alu Colour</label>
+          <select id="aluColor"><option>Silver</option><option>Bronze</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label>Alu Thickness</label>
+          <select id="aluThickness"><option>1.0 mm</option><option>1.2 mm</option></select>
+        </div>
+        <div class="col">
+          <label>Series</label>
+          <select id="aluSeries"><option>Sliding 3"</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label>Glass Company</label>
+          <select id="glassCompany"><option>Nasir Glass</option></select>
+        </div>
+        <div class="col">
+          <label>Glass Colour</label>
+          <select id="glassColor"><option>Clear</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label>Glass Thickness</label>
+          <select id="glassThickness"><option>5 mm</option></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ৪. জানালার মাপ ইনপুট -->
     <div class="card">
       <div class="card-title">Window Dimensions (Inches)</div>
       <table>
@@ -160,36 +206,44 @@
         </thead>
         <tbody id="winTableBody">
           <tr>
-            <td>1</td>
-            <td><input type="number" class="w-h" value="54" oninput="runCalculation()"></td>
-            <td><input type="number" class="w-w" value="60" oninput="runCalculation()"></td>
-            <td><input type="number" class="w-q" value="1" oninput="runCalculation()"></td>
-            <td><button class="btn-danger" onclick="this.parentElement.parentElement.remove(); runCalculation();">X</button></td>
+            <td class="row-index">1</td>
+            <td><input type="number" class="w-h" value="54"></td>
+            <td><input type="number" class="w-w" value="60"></td>
+            <td><input type="number" class="w-q" value="1"></td>
+            <td><button class="btn-danger" onclick="removeRow(this)">X</button></td>
           </tr>
         </tbody>
       </table>
       <button class="btn btn-add" onclick="addRow()">+ Add Another Window</button>
     </div>
 
-    <!-- 4. রেট ও টোটাল হিসেব -->
+    <!-- ৫. প্রাইসিং ও সেভ বাটন -->
     <div class="card">
-      <div class="card-title">Pricing</div>
+      <div class="card-title">Pricing & Save Options</div>
       <div class="row">
         <div class="col">
           <label>Selling Rate (৳/Sqft)</label>
-          <input type="number" id="sellingRate" value="450" oninput="runCalculation()">
+          <input type="number" id="sellingRate" value="450">
         </div>
         <div class="col">
           <label>Total Price (৳)</label>
           <input type="number" id="calcTotalPrice" readonly style="background:#eee; font-weight:bold;">
         </div>
       </div>
-      <button class="btn btn-pdf" onclick="downloadHD_PDF()">Download Quotation PDF ➔</button>
+      
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-save" onclick="saveQuotationToHistory()">💾 Save Quotation</button>
+        </div>
+        <div class="col">
+          <button class="btn btn-pdf" onclick="downloadHD_PDF()">📄 Download PDF</button>
+        </div>
+      </div>
     </div>
 
-    <!-- 5. কোটেশন প্রিভিউ (শুধু প্রয়োজনীয় তথ্যগুলো যাবে) -->
+    <!-- ৬. লাইভ কোটেশন প্রিভিউ -->
     <div class="card">
-      <div class="card-title">Quotation Preview</div>
+      <div class="card-title">Live Quotation Preview</div>
       <div id="pdfPrintWrapper">
         <div class="pdf-header">
           <p class="pdf-title" id="pShop">RM Thai Aluminum</p>
@@ -198,14 +252,18 @@
 
         <div class="pdf-info-grid">
           <div>
-            <div><b>Customer Name:</b> <span id="pCust">Josim</span></div>
+            <div><b>Customer:</b> <span id="pCust">Asad</span></div>
             <div><b>Mobile:</b> <span id="pCustMob">019768322466</span></div>
             <div><b>Address:</b> <span id="pAddr">বন্দর</span></div>
           </div>
           <div style="text-align: right;">
-            <div><b>Quotation No:</b> <span id="pQtnNo">#7019</span></div>
-            <div><b>Date:</b> <span id="pDate">2026-07-29</span></div>
+            <div><b>Qtn No:</b> <span id="pQtnNo">#1001</span></div>
+            <div><b>Date:</b> <span id="pDate">7/29/2026</span></div>
           </div>
+        </div>
+
+        <div style="font-size: 11px; margin-bottom: 8px; color: #2563eb; font-weight: bold;" id="pSpec">
+          Specification: KAI (Silver, 1.0 mm, Sliding 3") | Nasir Glass (5 mm Clear Glass)
         </div>
 
         <table class="pdf-table">
@@ -213,14 +271,14 @@
             <tr>
               <th>#</th>
               <th>Window Size (H x W)</th>
-              <th>Qty (টি)</th>
+              <th>Qty</th>
               <th>Total Sqft</th>
               <th>Rate (৳/Sqft)</th>
               <th>Total Price (৳)</th>
             </tr>
           </thead>
           <tbody id="pdfTableBody">
-            <!-- অটোমেটিক ডাটা হিসাব হয়ে বসবে -->
+            <!-- অটোমেটিক লোড হবে -->
           </tbody>
         </table>
 
@@ -230,29 +288,88 @@
       </div>
     </div>
 
+    <!-- ৭. সেভ করা কোটেশন হিস্ট্রি -->
+    <div class="card">
+      <div class="card-title">Saved Quotation History (পূর্বের সেভ করা তালিকা)</div>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Total (৳)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="historyTableBody">
+          <!-- সেভ করা ডাটা দেখাবে -->
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
   <script>
+    let currentQtnId = null;
+
     window.onload = function() {
       runCalculation();
+      attachGlobalListeners();
+      renderHistoryTable();
     };
 
-    function addRow() {
+    function attachGlobalListeners() {
+      document.addEventListener('input', runCalculation);
+      document.addEventListener('change', runCalculation);
+    }
+
+    function addRow(h = 54, w = 60, q = 1) {
       let tbody = document.getElementById('winTableBody');
-      let count = tbody.children.length + 1;
       let tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>${count}</td>
-        <td><input type="number" class="w-h" value="54" oninput="runCalculation()"></td>
-        <td><input type="number" class="w-w" value="60" oninput="runCalculation()"></td>
-        <td><input type="number" class="w-q" value="1" oninput="runCalculation()"></td>
-        <td><button class="btn-danger" onclick="this.parentElement.parentElement.remove(); runCalculation();">X</button></td>
+        <td class="row-index"></td>
+        <td><input type="number" class="w-h" value="${h}"></td>
+        <td><input type="number" class="w-w" value="${w}"></td>
+        <td><input type="number" class="w-q" value="${q}"></td>
+        <td><button class="btn-danger" onclick="removeRow(this)">X</button></td>
       `;
       tbody.appendChild(tr);
+      updateRowIndexes();
       runCalculation();
     }
 
+    function removeRow(btn) {
+      btn.parentElement.parentElement.remove();
+      updateRowIndexes();
+      runCalculation();
+    }
+
+    function updateRowIndexes() {
+      let rows = document.querySelectorAll('#winTableBody tr');
+      rows.forEach((row, index) => {
+        row.querySelector('.row-index').innerText = index + 1;
+      });
+    }
+
     function runCalculation() {
+      // ১. শপ ও কাস্টমার ডাটা
+      document.getElementById('pShop').innerText = document.getElementById('shopName').value || '';
+      document.getElementById('pPhone').innerText = document.getElementById('shopPhone').value || '';
+      document.getElementById('pCust').innerText = document.getElementById('custName').value || '';
+      document.getElementById('pCustMob').innerText = document.getElementById('custPhone').value || '';
+      document.getElementById('pAddr').innerText = document.getElementById('custAddress').value || '';
+
+      // ২. স্পেসিফিকেশন
+      let aluCo = document.getElementById('aluCompany').value;
+      let aluCol = document.getElementById('aluColor').value;
+      let aluTh = document.getElementById('aluThickness').value;
+      let aluSer = document.getElementById('aluSeries').value;
+      let glsCo = document.getElementById('glassCompany').value;
+      let glsTh = document.getElementById('glassThickness').value;
+      let glsCol = document.getElementById('glassColor').value;
+
+      document.getElementById('pSpec').innerText = `Specification: ${aluCo} (${aluCol}, ${aluTh}, ${aluSer}) | ${glsCo} (${glsTh} ${glsCol} Glass)`;
+
+      // ৩. সাইজ ও দাম হিসেব
       let heights = document.querySelectorAll('.w-h');
       let widths = document.querySelectorAll('.w-w');
       let qtys = document.querySelectorAll('.w-q');
@@ -269,7 +386,6 @@
         let q = parseFloat(qtys[i].value) || 0;
 
         if (h > 0 && w > 0 && q > 0) {
-          // ইঞ্চিকে স্কয়ার ফিটে রূপান্তর: (উচ্চতা × চওড়া / ১৪৪) × সংখ্যা
           let sqft = ((h * w) / 144) * q;
           let rowTotal = sqft * rate;
           grandTotal += rowTotal;
@@ -278,8 +394,8 @@
             <tr>
               <td>${i + 1}</td>
               <td>${h}" x ${w}"</td>
-              <td>${q}</td>
-              <td>${sqft.toFixed(2)} Sqft</td>
+              <td>${q} টি</td>
+              <td>${sqft.toFixed(2)}</td>
               <td>৳${rate}</td>
               <td>৳${rowTotal.toFixed(2)}</td>
             </tr>
@@ -290,25 +406,147 @@
       document.getElementById('calcTotalPrice').value = grandTotal.toFixed(2);
       document.getElementById('pGrandTotal').innerText = grandTotal.toFixed(2);
 
-      // Header Data Sync
-      document.getElementById('pShop').innerText = document.getElementById('shopName').value || '';
-      document.getElementById('pPhone').innerText = document.getElementById('shopPhone').value || '';
-      document.getElementById('pCust').innerText = document.getElementById('custName').value || '';
-      document.getElementById('pCustMob').innerText = document.getElementById('custPhone').value || '';
-      document.getElementById('pAddr').innerText = document.getElementById('custAddress').value || '';
-
-      let today = new Date().toISOString().split('T')[0];
+      let today = new Date().toLocaleDateString('en-US');
       document.getElementById('pDate').innerText = today;
+    }
+
+    // --- হিস্ট্রি ও সেভ ফাংশন শুরু ---
+
+    function getHistoryData() {
+      let data = localStorage.getItem('thai_qtn_history');
+      return data ? JSON.parse(data) : [];
+    }
+
+    function saveQuotationToHistory() {
+      runCalculation();
+      let history = getHistoryData();
+
+      let windows = [];
+      let heights = document.querySelectorAll('.w-h');
+      let widths = document.querySelectorAll('.w-w');
+      let qtys = document.querySelectorAll('.w-q');
+
+      for (let i = 0; i < heights.length; i++) {
+        windows.push({
+          h: heights[i].value,
+          w: widths[i].value,
+          q: qtys[i].value
+        });
+      }
+
+      let qtnObj = {
+        id: currentQtnId || Date.now(),
+        date: new Date().toLocaleDateString('bn-BD'),
+        shopName: document.getElementById('shopName').value,
+        shopPhone: document.getElementById('shopPhone').value,
+        custName: document.getElementById('custName').value,
+        custPhone: document.getElementById('custPhone').value,
+        custAddress: document.getElementById('custAddress').value,
+        aluCompany: document.getElementById('aluCompany').value,
+        aluColor: document.getElementById('aluColor').value,
+        aluThickness: document.getElementById('aluThickness').value,
+        aluSeries: document.getElementById('aluSeries').value,
+        glassCompany: document.getElementById('glassCompany').value,
+        glassColor: document.getElementById('glassColor').value,
+        glassThickness: document.getElementById('glassThickness').value,
+        rate: document.getElementById('sellingRate').value,
+        total: document.getElementById('calcTotalPrice').value,
+        windows: windows
+      };
+
+      // আপডেট বা নতুন যুক্ত
+      let existingIndex = history.findIndex(item => item.id === qtnObj.id);
+      if (existingIndex > -1) {
+        history[existingIndex] = qtnObj;
+      } else {
+        history.unshift(qtnObj);
+      }
+
+      localStorage.setItem('thai_qtn_history', JSON.stringify(history));
+      currentQtnId = qtnObj.id;
+      alert("কোটেশন সফলভাবে সেভ হয়েছে!");
+      renderHistoryTable();
+    }
+
+    function renderHistoryTable() {
+      let history = getHistoryData();
+      let tbody = document.getElementById('historyTableBody');
+      tbody.innerHTML = '';
+
+      if (history.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">কোন সেভ করা কোটেশন নেই</td></tr>';
+        return;
+      }
+
+      history.forEach(item => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${item.date}</td>
+            <td><b>${item.custName}</b><br><small>${item.custAddress || ''}</small></td>
+            <td>৳${item.total}</td>
+            <td>
+              <button class="btn-open" onclick="openQuotation(${item.id})">Open</button>
+              <button class="btn-danger" onclick="deleteQuotation(${item.id})">X</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function openQuotation(id) {
+      let history = getHistoryData();
+      let qtn = history.find(item => item.id === id);
+
+      if (!qtn) return;
+
+      currentQtnId = qtn.id;
+      document.getElementById('shopName').value = qtn.shopName || '';
+      document.getElementById('shopPhone').value = qtn.shopPhone || '';
+      document.getElementById('custName').value = qtn.custName || '';
+      document.getElementById('custPhone').value = qtn.custPhone || '';
+      document.getElementById('custAddress').value = qtn.custAddress || '';
+
+      document.getElementById('aluCompany').value = qtn.aluCompany || 'KAI';
+      document.getElementById('aluColor').value = qtn.aluColor || 'Silver';
+      document.getElementById('aluThickness').value = qtn.aluThickness || '1.0 mm';
+      document.getElementById('aluSeries').value = qtn.aluSeries || 'Sliding 3"';
+      document.getElementById('glassCompany').value = qtn.glassCompany || 'Nasir Glass';
+      document.getElementById('glassColor').value = qtn.glassColor || 'Clear';
+      document.getElementById('glassThickness').value = qtn.glassThickness || '5 mm';
+      document.getElementById('sellingRate').value = qtn.rate || 450;
+
+      // জানালার টেবিল লোড
+      let tbody = document.getElementById('winTableBody');
+      tbody.innerHTML = '';
+
+      if (qtn.windows && qtn.windows.length > 0) {
+        qtn.windows.forEach(w => {
+          addRow(w.h, w.w, w.q);
+        });
+      } else {
+        addRow();
+      }
+
+      runCalculation();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteQuotation(id) {
+      if (confirm("আপনি কি নিশ্চিত এই কোটেশনটি মুছে ফেলতে চান?")) {
+        let history = getHistoryData();
+        history = history.filter(item => item.id !== id);
+        localStorage.setItem('thai_qtn_history', JSON.stringify(history));
+        renderHistoryTable();
+      }
     }
 
     function downloadHD_PDF() {
       runCalculation();
-
       let cust = document.getElementById('custName').value || 'Customer';
       let element = document.getElementById('pdfPrintWrapper');
 
       let opt = {
-        margin:       [10, 10, 10, 10],
+        margin:       [8, 8, 8, 8],
         filename:     `Quotation_${cust}.pdf`,
         image:        { type: 'jpeg', quality: 1.0 },
         html2canvas:  { scale: 2, useCORS: true },

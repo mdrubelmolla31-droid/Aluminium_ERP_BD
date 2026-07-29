@@ -332,56 +332,63 @@
   }
 
   function getRateFromSettings() {
+    // লোকাল স্টোরেজ থেকে সব সম্ভাব্য কি (Key) চেক করে ডেটা নিয়ে আসা
     let savedList = JSON.parse(localStorage.getItem('rateList')) || 
                     JSON.parse(localStorage.getItem('rateSettingsData')) || 
                     JSON.parse(localStorage.getItem('rates')) || [];
 
+    // ডিফল্ট ফলব্যাক রেট যদি কোনো ডেটা না থাকে
+    let defaultRates = {
+      aluRate: 250,
+      glassRate: 150,
+      netRate: 100,
+      hwRate: 45,
+      fitRate: 45,
+      labourRate: 10,
+      profit: 7 
+    };
+
     if (!savedList || savedList.length === 0) {
-      return {
-        aluRate: 250,
-        glassRate: 150,
-        netRate: 100,
-        hwRate: 45,
-        fitRate: 45,
-        labourRate: 10,
-        profit: 7 
-      };
+      return defaultRates;
     }
 
+    // বর্তমানে ক্যালকুলেটরে সিলেক্ট করা ভেরিয়েশনগুলো নেওয়া
     let curSeries = document.getElementById('aluSeries').value.trim();
     let curAluThick = document.getElementById('aluThickness').value.trim();
     let curAluColor = document.getElementById('aluColor').value.trim();
 
+    // নিখুঁত ভেরিয়েশন ম্যাচিং (Series, Thickness, Colour মিলিয়ে সঠিক রেটটি খুঁজে বের করা)
     let matched = savedList.find(item => {
-      let iSeries = (item.series || item.AluSeries || "").trim();
+      let iSeries = (item.series || item.AluSeries || item.seriesName || "").trim();
       let iThick = (item.aluThickness || item.AluThickness || "").trim();
       let iColor = (item.aluColor || item.AluColor || "").trim();
       
-      let matchSeries = !iSeries || iSeries === curSeries;
-      let matchThick = !iThick || iThick === curAluThick;
-      let matchColor = !iColor || iColor === curAluColor;
+      let matchSeries = !iSeries || iSeries.toLowerCase() === curSeries.toLowerCase();
+      let matchThick = !iThick || iThick.toLowerCase() === curAluThick.toLowerCase();
+      let matchColor = !iColor || iColor.toLowerCase() === curAluColor.toLowerCase();
 
       return matchSeries && matchThick && matchColor;
     });
 
+    // যদি হুবহু ম্যাচ না পাওয়া যায়, তবে তালিকার প্রথমটি বা ডিফল্টটি নেবে
     if (!matched) {
-      matched = savedList[0];
+      matched = savedList[0] || defaultRates;
     }
 
     let parseNum = (val) => {
-      if (!val) return 0;
+      if (val === undefined || val === null) return 0;
       let clean = val.toString().replace('%', '').trim();
       return parseFloat(clean) || 0;
     };
 
     return {
-      aluRate: parseNum(matched.aluRate || matched.AluRate),
-      glassRate: parseNum(matched.glassRate || matched.GlassRate),
-      netRate: parseNum(matched.netRate || matched.NetRate),
-      hwRate: parseNum(matched.hwRate || matched.HWRate),
-      fitRate: parseNum(matched.fitRate || matched.FitRate),
-      labourRate: parseNum(matched.labourRate || matched.labour || matched.Labour),
-      profit: parseNum(matched.profit || matched.Profit)
+      aluRate: parseNum(matched.aluRate !== undefined ? matched.aluRate : matched.AluRate),
+      glassRate: parseNum(matched.glassRate !== undefined ? matched.glassRate : matched.GlassRate),
+      netRate: parseNum(matched.netRate !== undefined ? matched.netRate : matched.NetRate),
+      hwRate: parseNum(matched.hwRate !== undefined ? matched.hwRate : matched.HWRate),
+      fitRate: parseNum(matched.fitRate !== undefined ? matched.fitRate : matched.FitRate),
+      labourRate: parseNum(matched.labourRate !== undefined ? matched.labourRate : (matched.labour !== undefined ? matched.labour : matched.Labour)),
+      profit: parseNum(matched.profit !== undefined ? matched.profit : matched.Profit)
     };
   }
 
@@ -436,7 +443,7 @@
         shutterTop_21 += sTop;
         shutterBottom_21 += sBot;
 
-        // আপনার রুলস অনুযায়ী ১৮.৫ ও ২১ ফুটের বার বিভাজন এবং টুকরা মালের হিসাব লজিক
+        // বার বিভাজন লজিক (৫৪ ইঞ্চি বা তার কম হলে ১৮.৫ ফুটের বার, অন্যথায় ২১ ফুটের বার)
         if (h <= 54) { 
           outerH_18 += oSide;
           shutterLock_18 += sLock;
@@ -465,7 +472,7 @@
     document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
     document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
 
-    // ১৮.৫ ফুটের বার সরাসরি পিস (দশমিকসহ পিস দেখানোর ব্যবস্থা)
+    // ১৮.৫ ফুটের বার পিস হিসাব (দশমিকসহ)
     document.getElementById('ft18OuterSide').innerText = outerH_18.toFixed(2);
     document.getElementById('c18OuterSideBar').innerText = (outerH_18 > 0 ? (outerH_18 / 18.5).toFixed(1) : "0.0");
     document.getElementById('ft18ShutterLock').innerText = shutterLock_18.toFixed(2);
@@ -473,7 +480,7 @@
     document.getElementById('ft18ShutterInterlock').innerText = shutterInterlock_18.toFixed(2);
     document.getElementById('c18ShutterInterlockBar').innerText = (shutterInterlock_18 > 0 ? (shutterInterlock_18 / 18.5).toFixed(1) : "0.0");
 
-    // ২১ ফুটের বার ফুল পিস (Integer / Ceil)
+    // ২১ ফুটের বার পূর্ণ পিস হিসাব (Ceil)
     document.getElementById('ft21OuterSide').innerText = outerH_21.toFixed(2);
     document.getElementById('c21OuterSideBar').innerText = (outerH_21 > 0 ? Math.ceil(outerH_21 / 21) : "0");
     
@@ -520,7 +527,7 @@
     let labourCharge = totalSqft * rateData.labourRate;
     let netMeshCost = isNetActive ? (netMeshSqft * rateData.netRate) : 0;
 
-    // রেট সেটিংস থেকে পাওয়া সঠিক রেট অনুযায়ী কস্টিং ও প্রাইসিং
+    // সঠিক রেٹ অনুযায়ী কস্টিং ও প্রাইসিং হিসাব
     let totalMaterialCost = (totalAlu * rateData.aluRate) + (glassSqft * rateData.glassRate) + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
     
     let costPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;

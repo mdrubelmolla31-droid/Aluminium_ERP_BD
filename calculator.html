@@ -489,15 +489,19 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // কাটিং টেবিল আপডেট (18.5 ft ও 21 ft বার হিসাব)
+    // লজিক: হাইট ৫৪ ইঞ্চি (সাড়ে ৪ ফিট) বা তার কম হলে ১৮.৫ ফিটের বার, বেশি হলে ২১ ফিটের বার হিসেবে বারের সংখ্যা হিসাব করবে
+    let sampleHeightInches = heights.length > 0 ? (parseFloat(heights[0].value) || 54) : 54;
+    let bar18Limit = (sampleHeightInches <= 54) ? 18.5 : 21;
+
+    // কাটিং টেবিলের হিসাব আপডেট
     document.getElementById('c18_outerSideLen').innerText = outerH.toFixed(2) + " ft";
-    document.getElementById('c18_outerSideBar').innerText = Math.ceil(outerH / 18.5);
+    document.getElementById('c18_outerSideBar').innerText = Math.ceil(outerH / bar18Limit);
 
     document.getElementById('c18_lockLen').innerText = shutterLock.toFixed(2) + " ft";
-    document.getElementById('c18_lockBar').innerText = Math.ceil(shutterLock / 18.5);
+    document.getElementById('c18_lockBar').innerText = Math.ceil(shutterLock / bar18Limit);
 
     document.getElementById('c18_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
-    document.getElementById('c18_intBar').innerText = Math.ceil(shutterInterlock / 18.5);
+    document.getElementById('c18_intBar').innerText = Math.ceil(shutterInterlock / bar18Limit);
 
     document.getElementById('c21_outerSideLen').innerText = outerH.toFixed(2) + " ft";
     document.getElementById('c21_outerSideBar').innerText = Math.ceil(outerH / 21);

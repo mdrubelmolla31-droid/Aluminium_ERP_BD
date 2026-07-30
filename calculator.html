@@ -579,7 +579,7 @@
           }
         }
 
-        // আউটার টপ ও বটম পিস (সঠিক পরিমাণে একটি করে লুপ)
+        // আউটার টপ ও বটম পিস (প্রতিটি উইন্ডোর জন্য தனி தனி পিস হিসেবে যুক্ত করা হলো)
         for(let j = 0; j < q; j++) { 
           oTopPieces.push(wFt); 
           oBotPieces.push(wFt); 
@@ -596,8 +596,8 @@
           }
         }
 
-        // শার্টার টপ ও বটম পিস (ডাবল এড়াতে সঠিক লুপ 'q' দেওয়া হলো)
-        for(let j = 0; j < q; j++) { 
+        // শার্টার টপ ও বটম পিস (প্রতিটি পাল্লার জন্য সঠিক মাপ தனி தனி পিস হিসেবে যুক্ত করা হলো - প্রতিটি উইন্ডোতে ২টি করে পাল্লা)
+        for(let j = 0; j < (q * 2); j++) { 
           sTopPieces.push(wFt); 
           sBotPieces.push(wFt); 
         }
@@ -729,7 +729,6 @@
   function saveToHistory(summaryData) {
     let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
     let timestamp = new Date().toLocaleString('bn-BD');
-    // ডুপ্লিকেট এড়াতে বা একই হিস্টরি বারবার জমা হওয়া রোধ করতে শেষ এন্ট্রির সাথে মেলাতে পারেন
     history.unshift({ time: timestamp, details: summaryData });
     if (history.length > 50) history.pop();
     localStorage.setItem('rm_calc_history', JSON.stringify(history));

@@ -130,7 +130,6 @@
       margin-bottom: 10px;
     }
 
-    /* থ্রি-লাইন বাটন এবং হিস্টরি ড্রয়ার প্যানেল স্টাইল */
     .menu-btn {
       position: absolute;
       top: 15px;
@@ -201,7 +200,6 @@
 
 <div class="container">
 
-  <!-- হেডার সেকশন -->
   <div class="header-card">
     <button class="menu-btn" onclick="openHistory()">☰</button>
     <h2>RM. Thai Aluminium</h2>
@@ -255,7 +253,7 @@
 
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
-    <div class="notice-box">ℹ️ উইন্ডো যুক্ত করার সময় কোনো ডিফল্ট মাপ থাকবে না; আপনার প্রয়োজনমতো মাপ বসিয়ে নিন।</div>
+    <div class="notice-box">ℹ️ উইন্ডো যুক্ত করার সময় মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
     <table class="input-table">
       <thead>
         <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
@@ -300,9 +298,9 @@
     </table>
   </div>
 
-  <!-- কাটিং টেবিল সেকশন -->
+  <!-- সম্পূর্ণ সংশোধিত ও নিখুঁত কাটিং টেবিল সেকশন -->
   <div class="card">
-    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল (18.5 & 21 ft Columns)</div>
+    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল (Optimized Logic)</div>
     
     <div class="section-title">18.5 ft Bar Section (For Height ≤ 6 ft)</div>
     <table class="report-table">
@@ -347,7 +345,6 @@
 
 </div>
 
-<!-- থ্রি-লাইন মেনু হিস্টরি ড্রয়ার প্যানেল -->
 <div id="historyModal" onclick="if(event.target === this) closeHistory()">
   <div class="history-content">
     <div class="history-header">
@@ -532,7 +529,6 @@
     let outerH = 0, outerTop = 0, outerBottom = 0;
     let shutterLock = 0, shutterInterlock = 0, shutterTop = 0, shutterBottom = 0;
     let totalSqft = 0;
-    let totalRunningLength = 0;
 
     let oSidePieces18 = [], oSidePieces21 = [];
     let oTopPieces = [], oBotPieces = [];
@@ -571,10 +567,8 @@
 
         let winSqft = hFt * wFt * q;
         totalSqft += winSqft;
-        let winRunLen = (oSide + oTopVal + oBotVal + sLock + sInt + sTopVal + sBotVal);
-        totalRunningLength += winRunLen;
 
-        // হাইট অনুযায়ী খাড়া মাল ১৮.৫ বা ২১ ফিট বারে ভাগ হবে
+        // সঠিকভাবে প্রতিটি পিসের সুনির্দিষ্ট লেন্থ অ্যারেতে পুশ করা হলো
         for(let j = 0; j < (q * 2); j++) { 
           if (hFt > 6) {
             oSidePieces21.push(hFt);
@@ -583,13 +577,11 @@
           }
         }
 
-        // আউটার টপ ও বটম পিস (সঠিক পরিমাণে একটি করে লুপ)
         for(let j = 0; j < q; j++) { 
           oTopPieces.push(wFt); 
           oBotPieces.push(wFt); 
         }
 
-        // হাইট অনুযায়ী শার্টার লক ও ইন্টারলক ১৮.৫ বা ২১ ফিট বারে ভাগ হবে
         for(let j = 0; j < (q * 2); j++) { 
           if (hFt > 6) {
             sLockPieces21.push(hFt);
@@ -600,7 +592,6 @@
           }
         }
 
-        // শার্টার টপ ও বটম পিস (ডাবল এড়াতে সঠিক লুপ 'q' দেওয়া হলো)
         for(let j = 0; j < q; j++) { 
           sTopPieces.push(wFt); 
           sBotPieces.push(wFt); 
@@ -608,7 +599,7 @@
       }
     }
 
-    let netFt = isNetActive ? (totalRunningLength / 2) : 0;
+    let netFt = isNetActive ? ((outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom) / 2) : 0;
     if (isNetActive && heights.length > 0) {
       for (let i = 0; i < heights.length; i++) {
         let h = parseFloat(heights[i].value) || 0;
@@ -660,10 +651,10 @@
     document.getElementById('c18_intLen').innerText = (sIntPieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
     document.getElementById('c18_intBar').innerText = getBarCount(sIntPieces18, 18.5);
 
-    // ২১ ফিট কলাম হিসাব (হাইট > ৬ ফিট এবং চওড়ার মালসমূহ)
-    let total21OuterSide = outerH - (oSidePieces18.reduce((a,b)=>a+b,0));
-    let total21Lock = shutterLock - (sLockPieces18.reduce((a,b)=>a+b,0));
-    let total21Int = shutterInterlock - (sIntPieces18.reduce((a,b)=>a+b,0));
+    // ২১ ফিট কলাম হিসাব (হাইট > ৬ ফিট এবং অন্যান্য সমস্ত বার)
+    let total21OuterSide = oSidePieces21.reduce((a,b)=>a+b,0);
+    let total21Lock = sLockPieces21.reduce((a,b)=>a+b,0);
+    let total21Int = sIntPieces21.reduce((a,b)=>a+b,0);
 
     document.getElementById('c21_outerSideLen').innerText = total21OuterSide.toFixed(2) + " ft";
     document.getElementById('c21_outerSideBar').innerText = getBarCount(oSidePieces21, 21);
@@ -713,7 +704,6 @@
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
 
-    // ক্যালকুলেশন হিস্টরি স্বয়ংক্রয়ভাবে সংরক্ষণ করা
     if (totalSqft > 0) {
       let cust = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
       let proj = document.getElementById('projectName').value || 'N/A';
@@ -722,7 +712,6 @@
     }
   }
 
-  // থ্রি-লাইন মেনু ও হিস্টরি সংক্রান্ত অতিরিক্ত ফাংশনসমূহ
   function openHistory() {
     document.getElementById('historyModal').style.display = 'flex';
     renderHistoryList();
@@ -735,7 +724,6 @@
   function saveToHistory(summaryData) {
     let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
     let timestamp = new Date().toLocaleString('bn-BD');
-    // একই হিসাব ডুপ্লিকেট সেভ হওয়া এড়াতে শেষ এন্ট্রির সাথে মিলিয়ে নেওয়া যেতে পারে
     if (history.length > 0 && history[0].details === summaryData) return;
     history.unshift({ time: timestamp, details: summaryData });
     if (history.length > 50) history.pop();

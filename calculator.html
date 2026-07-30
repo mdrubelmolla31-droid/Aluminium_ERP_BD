@@ -494,7 +494,7 @@
         let winRunLen = (oSide + oTopVal + oBotVal + sLock + sInt + sTopVal + sBotVal);
         totalRunningLength += winRunLen;
 
-        // আপনার প্রধান শর্ত: হাইট ৬ ফিটের কম হলে 18.5 ft, বেশি হলে 21 ft বারের কলামে যাবে
+        // হাইট অনুযায়ী খাড়া মাল ১৮.৫ বা ২১ ফিট বারে ভাগ হবে
         for(let j = 0; j < (q * 2); j++) { 
           if (hFt > 6) {
             oSidePieces21.push(hFt);
@@ -503,11 +503,13 @@
           }
         }
 
+        // আউটার টপ ও বটম পিস (সঠিক পরিমাণে একটি করে লুপ)
         for(let j = 0; j < q; j++) { 
           oTopPieces.push(wFt); 
           oBotPieces.push(wFt); 
         }
 
+        // হাইট অনুযায়ী শার্টার লক ও ইন্টারলক ১৮.৫ বা ২১ ফিট বারে ভাগ হবে
         for(let j = 0; j < (q * 2); j++) { 
           if (hFt > 6) {
             sLockPieces21.push(hFt);
@@ -518,7 +520,8 @@
           }
         }
 
-        for(let j = 0; j < (q * 2); j++) { 
+        // শার্টার টপ ও বটম পিস (ডাবল এড়াতে সঠিক লুপ 'q' দেওয়া হলো)
+        for(let j = 0; j < q; j++) { 
           sTopPieces.push(wFt); 
           sBotPieces.push(wFt); 
         }

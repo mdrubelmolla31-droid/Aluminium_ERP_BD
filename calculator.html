@@ -298,14 +298,14 @@
     </table>
   </div>
 
-  <!-- কাটিং মাপ টেবিল (সংশোধিত লজিক অনুযায়ী) -->
+  <!-- কাটিং মাপ টেবিল (সঠিক ও সমান লজিক অনুযায়ী) -->
   <div class="card">
-    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল (18.5 & 21 ft Columns)</div>
+    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল</div>
     
     <div class="section-title">18.5 ft Bar Section (For Height ≤ 6 ft)</div>
     <table class="report-table">
       <thead>
-        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (18.5 ft)</th></tr>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
       </thead>
       <tbody id="cutting18Body">
         <tr><td>Outer Side (≤ 6ft)</td><td id="c18_outerSideLen">0.00 ft</td><td id="c18_outerSideBar">0</td></tr>
@@ -314,16 +314,16 @@
       </tbody>
     </table>
 
-    <div class="section-title" style="margin-top: 16px;">21 ft Bar Section (For Height > 6 ft & Width / Top / Bottom)</div>
+    <div class="section-title" style="margin-top: 16px;">21 ft Bar Section</div>
     <table class="report-table">
       <thead>
-        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (21 ft)</th></tr>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
       </thead>
       <tbody id="cutting21Body">
         <tr><td>Outer Side (> 6ft)</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
-        <tr><td>Outer Top (21 ft)</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
+        <tr><td>Outer Top</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
         <tr><td>Outer Bottom (Equal to Top)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
-        <tr><td>Shutter Top (21 ft)</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
+        <tr><td>Shutter Top</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
         <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
         <tr><td>Shutter Lock (> 6ft)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
         <tr><td>Shutter Interlock (> 6ft)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
@@ -334,7 +334,7 @@
       <div class="section-title" style="margin-top: 16px;">Net Section (21 ft Bar)</div>
       <table class="report-table">
         <thead>
-          <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed</th></tr>
+          <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
         </thead>
         <tbody>
           <tr><td>Net Section Aluminium</td><td id="cNetLen">0.00 ft</td><td id="cNetBar">0</td></tr>
@@ -490,33 +490,28 @@
     return matched;
   }
 
-  function getBarCount(pieces, barLen) {
-    if (!pieces || pieces.length === 0) return 0;
-    let arr = pieces.slice();
-    arr.sort((a, b) => b - a);
-    let bins = [];
-    for (let i = 0; i < arr.length; i++) {
-      let p = arr[i];
-      if (p > barLen) {
-        let extraBars = Math.ceil(p / barLen);
-        for(let e = 0; e < extraBars; e++) {
-          bins.push(barLen);
-        }
-        continue;
-      }
-      let placed = false;
-      for (let j = 0; j < bins.length; j++) {
-        if (bins[j] + p <= barLen) {
-          bins[j] += p;
-          placed = true;
-          break;
-        }
-      }
-      if (!placed) {
-        bins.push(p);
-      }
+  // ফুল পিস ও রিমেইনিং পিস দেখানোর সঠিক ফাংশন
+  function getBarBreakdown(totalLen, barLen) {
+    if (totalLen <= 0) return "0 টি বার";
+    let fullBars = Math.floor(totalLen / barLen);
+    let remainder = totalLen % barLen;
+    
+    let result = "";
+    if (fullBars > 0) {
+      result += `${fullBars} টি ফুল পিস (${barLen} ফিট)`;
     }
-    return bins.length;
+    if (remainder > 0.01) {
+      if (result !== "") result += " + ";
+      result += `${remainder.toFixed(2)} ফিটের ১ টি পিস`;
+    }
+    return result || "0 টি বার";
+  }
+
+  function getBarCountNumber(totalLen, barLen) {
+    if (totalLen <= 0) return 0;
+    let fullBars = Math.floor(totalLen / barLen);
+    let remainder = totalLen % barLen;
+    return fullBars + (remainder > 0.01 ? 1 : 0);
   }
 
   function calculateAll() {
@@ -531,10 +526,9 @@
     let totalSqft = 0;
 
     let oSidePieces18 = [], oSidePieces21 = [];
-    let oTopPieces = [], oBotPieces = [];
     let sLockPieces18 = [], sLockPieces21 = [];
     let sIntPieces18 = [], sIntPieces21 = [];
-    let sTopPieces = [], sBotPieces = [], netPieces = [];
+    let netPiecesTotal = 0;
 
     let seriesVal = document.getElementById('aluSeries').value;
     let netSelVal = document.getElementById('netSection').value;
@@ -552,10 +546,12 @@
         let oSide = hFt * 2 * q;
         let oTopVal = wFt * q;
         let oBotVal = wFt * q; 
+        
+        let sTopVal = wFt * q; 
+        let sBotVal = wFt * q; 
+        
         let sLock = hFt * 2 * q;
         let sInt = hFt * 2 * q;
-        let sTopVal = wFt * 2 * q; // দুটি পাল্লার কারণে চওড়ার দ্বিগুণ
-        let sBotVal = wFt * 2 * q; // দুটি পাল্লার কারণে চওড়ার দ্বিগুণ
 
         outerH += oSide;
         outerTop += oTopVal;
@@ -574,18 +570,6 @@
           } else {
             oSidePieces18.push(hFt);
           }
-        }
-
-        // আউটার টপ ও বটমের জন্য প্রতি উইন্ডোর সিঙ্গেল চওড়া মাপ (wFt) লুপ করা হলো
-        for(let j = 0; j < q; j++) { 
-          oTopPieces.push(wFt); 
-          oBotPieces.push(wFt); 
-        }
-
-        // শাটার টপ ও বটমের জন্য প্রতিটি পাল্লার একক চওড়ার মাপ (wFt) পুশ করা হলো, যাতে সঠিক অপ্টিমাইজড বার সংখ্যা আসে
-        for(let j = 0; j < (q * 2); j++) { 
-          sTopPieces.push(wFt); 
-          sBotPieces.push(wFt); 
         }
 
         for(let j = 0; j < (q * 2); j++) { 
@@ -608,7 +592,7 @@
         let q = parseFloat(qtys[i].value) || 0;
         if (h > 0 && w > 0 && q > 0) {
           let itemNetLen = (((h/12)*2 + (w/12)*2) * q) / 2;
-          netPieces.push(itemNetLen);
+          netPiecesTotal += itemNetLen;
         }
       }
     }
@@ -633,7 +617,7 @@
       document.getElementById('netCuttingSection').style.display = 'block';
       
       document.getElementById('cNetLen').innerText = netFt.toFixed(2) + " ft";
-      document.getElementById('cNetBar').innerText = getBarCount(netPieces, 21);
+      document.getElementById('cNetBar').innerText = getBarBreakdown(netFt, 21);
     } else {
       document.getElementById('netRow').style.display = 'none';
       document.getElementById('netMeshRow').style.display = 'none';
@@ -643,36 +627,44 @@
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
     // ১৮.৫ ফিট কলাম হিসাব
-    document.getElementById('c18_outerSideLen').innerText = (oSidePieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
-    document.getElementById('c18_outerSideBar').innerText = getBarCount(oSidePieces18, 18.5);
+    let o18Len = oSidePieces18.reduce((a,b)=>a+b,0);
+    let s18LockLen = sLockPieces18.reduce((a,b)=>a+b,0);
+    let s18IntLen = sIntPieces18.reduce((a,b)=>a+b,0);
 
-    document.getElementById('c18_lockLen').innerText = (sLockPieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
-    document.getElementById('c18_lockBar').innerText = getBarCount(sLockPieces18, 18.5);
+    document.getElementById('c18_outerSideLen').innerText = o18Len.toFixed(2) + " ft";
+    document.getElementById('c18_outerSideBar').innerText = getBarBreakdown(o18Len, 18.5);
 
-    document.getElementById('c18_intLen').innerText = (sIntPieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
-    document.getElementById('c18_intBar').innerText = getBarCount(sIntPieces18, 18.5);
+    document.getElementById('c18_lockLen').innerText = s18LockLen.toFixed(2) + " ft";
+    document.getElementById('c18_lockBar').innerText = getBarBreakdown(s18LockLen, 18.5);
 
-    // ২১ ফিট কলাম হিসাব (আউটার টপ, বটম এবং শাটার টপ, বটম এখন একক পিসের মাপ অনুযায়ী সঠিক বার সংখ্যা দেখাবে)
-    document.getElementById('c21_outerSideLen').innerText = (oSidePieces21.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
-    document.getElementById('c21_outerSideBar').innerText = getBarCount(oSidePieces21, 21);
+    document.getElementById('c18_intLen').innerText = s18IntLen.toFixed(2) + " ft";
+    document.getElementById('c18_intBar').innerText = getBarBreakdown(s18IntLen, 18.5);
+
+    // ২১ ফিট কলাম হিসাব (আপনার নিয়ম অনুযায়ী ফুল পিস + রিমেইনিং পিস)
+    let o21SideLen = oSidePieces21.reduce((a,b)=>a+b,0);
+    let s21LockLen = sLockPieces21.reduce((a,b)=>a+b,0);
+    let s21IntLen = sIntPieces21.reduce((a,b)=>a+b,0);
+
+    document.getElementById('c21_outerSideLen').innerText = o21SideLen.toFixed(2) + " ft";
+    document.getElementById('c21_outerSideBar').innerText = getBarBreakdown(o21SideLen, 21);
 
     document.getElementById('c21_topLen').innerText = outerTop.toFixed(2) + " ft";
-    document.getElementById('c21_topBar').innerText = getBarCount(oTopPieces, 21);
+    document.getElementById('c21_topBar').innerText = getBarBreakdown(outerTop, 21);
 
     document.getElementById('c21_botLen').innerText = outerBottom.toFixed(2) + " ft";
-    document.getElementById('c21_botBar').innerText = getBarCount(oBotPieces, 21);
+    document.getElementById('c21_botBar').innerText = getBarBreakdown(outerBottom, 21);
 
     document.getElementById('c21_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
-    document.getElementById('c21_sTopBar').innerText = getBarCount(sTopPieces, 21);
+    document.getElementById('c21_sTopBar').innerText = getBarBreakdown(shutterTop, 21); // আউটার টপের সমান মাপ ও পিস
 
     document.getElementById('c21_sBotLen').innerText = shutterBottom.toFixed(2) + " ft";
-    document.getElementById('c21_sBotBar').innerText = getBarCount(sBotPieces, 21);
+    document.getElementById('c21_sBotBar').innerText = getBarBreakdown(shutterBottom, 21); // আউটার বটমের সমান মাপ ও পিস
 
-    document.getElementById('c21_lockLen').innerText = (sLockPieces21.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
-    document.getElementById('c21_lockBar').innerText = getBarCount(sLockPieces21, 21);
+    document.getElementById('c21_lockLen').innerText = s21LockLen.toFixed(2) + " ft";
+    document.getElementById('c21_lockBar').innerText = getBarBreakdown(s21LockLen, 21);
 
-    document.getElementById('c21_intLen').innerText = (sIntPieces21.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
-    document.getElementById('c21_intBar').innerText = getBarCount(sIntPieces21, 21);
+    document.getElementById('c21_intLen').innerText = s21IntLen.toFixed(2) + " ft";
+    document.getElementById('c21_intBar').innerText = getBarBreakdown(s21IntLen, 21);
 
     let glassSqft = totalSqft; 
     let aluTotalCost = totalAlu * (rateData.aluRate || 0);

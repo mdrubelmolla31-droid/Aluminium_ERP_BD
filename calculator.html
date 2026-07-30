@@ -18,6 +18,7 @@
       margin-bottom: 16px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       text-align: center;
+      position: relative;
     }
     .header-card h2 { margin: 0 0 5px 0; font-size: 22px; }
     .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; }
@@ -128,14 +129,79 @@
       text-align: center;
       margin-bottom: 10px;
     }
+
+    .menu-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      font-size: 20px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .menu-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+    #historyModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: flex-start;
+      align-items: center;
+      z-index: 1000;
+    }
+    .history-content {
+      background: white;
+      padding: 20px;
+      width: 85%;
+      max-width: 400px;
+      height: 100%;
+      box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+    }
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #eff6ff;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .history-header h3 { margin: 0; color: #1e40af; font-size: 16px; }
+    .history-list { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
+    .history-list li {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-close-history {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- হেডার সেকশন -->
   <div class="header-card">
+    <button class="menu-btn" onclick="openHistory()">☰</button>
     <h2>RM. Thai Aluminium</h2>
     <p>Costing & Quotation Calculator</p>
     
@@ -187,7 +253,7 @@
 
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
-    <div class="notice-box">ℹ️ উইন্ডো যুক্ত করার সময় কোনো ডিফল্ট মাপ থাকবে না; আপনার প্রয়োজনমতো মাপ বসিয়ে নিন।</div>
+    <div class="notice-box">ℹ️ উইন্ডো যুক্ত করার সময় মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
     <table class="input-table">
       <thead>
         <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
@@ -232,7 +298,7 @@
     </table>
   </div>
 
-  <!-- কাটিং টেবিল সেকশন -->
+  <!-- কাটিং মাপ টেবিল (সংশোধিত লজিক অনুযায়ী) -->
   <div class="card">
     <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল (18.5 & 21 ft Columns)</div>
     
@@ -257,10 +323,10 @@
         <tr><td>Outer Side (> 6ft)</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
         <tr><td>Outer Top (21 ft)</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
         <tr><td>Outer Bottom (Equal to Top)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
-        <tr><td>Shutter Lock (> 6ft)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
-        <tr><td>Shutter Interlock (> 6ft)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
         <tr><td>Shutter Top (21 ft)</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
         <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
+        <tr><td>Shutter Lock (> 6ft)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
+        <tr><td>Shutter Interlock (> 6ft)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
       </tbody>
     </table>
 
@@ -277,6 +343,17 @@
     </div>
   </div>
 
+</div>
+
+<div id="historyModal" onclick="if(event.target === this) closeHistory()">
+  <div class="history-content">
+    <div class="history-header">
+      <h3>Calculation History</h3>
+      <button class="btn-close-history" onclick="closeHistory()">X</button>
+    </div>
+    <ul id="historyListContainer" class="history-list"></ul>
+    <button class="btn btn-danger" style="margin-top: 10px;" onclick="clearAllHistory()">Clear All History</button>
+  </div>
 </div>
 
 <script>
@@ -452,7 +529,6 @@
     let outerH = 0, outerTop = 0, outerBottom = 0;
     let shutterLock = 0, shutterInterlock = 0, shutterTop = 0, shutterBottom = 0;
     let totalSqft = 0;
-    let totalRunningLength = 0;
 
     let oSidePieces18 = [], oSidePieces21 = [];
     let oTopPieces = [], oBotPieces = [];
@@ -478,8 +554,8 @@
         let oBotVal = wFt * q; 
         let sLock = hFt * 2 * q;
         let sInt = hFt * 2 * q;
-        let sTopVal = wFt * 2 * q;
-        let sBotVal = wFt * 2 * q; 
+        let sTopVal = wFt * 2 * q; // দুটি পাল্লার কারণে চওড়ার দ্বিগুণ
+        let sBotVal = wFt * 2 * q; // দুটি পাল্লার কারণে চওড়ার দ্বিগুণ
 
         outerH += oSide;
         outerTop += oTopVal;
@@ -491,10 +567,7 @@
 
         let winSqft = hFt * wFt * q;
         totalSqft += winSqft;
-        let winRunLen = (oSide + oTopVal + oBotVal + sLock + sInt + sTopVal + sBotVal);
-        totalRunningLength += winRunLen;
 
-        // হাইট অনুযায়ী খাড়া মাল ১৮.৫ বা ২১ ফিট বারে ভাগ হবে
         for(let j = 0; j < (q * 2); j++) { 
           if (hFt > 6) {
             oSidePieces21.push(hFt);
@@ -503,13 +576,18 @@
           }
         }
 
-        // আউটার টপ ও বটম পিস (সঠিক পরিমাণে একটি করে লুপ)
+        // আউটার টপ ও বটমের জন্য প্রতি উইন্ডোর সিঙ্গেল চওড়া মাপ (wFt) লুপ করা হলো
         for(let j = 0; j < q; j++) { 
           oTopPieces.push(wFt); 
           oBotPieces.push(wFt); 
         }
 
-        // হাইট অনুযায়ী শার্টার লক ও ইন্টারলক ১৮.৫ বা ২১ ফিট বারে ভাগ হবে
+        // শাটার টপ ও বটমের জন্য প্রতিটি পাল্লার একক চওড়ার মাপ (wFt) পুশ করা হলো, যাতে সঠিক অপ্টিমাইজড বার সংখ্যা আসে
+        for(let j = 0; j < (q * 2); j++) { 
+          sTopPieces.push(wFt); 
+          sBotPieces.push(wFt); 
+        }
+
         for(let j = 0; j < (q * 2); j++) { 
           if (hFt > 6) {
             sLockPieces21.push(hFt);
@@ -519,16 +597,10 @@
             sIntPieces18.push(hFt);
           }
         }
-
-        // শার্টার টপ ও বটম পিস (ডাবল এড়াতে সঠিক লুপ 'q' দেওয়া হলো)
-        for(let j = 0; j < q; j++) { 
-          sTopPieces.push(wFt); 
-          sBotPieces.push(wFt); 
-        }
       }
     }
 
-    let netFt = isNetActive ? (totalRunningLength / 2) : 0;
+    let netFt = isNetActive ? ((outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom) / 2) : 0;
     if (isNetActive && heights.length > 0) {
       for (let i = 0; i < heights.length; i++) {
         let h = parseFloat(heights[i].value) || 0;
@@ -570,7 +642,7 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // ১৮.৫ ফিট কলাম হিসাব (হাইট <= ৬ ফিট)
+    // ১৮.৫ ফিট কলাম হিসাব
     document.getElementById('c18_outerSideLen').innerText = (oSidePieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
     document.getElementById('c18_outerSideBar').innerText = getBarCount(oSidePieces18, 18.5);
 
@@ -580,12 +652,8 @@
     document.getElementById('c18_intLen').innerText = (sIntPieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
     document.getElementById('c18_intBar').innerText = getBarCount(sIntPieces18, 18.5);
 
-    // ২১ ফিট কলাম হিসাব (হাইট > ৬ ফিট এবং চওড়ার মালসমূহ)
-    let total21OuterSide = outerH - (oSidePieces18.reduce((a,b)=>a+b,0));
-    let total21Lock = shutterLock - (sLockPieces18.reduce((a,b)=>a+b,0));
-    let total21Int = shutterInterlock - (sIntPieces18.reduce((a,b)=>a+b,0));
-
-    document.getElementById('c21_outerSideLen').innerText = total21OuterSide.toFixed(2) + " ft";
+    // ২১ ফিট কলাম হিসাব (আউটার টপ, বটম এবং শাটার টপ, বটম এখন একক পিসের মাপ অনুযায়ী সঠিক বার সংখ্যা দেখাবে)
+    document.getElementById('c21_outerSideLen').innerText = (oSidePieces21.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
     document.getElementById('c21_outerSideBar').innerText = getBarCount(oSidePieces21, 21);
 
     document.getElementById('c21_topLen').innerText = outerTop.toFixed(2) + " ft";
@@ -594,17 +662,17 @@
     document.getElementById('c21_botLen').innerText = outerBottom.toFixed(2) + " ft";
     document.getElementById('c21_botBar').innerText = getBarCount(oBotPieces, 21);
 
-    document.getElementById('c21_lockLen').innerText = total21Lock.toFixed(2) + " ft";
-    document.getElementById('c21_lockBar').innerText = getBarCount(sLockPieces21, 21);
-
-    document.getElementById('c21_intLen').innerText = total21Int.toFixed(2) + " ft";
-    document.getElementById('c21_intBar').innerText = getBarCount(sIntPieces21, 21);
-
     document.getElementById('c21_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
     document.getElementById('c21_sTopBar').innerText = getBarCount(sTopPieces, 21);
 
     document.getElementById('c21_sBotLen').innerText = shutterBottom.toFixed(2) + " ft";
     document.getElementById('c21_sBotBar').innerText = getBarCount(sBotPieces, 21);
+
+    document.getElementById('c21_lockLen').innerText = (sLockPieces21.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
+    document.getElementById('c21_lockBar').innerText = getBarCount(sLockPieces21, 21);
+
+    document.getElementById('c21_intLen').innerText = (sIntPieces21.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
+    document.getElementById('c21_intBar').innerText = getBarCount(sIntPieces21, 21);
 
     let glassSqft = totalSqft; 
     let aluTotalCost = totalAlu * (rateData.aluRate || 0);
@@ -632,6 +700,60 @@
     document.getElementById('mSellingRatePerSqft').innerText = sellingRatePerSqft.toFixed(2);
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
+
+    if (totalSqft > 0) {
+      let cust = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
+      let proj = document.getElementById('projectName').value || 'N/A';
+      let summaryText = `গ্রাহক: ${cust} | প্রজেক্ট: ${proj} | মোট স্কয়ার ফিট: ${totalSqft.toFixed(2)} Sqft | মোট অ্যালুমিনিয়াম: ${totalAlu.toFixed(2)} ft | মোট মূল্য: ${sellingPrice.toFixed(2)} ৳`;
+      saveToHistory(summaryText);
+    }
+  }
+
+  function openHistory() {
+    document.getElementById('historyModal').style.display = 'flex';
+    renderHistoryList();
+  }
+
+  function closeHistory() {
+    document.getElementById('historyModal').style.display = 'none';
+  }
+
+  function saveToHistory(summaryData) {
+    let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
+    let timestamp = new Date().toLocaleString('bn-BD');
+    if (history.length > 0 && history[0].details === summaryData) return;
+    history.unshift({ time: timestamp, details: summaryData });
+    if (history.length > 50) history.pop();
+    localStorage.setItem('rm_calc_history', JSON.stringify(history));
+  }
+
+  function renderHistoryList() {
+    let container = document.getElementById('historyListContainer');
+    let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
+    container.innerHTML = '';
+    
+    if (history.length === 0) {
+      container.innerHTML = '<li style="justify-content: center; color: #64748b;">কোনো হিস্টরি পাওয়া যায়নি।</li>';
+      return;
+    }
+
+    history.forEach((item, index) => {
+      let li = document.createElement('li');
+      li.innerHTML = `<div><strong>#${index + 1} (${item.time})</strong><br>${item.details}</div> <button class="btn-danger" onclick="deleteSingleHistory(${index})">Delete</button>`;
+      container.appendChild(li);
+    });
+  }
+
+  function deleteSingleHistory(index) {
+    let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
+    history.splice(index, 1);
+    localStorage.setItem('rm_calc_history', JSON.stringify(history));
+    renderHistoryList();
+  }
+
+  function clearAllHistory() {
+    localStorage.removeItem('rm_calc_history');
+    renderHistoryList();
   }
 </script>
 

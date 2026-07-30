@@ -155,7 +155,7 @@
 
   <div class="card">
     <div class="card-title">Item Specifications</div>
-    <div class="notice-box">💡 রেট সেটিংস পেজ থেকে সেভ করা রেট এখানে স্বয়ংক্রয়ভাবে ভেরিয়েশন অনুযায়ী কাজ করবে।</div>
+    <div class="notice-box">💡 রেট সেটিংস পেজ থেকে সেভ করা রেট এখানে স্বয়ংক্রয়ভাবে কাজ করবে।</div>
     
     <div class="row">
       <div class="col"><label>Company</label><select id="aluCompany" onchange="calculateAll()"></select></div>
@@ -187,6 +187,7 @@
 
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
+    <div class="notice-box">ℹ️ উইন্ডো যুক্ত করার সময় কোনো ডিফল্ট মাপ থাকবে না; আপনার প্রয়োজনমতো মাপ বসিয়ে নিন।</div>
     <table class="input-table">
       <thead>
         <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
@@ -203,11 +204,11 @@
       <tbody>
         <tr><td>Outer Side</td><td><span id="mOuterSide">0.00</span> ft</td></tr>
         <tr><td>Outer Top</td><td><span id="mOuterTop">0.00</span> ft</td></tr>
-        <tr><td>Outer Bottom</td><td><span id="mOuterBottom">0.00</span> ft</td></tr>
+        <tr><td>Outer Bottom (Equal to Top)</td><td><span id="mOuterBottom">0.00</span> ft</td></tr>
         <tr><td>Shutter Lock</td><td><span id="mShutterLock">0.00</span> ft</td></tr>
         <tr><td>Shutter Interlock</td><td><span id="mShutterInterlock">0.00</span> ft</td></tr>
         <tr><td>Shutter Top</td><td><span id="mShutterTop">0.00</span> ft</td></tr>
-        <tr><td>Shutter Bottom</td><td><span id="mShutterBottom">0.00</span> ft</td></tr>
+        <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td><span id="mShutterBottom">0.00</span> ft</td></tr>
         
         <tr id="netRow" style="display: none;"><td>Net Frame Aluminium</td><td><span id="mNetSection">0.00</span> ft</td></tr>
 
@@ -233,9 +234,9 @@
 
   <!-- কাটিং টেবিল সেকশন -->
   <div class="card">
-    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল</div>
+    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল (Separate 18.5 & 21 ft Columns)</div>
     
-    <div class="section-title">18.5 ft Bar Section (Smart Optimized Calculation)</div>
+    <div class="section-title">18.5 ft Bar Section (Dedicated Column)</div>
     <table class="report-table">
       <thead>
         <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (18.5 ft)</th></tr>
@@ -247,24 +248,24 @@
       </tbody>
     </table>
 
-    <div class="section-title" style="margin-top: 16px;">21 ft Bar Section (Smart Optimized Calculation)</div>
+    <div class="section-title" style="margin-top: 16px;">21 ft Bar Section (Top/Bottom, Extra/Remnant Optimized & Net)</div>
     <table class="report-table">
       <thead>
         <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (21 ft)</th></tr>
       </thead>
       <tbody id="cutting21Body">
-        <tr><td>Outer Side (21 ft)</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
+        <tr><td>Outer Side (21 ft Extra)</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
         <tr><td>Outer Top (21 ft)</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
-        <tr><td>Outer Bottom (21 ft)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
-        <tr><td>Shutter Lock (21 ft)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
-        <tr><td>Shutter Interlock (21 ft)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
+        <tr><td>Outer Bottom (Equal to Top)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
+        <tr><td>Shutter Lock (21 ft Extra)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
+        <tr><td>Shutter Interlock (21 ft Extra)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
         <tr><td>Shutter Top (21 ft)</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
-        <tr><td>Shutter Bottom (21 ft)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
+        <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
       </tbody>
     </table>
 
     <div id="netCuttingSection" style="display: none;">
-      <div class="section-title" style="margin-top: 16px;">Net Section (Smart Optimized Bar)</div>
+      <div class="section-title" style="margin-top: 16px;">Net Section (21 ft Bar)</div>
       <table class="report-table">
         <thead>
           <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed</th></tr>
@@ -282,7 +283,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     initCalculatorDropdowns();
     loadHeaderInfo();
-    addRow();
+    addRow(); // একটি খালি রো তৈরি হবে যাতে ডিফল্ট কোনো মান না থাকে
     toggleNetSection();
     calculateAll();
   });
@@ -327,7 +328,7 @@
   function toggleNetSection() {
     let series = document.getElementById('aluSeries').value;
     let netSelect = document.getElementById('netSection');
-    if (series && series.includes('4')) {
+    if (series && (series.includes('4') || series.includes('ফোর') || series.includes('Four'))) {
       netSelect.disabled = false;
     } else {
       netSelect.disabled = true;
@@ -335,19 +336,19 @@
     }
   }
 
+  // উইন্ডো রো যোগ করার সময় কোনো ডিফল্ট মাপ থাকবে না (ফাঁকা থাকবে)
   function addRow() {
     let tbody = document.getElementById('winTableBody');
     let tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="row-index"></td>
-      <td><input type="number" class="w-h" placeholder="Height" value="84" oninput="calculateAll()"></td>
-      <td><input type="number" class="w-w" placeholder="Width" value="72" oninput="calculateAll()"></td>
-      <td><input type="number" class="w-q" value="4" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-h" placeholder="Height" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-w" placeholder="Width" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-q" placeholder="Qty" oninput="calculateAll()"></td>
       <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
     updateIndexes();
-    calculateAll();
   }
 
   function removeRow(btn) {
@@ -357,7 +358,7 @@
       updateIndexes();
       calculateAll();
     } else {
-      alert("কমপক্ষে একটি উইন্ডো থাকতে হবে!");
+      alert("কমপক্ষে একটি উইন্ডো রো থাকতে হবে!");
     }
   }
 
@@ -391,6 +392,14 @@
 
     if (!matched) {
       matched = rateList.find(item => 
+        item.company === curCompany &&
+        item.series === curSeries &&
+        item.aluThickness === curThick
+      );
+    }
+
+    if (!matched) {
+      matched = rateList.find(item => 
         item.series === curSeries &&
         item.aluThickness === curThick
       );
@@ -398,13 +407,7 @@
 
     if (!matched) {
       matched = rateList[0] || {
-        aluRate: 250,
-        glassRate: 150,
-        hwRate: 45,
-        fitRate: 45,
-        labourRate: 15,
-        profit: 15,
-        netRate: 100
+        aluRate: 0, glassRate: 0, hwRate: 0, fitRate: 0, labourRate: 0, profit: 0, netRate: 0
       };
     }
 
@@ -417,16 +420,24 @@
     arr.sort((a, b) => b - a);
     let bins = [];
     for (let i = 0; i < arr.length; i++) {
+      let p = arr[i];
+      if (p > barLen) {
+        let extraBars = Math.ceil(p / barLen);
+        for(let e = 0; e < extraBars; e++) {
+          bins.push(barLen);
+        }
+        continue;
+      }
       let placed = false;
       for (let j = 0; j < bins.length; j++) {
-        if (bins[j] + arr[i] <= barLen) {
-          bins[j] += arr[i];
+        if (bins[j] + p <= barLen) {
+          bins[j] += p;
           placed = true;
           break;
         }
       }
       if (!placed) {
-        bins.push(arr[i]);
+        bins.push(p);
       }
     }
     return bins.length;
@@ -444,11 +455,15 @@
     let totalSqft = 0;
     let totalRunningLength = 0;
 
-    let oSidePieces = [], oTopPieces = [], oBotPieces = [];
-    let sLockPieces = [], sIntPieces = [], sTopPieces = [], sBotPieces = [], netPieces = [];
+    let oSidePieces18 = [], oSidePieces21 = [];
+    let oTopPieces = [], oBotPieces = [];
+    let sLockPieces18 = [], sLockPieces21 = [];
+    let sIntPieces18 = [], sIntPieces21 = [];
+    let sTopPieces = [], sBotPieces = [], netPieces = [];
 
     let seriesVal = document.getElementById('aluSeries').value;
-    let isNetActive = seriesVal && seriesVal.includes('4') && document.getElementById('netSection').value !== 'none';
+    let netSelVal = document.getElementById('netSection').value;
+    let isNetActive = seriesVal && (seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four')) && netSelVal !== 'none';
 
     for (let i = 0; i < heights.length; i++) {
       let h = parseFloat(heights[i].value) || 0;
@@ -460,30 +475,53 @@
         let wFt = w / 12;
         
         let oSide = hFt * 2 * q;
-        let oTop = wFt * q;
-        let oBot = wFt * q;
+        let oTopVal = wFt * q;
+        let oBotVal = wFt * q; // আউটার বটম ও আউটার টপ সমান মাপের
         let sLock = hFt * 2 * q;
         let sInt = hFt * 2 * q;
-        let sTop = wFt * 2 * q;
-        let sBot = wFt * 2 * q;
+        let sTopVal = wFt * 2 * q;
+        let sBotVal = wFt * 2 * q; // শাটার বটম ও টপ সমান মাপের
 
         outerH += oSide;
-        outerTop += oTop;
-        outerBottom += oBot;
+        outerTop += oTopVal;
+        outerBottom += oBotVal;
         shutterLock += sLock;
         shutterInterlock += sInt;
-        shutterTop += sTop;
-        shutterBottom += sBot;
+        shutterTop += sTopVal;
+        shutterBottom += sBotVal;
 
         let winSqft = hFt * wFt * q;
         totalSqft += winSqft;
-        let winRunLen = (oSide + oTop + oBot + sLock + sInt + sTop + sBot);
+        let winRunLen = (oSide + oTopVal + oBotVal + sLock + sInt + sTopVal + sBotVal);
         totalRunningLength += winRunLen;
 
-        for(let j = 0; j < (q * 2); j++) { oSidePieces.push(hFt); }
-        for(let j = 0; j < q; j++) { oTopPieces.push(wFt); oBotPieces.push(wFt); }
-        for(let j = 0; j < (q * 2); j++) { sLockPieces.push(hFt); sIntPieces.push(hFt); }
-        for(let j = 0; j < (q * 2); j++) { sTopPieces.push(wFt); sBotPieces.push(wFt); }
+        for(let j = 0; j < (q * 2); j++) { 
+          if (hFt > 6) {
+            oSidePieces21.push(hFt);
+          } else {
+            oSidePieces18.push(hFt);
+          }
+        }
+
+        for(let j = 0; j < q; j++) { 
+          oTopPieces.push(wFt); 
+          oBotPieces.push(wFt); 
+        }
+
+        for(let j = 0; j < (q * 2); j++) { 
+          if (hFt > 6) {
+            sLockPieces21.push(hFt);
+            sIntPieces21.push(hFt);
+          } else {
+            sLockPieces18.push(hFt);
+            sIntPieces18.push(hFt);
+          }
+        }
+
+        for(let j = 0; j < (q * 2); j++) { 
+          sTopPieces.push(wFt); 
+          sBotPieces.push(wFt); 
+        }
       }
     }
 
@@ -529,17 +567,23 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    document.getElementById('c18_outerSideLen').innerText = outerH.toFixed(2) + " ft";
-    document.getElementById('c18_outerSideBar').innerText = getBarCount(oSidePieces, 18.5);
+    // ১৮.৫ ফিট কলাম (শুধু ১৮.৫ ফিট বারের হিসাব)
+    document.getElementById('c18_outerSideLen').innerText = (oSidePieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
+    document.getElementById('c18_outerSideBar').innerText = getBarCount(oSidePieces18, 18.5);
 
-    document.getElementById('c18_lockLen').innerText = shutterLock.toFixed(2) + " ft";
-    document.getElementById('c18_lockBar').innerText = getBarCount(sLockPieces, 18.5);
+    document.getElementById('c18_lockLen').innerText = (sLockPieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
+    document.getElementById('c18_lockBar').innerText = getBarCount(sLockPieces18, 18.5);
 
-    document.getElementById('c18_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
-    document.getElementById('c18_intBar').innerText = getBarCount(sIntPieces, 18.5);
+    document.getElementById('c18_intLen').innerText = (sIntPieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
+    document.getElementById('c18_intBar').innerText = getBarCount(sIntPieces18, 18.5);
 
-    document.getElementById('c21_outerSideLen').innerText = outerH.toFixed(2) + " ft";
-    document.getElementById('c21_outerSideBar').innerText = getBarCount(oSidePieces, 21);
+    // ২১ ফিট কলাম (টপ/বটম, এক্সট্রা/রেমন্যান্ট সহ)
+    let total21OuterSide = outerH - (oSidePieces18.reduce((a,b)=>a+b,0));
+    let total21Lock = shutterLock - (sLockPieces18.reduce((a,b)=>a+b,0));
+    let total21Int = shutterInterlock - (sIntPieces18.reduce((a,b)=>a+b,0));
+
+    document.getElementById('c21_outerSideLen').innerText = total21OuterSide.toFixed(2) + " ft";
+    document.getElementById('c21_outerSideBar').innerText = getBarCount(oSidePieces21, 21);
 
     document.getElementById('c21_topLen').innerText = outerTop.toFixed(2) + " ft";
     document.getElementById('c21_topBar').innerText = getBarCount(oTopPieces, 21);
@@ -547,11 +591,11 @@
     document.getElementById('c21_botLen').innerText = outerBottom.toFixed(2) + " ft";
     document.getElementById('c21_botBar').innerText = getBarCount(oBotPieces, 21);
 
-    document.getElementById('c21_lockLen').innerText = shutterLock.toFixed(2) + " ft";
-    document.getElementById('c21_lockBar').innerText = getBarCount(sLockPieces, 21);
+    document.getElementById('c21_lockLen').innerText = total21Lock.toFixed(2) + " ft";
+    document.getElementById('c21_lockBar').innerText = getBarCount(sLockPieces21, 21);
 
-    document.getElementById('c21_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
-    document.getElementById('c21_intBar').innerText = getBarCount(sIntPieces, 21);
+    document.getElementById('c21_intLen').innerText = total21Int.toFixed(2) + " ft";
+    document.getElementById('c21_intBar').innerText = getBarCount(sIntPieces21, 21);
 
     document.getElementById('c21_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
     document.getElementById('c21_sTopBar').innerText = getBarCount(sTopPieces, 21);
@@ -565,7 +609,7 @@
     let hardwareCost = totalSqft * (rateData.hwRate || 0);
     let fittingsCharge = totalSqft * (rateData.fitRate || 0);
     let labourCharge = totalSqft * (rateData.labourRate || 0);
-    let netMeshCost = isNetActive ? (netMeshSqft * (rateData.netRate || 100)) : 0;
+    let netMeshCost = isNetActive ? (netMeshSqft * (rateData.netRate || 0)) : 0;
 
     let totalMaterialCost = aluTotalCost + glassTotalCost + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
     

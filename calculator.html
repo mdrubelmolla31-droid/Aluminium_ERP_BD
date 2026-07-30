@@ -130,7 +130,7 @@
       margin-bottom: 10px;
     }
 
-    /* থ্রি-লাইন বাটন এবং হিস্টরি প্যানেল স্টাইল */
+    /* থ্রি-লাইন বাটন এবং হিস্টরি ড্রয়ার প্যানেল স্টাইল */
     .menu-btn {
       position: absolute;
       top: 15px;
@@ -181,6 +181,10 @@
       border-radius: 6px;
       margin-bottom: 8px;
       font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
     }
     .btn-close-history {
       background: #ef4444;
@@ -351,7 +355,7 @@
       <button class="btn-close-history" onclick="closeHistory()">X</button>
     </div>
     <ul id="historyListContainer" class="history-list"></ul>
-    <button class="btn btn-danger" style="margin-top: 10px;" onclick="clearHistory()">Clear History</button>
+    <button class="btn btn-danger" style="margin-top: 10px;" onclick="clearAllHistory()">Clear All History</button>
   </div>
 </div>
 
@@ -579,7 +583,7 @@
           }
         }
 
-        // আউটার টপ ও বটম পিস (প্রতিটি উইন্ডোর জন্য தனி தனி পিস হিসেবে যুক্ত করা হলো)
+        // আউটার টপ ও বটম পিস (সঠিক পরিমাণে একটি করে লুপ)
         for(let j = 0; j < q; j++) { 
           oTopPieces.push(wFt); 
           oBotPieces.push(wFt); 
@@ -596,8 +600,8 @@
           }
         }
 
-        // শার্টার টপ ও বটম পিস (প্রতিটি পাল্লার জন্য সঠিক মাপ தனி தனி পিস হিসেবে যুক্ত করা হলো - প্রতিটি উইন্ডোতে ২টি করে পাল্লা)
-        for(let j = 0; j < (q * 2); j++) { 
+        // শার্টার টপ ও বটম পিস (ডাবল এড়াতে সঠিক লুপ 'q' দেওয়া হলো)
+        for(let j = 0; j < q; j++) { 
           sTopPieces.push(wFt); 
           sBotPieces.push(wFt); 
         }
@@ -710,13 +714,15 @@
     document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
 
     // ক্যালকুলেশন হিস্টরি স্বয়ংক্রয়ভাবে সংরক্ষণ করা
-    let cust = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
-    let proj = document.getElementById('projectName').value || 'N/A';
-    let summaryText = `গ্রাহক: ${cust} | প্রজেক্ট: ${proj} | মোট স্কয়ার ফিট: ${totalSqft.toFixed(2)} Sqft | মোট অ্যালুমিনিয়াম: ${totalAlu.toFixed(2)} ft | মোট মূল্য: ${sellingPrice.toFixed(2)} ৳`;
-    saveToHistory(summaryText);
+    if (totalSqft > 0) {
+      let cust = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
+      let proj = document.getElementById('projectName').value || 'N/A';
+      let summaryText = `গ্রাহক: ${cust} | প্রজেক্ট: ${proj} | মোট স্কয়ার ফিট: ${totalSqft.toFixed(2)} Sqft | মোট অ্যালুমিনিয়াম: ${totalAlu.toFixed(2)} ft | মোট মূল্য: ${sellingPrice.toFixed(2)} ৳`;
+      saveToHistory(summaryText);
+    }
   }
 
-  // থ্রি-লাইন মেনু ও হিস্টরি সংক্রান্ত ফাংশনসমূহ
+  // থ্রি-লাইন মেনু ও হিস্টরি সংক্রান্ত অতিরিক্ত ফাংশনসমূহ
   function openHistory() {
     document.getElementById('historyModal').style.display = 'flex';
     renderHistoryList();
@@ -729,6 +735,8 @@
   function saveToHistory(summaryData) {
     let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
     let timestamp = new Date().toLocaleString('bn-BD');
+    // একই হিসাব ডুপ্লিকেট সেভ হওয়া এড়াতে শেষ এন্ট্রির সাথে মিলিয়ে নেওয়া যেতে পারে
+    if (history.length > 0 && history[0].details === summaryData) return;
     history.unshift({ time: timestamp, details: summaryData });
     if (history.length > 50) history.pop();
     localStorage.setItem('rm_calc_history', JSON.stringify(history));
@@ -740,18 +748,25 @@
     container.innerHTML = '';
     
     if (history.length === 0) {
-      container.innerHTML = '<li>কোনো হিস্টরি পাওয়া যায়নি।</li>';
+      container.innerHTML = '<li style="justify-content: center; color: #64748b;">কোনো হিস্টরি পাওয়া যায়নি।</li>';
       return;
     }
 
     history.forEach((item, index) => {
       let li = document.createElement('li');
-      li.innerHTML = `<strong>#${index + 1} (${item.time})</strong><br>${item.details}`;
+      li.innerHTML = `<div><strong>#${index + 1} (${item.time})</strong><br>${item.details}</div> <button class="btn-danger" onclick="deleteSingleHistory(${index})">Delete</button>`;
       container.appendChild(li);
     });
   }
 
-  function clearHistory() {
+  function deleteSingleHistory(index) {
+    let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
+    history.splice(index, 1);
+    localStorage.setItem('rm_calc_history', JSON.stringify(history));
+    renderHistoryList();
+  }
+
+  function clearAllHistory() {
     localStorage.removeItem('rm_calc_history');
     renderHistoryList();
   }

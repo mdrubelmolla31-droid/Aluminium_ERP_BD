@@ -289,7 +289,7 @@
         <tr><td>Fittings Charge</td><td><span id="mFittings">0.00</span> ৳</td></tr>
         <tr><td>Labour Charge</td><td><span id="mLabour">0.00</span> ৳</td></tr>
         
-        <tr class="highlight"><td>Material Cost</td><td><span id="mMaterialCost">0.00</span> ৳</td></tr>
+        <tr class="highlight"><td>Material Cost (Total Actual Cost)</td><td><span id="mMaterialCost">0.00</span> ৳</td></tr>
         <tr><td>Selling Rate / Sqft</td><td><span id="mSellingRatePerSqft">0.00</span> ৳</td></tr>
         <tr><td>Profit / Sqft</td><td><span id="mProfitPerSqft">0.00</span> ৳</td></tr>
         
@@ -298,7 +298,7 @@
     </table>
   </div>
 
-  <!-- কাটিং মাপ টেবিল (সঠিক ও সমান লজিক অনুযায়ী) -->
+  <!-- কাটিং মাপ টেবিল (সঠিক লজিক অনুযায়ী) -->
   <div class="card">
     <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল</div>
     
@@ -490,7 +490,6 @@
     return matched;
   }
 
-  // ফুল পিস ও রিমেইনিং পিস দেখানোর সঠিক ফাংশন
   function getBarBreakdown(totalLen, barLen) {
     if (totalLen <= 0) return "0 টি বার";
     let fullBars = Math.floor(totalLen / barLen);
@@ -505,13 +504,6 @@
       result += `${remainder.toFixed(2)} ফিটের ১ টি পিস`;
     }
     return result || "0 টি বার";
-  }
-
-  function getBarCountNumber(totalLen, barLen) {
-    if (totalLen <= 0) return 0;
-    let fullBars = Math.floor(totalLen / barLen);
-    let remainder = totalLen % barLen;
-    return fullBars + (remainder > 0.01 ? 1 : 0);
   }
 
   function calculateAll() {
@@ -640,7 +632,7 @@
     document.getElementById('c18_intLen').innerText = s18IntLen.toFixed(2) + " ft";
     document.getElementById('c18_intBar').innerText = getBarBreakdown(s18IntLen, 18.5);
 
-    // ২১ ফিট কলাম হিসাব (আপনার নিয়ম অনুযায়ী ফুল পিস + রিমেইনিং পিস)
+    // ২১ ফিট কলাম হিসাব
     let o21SideLen = oSidePieces21.reduce((a,b)=>a+b,0);
     let s21LockLen = sLockPieces21.reduce((a,b)=>a+b,0);
     let s21IntLen = sIntPieces21.reduce((a,b)=>a+b,0);
@@ -655,10 +647,10 @@
     document.getElementById('c21_botBar').innerText = getBarBreakdown(outerBottom, 21);
 
     document.getElementById('c21_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
-    document.getElementById('c21_sTopBar').innerText = getBarBreakdown(shutterTop, 21); // আউটার টপের সমান মাপ ও পিস
+    document.getElementById('c21_sTopBar').innerText = getBarBreakdown(shutterTop, 21);
 
     document.getElementById('c21_sBotLen').innerText = shutterBottom.toFixed(2) + " ft";
-    document.getElementById('c21_sBotBar').innerText = getBarBreakdown(shutterBottom, 21); // আউটার বটমের সমান মাপ ও পিস
+    document.getElementById('c21_sBotBar').innerText = getBarBreakdown(shutterBottom, 21);
 
     document.getElementById('c21_lockLen').innerText = s21LockLen.toFixed(2) + " ft";
     document.getElementById('c21_lockBar').innerText = getBarBreakdown(s21LockLen, 21);
@@ -674,13 +666,23 @@
     let labourCharge = totalSqft * (rateData.labourRate || 0);
     let netMeshCost = isNetActive ? (netMeshSqft * (rateData.netRate || 0)) : 0;
 
+    // ম্যাটেরিয়াল কস্ট (বাস্তব খরচ)
     let totalMaterialCost = aluTotalCost + glassTotalCost + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
     
+    // সঠিক প্রফিট ও সেলিং প্রাইস হিসাব (যাতে বিক্রয়মূল্য সবসময় খরচের চেয়ে বেশি দেখায়)
     let baseSumRates = (rateData.aluRate || 0) + (rateData.glassRate || 0) + (rateData.hwRate || 0) + (rateData.fitRate || 0) + (rateData.labourRate || 0);
     let profitPercent = rateData.profit || 0;
+    
+    // প্রতি স্কয়ার ফিটে প্রফিট টাকা
     let profitPerSqft = baseSumRates * (profitPercent / 100); 
     let sellingRatePerSqft = baseSumRates + profitPerSqft;
-    let sellingPrice = totalSqft > 0 ? (totalSqft * sellingRatePerSqft) : 0;
+
+    // মোট বিক্রয়মূল্য হবে মোট স্কয়ার ফিটের সাথে সেলিং রেট গুণ করে (অথবা ম্যাটেরিয়াল কস্টের সাথে প্রফিট পার্সেন্ট যোগ করে)
+    let calculatedSellingPriceBySqft = totalSqft > 0 ? (totalSqft * sellingRatePerSqft) : 0;
+    let calculatedSellingPriceByMargin = totalMaterialCost * (1 + (profitPercent / 100));
+
+    // দুটি লজিকের মধ্যে যেটি বেশি বা আপনার নিয়মসম্মত সেটাই ফাইনাল সেলিং প্রাইস হিসেবে রাখা হলো
+    let finalSellingPrice = Math.max(calculatedSellingPriceBySqft, calculatedSellingPriceByMargin);
 
     document.getElementById('mGlassSqft').innerText = glassSqft.toFixed(2);
     document.getElementById('mAluCost').innerText = aluTotalCost.toFixed(2);
@@ -691,12 +693,12 @@
     document.getElementById('mMaterialCost').innerText = totalMaterialCost.toFixed(2);
     document.getElementById('mSellingRatePerSqft').innerText = sellingRatePerSqft.toFixed(2);
     document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
-    document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
+    document.getElementById('mSellingPrice').innerText = finalSellingPrice.toFixed(2);
 
     if (totalSqft > 0) {
       let cust = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
       let proj = document.getElementById('projectName').value || 'N/A';
-      let summaryText = `গ্রাহক: ${cust} | প্রজেক্ট: ${proj} | মোট স্কয়ার ফিট: ${totalSqft.toFixed(2)} Sqft | মোট অ্যালুমিনিয়াম: ${totalAlu.toFixed(2)} ft | মোট মূল্য: ${sellingPrice.toFixed(2)} ৳`;
+      let summaryText = `গ্রাহক: ${cust} | প্রজেক্ট: ${proj} | মোট স্কয়ার ফিট: ${totalSqft.toFixed(2)} Sqft | মোট অ্যালুমিনিয়াম: ${totalAlu.toFixed(2)} ft | মোট মূল্য: ${finalSellingPrice.toFixed(2)} ৳`;
       saveToHistory(summaryText);
     }
   }

@@ -274,23 +274,6 @@
             text-align: center;
         }
 
-        .dev-photo-box {
-            width: 65px;
-            height: 65px;
-            margin: 0 auto 10px auto;
-            border-radius: 50%;
-            border: 2px solid #3b82f6;
-            overflow: hidden;
-            background: #1e293b;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
-        }
-
-        .dev-photo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .lock-clickable-icon {
             font-size: 36px;
             margin-bottom: 10px;
@@ -402,17 +385,14 @@
     </div>
 
     <!-- 🔒 লকিং স্ক্রিন -->
-    <div class="lock-overlay" id="lockScreen">
+    <div class="lock-overlay" id="lockScreen" style="display: none;">
         <div class="lock-box">
-            <div class="dev-photo-box">
-                <img src="rubel.jpg" alt="Developer" onerror="this.src='https://img.icons8.com/color/96/user.png'">
-            </div>
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
             <h3 id="lockTitle" style="color: #ffffff; font-size: 15px;">Device License Activation</h3>
             <p id="lockSub" style="color: #9ca3af; font-size: 11px; margin-top: 4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
             <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">📲 Send Device ID to WhatsApp</a>
-            <input type="text" id="keyInput" class="lock-input" placeholder="Enter Product Key">
+            <input type="text" id="keyInput" class="lock-input" placeholder="পেমেন্ট করুন">
             <button class="btn-unlock" onclick="validateKey()">Activate License</button>
             <div class="dev-branding-footer">RM, THAI ALUMINUM, BY, RUBEL</div>
         </div>
@@ -556,9 +536,25 @@
 
             loadUserData();
 
+            // 7 Days Trial & Lock Logic
             if (localStorage.getItem("app_permanently_unlocked") === "true") {
                 document.getElementById("lockScreen").style.display = "none";
             } else {
+                let installDate = localStorage.getItem("app_install_date");
+                if (!installDate) {
+                    installDate = new Date().getTime();
+                    localStorage.setItem("app_install_date", installDate);
+                }
+
+                const currentTime = new Date().getTime();
+                const sevenDaysInMillis = 7 * 24 * 60 * 60 * 1000;
+
+                if (currentTime - installDate > sevenDaysInMillis) {
+                    document.getElementById("lockScreen").style.display = "flex";
+                } else {
+                    document.getElementById("lockScreen").style.display = "none";
+                }
+
                 generatedDeviceId = getDeviceId();
                 document.getElementById("deviceIdDisplay").innerText = "ID: " + generatedDeviceId;
                 
@@ -607,7 +603,7 @@
 
         function handleLockIconClick() {
             lockClickCount++;
-            if (lockClickCount >= 5 && !isMasterMode) {
+            if (lockClickCount >= 10 && !isMasterMode) {
                 isMasterMode = true;
                 document.getElementById("lockIcon").innerText = "🔑";
                 document.getElementById("lockTitle").innerText = "Admin Master Key Mode";

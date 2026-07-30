@@ -234,31 +234,31 @@
 
   <!-- কাটিং টেবিল সেকশন -->
   <div class="card">
-    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল (Separate 18.5 & 21 ft Columns)</div>
+    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল (18.5 & 21 ft Columns)</div>
     
-    <div class="section-title">18.5 ft Bar Section (Dedicated Column)</div>
+    <div class="section-title">18.5 ft Bar Section (For Height ≤ 6 ft)</div>
     <table class="report-table">
       <thead>
         <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (18.5 ft)</th></tr>
       </thead>
       <tbody id="cutting18Body">
-        <tr><td>Outer Side (18.5 ft)</td><td id="c18_outerSideLen">0.00 ft</td><td id="c18_outerSideBar">0</td></tr>
-        <tr><td>Shutter Lock (18.5 ft)</td><td id="c18_lockLen">0.00 ft</td><td id="c18_lockBar">0</td></tr>
-        <tr><td>Shutter Interlock (18.5 ft)</td><td id="c18_intLen">0.00 ft</td><td id="c18_intBar">0</td></tr>
+        <tr><td>Outer Side (≤ 6ft)</td><td id="c18_outerSideLen">0.00 ft</td><td id="c18_outerSideBar">0</td></tr>
+        <tr><td>Shutter Lock (≤ 6ft)</td><td id="c18_lockLen">0.00 ft</td><td id="c18_lockBar">0</td></tr>
+        <tr><td>Shutter Interlock (≤ 6ft)</td><td id="c18_intLen">0.00 ft</td><td id="c18_intBar">0</td></tr>
       </tbody>
     </table>
 
-    <div class="section-title" style="margin-top: 16px;">21 ft Bar Section (Top/Bottom, Extra/Remnant Optimized & Net)</div>
+    <div class="section-title" style="margin-top: 16px;">21 ft Bar Section (For Height > 6 ft & Width / Top / Bottom)</div>
     <table class="report-table">
       <thead>
         <tr><th>Item</th><th>Total Length (ft)</th><th>Bar Needed (21 ft)</th></tr>
       </thead>
       <tbody id="cutting21Body">
-        <tr><td>Outer Side (21 ft Extra)</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
+        <tr><td>Outer Side (> 6ft)</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
         <tr><td>Outer Top (21 ft)</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
         <tr><td>Outer Bottom (Equal to Top)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
-        <tr><td>Shutter Lock (21 ft Extra)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
-        <tr><td>Shutter Interlock (21 ft Extra)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
+        <tr><td>Shutter Lock (> 6ft)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
+        <tr><td>Shutter Interlock (> 6ft)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
         <tr><td>Shutter Top (21 ft)</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
         <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
       </tbody>
@@ -283,7 +283,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     initCalculatorDropdowns();
     loadHeaderInfo();
-    addRow(); // একটি খালি রো তৈরি হবে যাতে ডিফল্ট কোনো মান না থাকে
+    addRow(); 
     toggleNetSection();
     calculateAll();
   });
@@ -336,7 +336,6 @@
     }
   }
 
-  // উইন্ডো রো যোগ করার সময় কোনো ডিফল্ট মাপ থাকবে না (ফাঁকা থাকবে)
   function addRow() {
     let tbody = document.getElementById('winTableBody');
     let tr = document.createElement('tr');
@@ -476,11 +475,11 @@
         
         let oSide = hFt * 2 * q;
         let oTopVal = wFt * q;
-        let oBotVal = wFt * q; // আউটার বটম ও আউটার টপ সমান মাপের
+        let oBotVal = wFt * q; 
         let sLock = hFt * 2 * q;
         let sInt = hFt * 2 * q;
         let sTopVal = wFt * 2 * q;
-        let sBotVal = wFt * 2 * q; // শাটার বটম ও টপ সমান মাপের
+        let sBotVal = wFt * 2 * q; 
 
         outerH += oSide;
         outerTop += oTopVal;
@@ -495,6 +494,7 @@
         let winRunLen = (oSide + oTopVal + oBotVal + sLock + sInt + sTopVal + sBotVal);
         totalRunningLength += winRunLen;
 
+        // আপনার প্রধান শর্ত: হাইট ৬ ফিটের কম হলে 18.5 ft, বেশি হলে 21 ft বারের কলামে যাবে
         for(let j = 0; j < (q * 2); j++) { 
           if (hFt > 6) {
             oSidePieces21.push(hFt);
@@ -567,7 +567,7 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // ১৮.৫ ফিট কলাম (শুধু ১৮.৫ ফিট বারের হিসাব)
+    // ১৮.৫ ফিট কলাম হিসাব (হাইট <= ৬ ফিট)
     document.getElementById('c18_outerSideLen').innerText = (oSidePieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
     document.getElementById('c18_outerSideBar').innerText = getBarCount(oSidePieces18, 18.5);
 
@@ -577,7 +577,7 @@
     document.getElementById('c18_intLen').innerText = (sIntPieces18.reduce((a,b)=>a+b,0)).toFixed(2) + " ft";
     document.getElementById('c18_intBar').innerText = getBarCount(sIntPieces18, 18.5);
 
-    // ২১ ফিট কলাম (টপ/বটম, এক্সট্রা/রেমন্যান্ট সহ)
+    // ২১ ফিট কলাম হিসাব (হাইট > ৬ ফিট এবং চওড়ার মালসমূহ)
     let total21OuterSide = outerH - (oSidePieces18.reduce((a,b)=>a+b,0));
     let total21Lock = shutterLock - (sLockPieces18.reduce((a,b)=>a+b,0));
     let total21Int = shutterInterlock - (sIntPieces18.reduce((a,b)=>a+b,0));

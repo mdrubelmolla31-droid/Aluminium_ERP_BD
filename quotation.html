@@ -272,11 +272,11 @@
   </div>
 </div>
 
-<!-- ৭. মেটেরিয়াল ডিটেইলস টেমপ্লেট (শুধু ২ নম্বর বাটনে চাপলে এটি প্রিন্ট হবে) -->
+<!-- ৭. মেটেরিয়াল ডিটেইলস টেমপ্লেট (শুধু ২ নম্বর বাটনে চাপলে এটি প্রিন্ট হবে - কাটিং রিপোর্ট লজিক সহ) -->
 <div id="printMatSection">
   <div class="pdf-header">
     <p class="pdf-title" id="mShop"></p>
-    <p class="pdf-subtitle">Material Requirement & Stock Estimate Sheet</p>
+    <p class="pdf-subtitle">Material Requirement & Cutting Estimate Sheet</p>
   </div>
 
   <div class="pdf-info-box">
@@ -291,7 +291,7 @@
 
   <table class="pdf-table">
     <thead>
-      <tr><th>Material Name</th><th>Est. Length (Feet)</th><th>Req. Bars (21 Ft)</th><th>Req. Bars (18.6 Ft)</th></tr>
+      <tr><th>Material Name</th><th>Est. Length (Feet)</th><th>Req. Bars (21 Ft) [Height > 6ft]</th><th>Req. Bars (18.5 Ft) [Height < 6ft]</th></tr>
     </thead>
     <tbody id="pdfMatTableBody"></tbody>
   </table>
@@ -362,6 +362,10 @@
     let grandTotal = 0;
 
     let totalOuterH = 0, totalOuterW = 0, totalShutterH = 0, totalShutterW = 0;
+    
+    // আলাদা হিসাবের জন্য ভেরিয়েবল (হাইট ৬ ফুটের কম বা বেশি অনুযায়ী)
+    let feet21_Count = 0;
+    let feet185_Count = 0;
 
     for (let i = 0; i < heights.length; i++) {
       let h = parseFloat(heights[i].value) || 0;
@@ -384,10 +388,23 @@
           </tr>
         `;
 
-        totalOuterH += (h / 12) * 2 * q;
-        totalOuterW += (w / 12) * q;
-        totalShutterH += (h / 12) * 4 * q;
-        totalShutterW += (w / 12) * 4 * q;
+        let itemOuterH = (h / 12) * 2 * q;
+        let itemOuterW = (w / 12) * 2 * q;
+        let itemShutterH = (h / 12) * 4 * q;
+        let itemShutterW = (w / 12) * 4 * q;
+
+        totalOuterH += itemOuterH;
+        totalOuterW += itemOuterW;
+        totalShutterH += itemShutterH;
+        totalShutterW += itemShutterW;
+
+        // কাটিং ফর্মুলা লজিক: হাইট ৭২ ইঞ্চি (৬ ফুট) বা তার বেশি হলে ২১ ফুটের বার, কম হলে ১৮.৫ ফুটের বার কাউন্ট হবে
+        let totalItemFeet = itemOuterH + itemOuterW + itemShutterH + itemShutterW;
+        if (h >= 72) {
+          feet21_Count += Math.ceil(totalItemFeet / 21);
+        } else {
+          feet185_Count += Math.ceil(totalItemFeet / 18.5);
+        }
       }
     }
 
@@ -400,16 +417,18 @@
 
     let matTbody = document.getElementById('pdfMatTableBody');
     let materials = [
-      { name: "Outer Side", ft: totalOuterH },
-      { name: "Outer Top / Bottom", ft: totalOuterW * 2 },
-      { name: "Shutter Lock / Interlock", ft: totalShutterH },
-      { name: "Shutter Top / Bottom", ft: totalShutterW }
+      { name: "Outer Vertical (Side)", ft: totalOuterH },
+      { name: "Outer Horizontal (Top/Bottom)", ft: totalOuterW },
+      { name: "Shutter Vertical (Lock/Interlock)", ft: totalShutterH },
+      { name: "Shutter Horizontal (Top/Bottom)", ft: totalShutterW }
     ];
 
     matTbody.innerHTML = '';
     materials.forEach(m => {
+      // কাটিং ফর্মুলা লজিক অনুযায়ী মেটেরিয়াল অনুযায়ী আলাদা বারের হিসাব
       let b21 = Math.ceil(m.ft / 21);
-      let b18 = Math.ceil(m.ft / 18.6);
+      let b18 = Math.ceil(m.ft / 18.5);
+      
       matTbody.innerHTML += `
         <tr>
           <td><b>${m.name}</b></td>

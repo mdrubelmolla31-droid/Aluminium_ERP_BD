@@ -521,9 +521,17 @@
           len21_shutterLock += (h / 12) * 2 * q;
           len21_shutterInterlock += (h / 12) * 2 * q;
         }
+        if (h <= 72) { // Height <= 6 ft (72 inches) -> 18.5 ft bar logic
+          len18_outerSide += (h / 12) * 2 * q;
+          len18_shutterLock += (h / 12) * 2 * q;
+          len18_shutterInterlock += (h / 12) * 2 * q;
+        } else { // Height > 6 ft -> 21 ft bar logic
+          len21_outerSide += (h / 12) * 2 * q;
+          len21_shutterLock += (h / 12) * 2 * q;
+          len21_shutterInterlock += (h / 12) * 2 * q;
+        }
 
-        // Horizontal items go to 21 ft section rule or general pool as per standard calculator rule
-                // Horizontal items calculation (সঠিক সমান লজিক)
+        // Horizontal items calculation (সঠিক সমান লজিক)
         let outerTopVal = (w / 12) * q;
         let outerBotVal = outerTopVal; // আউটার বটম = আউটার টপ
         
@@ -535,8 +543,6 @@
         len21_shutterTop += shutterTopVal;
         len21_shutterBot += shutterBotVal;
 
-      }
-    }
 
     document.getElementById('calcTotalPrice').value = grandTotal.toFixed(2);
     document.getElementById('pGrandTotal').innerText = grandTotal.toFixed(2);

@@ -135,421 +135,7 @@
 
     #printWinSection, #printMatSection { display: none; }
 
-    /* নতুন এবং নিখুঁত প্রিন্ট ও এ ফোর সাইজ সেটিংস */
-    @media print {
-      @page {
-        size: A4;
-        margin: 10mm;
-      }
-      body * { visibility: hidden; }
-      
-      body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
-      body.print-window #printWinSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 0; background: #fff; font-size: 14px !important;
-      }
-
-      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
-      body.print-material #printMatSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 0; background: #fff; font-size: 14px !important;
-      }
-    }
-
-    #printWinSection, #printMatSection {
-      font-size: 14px;
-      color: #000;
-    }
-    .pdf-title { font-size: 26px !important; font-weight: 800; color: #1e3a8a; }
-    .pdf-subtitle { font-size: 14px !important; font-weight: bold; }
-    .pdf-info-box { font-size: 13px !important; padding: 10px !important; }
-    .pdf-table th, .pdf-table td { font-size: 13px !important; padding: 8px !important; }
-    .pdf-grand-total { font-size: 18px !important; }
-    .terms-box { font-size: 12px !important; }
-
-    .pdf-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 12px; }
-    .pdf-subtitle-sub { font-size: 12px; font-weight: 600; color: #334155; margin-top: 4px; }
-
-    .pdf-info-box {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      background: #f8fafc;
-      padding: 8px;
-      border-radius: 4px;
-      margin-bottom: 12px;
-      border: 1px solid #cbd5e1;
-    }
-
-    .pdf-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; font-weight: 600; text-align: center; }
-    .pdf-table th { background-color: #f1f5f9; color: #000; }
-
-    .pdf-grand-total {
-      text-align: right;
-      font-weight: 800;
-      color: #1e3a8a;
-      margin-top: 10px;
-      border-top: 1.5px solid #000;
-      padding-top: 4px;
-    }
-
-    .terms-box {
-      margin-top: 15px;
-      background: #fff7ed;
-      border-left: 4px solid #f97316;
-      padding: 8px 12px;
-    }
-
-    .signature-container {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 50px;
-      padding: 0 20px;
-    }
-
-    .sig-line {
-      border-top: 1.5px solid #000;
-      width: 150px;
-      text-align: center;
-      padding-top: 4px;
-      font-weight: bold;
-      font-size: 11px;
-    }
-        @media print {
-      @page {
-        size: A4;
-        margin: 8mm;
-      }
-      body * { visibility: hidden; }
-      
-      body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
-      body.print-window #printWinSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 5px; background: #fff; 
-      }
-
-      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
-      body.print-material #printMatSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 5px; background: #fff; 
-      }
-    }
-
-        @media print {
-      @page {
-        size: A4;
-        margin: 6mm;
-      }
-      body * { visibility: hidden; }
-      
-      body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
-      body.print-window #printWinSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff; 
-      }
-
-      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
-      body.print-material #printMatSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff; 
-      }
-    }
-
-        @media print {
-      @page {
-        size: A4;
-        margin: 6mm;
-      }
-      body * { visibility: hidden; }
-      
-      body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
-      body.print-window #printWinSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 12px; background: #fff; 
-      }
-
-      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
-      body.print-material #printMatSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 12px; background: #fff; 
-      }
-    }
-
-    /* পিডিএফ এবং প্রিন্টের মূল স্টাইল ও ওয়াটারমার্ক */
-    #printWinSection, #printMatSection {
-      font-size: 15px !important;
-      color: #0f172a !important;
-      font-weight: 700 !important;
-      font-family: Arial, sans-serif;
-      border: 3px solid #1e3a8a !important;
-      padding: 18px !important;
-      background: #ffffff !important;
-      position: relative;
-    }
-
-    /* ব্যাকগ্রাউন্ড জলছাপ (Watermark) */
-    #printWinSection::before, #printMatSection::before {
-      content: "ALUMINIUM SECTION";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-30deg);
-      font-size: 65px;
-      font-weight: 900;
-      color: rgba(30, 58, 138, 0.05); /* হালকা জলছাপ এফেক্ট */
-      z-index: 0;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    #printWinSection *, #printMatSection * {
-      font-weight: 700 !important;
-      position: relative;
-      z-index: 1;
-    }
-
-    .pdf-header { 
-      text-align: center; 
-      border-bottom: 2.5px dashed #2563eb !important; 
-      padding-bottom: 12px; 
-      margin-bottom: 15px; 
-      background: #f8fafc;
-      padding-top: 10px;
-      border-radius: 6px 6px 0 0;
-    }
-    
-    /* টাইটেল এবং মোবাইল নাম্বারের সাইজ আরও বড় করা হলো */
-    .pdf-title { font-size: 38px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
-    .pdf-subtitle-sub { font-size: 18px !important; font-weight: 800 !important; color: #1e293b !important; margin-top: 6px; }
-
-    .pdf-info-box {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px !important;
-      background: #f1f5f9 !important;
-      padding: 12px !important;
-      border-radius: 6px;
-      margin-bottom: 15px;
-      border: 2px solid #2563eb !important;
-      color: #1e293b !important;
-    }
-
-    .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .pdf-table th, .pdf-table td { border: 1.5px solid #2563eb !important; padding: 9px !important; font-size: 14px !important; text-align: center; }
-    .pdf-table th { background-color: #1e3a8a !important; color: #ffffff !important; font-weight: 900 !important; }
-    @media print {
-      @page {
-        size: A4 portrait;
-        margin: 5mm;
-      }
-      body * { visibility: hidden; }
-      
-      body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
-      body.print-window #printWinSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 8px; background: #fff !important; 
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
-      }
-
-      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
-      body.print-material #printMatSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 8px; background: #fff !important; 
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
-      }
-    }
-
-    #printWinSection, #printMatSection {
-      font-size: 14px !important;
-      color: #0f172a !important;
-      font-weight: 700 !important;
-      font-family: Arial, sans-serif;
-      border: 3px solid #1e3a8a !important;
-      padding: 12px !important;
-      background: #ffffff !important;
-      position: relative;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
-    /* ব্যাকগ্রাউন্ড জলছাপ (Watermark) আরও স্পষ্ট করা হলো */
-    #printWinSection::before, #printMatSection::before {
-      content: "ALUMINIUM SECTION";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-30deg);
-      font-size: 55px;
-      font-weight: 900;
-      color: rgba(37, 99, 235, 0.12) !important; /* হালকা নীল জলছাপ যা স্পষ্ট দেখা যাবে */
-      z-index: 0;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    #printWinSection *, #printMatSection * {
-      font-weight: 700 !important;
-      position: relative;
-      z-index: 1;
-    }
-
-    .pdf-header { 
-      text-align: center; 
-      border-bottom: 2px dashed #2563eb !important; 
-      padding-bottom: 8px; 
-      margin-bottom: 10px; 
-      background: #f8fafc !important;
-      padding-top: 6px;
-      border-radius: 4px 4px 0 0;
-    }
-    
-    .pdf-title { font-size: 32px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
-    .pdf-subtitle-sub { font-size: 15px !important; font-weight: 800 !important; color: #1e293b !important; margin-top: 4px; }
-
-    .pdf-info-box {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px !important;
-      background: #f1f5f9 !important;
-      padding: 8px 10px !important;
-      border-radius: 4px;
-      margin-bottom: 10px;
-      border: 1.5px solid #2563eb !important;
-      color: #1e293b !important;
-    }
-
-    /* টেবিলের ঘর এবং ব্লু কালার হেডার */
-    .pdf-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    .pdf-table th, .pdf-table td { 
-      border: 1.5px solid #1e3a8a !important; 
-      padding: 6px 8px !important; 
-      font-size: 13px !important; 
-      text-align: center; 
-    }
-    .pdf-table th { 
-      background-color: #1e3a8a !important; 
-      color: #ffffff !important; 
-      font-weight: 900 !important; 
-      -webkit-print-color-adjust: exact; 
-      print-color-adjust: exact;
-    }
-    .pdf-table td { color: #0f172a !important; background: #ffffff !important; }
-
-    .pdf-grand-total {
-      text-align: right;
-      font-size: 18px !important;
-      font-weight: 900 !important;
-      color: #1e3a8a !important;
-      margin-top: 10px;
-      border-top: 2px solid #1e3a8a !important;
-      padding-top: 6px;
-    }
-
-    /* লাল রঙের হাইলাইট টার্মস বক্স */
-    .terms-box {
-      margin-top: 12px;
-      background: #fef2f2 !important;
-      border: 1.5px solid #ef4444 !important;
-      border-left: 5px solid #dc2626 !important;
-    @media print {
-      @page {
-        size: A4 portrait;
-        margin: 5mm;
-      }
-      body * { visibility: hidden; }
-      
-      body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
-      body.print-window #printWinSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff !important; 
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
-      }
-
-      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
-      body.print-material #printMatSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff !important; 
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
-      }
-    }
-
-    /* ছবির ফন্টের মতো ভারী, মোটা এবং প্রিমিয়াম লুক */
-    #printWinSection, #printMatSection {
-      font-size: 15px !important;
-      color: #000000 !important;
-      font-weight: 900 !important;
-      font-family: 'Impact', 'Arial Black', sans-serif !important;
-      border: 3.5px solid #1e3a8a !important;
-      padding: 15px !important;
-      background: #ffffff !important;
-      position: relative;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
-    /* ব্যাকগ্রাউন্ড জলছাপ (Watermark) */
-    #printWinSection::before, #printMatSection::before {
-      content: "ALUMINIUM SECTION";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-30deg);
-      font-size: 55px;
-      font-weight: 900;
-      color: rgba(37, 99, 235, 0.10) !important;
-      z-index: 0;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    #printWinSection *, #printMatSection * {
-      font-weight: 900 !important;
-      position: relative;
-      z-index: 1;
-    }
-
-    .pdf-header { 
-      text-align: center; 
-      border-bottom: 2.5px solid #1e3a8a !important; 
-      padding-bottom: 10px; 
-      margin-bottom: 12px; 
-      background: #f1f5f9 !important;
-      padding-top: 8px;
-      border-radius: 4px 4px 0 0;
-    }
-    
-    /* টাইটেল এবং মোবাইল নম্বর ছবির মতো অনেক বড় ও বোল্ড করা হয়েছে */
-    .pdf-title { font-size: 40px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; letter-spacing: 1px; }
-    .pdf-subtitle-sub { font-size: 18px !important; font-weight: 900 !important; color: #0f172a !important; margin-top: 5px; }
-
-    .pdf-info-box {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px !important;
-      background: #f8fafc !important;
-      padding: 10px 12px !important;
-      border-radius: 4px;
-      margin-bottom: 12px;
-      border: 2px solid #1e3a8a !important;
-      color: #000000 !important;
-    }
-
-    /* টেবিলের ঘর এবং ব্লু কালার হেডার */
-    .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .pdf-table th, .pdf-table td { 
-      border: 2px solid #1e3a8a !important; 
-      padding: 7px 9px !important; 
-      font-size: 14px !important; 
-      text-align: center; 
-    }
-    .pdf-table th { 
-      background-color: #1e3a8a !important; 
-      color: #ffffff !important; 
-      font-weight: 900 !important; 
-      -webkit-print-color-adjust: exact; 
-      print-color-adjust: exact;
-    }
-    .pdf-table td { color: #000000 !important; background: #ffffff !important; }
-
-    .pdf-grand-total {
-      text-align: right;
-      font-size: 20px !important;
-      font-weight: 900 !important;
-      color: #1e3a8a !important;
-      margin-top: 12px;
-      border-top: 2.5px solid #1e3a8a !important;
-      padding-top: 6px;
-    }
-
+    /* প্রিন্ট ও এ ফোর সাইজ সেটিংস (ভারী ও বোল্ড ফন্ট স্টাইল) */
     @media print {
       @page {
         size: A4 portrait;
@@ -570,7 +156,6 @@
       }
     }
 
-    /* আপনার পাঠানো ছবির মতো একদম ভারী, মোটা এবং বিশাল ফন্ট স্টাইল */
     #printWinSection, #printMatSection {
       font-size: 16px !important;
       color: #000000 !important;
@@ -615,7 +200,6 @@
       border-radius: 4px 4px 0 0;
     }
     
-    /* টাইটেল এবং মোবাইল নম্বর আপনার পাঠানো ছবির মতো অনেক বড়, মোটা ও আকর্ষণীয় */
     .pdf-title { font-size: 45px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; letter-spacing: 1.5px; }
     .pdf-subtitle-sub { font-size: 20px !important; font-weight: 900 !important; color: #0f172a !important; margin-top: 6px; }
 
@@ -631,7 +215,6 @@
       color: #000000 !important;
     }
 
-    /* টেবিলের ঘর এবং ব্লু কালার হেডার যা আপনার ছবির ফন্টের মতো মোটা দেখাবে */
     .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     .pdf-table th, .pdf-table td { 
       border: 2px solid #1e3a8a !important; 
@@ -658,7 +241,6 @@
       padding-top: 8px;
     }
 
-    /* টার্মস অ্যান্ড কন্ডিশনস লাল রঙে হাইলাইট করা বক্স */
     .terms-box {
       margin-top: 15px;
       background: #fef2f2 !important;
@@ -690,8 +272,6 @@
       font-size: 14px !important;
       color: #1e3a8a !important;
     }
-
-
   </style>
 </head>
 <body>
@@ -737,11 +317,29 @@
     <div class="row">
       <div class="col">
         <label>Aluminium Company</label>
-        <select id="aluCompany" onchange="runCalculation()"><option>KAI</option><option>Altech</option><option>BTA</option></select>
+        <select id="aluCompany" onchange="runCalculation()">
+          <option value="Kai">কাই (Kai)</option>
+          <option value="Altech">এলটেক (Altech)</option>
+          <option value="BTA Alpha">বিটিএ আলফা (BTA Alpha)</option>
+          <option value="Alumax">এলুম্যাক্স (Alumax)</option>
+          <option value="Nasir">নাসির (Nasir)</option>
+          <option value="Max">ম্যাক্স (Max)</option>
+          <option value="Max Four">ম্যাক্স ফোর (Max Four)</option>
+          <option value="Max Pro">ম্যাক্স প্রো (Max Pro)</option>
+          <option value="BTA">বিটিএ (BTA)</option>
+          <option value="Chunghua">চুংহুয়া (Chunghua)</option>
+        </select>
       </div>
       <div class="col">
         <label>Alu Colour</label>
-        <select id="aluColor" onchange="runCalculation()"><option>Silver</option><option>Bronze</option><option>Black</option></select>
+        <select id="aluColor" onchange="runCalculation()">
+          <option value="Silver">সিলভার (Silver)</option>
+          <option value="Black">ব্ল্যাক (Black)</option>
+          <option value="Bronze">ব্রঞ্জ (Bronze)</option>
+          <option value="Wooden">উডেন (Wooden)</option>
+          <option value="Golden">গোল্ডেন (Golden)</option>
+          <option value="Circle Grey">সার্কেল গ্রে (Circle Grey)</option>
+        </select>
       </div>
     </div>
     <div class="row">
@@ -757,17 +355,34 @@
     <div class="row">
       <div class="col">
         <label>Glass Company</label>
-        <select id="glassCompany" onchange="runCalculation()"><option>Nasir Glass</option><option>PHP</option></select>
+        <select id="glassCompany" onchange="runCalculation()">
+          <option value="Nasir">নাসির (Nasir)</option>
+          <option value="Akij">আকিজ (Akij)</option>
+          <option value="Bashir">বশির (Bashir)</option>
+          <option value="PSP">পিএসপি (PSP)</option>
+          <option value="Belgium">বেলজিয়াম (Belgium)</option>
+        </select>
       </div>
       <div class="col">
         <label>Glass Colour</label>
-        <select id="glassColor" onchange="runCalculation()"><option>Clear</option><option>Tinted</option><option>Frosted</option></select>
+        <select id="glassColor" onchange="runCalculation()">
+          <option value="Clear">ক্লিয়ার (Clear)</option>
+          <option value="Frosted">ফ্রস্টেড (Frosted)</option>
+          <option value="Green Marker">গ্রিন মার্কার (Green Marker)</option>
+          <option value="Blue Marker">ব্লু মার্কার (Blue Marker)</option>
+          <option value="Golden Marker">গোল্ডেন মার্কার (Golden Marker)</option>
+          <option value="Lake Blue">লেক ব্লু (Lake Blue)</option>
+        </select>
       </div>
     </div>
     <div class="row">
       <div class="col">
         <label>Glass Thickness</label>
-        <select id="glassThickness" onchange="runCalculation()"><option>5 mm</option><option>6 mm</option></select>
+        <select id="glassThickness" onchange="runCalculation()">
+          <option value="4mm">৪ এমএম (4 mm)</option>
+          <option value="5.5mm">৫.৫ এমএম (5.5 mm)</option>
+          <option value="6mm">৬ এমএম (6 mm)</option>
+        </select>
       </div>
     </div>
   </div>
@@ -836,7 +451,7 @@
     </div>
   </div>
 
-  <div style="font-size: 13px; margin-bottom: 8px; color: #1e3a8a; font-weight: bold;" id="pSpec"></div>
+  <div style="font-size: 14px; margin-bottom: 8px; color: #1e3a8a; font-weight: 900;" id="pSpec"></div>
 
   <table class="pdf-table">
     <thead>

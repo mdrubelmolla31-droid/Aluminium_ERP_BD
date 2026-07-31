@@ -121,7 +121,7 @@
     .modal-desc { font-size: 11px; color: #475569; margin-bottom: 12px; line-height: 1.4; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px dashed #cbd5e1; text-align: left; }
     .modal-btn { background: #2563eb; color: white; border: none; padding: 6px 12px; font-size: 11px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; }
 
-    /* প্রিন্ট ও পিডিএফ এর সময় অতিরিক্ত অংশ হাইড করার জন্য */
+    /* কোটেশনের মতো প্রিন্ট এবং পিডিএফের সময় অতিরিক্ত জিনিস হাইড করার ক্লাস */
     @media print {
       .no-print { display: none !important; }
     }
@@ -178,12 +178,14 @@
         <th style="width: 10%;">QTY</th>
         <th style="width: 13%;">RATE</th>
         <th style="width: 15%;">AMOUNT</th>
+        <!-- অ্যাকশন কলামে স্পষ্টভাবেই no-print দেওয়া হয়েছে যাতে পিডিএফ বা প্রিন্টে না আসে -->
         <th class="no-print" style="width: 6%;">Act</th>
       </tr>
     </thead>
     <tbody id="invoiceTableBody"></tbody>
   </table>
 
+  <!-- Add Item বাটন no-print ক্লাসের মাধ্যমে পিডিএফ থেকে বাদ দেওয়া হয়েছে -->
   <button class="btn btn-add no-print" type="button" onclick="addInvoiceRow()">+ Add Item</button>
 
   <div class="total-section">
@@ -300,7 +302,7 @@
     document.getElementById('modalFileInfo').innerHTML = `
       • <b>File Name:</b> ${fileName}<br>
       • <b>Location:</b> Device Internal Storage &gt; <b>Download</b> Folder<br>
-      • <b>Status:</b> Completed Successfully!
+      • <b>Status:</b> Downloaded & Saved Successfully!
     `;
     document.getElementById('downloadModal').style.display = 'flex';
   }
@@ -313,7 +315,26 @@
     const { jsPDF } = window.jspdf;
     const element = document.getElementById('invoiceContainer');
 
+    // কোটেশনের মতো হুবহু ব্যাকগ্রাউন্ড ও ইনপুট বক্সের বর্ডার ক্লিন করে পিডিএফ জেনারেট করা হচ্ছে
+    let inputs = element.querySelectorAll('input');
+    inputs.forEach(input => {
+      input.dataset.oldBorder = input.style.border;
+      input.style.border = 'none';
+      input.style.background = 'transparent';
+    });
+
+    // no-print ক্লাসগুলোকে পিডিএফ এড়ানোর জন্য সাময়িকভাবে ডিসপ্লে নান করা
+    let noPrintElements = element.querySelectorAll('.no-print');
+    noPrintElements.forEach(el => el.style.display = 'none');
+
     html2canvas(element, { scale: 2, useCORS: true, logging: false }).then(canvas => {
+      // আগের স্টাইল এবং ডিসপ্লে ফিরিয়ে আনা
+      inputs.forEach(input => {
+        input.style.border = input.dataset.oldBorder || '';
+        input.style.background = '';
+      });
+      noPrintElements.forEach(el => el.style.display = '');
+
       let imgData = canvas.toDataURL('image/png');
       let pdf = new jsPDF('p', 'mm', 'a4');
       
@@ -340,6 +361,11 @@
       showDownloadModal(fileName);
     }).catch(err => {
       alert("পিডিএফ ডাউনলোড করতে সমস্যা হয়েছে: " + err);
+      inputs.forEach(input => {
+        input.style.border = input.dataset.oldBorder || '';
+        input.style.background = '';
+      });
+      noPrintElements.forEach(el => el.style.display = '');
     });
   }
 </script>

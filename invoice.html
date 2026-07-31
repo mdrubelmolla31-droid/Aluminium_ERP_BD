@@ -6,113 +6,115 @@
   <title>Bill & Invoice - Aluminium ERP BD</title>
 
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f1f5f9; margin: 0; padding: 10px; color: #0f172a; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 700; }
+    body { background-color: #f1f5f9; margin: 0; padding: 0; color: #000000; }
     
     .container { 
-      max-width: 800px; 
+      width: 100%;
+      max-width: 100%;
       margin: 0 auto; 
       background: #ffffff; 
-      padding: 20px; 
-      border-radius: 12px; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
-      border: 3px double #2563eb; 
+      padding: 15px 25px; 
+      border-radius: 0; 
+      box-shadow: none; 
+      border: 3px solid #1d4ed8; 
+      min-height: 100vh;
     }
 
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .back-btn { background: #1e293b; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .back-btn { background: #1e293b; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
 
-    .invoice-header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin-bottom: 15px; }
-    .shop-slogan { font-size: 11px; color: #475569; font-weight: 600; margin-bottom: 3px; }
+    .invoice-header { text-align: center; border-bottom: 3px solid #1d4ed8; padding-bottom: 12px; margin-bottom: 15px; }
+    .shop-slogan { font-size: 13px; color: #1e293b; font-weight: 800; margin-bottom: 4px; }
     
-    .shop-title-container { text-align: center; margin: 5px 0; }
+    .shop-title-container { text-align: center; margin: 6px 0; }
     .shop-title-box {
       display: inline-block;
-      border: 2px solid #2563eb;
-      border-radius: 6px;
-      padding: 6px 16px;
+      border: 3px solid #1d4ed8;
+      border-radius: 8px;
+      padding: 8px 22px;
       background: #ffffff;
-      font-size: 20px;
+      font-size: 26px;
       font-weight: 900;
-      color: #2563eb;
+      color: #1d4ed8;
       text-transform: uppercase;
       outline: none;
     }
     
     .shop-details { 
-      font-size: 11px; 
+      font-size: 13px; 
       color: #000000; 
-      font-weight: 700; 
+      font-weight: 800; 
       margin-top: 8px; 
-      line-height: 1.4;
+      line-height: 1.5;
       text-align: center;
     }
     .shop-details input { 
       border: none; 
       text-align: center; 
-      font-size: 11px; 
+      font-size: 13px; 
       color: #000000; 
-      font-weight: 700; 
+      font-weight: 800; 
       background: transparent; 
       width: 100%; 
       display: block;
       outline: none;
     }
 
-    .meta-box { display: flex; justify-content: space-between; margin-bottom: 15px; gap: 15px; font-size: 12px; }
-    .meta-left { flex: 1.5; display: flex; flex-direction: column; gap: 6px; }
-    .meta-right { flex: 1; display: flex; flex-direction: column; gap: 6px; text-align: right; }
+    .meta-box { display: flex; justify-content: space-between; margin-bottom: 15px; gap: 20px; font-size: 14px; }
+    .meta-left { flex: 1.5; display: flex; flex-direction: column; gap: 8px; }
+    .meta-right { flex: 1; display: flex; flex-direction: column; gap: 8px; text-align: right; }
     
-    .meta-item { display: flex; align-items: center; gap: 8px; }
+    .meta-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; }
     .meta-right .meta-item { justify-content: flex-end; }
-    .meta-box input { padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; background: #fff; width: 100%; outline: none; }
+    .meta-box input { padding: 8px 12px; border: 2px solid #94a3b8; border-radius: 6px; font-size: 14px; font-weight: 800; background: #fff; width: 100%; outline: none; color: #000; }
 
-    /* টেবিল ওভারল্যাপ ফিক্স এবং পারফেক্ট ফিটিং */
     .table-responsive {
       width: 100%;
       overflow-x: auto;
       margin-bottom: 15px;
     }
 
-    .invoice-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-    .invoice-table th, .invoice-table td { border: 1px solid #2563eb; padding: 6px 4px; text-align: center; vertical-align: middle; }
-    .invoice-table th { background-color: #2563eb; color: white; font-weight: 600; }
-    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 11px; outline: none; padding: 2px; }
+    .invoice-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .invoice-table th, .invoice-table td { border: 2px solid #1d4ed8; padding: 10px 8px; text-align: center; vertical-align: middle; font-weight: 800; }
+    .invoice-table th { background-color: #1d4ed8; color: white; font-size: 14px; font-weight: 900; }
+    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 13px; font-weight: 800; outline: none; color: #000; }
     .invoice-table td:nth-child(2) input { text-align: left; }
 
     .total-section { display: flex; justify-content: flex-end; margin-bottom: 15px; }
-    .total-box { border: 2px solid #2563eb; padding: 8px 15px; font-weight: bold; font-size: 13px; background: #eff6ff; display: flex; gap: 10px; align-items: center; border-radius: 4px; }
-    .total-box input { border: 1px solid #cbd5e1; padding: 4px 8px; width: 120px; text-align: right; font-weight: bold; background: #fff; border-radius: 4px; outline: none; }
+    .total-box { border: 3px solid #1d4ed8; padding: 10px 20px; font-weight: 900; font-size: 15px; background: #eff6ff; display: flex; gap: 12px; align-items: center; border-radius: 6px; color: #000; }
+    .total-box input { border: 2px solid #94a3b8; padding: 6px 10px; width: 140px; text-align: right; font-weight: 900; font-size: 15px; background: #fff; border-radius: 6px; outline: none; color: #000; }
 
-    .in-words { margin-bottom: 15px; font-size: 12px; font-weight: 600; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px; color: #1e293b; }
-    .in-words input { border: none; border-bottom: 1px dotted #334155; width: 75%; font-weight: normal; background: transparent; padding: 4px; outline: none; font-size: 12px; }
+    .in-words { margin-bottom: 15px; font-size: 14px; font-weight: 800; border-bottom: 2px dashed #94a3b8; padding-bottom: 10px; color: #000; }
+    .in-words input { border: none; border-bottom: 2px dotted #000; width: 75%; font-weight: 800; background: transparent; padding: 4px; outline: none; font-size: 14px; color: #000; }
 
-    .terms { background: #fffbeb; border: 1px solid #fde68a; padding: 8px 12px; border-radius: 4px; font-size: 11px; color: #92400e; margin-bottom: 15px; }
-    .terms ol { margin: 0; padding-left: 15px; }
+    .terms { background: #fffbeb; border: 2px solid #f59e0b; padding: 10px 15px; border-radius: 6px; font-size: 12px; color: #78350f; font-weight: 800; margin-bottom: 20px; }
+    .terms ol { margin: 0; padding-left: 18px; }
+    .terms li { margin-bottom: 4px; }
 
-    .signature-box { display: flex; justify-content: space-between; margin-top: 30px; font-size: 12px; font-weight: 600; color: #1e293b; }
-    .sig-line { border-top: 1px solid #0f172a; width: 150px; text-align: center; padding-top: 5px; }
+    .signature-box { display: flex; justify-content: space-between; margin-top: 40px; font-size: 14px; font-weight: 800; color: #000; }
+    .sig-line { border-top: 2px solid #000; width: 180px; text-align: center; padding-top: 6px; }
 
-    .btn-container { text-align: center; margin-top: 20px; }
-    .btn { padding: 10px 24px; font-size: 14px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; }
-    .btn-add { background-color: #10b981; margin-bottom: 15px; }
+    .btn-container { text-align: center; margin: 20px 0; }
+    .btn { padding: 12px 28px; font-size: 16px; font-weight: 900; border: none; border-radius: 8px; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-add { background-color: #059669; margin-bottom: 15px; }
     .btn-print { background-color: #2563eb; }
-    .btn-del { background-color: #ef4444; padding: 3px 8px; font-size: 11px; border-radius: 4px; }
+    .btn-del { background-color: #dc2626; padding: 4px 10px; font-size: 12px; border-radius: 4px; font-weight: 900; }
 
-    /* স্ট্যান্ডার্ড A4 সাইজ এবং প্রিন্ট মার্জিন প্রপার্টি */
+    /* ফুল পেজ এবং জিরো মার্জিন প্রিন্ট স্টাইল */
     @media print {
       @page {
         size: A4 portrait;
-        margin: 10mm;
+        margin: 0mm;
       }
       body { background-color: #ffffff; padding: 0; margin: 0; }
-      .container { box-shadow: none; border: 2px solid #2563eb; padding: 10px; width: 100%; max-width: 100%; margin: 0; }
+      .container { border: none; padding: 15px 20px; width: 100%; max-width: 100%; min-height: 100vh; margin: 0; box-shadow: none; }
       .no-print { display: none !important; }
-      input { border: none !important; background: transparent !important; box-shadow: none !important; padding: 0 !important; }
-      .shop-title-box { border: 2px solid #2563eb !important; }
+      input { border: none !important; background: transparent !important; box-shadow: none !important; padding: 0 !important; color: #000 !important; }
+      .shop-title-box { border: 3px solid #1d4ed8 !important; }
       .total-box { background: #eff6ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .terms { background: #fffbeb !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      th { background-color: #2563eb !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color: white !important; }
+      th { background-color: #1d4ed8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color: white !important; }
     }
   </style>
 </head>
@@ -122,7 +124,7 @@
   
   <div class="top-bar no-print">
     <a href="index.html" class="back-btn">⬅️ Back to Dashboard</a>
-    <span style="font-size: 13px; color: #64748b; font-weight: 600;">Bill & Invoice Management</span>
+    <span style="font-size: 14px; color: #000; font-weight: 800;">Bill & Invoice Management</span>
   </div>
 
   <div class="invoice-header">
@@ -143,8 +145,8 @@
       <div class="meta-item"><strong>Address:</strong> <input type="text" id="custAddress" placeholder="ঠিকানা লিখুন"></div>
     </div>
     <div class="meta-right">
-      <div class="meta-item"><strong>Bill No:</strong> <input type="text" id="billNo" value="01" style="width: 100px;"></div>
-      <div class="meta-item"><strong>Date:</strong> <input type="date" id="billDate" style="width: 130px;"></div>
+      <div class="meta-item"><strong>Bill No:</strong> <input type="text" id="billNo" value="01" style="width: 110px;"></div>
+      <div class="meta-item"><strong>Date:</strong> <input type="date" id="billDate" style="width: 140px;"></div>
     </div>
   </div>
 
@@ -195,7 +197,7 @@
 </div>
 
 <div class="btn-container no-print">
-  <button class="btn btn-print" type="button" onclick="window.print()">📥 Download / Save PDF (Print)</button>
+  <button class="btn btn-print" type="button" onclick="window.print()">📥 Download / Save PDF (Full Page)</button>
 </div>
 
 <script>

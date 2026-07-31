@@ -43,7 +43,7 @@
 
     .total-section { display: flex; justify-content: flex-end; margin-bottom: 10px; }
     .total-box { border: 2px solid #1e3a8a; padding: 6px 10px; font-weight: bold; font-size: 13px; background: #eff6ff; display: flex; gap: 10px; align-items: center; border-radius: 4px; }
-    .total-box input { border: 1px solid #cbd5e1; padding: 3px 6px; width: 100px; text-align: right; font-weight: bold; background: #fff; border-radius: 4px; font-size: 13px; }
+    .total-box input { border: 1px solid #cbd5e1; padding: 3px 6px; width: 110px; text-align: right; font-weight: bold; background: #fff; border-radius: 4px; font-size: 13px; }
 
     .in-words { margin-bottom: 15px; font-size: 12px; font-weight: 600; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px; color: #1e293b; }
     .in-words input { border: none; border-bottom: 1px dotted #334155; width: 70%; font-weight: normal; background: transparent; padding: 2px 5px; outline: none; font-size: 12px; }
@@ -211,7 +211,7 @@
     });
   }
 
-  // একদম নিখুঁত হিসাব: (সাইজ গুণফল) × (কোয়ান্টিটি বা পিস) × (রেট) = মোট অ্যামাউন্ট
+  // একদম নিখুঁত হিসাব: (সাইজ ১ × সাইজ ২) = স্কয়ার ফিট, এরপর (স্কয়ার ফিট × QTY × Rate) = মোট অ্যামাউন্ট
   function calculateRow(input) {
     let row = input.closest('tr');
     let sizeText = row.querySelector('.item-size').value.trim();
@@ -239,7 +239,7 @@
       }
     }
 
-    // সঠিক হিসাব: সাইজ × পিস × রেট
+    // নিখুঁত হিসাব: স্কয়ার ফিট × পিস (QTY) × রেট
     let amount = sizeMultiplier * qty * rate;
     row.querySelector('.item-amount').value = amount.toFixed(2);
     calculateGrandTotal();
@@ -255,12 +255,12 @@
     document.getElementById('grandTotal').value = total.toFixed(2);
   }
 
-  // মোবাইল এবং ব্রাউজারে সরাসরি প্রিন্ট ও পিডিএফ সেভ করার নিশ্চিত ফাংশন
+  // ব্রাউজার বা মোবাইলে প্রিন্ট বা পিডিএফ সেভ করার জন্য সরাসরি ট্রিগার
   function triggerPrintPDF() {
     window.focus();
     setTimeout(() => {
       window.print();
-    }, 200);
+    }, 150);
   }
 </script>
 

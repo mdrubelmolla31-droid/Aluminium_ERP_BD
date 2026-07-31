@@ -232,70 +232,105 @@
       }
     }
 
-    /* পিডিএফ এবং প্রিন্ট পেজের প্রতিটি লেখা বড়, বোল্ড এবং স্পষ্ট করার জন্য গ্লোবাল স্টাইল */
+        @media print {
+      @page {
+        size: A4;
+        margin: 6mm;
+      }
+      body * { visibility: hidden; }
+      
+      body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
+      body.print-window #printWinSection {
+        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff; 
+      }
+
+      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
+      body.print-material #printMatSection {
+        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff; 
+      }
+    }
+
+    /* প্রিন্ট ও পিডিএফ এর আকর্ষণীয় ডিজাইন ও ব্লু থিম */
     #printWinSection, #printMatSection {
-      font-size: 16px !important;
-      color: #000 !important;
+      font-size: 15px !important;
+      color: #0f172a !important;
       font-weight: 700 !important;
       font-family: Arial, sans-serif;
+      border: 3px solid #1e3a8a !important; /* পুরো পেজের চারপাশে সুন্দর মোটা ব্লু আউটার বর্ডার */
+      padding: 15px !important;
+      background: #ffffff !important;
+      position: relative;
     }
     
     #printWinSection *, #printMatSection * {
-      color: #000 !important;
       font-weight: 700 !important;
     }
 
-    .pdf-header { text-align: center; border-bottom: 3px solid #000 !important; padding-bottom: 10px; margin-bottom: 15px; }
-    .pdf-title { font-size: 32px !important; font-weight: 900 !important; margin: 0; }
-    .pdf-subtitle-sub { font-size: 16px !important; font-weight: 800 !important; margin-top: 5px; }
+    .pdf-header { 
+      text-align: center; 
+      border-bottom: 2.5px dashed #2563eb !important; 
+      padding-bottom: 12px; 
+      margin-bottom: 15px; 
+      background: #f8fafc;
+      padding-top: 10px;
+      border-radius: 6px 6px 0 0;
+    }
+    .pdf-title { font-size: 30px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
+    .pdf-subtitle-sub { font-size: 15px !important; font-weight: 800 !important; color: #475569 !important; margin-top: 5px; }
 
     .pdf-info-box {
       display: flex;
       justify-content: space-between;
-      font-size: 15px !important;
-      background: #fff !important;
+      font-size: 14px !important;
+      background: #f1f5f9 !important; /* হালকা ব্লুটেক ব্যাকগ্রাউন্ড */
       padding: 12px !important;
-      border-radius: 4px;
+      border-radius: 6px;
       margin-bottom: 15px;
-      border: 2px solid #000 !important;
+      border: 2px solid #2563eb !important; /* কাস্টমার ইনফো বক্সের ব্লু বর্ডার */
+      color: #1e293b !important;
     }
 
     .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .pdf-table th, .pdf-table td { border: 2px solid #000 !important; padding: 10px !important; font-size: 15px !important; text-align: center; }
-    .pdf-table th { background-color: #e2e8f0 !important; font-weight: 900 !important; }
+    .pdf-table th, .pdf-table td { border: 1.5px solid #2563eb !important; padding: 9px !important; font-size: 14px !important; text-align: center; }
+    .pdf-table th { background-color: #1e3a8a !important; color: #ffffff !important; font-weight: 900 !important; }
+    .pdf-table td { color: #0f172a !important; background: #ffffff !important; }
 
     .pdf-grand-total {
       text-align: right;
-      font-size: 22px !important;
+      font-size: 20px !important;
       font-weight: 900 !important;
+      color: #1e3a8a !important;
       margin-top: 15px;
-      border-top: 2px solid #000 !important;
+      border-top: 2px solid #1e3a8a !important;
       padding-top: 8px;
     }
 
     .terms-box {
       margin-top: 20px;
-      background: #fff !important;
-      border: 2px solid #000 !important;
+      background: #f8fafc !important;
+      border: 2px solid #3b82f6 !important;
+      border-left: 6px solid #1e3a8a !important; /* টার্মস বক্সে আকর্ষণীয় স্টাইলিশ ডিজাইন */
       padding: 12px 15px;
-      font-size: 14px !important;
-      font-weight: 700 !important;
+      font-size: 13px !important;
+      color: #334155 !important;
+      border-radius: 4px;
     }
 
     .signature-container {
       display: flex;
       justify-content: space-between;
-      margin-top: 60px;
-      padding: 0 20px;
+      margin-top: 55px;
+      padding: 0 10px;
     }
 
     .sig-line {
-      border-top: 2.5px solid #000 !important;
-      width: 180px;
+      border-top: 2px solid #1e3a8a !important;
+      width: 170px;
       text-align: center;
       padding-top: 6px;
-      font-weight: 900 !important;
-      font-size: 14px !important;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+      color: #1e3a8a !important;
     }
 
   </style>

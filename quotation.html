@@ -135,23 +135,38 @@
 
     #printWinSection, #printMatSection { display: none; }
 
+    /* নতুন এবং নিখুঁত প্রিন্ট ও এ ফোর সাইজ সেটিংস */
     @media print {
+      @page {
+        size: A4;
+        margin: 10mm;
+      }
       body * { visibility: hidden; }
       
       body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
       body.print-window #printWinSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff;
+        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 0; background: #fff; font-size: 14px !important;
       }
 
       body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
       body.print-material #printMatSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff;
+        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 0; background: #fff; font-size: 14px !important;
       }
     }
 
+    #printWinSection, #printMatSection {
+      font-size: 14px;
+      color: #000;
+    }
+    .pdf-title { font-size: 26px !important; font-weight: 800; color: #1e3a8a; }
+    .pdf-subtitle { font-size: 14px !important; font-weight: bold; }
+    .pdf-info-box { font-size: 13px !important; padding: 10px !important; }
+    .pdf-table th, .pdf-table td { font-size: 13px !important; padding: 8px !important; }
+    .pdf-grand-total { font-size: 18px !important; }
+    .terms-box { font-size: 12px !important; }
+
     .pdf-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 12px; }
-    .pdf-title { font-size: 20px; font-weight: 800; color: #1e3a8a; margin: 0; }
-    .pdf-subtitle { font-size: 12px; font-weight: 600; color: #334155; margin-top: 4px; }
+    .pdf-subtitle-sub { font-size: 12px; font-weight: 600; color: #334155; margin-top: 4px; }
 
     .pdf-info-box {
       display: flex;
@@ -165,12 +180,11 @@
     }
 
     .pdf-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; font-size: 11px; font-weight: 600; text-align: center; }
+    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; font-weight: 600; text-align: center; }
     .pdf-table th { background-color: #f1f5f9; color: #000; }
 
     .pdf-grand-total {
       text-align: right;
-      font-size: 16px;
       font-weight: 800;
       color: #1e3a8a;
       margin-top: 10px;
@@ -183,7 +197,6 @@
       background: #fff7ed;
       border-left: 4px solid #f97316;
       padding: 8px 12px;
-      font-size: 11px;
     }
 
     .signature-container {
@@ -292,7 +305,6 @@
     <button class="btn btn-add" onclick="addRow()">+ Add Window</button>
   </div>
 
-  <!-- হুবহু ক্যালকুলেটরের মতো লাইভ কাটিং রিপোর্ট সেকশন -->
   <div class="card">
     <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল</div>
 
@@ -332,7 +344,7 @@
 <div id="printWinSection">
   <div class="pdf-header">
     <p class="pdf-title" id="pShop"></p>
-    <p class="pdf-subtitle">Mobile: <span id="pPhone"></span></p>
+    <p class="pdf-subtitle-sub">Mobile: <span id="pPhone"></span></p>
   </div>
 
   <div class="pdf-info-box">
@@ -346,7 +358,7 @@
     </div>
   </div>
 
-  <div style="font-size: 11px; margin-bottom: 8px; color: #1e3a8a; font-weight: bold;" id="pSpec"></div>
+  <div style="font-size: 13px; margin-bottom: 8px; color: #1e3a8a; font-weight: bold;" id="pSpec"></div>
 
   <table class="pdf-table">
     <thead>
@@ -374,7 +386,7 @@
 <div id="printMatSection">
   <div class="pdf-header">
     <p class="pdf-title" id="mShop"></p>
-    <p class="pdf-subtitle">Accurate Material Cutting Report & Estimation</p>
+    <p class="pdf-subtitle-sub">Accurate Material Cutting Report & Estimation</p>
   </div>
 
   <div class="pdf-info-box">
@@ -512,37 +524,28 @@
           </tr>
         `;
 
-        if (h <= 72) { // Height <= 6 ft (72 inches) -> 18.5 ft bar logic
+        if (h <= 72) { 
           len18_outerSide += (h / 12) * 2 * q;
           len18_shutterLock += (h / 12) * 2 * q;
           len18_shutterInterlock += (h / 12) * 2 * q;
-        } else { // Height > 6 ft -> 21 ft bar logic
-          len21_outerSide += (h / 12) * 2 * q;
-          len21_shutterLock += (h / 12) * 2 * q;
-          len21_shutterInterlock += (h / 12) * 2 * q;
-        }
-        if (h <= 72) { // Height <= 6 ft (72 inches) -> 18.5 ft bar logic
-          len18_outerSide += (h / 12) * 2 * q;
-          len18_shutterLock += (h / 12) * 2 * q;
-          len18_shutterInterlock += (h / 12) * 2 * q;
-        } else { // Height > 6 ft -> 21 ft bar logic
+        } else { 
           len21_outerSide += (h / 12) * 2 * q;
           len21_shutterLock += (h / 12) * 2 * q;
           len21_shutterInterlock += (h / 12) * 2 * q;
         }
 
-        // Horizontal items calculation (সঠিক সমান লজিক)
         let outerTopVal = (w / 12) * q;
-        let outerBotVal = outerTopVal; // আউটার বটম = আউটার টপ
+        let outerBotVal = outerTopVal; 
         
-        let shutterTopVal = (w / 12) * 2 * q; // দুটি পাল্লার জন্য
-        let shutterBotVal = shutterTopVal; // শার্টার বটম = শার্টার টপ
+        let shutterTopVal = (w / 12) * 2 * q; 
+        let shutterBotVal = shutterTopVal; 
 
         len21_outerTop += outerTopVal;
         len21_outerBot += outerBotVal;
         len21_shutterTop += shutterTopVal;
         len21_shutterBot += shutterBotVal;
-
+      }
+    }
 
     document.getElementById('calcTotalPrice').value = grandTotal.toFixed(2);
     document.getElementById('pGrandTotal').innerText = grandTotal.toFixed(2);
@@ -551,14 +554,12 @@
     document.getElementById('pDate').innerText = today;
     document.getElementById('mDate').innerText = today;
 
-    // HTML Table Rendering for 18.5 ft
     let html18 = `
       <tr><td>Outer Side (&le; 6ft)</td><td>${len18_outerSide.toFixed(2)} ft</td><td>${formatBreakdown(len18_outerSide, 18.5)}</td></tr>
       <tr><td>Shutter Lock (&le; 6ft)</td><td>${len18_shutterLock.toFixed(2)} ft</td><td>${formatBreakdown(len18_shutterLock, 18.5)}</td></tr>
       <tr><td>Shutter Interlock (&le; 6ft)</td><td>${len18_shutterInterlock.toFixed(2)} ft</td><td>${formatBreakdown(len18_shutterInterlock, 18.5)}</td></tr>
     `;
 
-    // HTML Table Rendering for 21 ft
     let html21 = `
       <tr><td>Outer Side (> 6ft)</td><td>${len21_outerSide.toFixed(2)} ft</td><td>${formatBreakdown(len21_outerSide, 21)}</td></tr>
       <tr><td>Outer Top</td><td>${len21_outerTop.toFixed(2)} ft</td><td>${formatBreakdown(len21_outerTop, 21)}</td></tr>

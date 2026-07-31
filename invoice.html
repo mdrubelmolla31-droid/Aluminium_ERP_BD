@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bill & Invoice - Aluminium ERP BD</title>
-  <!-- পিডিএফ ডাউনলোড লাইব্রেরি -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #0b0f19; margin: 0; padding: 8px; color: #0f172a; min-height: 100vh; }
@@ -129,7 +127,6 @@
     </tbody>
   </table>
 
-  <!-- ঠিক করা হলো: শুধুমাত্র এই অ্যাডের বাটনে ক্লিক করলেই নতুন রো যোগ হবে -->
   <button class="btn btn-add no-print" type="button" onclick="addInvoiceRow()">+ Add Item</button>
 
   <div class="total-section">
@@ -162,7 +159,7 @@
   </div>
 
   <div class="btn-container">
-    <button class="btn btn-print" onclick="downloadPDF()">📥 Download PDF</button>
+    <button class="btn btn-print" onclick="downloadPDF()">📥 Download / Print PDF</button>
   </div>
 
 </div>
@@ -172,7 +169,6 @@
     let today = new Date().toISOString().split('T')[0];
     document.getElementById('billDate').value = today;
     
-    // প্রথমে ৩টি খালি রো থাকবে
     addInvoiceRow();
     addInvoiceRow();
     addInvoiceRow();
@@ -185,7 +181,7 @@
     tr.innerHTML = `
       <td>${rowCount < 10 ? '0' + rowCount : rowCount}</td>
       <td><input type="text" placeholder="কাজের বিবরণ"></td>
-      <td><input type="text" class="item-qty" placeholder="পরিমাণ বা মাপ" oninput="calculateRow(this)"></td>
+      <td><input type="text" class="item-qty" placeholder="পরিমাণ বা মাপ (যেমন: 4.5*5)" oninput="calculateRow(this)"></td>
       <td><input type="number" class="item-rate" placeholder="0" oninput="calculateRow(this)"></td>
       <td><input type="number" class="item-amount" placeholder="0" readonly></td>
       <td class="no-print"><button class="btn btn-del" type="button" onclick="removeInvoiceRow(this)">X</button></td>
@@ -213,28 +209,33 @@
     });
   }
 
-  // কোয়ান্টিটি এবং রেট থেকে অটোমেটিক অ্যামাউন্ট হিসাব করার ফাংশন
+  // নিখুঁত হিসাবের ফাংশন (সাইজ বা কোয়ান্টিটি এবং রেট গুণ করে অ্যামাউন্ট বের করা)
   function calculateRow(input) {
     let row = input.closest('tr');
-    let qtyText = row.querySelector('.item-qty').value;
+    let qtyText = row.querySelector('.item-qty').value.trim();
     let rate = parseFloat(row.querySelector('.item-rate').value) || 0;
 
-    let amount = 0;
-    
-    // যদি কোয়ান্টিটিতে গুণ চিহ্ন বা সাইজ থাকে (যেমন: 5*10 বা 12*5) অথবা সংখ্যা হয়
-    if (qtyText.includes('*') || qtyText.includes('x') || qtyText.includes('X')) {
-      let parts = qtyText.split(/[\*xX]/);
-      let totalQty = 1;
-      parts.forEach(p => {
-        let val = parseFloat(p);
-        if (!isNaN(val)) totalQty *= val;
-      });
-      amount = totalQty * rate;
-    } else {
-      let qty = parseFloat(qtyText) || 1;
-      amount = qty * rate;
+    let totalMultiplier = 1;
+
+    // যদি সাইজ বা গুণ আকারে লেখা হয় (যেমন: 4.5*5 অথবা 8)
+    if (qtyText !== "") {
+      if (qtyText.includes('*') || qtyText.includes('x') || qtyText.includes('X') || qtyText.includes('×')) {
+        let parts = qtyText.split(/[\*xX×]/);
+        parts.forEach(p => {
+          let val = parseFloat(p);
+          if (!isNaN(val)) {
+            totalMultiplier *= val;
+          }
+        });
+      } else {
+        let val = parseFloat(qtyText);
+        if (!isNaN(val)) {
+          totalMultiplier = val;
+        }
+      }
     }
 
+    let amount = totalMultiplier * rate;
     row.querySelector('.item-amount').value = amount.toFixed(2);
     calculateGrandTotal();
   }
@@ -249,21 +250,9 @@
     document.getElementById('grandTotal').value = total.toFixed(2);
   }
 
-  // মোবাইলে সরাসরি পিডিএফ ডাউনলোড করার ফাংশন
+  // অ্যান্ড্রয়েড অ্যাপ ও ব্রাউজারের জন্য ১০০% কার্যকরী প্রিন্ট ও পিডিএফ সেভ অপশন
   function downloadPDF() {
-    const element = document.querySelector('.container');
-    let custName = document.getElementById('custName').value || 'Customer';
-    let billNo = document.getElementById('billNo').value || '01';
-    
-    let opt = {
-      margin:       0.1,
-      filename:     `Invoice_${billNo}_${custName}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().from(element).set(opt).save();
+    window.print();
   }
 </script>
 

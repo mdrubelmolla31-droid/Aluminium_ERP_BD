@@ -21,7 +21,7 @@
       padding: 20px; 
       border-radius: 12px; 
       box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
-      border: 4px double #1e3a8a; 
+      border: 4px double #320ee6; 
       outline: 2px solid #93c5fd;
       outline-offset: 3px;
       position: relative; 
@@ -30,11 +30,11 @@
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 5px; }
     .back-btn { background: #1e293b; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
 
-    .invoice-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 12px; margin-bottom: 15px; }
+    .invoice-header { text-align: center; border-bottom: 2px solid #320ee6; padding-bottom: 12px; margin-bottom: 15px; }
     
     .shop-slogan { font-size: 10px; color: #475569; font-weight: 600; }
     
-    /* শপের নাম একদম মাঝামাঝি এবং একদম গাঢ় ব্লু রঙ ও স্ট্রোক */
+    /* শপের নাম এখন এডিট করার জন্য ইনপুট বক্স আকারে করা হয়েছে */
     .shop-title-container {
       text-align: center;
       margin: 6px 0;
@@ -42,15 +42,19 @@
 
     .shop-title-box {
       display: inline-block;
-      border: 3px solid #169c59;
-      border-radius: 5px;
-      padding: 4px 14px;
+      border: 3.5px solid #320ee6;
+      border-radius: 6px;
+      padding: 4px 10px;
       background: #ffffff;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
-      color: #062157;
+      color: #320ee6;
       text-transform: uppercase;
       letter-spacing: 1px;
+      text-align: center;
+      width: 100%;
+      max-width: 450px;
+      outline: none;
     }
     
     /* প্রোপাইটর, মোবাইল ও ঠিকানা আরও বোল্ড ও স্পষ্ট কালো করা হয়েছে */
@@ -83,14 +87,14 @@
     .meta-box input { padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; background: #fff; width: 100%; }
 
     .invoice-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
-    .invoice-table th, .invoice-table td { border: 1px solid #1e3a8a; padding: 5px; text-align: center; }
-    .invoice-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 10.5px; }
+    .invoice-table th, .invoice-table td { border: 1px solid #320ee6; padding: 5px; text-align: center; }
+    .invoice-table th { background-color: #320ee6; color: white; font-weight: 600; font-size: 10.5px; }
     .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 11px; outline: none; padding: 2px; }
     .invoice-table td:nth-child(2) input { text-align: left; }
     .invoice-table tr:hover { background-color: #f8fafc; }
 
     .total-section { display: flex; justify-content: flex-end; margin-bottom: 10px; }
-    .total-box { border: 2px solid #1e3a8a; padding: 6px 10px; font-weight: bold; font-size: 13px; background: #eff6ff; display: flex; gap: 10px; align-items: center; border-radius: 4px; }
+    .total-box { border: 2px solid #320ee6; padding: 6px 10px; font-weight: bold; font-size: 13px; background: #eff6ff; display: flex; gap: 10px; align-items: center; border-radius: 4px; }
     .total-box input { border: 1px solid #cbd5e1; padding: 3px 6px; width: 110px; text-align: right; font-weight: bold; background: #fff; border-radius: 4px; font-size: 13px; }
 
     .in-words { margin-bottom: 15px; font-size: 12px; font-weight: 600; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px; color: #1e293b; }
@@ -110,7 +114,7 @@
 
     @media print {
       body { background: white; padding: 0; }
-      .container { box-shadow: none; border: 2px solid #1e3a8a; outline: none; padding: 10px; max-width: 100%; }
+      .container { box-shadow: none; border: 2px solid #320ee6; outline: none; padding: 10px; max-width: 100%; }
       .no-print { display: none !important; }
       input { border: none !important; background: transparent !important; }
     }
@@ -128,9 +132,9 @@
   <div class="invoice-header">
     <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
     
-    <!-- শপের নাম একদম মাঝামাঝি এবং গাঢ় ব্লু কালার ও বর্ডার -->
+    <!-- শপের নাম এখন ইউজার এডিট করতে পারবে -->
     <div class="shop-title-container">
-      <div class="shop-title-box">RM THAI ALUMINIUM</div>
+      <input type="text" class="shop-title-box" value="RM THAI ALUMINIUM">
     </div>
 
     <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
@@ -299,16 +303,27 @@
     const { jsPDF } = window.jspdf;
     const element = document.getElementById('invoiceContainer');
 
+    // ডাউনলোড করার সময় ইনপুট বক্সের বর্ডার সাময়িকভাবে রিমুভ করা যাতে দেখতে সুন্দর লাগে
     let inputs = element.querySelectorAll('input');
     inputs.forEach(input => {
-      input.style.border = 'none';
-      input.style.background = 'transparent';
+      if(!input.classList.contains('shop-title-box')) {
+        input.dataset.oldBorder = input.style.border;
+        input.style.border = 'none';
+        input.style.background = 'transparent';
+      } else {
+        input.style.border = 'none'; // শপের নাম বক্সের বর্ডারও পিডিএফ-এ ক্লিন রাখার জন্য
+      }
     });
 
-    html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
+    html2canvas(element, { scale: 2, useCORS: true, logging: false }).then(canvas => {
+      // ইনপুট বক্সের আগের স্টাইল ফিরিয়ে আনা
       inputs.forEach(input => {
-        input.style.border = '';
-        input.style.background = '';
+        if(!input.classList.contains('shop-title-box')) {
+          input.style.border = input.dataset.oldBorder || '';
+          input.style.background = '';
+        } else {
+          input.style.border = '3.5px solid #320ee6';
+        }
       });
 
       let imgData = canvas.toDataURL('image/png');
@@ -334,8 +349,12 @@
     }).catch(err => {
       alert("পিডিএফ ডাউনলোড করতে সমস্যা হয়েছে: " + err);
       inputs.forEach(input => {
-        input.style.border = '';
-        input.style.background = '';
+        if(!input.classList.contains('shop-title-box')) {
+          input.style.border = '';
+          input.style.background = '';
+        } else {
+          input.style.border = '3.5px solid #320ee6';
+        }
       });
     });
   }

@@ -3,13 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluminium Calculator & Separate PDF Generator</title>
+  <title>Aluminium Calculator & Quotation History</title>
 
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
     .container { max-width: 700px; margin: 0 auto; }
     
+    /* টপ বার এবং হিস্ট্রি বাটন স্টাইল */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .menu-btn {
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* সাইড ড্রয়ার হিস্ট্রি প্যানেল */
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 300px;
+      height: 100%;
+      background: #ffffff;
+      box-shadow: 4px 0 10px rgba(0,0,0,0.15);
+      z-index: 1000;
+      transition: 0.3s ease;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .drawer.open { left: 0; }
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    .drawer-title { font-size: 16px; font-weight: bold; color: #1e3a8a; }
+    .close-btn { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+    
+    .history-item {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+    .history-item b { color: #1e40af; }
+
     .card {
       background: #ffffff;
       padding: 16px;
@@ -64,10 +123,8 @@
     th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
     th { background-color: #1e3a8a; color: white; font-weight: 600; }
 
-    /* প্রিন্ট সেকশন ডিফল্টভাবে ব্যাকগ্রাউন্ডে লুকিয়ে থাকবে */
     #printWinSection, #printMatSection { display: none; }
 
-    /* যখন যেটায় ক্লিক হবে শুধু সেটাই প্রিন্ট/পিডিএফ হবে */
     @media print {
       body * { visibility: hidden; }
       
@@ -98,7 +155,7 @@
     }
 
     .pdf-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; font-size: 12px; font-weight: 600; text-align: center; }
+    .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; font-size: 11px; font-weight: 600; text-align: center; }
     .pdf-table th { background-color: #f1f5f9; color: #000; }
 
     .pdf-grand-total {
@@ -138,7 +195,24 @@
 </head>
 <body>
 
+<!-- সাইড ড্রয়ার হিস্ট্রি প্যানেল -->
+<div id="historyDrawer" class="drawer">
+  <div class="drawer-header">
+    <span class="drawer-title">📋 Quotation History</span>
+    <button class="close-btn" onclick="toggleDrawer()">X</button>
+  </div>
+  <div id="historyListContainer">
+    <p style="font-size: 12px; color: #64748b; text-align: center;">কোনো হিস্ট্রি নেই</p>
+  </div>
+</div>
+
 <div class="container">
+
+  <!-- টপ বার (থ্রি-লাইন মেনু ও টাইটেল) -->
+  <div class="top-bar">
+    <button class="menu-btn" onclick="toggleDrawer()">☰ History</button>
+    <h3 style="margin: 0; color: #1e3a8a; font-size: 16px;">Aluminium Quotation System</h3>
+  </div>
 
   <!-- ১. দোকান/স্টোর ইনফো -->
   <div class="card">
@@ -224,13 +298,13 @@
     
     <div class="btn-group">
       <button class="btn btn-win-pdf" onclick="printWindowQuotation()">📄 1. Window Quotation PDF</button>
-      <button class="btn btn-mat-pdf" onclick="printMaterialDetails()">📦 2. Material Details PDF</button>
+      <button class="btn btn-mat-pdf" onclick="printMaterialDetails()">📦 2. Material Details & Cutting PDF</button>
     </div>
   </div>
 
 </div>
 
-<!-- ৬. উইন্ডো কোটেশন টেমপ্লেট (শুধু ১ নম্বর বাটনে চাপলে এটি প্রিন্ট হবে) -->
+<!-- ৬. উইন্ডো কোটেশন টেমপ্লেট -->
 <div id="printWinSection">
   <div class="pdf-header">
     <p class="pdf-title" id="pShop"></p>
@@ -272,11 +346,11 @@
   </div>
 </div>
 
-<!-- ৭. মেটেরিয়াল ডিটেইলস টেমপ্লেট (শুধু ২ নম্বর বাটনে চাপলে এটি প্রিন্ট হবে - কাটিং রিপোর্ট লজিক সহ) -->
+<!-- ৭. মেটেরিয়াল ও সঠিক কাটিং রিপোর্ট টেমপ্লেট -->
 <div id="printMatSection">
   <div class="pdf-header">
     <p class="pdf-title" id="mShop"></p>
-    <p class="pdf-subtitle">Material Requirement & Cutting Estimate Sheet</p>
+    <p class="pdf-subtitle">Accurate Material Cutting Report & Estimation</p>
   </div>
 
   <div class="pdf-info-box">
@@ -291,7 +365,13 @@
 
   <table class="pdf-table">
     <thead>
-      <tr><th>Material Name</th><th>Est. Length (Feet)</th><th>Req. Bars (21 Ft) [Height > 6ft]</th><th>Req. Bars (18.5 Ft) [Height < 6ft]</th></tr>
+      <tr>
+        <th>Material Description</th>
+        <th>Total Length</th>
+        <th>Bar Size / Rule</th>
+        <th>Required Bars (Pcs)</th>
+        <th>Cutting Details / Remainder</th>
+      </tr>
     </thead>
     <tbody id="pdfMatTableBody"></tbody>
   </table>
@@ -305,7 +385,13 @@
 <script>
   window.onload = function() {
     addRow();
+    loadHistory();
   };
+
+  function toggleDrawer() {
+    let drawer = document.getElementById('historyDrawer');
+    drawer.classList.toggle('open');
+  }
 
   function addRow() {
     let tbody = document.getElementById('winTableBody');
@@ -362,10 +448,7 @@
     let grandTotal = 0;
 
     let totalOuterH = 0, totalOuterW = 0, totalShutterH = 0, totalShutterW = 0;
-    
-    // আলাদা হিসাবের জন্য ভেরিয়েবল (হাইট ৬ ফুটের কম বা বেশি অনুযায়ী)
-    let feet21_Count = 0;
-    let feet185_Count = 0;
+    let maxItemHeight = 0;
 
     for (let i = 0; i < heights.length; i++) {
       let h = parseFloat(heights[i].value) || 0;
@@ -388,22 +471,13 @@
           </tr>
         `;
 
-        let itemOuterH = (h / 12) * 2 * q;
-        let itemOuterW = (w / 12) * 2 * q;
-        let itemShutterH = (h / 12) * 4 * q;
-        let itemShutterW = (w / 12) * 4 * q;
+        totalOuterH += (h / 12) * 2 * q;
+        totalOuterW += (w / 12) * 2 * q;
+        totalShutterH += (h / 12) * 4 * q;
+        totalShutterW += (w / 12) * 4 * q;
 
-        totalOuterH += itemOuterH;
-        totalOuterW += itemOuterW;
-        totalShutterH += itemShutterH;
-        totalShutterW += itemShutterW;
-
-        // কাটিং ফর্মুলা লজিক: হাইট ৭২ ইঞ্চি (৬ ফুট) বা তার বেশি হলে ২১ ফুটের বার, কম হলে ১৮.৫ ফুটের বার কাউন্ট হবে
-        let totalItemFeet = itemOuterH + itemOuterW + itemShutterH + itemShutterW;
-        if (h >= 72) {
-          feet21_Count += Math.ceil(totalItemFeet / 21);
-        } else {
-          feet185_Count += Math.ceil(totalItemFeet / 18.5);
+        if (h > maxItemHeight) {
+          maxItemHeight = h;
         }
       }
     }
@@ -411,9 +485,12 @@
     document.getElementById('calcTotalPrice').value = grandTotal.toFixed(2);
     document.getElementById('pGrandTotal').innerText = grandTotal.toFixed(2);
 
-    let today = new Date().toLocaleDateString('en-US');
+    let today = new Date().toLocaleDateString('en-GB');
     document.getElementById('pDate').innerText = today;
     document.getElementById('mDate').innerText = today;
+
+    let standardBarFt = maxItemHeight >= 72 ? 21 : 18.5;
+    let barNameLabel = maxItemHeight >= 72 ? "21 Feet Bar" : "18.5 Feet Bar";
 
     let matTbody = document.getElementById('pdfMatTableBody');
     let materials = [
@@ -425,31 +502,82 @@
 
     matTbody.innerHTML = '';
     materials.forEach(m => {
-      // কাটিং ফর্মুলা লজিক অনুযায়ী মেটেরিয়াল অনুযায়ী আলাদা বারের হিসাব
-      let b21 = Math.ceil(m.ft / 21);
-      let b18 = Math.ceil(m.ft / 18.5);
-      
+      let totalFt = m.ft;
+      let reqBars = Math.ceil(totalFt / standardBarFt);
+      let totalBarCapacity = reqBars * standardBarFt;
+      let remainderFt = totalBarCapacity - totalFt;
+
       matTbody.innerHTML += `
         <tr>
           <td><b>${m.name}</b></td>
-          <td>${m.ft.toFixed(2)} ft</td>
-          <td>${b21} Pcs</td>
-          <td>${b18} Pcs</td>
+          <td>${totalFt.toFixed(2)} ft</td>
+          <td>${barNameLabel}</td>
+          <td>${reqBars} Pcs</td>
+          <td>Extra / Remainder: ~${remainderFt.toFixed(2)} ft</td>
         </tr>
       `;
     });
   }
 
-  // ১. শুধুমাত্র উইন্ডো কোটেশন ডাউনলোড করার জন্য
+  // কোটেশন সেভ এবং হিস্ট্রি ফাংশন
+  function saveToHistory() {
+    let custName = document.getElementById('custName').value.trim() || 'Unknown Customer';
+    let custPhone = document.getElementById('custPhone').value.trim() || 'N/A';
+    let totalPrice = document.getElementById('calcTotalPrice').value || '0.00';
+    let date = new Date().toLocaleDateString('en-GB');
+
+    let historyData = JSON.parse(localStorage.getItem('quotation_history')) || [];
+    
+    let record = {
+      name: custName,
+      phone: custPhone,
+      total: totalPrice,
+      date: date
+    };
+
+    historyData.unshift.record; // নতুন হিস্ট্রি উপরে এড হবে
+    // আগের ভুল unshift সিনট্যাক্স ঠিক করা হলো:
+    historyData.unshift(record);
+
+    // সর্বোচ্চ ৫০টি হিস্ট্রি সেভ থাকবে
+    if(historyData.length > 50) historyData.pop();
+
+    localStorage.setItem('quotation_history', JSON.stringify(historyData));
+    loadHistory();
+  }
+
+  function loadHistory() {
+    let container = document.getElementById('historyListContainer');
+    let historyData = JSON.parse(localStorage.getItem('quotation_history')) || [];
+
+    if(historyData.length === 0) {
+      container.innerHTML = `<p style="font-size: 12px; color: #64748b; text-align: center;">কোনো হিস্ট্রি নেই</p>`;
+      return;
+    }
+
+    container.innerHTML = '';
+    historyData.forEach((item, index) => {
+      container.innerHTML += `
+        <div class="history-item">
+          <div><b>#${index + 1} - ${item.name}</b></div>
+          <div>Mobile: ${item.phone}</div>
+          <div>Amount: ৳${item.total}</div>
+          <div style="color: #64748b; font-size: 10px; margin-top: 2px;">Date: ${item.date}</div>
+        </div>
+      `;
+    });
+  }
+
   function printWindowQuotation() {
     runCalculation();
+    saveToHistory(); // কোটেশন প্রিন্ট করার সময় হিস্ট্রি সেভ হয়ে যাবে
     document.body.className = "print-window";
     window.print();
   }
 
-  // ২. শুধুমাত্র মেটেরিয়াল ডিটেইলস ডাউনলোড করার জন্য
   function printMaterialDetails() {
     runCalculation();
+    saveToHistory(); // মেটেরিয়াল ডিটেইলস প্রিন্ট করার সময়ও হিস্ট্রি সেভ হয়ে যাবে
     document.body.className = "print-material";
     window.print();
   }

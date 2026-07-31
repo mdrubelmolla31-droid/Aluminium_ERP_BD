@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Management - Aluminium ERP BD</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+    body { background-color: #0b0f19; color: #f3f4f6; padding: 16px; min-height: 100vh; display: flex; justify-content: center; }
+
+    .container { width: 100%; max-width: 500px; }
+
+    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #1e293b; }
+    .back-btn { background: #1e293b; color: #fff; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+    .page-title { font-size: 18px; font-weight: bold; color: #ffffff; }
+
+    .form-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 4px; font-weight: 600; }
+    .form-control { width: 100%; padding: 10px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 13px; outline: none; }
+    .form-control:focus { border-color: #3b82f6; }
+
+    .btn-submit { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 5px; }
+    .btn-submit:active { background: #1d4ed8; }
+
+    .search-box { margin-bottom: 15px; }
+
+    .customer-list { display: flex; flex-direction: column; gap: 12px; }
+    .customer-card { background: #111827; border: 1px solid #1e293b; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    
+    .cust-top-row { display: flex; justify-content: space-between; align-items: flex-start; }
+    .cust-info h4 { font-size: 15px; color: #fbbf24; margin-bottom: 3px; }
+    .cust-info p { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+
+    .action-btns { display: flex; gap: 6px; }
+    .btn-action { background: #1e293b; border: none; color: white; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; }
+    .btn-delete { background: #7f1d1d; color: #fca5a5; }
+
+    /* যোগাযোগের দ্রুত বাটনসমূহ */
+    .contact-actions { display: flex; gap: 8px; border-top: 1px solid #1e293b; padding-top: 10px; flex-wrap: wrap; }
+    .btn-contact { text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; color: white; flex: 1; justify-content: center; text-align: center; min-width: 90px; }
+    .btn-call { background: #059669; } /* ডাইরেক্ট কল */
+    .btn-wa { background: #25d366; color: #000; } /* হোয়াটসঅ্যাপ */
+    .btn-imo { background: #3b82f6; } /* ইমু */
+
+    .empty-msg { text-align: center; color: #6b7280; font-size: 13px; margin-top: 30px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- টপ বার -->
+  <div class="header-bar">
+    <a href="index.html" class="back-btn">⬅️ Back</a>
+    <div class="page-title">Customer Management</div>
+    <div style="width: 50px;"></div>
+  </div>
+
+  <!-- কাস্টমার যোগ করার ফর্ম -->
+  <div class="form-card">
+    <h3 id="formTitle" style="font-size: 15px; margin-bottom: 12px; color: #60a5fa;">➕ Add New Customer</h3>
+    <input type="hidden" id="editIndex" value="">
+    
+    <div class="form-group">
+      <label>Customer Name *</label>
+      <input type="text" id="custName" class="form-control" placeholder="গ্রাহকের নাম লিখুন">
+    </div>
+    
+    <div class="form-group">
+      <label>Mobile Number *</label>
+      <input type="text" id="custPhone" class="form-control" placeholder="মোবাইল নম্বর লিখুন (যেমন: 017xxxxxxxx)">
+    </div>
+
+    <div class="form-group">
+      <label>Address</label>
+      <input type="text" id="custAddress" class="form-control" placeholder="ঠিকানা লিখুন">
+    </div>
+
+    <button class="btn-submit" id="saveBtn" onclick="saveCustomer()">Save Customer</button>
+  </div>
+
+  <!-- সার্চ বক্স -->
+  <div class="search-box">
+    <input type="text" id="searchInput" class="form-control" placeholder="🔍 কাস্টমার খুঁজুন (নাম বা নম্বর দিয়ে)..." oninput="renderCustomers()">
+  </div>
+
+  <!-- কাস্টমার লিস্ট -->
+  <div class="customer-list" id="customerListContainer">
+    <!-- কাস্টমার কার্ডগুলো এখানে ডাইনামিকভাবে লোড হবে -->
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderCustomers();
+  });
+
+  function saveCustomer() {
+    let name = document.getElementById('custName').value.trim();
+    let phone = document.getElementById('custPhone').value.trim();
+    let address = document.getElementById('custAddress').value.trim();
+    let editIndex = document.getElementById('editIndex').value;
+
+    if (!name || !phone) {
+      alert("দয়া করে কাস্টমার নাম এবং মোবাইল নম্বর লিখুন!");
+      return;
+    }
+
+    let customers = JSON.parse(localStorage.getItem('erp_customers')) || [];
+
+    if (editIndex === "") {
+      customers.push({ name, phone, address });
+    } else {
+      customers[editIndex] = { name, phone, address };
+      document.getElementById('editIndex').value = "";
+      document.getElementById('formTitle').innerText = "➕ Add New Customer";
+      document.getElementById('saveBtn').innerText = "Save Customer";
+    }
+
+    localStorage.setItem('erp_customers', JSON.stringify(customers));
+    clearForm();
+    renderCustomers();
+  }
+
+  function clearForm() {
+    document.getElementById('custName').value = '';
+    document.getElementById('custPhone').value = '';
+    document.getElementById('custAddress').value = '';
+  }
+
+  function renderCustomers() {
+    let container = document.getElementById('customerListContainer');
+    let searchQuery = document.getElementById('searchInput').value.toLowerCase();
+    let customers = JSON.parse(localStorage.getItem('erp_customers')) || [];
+
+    container.innerHTML = '';
+
+    let filteredCustomers = customers.filter(c => 
+      c.name.toLowerCase().includes(searchQuery) || c.phone.includes(searchQuery)
+    );
+
+    if (filteredCustomers.length === 0) {
+      container.innerHTML = `<div class="empty-msg">কোনো কাস্টমার পাওয়া যায়নি</div>`;
+      return;
+    }
+
+    filteredCustomers.forEach((cust, index) => {
+      let originalIndex = customers.indexOf(cust);
+      
+      // ফোন নম্বরের ফরম্যাট ঠিক করা (হোয়াটসঅ্যাপ ও কলের জন্য কান্ট্রি কোড যুক্ত করা)
+      let rawPhone = cust.phone.replace(/\s+/g, '');
+      let formattedPhone = rawPhone.startsWith('+') ? rawPhone : (rawPhone.startsWith('88') ? '+' + rawPhone : '+88' + rawPhone);
+      let waLink = `https://wa.me/${formattedPhone}`;
+      let callLink = `tel:${rawPhone}`;
+      let imoLink = `imo://call?phone=${rawPhone}`; // ইমু ডাইরেক্ট কল প্রটোকল
+
+      let card = document.createElement('div');
+      card.className = 'customer-card';
+      card.innerHTML = `
+        <div class="cust-top-row">
+          <div class="cust-info">
+            <h4>${cust.name}</h4>
+            <p>📞 ${cust.phone}</p>
+            <p>📍 ${cust.address || 'ঠিকানা দেওয়া নেই'}</p>
+          </div>
+          <div class="action-btns">
+            <button class="btn-action" onclick="editCustomer(${originalIndex})" title="Edit">✏️</button>
+            <button class="btn-action btn-delete" onclick="deleteCustomer(${originalIndex})" title="Delete">🗑️</button>
+          </div>
+        </div>
+
+        <!-- ডাইরেক্ট কল ও চ্যাট অপশন -->
+        <div class="contact-actions">
+          <a href="${callLink}" class="btn-contact btn-call">📞 Call</a>
+          <a href="${waLink}" target="_blank" class="btn-contact btn-wa">💬 WhatsApp</a>
+          <a href="${imoLink}" class="btn-contact btn-imo">📹 Imo</a>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function editCustomer(index) {
+    let customers = JSON.parse(localStorage.getItem('erp_customers')) || [];
+    let cust = customers[index];
+
+    document.getElementById('custName').value = cust.name;
+    document.getElementById('custPhone').value = cust.phone;
+    document.getElementById('custAddress').value = cust.address;
+    document.getElementById('editIndex').value = index;
+
+    document.getElementById('formTitle').innerText = "✏️ Edit Customer";
+    document.getElementById('saveBtn').innerText = "Update Customer";
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function deleteCustomer(index) {
+    if (confirm("আপনি কি নিশ্চিতভাবে এই কাস্টমারটি ডিলিট করতে চান?")) {
+      let customers = JSON.parse(localStorage.getItem('erp_customers')) || [];
+      customers.splice(index, 1);
+      localStorage.setItem('erp_customers', JSON.stringify(customers));
+      renderCustomers();
+    }
+  }
+</script>
+
+</body>
+</html>

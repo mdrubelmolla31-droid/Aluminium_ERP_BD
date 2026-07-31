@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bill & Invoice - Aluminium ERP BD</title>
+  <!-- অ্যান্ড্রয়েড অ্যাপ ও ব্রাউজারে সরাসরি পিডিএফ ডাউনলোড করার লাইব্রেরি -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #0b0f19; margin: 0; padding: 8px; color: #0f172a; min-height: 100vh; }
@@ -181,9 +183,9 @@
     </div>
   </div>
 
-  <!-- প্রিন্ট বাটন -->
+  <!-- ডাউনলোড পিডিএফ বাটন -->
   <div class="btn-container">
-    <button class="btn btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+    <button class="btn btn-print" onclick="downloadPDF()">📥 Download PDF</button>
   </div>
 
 </div>
@@ -242,6 +244,24 @@
       total += val;
     });
     document.getElementById('grandTotal').value = total.toFixed(2);
+  }
+
+  // অ্যান্ড্রয়েড অ্যাপের জন্য সরাসরি পিডিএফ ফাইল ডাউনলোড করার ফাংশন
+  function downloadPDF() {
+    const element = document.querySelector('.container');
+    let custName = document.getElementById('custName').value || 'Customer';
+    let billNo = document.getElementById('billNo').value || '01';
+    
+    let opt = {
+      margin:       0.1,
+      filename:     `Invoice_${billNo}_${custName}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    // সরাসরি অ্যান্ড্রয়েডে ফাইল হিসেবে ডাউনলোড হবে
+    html2pdf().from(element).set(opt).save();
   }
 </script>
 

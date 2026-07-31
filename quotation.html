@@ -121,6 +121,18 @@
     th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
     th { background-color: #1e3a8a; color: white; font-weight: 600; }
 
+    .section-header {
+      background-color: #e2e8f0;
+      color: #1e3a8a;
+      font-weight: bold;
+      text-align: center;
+      padding: 8px;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
     #printWinSection, #printMatSection { display: none; }
 
     @media print {
@@ -280,22 +292,24 @@
     <button class="btn btn-add" onclick="addRow()">+ Add Window</button>
   </div>
 
-  <!-- লাইভ কাটিং রিপোর্ট টেবিল (স্ক্রিনেই রেজাল্ট দেখার জন্য) -->
+  <!-- হুবহু ক্যালকুলেটরের মতো লাইভ কাটিং রিপোর্ট সেকশন -->
   <div class="card">
-    <div class="card-title">Live Cutting Report & Estimate</div>
+    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল</div>
+
+    <div class="section-header">18.5 ft Bar Section (For Height &le; 6 ft)</div>
     <table>
       <thead>
-        <tr>
-          <th>Material Name</th>
-          <th>Total Length</th>
-          <th>Bar Rule</th>
-          <th>Req. Bars</th>
-          <th>Remainder</th>
-        </tr>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
       </thead>
-      <tbody id="liveMatTableBody">
-        <tr><td colspan="5">মাপ প্রদান করুন</td></tr>
-      </tbody>
+      <tbody id="table18Body"></tbody>
+    </table>
+
+    <div class="section-header">21 ft Bar Section (For Height > 6 ft)</div>
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
+      </thead>
+      <tbody id="table21Body"></tbody>
     </table>
   </div>
 
@@ -373,20 +387,23 @@
     </div>
   </div>
 
+  <div class="section-header" style="text-align: left; padding: 4px;">18.5 ft Bar Section (For Height &le; 6 ft)</div>
   <table class="pdf-table">
     <thead>
-      <tr>
-        <th>Material Description</th>
-        <th>Total Length</th>
-        <th>Bar Size / Rule</th>
-        <th>Required Bars (Pcs)</th>
-        <th>Cutting Details / Remainder</th>
-      </tr>
+      <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
     </thead>
-    <tbody id="pdfMatTableBody"></tbody>
+    <tbody id="pdfTable18Body"></tbody>
   </table>
 
-  <div class="signature-container" style="margin-top: 100px;">
+  <div class="section-header" style="text-align: left; padding: 4px; margin-top: 10px;">21 ft Bar Section (For Height > 6 ft)</div>
+  <table class="pdf-table">
+    <thead>
+      <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
+    </thead>
+    <tbody id="pdfTable21Body"></tbody>
+  </table>
+
+  <div class="signature-container" style="margin-top: 60px;">
     <div class="sig-line">Prepared By</div>
     <div class="sig-line">Approved By</div>
   </div>
@@ -429,6 +446,20 @@
     rows.forEach((row, i) => row.querySelector('.row-index').innerText = i + 1);
   }
 
+  function formatBreakdown(totalFt, barSize) {
+    if (totalFt <= 0) return "০ টি বার";
+    let fullBars = Math.floor(totalFt / barSize);
+    let remainder = totalFt % barSize;
+
+    if (fullBars === 0) {
+      return `${remainder.toFixed(2)} ফুটের ১ টি পিস`;
+    } else if (remainder === 0) {
+      return `${barSize} ফুটের ${fullBars} টি ফুল পিস`;
+    } else {
+      return `${barSize} ফুটের ${fullBars} টি ফুল পিস + ${remainder.toFixed(2)} ফুটের ১ টি পিস`;
+    }
+  }
+
   function runCalculation() {
     let shop = document.getElementById('shopName').value;
     let phone = document.getElementById('shopPhone').value;
@@ -457,8 +488,8 @@
     winTbody.innerHTML = '';
     let grandTotal = 0;
 
-    let totalOuterH = 0, totalOuterW = 0, totalShutterH = 0, totalShutterW = 0;
-    let maxItemHeight = 0;
+    let len18_outerSide = 0, len18_shutterLock = 0, len18_shutterInterlock = 0;
+    let len21_outerSide = 0, len21_outerTop = 0, len21_outerBot = 0, len21_shutterTop = 0, len21_shutterBot = 0, len21_shutterLock = 0, len21_shutterInterlock = 0;
 
     for (let i = 0; i < heights.length; i++) {
       let h = parseFloat(heights[i].value) || 0;
@@ -481,14 +512,21 @@
           </tr>
         `;
 
-        totalOuterH += (h / 12) * 2 * q;
-        totalOuterW += (w / 12) * 2 * q;
-        totalShutterH += (h / 12) * 4 * q;
-        totalShutterW += (w / 12) * 4 * q;
-
-        if (h > maxItemHeight) {
-          maxItemHeight = h;
+        if (h <= 72) { // Height <= 6 ft (72 inches) -> 18.5 ft bar logic
+          len18_outerSide += (h / 12) * 2 * q;
+          len18_shutterLock += (h / 12) * 2 * q;
+          len18_shutterInterlock += (h / 12) * 2 * q;
+        } else { // Height > 6 ft -> 21 ft bar logic
+          len21_outerSide += (h / 12) * 2 * q;
+          len21_shutterLock += (h / 12) * 2 * q;
+          len21_shutterInterlock += (h / 12) * 2 * q;
         }
+
+        // Horizontal items go to 21 ft section rule or general pool as per standard calculator rule
+        len21_outerTop += (w / 12) * q;
+        len21_outerBot += (w / 12) * q;
+        len21_shutterTop += (w / 12) * 2 * q;
+        len21_shutterBot += (w / 12) * 2 * q;
       }
     }
 
@@ -499,39 +537,28 @@
     document.getElementById('pDate').innerText = today;
     document.getElementById('mDate').innerText = today;
 
-    let standardBarFt = maxItemHeight >= 72 ? 21 : 18.5;
-    let barNameLabel = maxItemHeight >= 72 ? "21 Feet Bar" : "18.5 Feet Bar";
+    // HTML Table Rendering for 18.5 ft
+    let html18 = `
+      <tr><td>Outer Side (&le; 6ft)</td><td>${len18_outerSide.toFixed(2)} ft</td><td>${formatBreakdown(len18_outerSide, 18.5)}</td></tr>
+      <tr><td>Shutter Lock (&le; 6ft)</td><td>${len18_shutterLock.toFixed(2)} ft</td><td>${formatBreakdown(len18_shutterLock, 18.5)}</td></tr>
+      <tr><td>Shutter Interlock (&le; 6ft)</td><td>${len18_shutterInterlock.toFixed(2)} ft</td><td>${formatBreakdown(len18_shutterInterlock, 18.5)}</td></tr>
+    `;
 
-    let materials = [
-      { name: "Outer Vertical (Side)", ft: totalOuterH },
-      { name: "Outer Horizontal (Top/Bottom)", ft: totalOuterW },
-      { name: "Shutter Vertical (Lock/Interlock)", ft: totalShutterH },
-      { name: "Shutter Horizontal (Top/Bottom)", ft: totalShutterW }
-    ];
+    // HTML Table Rendering for 21 ft
+    let html21 = `
+      <tr><td>Outer Side (> 6ft)</td><td>${len21_outerSide.toFixed(2)} ft</td><td>${formatBreakdown(len21_outerSide, 21)}</td></tr>
+      <tr><td>Outer Top</td><td>${len21_outerTop.toFixed(2)} ft</td><td>${formatBreakdown(len21_outerTop, 21)}</td></tr>
+      <tr><td>Outer Bottom (Equal to Top)</td><td>${len21_outerBot.toFixed(2)} ft</td><td>${formatBreakdown(len21_outerBot, 21)}</td></tr>
+      <tr><td>Shutter Top</td><td>${len21_shutterTop.toFixed(2)} ft</td><td>${formatBreakdown(len21_shutterTop, 21)}</td></tr>
+      <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td>${len21_shutterBot.toFixed(2)} ft</td><td>${formatBreakdown(len21_shutterBot, 21)}</td></tr>
+      <tr><td>Shutter Lock (> 6ft)</td><td>${len21_shutterLock.toFixed(2)} ft</td><td>${formatBreakdown(len21_shutterLock, 21)}</td></tr>
+      <tr><td>Shutter Interlock (> 6ft)</td><td>${len21_shutterInterlock.toFixed(2)} ft</td><td>${formatBreakdown(len21_shutterInterlock, 21)}</td></tr>
+    `;
 
-    let liveMatTbody = document.getElementById('liveMatTableBody');
-    let pdfMatTbody = document.getElementById('pdfMatTableBody');
-    liveMatTbody.innerHTML = '';
-    pdfMatTbody.innerHTML = '';
-
-    materials.forEach(m => {
-      let totalFt = m.ft;
-      let reqBars = Math.ceil(totalFt / standardBarFt);
-      let totalBarCapacity = reqBars * standardBarFt;
-      let remainderFt = totalBarCapacity - totalFt;
-
-      let rowHtml = `
-        <tr>
-          <td><b>${m.name}</b></td>
-          <td>${totalFt.toFixed(2)} ft</td>
-          <td>${barNameLabel}</td>
-          <td>${reqBars} Pcs</td>
-          <td>Extra / Remainder: ~${remainderFt.toFixed(2)} ft</td>
-        </tr>
-      `;
-      liveMatTbody.innerHTML += rowHtml;
-      pdfMatTbody.innerHTML += rowHtml;
-    });
+    document.getElementById('table18Body').innerHTML = html18;
+    document.getElementById('table21Body').innerHTML = html21;
+    document.getElementById('pdfTable18Body').innerHTML = html18;
+    document.getElementById('pdfTable21Body').innerHTML = html21;
   }
 
   function saveToHistory() {

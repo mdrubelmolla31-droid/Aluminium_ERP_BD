@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bill & Invoice - Aluminium ERP BD</title>
+  
+  <!-- jsPDF এবং html2canvas লাইব্রেরি (সরাসরি পিডিএফ ডাউনলোড নিশ্চিত করার জন্য) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #0b0f19; margin: 0; padding: 8px; color: #0f172a; min-height: 100vh; }
@@ -59,18 +64,11 @@
     .btn-add { background-color: #10b981; }
     .btn-print { background-color: #2563eb; width: 100%; max-width: 250px; }
     .btn-del { background-color: #ef4444; padding: 2px 6px; font-size: 10px; border-radius: 4px; }
-
-    @media print {
-      body { background: white; padding: 0; }
-      .container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
-      .btn-container, .top-bar, .btn-del, .btn-add { display: none; }
-      input { border: none !important; background: transparent !important; }
-    }
   </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="invoiceContainer">
   
   <div class="top-bar no-print">
     <a href="index.html" class="back-btn">⬅️ Back to Dashboard</a>
@@ -159,10 +157,10 @@
     </div>
   </div>
 
-  <div class="btn-container">
-    <button class="btn btn-print" type="button" onclick="triggerPrintPDF()">📥 Print / Save PDF</button>
-  </div>
+</div>
 
+<div class="btn-container" style="text-align: center; margin-top: 15px;">
+  <button class="btn btn-print" type="button" onclick="downloadPDF()">📥 Download PDF</button>
 </div>
 
 <script>
@@ -211,7 +209,7 @@
     });
   }
 
-  // একদম নিখুঁত হিসাব: (সাইজ ১ × সাইজ ২) = স্কয়ার ফিট, এরপর (স্কয়ার ফিট × QTY × Rate) = মোট অ্যামাউন্ট
+  // নিখুঁত হিসাব: (সাইজ ১ × সাইজ ২) × পিস (QTY) × রেট (Rate)
   function calculateRow(input) {
     let row = input.closest('tr');
     let sizeText = row.querySelector('.item-size').value.trim();
@@ -221,8 +219,9 @@
     let sizeMultiplier = 1;
 
     if (sizeText !== "") {
-      if (sizeText.includes('*') || sizeText.includes('x') || sizeText.includes('X') || sizeText.includes('×')) {
-        let parts = sizeText.split(/[\*xX×]/);
+      let cleanSize = sizeText.replace(/[×xX]/g, '*');
+      if (cleanSize.includes('*')) {
+        let parts = cleanSize.split('*');
         let product = 1;
         let hasValidPart = false;
         parts.forEach(p => {
@@ -234,12 +233,11 @@
         });
         sizeMultiplier = hasValidPart ? product : 1;
       } else {
-        let val = parseFloat(sizeText);
+        let val = parseFloat(cleanSize);
         sizeMultiplier = !isNaN(val) ? val : 1;
       }
     }
 
-    // নিখুঁত হিসাব: স্কয়ার ফিট × পিস (QTY) × রেট
     let amount = sizeMultiplier * qty * rate;
     row.querySelector('.item-amount').value = amount.toFixed(2);
     calculateGrandTotal();
@@ -255,12 +253,57 @@
     document.getElementById('grandTotal').value = total.toFixed(2);
   }
 
-  // ব্রাউজার বা মোবাইলে প্রিন্ট বা পিডিএফ সেভ করার জন্য সরাসরি ট্রিগার
-  function triggerPrintPDF() {
-    window.focus();
-    setTimeout(() => {
-      window.print();
-    }, 150);
+  // সরাসরি পিডিএফ ফাইল ডাউনলোড করার জন্য ফাংশন
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const element = document.getElementById('invoiceContainer');
+
+    // ইনপুট ফিল্ডগুলোর ভ্যালু সরাসরি ফিক্সেড টেক্সটে রূপান্তর করে পিডিএফ পরিষ্কার দেখানোর জন্য
+    let inputs = element.querySelectorAll('input');
+    inputs.forEach(input => {
+      let span = document.createElement('span');
+      span.className = 'temp-span';
+      span.innerText = input.value;
+      input.style.display = 'none';
+      input.parentNode.insertBefore(span, input);
+    });
+
+    html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
+      // ইনপুট ফিল্ডগুলো আবার ফিরিয়ে আনা
+      inputs.forEach(input => {
+        input.style.display = '';
+        let span = input.parentNode.querySelector('.temp-span');
+        if (span) span.remove();
+      });
+
+      let imgData = canvas.toDataURL('image/png');
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      let imgWidth = 210;
+      let pageHeight = 295;
+      let imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      let billNo = document.getElementById('billNo').value || '01';
+      pdf.save(`Invoice_${billNo}.pdf`);
+    }).catch(err => {
+      alert("পিডিএফ ডাউনলোড করতে সমস্যা হয়েছে: " + err);
+      inputs.forEach(input => {
+        input.style.display = '';
+        let span = input.parentNode.querySelector('.temp-span');
+        if (span) span.remove();
+      });
+    });
   }
 </script>
 

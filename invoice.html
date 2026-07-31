@@ -13,7 +13,6 @@
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #0b0f19; margin: 0; padding: 8px; color: #0f172a; min-height: 100vh; }
     
-    /* চারপাশে সুন্দর ডিজাইন বর্ডার */
     .container { 
       max-width: 800px; 
       margin: 0 auto; 
@@ -34,30 +33,28 @@
     
     .shop-slogan { font-size: 10px; color: #475569; font-weight: 600; }
     
-    /* শপের নাম এখন এডিট করার জন্য ইনপুট বক্স আকারে করা হয়েছে */
     .shop-title-container {
       text-align: center;
       margin: 6px 0;
     }
 
+    /* শপের নাম নিখুঁতভাবে এডিট করার জন্য কন্টেন্ট এডিটেবল ডিজাইন */
     .shop-title-box {
       display: inline-block;
-      border: 3.5px solid #320ee6;
+      border: 3px solid #320ee6;
       border-radius: 6px;
-      padding: 4px 10px;
+      padding: 6px 16px;
       background: #ffffff;
       font-size: 22px;
       font-weight: 900;
       color: #320ee6;
       text-transform: uppercase;
       letter-spacing: 1px;
-      text-align: center;
-      width: 100%;
-      max-width: 450px;
       outline: none;
+      min-width: 280px;
+      word-break: break-word;
     }
     
-    /* প্রোপাইটর, মোবাইল ও ঠিকানা আরও বোল্ড ও স্পষ্ট কালো করা হয়েছে */
     .shop-details { 
       font-size: 13px !important; 
       color: #000000 !important; 
@@ -112,6 +109,25 @@
     .btn-print { background-color: #2563eb; width: 100%; max-width: 250px; }
     .btn-del { background-color: #ef4444; padding: 2px 6px; font-size: 10px; border-radius: 4px; }
 
+    /* ডাউনলোড সাকসেস নোটিফিকেশন বক্স */
+    #downloadAlert {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #065f46;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      z-index: 9999;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      max-width: 90%;
+    }
+
     @media print {
       body { background: white; padding: 0; }
       .container { box-shadow: none; border: 2px solid #320ee6; outline: none; padding: 10px; max-width: 100%; }
@@ -121,6 +137,9 @@
   </style>
 </head>
 <body>
+
+<!-- ফাইল লোকেশন নোটিফিকেশন অ্যালার্ট -->
+<div id="downloadAlert"></div>
 
 <div class="container" id="invoiceContainer">
   
@@ -132,9 +151,9 @@
   <div class="invoice-header">
     <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
     
-    <!-- শপের নাম এখন ইউজার এডিট করতে পারবে -->
+    <!-- শপের নাম এডিট করার জন্য contenteditable বক্স -->
     <div class="shop-title-container">
-      <input type="text" class="shop-title-box" value="RM THAI ALUMINIUM">
+      <div class="shop-title-box" contenteditable="true">RM THAI ALUMINIUM</div>
     </div>
 
     <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
@@ -299,31 +318,31 @@
     document.getElementById('grandTotal').value = total.toFixed(2);
   }
 
+  function showDownloadAlert(fileName) {
+    let alertBox = document.getElementById('downloadAlert');
+    alertBox.innerHTML = `✅ সফলভাবে ডাউনলোড হয়েছে!<br><span style="font-size:11px; font-weight:normal; color:#d1fae5;">ফাইল নাম: <b>${fileName}</b><br>আপনার ডিভাইসের <b>Downloads</b> ফোল্ডারে সেভ হয়েছে।</span>`;
+    alertBox.style.display = 'block';
+    
+    setTimeout(() => {
+      alertBox.style.display = 'none';
+    }, 5000);
+  }
+
   function downloadPDF() {
     const { jsPDF } = window.jspdf;
     const element = document.getElementById('invoiceContainer');
 
-    // ডাউনলোড করার সময় ইনপুট বক্সের বর্ডার সাময়িকভাবে রিমুভ করা যাতে দেখতে সুন্দর লাগে
     let inputs = element.querySelectorAll('input');
     inputs.forEach(input => {
-      if(!input.classList.contains('shop-title-box')) {
-        input.dataset.oldBorder = input.style.border;
-        input.style.border = 'none';
-        input.style.background = 'transparent';
-      } else {
-        input.style.border = 'none'; // শপের নাম বক্সের বর্ডারও পিডিএফ-এ ক্লিন রাখার জন্য
-      }
+      input.dataset.oldBorder = input.style.border;
+      input.style.border = 'none';
+      input.style.background = 'transparent';
     });
 
     html2canvas(element, { scale: 2, useCORS: true, logging: false }).then(canvas => {
-      // ইনপুট বক্সের আগের স্টাইল ফিরিয়ে আনা
       inputs.forEach(input => {
-        if(!input.classList.contains('shop-title-box')) {
-          input.style.border = input.dataset.oldBorder || '';
-          input.style.background = '';
-        } else {
-          input.style.border = '3.5px solid #320ee6';
-        }
+        input.style.border = input.dataset.oldBorder || '';
+        input.style.background = '';
       });
 
       let imgData = canvas.toDataURL('image/png');
@@ -345,16 +364,18 @@
       }
 
       let billNo = document.getElementById('billNo').value || '01';
-      pdf.save(`Invoice_${billNo}.pdf`);
+      let fileName = `Invoice_${billNo}.pdf`;
+      
+      pdf.save(fileName);
+      
+      // কোটেশন ফাইলের মতো স্টাইলিশ লোকেশন নোটিফিকেশন দেখাবে
+      showDownloadAlert(fileName);
+
     }).catch(err => {
       alert("পিডিএফ ডাউনলোড করতে সমস্যা হয়েছে: " + err);
       inputs.forEach(input => {
-        if(!input.classList.contains('shop-title-box')) {
-          input.style.border = '';
-          input.style.background = '';
-        } else {
-          input.style.border = '3.5px solid #320ee6';
-        }
+        input.style.border = input.dataset.oldBorder || '';
+        input.style.background = '';
       });
     });
   }

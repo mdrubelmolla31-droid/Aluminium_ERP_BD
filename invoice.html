@@ -8,7 +8,7 @@
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #0b0f19; margin: 0; padding: 8px; color: #0f172a; min-height: 100vh; }
     
-    .container { max-width: 750px; margin: 0 auto; background: #ffffff; padding: 15px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 2px solid #1e3a8a; position: relative; overflow: hidden; }
+    .container { max-width: 800px; margin: 0 auto; background: #ffffff; padding: 15px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 2px solid #1e3a8a; position: relative; overflow: hidden; }
 
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 5px; }
     .back-btn { background: #1e293b; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
@@ -34,12 +34,13 @@
     .meta-right .meta-item { justify-content: flex-end; }
     .meta-box input { padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; background: #fff; width: 100%; }
 
+    /* নতুন আলাদা কলাম ভিত্তিক টেবিল ডিজাইন */
     .invoice-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
-    .invoice-table th, .invoice-table td { border: 1px solid #1e3a8a; padding: 5px; text-align: center; }
-    .invoice-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 11px; }
-    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 11px; outline: none; }
-    .invoice-table td:nth-child(2) input { text-align: left; }
-    .invoice-table td:nth-child(3) input { text-align: center; }
+    .invoice-table th, .invoice-table td { border: 1px solid #1e3a8a; padding: 4px; text-align: center; }
+    .invoice-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 10.5px; }
+    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 11px; outline: none; padding: 4px; }
+    .invoice-table td:nth-child(2) input { text-align: left; } /* ডেসক্রিপশন বামে থাকবে */
+    .invoice-table tr:hover { background-color: #f8fafc; }
 
     .total-section { display: flex; justify-content: flex-end; margin-bottom: 10px; }
     .total-box { border: 2px solid #1e3a8a; padding: 6px 10px; font-weight: bold; font-size: 13px; background: #eff6ff; display: flex; gap: 10px; align-items: center; border-radius: 4px; }
@@ -111,12 +112,14 @@
     </div>
   </div>
 
+  <!-- আলাদা আলাদা কলাম বিশিষ্ট ইনভয়েস টেবিল -->
   <table class="invoice-table">
     <thead>
       <tr>
-        <th style="width: 7%;">SL</th>
-        <th style="width: 43%;">DESCRIPTION OF WORK</th>
-        <th style="width: 20%;">QTY / SIZE</th>
+        <th style="width: 5%;">SL</th>
+        <th style="width: 32%;">DESCRIPTION</th>
+        <th style="width: 20%;">SIZE (W × H)</th>
+        <th style="width: 10%;">QTY</th>
         <th style="width: 13%;">RATE</th>
         <th style="width: 14%;">AMOUNT</th>
         <th class="no-print" style="width: 6%;">Act</th>
@@ -159,7 +162,7 @@
   </div>
 
   <div class="btn-container">
-    <button class="btn btn-print" onclick="downloadPDF()">📥 Download / Print PDF</button>
+    <button class="btn btn-print" onclick="window.print()">📥 Print / Save PDF</button>
   </div>
 
 </div>
@@ -169,6 +172,7 @@
     let today = new Date().toISOString().split('T')[0];
     document.getElementById('billDate').value = today;
     
+    // ডিফলต์ ৩টি রো থাকবে
     addInvoiceRow();
     addInvoiceRow();
     addInvoiceRow();
@@ -181,7 +185,8 @@
     tr.innerHTML = `
       <td>${rowCount < 10 ? '0' + rowCount : rowCount}</td>
       <td><input type="text" placeholder="কাজের বিবরণ"></td>
-      <td><input type="text" class="item-qty" placeholder="পরিমাণ বা মাপ (যেমন: 4.5*5)" oninput="calculateRow(this)"></td>
+      <td><input type="text" class="item-size" placeholder="যেমন: 4.5*5" oninput="calculateRow(this)"></td>
+      <td><input type="number" class="item-qty" value="1" placeholder="1" oninput="calculateRow(this)"></td>
       <td><input type="number" class="item-rate" placeholder="0" oninput="calculateRow(this)"></td>
       <td><input type="number" class="item-amount" placeholder="0" readonly></td>
       <td class="no-print"><button class="btn btn-del" type="button" onclick="removeInvoiceRow(this)">X</button></td>
@@ -209,33 +214,37 @@
     });
   }
 
-  // নিখুঁত হিসাবের ফাংশন (সাইজ বা কোয়ান্টিটি এবং রেট গুণ করে অ্যামাউন্ট বের করা)
+  // নিখুঁত হিসাব: (সাইজ গুণফল × পিস বা কোয়ান্টিটি × রেট) = অ্যামাউন্ট
   function calculateRow(input) {
     let row = input.closest('tr');
-    let qtyText = row.querySelector('.item-qty').value.trim();
+    let sizeText = row.querySelector('.item-size').value.trim();
+    let qty = parseFloat(row.querySelector('.item-qty').value) || 1;
     let rate = parseFloat(row.querySelector('.item-rate').value) || 0;
 
-    let totalMultiplier = 1;
+    let sizeMultiplier = 1;
 
-    // যদি সাইজ বা গুণ আকারে লেখা হয় (যেমন: 4.5*5 অথবা 8)
-    if (qtyText !== "") {
-      if (qtyText.includes('*') || qtyText.includes('x') || qtyText.includes('X') || qtyText.includes('×')) {
-        let parts = qtyText.split(/[\*xX×]/);
+    // যদি সাইজ বক্সে মাপ দেওয়া থাকে (যেমন: 4.5*5)
+    if (sizeText !== "") {
+      if (sizeText.includes('*') || sizeText.includes('x') || sizeText.includes('X') || sizeText.includes('×')) {
+        let parts = sizeText.split(/[\*xX×]/);
+        let product = 1;
+        let hasValidPart = false;
         parts.forEach(p => {
           let val = parseFloat(p);
           if (!isNaN(val)) {
-            totalMultiplier *= val;
+            product *= val;
+            hasValidPart = true;
           }
         });
+        sizeMultiplier = hasValidPart ? product : 1;
       } else {
-        let val = parseFloat(qtyText);
-        if (!isNaN(val)) {
-          totalMultiplier = val;
-        }
+        let val = parseFloat(sizeText);
+        sizeMultiplier = !isNaN(val) ? val : 1;
       }
     }
 
-    let amount = totalMultiplier * rate;
+    // মোট অ্যামাউন্ট হিসাব (সাইজ × পিস × রেট)
+    let amount = sizeMultiplier * qty * rate;
     row.querySelector('.item-amount').value = amount.toFixed(2);
     calculateGrandTotal();
   }
@@ -248,11 +257,6 @@
       total += val;
     });
     document.getElementById('grandTotal').value = total.toFixed(2);
-  }
-
-  // অ্যান্ড্রয়েড অ্যাপ ও ব্রাউজারের জন্য ১০০% কার্যকরী প্রিন্ট ও পিডিএফ সেভ অপশন
-  function downloadPDF() {
-    window.print();
   }
 </script>
 

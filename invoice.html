@@ -13,23 +13,62 @@
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #0b0f19; margin: 0; padding: 8px; color: #0f172a; min-height: 100vh; }
     
-    .container { max-width: 800px; margin: 0 auto; background: #ffffff; padding: 15px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 2px solid #1e3a8a; position: relative; }
+    /* চারপাশে সুন্দর ডিজাইন বর্ডার */
+    .container { 
+      max-width: 800px; 
+      margin: 0 auto; 
+      background: #ffffff; 
+      padding: 20px; 
+      border-radius: 12px; 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+      border: 4px double #1e3a8a; 
+      outline: 2px solid #93c5fd;
+      outline-offset: 3px;
+      position: relative; 
+    }
 
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 5px; }
     .back-btn { background: #1e293b; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
 
-    .invoice-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 10px; }
-    .header-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; gap: 5px; }
+    .invoice-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 12px; margin-bottom: 15px; }
     
-    .logo-box { width: 50px; height: 40px; border: 1px solid #1e3a8a; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 4px; overflow: hidden; flex-shrink: 0; }
-    .logo-box img { width: 100%; height: 100%; object-fit: cover; }
-
-    .header-center-info { flex-grow: 1; text-align: center; }
-    .shop-slogan { font-size: 9px; color: #475569; font-weight: 600; }
-    .shop-title { font-size: 18px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; margin: 2px 0; border: none; background: transparent; text-align: center; width: 100%; outline: none; }
+    .shop-slogan { font-size: 10px; color: #475569; font-weight: 600; }
     
-    .shop-details { font-size: 11px; color: #334155; margin-top: 4px; display: flex; flex-direction: column; gap: 2px; align-items: center; }
-    .shop-details input { border: 1px dashed transparent; text-align: center; font-size: 11px; color: #334155; background: transparent; width: 100%; }
+    /* শপের নাম আরও বড় করা হয়েছে */
+    .shop-title { 
+      font-size: 28px !important; 
+      font-weight: 900 !important; 
+      color: #1e3a8a !important; 
+      text-transform: uppercase; 
+      margin: 4px 0; 
+      border: none; 
+      background: transparent; 
+      text-align: center; 
+      width: 100%; 
+      outline: none; 
+      letter-spacing: 1px;
+    }
+    
+    /* প্রোপাইটর, মোবাইল ও ঠিকানা আরও বোল্ড ও স্পষ্ট কালো করা হয়েছে */
+    .shop-details { 
+      font-size: 13px !important; 
+      color: #000000 !important; 
+      font-weight: 800 !important; 
+      margin-top: 6px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 3px; 
+      align-items: center; 
+    }
+    .shop-details input { 
+      border: 1px dashed transparent; 
+      text-align: center; 
+      font-size: 13px !important; 
+      color: #000000 !important; 
+      font-weight: 800 !important; 
+      background: transparent; 
+      width: 100%; 
+    }
 
     .meta-box { display: flex; justify-content: space-between; margin-bottom: 10px; gap: 8px; font-size: 12px; flex-wrap: wrap; }
     .meta-left { flex: 1.5; display: flex; flex-direction: column; gap: 6px; min-width: 200px; }
@@ -67,7 +106,7 @@
 
     @media print {
       body { background: white; padding: 0; }
-      .container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+      .container { box-shadow: none; border: 2px solid #1e3a8a; outline: none; padding: 10px; max-width: 100%; }
       .no-print { display: none !important; }
       input { border: none !important; background: transparent !important; }
     }
@@ -83,21 +122,9 @@
   </div>
 
   <div class="invoice-header">
-    <div class="header-top-row">
-      <div class="logo-box">
-        <img src="1000060250.jpg" alt="Logo 1" onerror="this.src='https://img.icons8.com/color/96/aluminium.png'">
-      </div>
-      
-      <div class="header-center-info">
-        <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
-        <input type="text" class="shop-title" value="RM THAI ALUMINIUM">
-        <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
-      </div>
-
-      <div class="logo-box">
-        <img src="1000054468.jpg" alt="Logo 2" onerror="this.src='https://img.icons8.com/color/96/aluminium.png'">
-      </div>
-    </div>
+    <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
+    <input type="text" class="shop-title" value="RM THAI ALUMINIUM">
+    <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
 
     <div class="shop-details">
       <input type="text" value="Proprietor: Rubel Molla | Mobile: 01676-474412">
@@ -216,7 +243,6 @@
     });
   }
 
-  // হিসাবের সঠিক লজিক: (সাইজ ১ × সাইজ ২) × QTY × Rate
   function calculateRow(input) {
     let row = input.closest('tr');
     let sizeText = row.querySelector('.item-size').value.trim();
@@ -260,12 +286,10 @@
     document.getElementById('grandTotal').value = total.toFixed(2);
   }
 
-  // সহজ ও ক্লিয়ার পিডিএফ ডাউনলোড ফাংশন (টেক্সট ডুপ্লিকেট বা ওভারল্যাপ সমস্যা মুক্ত)
   function downloadPDF() {
     const { jsPDF } = window.jspdf;
     const element = document.getElementById('invoiceContainer');
 
-    // ইনপুট বর্ডার ও ব্যাকগ্রাউন্ড সাময়িকভাবে পরিষ্কার করে ক্যানভাস তৈরি
     let inputs = element.querySelectorAll('input');
     inputs.forEach(input => {
       input.style.border = 'none';
@@ -273,7 +297,6 @@
     });
 
     html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
-      // ইনপুট স্টাইল আগের মতো ফিরিয়ে আনা
       inputs.forEach(input => {
         input.style.border = '';
         input.style.background = '';

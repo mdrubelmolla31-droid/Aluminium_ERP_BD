@@ -34,19 +34,28 @@
     
     .shop-slogan { font-size: 10px; color: #475569; font-weight: 600; }
     
-    /* শপের নাম আরও বড় করা হয়েছে */
+    /* শপের নামের চারপাশে স্ট্রোক লাইন ও ডিজাইন (এখানে বসাতে হবে) */
+    .shop-title-wrapper {
+      display: inline-block;
+      border: 3px solid #0f172a;
+      border-radius: 6px;
+      padding: 8px 20px;
+      margin: 6px 0;
+      background: #ffffff;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
     .shop-title { 
       font-size: 28px !important; 
       font-weight: 900 !important; 
-      color: #1e3a8a !important; 
+      color: #0f172a !important; 
       text-transform: uppercase; 
-      margin: 4px 0; 
+      margin: 0; 
       border: none; 
       background: transparent; 
       text-align: center; 
-      width: 100%; 
       outline: none; 
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
     }
     
     /* প্রোপাইটর, মোবাইল ও ঠিকানা আরও বোল্ড ও স্পষ্ট কালো করা হয়েছে */
@@ -123,7 +132,12 @@
 
   <div class="invoice-header">
     <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
-    <input type="text" class="shop-title" value="RM THAI ALUMINIUM">
+    
+    <!-- টাইটেলের চারপাশে স্ট্রোক লাইন বক্স -->
+    <div class="shop-title-wrapper">
+      <input type="text" class="shop-title" value="RM THAI ALUMINIUM">
+    </div>
+
     <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
 
     <div class="shop-details">

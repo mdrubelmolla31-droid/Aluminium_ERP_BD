@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluminium Calculator & Quotation History</title>
+  <title>Aluminium Calculator & Quotation System</title>
 
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
     .container { max-width: 700px; margin: 0 auto; }
     
-    /* টপ বার এবং হিস্ট্রি বাটন স্টাইল */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -33,7 +32,6 @@
       font-weight: bold;
     }
 
-    /* সাইড ড্রয়ার হিস্ট্রি প্যানেল */
     .drawer {
       position: fixed;
       top: 0;
@@ -195,7 +193,6 @@
 </head>
 <body>
 
-<!-- সাইড ড্রয়ার হিস্ট্রি প্যানেল -->
 <div id="historyDrawer" class="drawer">
   <div class="drawer-header">
     <span class="drawer-title">📋 Quotation History</span>
@@ -208,13 +205,11 @@
 
 <div class="container">
 
-  <!-- টপ বার (থ্রি-লাইন মেনু ও টাইটেল) -->
   <div class="top-bar">
     <button class="menu-btn" onclick="toggleDrawer()">☰ History</button>
-    <h3 style="margin: 0; color: #1e3a8a; font-size: 16px;">Aluminium Quotation System</h3>
+    <h3 style="margin: 0; color: #1e3a8a; font-size: 16px;">Aluminium Quotation & Cutting System</h3>
   </div>
 
-  <!-- ১. দোকান/স্টোর ইনফো -->
   <div class="card">
     <div class="card-title">My Store Info</div>
     <div class="row">
@@ -223,7 +218,6 @@
     </div>
   </div>
 
-  <!-- ২. কাস্টমার ইনফো -->
   <div class="card">
     <div class="card-title">Customer Details</div>
     <div class="row">
@@ -235,7 +229,6 @@
     </div>
   </div>
 
-  <!-- ৩. মেটেরিয়াল স্পেসিফিকেশন -->
   <div class="card">
     <div class="card-title">Item Specifications</div>
     <div class="row">
@@ -276,7 +269,6 @@
     </div>
   </div>
 
-  <!-- ৪. জানালার মাপ ক্যালকুলেটর -->
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
     <table>
@@ -288,7 +280,25 @@
     <button class="btn btn-add" onclick="addRow()">+ Add Window</button>
   </div>
 
-  <!-- ৫. প্রাইসিং ও আলাদা প্রিন্ট/ডাউনলোড বাটন -->
+  <!-- লাইভ কাটিং রিপোর্ট টেবিল (স্ক্রিনেই রেজাল্ট দেখার জন্য) -->
+  <div class="card">
+    <div class="card-title">Live Cutting Report & Estimate</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Material Name</th>
+          <th>Total Length</th>
+          <th>Bar Rule</th>
+          <th>Req. Bars</th>
+          <th>Remainder</th>
+        </tr>
+      </thead>
+      <tbody id="liveMatTableBody">
+        <tr><td colspan="5">মাপ প্রদান করুন</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="card">
     <div class="card-title">Pricing & Download Options</div>
     <div class="row">
@@ -298,13 +308,13 @@
     
     <div class="btn-group">
       <button class="btn btn-win-pdf" onclick="printWindowQuotation()">📄 1. Window Quotation PDF</button>
-      <button class="btn btn-mat-pdf" onclick="printMaterialDetails()">📦 2. Material Details & Cutting PDF</button>
+      <button class="btn btn-mat-pdf" onclick="printMaterialDetails()">📦 2. Material Details PDF</button>
     </div>
   </div>
 
 </div>
 
-<!-- ৬. উইন্ডো কোটেশন টেমপ্লেট -->
+<!-- উইন্ডো কোটেশন প্রিন্ট টেমপ্লেট -->
 <div id="printWinSection">
   <div class="pdf-header">
     <p class="pdf-title" id="pShop"></p>
@@ -346,7 +356,7 @@
   </div>
 </div>
 
-<!-- ৭. মেটেরিয়াল ও সঠিক কাটিং রিপোর্ট টেমপ্লেট -->
+<!-- মেটেরিয়াল ও কাটিং রিপোর্ট প্রিন্ট টেমপ্লেট -->
 <div id="printMatSection">
   <div class="pdf-header">
     <p class="pdf-title" id="mShop"></p>
@@ -492,7 +502,6 @@
     let standardBarFt = maxItemHeight >= 72 ? 21 : 18.5;
     let barNameLabel = maxItemHeight >= 72 ? "21 Feet Bar" : "18.5 Feet Bar";
 
-    let matTbody = document.getElementById('pdfMatTableBody');
     let materials = [
       { name: "Outer Vertical (Side)", ft: totalOuterH },
       { name: "Outer Horizontal (Top/Bottom)", ft: totalOuterW },
@@ -500,14 +509,18 @@
       { name: "Shutter Horizontal (Top/Bottom)", ft: totalShutterW }
     ];
 
-    matTbody.innerHTML = '';
+    let liveMatTbody = document.getElementById('liveMatTableBody');
+    let pdfMatTbody = document.getElementById('pdfMatTableBody');
+    liveMatTbody.innerHTML = '';
+    pdfMatTbody.innerHTML = '';
+
     materials.forEach(m => {
       let totalFt = m.ft;
       let reqBars = Math.ceil(totalFt / standardBarFt);
       let totalBarCapacity = reqBars * standardBarFt;
       let remainderFt = totalBarCapacity - totalFt;
 
-      matTbody.innerHTML += `
+      let rowHtml = `
         <tr>
           <td><b>${m.name}</b></td>
           <td>${totalFt.toFixed(2)} ft</td>
@@ -516,10 +529,11 @@
           <td>Extra / Remainder: ~${remainderFt.toFixed(2)} ft</td>
         </tr>
       `;
+      liveMatTbody.innerHTML += rowHtml;
+      pdfMatTbody.innerHTML += rowHtml;
     });
   }
 
-  // কোটেশন সেভ এবং হিস্ট্রি ফাংশন
   function saveToHistory() {
     let custName = document.getElementById('custName').value.trim() || 'Unknown Customer';
     let custPhone = document.getElementById('custPhone').value.trim() || 'N/A';
@@ -535,11 +549,7 @@
       date: date
     };
 
-    historyData.unshift.record; // নতুন হিস্ট্রি উপরে এড হবে
-    // আগের ভুল unshift সিনট্যাক্স ঠিক করা হলো:
     historyData.unshift(record);
-
-    // সর্বোচ্চ ৫০টি হিস্ট্রি সেভ থাকবে
     if(historyData.length > 50) historyData.pop();
 
     localStorage.setItem('quotation_history', JSON.stringify(historyData));
@@ -570,14 +580,14 @@
 
   function printWindowQuotation() {
     runCalculation();
-    saveToHistory(); // কোটেশন প্রিন্ট করার সময় হিস্ট্রি সেভ হয়ে যাবে
+    saveToHistory();
     document.body.className = "print-window";
     window.print();
   }
 
   function printMaterialDetails() {
     runCalculation();
-    saveToHistory(); // মেটেরিয়াল ডিটেইলস প্রিন্ট করার সময়ও হিস্ট্রি সেভ হয়ে যাবে
+    saveToHistory();
     document.body.className = "print-material";
     window.print();
   }

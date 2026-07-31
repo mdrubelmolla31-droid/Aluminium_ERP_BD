@@ -250,20 +250,55 @@
       }
     }
 
-    /* প্রিন্ট ও পিডিএফ এর আকর্ষণীয় ডিজাইন ও ব্লু থিম */
+        @media print {
+      @page {
+        size: A4;
+        margin: 6mm;
+      }
+      body * { visibility: hidden; }
+      
+      body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
+      body.print-window #printWinSection {
+        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 12px; background: #fff; 
+      }
+
+      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
+      body.print-material #printMatSection {
+        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 12px; background: #fff; 
+      }
+    }
+
+    /* পিডিএফ এবং প্রিন্টের মূল স্টাইল ও ওয়াটারমার্ক */
     #printWinSection, #printMatSection {
       font-size: 15px !important;
       color: #0f172a !important;
       font-weight: 700 !important;
       font-family: Arial, sans-serif;
-      border: 3px solid #1e3a8a !important; /* পুরো পেজের চারপাশে সুন্দর মোটা ব্লু আউটার বর্ডার */
-      padding: 15px !important;
+      border: 3px solid #1e3a8a !important;
+      padding: 18px !important;
       background: #ffffff !important;
       position: relative;
     }
-    
+
+    /* ব্যাকগ্রাউন্ড জলছাপ (Watermark) */
+    #printWinSection::before, #printMatSection::before {
+      content: "ALUMINIUM SECTION";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 65px;
+      font-weight: 900;
+      color: rgba(30, 58, 138, 0.05); /* হালকা জলছাপ এফেক্ট */
+      z-index: 0;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
     #printWinSection *, #printMatSection * {
       font-weight: 700 !important;
+      position: relative;
+      z-index: 1;
     }
 
     .pdf-header { 
@@ -275,18 +310,20 @@
       padding-top: 10px;
       border-radius: 6px 6px 0 0;
     }
-    .pdf-title { font-size: 30px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
-    .pdf-subtitle-sub { font-size: 15px !important; font-weight: 800 !important; color: #475569 !important; margin-top: 5px; }
+    
+    /* টাইটেল এবং মোবাইল নাম্বারের সাইজ আরও বড় করা হলো */
+    .pdf-title { font-size: 38px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
+    .pdf-subtitle-sub { font-size: 18px !important; font-weight: 800 !important; color: #1e293b !important; margin-top: 6px; }
 
     .pdf-info-box {
       display: flex;
       justify-content: space-between;
       font-size: 14px !important;
-      background: #f1f5f9 !important; /* হালকা ব্লুটেক ব্যাকগ্রাউন্ড */
+      background: #f1f5f9 !important;
       padding: 12px !important;
       border-radius: 6px;
       margin-bottom: 15px;
-      border: 2px solid #2563eb !important; /* কাস্টমার ইনফো বক্সের ব্লু বর্ডার */
+      border: 2px solid #2563eb !important;
       color: #1e293b !important;
     }
 
@@ -305,15 +342,20 @@
       padding-top: 8px;
     }
 
+    /* টার্মস অ্যান্ড কন্ডিশনস লাল রঙে হাইলাইট */
     .terms-box {
       margin-top: 20px;
-      background: #f8fafc !important;
-      border: 2px solid #3b82f6 !important;
-      border-left: 6px solid #1e3a8a !important; /* টার্মস বক্সে আকর্ষণীয় স্টাইলিশ ডিজাইন */
+      background: #fef2f2 !important;
+      border: 2px solid #ef4444 !important;
+      border-left: 6px solid #dc2626 !important;
       padding: 12px 15px;
       font-size: 13px !important;
-      color: #334155 !important;
+      color: #991b1b !important; /* লালচে টেক্সট কালার */
       border-radius: 4px;
+    }
+    
+    .terms-box b {
+      color: #dc2626 !important;
     }
 
     .signature-container {
@@ -332,6 +374,7 @@
       font-size: 13px !important;
       color: #1e3a8a !important;
     }
+
 
   </style>
 </head>

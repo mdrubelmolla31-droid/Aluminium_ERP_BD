@@ -178,8 +178,8 @@
         <tr>
           <th style="width: 6%;">Sl.No</th>
           <th style="width: 40%;">Materials Description</th>
-          <th style="width: 10%;">Unit</th>
           <th style="width: 11%;">Qty</th>
+          <th style="width: 10%;">Unit</th>
           <th style="width: 13%;">Rate</th>
           <th style="width: 16%;">Amount BDT</th>
           <th class="no-print" style="width: 4%;">Act</th>
@@ -240,8 +240,8 @@
     tr.innerHTML = `
       <td>${rowCount < 10 ? '0' + rowCount : rowCount}</td>
       <td><textarea placeholder="কাজের বিবরণ ও স্পেসিফিকেশন লিখুন..."></textarea></td>
-      <td><input type="text" class="item-unit" value="sft" placeholder="Unit"></td>
       <td><input type="number" class="item-qty" value="1" placeholder="0" oninput="calculateRow(this)"></td>
+      <td><input type="text" class="item-unit" value="sft" placeholder="Unit"></td>
       <td><input type="number" class="item-rate" placeholder="0" oninput="calculateRow(this)"></td>
       <td><input type="number" class="item-amount" placeholder="0" readonly></td>
       <td class="no-print"><button class="btn btn-del" type="button" onclick="removeInvoiceRow(this)">X</button></td>

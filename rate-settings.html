@@ -284,12 +284,7 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    // ব্রাউজারের পুরনো সংরক্ষিত ডাটা ক্লিয়ার করে দেওয়া হলো যাতে ঘরগুলো খালি থাকে
-    const keys = ['companyList', 'seriesList', 'thickList', 'aluColourList', 'glassCoList', 'glassThickList', 'glassColourList'];
-    keys.forEach(key => {
-      localStorage.removeItem(key);
-    });
-
+    // রিফ্রেশ করলে ডাটা যাতে মুছে না যায়, তাই removeItem বাদ দেওয়া হয়েছে
     initDropdowns();
     loadRateList();
   });
@@ -309,7 +304,6 @@
     let select = document.getElementById(selectId);
     select.innerHTML = '';
     
-    // ডিফল্টভাবে '-- সিলেক্ট করুন --' অপশন যোগ করা হলো
     let defaultOpt = document.createElement('option');
     defaultOpt.value = "";
     defaultOpt.textContent = "-- সিলেক্ট করুন --";

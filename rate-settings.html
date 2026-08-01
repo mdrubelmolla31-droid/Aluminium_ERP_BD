@@ -284,19 +284,26 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    // ব্রাউজারের স্টোরেজে থাকা পুরনো ডিফল্ট অপشنগুলো পরিষ্কার করে দেওয়া হলো যাতে একেবারে ফাঁکا থাকে
+    const keys = ['companyList', 'seriesList', 'thickList', 'aluColourList', 'glassCoList', 'glassThickList', 'glassColourList'];
+    keys.forEach(key => {
+      let data = JSON.parse(localStorage.getItem(key)) || [];
+      // যদি আগের কোনো হার্ডকোডেড ডিফল্ট মান থাকে, সেগুলো ফিল্টার করে বাদ দেওয়া হবে
+      let filtered = data.filter(item => 
+        item !== "Sliding Window 3\"" && 
+        item !== "1.0 mm" && 
+        item !== "Silver" && 
+        item !== "5 mm" && 
+        item !== "Clear"
+      );
+      localStorage.setItem(key, JSON.stringify(filtered));
+    });
+
     initDropdowns();
     loadRateList();
   });
 
   function initDropdowns() {
-    checkAndSetDefault('companyList', []);
-    checkAndSetDefault('seriesList', []);
-    checkAndSetDefault('thickList', []);
-    checkAndSetDefault('aluColourList', []);
-    checkAndSetDefault('glassCoList', []);
-    checkAndSetDefault('glassThickList', []);
-    checkAndSetDefault('glassColourList', []);
-
     populateDropdown('companyList', 'company');
     populateDropdown('seriesList', 'series');
     populateDropdown('thickList', 'aluThickness');
@@ -306,30 +313,21 @@
     populateDropdown('glassColourList', 'glassColour');
   }
 
-  function checkAndSetDefault(key, defaults) {
-    if (!localStorage.getItem(key)) {
-      localStorage.setItem(key, JSON.stringify(defaults));
-    }
-  }
-
   function populateDropdown(storageKey, selectId) {
     let list = JSON.parse(localStorage.getItem(storageKey)) || [];
     let select = document.getElementById(selectId);
     select.innerHTML = '';
     
-    if (list.length === 0) {
-      let opt = document.createElement('option');
-      opt.value = "";
-      opt.textContent = "-- সিলেক্ট করুন --";
-      select.appendChild(opt);
-      return;
-    }
+    let opt = document.createElement('option');
+    opt.value = "";
+    opt.textContent = "-- সিলেক্ট করুন --";
+    select.appendChild(opt);
 
     list.forEach(item => {
-      let opt = document.createElement('option');
-      opt.value = item;
-      opt.textContent = item;
-      select.appendChild(opt);
+      let option = document.createElement('option');
+      option.value = item;
+      option.textContent = item;
+      select.appendChild(option);
     });
   }
 

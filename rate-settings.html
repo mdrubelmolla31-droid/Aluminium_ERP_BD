@@ -125,6 +125,13 @@
       cursor: pointer;
       font-size: 10px;
     }
+    
+    .hint-text {
+      font-size: 10px;
+      color: #64748b;
+      margin-top: 2px;
+      text-align: right;
+    }
   </style>
 </head>
 <body>
@@ -136,7 +143,7 @@
 
     <!-- Master Data Section -->
     <div class="master-section">
-      <div class="master-title">Master Data</div>
+      <div class="master-title">Master Data (ভুল নাম ডিলিট করতে ড্রপডাউনে লং-প্রেস করুন)</div>
 
       <div class="field-group">
         <label>New Company</label>
@@ -185,36 +192,43 @@
     <div class="field-group">
       <label>Company</label>
       <select id="company"></select>
+      <div class="hint-text">সিলেক্ট করা নাম মুছতে ড্রপডাউনে চাপ দিয়ে ধরে রাখুন</div>
     </div>
 
     <div class="field-group">
       <label>Series</label>
       <select id="series"></select>
+      <div class="hint-text">সিলেক্ট করা নাম মুছতে ড্রপডাউনে চাপ দিয়ে ধরে রাখুন</div>
     </div>
 
     <div class="field-group">
       <label>Aluminium Thickness</label>
       <select id="aluThickness"></select>
+      <div class="hint-text">সিলেক্ট করা নাম মুছতে ড্রপডাউনে চাপ দিয়ে ধরে রাখুন</div>
     </div>
 
     <div class="field-group">
       <label>Aluminium Colour</label>
       <select id="aluColour"></select>
+      <div class="hint-text">সিলেক্ট করা নাম মুছতে ড্রপডাউনে চাপ দিয়ে ধরে রাখুন</div>
     </div>
 
     <div class="field-group">
       <label>Glass Company</label>
       <select id="glassCompany"></select>
+      <div class="hint-text">সিলেক্ট করা নাম মুছতে ড্রপডাউনে চাপ দিয়ে ধরে রাখুন</div>
     </div>
 
     <div class="field-group">
       <label>Glass Thickness</label>
       <select id="glassThickness"></select>
+      <div class="hint-text">সিলেক্ট করা নাম মুছতে ড্রপডাউনে চাপ দিয়ে ধরে রাখুন</div>
     </div>
 
     <div class="field-group">
       <label>Glass Colour</label>
       <select id="glassColour"></select>
+      <div class="hint-text">সিলেক্ট করা নাম মুছতে ড্রপডাউনে চাপ দিয়ে ধরে রাখুন</div>
     </div>
 
     <div class="field-group">
@@ -286,6 +300,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     initDropdowns();
     loadRateList();
+    setupLongPressToDelete();
   });
 
   function initDropdowns() {
@@ -332,6 +347,52 @@
     } else {
       alert("এই নামটি ইতিমধ্যে আছে!");
     }
+  }
+
+  // ড্রপডাউনে লং-প্রেস (চাপ দিয়ে ধরে রাখা) করলে বর্তমানে সিলেক্ট করা ভুল নামটি ডিলিট করার ফাংশন
+  function setupLongPressToDelete() {
+    const mappings = [
+      { selectId: 'company', storageKey: 'companyList', name: 'Company' },
+      { selectId: 'series', storageKey: 'seriesList', name: 'Series' },
+      { selectId: 'aluThickness', storageKey: 'thickList', name: 'Aluminium Thickness' },
+      { selectId: 'aluColour', storageKey: 'aluColourList', name: 'Aluminium Colour' },
+      { selectId: 'glassCompany', storageKey: 'glassCoList', name: 'Glass Company' },
+      { selectId: 'glassThickness', storageKey: 'glassThickList', name: 'Glass Thickness' },
+      { selectId: 'glassColour', storageKey: 'glassColourList', name: 'Glass Colour' }
+    ];
+
+    mappings.forEach(map => {
+      let selectEl = document.getElementById(map.selectId);
+      let pressTimer;
+
+      // মাউস বা টাচ ধরে রাখার সময় মাপার জন্য
+      let startPress = function(e) {
+        let selectedVal = selectEl.value;
+        if (!selectedVal) return; // কিছু সিলেক্ট করা না থাকলে কাজ করবে না
+
+        pressTimer = setTimeout(function() {
+          if (confirm(`"${selectedVal}" নামটা কি ডিলিট করতে চান?`)) {
+            let list = JSON.parse(localStorage.getItem(map.storageKey)) || [];
+            let updatedList = list.filter(item => item !== selectedVal);
+            localStorage.setItem(map.storageKey, JSON.stringify(updatedList));
+            populateDropdown(map.storageKey, map.selectId);
+            alert("সফলভাবে ডিলিট করা হয়েছে!");
+          }
+        }, 800); // ৮০০ মিলি সেকেন্ড বা প্রায় ১ সেকেন্ড চেপে ধরে রাখলে ডিলিট অপশন আসবে
+      };
+
+      let cancelPress = function() {
+        clearTimeout(pressTimer);
+      };
+
+      selectEl.addEventListener('mousedown', startPress);
+      selectEl.addEventListener('mouseup', cancelPress);
+      selectEl.addEventListener('mouseleave', cancelPress);
+
+      selectEl.addEventListener('touchstart', startPress);
+      selectEl.addEventListener('touchend', cancelPress);
+      selectEl.addEventListener('touchcancel', cancelPress);
+    });
   }
 
   function saveRate() {

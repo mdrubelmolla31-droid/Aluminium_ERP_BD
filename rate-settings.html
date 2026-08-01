@@ -247,7 +247,7 @@
       <input type="number" id="profit" placeholder="5">
     </div>
 
-    <button class="btn-save" onclick="saveRate()">Save Rate List</button>
+    <button class="btn-save" onclick="saveRate()">Save Rate</button>
   </div>
 
   <!-- Saved Rate List Table -->
@@ -284,25 +284,19 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    // এই অংশটি জোরপূর্বক পুরনো ডিফল্ট নামগুলোর লিস্ট মুছে একদম খালি করে দেবে
-    // কিন্তু আপনার সেভ করা রেট ('rateList') সম্পূর্ণ নিরাপদ থাকবে
-    const listsToReset = ['companyList', 'seriesList', 'thickList', 'aluColourList', 'glassCoList', 'glassThickList', 'glassColourList'];
-    
-    listsToReset.forEach(key => {
-      let data = JSON.parse(localStorage.getItem(key));
-      // যদি আগের ডিফল্ট নামগুলো (যেমন KAI, BTA ইত্যাদি) থাকে, তবে সেগুলোকে ক্লিয়ার করে ফাঁকা করে দেবে
-      if (data && (data.includes("KAI") || data.includes("BTA") || data.includes("Nasir") || data.includes("ALFA") || data.includes("Bengal") || data.includes("PHP"))) {
-        localStorage.setItem(key, JSON.stringify([]));
-      } else if (!localStorage.getItem(key)) {
-        localStorage.setItem(key, JSON.stringify([]));
-      }
-    });
-
     initDropdowns();
     loadRateList();
   });
 
   function initDropdowns() {
+    checkAndSetDefault('companyList', []);
+    checkAndSetDefault('seriesList', []);
+    checkAndSetDefault('thickList', []);
+    checkAndSetDefault('aluColourList', []);
+    checkAndSetDefault('glassCoList', []);
+    checkAndSetDefault('glassThickList', []);
+    checkAndSetDefault('glassColourList', []);
+
     populateDropdown('companyList', 'company');
     populateDropdown('seriesList', 'series');
     populateDropdown('thickList', 'aluThickness');
@@ -310,6 +304,12 @@
     populateDropdown('glassCoList', 'glassCompany');
     populateDropdown('glassThickList', 'glassThickness');
     populateDropdown('glassColourList', 'glassColour');
+  }
+
+  function checkAndSetDefault(key, defaults) {
+    if (!localStorage.getItem(key)) {
+      localStorage.setItem(key, JSON.stringify(defaults));
+    }
   }
 
   function populateDropdown(storageKey, selectId) {

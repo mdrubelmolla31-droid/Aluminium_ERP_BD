@@ -289,13 +289,14 @@
   });
 
   function initDropdowns() {
-    checkAndSetDefault('companyList', ['KAI', 'BTA', 'ALFA']);
-    checkAndSetDefault('seriesList', ['Sliding Window 3"', 'Sliding Window 4"']);
-    checkAndSetDefault('thickList', ['1.0 mm', '1.2 mm', '1.5 mm']);
-    checkAndSetDefault('aluColourList', ['Silver', 'Bronze', 'Black']);
-    checkAndSetDefault('glassCoList', ['Nasir', 'Bengal', 'PHP']);
-    checkAndSetDefault('glassThickList', ['5 mm', '5.5 mm', '6 mm']);
-    checkAndSetDefault('glassColourList', ['Clear', 'Blue', 'Green']);
+    // ডিফল্ট মানগুলো সম্পূর্ণ ফাঁকা করা হয়েছে (Empty Array)
+    checkAndSetDefault('companyList', []);
+    checkAndSetDefault('seriesList', []);
+    checkAndSetDefault('thickList', []);
+    checkAndSetDefault('aluColourList', []);
+    checkAndSetDefault('glassCoList', []);
+    checkAndSetDefault('glassThickList', []);
+    checkAndSetDefault('glassColourList', []);
 
     populateDropdown('companyList', 'company');
     populateDropdown('seriesList', 'series');
@@ -316,6 +317,15 @@
     let list = JSON.parse(localStorage.getItem(storageKey)) || [];
     let select = document.getElementById(selectId);
     select.innerHTML = '';
+    
+    if (list.length === 0) {
+      let opt = document.createElement('option');
+      opt.value = "";
+      opt.textContent = "-- সিলেক্ট করুন --";
+      select.appendChild(opt);
+      return;
+    }
+
     list.forEach(item => {
       let opt = document.createElement('option');
       opt.value = item;
@@ -343,8 +353,14 @@
   }
 
   function saveRate() {
+    let companyVal = document.getElementById('company').value;
+    if (!companyVal) {
+      alert("দয়া করে প্রথমে Master Data থেকে নাম যোগ করে সিলেক্ট করুন!");
+      return;
+    }
+
     let rateData = {
-      company: document.getElementById('company').value,
+      company: companyVal,
       series: document.getElementById('series').value,
       aluThickness: document.getElementById('aluThickness').value,
       aluColour: document.getElementById('aluColour').value,

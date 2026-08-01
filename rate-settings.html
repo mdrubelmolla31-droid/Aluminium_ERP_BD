@@ -125,27 +125,6 @@
       cursor: pointer;
       font-size: 10px;
     }
-
-    /* ডিলিট করার ট্যাগ স্টাইল */
-    .item-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 4px;
-    }
-    .tag {
-      background: #e2e8f0;
-      padding: 2px 6px;
-      font-size: 11px;
-      border-radius: 4px;
-      cursor: pointer;
-      color: #334155;
-    }
-    .tag span {
-      color: #ef4444;
-      font-weight: bold;
-      margin-left: 4px;
-    }
   </style>
 </head>
 <body>
@@ -202,47 +181,40 @@
       </div>
     </div>
 
-    <!-- Main Inputs (Original Standard Selects) -->
+    <!-- Main Inputs -->
     <div class="field-group">
       <label>Company</label>
       <select id="company"></select>
-      <div class="item-tags" id="tags_company"></div>
     </div>
 
     <div class="field-group">
       <label>Series</label>
       <select id="series"></select>
-      <div class="item-tags" id="tags_series"></div>
     </div>
 
     <div class="field-group">
       <label>Aluminium Thickness</label>
       <select id="aluThickness"></select>
-      <div class="item-tags" id="tags_aluThickness"></div>
     </div>
 
     <div class="field-group">
       <label>Aluminium Colour</label>
       <select id="aluColour"></select>
-      <div class="item-tags" id="tags_aluColour"></div>
     </div>
 
     <div class="field-group">
       <label>Glass Company</label>
       <select id="glassCompany"></select>
-      <div class="item-tags" id="tags_glassCompany"></div>
     </div>
 
     <div class="field-group">
       <label>Glass Thickness</label>
       <select id="glassThickness"></select>
-      <div class="item-tags" id="tags_glassThickness"></div>
     </div>
 
     <div class="field-group">
       <label>Glass Colour</label>
       <select id="glassColour"></select>
-      <div class="item-tags" id="tags_glassColour"></div>
     </div>
 
     <div class="field-group">
@@ -317,23 +289,20 @@
   });
 
   function initDropdowns() {
-    populateDropdown('companyList', 'company', 'tags_company');
-    populateDropdown('seriesList', 'series', 'tags_series');
-    populateDropdown('thickList', 'aluThickness', 'tags_aluThickness');
-    populateDropdown('aluColourList', 'aluColour', 'tags_aluColour');
-    populateDropdown('glassCoList', 'glassCompany', 'tags_glassCompany');
-    populateDropdown('glassThickList', 'glassThickness', 'tags_glassThickness');
-    populateDropdown('glassColourList', 'glassColour', 'tags_glassColour');
+    populateDropdown('companyList', 'company');
+    populateDropdown('seriesList', 'series');
+    populateDropdown('thickList', 'aluThickness');
+    populateDropdown('aluColourList', 'aluColour');
+    populateDropdown('glassCoList', 'glassCompany');
+    populateDropdown('glassThickList', 'glassThickness');
+    populateDropdown('glassColourList', 'glassColour');
   }
 
-  function populateDropdown(storageKey, selectId, tagId) {
+  function populateDropdown(storageKey, selectId) {
     let list = JSON.parse(localStorage.getItem(storageKey)) || [];
     let select = document.getElementById(selectId);
-    let tagContainer = document.getElementById(tagId);
-    
     let currentVal = select.value;
     select.innerHTML = '';
-    tagContainer.innerHTML = '';
     
     let defaultOpt = document.createElement('option');
     defaultOpt.value = "";
@@ -345,27 +314,9 @@
       opt.value = item;
       opt.textContent = item;
       select.appendChild(opt);
-
-      // নিচে ছোট ট্যাগ তৈরি হবে, ভুল হলে ক্রস (×) এ চাপ দিলেই ডিলিট হয়ে যাবে
-      let tag = document.createElement('div');
-      tag.className = 'tag';
-      tag.innerHTML = `${item} <span>×</span>`;
-      tag.onclick = function() {
-        if (confirm(`"${item}" ডিলিট করতে চান?`)) {
-          deleteItem(storageKey, item);
-        }
-      };
-      tagContainer.appendChild(tag);
     });
 
     select.value = currentVal;
-  }
-
-  function deleteItem(storageKey, itemToDelete) {
-    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
-    let updatedList = list.filter(i => i !== itemToDelete);
-    localStorage.setItem(storageKey, JSON.stringify(updatedList));
-    initDropdowns();
   }
 
   function addMasterItem(storageKey, inputId, labelName, selectId) {
@@ -379,7 +330,8 @@
       list.push(val);
       localStorage.setItem(storageKey, JSON.stringify(list));
       document.getElementById(inputId).value = '';
-      initDropdowns();
+      populateDropdown(storageKey, selectId);
+      alert(labelName + " সফলভাবে যোগ হয়েছে!");
     } else {
       alert("এই নামটি ইতিমধ্যে আছে!");
     }
@@ -442,7 +394,7 @@
         <td>${item.glassRate}</td>
         <td>${item.hwRate}</td>
         <td>${item.fitRate}</td>
-        -> ${item.labourRate}
+        <td>${item.labourRate}</td>
         <td>${item.profit}%</td>
         <td><button class="btn-del" onclick="deleteRate(${index})">Delete</button></td>
       `;

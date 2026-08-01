@@ -284,21 +284,25 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    // এই অংশটি জোরপূর্বক পুরনো ডিফল্ট নামগুলোর লিস্ট মুছে একদম খালি করে দেবে
+    // কিন্তু আপনার সেভ করা রেট ('rateList') সম্পূর্ণ নিরাপদ থাকবে
+    const listsToReset = ['companyList', 'seriesList', 'thickList', 'aluColourList', 'glassCoList', 'glassThickList', 'glassColourList'];
+    
+    listsToReset.forEach(key => {
+      let data = JSON.parse(localStorage.getItem(key));
+      // যদি আগের ডিফল্ট নামগুলো (যেমন KAI, BTA ইত্যাদি) থাকে, তবে সেগুলোকে ক্লিয়ার করে ফাঁকা করে দেবে
+      if (data && (data.includes("KAI") || data.includes("BTA") || data.includes("Nasir") || data.includes("ALFA") || data.includes("Bengal") || data.includes("PHP"))) {
+        localStorage.setItem(key, JSON.stringify([]));
+      } else if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, JSON.stringify([]));
+      }
+    });
+
     initDropdowns();
     loadRateList();
   });
 
   function initDropdowns() {
-    // শুধুমাত্র যদি আগে থেকে ডাটা না থাকে তবেই ফাঁকা এরে বসবে। 
-    // আপনার সেভ করা রেট বা অন্য কোনো ডাটা হাত দেওয়া হবে না।
-    if (!localStorage.getItem('companyList')) localStorage.setItem('companyList', JSON.stringify([]));
-    if (!localStorage.getItem('seriesList')) localStorage.setItem('seriesList', JSON.stringify([]));
-    if (!localStorage.getItem('thickList')) localStorage.setItem('thickList', JSON.stringify([]));
-    if (!localStorage.getItem('aluColourList')) localStorage.setItem('aluColourList', JSON.stringify([]));
-    if (!localStorage.getItem('glassCoList')) localStorage.setItem('glassCoList', JSON.stringify([]));
-    if (!localStorage.getItem('glassThickList')) localStorage.setItem('glassThickList', JSON.stringify([]));
-    if (!localStorage.getItem('glassColourList')) localStorage.setItem('glassColourList', JSON.stringify([]));
-
     populateDropdown('companyList', 'company');
     populateDropdown('seriesList', 'series');
     populateDropdown('thickList', 'aluThickness');

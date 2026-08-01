@@ -40,24 +40,29 @@
       outline: none;
     }
     
+    /* প্রোপাইটর ও এড্রেস ফিক্সড রাখার জন্য স্টাইল এবং ২ পিক্সেল বড় ফন্ট */
     .shop-details { 
       font-size: 13px; 
       color: #000000; 
       font-weight: 900; 
       margin-top: 4px; 
-      line-height: 1.3;
+      line-height: 1.4;
       text-align: center;
+    }
+    .shop-details .fixed-label {
+      display: inline;
+      font-weight: 900;
     }
     .shop-details input { 
       border: none; 
-      text-align: center; 
+      text-align: left; 
       font-size: 13px; 
       color: #000000; 
       font-weight: 900; 
       background: transparent; 
-      width: 100%; 
-      display: block;
+      display: inline-block;
       outline: none;
+      width: auto;
     }
 
     .meta-table { width: 100%; margin-bottom: 10px; border-collapse: collapse; }
@@ -91,30 +96,29 @@
     .btn-print { background-color: #2563eb; }
     .btn-del { background-color: #dc2626; padding: 2px 6px; font-size: 10px; border-radius: 4px; font-weight: 900; }
 
-    /* প্রিন্ট বা পিডিএফ ডাউনলোড দিলে লেখাগুলো বড়, স্পষ্ট ও বক্সের ভেতরে ফিট রাখার জন্য অপ্টিমাইজড সেটিংস */
+    /* প্রিন্ট বা পিডিএফ ডাউনলোড সেটিং */
     @media print {
       @page {
         size: A4 portrait;
-        margin: 5mm;
+        margin: 6mm;
       }
-      body { background-color: #ffffff; padding: 0; margin: 0; }
-      .container { border: 4px solid #1d4ed8 !important; padding: 12px; width: 100%; max-width: 100%; box-shadow: none; margin: 0; }
+      body { background-color: #ffffff; padding: 0; margin: 0; font-size: 14px; }
+      .container { border: 4px solid #1d4ed8 !important; padding: 15px; width: 100%; max-width: 100%; box-shadow: none; margin: 0; }
       .no-print { display: none !important; }
       
-      /* প্রিন্ট এবং পিডিএফের লেখার ফন্ট সাইজ অনেক বড় ও সুপার ক্লিয়ার করা হলো */
       input { border: none !important; background: transparent !important; box-shadow: none !important; padding: 2px !important; color: #000 !important; font-weight: 900 !important; font-size: 16px !important; }
       .meta-table input { border: none !important; font-size: 16px !important; }
-      .meta-table td { font-size: 16px !important; padding: 6px 4px !important; }
+      .meta-table td { font-size: 16px !important; padding: 6px !important; }
       
-      .invoice-table th, .invoice-table td { font-size: 15px !important; padding: 7px 4px !important; }
+      .invoice-table th, .invoice-table td { font-size: 15px !important; padding: 8px 6px !important; }
       .invoice-table input { font-size: 15px !important; }
       
-      .shop-title-box { border: 3px solid #1d4ed8 !important; font-size: 30px !important; }
+      .shop-title-box { border: 3px solid #1d4ed8 !important; font-size: 28px !important; }
       .shop-slogan { font-size: 13px !important; }
-      .shop-details, .shop-details input { font-size: 13px !important; }
+      .shop-details, .shop-details input, .shop-details .fixed-label { font-size: 13px !important; }
       
       .total-box { background: #eff6ff !important; font-size: 18px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .total-box input { font-size: 18px !important; width: 140px !important; }
+      .total-box input { font-size: 18px !important; }
       
       .in-words { font-size: 15px !important; }
       .in-words input { font-size: 15px !important; }
@@ -142,8 +146,16 @@
     </div>
     <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
     <div class="shop-details">
-      <input type="text" value="Proprietor: Rubel Molla | Mobile: 01676-474412">
-      <input type="text" value="Address: 47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216">
+      <div>
+        <span class="fixed-label">Proprietor:</span> 
+        <input type="text" value="Rubel Molla" style="width: 140px;"> &nbsp;|&nbsp; 
+        <span class="fixed-label">Mobile:</span> 
+        <input type="text" value="01676-474412" style="width: 120px;">
+      </div>
+      <div style="margin-top: 2px;">
+        <span class="fixed-label">Address:</span> 
+        <input type="text" value="47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216" style="width: 330px;">
+      </div>
     </div>
   </div>
 
@@ -158,8 +170,8 @@
       <td><strong>Address:</strong></td>
       <td><input type="text" id="custAddress" placeholder="ঠিকানা"></td>
       <td style="text-align: right;"><strong>Date:</strong></td>
-      <td><input type="text" id="billDate" placeholder="DD-MM-YYYY" style="text-align: center;"></td>
-
+      <!-- তারিখ আগে (DD-MM-YYYY) ফরম্যাটে লেখার জন্য টেক্সট ইনপুট -->
+      <td><input type="text" id="billDate" placeholder="DD-MM-YYYY"></td>
     </tr>
   </table>
 
@@ -215,7 +227,13 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('billDate').value = new Date().toISOString().split('T')[0];
+    // স্বয়ংক্রিয়ভাবে আজকের তারিখ দিন-মাস-বছর (DD-MM-YYYY) ফরম্যাটে বসবে
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    let yyyy = today.getFullYear();
+    document.getElementById('billDate').value = dd + '-' + mm + '-' + yyyy;
+
     addInvoiceRow();
     addInvoiceRow();
     addInvoiceRow();

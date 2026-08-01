@@ -72,8 +72,8 @@
     .invoice-table { width: 100%; border-collapse: collapse; font-size: 11px; }
     .invoice-table th, .invoice-table td { border: 2px solid #1d4ed8; padding: 5px 4px; text-align: center; vertical-align: middle; font-weight: 900; }
     .invoice-table th { background-color: #1d4ed8; color: white; font-size: 12px; font-weight: 900; }
-    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 11px; font-weight: 900; outline: none; color: #000; }
-    .invoice-table td:nth-child(2) input { text-align: left; }
+    .invoice-table input, .invoice-table textarea { width: 100%; border: none; background: transparent; text-align: center; font-size: 11px; font-weight: 900; outline: none; color: #000; resize: none; }
+    .invoice-table td:nth-child(2) textarea { text-align: left; height: 45px; }
 
     .total-section { display: flex; justify-content: flex-end; margin-bottom: 10px; }
     .total-box { border: 3px solid #1d4ed8; padding: 6px 12px; font-weight: 900; font-size: 13px; background: #eff6ff; display: flex; gap: 8px; align-items: center; border-radius: 6px; color: #000; }
@@ -104,12 +104,12 @@
       .container { border: 4px solid #1d4ed8 !important; padding: 15px; width: 100%; max-width: 100%; box-shadow: none; margin: 0; }
       .no-print { display: none !important; }
       
-      input { border: none !important; background: transparent !important; box-shadow: none !important; padding: 2px !important; color: #000 !important; font-weight: 900 !important; font-size: 16px !important; }
+      input, textarea { border: none !important; background: transparent !important; box-shadow: none !important; padding: 2px !important; color: #000 !important; font-weight: 900 !important; font-size: 15px !important; }
       .meta-table input { border: none !important; font-size: 16px !important; }
       .meta-table td { font-size: 16px !important; padding: 6px !important; }
       
-      .invoice-table th, .invoice-table td { font-size: 15px !important; padding: 8px 6px !important; }
-      .invoice-table input { font-size: 15px !important; }
+      .invoice-table th, .invoice-table td { font-size: 14px !important; padding: 8px 6px !important; }
+      .invoice-table input, .invoice-table textarea { font-size: 14px !important; }
       
       .shop-title-box { border: 3px solid #1d4ed8 !important; font-size: 28px !important; }
       .shop-slogan { font-size: 13px !important; }
@@ -144,7 +144,6 @@
     </div>
     <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
     
-    <!-- প্রোপাইটর ও মোবাইল এক লাইনে বড় এবং গ্যাপ ছাড়া, নিচে এড্রেস একদম মাঝামাঝি -->
     <div class="shop-details" style="text-align: center; line-height: 1.4; padding: 0 5px;">
       <div style="font-size: 15px; font-weight: 900; white-space: nowrap;">
         <span class="fixed-label">Proprietor:</span> 
@@ -177,12 +176,12 @@
     <table class="invoice-table">
       <thead>
         <tr>
-          <th style="width: 6%;">SL</th>
-          <th style="width: 32%;">DESCRIPTION</th>
-          <th style="width: 24%;">SIZE (W × H)</th>
-          <th style="width: 7%;">QTY</th>
-          <th style="width: 15%;">RATE</th>
-          <th style="width: 16%;">AMOUNT</th>
+          <th style="width: 6%;">Sl.No</th>
+          <th style="width: 40%;">Materials Description</th>
+          <th style="width: 10%;">Unit</th>
+          <th style="width: 11%;">Qty</th>
+          <th style="width: 13%;">Rate</th>
+          <th style="width: 16%;">Amount BDT</th>
           <th class="no-print" style="width: 4%;">Act</th>
         </tr>
       </thead>
@@ -194,7 +193,7 @@
 
   <div class="total-section">
     <div class="total-box">
-      <span>Grand Total =</span>
+      <span>Total =</span>
       <span>Tk. <input type="text" id="grandTotal" readonly value="0.00"></span>
     </div>
   </div>
@@ -232,8 +231,6 @@
     document.getElementById('billDate').value = dd + '-' + mm + '-' + yyyy;
 
     addInvoiceRow();
-    addInvoiceRow();
-    addInvoiceRow();
   });
 
   function addInvoiceRow() {
@@ -242,9 +239,9 @@
     let tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${rowCount < 10 ? '0' + rowCount : rowCount}</td>
-      <td><input type="text" placeholder="কাজের বিবরণ"></td>
-      <td><input type="text" class="item-size" placeholder="যেমন: 4.5*5" oninput="calculateRow(this)"></td>
-      <td><input type="number" class="item-qty" value="1" placeholder="1" oninput="calculateRow(this)"></td>
+      <td><textarea placeholder="কাজের বিবরণ ও স্পেসিফিকেশন লিখুন..."></textarea></td>
+      <td><input type="text" class="item-unit" value="sft" placeholder="Unit"></td>
+      <td><input type="number" class="item-qty" value="1" placeholder="0" oninput="calculateRow(this)"></td>
       <td><input type="number" class="item-rate" placeholder="0" oninput="calculateRow(this)"></td>
       <td><input type="number" class="item-amount" placeholder="0" readonly></td>
       <td class="no-print"><button class="btn btn-del" type="button" onclick="removeInvoiceRow(this)">X</button></td>
@@ -274,28 +271,10 @@
 
   function calculateRow(input) {
     let row = input.closest('tr');
-    let sizeText = row.querySelector('.item-size').value.trim();
-    let qty = parseFloat(row.querySelector('.item-qty').value) || 1;
+    let qty = parseFloat(row.querySelector('.item-qty').value) || 0;
     let rate = parseFloat(row.querySelector('.item-rate').value) || 0;
-    let sizeMultiplier = 1;
-
-    if (sizeText !== "") {
-      let cleanSize = sizeText.replace(/[×xX]/g, '*');
-      if (cleanSize.includes('*')) {
-        let parts = cleanSize.split('*');
-        let product = 1;
-        let hasValidPart = false;
-        parts.forEach(p => {
-          let val = parseFloat(p);
-          if (!isNaN(val)) { product *= val; hasValidPart = true; }
-        });
-        sizeMultiplier = hasValidPart ? product : 1;
-      } else {
-        let val = parseFloat(cleanSize);
-        sizeMultiplier = !isNaN(val) ? val : 1;
-      }
-    }
-    row.querySelector('.item-amount').value = (sizeMultiplier * qty * rate).toFixed(2);
+    
+    row.querySelector('.item-amount').value = (qty * rate).toFixed(2);
     calculateGrandTotal();
   }
 

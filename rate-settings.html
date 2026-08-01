@@ -247,7 +247,7 @@
       <input type="number" id="profit" placeholder="5">
     </div>
 
-    <button class="btn-save" onclick="saveRate()">Save Rate</button>
+    <button class="btn-save" onclick="saveRate()">Save Rate List</button>
   </div>
 
   <!-- Saved Rate List Table -->
@@ -289,14 +289,15 @@
   });
 
   function initDropdowns() {
-    // ডিফল্ট মানগুলো সম্পূর্ণ ফাঁকা করা হয়েছে (Empty Array)
-    checkAndSetDefault('companyList', []);
-    checkAndSetDefault('seriesList', []);
-    checkAndSetDefault('thickList', []);
-    checkAndSetDefault('aluColourList', []);
-    checkAndSetDefault('glassCoList', []);
-    checkAndSetDefault('glassThickList', []);
-    checkAndSetDefault('glassColourList', []);
+    // শুধুমাত্র যদি আগে থেকে ডাটা না থাকে তবেই ফাঁকা এরে বসবে। 
+    // আপনার সেভ করা রেট বা অন্য কোনো ডাটা হাত দেওয়া হবে না।
+    if (!localStorage.getItem('companyList')) localStorage.setItem('companyList', JSON.stringify([]));
+    if (!localStorage.getItem('seriesList')) localStorage.setItem('seriesList', JSON.stringify([]));
+    if (!localStorage.getItem('thickList')) localStorage.setItem('thickList', JSON.stringify([]));
+    if (!localStorage.getItem('aluColourList')) localStorage.setItem('aluColourList', JSON.stringify([]));
+    if (!localStorage.getItem('glassCoList')) localStorage.setItem('glassCoList', JSON.stringify([]));
+    if (!localStorage.getItem('glassThickList')) localStorage.setItem('glassThickList', JSON.stringify([]));
+    if (!localStorage.getItem('glassColourList')) localStorage.setItem('glassColourList', JSON.stringify([]));
 
     populateDropdown('companyList', 'company');
     populateDropdown('seriesList', 'series');
@@ -305,12 +306,6 @@
     populateDropdown('glassCoList', 'glassCompany');
     populateDropdown('glassThickList', 'glassThickness');
     populateDropdown('glassColourList', 'glassColour');
-  }
-
-  function checkAndSetDefault(key, defaults) {
-    if (!localStorage.getItem(key)) {
-      localStorage.setItem(key, JSON.stringify(defaults));
-    }
   }
 
   function populateDropdown(storageKey, selectId) {

@@ -6,7 +6,7 @@
   <title>Bill & Invoice - Aluminium ERP BD</title>
 
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 900; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 800; }
     body { background-color: #f1f5f9; margin: 0; padding: 0; color: #000000; -webkit-font-smoothing: antialiased; }
     
     .container { 
@@ -14,26 +14,26 @@
       max-width: 100%;
       margin: 0 auto; 
       background: #ffffff; 
-      padding: 15px 18px; 
+      padding: 12px 15px; 
       border-radius: 0; 
       border: 4px solid #1d4ed8; 
       box-shadow: none;
     }
 
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .back-btn { background: #1e293b; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .back-btn { background: #1e293b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
 
-    .invoice-header { text-align: center; border-bottom: 3px solid #1d4ed8; padding-bottom: 10px; margin-bottom: 12px; }
-    .shop-slogan { font-size: 14px; color: #1e293b; font-weight: 900; margin-bottom: 4px; }
+    .invoice-header { text-align: center; border-bottom: 3px solid #1d4ed8; padding-bottom: 8px; margin-bottom: 10px; }
+    .shop-slogan { font-size: 11px; color: #1e293b; font-weight: 900; margin-bottom: 2px; }
     
-    .shop-title-container { text-align: center; margin: 6px 0; }
+    .shop-title-container { text-align: center; margin: 4px 0; }
     .shop-title-box {
       display: inline-block;
       border: 3px solid #1d4ed8;
       border-radius: 6px;
-      padding: 6px 20px;
+      padding: 5px 15px;
       background: #ffffff;
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 900;
       color: #1d4ed8;
       text-transform: uppercase;
@@ -41,17 +41,17 @@
     }
     
     .shop-details { 
-      font-size: 13px; 
+      font-size: 11px; 
       color: #000000; 
       font-weight: 900; 
-      margin-top: 6px; 
-      line-height: 1.4;
+      margin-top: 4px; 
+      line-height: 1.3;
       text-align: center;
     }
     .shop-details input { 
       border: none; 
       text-align: center; 
-      font-size: 13px; 
+      font-size: 11px; 
       color: #000000; 
       font-weight: 900; 
       background: transparent; 
@@ -60,67 +60,67 @@
       outline: none;
     }
 
-    .meta-table { width: 100%; margin-bottom: 12px; border-collapse: collapse; }
-    .meta-table td { padding: 6px; font-size: 15px; font-weight: 900; vertical-align: middle; }
-    .meta-table input { width: 100%; padding: 6px 8px; border: 2px solid #64748b; border-radius: 6px; font-size: 15px; font-weight: 900; background: #fff; outline: none; color: #000; }
+    .meta-table { width: 100%; margin-bottom: 10px; border-collapse: collapse; }
+    .meta-table td { padding: 4px 4px; font-size: 12px; font-weight: 900; vertical-align: middle; }
+    .meta-table input { width: 100%; padding: 4px 6px; border: 2px solid #64748b; border-radius: 6px; font-size: 12px; font-weight: 900; background: #fff; outline: none; color: #000; }
 
-    .table-responsive { width: 100%; overflow-x: auto; margin-bottom: 12px; }
-    .invoice-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    .invoice-table th, .invoice-table td { border: 2px solid #1d4ed8; padding: 8px 6px; text-align: center; vertical-align: middle; font-weight: 900; }
-    .invoice-table th { background-color: #1d4ed8; color: white; font-size: 15px; font-weight: 900; }
-    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 14px; font-weight: 900; outline: none; color: #000; }
+    .table-responsive { width: 100%; overflow-x: auto; margin-bottom: 10px; }
+    .invoice-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .invoice-table th, .invoice-table td { border: 2px solid #1d4ed8; padding: 5px 4px; text-align: center; vertical-align: middle; font-weight: 900; }
+    .invoice-table th { background-color: #1d4ed8; color: white; font-size: 12px; font-weight: 900; }
+    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 11px; font-weight: 900; outline: none; color: #000; }
     .invoice-table td:nth-child(2) input { text-align: left; }
 
-    .total-section { display: flex; justify-content: flex-end; margin-bottom: 12px; }
-    .total-box { border: 3px solid #1d4ed8; padding: 8px 14px; font-weight: 900; font-size: 16px; background: #eff6ff; display: flex; gap: 10px; align-items: center; border-radius: 6px; color: #000; }
-    .total-box input { border: 2px solid #64748b; padding: 4px 8px; width: 140px; text-align: right; font-weight: 900; font-size: 16px; background: #fff; border-radius: 6px; outline: none; color: #000; }
+    .total-section { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+    .total-box { border: 3px solid #1d4ed8; padding: 6px 12px; font-weight: 900; font-size: 13px; background: #eff6ff; display: flex; gap: 8px; align-items: center; border-radius: 6px; color: #000; }
+    .total-box input { border: 2px solid #64748b; padding: 3px 6px; width: 120px; text-align: right; font-weight: 900; font-size: 13px; background: #fff; border-radius: 6px; outline: none; color: #000; }
 
-    .in-words { margin-bottom: 12px; font-size: 15px; font-weight: 900; border-bottom: 2px dashed #64748b; padding-bottom: 8px; color: #000; }
-    .in-words input { border: none; border-bottom: 2px dotted #000; width: 72%; font-weight: 900; background: transparent; padding: 4px; outline: none; font-size: 15px; color: #000; }
+    .in-words { margin-bottom: 10px; font-size: 12px; font-weight: 900; border-bottom: 2px dashed #64748b; padding-bottom: 6px; color: #000; }
+    .in-words input { border: none; border-bottom: 2px dotted #000; width: 72%; font-weight: 900; background: transparent; padding: 3px; outline: none; font-size: 12px; color: #000; }
 
-    .terms { background: #fffbeb; border: 2px solid #f59e0b; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #78350f; font-weight: 900; margin-bottom: 12px; }
-    .terms ol { margin: 0; padding-left: 18px; }
-    .terms li { margin-bottom: 3px; }
+    .terms { background: #fffbeb; border: 2px solid #f59e0b; padding: 6px 10px; border-radius: 6px; font-size: 11px; color: #78350f; font-weight: 900; margin-bottom: 10px; }
+    .terms ol { margin: 0; padding-left: 15px; }
+    .terms li { margin-bottom: 2px; }
 
-    .signature-box { display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 8px; font-size: 15px; font-weight: 900; color: #000; }
-    .sig-line { border-top: 2px solid #000; width: 160px; text-align: center; padding-top: 6px; }
+    .signature-box { display: flex; justify-content: space-between; margin-top: 15px; margin-bottom: 5px; font-size: 12px; font-weight: 900; color: #000; }
+    .sig-line { border-top: 2px solid #000; width: 140px; text-align: center; padding-top: 4px; }
 
     .btn-container { text-align: center; margin: 15px 0; }
     .btn { padding: 12px 28px; font-size: 16px; font-weight: 900; border: none; border-radius: 8px; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; }
-    .btn-add { background-color: #059669; margin-bottom: 10px; padding: 8px 14px; font-size: 14px; }
+    .btn-add { background-color: #059669; margin-bottom: 10px; padding: 6px 12px; font-size: 12px; }
     .btn-print { background-color: #2563eb; }
-    .btn-del { background-color: #dc2626; padding: 3px 8px; font-size: 12px; border-radius: 4px; font-weight: 900; }
+    .btn-del { background-color: #dc2626; padding: 2px 6px; font-size: 10px; border-radius: 4px; font-weight: 900; }
 
-    /* ফুল পেজ এবং শার্প এইচডি প্রিন্ট সেটিংস (বড় ও স্পষ্ট লেখার জন্য ফিক্সড) */
+    /* প্রিন্ট বা পিডিএফ ডাউনলোড দিলে লেখাগুলো বড়, স্পষ্ট ও বক্সের ভেতরে ফিট রাখার জন্য অপ্টিমাইজড সেটিংস */
     @media print {
       @page {
         size: A4 portrait;
         margin: 5mm;
       }
       body { background-color: #ffffff; padding: 0; margin: 0; }
-      .container { border: 4px solid #1d4ed8 !important; padding: 15px; width: 100%; max-width: 100%; box-shadow: none; margin: 0; }
+      .container { border: 4px solid #1d4ed8 !important; padding: 12px; width: 100%; max-width: 100%; box-shadow: none; margin: 0; }
       .no-print { display: none !important; }
       
-      /* প্রিন্ট এবং পিডিএফের জন্য লেখার সাইজ আরও বড় করা হলো */
-      input { border: none !important; background: transparent !important; box-shadow: none !important; padding: 2px !important; color: #000 !important; font-weight: 900 !important; font-size: 15px !important; }
-      .meta-table input { border: none !important; font-size: 15px !important; }
-      .meta-table td { font-size: 15px !important; padding: 6px !important; }
+      /* প্রিন্ট এবং পিডিএফের লেখার ফন্ট সাইজ অনেক বড় ও সুপার ক্লিয়ার করা হলো */
+      input { border: none !important; background: transparent !important; box-shadow: none !important; padding: 2px !important; color: #000 !important; font-weight: 900 !important; font-size: 16px !important; }
+      .meta-table input { border: none !important; font-size: 16px !important; }
+      .meta-table td { font-size: 16px !important; padding: 6px 4px !important; }
       
-      .invoice-table th, .invoice-table td { font-size: 15px !important; padding: 8px 6px !important; }
+      .invoice-table th, .invoice-table td { font-size: 15px !important; padding: 7px 4px !important; }
       .invoice-table input { font-size: 15px !important; }
       
-      .shop-title-box { border: 3px solid #1d4ed8 !important; font-size: 28px !important; }
-      .shop-slogan { font-size: 14px !important; }
-      .shop-details, .shop-details input { font-size: 14px !important; }
+      .shop-title-box { border: 3px solid #1d4ed8 !important; font-size: 30px !important; }
+      .shop-slogan { font-size: 13px !important; }
+      .shop-details, .shop-details input { font-size: 13px !important; }
       
-      .total-box { background: #eff6ff !important; font-size: 17px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .total-box input { font-size: 17px !important; width: 150px !important; }
+      .total-box { background: #eff6ff !important; font-size: 18px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .total-box input { font-size: 18px !important; width: 140px !important; }
       
       .in-words { font-size: 15px !important; }
       .in-words input { font-size: 15px !important; }
       
-      .terms { background: #fffbeb !important; font-size: 13px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .signature-box { font-size: 15px !important; margin-top: 30px !important; }
+      .terms { background: #fffbeb !important; font-size: 12px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .signature-box { font-size: 15px !important; margin-top: 25px !important; }
       
       th { background-color: #1d4ed8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color: white !important; }
     }
@@ -132,7 +132,7 @@
   
   <div class="top-bar no-print">
     <a href="index.html" class="back-btn">⬅️ Back to Dashboard</a>
-    <span style="font-size: 15px; color: #000; font-weight: 900;">Bill & Invoice Management</span>
+    <span style="font-size: 13px; color: #000; font-weight: 900;">Bill & Invoice Management</span>
   </div>
 
   <div class="invoice-header">

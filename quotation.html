@@ -276,11 +276,18 @@
     <div class="row">
       <div class="col">
         <label>Alu Thickness</label>
-        <select id="aluThickness" onchange="runCalculation()"><option>1.0 mm</option><option>1.2 mm</option><option>1.5 mm</option></select>
+        <select id="aluThickness" onchange="runCalculation()">
+          <option value="1.0 mm">1.0 mm</option>
+          <option value="1.2 mm">1.2 mm</option>
+          <option value="1.5 mm">1.5 mm</option>
+        </select>
       </div>
       <div class="col">
         <label>Series</label>
-        <select id="aluSeries" onchange="runCalculation()"><option>Sliding 3"</option><option>Sliding 4"</option></select>
+        <select id="aluSeries" onchange="runCalculation()">
+          <option value="Sliding 3&quot;">Sliding 3"</option>
+          <option value="Sliding 4&quot;">Sliding 4"</option>
+        </select>
       </div>
     </div>
     <div class="row">
@@ -309,10 +316,10 @@
       <div class="col">
         <label>Glass Thickness</label>
         <select id="glassThickness" onchange="runCalculation()">
-          <option value="4mm">৪ এমএম (4 mm)</option>
-          <option value="5mmmm">৫ এমএম (5 mm)</option>
-          <option value="5.5mm">৫.৫ এমএম (5.5 mm)</option>
-          <option value="6mm">৬ এমএম (6 mm)</option>
+          <option value="4 mm">৪ এমএম (4 mm)</option>
+          <option value="5 mm">৫ এমএম (5 mm)</option>
+          <option value="5.5 mm">৫.৫ এমএম (5.5 mm)</option>
+          <option value="6 mm">৬ এমএম (6 mm)</option>
         </select>
       </div>
     </div>
@@ -453,7 +460,7 @@
   window.onload = function() {
     addRow();
     loadHistory();
-    runCalculation(); // পেজ লোড হওয়ার সাথে সাথে চেক করবে
+    runCalculation();
   };
 
   function toggleDrawer() {
@@ -501,7 +508,7 @@
     }
   }
 
-  // রেট সেটিংসের সাথে ১০০% ম্যাচ করে রেট ফেচ করার ফাংশন
+  // বিভিন্ন LocalStorage Key চেক করে ম্যাচিং রেট ফেচ করার আপগ্রেডেড ফাংশন
   function getMatchingRate() {
     let company = document.getElementById('aluCompany').value;
     let color = document.getElementById('aluColor').value;
@@ -511,37 +518,40 @@
     let gColor = document.getElementById('glassColor').value;
     let gThickness = document.getElementById('glassThickness').value;
 
-    // ধরে নিচ্ছি রেট সেটিংস পেজে অ্যারে আকারে ডাটাগুলো 'all_saved_rates' নামে বা নির্দিষ্ট ফরম্যাটে সেভ করা আছে
-    // অথবা আপনি সিঙ্গেল কোনো কি (Key) ব্যবহার করলে সেটিও এখানে চেক করতে পারেন।
-    // নিচে স্ট্যান্ডার্ড লজিক দেওয়া হলো:
+    // সব সম্ভব্য LocalStorage Keys চেক করা
+    let savedRatesList = JSON.parse(localStorage.getItem('all_saved_rates')) || 
+                         JSON.parse(localStorage.getItem('rateList')) || 
+                         JSON.parse(localStorage.getItem('rateSettingsData')) || [];
     
-    let savedRatesList = JSON.parse(localStorage.getItem('all_saved_rates')) || [];
-    
-    // যদি আপনার সেভ করা রেটগুলো একটি নির্দিষ্ট অবজেক্ট বা লিস্ট আকারে থাকে:
-    let found = savedRatesList.find(item => 
-      item.company === company && 
-      item.color === color && 
-      item.thickness === thickness && 
-      item.series === series &&
-      item.gCompany === gCompany &&
-      item.gColor === gColor &&
-      item.gThickness === gThickness
-    );
+    let found = savedRatesList.find(item => {
+      let cMatch = !item.company || item.company.toLowerCase().includes(company.toLowerCase());
+      let sMatch = !item.series || item.series.toLowerCase().includes(series.toLowerCase());
+      let tMatch = !item.aluThickness || item.aluThickness.toLowerCase().includes(thickness.toLowerCase());
+      let colMatch = !item.aluColour || !item.color || (item.aluColour || item.color).toLowerCase().includes(color.toLowerCase());
+      let gcMatch = !item.glassCompany || !item.gCompany || (item.glassCompany || item.gCompany).toLowerCase().includes(gCompany.toLowerCase());
+      let gtMatch = !item.glassThickness || !item.gThickness || (item.glassThickness || item.gThickness).toLowerCase().includes(gThickness.toLowerCase());
+      let gcolMatch = !item.glassColour || !item.gColor || (item.glassColour || item.gColor).toLowerCase().includes(gColor.toLowerCase());
+
+      return cMatch && sMatch && tMatch && colMatch && gcMatch && gtMatch && gcolMatch;
+    });
 
     if (found) {
-      return found.rate;
+      if (found.rate) return parseFloat(found.rate);
+      
+      // ব্রেকডাউন হিসাব (Alu + Glass + Hardware + Fitting + Labour + Profit)
+      let base = (parseFloat(found.aluRate) || 0) + 
+                 (parseFloat(found.glassRate) || 0) + 
+                 (parseFloat(found.hwRate) || 0) + 
+                 (parseFloat(found.fitRate) || 0) + 
+                 (parseFloat(found.labourRate) || 0);
+      let profit = base * ((parseFloat(found.profit) || 0) / 100);
+      return base + profit;
     }
 
-    // যদি সিঙ্গেল কোনো সেভ করা রেট থাকে যা সরাসরি ভেরিয়েশনের সাথে কানেক্টেড:
     let singleSaved = localStorage.getItem('saved_calculated_rate');
-    let savedConfig = JSON.parse(localStorage.getItem('saved_rate_config')) || {};
+    if (singleSaved) return parseFloat(singleSaved);
 
-    // যদি কনফিগারেশন মিলে যায়
-    if (savedConfig.company === company && savedConfig.color === color && singleSaved) {
-      return parseFloat(singleSaved);
-    }
-
-    return null; // না মিললে null রিটার্ন করবে
+    return null;
   }
 
   function runCalculation() {
@@ -563,18 +573,13 @@
     document.getElementById('pSpec').innerText = spec;
     document.getElementById('mSpec').innerText = spec;
 
-    // রেট চেক করার প্রক্রিয়া
     let matchedRate = getMatchingRate();
     let rateInput = document.getElementById('sellingRate');
 
     if (matchedRate !== null && !isNaN(matchedRate)) {
       rateInput.value = matchedRate.toFixed(2);
     } else {
-      rateInput.value = ""; // কোনো ডিফল্ট রেট বসবে না
-      // রেট না মিললে পপআপ মেসেজ
-      if(document.activeElement.tagName === 'SELECT' || document.activeElement.tagName === 'INPUT') {
-        // বার বার পপআপ বিরক্তিকর এড়াতে ইউজার সিলেক্ট পরিবর্তনের সময় ট্রিগার হবে
-      }
+      rateInput.value = "";
     }
 
     let rate = parseFloat(rateInput.value) || 0;
@@ -660,16 +665,6 @@
     document.getElementById('pdfTable18Body').innerHTML = html18;
     document.getElementById('pdfTable21Body').innerHTML = html21;
   }
-
-  // ভেরিয়েশন পরিবর্তনের সময় রেট না মিললে পপআপ দেওয়ার জন্য আলাদা ফাংশন
-  document.querySelectorAll('select').forEach(sel => {
-    sel.addEventListener('change', function() {
-      let matchedRate = getMatchingRate();
-      if (matchedRate === null || isNaN(matchedRate)) {
-        alert("Rate Not Found! এই ভেরিয়েশনের জন্য কোনো রেট সেটিংসে সেভ করা নেই।");
-      }
-    });
-  });
 
   function saveToHistory() {
     let custName = document.getElementById('custName').value.trim() || 'Unknown Customer';

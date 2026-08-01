@@ -42,71 +42,16 @@
       margin-bottom: 8px;
     }
 
-    .field-group { margin-bottom: 10px; position: relative; }
+    .field-group { margin-bottom: 10px; }
     label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 3px; color: #334155; }
     
-    input, .custom-select-box {
+    input, select {
       width: 100%;
       padding: 8px;
       font-size: 13px;
       border: 1px solid #cbd5e1;
       border-radius: 5px;
       background-color: #fff;
-      cursor: pointer;
-    }
-
-    .custom-select-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      min-height: 35px;
-    }
-
-    /* পপ-আপ মডাল ডিজাইন */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      justify-content: center;
-      align-items: flex-end;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: #fff;
-      width: 100%;
-      max-width: 600px;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
-      max-height: 60vh;
-      overflow-y: auto;
-      padding: 10px;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
-    }
-
-    .modal-header {
-      font-size: 14px;
-      font-weight: bold;
-      color: #1d4ed8;
-      text-align: center;
-      padding: 8px;
-      border-bottom: 1px solid #e2e8f0;
-      margin-bottom: 5px;
-    }
-
-    .option-item {
-      padding: 12px;
-      font-size: 14px;
-      border-bottom: 1px solid #f1f5f9;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .option-item:active {
-      background-color: #eff6ff;
     }
 
     .btn-add {
@@ -180,12 +125,26 @@
       cursor: pointer;
       font-size: 10px;
     }
-    
-    .hint-text {
-      font-size: 10px;
-      color: #e11d48;
-      margin-top: 2px;
-      font-weight: 600;
+
+    /* ডিলিট করার ট্যাগ স্টাইল */
+    .item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+    .tag {
+      background: #e2e8f0;
+      padding: 2px 6px;
+      font-size: 11px;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #334155;
+    }
+    .tag span {
+      color: #ef4444;
+      font-weight: bold;
+      margin-left: 4px;
     }
   </style>
 </head>
@@ -198,7 +157,7 @@
 
     <!-- Master Data Section -->
     <div class="master-section">
-      <div class="master-title">Master Data (ভুল নাম ডিলিট করতে লিস্টে লং-প্রেস করুন)</div>
+      <div class="master-title">Master Data</div>
 
       <div class="field-group">
         <label>New Company</label>
@@ -243,69 +202,47 @@
       </div>
     </div>
 
-    <!-- Main Inputs (Custom Dropdowns) -->
+    <!-- Main Inputs (Original Standard Selects) -->
     <div class="field-group">
       <label>Company</label>
-      <div class="custom-select-box" id="company_box" onclick="openDropdown('companyList', 'company', 'Company')">
-        <span id="company_text">-- সিলেক্ট করুন --</span>
-        <span>▼</span>
-      </div>
-      <input type="hidden" id="company" value="">
-      <div class="hint-text">💡 ভুল নাম মুছতে নিচের লিস্ট খোলার পর নামের ওপর চেপে ধরে রাখুন (Long Press)</div>
+      <select id="company"></select>
+      <div class="item-tags" id="tags_company"></div>
     </div>
 
     <div class="field-group">
       <label>Series</label>
-      <div class="custom-select-box" id="series_box" onclick="openDropdown('seriesList', 'series', 'Series')">
-        <span id="series_text">-- সিলেক্ট করুন --</span>
-        <span>▼</span>
-      </div>
-      <input type="hidden" id="series" value="">
+      <select id="series"></select>
+      <div class="item-tags" id="tags_series"></div>
     </div>
 
     <div class="field-group">
       <label>Aluminium Thickness</label>
-      <div class="custom-select-box" id="aluThickness_box" onclick="openDropdown('thickList', 'aluThickness', 'Aluminium Thickness')">
-        <span id="aluThickness_text">-- সিলেক্ট করুন --</span>
-        <span>▼</span>
-      </div>
-      <input type="hidden" id="aluThickness" value="">
+      <select id="aluThickness"></select>
+      <div class="item-tags" id="tags_aluThickness"></div>
     </div>
 
     <div class="field-group">
       <label>Aluminium Colour</label>
-      <div class="custom-select-box" id="aluColour_box" onclick="openDropdown('aluColourList', 'aluColour', 'Aluminium Colour')">
-        <span id="aluColour_text">-- সিলেক্ট করুন --</span>
-        <span>▼</span>
-      </div>
-      <input type="hidden" id="aluColour" value="">
+      <select id="aluColour"></select>
+      <div class="item-tags" id="tags_aluColour"></div>
     </div>
 
     <div class="field-group">
       <label>Glass Company</label>
-      <div class="custom-select-box" id="glassCompany_box" onclick="openDropdown('glassCoList', 'glassCompany', 'Glass Company')">
-        <span id="glassCompany_text">-- সিলেক্ট করুন --</span>
-        <span>▼</span>
-      </div>
-      <input type="hidden" id="glassCompany" value="">
+      <select id="glassCompany"></select>
+      <div class="item-tags" id="tags_glassCompany"></div>
     </div>
 
     <div class="field-group">
       <label>Glass Thickness</label>
-      <div class="custom-select-box" id="glassThickness_box" onclick="openDropdown('glassThickList', 'glassThickness', 'Glass Thickness')">
-        <span id="glassThickness_text">-- সিলেক্ট করুন --</span>
-        <span>▼</span>
-      </div>
-      <input type="hidden" id="glassThickness" value="">
+      <select id="glassThickness"></select>
+      <div class="item-tags" id="tags_glassThickness"></div>
     </div>
 
     <div class="field-group">
       <label>Glass Colour</label>
-      <div class="custom-select-box" id="glassColour_box" onclick="openDropdown('glassColourList', 'glassColour', 'Glass Colour')">
-        <span id="glassColour_text">-- সিলেক্ট করুন --</span>
-        <span>▼</span>
-      </div>
-      <input type="hidden" id="glassColour" value="">
+      <select id="glassColour"></select>
+      <div class="item-tags" id="tags_glassColour"></div>
     </div>
 
     <div class="field-group">
@@ -373,107 +310,62 @@
 
 </div>
 
-<!-- কাস্টম ড্রপডাউন পপ-আপ মডাল -->
-<div class="modal-overlay" id="customModal" onclick="closeModal(event)">
-  <div class="modal-content" id="modalContent">
-    <div class="modal-header" id="modalTitle">Select Item</div>
-    <div id="modalOptionsList"></div>
-  </div>
-</div>
-
 <script>
-  let currentActiveStorageKey = '';
-  let currentActiveHiddenId = '';
-  let currentActiveTextId = '';
-  let currentActiveLabel = '';
-
   document.addEventListener("DOMContentLoaded", function() {
+    initDropdowns();
     loadRateList();
   });
 
-  function openDropdown(storageKey, hiddenId, labelName) {
-    currentActiveStorageKey = storageKey;
-    currentActiveHiddenId = hiddenId;
-    currentActiveTextId = hiddenId + '_text';
-    currentActiveLabel = labelName;
-
-    document.getElementById('modalTitle').textContent = labelName + " সিলেক্ট করুন";
-    renderModalOptions();
-    document.getElementById('customModal').style.display = 'flex';
+  function initDropdowns() {
+    populateDropdown('companyList', 'company', 'tags_company');
+    populateDropdown('seriesList', 'series', 'tags_series');
+    populateDropdown('thickList', 'aluThickness', 'tags_aluThickness');
+    populateDropdown('aluColourList', 'aluColour', 'tags_aluColour');
+    populateDropdown('glassCoList', 'glassCompany', 'tags_glassCompany');
+    populateDropdown('glassThickList', 'glassThickness', 'tags_glassThickness');
+    populateDropdown('glassColourList', 'glassColour', 'tags_glassColour');
   }
 
-  function renderModalOptions() {
-    let list = JSON.parse(localStorage.getItem(currentActiveStorageKey)) || [];
-    let listContainer = document.getElementById('modalOptionsList');
-    listContainer.innerHTML = '';
-
-    // ডিফল্ট অপশন
-    let defaultDiv = document.createElement('div');
-    defaultDiv.className = 'option-item';
-    defaultDiv.textContent = "-- সিলেক্ট করুন --";
-    defaultDiv.onclick = function() {
-      selectOption("");
-    };
-    listContainer.appendChild(defaultDiv);
+  function populateDropdown(storageKey, selectId, tagId) {
+    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let select = document.getElementById(selectId);
+    let tagContainer = document.getElementById(tagId);
+    
+    let currentVal = select.value;
+    select.innerHTML = '';
+    tagContainer.innerHTML = '';
+    
+    let defaultOpt = document.createElement('option');
+    defaultOpt.value = "";
+    defaultOpt.textContent = "-- সিলেক্ট করুন --";
+    select.appendChild(defaultOpt);
 
     list.forEach(item => {
-      let div = document.createElement('div');
-      div.className = 'option-item';
-      div.textContent = item;
+      let opt = document.createElement('option');
+      opt.value = item;
+      opt.textContent = item;
+      select.appendChild(opt);
 
-      // সাধারণ ক্লিক করলে সিলেক্ট হবে
-      div.onclick = function() {
-        selectOption(item);
+      // নিচে ছোট ট্যাগ তৈরি হবে, ভুল হলে ক্রস (×) এ চাপ দিলেই ডিলিট হয়ে যাবে
+      let tag = document.createElement('div');
+      tag.className = 'tag';
+      tag.innerHTML = `${item} <span>×</span>`;
+      tag.onclick = function() {
+        if (confirm(`"${item}" ডিলিট করতে চান?`)) {
+          deleteItem(storageKey, item);
+        }
       };
-
-      // লং-প্রেস (চাপ দিয়ে ধরে রাখা) করলে ডিলিট অপশন আসবে
-      let pressTimer;
-      div.addEventListener('touchstart', function() {
-        pressTimer = setTimeout(function() {
-          if (confirm(`"${item}" ভুল বানানটি ডিলিট করতে চান?`)) {
-            deleteMasterItem(item);
-          }
-        }, 800); // ৮০০ মিলি সেকেন্ড চেপে ধরে রাখলে ডিলিট হবে
-      });
-      div.addEventListener('touchend', function() { clearTimeout(pressTimer); });
-      
-      div.addEventListener('mousedown', function() {
-        pressTimer = setTimeout(function() {
-          if (confirm(`"${item}" ভুল বানানটি ডিলিট করতে চান?`)) {
-            deleteMasterItem(item);
-          }
-        }, 800);
-      });
-      div.addEventListener('mouseup', function() { clearTimeout(pressTimer); });
-
-      listContainer.appendChild(div);
+      tagContainer.appendChild(tag);
     });
+
+    select.value = currentVal;
   }
 
-  function selectOption(val) {
-    document.getElementById(currentActiveHiddenId).value = val;
-    document.getElementById(currentActiveTextId).textContent = val ? val : "-- সিলেক্ট করুন --";
-    document.getElementById('customModal').style.display = 'none';
-  }
-
-  function closeModal(e) {
-    if (e.target.id === 'customModal') {
-      document.getElementById('customModal').style.display = 'none';
-    }
-  }
-
-  function deleteMasterItem(itemToDelete) {
-    let list = JSON.parse(localStorage.getItem(currentActiveStorageKey)) || [];
+  function deleteItem(storageKey, itemToDelete) {
+    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
     let updatedList = list.filter(i => i !== itemToDelete);
-    localStorage.setItem(currentActiveStorageKey, JSON.stringify(updatedList));
-    
-    // যদি বর্তমানে সিলেক্ট করা আইটেমটি ডিলিট করা হয়, তবে ফিল্ড খালি করে দেওয়া হবে
-    if (document.getElementById(currentActiveHiddenId).value === itemToDelete) {
-      selectOption("");
-    }
-
-    renderModalOptions();
-    alert("সফলভাবে ডিলিট করা হয়েছে!");
+    localStorage.setItem(storageKey, JSON.stringify(updatedList));
+    initDropdowns();
   }
 
   function addMasterItem(storageKey, inputId, labelName, selectId) {
@@ -487,7 +379,7 @@
       list.push(val);
       localStorage.setItem(storageKey, JSON.stringify(list));
       document.getElementById(inputId).value = '';
-      alert(labelName + " সফলভাবে যোগ হয়েছে!");
+      initDropdowns();
     } else {
       alert("এই নামটি ইতিমধ্যে আছে!");
     }
@@ -550,7 +442,7 @@
         <td>${item.glassRate}</td>
         <td>${item.hwRate}</td>
         <td>${item.fitRate}</td>
-        <td>${item.labourRate}</td>
+        -> ${item.labourRate}
         <td>${item.profit}%</td>
         <td><button class="btn-del" onclick="deleteRate(${index})">Delete</button></td>
       `;

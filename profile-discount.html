@@ -48,7 +48,7 @@
 <div class="container">
     <h2>অ্যালুমিনিয়াম ক্যালকুলেটর ও এস্টিমেশন</h2>
 
-    <!-- হেডার ইনপুট (থিকনেস অপশনসহ) -->
+    <!-- হেডার ইনপুট -->
     <div class="header-section">
         <div>
             <label>কোম্পানি:</label>
@@ -57,13 +57,12 @@
                 <option value="ChungHua">Chung Hua</option>
                 <option value="BTA">BTA Aluminium</option>
                 <option value="Max">Max Aluminium</option>
-<option value="Alpha">Alpha Aluminum</option>
-<option value="Nasir">Nasir syntax</option>
-      <option value="Nikki"> Nikki Aluminum</option>          
+                <option value="Alpha">Alpha Aluminum</option>
+                <option value="Nasir">Nasir syntax</option>
+                <option value="Nikki">Nikki Aluminum</option>
             </select>
         </div>
 
-        <!-- আপনার লাল দাগ দেওয়া জায়গায় থিকনেস যোগ করা হলো -->
         <div>
             <label>থিকনেস:</label>
             <select id="thicknessSelect">
@@ -76,7 +75,7 @@
 
         <div>
             <label>ডিসকাউন্ট (%):</label>
-            <input type="number" id="globalDiscount" value="18" placeholder="0" style="width: 70px;"> %
+            <input type="number" id="globalDiscount" value="" placeholder="0" style="width: 70px;"> %
         </div>
     </div>
 
@@ -91,14 +90,14 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- স্লাইডিং সেকশন (নেট সেকশন এখানে নিয়ে আসা হয়েছে) -->
+                <!-- স্লাইডিং সেকশন (রেট খালি) -->
                 <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
-                <tr><td>Outer Top (2121B)</td><td><input type="number" id="rate_2121B" value="3700"></td></tr>
-                <tr><td>Outer Bottom (2122B)</td><td><input type="number" id="rate_2122B" value="3700"></td></tr>
-                <tr><td>Outer Side (2123B)</td><td><input type="number" id="rate_2123B" value="3700"></td></tr>
-                <tr><td>Lock Style (2124B)</td><td><input type="number" id="rate_2124B" value="3500"></td></tr>
-                <tr><td>Interlock (2125B)</td><td><input type="number" id="rate_2125B" value="3500"></td></tr>
-                <tr><td>Shutter Top/Bottom (2126B)</td><td><input type="number" id="rate_2126B" value="3200"></td></tr>
+                <tr><td>Outer Top (2121B)</td><td><input type="number" id="rate_2121B" placeholder="0"></td></tr>
+                <tr><td>Outer Bottom (2122B)</td><td><input type="number" id="rate_2122B" placeholder="0"></td></tr>
+                <tr><td>Outer Side (2123B)</td><td><input type="number" id="rate_2123B" placeholder="0"></td></tr>
+                <tr><td>Lock Style (2124B)</td><td><input type="number" id="rate_2124B" placeholder="0"></td></tr>
+                <tr><td>Interlock (2125B)</td><td><input type="number" id="rate_2125B" placeholder="0"></td></tr>
+                <tr><td>Shutter Top/Bottom (2126B)</td><td><input type="number" id="rate_2126B" placeholder="0"></td></tr>
                 <tr><td>Net Section</td><td><input type="number" id="rate_net_sec" placeholder="0"></td></tr>
                 <tr><td>Net Handle</td><td><input type="number" id="rate_net_handle" placeholder="0"></td></tr>
 
@@ -174,22 +173,23 @@ function addWindow() {
     windowDiv.className = 'window-box';
     windowDiv.id = `window_${windowCount}`;
     
+    // উচ্চতা, দৈর্ঘ্য এবং কোয়ান্টিটির ডিফল্ট value উঠিয়ে খালি করা হলো
     windowDiv.innerHTML = `
         <div class="window-header">উইন্ডো #${windowCount}</div>
         <div class="grid-container">
             <div class="input-group">
                 <label>উচ্চতা (ইঞ্চি):</label>
-                <input type="number" class="height" placeholder="54" value="54">
+                <input type="number" class="height" placeholder="উচ্চতা (ইঞ্চি)" value="">
             </div>
 
             <div class="input-group">
                 <label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label>
-                <input type="number" class="length" placeholder="72" value="72">
+                <input type="number" class="length" placeholder="দৈর্ঘ্য (ইঞ্চি)" value="">
             </div>
 
             <div class="input-group">
                 <label>পরিমাণ (Qty):</label>
-                <input type="number" class="qty" placeholder="1" value="1">
+                <input type="number" class="qty" placeholder="পরিমাণ (Qty)" value="">
             </div>
         </div>
         <button class="btn-remove" onclick="removeWindow('window_${windowCount}')">মুছে ফেলুন</button>
@@ -203,7 +203,7 @@ function removeWindow(id) {
 }
 
 function calculateTotal() {
-    const company = document.getElementById('companySelect').value;
+    const company = document.getElementById('companySelect').options[document.getElementById('companySelect').selectedIndex].text;
     const thickness = document.getElementById('thicknessSelect').value;
     const discount = parseFloat(document.getElementById('globalDiscount').value) || 0;
     const windows = document.querySelectorAll('.window-box');
@@ -230,20 +230,22 @@ function calculateTotal() {
     windows.forEach(win => {
         const hInch = parseFloat(win.querySelector('.height').value) || 0;
         const lInch = parseFloat(win.querySelector('.length').value) || 0;
-        const qty = parseInt(win.querySelector('.qty').value) || 1;
+        const qty = parseInt(win.querySelector('.qty').value) || 0;
 
-        totalSqft += ((hInch * lInch) / 144) * qty;
+        if(hInch > 0 && lInch > 0 && qty > 0) {
+            totalSqft += ((hInch * lInch) / 144) * qty;
 
-        const hFeet = hInch / 12;
-        const lFeet = lInch / 12;
+            const hFeet = hInch / 12;
+            const lFeet = lInch / 12;
 
-        // ২-পাল্লার স্লাইডিং কাটিং হিসাব
-        secFeet["Outer Top (2121B)"] += (lFeet * qty);
-        secFeet["Outer Bottom (2122B)"] += (lFeet * qty);
-        secFeet["Outer Side (2123B)"] += ((hFeet * 2) * qty);
-        secFeet["Lock Style (2124B)"] += ((hFeet * 2) * qty);
-        secFeet["Interlock (2125B)"] += ((hFeet * 2) * qty);
-        secFeet["Shutter Top/Bottom (2126B)"] += (((lFeet / 2) * 4) * qty);
+            // ২-পাল্লার স্লাইডিং কাটিং হিসাব
+            secFeet["Outer Top (2121B)"] += (lFeet * qty);
+            secFeet["Outer Bottom (2122B)"] += (lFeet * qty);
+            secFeet["Outer Side (2123B)"] += ((hFeet * 2) * qty);
+            secFeet["Lock Style (2124B)"] += ((hFeet * 2) * qty);
+            secFeet["Interlock (2125B)"] += ((hFeet * 2) * qty);
+            secFeet["Shutter Top/Bottom (2126B)"] += (((lFeet / 2) * 4) * qty);
+        }
     });
 
     const breakdownBody = document.getElementById('breakdownBody');
@@ -253,9 +255,10 @@ function calculateTotal() {
 
     for (let secName in secFeet) {
         const feetNeeded = secFeet[secName];
-        if (feetNeeded > 0) {
+        const ratePerBar = secRates[secName];
+
+        if (feetNeeded > 0 && ratePerBar > 0) {
             const barsNeeded = Math.ceil(feetNeeded / 18);
-            const ratePerBar = secRates[secName];
             const rawCost = barsNeeded * ratePerBar;
             const discountedCost = rawCost - (rawCost * (discount / 100));
 

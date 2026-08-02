@@ -2,291 +2,132 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Profile Discount - Aluminium ERP BD</title>
+    <title>Aluminium Window Cost Calculator</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        body {
-            background-color: #0b0f19;
-            color: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            padding: 16px;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 450px;
-        }
-
-        /* Header Layout */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 8px 0;
-        }
-
-        .back-btn {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .header-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        /* Form Card */
-        .card {
-            background: #111827;
-            border: 1px solid #1e293b;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #fbbf24;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            color: #9ca3af;
-            margin-bottom: 6px;
-        }
-
-        .form-input, .form-select {
-            width: 100%;
-            padding: 10px 12px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #ffffff;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .form-input:focus, .form-select:focus {
-            border-color: #3b82f6;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background: #1d4ed8;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: background 0.2s;
-        }
-
-        .btn-submit:active {
-            background: #2563eb;
-        }
-
-        /* List Table/View */
-        .discount-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .discount-item {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .company-info h4 {
-            font-size: 14px;
-            color: #ffffff;
-        }
-
-        .company-info p {
-            font-size: 12px;
-            color: #9ca3af;
-        }
-
-        .discount-badge {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .delete-btn {
-            background: none;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-size: 16px;
-            margin-left: 10px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .window-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 5px; background: #fafafa; }
+        button { padding: 8px 15px; cursor: pointer; border: none; border-radius: 4px; }
+        .btn-add { background: #28a745; color: white; }
+        .btn-remove { background: #dc3545; color: white; }
+        input, select { padding: 6px; margin: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <a href="index.html" class="back-btn">⬅ Back</a>
-            <div class="header-title">Company Profile Discount</div>
-            <div style="width: 60px;"></div> <!-- Spacer -->
-        </div>
+<div class="container">
+    <h2>এলুমিনিয়াম উইন্ডো ক্যালকুলেটর</h2>
+    
+    <!-- ডিসকাউন্ট ইনপুট -->
+    <label><b>ডিসকাউন্ট (%): </b></label>
+    <input type="number" id="discountPercent" value="0" placeholder="0"> %
+    <hr>
 
-        <!-- Add/Edit Discount Form -->
-        <div class="card">
-            <div class="card-title">🏢 Add Company Discount</div>
-            
-            <div class="form-group">
-                <label for="companyName">Company Name (কোম্পানির নাম)</label>
-                <input type="text" id="companyName" class="form-input" placeholder="e.g. Kai Aluminium / Chung Hua">
-            </div>
+    <!-- উইন্ডো লিস্ট কন্টেইনার -->
+    <div id="windowsList"></div>
 
-            <div class="form-group">
-                <label for="profileType">Profile Category (প্রোফাইল টাইপ)</label>
-                <select id="profileType" class="form-select">
-                    <option value="All Profiles">All Profiles (সকল প্রোফাইল)</option>
-                    <option value="Sliding 3&quot;">Sliding 3" (৩ ইঞ্চি স্লাইডিং)</option>
-                    <option value="Sliding 4&quot;">Sliding 4" (৪ ইঞ্চি স্লাইডিং)</option>
-                    <option value="Fixed 3&quot;">Fixed 3" (৩ ইঞ্চি ফিক্সড)</option>
-                    <option value="Fixed 4&quot;">Fixed 4" (৪ ইঞ্চি ফিক্সড)</option>
-                    <option value="Casement Window">Casement Window</option>
-                    <option value="Curtain Wall">Curtain Wall</option>
-                    <option value="Door Section">Door Section</option>
-                </select>
-            </div>
+    <!-- আনলিমিটেড উইন্ডো যোগ করার বাটন -->
+    <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
+    <br><br>
+    
+    <button style="background: #007bff; color: white; font-size: 16px;" onclick="calculateTotal()">মোট হিসাব করুন</button>
 
-            <div class="form-group">
-                <label for="discountRate">Discount Rate (%) (ডিসকাউন্ট শতাংশ)</label>
-                <input type="number" id="discountRate" class="form-input" placeholder="e.g. 10 or 15">
-            </div>
+    <h3>সর্বমোট মূল্য: <span id="grandTotal">0</span> টাকা</h3>
+</div>
 
-            <button class="btn-submit" onclick="saveDiscount()">💾 Save Discount Rate</button>
-        </div>
+<script>
+// ১. প্রাইজ ডেটাবেজ (1.2mm, 1.5mm, কালার এবং মডেল অনুযায়ী)
+const priceList = {
+    "1.2mm": {
+        "silver": 3704,
+        "bronze": 4000,
+        "woodtech": 4500
+    },
+    "1.5mm": {
+        "silver": 4492,
+        "bronze": 4800,
+        "woodtech": 5300
+    }
+};
 
-        <!-- Saved Discounts List -->
-        <div class="card">
-            <div class="card-title">📋 Saved Company Discounts</div>
-            <div class="discount-list" id="discountContainer">
-                <!-- Javascript দিয়ে ডাটা লোড হবে -->
-            </div>
-        </div>
-    </div>
+let windowCount = 0;
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            loadDiscounts();
-        });
+// ২. নতুন উইন্ডো যোগ করার ফাংশন (আনলিমিটেড)
+function addWindow() {
+    windowCount++;
+    const container = document.getElementById('windowsList');
+    
+    const windowDiv = document.createElement('div');
+    windowDiv.className = 'window-box';
+    windowDiv.id = `window_${windowCount}`;
+    
+    windowDiv.innerHTML = `
+        <h4>উইন্ডো #${windowCount}</h4>
+        <label>থিকনেস:</label>
+        <select class="thickness">
+            <option value="1.2mm">1.2 mm</option>
+            <option value="1.5mm">1.5 mm</option>
+        </select>
 
-        function saveDiscount() {
-            const compName = document.getElementById("companyName").value.trim();
-            const profType = document.getElementById("profileType").value;
-            const rate = document.getElementById("discountRate").value.trim();
+        <label>কালার:</label>
+        <select class="color">
+            <option value="silver">Silver</option>
+            <option value="bronze">Bronze/Black</option>
+            <option value="woodtech">Woodtech</option>
+        </select>
 
-            if (!compName || !rate) {
-                alert("দয়া করে কোম্পানির নাম এবং ডিসকাউন্ট হার সঠিকভাবে লিখুন!");
-                return;
-            }
+        <label>উচ্চতা (Height - ft):</label>
+        <input type="number" class="height" placeholder="0" value="4">
 
-            let discounts = JSON.parse(localStorage.getItem("app_company_discounts")) || [];
+        <label>দৈর্ঘ্য (Length - ft):</label>
+        <input type="number" class="length" placeholder="0" value="5">
 
-            const newDiscount = {
-                id: Date.now(),
-                company: compName,
-                category: profType,
-                rate: rate
-            };
+        <label>পরিমাণ (Qty):</label>
+        <input type="number" class="qty" placeholder="1" value="1">
 
-            discounts.push(newDiscount);
-            localStorage.setItem("app_company_discounts", JSON.stringify(discounts));
+        <button class="btn-remove" onclick="removeWindow('window_${windowCount}')">মুছে ফেলুন</button>
+    `;
+    
+    container.appendChild(windowDiv);
+}
 
-            // Form Reset
-            document.getElementById("companyName").value = "";
-            document.getElementById("discountRate").value = "";
+// উইন্ডো মুছে ফেলার ফাংশন
+function removeWindow(id) {
+    document.getElementById(id).remove();
+}
 
-            loadDiscounts();
-            alert("কোম্পানি ডিসকাউন্ট সফলভাবে সেভ হয়েছে!");
-        }
+// ৩. মোট হিসাব করার লজিক (ডিসকাউন্ট সহ)
+function calculateTotal() {
+    let rawTotal = 0;
+    const discount = parseFloat(document.getElementById('discountPercent').value) || 0;
+    const windows = document.querySelectorAll('.window-box');
 
-        function loadDiscounts() {
-            const container = document.getElementById("discountContainer");
-            let discounts = JSON.parse(localStorage.getItem("app_company_discounts")) || [];
+    windows.forEach(win => {
+        const thickness = win.querySelector('.thickness').value;
+        const color = win.querySelector('.color').value;
+        const height = parseFloat(win.querySelector('.height').value) || 0;
+        const length = parseFloat(win.querySelector('.length').value) || 0;
+        const qty = parseInt(win.querySelector('.qty').value) || 1;
 
-            if (discounts.length === 0) {
-                container.innerHTML = `<p style="color: #9ca3af; font-size: 13px; text-align: center; padding: 10px;">কোনো ডিসকাউন্ট ডাটা সেভ করা নেই।</p>`;
-                return;
-            }
+        // স্কয়ার ফিট হিসাব (উচ্চতা × দৈর্ঘ্য)
+        const sqft = height * length;
+        
+        // প্রতি স্কয়ার ফিট বা পিসের বেস রেট
+        const baseRate = priceList[thickness][color];
 
-            let html = "";
-            discounts.forEach(item => {
-                html += `
-                    <div class="discount-item">
-                        <div class="company-info">
-                            <h4>${item.company}</h4>
-                            <p>${item.category}</p>
-                        </div>
-                        <div style="display: flex; align-items: center;">
-                            <span class="discount-badge">${item.rate}% OFF</span>
-                            <button class="delete-btn" onclick="deleteDiscount(${item.id})">🗑️</button>
-                        </div>
-                    </div>
-                `;
-            });
+        // একটি উইন্ডোর সাবটোটাল
+        const windowCost = sqft * baseRate * qty;
+        rawTotal += windowCost;
+    });
 
-            container.innerHTML = html;
-        }
+    // ডিসকাউন্ট বাদ দেওয়া
+    const finalTotal = rawTotal - (rawTotal * (discount / 100));
+    document.getElementById('grandTotal').innerText = finalTotal.toLocaleString('bn-BD');
+}
 
-        function deleteDiscount(id) {
-            if (confirm("আপনি কি এটি মুছে ফেলতে চান?")) {
-                let discounts = JSON.parse(localStorage.getItem("app_company_discounts")) || [];
-                discounts = discounts.filter(item => item.id !== id);
-                localStorage.setItem("app_company_discounts", JSON.stringify(discounts));
-                loadDiscounts();
-            }
-        }
-    </script>
+// প্রথম উইন্ডো নিজে থেকেই লোড হওয়ার জন্য
+addWindow();
+</script>
+
 </body>
 </html>

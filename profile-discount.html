@@ -10,7 +10,8 @@
         .container { max-width: 950px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         h2, h3 { text-align: center; color: #111; margin-bottom: 15px; }
         
-        .header-section { background: #eef2f5; padding: 12px; border-radius: 6px; margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between; }
+        .header-section { background: #eef2f5; padding: 12px; border-radius: 6px; margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
+        .header-section div { display: flex; align-items: center; gap: 5px; }
         .header-section select, .header-section input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; }
 
         /* টেবিল স্টাইল */
@@ -47,7 +48,7 @@
 <div class="container">
     <h2>অ্যালুমিনিয়াম ক্যালকুলেটর ও এস্টিমেশন</h2>
 
-    <!-- হেডার ইনপুট -->
+    <!-- হেডার ইনপুট (থিকনেস অপশনসহ) -->
     <div class="header-section">
         <div>
             <label>কোম্পানি:</label>
@@ -58,9 +59,21 @@
                 <option value="Max">Max Aluminium</option>
             </select>
         </div>
+
+        <!-- আপনার লাল দাগ দেওয়া জায়গায় থিকনেস যোগ করা হলো -->
+        <div>
+            <label>থিকনেস:</label>
+            <select id="thicknessSelect">
+                <option value="1.0mm">1.0 mm</option>
+                <option value="1.2mm" selected>1.2 mm</option>
+                <option value="1.5mm">1.5 mm</option>
+                <option value="2.0mm">2.0 mm</option>
+            </select>
+        </div>
+
         <div>
             <label>ডিসকাউন্ট (%):</label>
-            <input type="number" id="globalDiscount" value="18" placeholder="0"> %
+            <input type="number" id="globalDiscount" value="18" placeholder="0" style="width: 70px;"> %
         </div>
     </div>
 
@@ -75,7 +88,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- স্লাইডিং সেকশন (আগেরগুলো উপরে থাকবে) -->
+                <!-- স্লাইডিং সেকশন (নেট সেকশন এখানে নিয়ে আসা হয়েছে) -->
                 <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
                 <tr><td>Outer Top (2121B)</td><td><input type="number" id="rate_2121B" value="3700"></td></tr>
                 <tr><td>Outer Bottom (2122B)</td><td><input type="number" id="rate_2122B" value="3700"></td></tr>
@@ -83,11 +96,11 @@
                 <tr><td>Lock Style (2124B)</td><td><input type="number" id="rate_2124B" value="3500"></td></tr>
                 <tr><td>Interlock (2125B)</td><td><input type="number" id="rate_2125B" value="3500"></td></tr>
                 <tr><td>Shutter Top/Bottom (2126B)</td><td><input type="number" id="rate_2126B" value="3200"></td></tr>
-
-                <!-- নতুন ফিক্সড ও অন্যান্য সেকশন (নিচে সিরিয়ালে বসবে) -->
-                <tr class="category-header"><td colspan="2">নেট, ফিক্সড ও অন্যান্য সেকশন (Net, Fixed & Other Sections)</td></tr>
                 <tr><td>Net Section</td><td><input type="number" id="rate_net_sec" placeholder="0"></td></tr>
                 <tr><td>Net Handle</td><td><input type="number" id="rate_net_handle" placeholder="0"></td></tr>
+
+                <!-- ফিক্সড ও অন্যান্য সেকশন -->
+                <tr class="category-header"><td colspan="2">ফিক্সড ও অন্যান্য সেকশন (Fixed & Other Sections)</td></tr>
                 <tr><td>Fixed Top & Side</td><td><input type="number" id="rate_fixed_top_side" placeholder="0"></td></tr>
                 <tr><td>Fixed Bottom</td><td><input type="number" id="rate_fixed_bottom" placeholder="0"></td></tr>
                 <tr><td>Fixed Bottom Cover</td><td><input type="number" id="rate_fixed_bot_cover" placeholder="0"></td></tr>
@@ -121,6 +134,7 @@
     <!-- রেজাল্ট ও মেটেরিয়াল ব্রেকডাউন -->
     <div class="result-box" id="resultBox" style="display:none;">
         <h3>বিস্তারিত মেটেরিয়াল হিসাব ও ব্রেকডাউন</h3>
+        <p><b>কোম্পানি:</b> <span id="resCompany"></span> | <b>থিকনেস:</b> <span id="resThickness"></span></p>
         <p><b>মোট কাজ:</b> <span id="resTotalSqft">০</span> SFT</p>
         
         <div class="table-responsive">
@@ -186,6 +200,8 @@ function removeWindow(id) {
 }
 
 function calculateTotal() {
+    const company = document.getElementById('companySelect').value;
+    const thickness = document.getElementById('thicknessSelect').value;
     const discount = parseFloat(document.getElementById('globalDiscount').value) || 0;
     const windows = document.querySelectorAll('.window-box');
 
@@ -256,6 +272,8 @@ function calculateTotal() {
     }
 
     document.getElementById('resultBox').style.display = 'block';
+    document.getElementById('resCompany').innerText = company;
+    document.getElementById('resThickness').innerText = thickness;
     document.getElementById('resTotalSqft').innerText = totalSqft.toFixed(2);
     document.getElementById('resFinalPrice').innerText = Math.round(grandTotalCost).toLocaleString('bn-BD');
 }

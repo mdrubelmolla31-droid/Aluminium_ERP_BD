@@ -126,10 +126,16 @@
                     <td><input type="number" id="rate_2125B_185" placeholder="১৮.৫ft রেট"></td>
                     <td><input type="number" id="rate_2125B_21" placeholder="২১ft রেট"></td>
                 </tr>
+                <!-- শাটার টপ এবং বটম আলাদা করা হলো -->
                 <tr>
-                    <td>Shutter Top/Bottom (2126B)</td>
+                    <td>Shutter Top (2126B)</td>
                     <td>-</td>
-                    <td><input type="number" id="rate_2126B_21" placeholder="২১ft রেট"></td>
+                    <td><input type="number" id="rate_2126B_top_21" placeholder="২১ft রেট"></td>
+                </tr>
+                <tr>
+                    <td>Shutter Bottom (2126B)</td>
+                    <td>-</td>
+                    <td><input type="number" id="rate_2126B_bot_21" placeholder="২১ft রেট"></td>
                 </tr>
                 <tr>
                     <td>Net Section</td>
@@ -300,7 +306,8 @@ function calculateTotal() {
     let lengthNeededFt = {
         "Outer Top (2121B)": 0,
         "Outer Bottom (2122B)": 0,
-        "Shutter Top/Bottom (2126B)": 0
+        "Shutter Top (2126B)": 0,
+        "Shutter Bottom (2126B)": 0
     };
 
     // Height individual pieces list in Ft
@@ -324,7 +331,8 @@ function calculateTotal() {
             // 1. Length Processing
             lengthNeededFt["Outer Top (2121B)"] += (lFeet * qty);
             lengthNeededFt["Outer Bottom (2122B)"] += (lFeet * qty);
-            lengthNeededFt["Shutter Top/Bottom (2126B)"] += (((lFeet / 2) * 4) * qty);
+            lengthNeededFt["Shutter Top (2126B)"] += (((lFeet / 2) * 2) * qty);
+            lengthNeededFt["Shutter Bottom (2126B)"] += (((lFeet / 2) * 2) * qty);
 
             // 2. Height Processing (Individual pieces)
             for (let i = 0; i < qty * 2; i++) {
@@ -362,8 +370,8 @@ function calculateTotal() {
                 }
             }
 
-            // Get Rate
-            let idKey = secName.includes("2121B") ? "2121B" : (secName.includes("2122B") ? "2122B" : "2126B");
+            // Get Rate for Top & Bottom
+            let idKey = secName.includes("2121B") ? "2121B" : (secName.includes("2122B") ? "2122B" : (secName.includes("Shutter Top") ? "2126B_top" : "2126B_bot"));
             let rate21 = parseFloat(document.getElementById(`rate_${idKey}_21`).value) || 0;
 
             let barOutputText = `${full21Bars} টি ২১ft বার`;

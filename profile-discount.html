@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminium Sliding Window Calculator</title>
+    <title>Aluminium Window Cost Calculator</title>
     <style>
         * { box-sizing: border-box; font-family: Arial, sans-serif; }
         body { margin: 10px; background-color: #f4f4f9; color: #333; }
-        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h2, h3 { text-align: center; color: #111; }
+        .container { max-width: 950px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2, h3 { text-align: center; color: #111; margin-bottom: 15px; }
         
-        .header-section { background: #eef2f5; padding: 12px; border-radius: 6px; margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
+        .header-section { background: #eef2f5; padding: 12px; border-radius: 6px; margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between; }
         .header-section select, .header-section input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; }
 
-        /* সেকশন টেবিল স্টাইল */
+        /* টেবিল স্টাইল */
+        .table-responsive { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
         table, th, td { border: 1px solid #ddd; }
         th, td { padding: 8px; text-align: left; font-size: 13px; }
         th { background: #007bff; color: white; }
         td input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
+        .category-header { background: #6c757d; color: white; font-weight: bold; text-align: center; }
 
         .window-box { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; border-radius: 6px; background: #fafafa; }
         .window-header { font-weight: bold; font-size: 15px; margin-bottom: 10px; color: #28a745; border-bottom: 1px solid #eee; padding-bottom: 5px; }
@@ -32,19 +34,23 @@
         .btn-add { background: #28a745; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-bottom: 10px; }
         .btn-calc { background: #007bff; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
 
-        .result-box { margin-top: 15px; padding: 15px; background: #e6f4ea; border-radius: 6px; }
-        .result-box p { margin: 5px 0; font-size: 14px; font-weight: bold; color: #2e7d32; }
+        /* আউটপুট ব্রেকডাউন স্টাইল */
+        .result-box { margin-top: 20px; padding: 15px; background: #fff; border: 2px solid #28a745; border-radius: 6px; }
+        .breakdown-table { margin-top: 10px; }
+        .breakdown-table th { background: #28a745; }
+        .grand-total-box { margin-top: 15px; background: #e6f4ea; padding: 12px; border-radius: 6px; text-align: center; }
+        .grand-total-box h3 { margin: 0; color: #155724; font-size: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>স্লাইডিং উইন্ডো অ্যালুমিনিয়াম ক্যালকুলেটর</h2>
+    <h2>অ্যালুমিনিয়াম ক্যালকুলেটর ও এস্টিমেশন</h2>
 
-    <!-- কোম্পানি সিলেক্টর ও গ্লোবাল ডিসকাউন্ট -->
+    <!-- হেডার ইনপুট -->
     <div class="header-section">
         <div>
-            <label><b>কোম্পানি:</b></label>
+            <label>কোম্পানি:</label>
             <select id="companySelect">
                 <option value="KAI">KAI Aluminium</option>
                 <option value="ChungHua">Chung Hua</option>
@@ -53,47 +59,57 @@
             </select>
         </div>
         <div>
-            <label><b>ডিসকাউন্ট (%):</b></label>
+            <label>ডিসকাউন্ট (%):</label>
             <input type="number" id="globalDiscount" value="18" placeholder="0"> %
         </div>
     </div>
 
-    <!-- সেকশন ভিত্তিক কারেন্ট রেটের টেবিল -->
+    <!-- সেকশন ভিত্তিক রেট টেবিল -->
     <h3>সেকশন কারেন্ট রেট (প্রতি ১৮ ফিটের ১ বার)</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>সেকশনের নাম (Code)</th>
-                <th>কারেন্ট রেট (টাকা/১৮ft বার)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Outer Top (2121B)</td>
-                <td><input type="number" class="sec-rate" id="rate_2121B" value="3700"></td>
-            </tr>
-            <tr>
-                <td>Outer Bottom (2122B)</td>
-                <td><input type="number" class="sec-rate" id="rate_2122B" value="3700"></td>
-            </tr>
-            <tr>
-                <td>Outer Side (2123B)</td>
-                <td><input type="number" class="sec-rate" id="rate_2123B" value="3700"></td>
-            </tr>
-            <tr>
-                <td>Lock Style (2124B)</td>
-                <td><input type="number" class="sec-rate" id="rate_2124B" value="3500"></td>
-            </tr>
-            <tr>
-                <td>Interlock (2125B)</td>
-                <td><input type="number" class="sec-rate" id="rate_2125B" value="3500"></td>
-            </tr>
-            <tr>
-                <td>Shutter Top/Bottom (2126B)</td>
-                <td><input type="number" class="sec-rate" id="rate_2126B" value="3200"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>সেকশনের নাম</th>
+                    <th>কারেন্ট রেট (টাকা/১৮ft বার)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- স্লাইডিং সেকশন (আগেরগুলো উপরে থাকবে) -->
+                <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
+                <tr><td>Outer Top (2121B)</td><td><input type="number" id="rate_2121B" value="3700"></td></tr>
+                <tr><td>Outer Bottom (2122B)</td><td><input type="number" id="rate_2122B" value="3700"></td></tr>
+                <tr><td>Outer Side (2123B)</td><td><input type="number" id="rate_2123B" value="3700"></td></tr>
+                <tr><td>Lock Style (2124B)</td><td><input type="number" id="rate_2124B" value="3500"></td></tr>
+                <tr><td>Interlock (2125B)</td><td><input type="number" id="rate_2125B" value="3500"></td></tr>
+                <tr><td>Shutter Top/Bottom (2126B)</td><td><input type="number" id="rate_2126B" value="3200"></td></tr>
+
+                <!-- নতুন ফিক্সড ও অন্যান্য সেকশন (নিচে সিরিয়ালে বসবে) -->
+                <tr class="category-header"><td colspan="2">নেট, ফিক্সড ও অন্যান্য সেকশন (Net, Fixed & Other Sections)</td></tr>
+                <tr><td>Net Section</td><td><input type="number" id="rate_net_sec" placeholder="0"></td></tr>
+                <tr><td>Net Handle</td><td><input type="number" id="rate_net_handle" placeholder="0"></td></tr>
+                <tr><td>Fixed Top & Side</td><td><input type="number" id="rate_fixed_top_side" placeholder="0"></td></tr>
+                <tr><td>Fixed Bottom</td><td><input type="number" id="rate_fixed_bottom" placeholder="0"></td></tr>
+                <tr><td>Fixed Bottom Cover</td><td><input type="number" id="rate_fixed_bot_cover" placeholder="0"></td></tr>
+                <tr><td>Group Cover</td><td><input type="number" id="rate_group_cover" placeholder="0"></td></tr>
+                <tr><td>Wall Frame</td><td><input type="number" id="rate_wall_frame" placeholder="0"></td></tr>
+                <tr><td>Plain Cover</td><td><input type="number" id="rate_plain_cover" placeholder="0"></td></tr>
+                <tr><td>Muck Cover</td><td><input type="number" id="rate_muck_cover" placeholder="0"></td></tr>
+                <tr><td>4" Louver - Z</td><td><input type="number" id="rate_louver_4z" placeholder="0"></td></tr>
+                <tr><td>Louver Outer "U" (60 × 18 mm)</td><td><input type="number" id="rate_louver_u_6018" placeholder="0"></td></tr>
+                <tr><td>3" Louver - Z</td><td><input type="number" id="rate_louver_3z" placeholder="0"></td></tr>
+                <tr><td>3" Louver - U</td><td><input type="number" id="rate_louver_3u" placeholder="0"></td></tr>
+                <tr><td>1.75" × 1.75" Box</td><td><input type="number" id="rate_box_175" placeholder="0"></td></tr>
+                <tr><td>1.25 × 1.25 Box</td><td><input type="number" id="rate_box_125" placeholder="0"></td></tr>
+                <tr><td>Rectangular Box (25 mm × 100 mm)</td><td><input type="number" id="rate_rect_box_25100" placeholder="0"></td></tr>
+                <tr><td>25 × 50 mm Rectangular Tube</td><td><input type="number" id="rate_rect_tube_2550" placeholder="0"></td></tr>
+                <tr><td>Spandrel</td><td><input type="number" id="rate_spandrel" placeholder="0"></td></tr>
+                <tr><td>Angel</td><td><input type="number" id="rate_angel" placeholder="0"></td></tr>
+                <tr><td>Main Tee</td><td><input type="number" id="rate_main_tee" placeholder="0"></td></tr>
+                <tr><td>3" Corner Box (90), Thickness 1.5 mm</td><td><input type="number" id="rate_corner_box_3" placeholder="0"></td></tr>
+            </tbody>
+        </table>
+    </div>
 
     <!-- উইন্ডো ইনপুট লিস্ট -->
     <h3>উইন্ডোর তালিকা</h3>
@@ -102,19 +118,37 @@
     <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
     <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন</button>
 
-    <!-- আউটপুট রেজাল্ট -->
+    <!-- রেজাল্ট ও মেটেরিয়াল ব্রেকডাউন -->
     <div class="result-box" id="resultBox" style="display:none;">
-        <p>মোট কাজের পরিমাণ: <span id="resTotalSqft">০</span> SFT</p>
-        <p>মোট অ্যালুমিনিয়াম লাগবে: <span id="resTotalBars">০</span> পিস (১৮ ফিট বার)</p>
-        <p>কারেন্ট রেটে মোট দাম: <span id="resRawPrice">০</span> টাকা</p>
-        <p style="font-size: 18px; color: #155724;">ডিসকাউন্ট প্রাইসে সর্বমোট মূল্য: <span id="resFinalPrice">০</span> টাকা</p>
+        <h3>বিস্তারিত মেটেরিয়াল হিসাব ও ব্রেকডাউন</h3>
+        <p><b>মোট কাজ:</b> <span id="resTotalSqft">০</span> SFT</p>
+        
+        <div class="table-responsive">
+            <table class="breakdown-table">
+                <thead>
+                    <tr>
+                        <th>সেকশনের নাম</th>
+                        <th>মোট প্রয়োজন (Ft)</th>
+                        <th>১৮ft বার (পিস)</th>
+                        <th>মূল দাম (টাকা)</th>
+                        <th>ডিসকাউন্ট মূল্য (টাকা)</th>
+                    </tr>
+                </thead>
+                <tbody id="breakdownBody">
+                    <!-- ডাইনামিকালি যোগ হবে -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grand-total-box">
+            <h3>সর্বমোট মেটেরিয়াল মূল্য (ডিসকাউন্ট সহ): <span id="resFinalPrice">০</span> টাকা</h3>
+        </div>
     </div>
 </div>
 
 <script>
 let windowCount = 0;
 
-// নতুন উইন্ডো যোগ করার ফাংশন
 function addWindow() {
     windowCount++;
     const container = document.getElementById('windowsList');
@@ -151,80 +185,82 @@ function removeWindow(id) {
     document.getElementById(id).remove();
 }
 
-// হিসাব করার প্রধান ফাংশন
 function calculateTotal() {
     const discount = parseFloat(document.getElementById('globalDiscount').value) || 0;
-    
-    // সেকশন রেটসমূহ
-    const rate2121 = parseFloat(document.getElementById('rate_2121B').value) || 0;
-    const rate2122 = parseFloat(document.getElementById('rate_2122B').value) || 0;
-    const rate2123 = parseFloat(document.getElementById('rate_2123B').value) || 0;
-    const rate2124 = parseFloat(document.getElementById('rate_2124B').value) || 0;
-    const rate2125 = parseFloat(document.getElementById('rate_2125B').value) || 0;
-    const rate2126 = parseFloat(document.getElementById('rate_2126B').value) || 0;
+    const windows = document.querySelectorAll('.window-box');
 
     let totalSqft = 0;
-    let totalOuterTopFeet = 0;
-    let totalOuterBottomFeet = 0;
-    let totalOuterSideFeet = 0;
-    let totalLockFeet = 0;
-    let totalInterlockFeet = 0;
-    let totalShutterTopBottomFeet = 0;
+    let secFeet = {
+        "Outer Top (2121B)": 0,
+        "Outer Bottom (2122B)": 0,
+        "Outer Side (2123B)": 0,
+        "Lock Style (2124B)": 0,
+        "Interlock (2125B)": 0,
+        "Shutter Top/Bottom (2126B)": 0
+    };
 
-    const windows = document.querySelectorAll('.window-box');
+    let secRates = {
+        "Outer Top (2121B)": parseFloat(document.getElementById('rate_2121B').value) || 0,
+        "Outer Bottom (2122B)": parseFloat(document.getElementById('rate_2122B').value) || 0,
+        "Outer Side (2123B)": parseFloat(document.getElementById('rate_2123B').value) || 0,
+        "Lock Style (2124B)": parseFloat(document.getElementById('rate_2124B').value) || 0,
+        "Interlock (2125B)": parseFloat(document.getElementById('rate_2125B').value) || 0,
+        "Shutter Top/Bottom (2126B)": parseFloat(document.getElementById('rate_2126B').value) || 0
+    };
 
     windows.forEach(win => {
         const hInch = parseFloat(win.querySelector('.height').value) || 0;
         const lInch = parseFloat(win.querySelector('.length').value) || 0;
         const qty = parseInt(win.querySelector('.qty').value) || 1;
 
-        // স্কয়ার ফিট হিসাব
-        const sqft = (hInch * lInch) / 144;
-        totalSqft += (sqft * qty);
+        totalSqft += ((hInch * lInch) / 144) * qty;
 
         const hFeet = hInch / 12;
         const lFeet = lInch / 12;
 
-        // ২-পাল্লার স্লাইডিংয়ের জন্য সেকশন কাটিং ফুট হিসাব
-        totalOuterTopFeet += (lFeet * qty);
-        totalOuterBottomFeet += (lFeet * qty);
-        totalOuterSideFeet += ((hFeet * 2) * qty);
-
-        totalLockFeet += ((hFeet * 2) * qty); // ২ পাল্লার ২ পাশে ২ পিস লক
-        totalInterlockFeet += ((hFeet * 2) * qty); // ২ পাল্লার মাঝে ২ পিস ইন্টারলক
-        totalShutterTopBottomFeet += (((lFeet / 2) * 4) * qty); // ২ পাল্লার উপরে-নিচে মোট ৪ পিস
+        // ২-পাল্লার স্লাইডিং কাটিং হিসাব
+        secFeet["Outer Top (2121B)"] += (lFeet * qty);
+        secFeet["Outer Bottom (2122B)"] += (lFeet * qty);
+        secFeet["Outer Side (2123B)"] += ((hFeet * 2) * qty);
+        secFeet["Lock Style (2124B)"] += ((hFeet * 2) * qty);
+        secFeet["Interlock (2125B)"] += ((hFeet * 2) * qty);
+        secFeet["Shutter Top/Bottom (2126B)"] += (((lFeet / 2) * 4) * qty);
     });
 
-    // ফিট থেকে ১৮ ফিটের বার (Bar) গণনা (১ বার = ১৮ ফিট)
-    const bars2121 = Math.ceil(totalOuterTopFeet / 18);
-    const bars2122 = Math.ceil(totalOuterBottomFeet / 18);
-    const bars2123 = Math.ceil(totalOuterSideFeet / 18);
-    const bars2124 = Math.ceil(totalLockFeet / 18);
-    const bars2125 = Math.ceil(totalInterlockFeet / 18);
-    const bars2126 = Math.ceil(totalShutterTopBottomFeet / 18);
+    const breakdownBody = document.getElementById('breakdownBody');
+    breakdownBody.innerHTML = '';
 
-    const totalBars = bars2121 + bars2122 + bars2123 + bars2124 + bars2125 + bars2126;
+    let grandTotalCost = 0;
 
-    // মোট কাঁচা প্রাইস (Raw Price)
-    const rawCost = (bars2121 * rate2121) + 
-                    (bars2122 * rate2122) + 
-                    (bars2123 * rate2123) + 
-                    (bars2124 * rate2124) + 
-                    (bars2125 * rate2125) + 
-                    (bars2126 * rate2126);
+    for (let secName in secFeet) {
+        const feetNeeded = secFeet[secName];
+        if (feetNeeded > 0) {
+            const barsNeeded = Math.ceil(feetNeeded / 18);
+            const ratePerBar = secRates[secName];
+            const rawCost = barsNeeded * ratePerBar;
+            const discountedCost = rawCost - (rawCost * (discount / 100));
 
-    // ডিসকাউন্ট বাদ দিয়ে ফাইনাল দাম
-    const finalCost = rawCost - (rawCost * (discount / 100));
+            grandTotalCost += discountedCost;
 
-    // রেজাল্ট দেখান
+            const row = `
+                <tr>
+                    <td><b>${secName}</b></td>
+                    <td>${feetNeeded.toFixed(2)} ft</td>
+                    <td>${barsNeeded} পিস</td>
+                    <td>${rawCost.toLocaleString('bn-BD')} টাকা</td>
+                    <td><b>${Math.round(discountedCost).toLocaleString('bn-BD')} টাকা</b></td>
+                </tr>
+            `;
+            breakdownBody.innerHTML += row;
+        }
+    }
+
     document.getElementById('resultBox').style.display = 'block';
     document.getElementById('resTotalSqft').innerText = totalSqft.toFixed(2);
-    document.getElementById('resTotalBars').innerText = totalBars;
-    document.getElementById('resRawPrice').innerText = rawCost.toLocaleString('bn-BD');
-    document.getElementById('resFinalPrice').innerText = Math.round(finalCost).toLocaleString('bn-BD');
+    document.getElementById('resFinalPrice').innerText = Math.round(grandTotalCost).toLocaleString('bn-BD');
 }
 
-// ডিফল্ট ১ম উইন্ডো লোড
+// প্রথম উইন্ডো নিজে থেকে লোড হবে
 addWindow();
 </script>
 

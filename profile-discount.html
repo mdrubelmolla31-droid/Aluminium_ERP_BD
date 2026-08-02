@@ -1,286 +1,454 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>অ্যালুমিনিয়াম ক্যালকুলেটর ও এস্টিমেশন</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluminium Window Cost Calculator & Material Optimizer</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { margin: 10px; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 1050px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2, h3 { text-align: center; color: #111; margin-bottom: 15px; }
+        
+        .header-section { background: #eef2f5; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between; }
+        .header-section div { display: flex; align-items: center; gap: 8px; }
+        .header-section select, .header-section input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; }
 
-  <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
-    .container { max-width: 650px; margin: 0 auto; }
+        .logic-banner { background: #eff6ff; border-left: 4px solid #007bff; padding: 12px 15px; font-size: 13px; margin-bottom: 20px; border-radius: 0 6px 6px 0; line-height: 1.6; }
 
-    .header-title {
-      text-align: center;
-      color: #0f172a;
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
+        /* টেবিল স্টাইল */
+        .table-responsive { overflow-x: auto; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 8px 10px; text-align: left; font-size: 13px; }
+        th { background: #007bff; color: white; }
+        td input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
+        .category-header { background: #6c757d; color: white; font-weight: bold; text-align: center; }
 
-    .card {
-      background: #ffffff;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      margin-bottom: 16px;
-      border: 1px solid #e2e8f0;
-    }
+        .window-box { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; border-radius: 6px; background: #fafafa; }
+        .window-header { font-weight: bold; font-size: 15px; margin-bottom: 10px; color: #28a745; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
-    .row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-    .col { flex: 1; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #555; }
+        .input-group input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
 
-    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #334155; }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      font-size: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background-color: #fff;
-    }
+        .btn-remove { background: #dc3545; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; margin-top: 10px; width: 100%; font-weight: bold; }
+        .btn-add { background: #28a745; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-bottom: 10px; }
+        .btn-calc { background: #007bff; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
 
-    .section-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #0f172a;
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .section-head {
-      background-color: #475569;
-      color: white;
-      font-weight: bold;
-      text-align: left;
-      padding: 6px 10px;
-    }
-
-    /* রেট টেবিল (১৮.৫ft এবং ২১ft কলাম) */
-    table.rate-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    table.rate-table th, table.rate-table td {
-      border: 1px solid #cbd5e1;
-      padding: 6px;
-      text-align: center;
-      font-size: 12px;
-    }
-    table.rate-table th {
-      background-color: #2563eb;
-      color: white;
-      font-weight: 600;
-    }
-    table.rate-table td:first-child {
-      text-align: left;
-      font-weight: 600;
-      color: #1e293b;
-      width: 45%;
-    }
-    .rate-btn {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 4px;
-      padding: 4px 6px;
-      font-size: 12px;
-      cursor: pointer;
-      display: inline-block;
-      width: 100%;
-      color: #0f172a;
-    }
-    .rate-btn:hover {
-      border-color: #2563eb;
-      background-color: #eff6ff;
-    }
-  </style>
+        /* আউটপুট স্টাইল */
+        .result-box { margin-top: 20px; padding: 15px; background: #fff; border: 2px solid #28a745; border-radius: 6px; }
+        .breakdown-table th { background: #28a745; }
+        .grand-total-box { margin-top: 15px; background: #e6f4ea; padding: 15px; border-radius: 6px; text-align: center; }
+        .grand-total-box h3 { margin: 0; color: #155724; font-size: 22px; }
+        
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+        .badge-loss { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .badge-success { background: #d4edda; color: #155724; }
+    </style>
 </head>
 <body>
 
 <div class="container">
+    <h2>অ্যালুমিনিয়াম ক্যালকুলেটর ও এস্টিমেশন (গ্লোবাল অপটিমাইজড)</h2>
 
-  <!-- টাইটেল -->
-  <div class="header-title">
-    অ্যালুমিনিয়াম ক্যালকুলেটর ও এস্টিমেশন (গ্লোবাল অপটিমাইজড)
-  </div>
-
-  <!-- ফিল্টার ও ব্লেড মার্জিন -->
-  <div class="card">
-    <div class="row">
-      <div class="col"><label>কোম্পানি:</label></div>
-      <div class="col">
-        <select id="company">
-          <option>KAI Aluminium</option>
-          <option>BSRM</option>
-          <option>Chung Hua</option>
-        </select>
-      </div>
+    <div class="logic-banner">
+        <strong>⚙️ সেন্ট্রাল গ্লোবাল কাটিং লজিক:</strong><br>
+        • <b>লেন্থ / Horizontal:</b> ২১ ফিট স্ট্যান্ডার্ড বার ধরা হবে। ২১ ফিটের কম ব্যবহার হলে অবশিষ্ট অংশ <i>লস/ওয়েস্টেজ</i> হিসেবে দেখাবে। ২১ ফিটের বেশি হলে ১টি পূর্ণ ২১ ফিট বার + বাকি অতিরিক্ত ফিট দেখাবে।<br>
+        • <b>হাইট / Vertical:</b> অল-ইন-ওয়ান অপটিমাইজেশন (Bin Packing) দ্বারা ১৮.৫ ফিট বা ২১ ফিটের বার নির্বাচন হবে (ক্যাটলার মার্জিন সহ)। ১৮.৫ ফিট বার সিলেক্ট হলে তা স্পেসিফিকভাবে ১৮.৫ ফিট বার হিসেবেই কাউন্ট হবে।
     </div>
 
-    <div class="row">
-      <div class="col"><label>থিকনেস:</label></div>
-      <div class="col">
-        <select id="thickness">
-          <option>1.2 mm</option>
-          <option>1.5 mm</option>
-          <option>2.0 mm</option>
-        </select>
-      </div>
+    <!-- হেডার ইনপুট -->
+    <div class="header-section">
+        <div>
+            <label>কোম্পানি:</label>
+            <select id="companySelect">
+                <option value="KAI">KAI Aluminium</option>
+                <option value="ChungHua">Chung Hua</option>
+                <option value="BTA">BTA Aluminium</option>
+                <option value="Max">Max Aluminium</option>
+                <option value="Alpha">Alpha Aluminum</option>
+                <option value="Nasir">Nasir syntax</option>
+                <option value="Nikki">Nikki Aluminum</option>
+            </select>
+        </div>
+
+        <div>
+            <label>থিকনেস:</label>
+            <select id="thicknessSelect">
+                <option value="1.0mm">1.0 mm</option>
+                <option value="1.2mm" selected>1.2 mm</option>
+                <option value="1.5mm">1.5 mm</option>
+                <option value="2.0mm">2.0 mm</option>
+            </select>
+        </div>
+
+        <div>
+            <label>ক্যাটলার ব্লেড মার্জিন (ইঞ্চি):</label>
+            <input type="number" id="cutterMargin" value="0.125" step="0.0625" style="width: 80px;">
+        </div>
+
+        <div>
+            <label>ডিসকাউন্ট (%):</label>
+            <input type="number" id="globalDiscount" value="" placeholder="0" style="width: 70px;"> %
+        </div>
     </div>
 
-    <div class="row">
-      <div class="col"><label>কাটার ব্লেড মার্জিন (ইঞ্চি):</label></div>
-      <div class="col">
-        <input type="number" value="0.125" step="0.001">
-      </div>
+    <!-- সেকশন ভিত্তিক রেট টেবিল -->
+    <h3>সেকশন কারেন্ট রেট (প্রতি স্ট্যান্ডার্ড বার)</h3>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>সেকশনের নাম</th>
+                    <th>কারেন্ট রেট (টাকা/১৮.৫ft বার)</th>
+                    <th>কারেন্ট রেট (টাকা/২১ft বার)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- স্লাইডিং সেকশন -->
+                <tr class="category-header"><td colspan="3">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
+                <tr>
+                    <td>Outer Top (2121B)</td>
+                    <td>-</td>
+                    <td><input type="number" id="rate_2121B_21" placeholder="২১ft রেট"></td>
+                </tr>
+                <tr>
+                    <td>Outer Bottom (2122B)</td>
+                    <td>-</td>
+                    <td><input type="number" id="rate_2122B_21" placeholder="২১ft রেট"></td>
+                </tr>
+                <tr>
+                    <td>Outer Side (2123B)</td>
+                    <td><input type="number" id="rate_2123B_185" placeholder="১৮.৫ft রেট"></td>
+                    <td><input type="number" id="rate_2123B_21" placeholder="২১ft রেট"></td>
+                </tr>
+                <tr>
+                    <td>Lock Style (2124B)</td>
+                    <td><input type="number" id="rate_2124B_185" placeholder="১৮.৫ft রেট"></td>
+                    <td><input type="number" id="rate_2124B_21" placeholder="২১ft রেট"></td>
+                </tr>
+                <tr>
+                    <td>Interlock (2125B)</td>
+                    <td><input type="number" id="rate_2125B_185" placeholder="১৮.৫ft রেট"></td>
+                    <td><input type="number" id="rate_2125B_21" placeholder="২১ft রেট"></td>
+                </tr>
+                <tr>
+                    <td>Shutter Top/Bottom (2126B)</td>
+                    <td>-</td>
+                    <td><input type="number" id="rate_2126B_21" placeholder="২১ft রেট"></td>
+                </tr>
+                <tr>
+                    <td>Net Section</td>
+                    <td><input type="number" id="rate_net_sec_185" placeholder="১৮.৫ft রেট"></td>
+                    <td><input type="number" id="rate_net_sec_21" placeholder="২১ft রেট"></td>
+                </tr>
+                <tr>
+                    <td>Net Handle</td>
+                    <td><input type="number" id="rate_net_handle_185" placeholder="১৮.৫ft রেট"></td>
+                    <td><input type="number" id="rate_net_handle_21" placeholder="২১ft রেট"></td>
+                </tr>
+
+                <!-- ফিক্সড ও অন্যান্য সেকশন -->
+                <tr class="category-header"><td colspan="3">ফিক্সড ও অন্যান্য সেকশন (Fixed & Other Sections)</td></tr>
+                <tr><td>Fixed Top & Side</td><td>-</td><td><input type="number" id="rate_fixed_top_side_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Fixed Bottom</td><td>-</td><td><input type="number" id="rate_fixed_bottom_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Fixed Bottom Cover</td><td>-</td><td><input type="number" id="rate_fixed_bot_cover_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Group Cover</td><td>-</td><td><input type="number" id="rate_group_cover_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Wall Frame</td><td>-</td><td><input type="number" id="rate_wall_frame_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Plain Cover</td><td>-</td><td><input type="number" id="rate_plain_cover_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Muck Cover</td><td>-</td><td><input type="number" id="rate_muck_cover_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>4" Louver - Z</td><td>-</td><td><input type="number" id="rate_louver_4z_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Louver Outer "U" (60 × 18 mm)</td><td>-</td><td><input type="number" id="rate_louver_u_6018_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>3" Louver - Z</td><td>-</td><td><input type="number" id="rate_louver_3z_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>3" Louver - U</td><td>-</td><td><input type="number" id="rate_louver_3u_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>1.75" × 1.75" Box</td><td>-</td><td><input type="number" id="rate_box_175_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>1.25 × 1.25 Box</td><td>-</td><td><input type="number" id="rate_box_125_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Rectangular Box (25 mm × 100 mm)</td><td>-</td><td><input type="number" id="rate_rect_box_25100_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>25 × 50 mm Rectangular Tube</td><td>-</td><td><input type="number" id="rate_rect_tube_2550_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Spandrel</td><td>-</td><td><input type="number" id="rate_spandrel_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Angel</td><td>-</td><td><input type="number" id="rate_angel_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>Main Tee</td><td>-</td><td><input type="number" id="rate_main_tee_21" placeholder="২১ft রেট"></td></tr>
+                <tr><td>3" Corner Box (90), Thickness 1.5 mm</td><td>-</td><td><input type="number" id="rate_corner_box_3_21" placeholder="২১ft রেট"></td></tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="row">
-      <div class="col"><label>ডিসকাউন্ট (%):</label></div>
-      <div class="col">
-        <input type="number" value="0">
-      </div>
+    <!-- উইন্ডো ইনপুট লিস্ট -->
+    <h3>উইন্ডোর তালিকা</h3>
+    <div id="windowsList"></div>
+
+    <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
+    <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
+
+    <!-- রেজাল্ট ও মেটেরিয়াল ব্রেকডাউন -->
+    <div class="result-box" id="resultBox" style="display:none;">
+        <h3>বিস্তারিত মেটেরিয়াল হিসাব ও গ্লোবাল কাটিং ব্রেকডাউন</h3>
+        <p><b>কোম্পানি:</b> <span id="resCompany"></span> | <b>থিকনেস:</b> <span id="resThickness"></span></p>
+        <p><b>মোট কাজ:</b> <span id="resTotalSqft">০</span> SFT</p>
+        
+        <div class="table-responsive">
+            <table class="breakdown-table">
+                <thead>
+                    <tr>
+                        <th>সেকশনের নাম</th>
+                        <th>প্রয়োজনীয় সাইজ / পিস</th>
+                        <th>বার সিলেকশন আউটপুট</th>
+                        <th>ওয়েস্টেজ / অতিরিক্ত নোট</th>
+                        <th>মূল দাম (টাকা)</th>
+                        <th>ডিসকাউন্ট মূল্য (টাকা)</th>
+                    </tr>
+                </thead>
+                <tbody id="breakdownBody">
+                    <!-- ডাইনামিকালি যোগ হবে -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grand-total-box">
+            <h3>সর্বমোট মেটেরিয়াল মূল্য (ডিসকাউন্ট সহ): <span id="resFinalPrice">০</span> টাকা</h3>
+        </div>
     </div>
-  </div>
-
-  <!-- সেকশন কারেন্ট রেট টেবিল (শুধু ১৮.৫ ফিট ও ২১ ফিট) -->
-  <div class="card">
-    <div class="section-title">সেকশন কারেন্ট রেট (প্রতি স্ট্যান্ডার্ড বার)</div>
-    
-    <table class="rate-table">
-      <thead>
-        <tr>
-          <th>সেকশনের নাম</th>
-          <th>কারেন্ট রেট (টাকা/১৮.৫ft বার)</th>
-          <th>কারেন্ট রেট (টাকা/২১ft বার)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- স্লাইডিং সেকশন -->
-        <tr>
-          <td colspan="3" class="section-head">স্লাইডিং সেকশন (Sliding Sections)</td>
-        </tr>
-        <tr>
-          <td>Outer Top (2121B)</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Outer Bottom (2122B)</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Outer Side (2123B)</td>
-          <td><button class="rate-btn">১৮.৫ft রেট</button></td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Lock Style (2124B)</td>
-          <td><button class="rate-btn">১৮.৫ft রেট</button></td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Interlock (2125B)</td>
-          <td><button class="rate-btn">১৮.৫ft রেট</button></td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Shutter Top/Bottom (2126B)</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Net Section</td>
-          <td><button class="rate-btn">১৮.৫ft রেট</button></td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Net Handle</td>
-          <td><button class="rate-btn">১৮.৫ft রেট</button></td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-
-        <!-- ফিক্সড ও অন্যান্য সেকশন -->
-        <tr>
-          <td colspan="3" class="section-head">ফিক্সড ও অন্যান্য সেকশন (Fixed & Other Sections)</td>
-        </tr>
-        <tr>
-          <td>Fixed Top & Side</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Fixed Bottom</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Fixed Bottom Cover</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Group Cover</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Wall Frame</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Plain Cover</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Muck Cover</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>4" Louver - Z</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Louver Outer "U" (60 × 18 mm)</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>3" Louver - Z</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>3" Louver - U</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>1.75" × 1.75" Box</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>1.25 × 1.25 Box</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-        <tr>
-          <td>Rectangular Box (25 mm × 100 mm)</td>
-          <td>-</td>
-          <td><button class="rate-btn">২১ফিট রেট</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
 </div>
+
+<script>
+let windowCount = 0;
+
+function addWindow() {
+    windowCount++;
+    const container = document.getElementById('windowsList');
+    
+    const windowDiv = document.createElement('div');
+    windowDiv.className = 'window-box';
+    windowDiv.id = `window_${windowCount}`;
+    
+    windowDiv.innerHTML = `
+        <div class="window-header">উইন্ডো #${windowCount}</div>
+        <div class="grid-container">
+            <div class="input-group">
+                <label>উচ্চতা (ইঞ্চি):</label>
+                <input type="number" class="height" placeholder="উচ্চতা (ইঞ্চি)" value="">
+            </div>
+
+            <div class="input-group">
+                <label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label>
+                <input type="number" class="length" placeholder="দৈর্ঘ্য (ইঞ্চি)" value="">
+            </div>
+
+            <div class="input-group">
+                <label>পরিমাণ (Qty):</label>
+                <input type="number" class="qty" placeholder="পরিমাণ (Qty)" value="">
+            </div>
+        </div>
+        <button class="btn-remove" onclick="removeWindow('window_${windowCount}')">মুছে ফেলুন</button>
+    `;
+    
+    container.appendChild(windowDiv);
+}
+
+function removeWindow(id) {
+    document.getElementById(id).remove();
+}
+
+/**
+ * Bin Packing Optimization Algorithm for Height Pieces (Only 18.5 ft and 21 ft)
+ */
+function optimizeHeightPieces(piecesList, bladeLossFt) {
+    let remaining = [...piecesList].sort((a, b) => b - a);
+    let result = { bar18_5: 0, bar21: 0 };
+
+    while (remaining.length > 0) {
+        let bestBar = 21;
+        let minWaste = 999;
+        let bestIndices = [];
+
+        const candidateBars = [18.5, 21];
+
+        for (let barSize of candidateBars) {
+            let currentWaste = barSize;
+            let usedIndices = [];
+
+            for (let i = 0; i < remaining.length; i++) {
+                let pSize = remaining[i] + bladeLossFt;
+                if (currentWaste >= pSize) {
+                    currentWaste -= pSize;
+                    usedIndices.push(i);
+                }
+            }
+
+            if (usedIndices.length > 0 && currentWaste < minWaste) {
+                minWaste = currentWaste;
+                bestBar = barSize;
+                bestIndices = usedIndices;
+            }
+        }
+
+        if (bestBar === 18.5) result.bar18_5++;
+        else if (bestBar === 21) result.bar21++;
+
+        remaining = remaining.filter((_, idx) => !bestIndices.includes(idx));
+    }
+
+    return result;
+}
+
+function calculateTotal() {
+    const company = document.getElementById('companySelect').options[document.getElementById('companySelect').selectedIndex].text;
+    const thickness = document.getElementById('thicknessSelect').value;
+    const discount = parseFloat(document.getElementById('globalDiscount').value) || 0;
+    const bladeLossInches = parseFloat(document.getElementById('cutterMargin').value) || 0.125;
+    const bladeLossFt = bladeLossInches / 12;
+
+    const windows = document.querySelectorAll('.window-box');
+
+    let totalSqft = 0;
+
+    // Length requirements in Ft
+    let lengthNeededFt = {
+        "Outer Top (2121B)": 0,
+        "Outer Bottom (2122B)": 0,
+        "Shutter Top/Bottom (2126B)": 0
+    };
+
+    // Height individual pieces list in Ft
+    let heightPieces = {
+        "Outer Side (2123B)": [],
+        "Lock Style (2124B)": [],
+        "Interlock (2125B)": []
+    };
+
+    windows.forEach(win => {
+        const hInch = parseFloat(win.querySelector('.height').value) || 0;
+        const lInch = parseFloat(win.querySelector('.length').value) || 0;
+        const qty = parseInt(win.querySelector('.qty').value) || 0;
+
+        if (hInch > 0 && lInch > 0 && qty > 0) {
+            totalSqft += ((hInch * lInch) / 144) * qty;
+
+            const hFeet = hInch / 12;
+            const lFeet = lInch / 12;
+
+            // 1. Length Processing
+            lengthNeededFt["Outer Top (2121B)"] += (lFeet * qty);
+            lengthNeededFt["Outer Bottom (2122B)"] += (lFeet * qty);
+            lengthNeededFt["Shutter Top/Bottom (2126B)"] += (((lFeet / 2) * 4) * qty);
+
+            // 2. Height Processing (Individual pieces)
+            for (let i = 0; i < qty * 2; i++) {
+                heightPieces["Outer Side (2123B)"].push(hFeet);
+                heightPieces["Lock Style (2124B)"].push(hFeet);
+                heightPieces["Interlock (2125B)"].push(hFeet);
+            }
+        }
+    });
+
+    const breakdownBody = document.getElementById('breakdownBody');
+    breakdownBody.innerHTML = '';
+    let grandTotalCost = 0;
+
+    // Helper to format currency
+    const formatMoney = (amount) => Math.round(amount).toLocaleString('bn-BD');
+
+    // ===============================================
+    // A. RENDER HORIZONTAL (LENGTH) SECTIONS (21 ft)
+    // ===============================================
+    for (let secName in lengthNeededFt) {
+        const totalFt = lengthNeededFt[secName];
+        if (totalFt > 0) {
+            let full21Bars = Math.floor(totalFt / 21);
+            let remainderFt = totalFt % 21;
+            let wasteFt = 0;
+            let extraFt = 0;
+
+            if (remainderFt > 0) {
+                if (full21Bars === 0) {
+                    full21Bars = 1;
+                    wasteFt = 21 - remainderFt;
+                } else {
+                    extraFt = remainderFt;
+                }
+            }
+
+            // Get Rate
+            let idKey = secName.includes("2121B") ? "2121B" : (secName.includes("2122B") ? "2122B" : "2126B");
+            let rate21 = parseFloat(document.getElementById(`rate_${idKey}_21`).value) || 0;
+
+            let barOutputText = `${full21Bars} টি ২১ft বার`;
+            if (extraFt > 0) barOutputText += ` + ${extraFt.toFixed(2)} ft অতিরিক্ত`;
+
+            let noteText = '-';
+            if (wasteFt > 0) noteText = `<span class="badge badge-loss">${wasteFt.toFixed(2)} ft লস</span>`;
+            else if (extraFt > 0) noteText = `<span class="badge badge-success">টুকরো মাল</span>`;
+
+            // Price calculation based on full bars
+            let rawCost = full21Bars * rate21;
+            let discountedCost = rawCost - (rawCost * (discount / 100));
+            grandTotalCost += discountedCost;
+
+            breakdownBody.innerHTML += `
+                <tr>
+                    <td><b>${secName}</b></td>
+                    <td>${totalFt.toFixed(2)} ft</td>
+                    <td><b>${barOutputText}</b></td>
+                    <td>${noteText}</td>
+                    <td>${formatMoney(rawCost)} টাকা</td>
+                    <td><b>${formatMoney(discountedCost)} টাকা</b></td>
+                </tr>
+            `;
+        }
+    }
+
+    // ===============================================
+    // B. RENDER VERTICAL (HEIGHT) SECTIONS (Bin Packing)
+    // ===============================================
+    for (let secName in heightPieces) {
+        const pieces = heightPieces[secName];
+        if (pieces.length > 0) {
+            let optResult = optimizeHeightPieces(pieces, bladeLossFt);
+
+            let idKey = secName.includes("2123B") ? "2123B" : (secName.includes("2124B") ? "2124B" : "2125B");
+            let rate185 = parseFloat(document.getElementById(`rate_${idKey}_185`).value) || 0;
+            let rate21 = parseFloat(document.getElementById(`rate_${idKey}_21`).value) || 0;
+
+            let barTextList = [];
+            let rawCost = 0;
+
+            if (optResult.bar18_5 > 0) {
+                barTextList.push(`${optResult.bar18_5} টি (ফুল ১৮.৫ ft বার)`);
+                rawCost += optResult.bar18_5 * rate185;
+            }
+            if (optResult.bar21 > 0) {
+                barTextList.push(`${optResult.bar21} টি (২১ ft বার)`);
+                rawCost += optResult.bar21 * rate21;
+            }
+
+            let discountedCost = rawCost - (rawCost * (discount / 100));
+            grandTotalCost += discountedCost;
+
+            breakdownBody.innerHTML += `
+                <tr>
+                    <td><b>${secName}</b></td>
+                    <td>${pieces.length} পিস (${pieces[0].toFixed(2)} ft করে)</td>
+                    <td><b>${barTextList.join(', ')}</b></td>
+                    <td><span class="badge badge-success">অপটিমাইজড</span></td>
+                    <td>${formatMoney(rawCost)} টাকা</td>
+                    <td><b>${formatMoney(discountedCost)} টাকা</b></td>
+                </tr>
+            `;
+        }
+    }
+
+    document.getElementById('resultBox').style.display = 'block';
+    document.getElementById('resCompany').innerText = company;
+    document.getElementById('resThickness').innerText = thickness;
+    document.getElementById('resTotalSqft').innerText = totalSqft.toFixed(2);
+    document.getElementById('resFinalPrice').innerText = formatMoney(grandTotalCost);
+}
+
+// প্রথম উইন্ডো নিজে থেকে লোড হবে
+addWindow();
+</script>
 
 </body>
 </html>

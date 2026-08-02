@@ -2,15 +2,32 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aluminium Window Cost Calculator</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
-        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .window-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 5px; background: #fafafa; }
-        button { padding: 8px 15px; cursor: pointer; border: none; border-radius: 4px; }
-        .btn-add { background: #28a745; color: white; }
-        .btn-remove { background: #dc3545; color: white; }
-        input, select { padding: 6px; margin: 5px; }
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { margin: 10px; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2 { text-align: center; font-size: 20px; color: #111; margin-bottom: 15px; }
+        
+        .discount-section { background: #eef2f5; padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .discount-section input { width: 80px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; }
+
+        .window-box { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; border-radius: 6px; background: #fafafa; position: relative; }
+        .window-header { font-weight: bold; font-size: 16px; margin-bottom: 10px; color: #007bff; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        /* মোবাইল ফ্রেন্ডলি গ্রিড লেআউট */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #555; }
+        .input-group input, .input-group select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 100%; }
+
+        .btn-remove { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin-top: 10px; width: 100%; font-weight: bold; }
+        .btn-add { background: #28a745; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-bottom: 10px; }
+        .btn-calc { background: #007bff; color: white; border: none; padding: 12px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
+
+        .total-box { margin-top: 15px; padding: 15px; background: #e6f4ea; border-radius: 6px; text-align: center; }
+        .total-box h3 { margin: 0; font-size: 18px; color: #2e7d32; }
     </style>
 </head>
 <body>
@@ -18,41 +35,38 @@
 <div class="container">
     <h2>এলুমিনিয়াম উইন্ডো ক্যালকুলেটর</h2>
     
-    <!-- ডিসকাউন্ট ইনপুট -->
-    <label><b>ডিসকাউন্ট (%): </b></label>
-    <input type="number" id="discountPercent" value="0" placeholder="0"> %
-    <hr>
+    <div class="discount-section">
+        <label><b>ডিসকাウント (%):</b></label>
+        <input type="number" id="discountPercent" value="18" placeholder="0"> %
+    </div>
 
-    <!-- উইন্ডো লিস্ট কন্টেইনার -->
     <div id="windowsList"></div>
 
-    <!-- আনলিমিটেড উইন্ডো যোগ করার বাটন -->
     <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
-    <br><br>
-    
-    <button style="background: #007bff; color: white; font-size: 16px;" onclick="calculateTotal()">মোট হিসাব করুন</button>
+    <button class="btn-calc" onclick="calculateTotal()">মোট হিসাব করুন</button>
 
-    <h3>সর্বমোট মূল্য: <span id="grandTotal">0</span> টাকা</h3>
+    <div class="total-box">
+        <h3>সর্বমোট মূল্য: <span id="grandTotal">০</span> টাকা</h3>
+    </div>
 </div>
 
 <script>
-// ১. প্রাইজ ডেটাবেজ (1.2mm, 1.5mm, কালার এবং মডেল অনুযায়ী)
-const priceList = {
+// ১. প্রতি স্কয়ার ফিটের অনুমানিক রেট (আপনার রেট অনুযায়ী এখানে পরিবর্তন করতে পারবেন)
+const sqftRateList = {
     "1.2mm": {
-        "silver": 3704,
-        "bronze": 4000,
-        "woodtech": 4500
+        "silver": 450,
+        "bronze": 480,
+        "woodtech": 550
     },
     "1.5mm": {
-        "silver": 4492,
-        "bronze": 4800,
-        "woodtech": 5300
+        "silver": 520,
+        "bronze": 560,
+        "woodtech": 650
     }
 };
 
 let windowCount = 0;
 
-// ২. নতুন উইন্ডো যোগ করার ফাংশন (আনলিমিটেড)
 function addWindow() {
     windowCount++;
     const container = document.getElementById('windowsList');
@@ -62,41 +76,50 @@ function addWindow() {
     windowDiv.id = `window_${windowCount}`;
     
     windowDiv.innerHTML = `
-        <h4>উইন্ডো #${windowCount}</h4>
-        <label>থিকনেস:</label>
-        <select class="thickness">
-            <option value="1.2mm">1.2 mm</option>
-            <option value="1.5mm">1.5 mm</option>
-        </select>
+        <div class="window-header">উইন্ডো #${windowCount}</div>
+        <div class="grid-container">
+            <div class="input-group">
+                <label>থিকনেস:</label>
+                <select class="thickness">
+                    <option value="1.2mm">1.2 mm</option>
+                    <option value="1.5mm">1.5 mm</option>
+                </select>
+            </div>
 
-        <label>কালার:</label>
-        <select class="color">
-            <option value="silver">Silver</option>
-            <option value="bronze">Bronze/Black</option>
-            <option value="woodtech">Woodtech</option>
-        </select>
+            <div class="input-group">
+                <label>কালার:</label>
+                <select class="color">
+                    <option value="silver">Silver</option>
+                    <option value="bronze">Bronze/Black</option>
+                    <option value="woodtech">Woodtech</option>
+                </select>
+            </div>
 
-        <label>উচ্চতা (Height - ft):</label>
-        <input type="number" class="height" placeholder="0" value="4">
+            <div class="input-group">
+                <label>উচ্চতা (ইঞ্চি):</label>
+                <input type="number" class="height" placeholder="যেমন: 54" value="54">
+            </div>
 
-        <label>দৈর্ঘ্য (Length - ft):</label>
-        <input type="number" class="length" placeholder="0" value="5">
+            <div class="input-group">
+                <label>দৈর্ঘ্য (ইঞ্চি):</label>
+                <input type="number" class="length" placeholder="যেমন: 60" value="60">
+            </div>
 
-        <label>পরিমাণ (Qty):</label>
-        <input type="number" class="qty" placeholder="1" value="1">
-
+            <div class="input-group">
+                <label>পরিমাণ (Qty):</label>
+                <input type="number" class="qty" placeholder="1" value="1">
+            </div>
+        </div>
         <button class="btn-remove" onclick="removeWindow('window_${windowCount}')">মুছে ফেলুন</button>
     `;
     
     container.appendChild(windowDiv);
 }
 
-// উইন্ডো মুছে ফেলার ফাংশন
 function removeWindow(id) {
     document.getElementById(id).remove();
 }
 
-// ৩. মোট হিসাব করার লজিক (ডিসকাউন্ট সহ)
 function calculateTotal() {
     let rawTotal = 0;
     const discount = parseFloat(document.getElementById('discountPercent').value) || 0;
@@ -105,27 +128,29 @@ function calculateTotal() {
     windows.forEach(win => {
         const thickness = win.querySelector('.thickness').value;
         const color = win.querySelector('.color').value;
-        const height = parseFloat(win.querySelector('.height').value) || 0;
-        const length = parseFloat(win.querySelector('.length').value) || 0;
+        const heightInch = parseFloat(win.querySelector('.height').value) || 0;
+        const lengthInch = parseFloat(win.querySelector('.length').value) || 0;
         const qty = parseInt(win.querySelector('.qty').value) || 1;
 
-        // স্কয়ার ফিট হিসাব (উচ্চতা × দৈর্ঘ্য)
-        const sqft = height * length;
+        // ১. ইঞ্চি থেকে স্কয়ার ফিট বের করা (উচ্চতা × দৈর্ঘ্য ÷ ১৪৪)
+        const totalSqft = (heightInch * lengthInch) / 144;
         
-        // প্রতি স্কয়ার ফিট বা পিসের বেস রেট
-        const baseRate = priceList[thickness][color];
+        // ২. প্রতি স্কয়ার ফিটের দাম ধরা
+        const ratePerSqft = sqftRateList[thickness][color];
 
-        // একটি উইন্ডোর সাবটোটাল
-        const windowCost = sqft * baseRate * qty;
+        // ৩. প্রতিটি উইন্ডোর মোট দাম
+        const windowCost = totalSqft * ratePerSqft * qty;
         rawTotal += windowCost;
     });
 
-    // ডিসকাউন্ট বাদ দেওয়া
+    // ৪. ডিসকাউন্ট বাদ দেওয়া
     const finalTotal = rawTotal - (rawTotal * (discount / 100));
-    document.getElementById('grandTotal').innerText = finalTotal.toLocaleString('bn-BD');
+    
+    // বাংলাদেশি টাকায় ফরম্যাট করা
+    document.getElementById('grandTotal').innerText = Math.round(finalTotal).toLocaleString('bn-BD');
 }
 
-// প্রথম উইন্ডো নিজে থেকেই লোড হওয়ার জন্য
+// ডিফল্ট প্রথম উইন্ডো
 addWindow();
 </script>
 

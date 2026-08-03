@@ -102,7 +102,7 @@
     .mat-table tr.highlight-grand td { font-weight: 800; color: #0369a1; font-size: 15px; }
 
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    table.input-table th, table.input-table td, table.report-table th, table.report-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
+    table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
     table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 12px; }
     table.report-table.green-header th { background-color: #15803d; }
     table.input-table input { padding: 6px; text-align: center; }
@@ -200,6 +200,16 @@
       font-weight: bold;
     }
     .opt-detail { font-size: 11px; text-align: left; margin-top: 4px; }
+    
+    /* 🔴 টকটকে লাল ওয়েস্টেজ মার্কিং স্টাইল */
+    .wastage-red {
+      color: #dc2626;
+      font-weight: 800;
+      background-color: #fee2e2;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #fca5a5;
+    }
   </style>
 </head>
 <body>
@@ -491,12 +501,13 @@
     return matched;
   }
 
-  // --- 🌟 ফাস্ট-ফিট ডিক্রিজিং অপটিমাইজেশন লজিক 🌟 ---
+  // --- 🌟 প্র্যাকটিক্যাল ফাস্ট-ফিট কাটিং ও টকটকে লাল ওয়েস্টেজ মার্কিং লজিক 🌟 ---
   function getCuttingPlan(piecesList, barSize, bladeLossFt = 0.0104) {
     if (!piecesList || piecesList.length === 0) {
       return { totalBars: 0, detailsHTML: "0 টি বার" };
     }
 
+    // বড় টুকরো থেকে ছোট টুকরো ক্রমানুসারে সাজানো
     let remaining = [...piecesList].sort((a, b) => b - a);
     let plan = [];
 
@@ -515,9 +526,11 @@
       if (usedIndices.length === 0) break;
 
       let cutPieces = usedIndices.map(idx => remaining[idx]);
+      let wastageVal = parseFloat(currentCapacity.toFixed(2));
+
       plan.push({
         piecesCut: cutPieces,
-        wastage: currentCapacity.toFixed(2)
+        wastage: wastageVal
       });
 
       remaining = remaining.filter((_, idx) => !usedIndices.includes(idx));
@@ -526,7 +539,16 @@
     let detailsHTML = `<strong>মোট: ${plan.length} টি বার</strong>`;
     let detailsStr = plan.map((b, idx) => {
       let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
-      return `বার #${idx + 1}: [${pcsStr}] (অপচয়: ${b.wastage}ft)`;
+      
+      // 🔴 যদি ওয়েস্টেজ ০.১ ফিটের বেশি হয়, তবে টকটকে লাল মার্ক দেখাবে
+      let wastageTag = "";
+      if (b.wastage > 0.1) {
+        wastageTag = `<span class="wastage-red">অপচয়: ${b.wastage}ft</span>`;
+      } else {
+        wastageTag = `(অপচয়: ${b.wastage}ft)`;
+      }
+
+      return `বার #${idx + 1}: [${pcsStr}] ${wastageTag}`;
     }).join("<br>");
 
     detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;

@@ -23,7 +23,7 @@
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .back-btn { background: #1e293b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
 
-    /* সবুজ ও নীল কালারের গর্জিয়াস গ্র্যাডিয়েন্ট হেডার ব্যাকগ্রাউন্ড */
+    /* সবুজ ও নীল কালারের আধুনিক গ্র্যাডিয়ান্ট হেডার */
     .invoice-header { 
       text-align: center; 
       background: linear-gradient(135deg, #059669 0%, #1d4ed8 100%);
@@ -62,7 +62,7 @@
     .shop-details .fixed-label {
       display: inline;
       font-weight: 900;
-      color: #fef08a; /* হালকা হলুদ কালার হাইলাইটের জন্য */
+      color: #fef08a;
     }
     .shop-details input { 
       border: none; 
@@ -113,18 +113,14 @@
     .in-words { margin-bottom: 10px; font-size: 12px; font-weight: 900; border-bottom: 2px dashed #64748b; padding-bottom: 6px; color: #000; }
     .in-words input { border: none; border-bottom: 2px dotted #000; width: 72%; font-weight: 900; background: transparent; padding: 3px; outline: none; font-size: 12px; color: #000; }
 
-    .terms { background: #fffbeb; border: 2px solid #f59e0b; padding: 6px 10px; border-radius: 6px; font-size: 11px; color: #78350f; font-weight: 900; margin-bottom: 10px; }
-    .terms ol { margin: 0; padding-left: 15px; }
-    .terms li { margin-bottom: 2px; }
-
-    .signature-box { display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 5px; font-size: 12px; font-weight: 900; color: #000; }
+    .signature-box { display: flex; justify-content: space-between; margin-top: 35px; margin-bottom: 5px; font-size: 12px; font-weight: 900; color: #000; }
     .sig-line { border-top: 2px solid #000; width: 140px; text-align: center; padding-top: 4px; }
 
     .btn-container { text-align: center; margin: 15px 0; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
     .btn { padding: 10px 20px; font-size: 14px; font-weight: 900; border: none; border-radius: 8px; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
     .btn-add { background-color: #059669; margin-bottom: 10px; padding: 6px 12px; font-size: 12px; }
     .btn-print { background-color: #2563eb; }
-    .btn-whatsapp { background-color: #16a34a; } /* WhatsApp গ্রিন কালার */
+    .btn-whatsapp { background-color: #16a34a; }
     .btn-del { background-color: #dc2626; padding: 2px 6px; font-size: 10px; border-radius: 4px; font-weight: 900; }
 
     /* প্রিন্ট এবং পিডিএফ অপটিমাইজেশন */
@@ -160,8 +156,7 @@
       .in-words { font-size: 13px !important; }
       .in-words input { font-size: 13px !important; }
       
-      .terms { background: #fffbeb !important; font-size: 11px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .signature-box { font-size: 13px !important; margin-top: 25px !important; }
+      .signature-box { font-size: 13px !important; margin-top: 40px !important; }
       
       th { background-color: #1d4ed8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color: white !important; }
     }
@@ -246,15 +241,6 @@
 
   <div class="in-words">
     <strong>In Words:</strong> <input type="text" id="inWords" placeholder="টাকার পরিমাণ কথায় লিখুন">
-  </div>
-
-  <div class="terms">
-    <strong>Terms & Conditions:</strong>
-    <ol>
-      <li>50% advance payment is required for order confirmation.</li>
-      <li>30% payment to be cleared during the progress of work.</li>
-      <li>The remaining 20% balance must be paid upon completion of work.</li>
-    </ol>
   </div>
 
   <div class="signature-box">

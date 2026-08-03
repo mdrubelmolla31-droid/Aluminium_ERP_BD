@@ -323,11 +323,11 @@
     </table>
   </div>
 
-  <!-- কাটিং লিস্ট (১৮.৫ ফিট উপরে এবং ২১ ফিট নিচে) -->
+  <!-- কাটিং লিস্ট -->
   <div class="card">
     <div class="card-title">CUTTING LIST</div>
     
-    <!-- ১. ১৮.৫/১৮ ফিটের কাটিং টেবিল (উপরে) -->
+    <!-- ১. ১৮.৫/১৮ ফিটের কাটিং টেবিল -->
     <div class="table-title-18">📌 18.5 / 18 FEET BAR CUTTING LIST</div>
     <table class="report-table">
       <thead>
@@ -336,7 +336,7 @@
       <tbody id="tableBody18"></tbody>
     </table>
 
-    <!-- ২. ২১ ফিটের কাটিং টেবিল (নিচে) -->
+    <!-- ২. ২১ ফিটের কাটিং টেবিল -->
     <div class="table-title-21">📌 21 FEET BAR CUTTING LIST</div>
     <table class="report-table">
       <thead>
@@ -374,7 +374,7 @@
     let tbody = document.getElementById('winTableBody');
     tbody.innerHTML = '';
     
-    // পেজ লোড হলে শুধুমাত্র ১টি সম্পূর্ণ খালি উইন্ডো রো থাকবে
+    // পেজ লোড হলে শুধুমাত্র ১টি খালি উইন্ডো রো থাকবে
     addPresetRow('', '', '');
     
     toggleNetSection();
@@ -511,12 +511,13 @@
     return matched;
   }
 
-  // কাটিং অপটিমাইজেশন ইঞ্জিন
+  // রিয়েল অপটিমাইজেশন অ্যালগরিদম
   function solveBarCutting(piecesList, barCap) {
     if (!piecesList || piecesList.length === 0) return null;
 
     let plan = [];
     let unassigned = [...piecesList].sort((a,b) => b - a);
+    let totalWastage = 0;
 
     while (unassigned.length > 0) {
       let currentCap = barCap;
@@ -533,6 +534,7 @@
 
       let cutPcs = usedIndexes.map(i => unassigned[i]);
       let wastage = parseFloat(Math.max(0, currentCap).toFixed(2));
+      totalWastage += wastage;
       plan.push({ piecesCut: cutPcs, wastage: wastage });
 
       unassigned = unassigned.filter((_, idx) => !usedIndexes.includes(idx));
@@ -548,7 +550,7 @@
     detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;
     let totalLen = piecesList.reduce((a,b)=>a+b, 0);
 
-    return { detailsHTML: detailsHTML, totalLen: totalLen };
+    return { detailsHTML: detailsHTML, totalLen: totalLen, totalWastage: totalWastage, barCount: plan.length };
   }
 
   function calculateAll() {
@@ -644,7 +646,7 @@
 
     document.getElementById('mTotalAlu').innerText = toBnNum(totalAlu.toFixed(2));
 
-    // --- ১৮.৫ এবং ২১ ফিট টেবিল আলাদা রেন্ডারিং ---
+    // --- অপটিমাইজড ১৮.৫ এবং ২১ ফিট টেবিল ডিসিশন মেকিং ---
     let table18Body = document.getElementById('tableBody18');
     let table21Body = document.getElementById('tableBody21');
     table18Body.innerHTML = '';
@@ -657,29 +659,13 @@
       let pcs = itemsMap[itemName];
       if (pcs.length === 0) return;
 
-      let pcs18 = [];
-      let pcs21 = [];
+      // ১৮.৫ এবং ২১ ফিট দুটি সাইজেই সলভ করে রেজাল্ট টেস্ট করবে
+      let res18 = solveBarCutting(pcs, 18.5);
+      let res21 = solveBarCutting(pcs, 21.0);
 
-      // আউটার টপ/বটম ও শাটার টপ/বটম সবসময় ২১ এর মালে যাবে
-      if (["আউটার টপ", "আউটার বটম", "শাটার টপ", "শাটার বটম"].includes(itemName)) {
-        pcs21 = [...pcs];
-      } else {
-        pcs.forEach(p => {
-          let pVal = parseFloat(p.toFixed(2));
-          // ৪.৫ ফিট (৫৪") এবং ৬.০ ফিট (৭২") যাবে ১৮.৫ বারে
-          if (Math.abs(pVal - 4.5) < 0.1 || Math.abs(pVal - 6.0) < 0.1) {
-            pcs18.push(p);
-          } else {
-            // বাকি সব যাবে ২১ ফিট বারে
-            pcs21.push(p);
-          }
-        });
-      }
-
-      // ১৮.৫/১৮ ফিট বারের টেবিল প্রসেসিং (উপরে)
-      if (pcs18.length > 0) {
-        let res18 = solveBarCutting(pcs18, 18.5);
-        if (res18) {
+      // যদি ১৮.৫ এ ওয়েস্টেজ ২১ ফিটের চেয়ে কম/সমান হয়, তবে ১৮.৫ বারে পাঠাবে
+      if (res18 && res21) {
+        if (res18.totalWastage <= res21.totalWastage) {
           has18Data = true;
           let tr = document.createElement('tr');
           tr.innerHTML = `
@@ -689,13 +675,7 @@
             <td>${res18.detailsHTML}</td>
           `;
           table18Body.appendChild(tr);
-        }
-      }
-
-      // ২১ ফিট বারের টেবিল প্রসেসিং (নিচে)
-      if (pcs21.length > 0) {
-        let res21 = solveBarCutting(pcs21, 21.0);
-        if (res21) {
+        } else {
           has21Data = true;
           let tr = document.createElement('tr');
           tr.innerHTML = `
@@ -710,10 +690,10 @@
     });
 
     if (!has18Data) {
-      table18Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">১৮ / ১৮.৫ ফিট বারের কোনো পিস নেই</td></tr>';
+      table18Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">১৮.৫ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>';
     }
     if (!has21Data) {
-      table21Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">২১ ফিট বারের কোনো পিস নেই</td></tr>';
+      table21Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">২১ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>';
     }
 
     // কস্টিং হিসাব

@@ -301,38 +301,25 @@
 
   <!-- অপটিমাইজড কাটিং মাপ টেবিল -->
   <div class="card">
-    <div class="card-title">✂️ Optimized Cutting List (কম অপচয় অপটিমাইজেশন)</div>
+    <div class="card-title">✂️ Optimized Cutting List (স্মার্ট অপটিমাইজেশন)</div>
     
-    <div class="section-title">18.5 ft Bar Section (For Height ≤ 6 ft)</div>
     <table class="report-table">
       <thead>
         <tr><th>Item</th><th>Total Length</th><th>Bar / Breakdown Needed</th></tr>
       </thead>
-      <tbody id="cutting18Body">
-        <tr><td>Outer Side (≤ 6ft)</td><td id="c18_outerSideLen">0.00 ft</td><td id="c18_outerSideBar">0</td></tr>
-        <tr><td>Shutter Lock (≤ 6ft)</td><td id="c18_lockLen">0.00 ft</td><td id="c18_lockBar">0</td></tr>
-        <tr><td>Shutter Interlock (≤ 6ft)</td><td id="c18_intLen">0.00 ft</td><td id="c18_intBar">0</td></tr>
-      </tbody>
-    </table>
-
-    <div class="section-title" style="margin-top: 16px;">21 ft Bar Section</div>
-    <table class="report-table">
-      <thead>
-        <tr><th>Item</th><th>Total Length</th><th>Bar / Breakdown Needed</th></tr>
-      </thead>
-      <tbody id="cutting21Body">
-        <tr><td>Outer Side (> 6ft)</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
-        <tr><td>Outer Top</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
-        <tr><td>Outer Bottom (Equal to Top)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
-        <tr><td>Shutter Top</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
-        <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
-        <tr><td>Shutter Lock (> 6ft)</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
-        <tr><td>Shutter Interlock (> 6ft)</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
+      <tbody>
+        <tr><td>Outer Side</td><td id="c_outerSideLen">0.00 ft</td><td id="c_outerSideBar">0</td></tr>
+        <tr><td>Outer Top</td><td id="c_topLen">0.00 ft</td><td id="c_topBar">0</td></tr>
+        <tr><td>Outer Bottom (Equal to Top)</td><td id="c_botLen">0.00 ft</td><td id="c_botBar">0</td></tr>
+        <tr><td>Shutter Top</td><td id="c_sTopLen">0.00 ft</td><td id="c_sTopBar">0</td></tr>
+        <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td id="c_sBotLen">0.00 ft</td><td id="c_sBotBar">0</td></tr>
+        <tr><td>Shutter Lock</td><td id="c_lockLen">0.00 ft</td><td id="c_lockBar">0</td></tr>
+        <tr><td>Shutter Interlock</td><td id="c_intLen">0.00 ft</td><td id="c_intBar">0</td></tr>
       </tbody>
     </table>
 
     <div id="netCuttingSection" style="display: none;">
-      <div class="section-title" style="margin-top: 16px;">Net Section (21 ft Bar)</div>
+      <div class="section-title" style="margin-top: 16px;">Net Section</div>
       <table class="report-table">
         <thead>
           <tr><th>Item</th><th>Total Length</th><th>Bar / Breakdown Needed</th></tr>
@@ -417,11 +404,12 @@
   function addRow() {
     let tbody = document.getElementById('winTableBody');
     let tr = document.createElement('tr');
+    tr.className = 'window-row';
     tr.innerHTML = `
       <td class="row-index"></td>
-      <td><input type="number" class="w-h" placeholder="Height" oninput="calculateAll()"></td>
-      <td><input type="number" class="w-w" placeholder="Width" oninput="calculateAll()"></td>
-      <td><input type="number" class="w-q" placeholder="Qty" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-h height-input" placeholder="Height" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-w width-input" placeholder="Width" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-q qty-input" placeholder="Qty" oninput="calculateAll()"></td>
       <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
@@ -491,45 +479,87 @@
     return matched;
   }
 
-  // --- 🌟 ALL-IN-ONE OPTIMIZATION ENGINE (FFD Algorithm) 🌟 ---
-  function getOptimizedBins(pieces, maxBarLen = 21) {
-    if (!pieces || pieces.length === 0) {
-      return { totalBars: 0, detailsHTML: "0 টি বার" };
+  // --- 🌟 ১. গ্লোবাল বিআইএন প্যাকিং অপটিমাইজেশন অ্যালগরিদম 🌟 ---
+  function globalCuttingOptimization(piecesList, bladeLossFt = 0.0104) { // Default bladeLossFt ~ 1/8 inch
+    if (!piecesList || piecesList.length === 0) {
+      return {
+        bar18_5: 0,
+        bar21: 0,
+        totalWastageFt: 0,
+        cuttingPlan: [],
+        detailsHTML: "0 টি বার"
+      };
     }
 
-    // টুকরোগুলো বড় থেকে ছোট সাজানো
-    let sortedPieces = [...pieces].sort((a, b) => b - a);
-    let bins = [];
+    let remainingPieces = [...piecesList].sort((a, b) => b - a);
 
-    sortedPieces.forEach(p => {
-      let placed = false;
-      for (let bin of bins) {
-        if (bin.currentLength + p <= maxBarLen + 0.001) {
-          bin.pieces.push(p);
-          bin.currentLength += p;
-          placed = true;
-          break;
+    let result = {
+      bar18_5: 0,
+      bar21: 0,
+      totalWastageFt: 0,
+      cuttingPlan: []
+    };
+
+    while (remainingPieces.length > 0) {
+      let bestBarSize = 21;
+      let minWaste = 999;
+      let bestUsedIndices = [];
+
+      const candidateBars = [18.5, 21];
+
+      for (let barSize of candidateBars) {
+        let currentWastage = barSize;
+        let usedIndices = [];
+
+        for (let i = 0; i < remainingPieces.length; i++) {
+          let pieceWithSize = remainingPieces[i] + bladeLossFt;
+          if (currentWastage >= pieceWithSize) {
+            currentWastage -= pieceWithSize;
+            usedIndices.push(i);
+          }
+        }
+
+        if (usedIndices.length > 0 && currentWastage < minWaste) {
+          minWaste = currentWastage;
+          bestBarSize = barSize;
+          bestUsedIndices = usedIndices;
         }
       }
-      if (!placed) {
-        bins.push({
-          currentLength: p,
-          pieces: [p]
-        });
+
+      if (bestBarSize === 18.5) {
+        result.bar18_5++;
+      } else {
+        result.bar21++;
       }
-    });
 
-    let totalBars = bins.length;
-    let breakdownText = `<strong>${totalBars} টি বার (${maxBarLen} ft)</strong>`;
+      result.totalWastageFt += minWaste;
+
+      let cutPieces = bestUsedIndices.map(idx => remainingPieces[idx]);
+      result.cuttingPlan.push({
+        barType: `${bestBarSize} ft`,
+        piecesCut: cutPieces,
+        wastage: minWaste.toFixed(2)
+      });
+
+      remainingPieces = remainingPieces.filter((_, idx) => !bestUsedIndices.includes(idx));
+    }
+
+    // UI Formatting Summary
+    let totalBars = result.cuttingPlan.length;
+    let summaryArr = [];
+    if (result.bar21 > 0) summaryArr.push(`${result.bar21} টি (21 ft)`);
+    if (result.bar18_5 > 0) summaryArr.push(`${result.bar18_5} টি (18.5 ft)`);
     
-    let detailsArr = bins.map((b, idx) => {
-      let pcsStr = b.pieces.map(x => x.toFixed(2) + "ft").join(" + ");
-      let waste = (maxBarLen - b.currentLength).toFixed(2);
-      return `বার #${idx + 1}: [${pcsStr}] (অবশিষ্ট/ওয়েস্ট: ${waste}ft)`;
+    let breakdownText = `<strong>মোট বার: ${totalBars} টি [ ${summaryArr.join(", ")} ]</strong>`;
+    
+    let detailsArr = result.cuttingPlan.map((b, idx) => {
+      let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
+      return `বার #${idx + 1} (${b.barType}): [${pcsStr}] (অপচয়: ${b.wastage}ft)`;
     });
 
-    let detailsHTML = breakdownText + `<div class="opt-detail">${detailsArr.join("<br>")}</div>`;
-    return { totalBars, detailsHTML };
+    result.detailsHTML = breakdownText + `<div class="opt-detail">${detailsArr.join("<br>")}</div>`;
+
+    return result;
   }
 
   function calculateAll() {
@@ -543,12 +573,11 @@
     let shutterLock = 0, shutterInterlock = 0, shutterTop = 0, shutterBottom = 0;
     let totalSqft = 0;
 
-    let oSidePieces18 = [], oSidePieces21 = [];
-    let oTopPieces21 = [], oBotPieces21 = [];
-    let sTopPieces21 = [], sBotPieces21 = [];
-    let sLockPieces18 = [], sLockPieces21 = [];
-    let sIntPieces18 = [], sIntPieces21 = [];
-    let netPieces21 = [];
+    let oSidePieces = [];
+    let oTopPieces = [], oBotPieces = [];
+    let sTopPieces = [], sBotPieces = [];
+    let sLockPieces = [], sIntPieces = [];
+    let netPieces = [];
 
     let seriesVal = document.getElementById('aluSeries').value;
     let netSelVal = document.getElementById('netSection').value;
@@ -576,34 +605,28 @@
 
         // পিস অ্যারে তৈরি
         for(let j = 0; j < (q * 2); j++) { 
-          if (hFt > 6) {
-            oSidePieces21.push(hFt);
-            sLockPieces21.push(hFt);
-            sIntPieces21.push(hFt);
-          } else {
-            oSidePieces18.push(hFt);
-            sLockPieces18.push(hFt);
-            sIntPieces18.push(hFt);
-          }
+          oSidePieces.push(hFt);
+          sLockPieces.push(hFt);
+          sIntPieces.push(hFt);
         }
 
         for(let j = 0; j < q; j++) {
-          oTopPieces21.push(wFt);
-          oBotPieces21.push(wFt);
-          sTopPieces21.push(wFt);
-          sBotPieces21.push(wFt);
+          oTopPieces.push(wFt);
+          oBotPieces.push(wFt);
+          sTopPieces.push(wFt);
+          sBotPieces.push(wFt);
         }
 
         if (isNetActive) {
           let netLenPerWin = ((hFt * 2) + (wFt * 2)) / 2;
           for(let j = 0; j < q; j++) {
-            netPieces21.push(netLenPerWin);
+            netPieces.push(netLenPerWin);
           }
         }
       }
     }
 
-    let netFt = isNetActive ? (netPieces21.reduce((a,b)=>a+b, 0)) : 0;
+    let netFt = isNetActive ? (netPieces.reduce((a,b)=>a+b, 0)) : 0;
     let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
 
     document.getElementById('mOuterSide').innerText = outerH.toFixed(2);
@@ -614,6 +637,8 @@
     document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
     document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
 
+    let bladeLossFt = 0.125 / 12; // ১/৮ ইঞ্চি ব্লেড লস
+
     let netMeshSqft = 0;
     if (isNetActive) {
       netMeshSqft = (totalSqft / 2);
@@ -623,7 +648,7 @@
       document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
       document.getElementById('netCuttingSection').style.display = 'block';
       
-      let optNet = getOptimizedBins(netPieces21, 21);
+      let optNet = globalCuttingOptimization(netPieces, bladeLossFt);
       document.getElementById('cNetLen').innerText = netFt.toFixed(2) + " ft";
       document.getElementById('cNetBar').innerHTML = optNet.detailsHTML;
     } else {
@@ -634,47 +659,34 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // --- ১৮.৫ ফিট কলাম অপটিমাইজেশন ---
-    let optO18 = getOptimizedBins(oSidePieces18, 18.5);
-    document.getElementById('c18_outerSideLen').innerText = oSidePieces18.reduce((a,b)=>a+b,0).toFixed(2) + " ft";
-    document.getElementById('c18_outerSideBar').innerHTML = optO18.detailsHTML;
+    // --- নতুন গ্লোবাল অপটিমাইজেশন অ্যালগরিদম প্রয়োগ ---
+    let optOSide = globalCuttingOptimization(oSidePieces, bladeLossFt);
+    document.getElementById('c_outerSideLen').innerText = outerH.toFixed(2) + " ft";
+    document.getElementById('c_outerSideBar').innerHTML = optOSide.detailsHTML;
 
-    let optSLock18 = getOptimizedBins(sLockPieces18, 18.5);
-    document.getElementById('c18_lockLen').innerText = sLockPieces18.reduce((a,b)=>a+b,0).toFixed(2) + " ft";
-    document.getElementById('c18_lockBar').innerHTML = optSLock18.detailsHTML;
+    let optOTop = globalCuttingOptimization(oTopPieces, bladeLossFt);
+    document.getElementById('c_topLen').innerText = outerTop.toFixed(2) + " ft";
+    document.getElementById('c_topBar').innerHTML = optOTop.detailsHTML;
 
-    let optSInt18 = getOptimizedBins(sIntPieces18, 18.5);
-    document.getElementById('c18_intLen').innerText = sIntPieces18.reduce((a,b)=>a+b,0).toFixed(2) + " ft";
-    document.getElementById('c18_intBar').innerHTML = optSInt18.detailsHTML;
+    let optOBot = globalCuttingOptimization(oBotPieces, bladeLossFt);
+    document.getElementById('c_botLen').innerText = outerBottom.toFixed(2) + " ft";
+    document.getElementById('c_botBar').innerHTML = optOBot.detailsHTML;
 
-    // --- ২১ ফিট কলাম অপটিমাইজেশন ---
-    let optO21 = getOptimizedBins(oSidePieces21, 21);
-    document.getElementById('c21_outerSideLen').innerText = oSidePieces21.reduce((a,b)=>a+b,0).toFixed(2) + " ft";
-    document.getElementById('c21_outerSideBar').innerHTML = optO21.detailsHTML;
+    let optSTop = globalCuttingOptimization(sTopPieces, bladeLossFt);
+    document.getElementById('c_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
+    document.getElementById('c_sTopBar').innerHTML = optSTop.detailsHTML;
 
-    let optOTop = getOptimizedBins(oTopPieces21, 21);
-    document.getElementById('c21_topLen').innerText = outerTop.toFixed(2) + " ft";
-    document.getElementById('c21_topBar').innerHTML = optOTop.detailsHTML;
+    let optSBot = globalCuttingOptimization(sBotPieces, bladeLossFt);
+    document.getElementById('c_sBotLen').innerText = shutterBottom.toFixed(2) + " ft";
+    document.getElementById('c_sBotBar').innerHTML = optSBot.detailsHTML;
 
-    let optOBot = getOptimizedBins(oBotPieces21, 21);
-    document.getElementById('c21_botLen').innerText = outerBottom.toFixed(2) + " ft";
-    document.getElementById('c21_botBar').innerHTML = optOBot.detailsHTML;
+    let optSLock = globalCuttingOptimization(sLockPieces, bladeLossFt);
+    document.getElementById('c_lockLen').innerText = shutterLock.toFixed(2) + " ft";
+    document.getElementById('c_lockBar').innerHTML = optSLock.detailsHTML;
 
-    let optSTop = getOptimizedBins(sTopPieces21, 21);
-    document.getElementById('c21_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
-    document.getElementById('c21_sTopBar').innerHTML = optSTop.detailsHTML;
-
-    let optSBot = getOptimizedBins(sBotPieces21, 21);
-    document.getElementById('c21_sBotLen').innerText = shutterBottom.toFixed(2) + " ft";
-    document.getElementById('c21_sBotBar').innerHTML = optSBot.detailsHTML;
-
-    let optSLock21 = getOptimizedBins(sLockPieces21, 21);
-    document.getElementById('c21_lockLen').innerText = sLockPieces21.reduce((a,b)=>a+b,0).toFixed(2) + " ft";
-    document.getElementById('c21_lockBar').innerHTML = optSLock21.detailsHTML;
-
-    let optSInt21 = getOptimizedBins(sIntPieces21, 21);
-    document.getElementById('c21_intLen').innerText = sIntPieces21.reduce((a,b)=>a+b,0).toFixed(2) + " ft";
-    document.getElementById('c21_intBar').innerHTML = optSInt21.detailsHTML;
+    let optSInt = globalCuttingOptimization(sIntPieces, bladeLossFt);
+    document.getElementById('c_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
+    document.getElementById('c_intBar').innerHTML = optSInt.detailsHTML;
 
     // Costing calculation
     let glassSqft = totalSqft; 

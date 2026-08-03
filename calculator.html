@@ -201,7 +201,6 @@
     }
     .opt-detail { font-size: 11px; text-align: left; margin-top: 4px; }
     
-    /* 🔴 টকটকে লাল ওয়েস্টেজ মার্কিং স্টাইল */
     .wastage-red {
       color: #dc2626;
       font-weight: 800;
@@ -318,36 +317,34 @@
   <div class="card">
     <div class="card-title">✂️ Optimized Cutting List (স্মার্ট অপটিমাইজেশন)</div>
     
-    <!-- ১. ১৮.৫ ফিট বার টেবিল (উপরে) -->
-    <div class="section-title">🟢 ১৮.৫ ফিট বার অনুযায়ী কাটিং তালিকা</div>
+    <!-- ১. ১৮.৫ ফিট বার অপশন (সাইড পিস সিঙ্ক) -->
+    <div class="section-title">🟢 ১৮.৫ ফিট সাইড মেজারমেন্ট সেট (Outer Side + Lock + Interlock)</div>
     <table class="report-table green-header">
       <thead>
-        <tr><th>Item</th><th>Total Length</th><th>Bar / Cutting Breakdown</th></tr>
+        <tr><th>Item</th><th>Total Length</th><th>Bar / Cutting Breakdown (18.5ft Set)</th></tr>
       </thead>
       <tbody>
         <tr><td>Outer Side</td><td id="c18_outerSideLen">0.00 ft</td><td id="c18_outerSideBar">0</td></tr>
-        <tr><td>Outer Top</td><td id="c18_topLen">0.00 ft</td><td id="c18_topBar">0</td></tr>
-        <tr><td>Outer Bottom (Equal to Top)</td><td id="c18_botLen">0.00 ft</td><td id="c18_botBar">0</td></tr>
         <tr><td>Shutter Lock</td><td id="c18_lockLen">0.00 ft</td><td id="c18_lockBar">0</td></tr>
         <tr><td>Shutter Interlock</td><td id="c18_intLen">0.00 ft</td><td id="c18_intBar">0</td></tr>
       </tbody>
     </table>
 
-    <!-- ২. ২১ ফিট বার টেবিল (নিচে) -->
-    <div class="section-title blue-title" style="margin-top: 20px;">🔵 ২১ ফিট বার অনুযায়ী কাটিং তালিকা</div>
+    <!-- ২. ২১ ফিট বার অপশন (সকল সেকশন সিঙ্ক) -->
+    <div class="section-title blue-title" style="margin-top: 20px;">🔵 ২১ ফিট সাইড ও টপ/বটম সেট (All Sections Sync)</div>
     <table class="report-table">
       <thead>
-        <tr><th>Item</th><th>Total Length</th><th>Bar / Cutting Breakdown</th></tr>
+        <tr><th>Item</th><th>Total Length</th><th>Bar / Cutting Breakdown (21ft Set)</th></tr>
       </thead>
       <tbody>
         <tr><td>Outer Side</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
         <tr><td>Shutter Lock</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
         <tr><td>Shutter Interlock</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
-        <tr><td>Outer Top</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
-        <tr><td>Outer Bottom (Equal to Top)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
-        <tr><td>Shutter Top</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
-        <tr><td>Shutter Bottom (Equal to Top)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
-        <tr id="net21Row" style="display: none;"><td>Net Section</td><td id="c21_netLen">0.00 ft</td><td id="c21_netBar">0</td></tr>
+        <tr><td>Outer Top (Fixed 21ft)</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
+        <tr><td>Outer Bottom (Fixed 21ft)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
+        <tr><td>Shutter Top (Fixed 21ft)</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
+        <tr><td>Shutter Bottom (Fixed 21ft)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
+        <tr id="net21Row" style="display: none;"><td>Net Section (Fixed 21ft)</td><td id="c21_netLen">0.00 ft</td><td id="c21_netBar">0</td></tr>
       </tbody>
     </table>
 
@@ -501,7 +498,7 @@
     return matched;
   }
 
-  // --- 🌟 পারফেক্ট গ্রুপ ও কাটিং অ্যালগরিদম 🌟 ---
+  // --- 🌟 পারফেক্ট গ্রুপ ও মিক্স কাটিং অ্যালগরিদম 🌟 ---
   function getCuttingPlan(piecesList, barSize, bladeLossFt = 0.0104) {
     if (!piecesList || piecesList.length === 0) {
       return { totalBars: 0, detailsHTML: "0 টি বার" };
@@ -542,7 +539,7 @@
       }
     }
 
-    // ৩. অবশিষ্ট টুকরোগুলোর জন্য ফার্স্ট-ফিট অ্যালগরিদম
+    // ৩. অবশিষ্ট টুকরোগুলোর জন্য ফার্স্ট-ফিট অ্যালগরিদম (মিক্স কাটিং)
     unassigned.sort((a, b) => b - a);
 
     while (unassigned.length > 0) {
@@ -574,7 +571,7 @@
       unassigned = unassigned.filter((_, idx) => !usedIndices.includes(idx));
     }
 
-    // ফরম্যাটিং ও লাল ওয়েস্টেজ টেক্সট মার্কিং
+    // ফরম্যাটিং
     let detailsHTML = `<strong>মোট: ${plan.length} টি বার</strong>`;
     let detailsStr = plan.map((b, idx) => {
       let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
@@ -690,15 +687,9 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // --- ১৮.৫ ফিট টেবিল ক্যালকুলেশন ---
+    // --- ১. ১৮.৫ ফিট সেট (Outer Side, Lock, Interlock সিঙ্ক করা) ---
     document.getElementById('c18_outerSideLen').innerText = outerH.toFixed(2) + " ft";
     document.getElementById('c18_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 18.5, bladeLossFt).detailsHTML;
-
-    document.getElementById('c18_topLen').innerText = outerTop.toFixed(2) + " ft";
-    document.getElementById('c18_topBar').innerHTML = getCuttingPlan(oTopPieces, 18.5, bladeLossFt).detailsHTML;
-
-    document.getElementById('c18_botLen').innerText = outerBottom.toFixed(2) + " ft";
-    document.getElementById('c18_botBar').innerHTML = getCuttingPlan(oBotPieces, 18.5, bladeLossFt).detailsHTML;
 
     document.getElementById('c18_lockLen').innerText = shutterLock.toFixed(2) + " ft";
     document.getElementById('c18_lockBar').innerHTML = getCuttingPlan(sLockPieces, 18.5, bladeLossFt).detailsHTML;
@@ -706,7 +697,7 @@
     document.getElementById('c18_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
     document.getElementById('c18_intBar').innerHTML = getCuttingPlan(sIntPieces, 18.5, bladeLossFt).detailsHTML;
 
-    // --- ২১ ফিট টেবিল ক্যালকুলেশন ---
+    // --- ২. ২১ ফিট সেট (সবগুলো ২১ ফিটে সিঙ্ক করা) ---
     document.getElementById('c21_outerSideLen').innerText = outerH.toFixed(2) + " ft";
     document.getElementById('c21_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 21, bladeLossFt).detailsHTML;
 

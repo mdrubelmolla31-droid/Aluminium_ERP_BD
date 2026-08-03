@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RM. Thai Aluminium - Calculator & Cutting List</title>
+  <title>আরএম. থাই অ্যালুমিনিয়াম - ক্যালকুলেটর ও কাটিং লিস্ট</title>
 
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -199,7 +199,7 @@
       cursor: pointer;
       font-weight: bold;
     }
-    .opt-detail { font-size: 11px; text-align: left; margin-top: 4px; }
+    .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.6; }
     
     .wastage-red {
       color: #dc2626;
@@ -217,134 +217,134 @@
 
   <div class="header-card">
     <button class="menu-btn" onclick="openHistory()">☰</button>
-    <h2>RM. Thai Aluminium</h2>
-    <p>Costing & Quotation Calculator</p>
+    <h2>আরএম. থাই অ্যালুমিনিয়াম</h2>
+    <p>কস্টিং ও কোটেশন ক্যালকুলেটর</p>
     
     <div class="shop-input-box">
-      <input type="text" id="shopOwnerName" value="RM. Thai Aluminium" placeholder="দোকানের নাম লিখুন" oninput="saveHeaderInfo()">
+      <input type="text" id="shopOwnerName" value="আরএম. থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম লিখুন" oninput="saveHeaderInfo()">
       <input type="text" id="shopPhone" value="01676474412" placeholder="মোবাইল নম্বর লিখুন" oninput="saveHeaderInfo()">
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">Customer Details</div>
+    <div class="card-title">গ্রাহকের বিবরণ</div>
     <div class="row">
-      <div class="col"><label>Customer Name</label><input type="text" id="custName" placeholder="গ্রাহকের নাম"></div>
-      <div class="col"><label>Project Name</label><input type="text" id="projectName" placeholder="প্রজেক্ট বা সাইটের নাম"></div>
+      <div class="col"><label>গ্রাহকের নাম</label><input type="text" id="custName" placeholder="গ্রাহকের নাম"></div>
+      <div class="col"><label>প্রজেক্টের নাম</label><input type="text" id="projectName" placeholder="প্রজেক্ট বা সাইটের নাম"></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">Item Specifications</div>
-    <div class="notice-box">💡 রেট সেটিংস পেজ থেকে সেভ করা রেট এখানে স্বয়ংক্রয়ভাবে কাজ করবে।</div>
+    <div class="card-title">মালামালের বিবরণ</div>
+    <div class="notice-box">💡 রেট সেটিংস পেজ থেকে সেভ করা রেট এখানে স্বয়ংক্রিয়ভাবে কাজ করবে।</div>
     
     <div class="row">
-      <div class="col"><label>Company</label><select id="aluCompany" onchange="calculateAll()"></select></div>
-      <div class="col"><label>Series</label><select id="aluSeries" onchange="toggleNetSection(); calculateAll();"></select></div>
+      <div class="col"><label>কোম্পানি</label><select id="aluCompany" onchange="calculateAll()"></select></div>
+      <div class="col"><label>সিরিজ</label><select id="aluSeries" onchange="toggleNetSection(); calculateAll();"></select></div>
     </div>
 
     <div class="row">
-      <div class="col"><label>Alu Thickness</label><select id="aluThickness" onchange="calculateAll()"></select></div>
-      <div class="col"><label>Alu Colour</label><select id="aluColour" onchange="calculateAll()"></select></div>
+      <div class="col"><label>অ্যালুমিনিয়াম থিকনেস</label><select id="aluThickness" onchange="calculateAll()"></select></div>
+      <div class="col"><label>অ্যালুমিনিয়াম কালার</label><select id="aluColour" onchange="calculateAll()"></select></div>
     </div>
 
     <div class="row">
-      <div class="col"><label>Glass Company</label><select id="glassCompany" onchange="calculateAll()"></select></div>
-      <div class="col"><label>Glass Thickness</label><select id="glassThickness" onchange="calculateAll()"></select></div>
+      <div class="col"><label>গ্লাস কোম্পানি</label><select id="glassCompany" onchange="calculateAll()"></select></div>
+      <div class="col"><label>গ্লাস থিকনেস</label><select id="glassThickness" onchange="calculateAll()"></select></div>
     </div>
 
     <div class="row">
-      <div class="col"><label>Glass Colour</label><select id="glassColour" onchange="calculateAll()"></select></div>
+      <div class="col"><label>গ্লাস কালার</label><select id="glassColour" onchange="calculateAll()"></select></div>
       <div class="col">
-        <label>Net Section</label>
+        <label>নেট সেকশন</label>
         <select id="netSection" onchange="calculateAll()">
-          <option value="ss_net">SS Net Section</option>
-          <option value="nylon_net">Nylon Net Section</option>
-          <option value="none">None / No Net</option>
+          <option value="ss_net">এসএস নেট সেকশন</option>
+          <option value="nylon_net">নাইলন নেট সেকশন</option>
+          <option value="none">নেট নেই</option>
         </select>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">Window Dimensions (Inches)</div>
+    <div class="card-title">জানালা / উইন্ডোর মাপ (ইঞ্চি)</div>
     <div class="notice-box">ℹ️ উইন্ডো যুক্ত করার সময় মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
     <table class="input-table">
       <thead>
-        <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
+        <tr><th>ক্রম</th><th>উচ্চতা (ইঞ্চি)</th><th>পাশ (ইঞ্চি)</th><th>পরিমাণ</th><th>অ্যাকশন</th></tr>
       </thead>
       <tbody id="winTableBody"></tbody>
     </table>
-    <button class="btn btn-add" type="button" onclick="addRow()">+ Add Window</button>
-    <button class="btn btn-calc" type="button" onclick="calculateAll()">Calculate</button>
+    <button class="btn btn-add" type="button" onclick="addRow()">+ নতুন উইন্ডো যোগ করুন</button>
+    <button class="btn btn-calc" type="button" onclick="calculateAll()">হিসাব করুন</button>
   </div>
 
   <div class="card">
-    <div class="card-title">Material Details & Costing</div>
+    <div class="card-title">মালামালের মোট মাপ ও খরচ</div>
     <table class="mat-table">
       <tbody>
-        <tr><td>Outer Side</td><td><span id="mOuterSide">0.00</span> ft</td></tr>
-        <tr><td>Outer Top</td><td><span id="mOuterTop">0.00</span> ft</td></tr>
-        <tr><td>Outer Bottom (Equal to Top)</td><td><span id="mOuterBottom">0.00</span> ft</td></tr>
-        <tr><td>Shutter Lock</td><td><span id="mShutterLock">0.00</span> ft</td></tr>
-        <tr><td>Shutter Interlock</td><td><span id="mShutterInterlock">0.00</span> ft</td></tr>
-        <tr><td>Shutter Top</td><td><span id="mShutterTop">0.00</span> ft</td></tr>
-        <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td><span id="mShutterBottom">0.00</span> ft</td></tr>
+        <tr><td>আউটার সাইড (উচ্চতা)</td><td><span id="mOuterSide">০.০০</span> ফিট</td></tr>
+        <tr><td>আউটার টপ (পাশ)</td><td><span id="mOuterTop">০.০০</span> ফিট</td></tr>
+        <tr><td>আউটার বটম (টপের সমান)</td><td><span id="mOuterBottom">০.০০</span> ফিট</td></tr>
+        <tr><td>শাটার লক</td><td><span id="mShutterLock">০.০০</span> ফিট</td></tr>
+        <tr><td>শাটার ইন্টারলক</td><td><span id="mShutterInterlock">০.০০</span> ফিট</td></tr>
+        <tr><td>শাটার টপ</td><td><span id="mShutterTop">০.০০</span> ফিট</td></tr>
+        <tr><td>শাটার বটম (শাটার টপের সমান)</td><td><span id="mShutterBottom">০.০০</span> ফিট</td></tr>
         
-        <tr id="netRow" style="display: none;"><td>Net Frame Aluminium</td><td><span id="mNetSection">0.00</span> ft</td></tr>
+        <tr id="netRow" style="display: none;"><td>নেট ফ্রেম অ্যালুমিনিয়াম</td><td><span id="mNetSection">০.০০</span> ফিট</td></tr>
 
-        <tr class="highlight-blue"><td>Total Aluminium</td><td><span id="mTotalAlu">0.00</span> ft</td></tr>
+        <tr class="highlight-blue"><td>সর্বমোট অ্যালুমিনিয়াম</td><td><span id="mTotalAlu">০.০০</span> ফিট</td></tr>
         
-        <tr><td>Glass Area</td><td><span id="mGlassSqft">0.00</span> Sqft</td></tr>
-        <tr id="netMeshRow" style="display: none;"><td>Net Mesh Area</td><td><span id="mNetMeshSqft">0.00</span> Sqft</td></tr>
+        <tr><td>গ্লাসের মোট এরিয়া</td><td><span id="mGlassSqft">০.০০</span> স্কয়ার ফিট</td></tr>
+        <tr id="netMeshRow" style="display: none;"><td>নেট জালের এরিয়া</td><td><span id="mNetMeshSqft">০.০০</span> স্কয়ার ফিট</td></tr>
         
-        <tr><td>Aluminium Cost</td><td><span id="mAluCost">0.00</span> ৳</td></tr>
-        <tr><td>Glass Cost</td><td><span id="mGlassCost">0.00</span> ৳</td></tr>
-        <tr><td>Hardware Cost</td><td><span id="mHardware">0.00</span> ৳</td></tr>
-        <tr><td>Fittings Charge</td><td><span id="mFittings">0.00</span> ৳</td></tr>
-        <tr><td>Labour Charge</td><td><span id="mLabour">0.00</span> ৳</td></tr>
+        <tr><td>অ্যালুমিনিয়াম খরচ</td><td><span id="mAluCost">০.০০</span> ৳</td></tr>
+        <tr><td>গ্লাস খরচ</td><td><span id="mGlassCost">০.০০</span> ৳</td></tr>
+        <tr><td>হার্ডওয়্যার খরচ</td><td><span id="mHardware">০.০০</span> ৳</td></tr>
+        <tr><td>ফিটিং চার্জ</td><td><span id="mFittings">০.০০</span> ৳</td></tr>
+        <tr><td>লেবার চার্জ</td><td><span id="mLabour">০.০০</span> ৳</td></tr>
         
-        <tr class="highlight"><td>Material Cost</td><td><span id="mMaterialCost">0.00</span> ৳</td></tr>
-        <tr><td>Selling Rate / Sqft</td><td><span id="mSellingRatePerSqft">0.00</span> ৳</td></tr>
-        <tr><td>Profit / Sqft</td><td><span id="mProfitPerSqft">0.00</span> ৳</td></tr>
+        <tr class="highlight"><td>মোট মালামাল খরচ</td><td><span id="mMaterialCost">০.০০</span> ৳</td></tr>
+        <tr><td>বিক্রয় দর / স্কয়ার ফিট</td><td><span id="mSellingRatePerSqft">০.০০</span> ৳</td></tr>
+        <tr><td>লাভ / স্কয়ার ফিট</td><td><span id="mProfitPerSqft">০.০০</span> ৳</td></tr>
         
-        <tr class="highlight-grand"><td>Total Selling Price</td><td><span id="mSellingPrice">0.00</span> ৳</td></tr>
+        <tr class="highlight-grand"><td>সর্বমোট বিক্রয় মূল্য</td><td><span id="mSellingPrice">০.০০</span> ৳</td></tr>
       </tbody>
     </table>
   </div>
 
   <!-- অপটিমাইজড কাটিং মাপ টেবিল -->
   <div class="card">
-    <div class="card-title">✂️ Optimized Cutting List (স্মার্ট অপটিমাইজেশন)</div>
+    <div class="card-title">✂️ কাটিং লিস্ট (স্মার্ট অপটিমাইজেশন)</div>
     
-    <!-- ১. ১৮.৫ ফিট বার অপশন (সাইড পিস সিঙ্ক) -->
-    <div class="section-title">🟢 ১৮.৫ ফিট সাইড মেজারমেন্ট সেট (Outer Side + Lock + Interlock)</div>
+    <!-- ১. ১৮.৫ ফিট বার অপশন -->
+    <div class="section-title">🟢 ১৮.৫ ফিট সাইড মেজারমেন্ট সেট (আউটার সাইড + লক + ইন্টারলক)</div>
     <table class="report-table green-header">
       <thead>
-        <tr><th>Item</th><th>Total Length</th><th>Bar / Cutting Breakdown (18.5ft Set)</th></tr>
+        <tr><th>আইটেমের নাম</th><th>মোট দৈঘ্য</th><th>বার / কাটিং ব্রেকডাউন (১৮.৫ ফিট সেট)</th></tr>
       </thead>
       <tbody>
-        <tr><td>Outer Side</td><td id="c18_outerSideLen">0.00 ft</td><td id="c18_outerSideBar">0</td></tr>
-        <tr><td>Shutter Lock</td><td id="c18_lockLen">0.00 ft</td><td id="c18_lockBar">0</td></tr>
-        <tr><td>Shutter Interlock</td><td id="c18_intLen">0.00 ft</td><td id="c18_intBar">0</td></tr>
+        <tr><td>আউটার সাইড</td><td id="c18_outerSideLen">০.০০ ফিট</td><td id="c18_outerSideBar">০</td></tr>
+        <tr><td>শাটার লক</td><td id="c18_lockLen">০.০০ ফিট</td><td id="c18_lockBar">০</td></tr>
+        <tr><td>শাটার ইন্টারলক</td><td id="c18_intLen">০.০০ ফিট</td><td id="c18_intBar">০</td></tr>
       </tbody>
     </table>
 
-    <!-- ২. ২১ ফিট বার অপশন (সকল সেকশন সিঙ্ক) -->
-    <div class="section-title blue-title" style="margin-top: 20px;">🔵 ২১ ফিট সাইড ও টপ/বটম সেট (All Sections Sync)</div>
+    <!-- ২. ২১ ফিট বার অপশন -->
+    <div class="section-title blue-title" style="margin-top: 20px;">🔵 ২১ ফিট সেট (সকল সেকশন সিঙ্ক)</div>
     <table class="report-table">
       <thead>
-        <tr><th>Item</th><th>Total Length</th><th>Bar / Cutting Breakdown (21ft Set)</th></tr>
+        <tr><th>আইটেমের নাম</th><th>মোট দৈঘ্য</th><th>বার / কাটিং ব্রেকডাউন (২১ ফিট সেট)</th></tr>
       </thead>
       <tbody>
-        <tr><td>Outer Side</td><td id="c21_outerSideLen">0.00 ft</td><td id="c21_outerSideBar">0</td></tr>
-        <tr><td>Shutter Lock</td><td id="c21_lockLen">0.00 ft</td><td id="c21_lockBar">0</td></tr>
-        <tr><td>Shutter Interlock</td><td id="c21_intLen">0.00 ft</td><td id="c21_intBar">0</td></tr>
-        <tr><td>Outer Top (Fixed 21ft)</td><td id="c21_topLen">0.00 ft</td><td id="c21_topBar">0</td></tr>
-        <tr><td>Outer Bottom (Fixed 21ft)</td><td id="c21_botLen">0.00 ft</td><td id="c21_botBar">0</td></tr>
-        <tr><td>Shutter Top (Fixed 21ft)</td><td id="c21_sTopLen">0.00 ft</td><td id="c21_sTopBar">0</td></tr>
-        <tr><td>Shutter Bottom (Fixed 21ft)</td><td id="c21_sBotLen">0.00 ft</td><td id="c21_sBotBar">0</td></tr>
-        <tr id="net21Row" style="display: none;"><td>Net Section (Fixed 21ft)</td><td id="c21_netLen">0.00 ft</td><td id="c21_netBar">0</td></tr>
+        <tr><td>আউটার সাইড</td><td id="c21_outerSideLen">০.০০ ফিট</td><td id="c21_outerSideBar">০</td></tr>
+        <tr><td>শাটার লক</td><td id="c21_lockLen">০.০০ ফিট</td><td id="c21_lockBar">০</td></tr>
+        <tr><td>শাটার ইন্টারলক</td><td id="c21_intLen">০.০০ ফিট</td><td id="c21_intBar">০</td></tr>
+        <tr><td>আউটার টপ (২১ ফিট বার)</td><td id="c21_topLen">০.০০ ফিট</td><td id="c21_topBar">০</td></tr>
+        <tr><td>আউটার বটম (২১ ফিট বার)</td><td id="c21_botLen">০.০০ ফিট</td><td id="c21_botBar">০</td></tr>
+        <tr><td>শাটার টপ (২১ ফিট বার)</td><td id="c21_sTopLen">০.০০ ফিট</td><td id="c21_sTopBar">০</td></tr>
+        <tr><td>শাটার বটম (২১ ফিট বার)</td><td id="c21_sBotLen">০.০০ ফিট</td><td id="c21_sBotBar">০</td></tr>
+        <tr id="net21Row" style="display: none;"><td>নেট সেকশন (২১ ফিট বার)</td><td id="c21_netLen">০.০০ ফিট</td><td id="c21_netBar">০</td></tr>
       </tbody>
     </table>
 
@@ -355,15 +355,23 @@
 <div id="historyModal" onclick="if(event.target === this) closeHistory()">
   <div class="history-content">
     <div class="history-header">
-      <h3>Calculation History</h3>
+      <h3>পূর্ববর্তী হিসাবের তালিকা</h3>
       <button class="btn-close-history" onclick="closeHistory()">X</button>
     </div>
     <ul id="historyListContainer" class="history-list"></ul>
-    <button class="btn btn-danger" style="margin-top: 10px;" onclick="clearAllHistory()">Clear All History</button>
+    <button class="btn btn-danger" style="margin-top: 10px;" onclick="clearAllHistory()">সব হিসাব মুছে ফেলুন</button>
   </div>
 </div>
 
 <script>
+  // ইংরেজি থেকে বাংলা সংখ্যায় রূপান্তর করার ফাংশন
+  function toBnNum(num) {
+    if (num === null || num === undefined) return '০';
+    let str = num.toString();
+    const bnNums = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯', '.':'.'};
+    return str.replace(/[0-9.]/g, match => bnNums[match]);
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     initCalculatorDropdowns();
     loadHeaderInfo();
@@ -403,7 +411,7 @@
   }
 
   function loadHeaderInfo() {
-    let name = localStorage.getItem('rm_shop_name') || 'RM. Thai Aluminium';
+    let name = localStorage.getItem('rm_shop_name') || 'আরএম. থাই অ্যালুমিনিয়াম';
     let phone = localStorage.getItem('rm_shop_phone') || '01676474412';
     document.getElementById('shopOwnerName').value = name;
     document.getElementById('shopPhone').value = phone;
@@ -426,9 +434,9 @@
     tr.className = 'window-row';
     tr.innerHTML = `
       <td class="row-index"></td>
-      <td><input type="number" class="w-h height-input" placeholder="Height" oninput="calculateAll()"></td>
-      <td><input type="number" class="w-w width-input" placeholder="Width" oninput="calculateAll()"></td>
-      <td><input type="number" class="w-q qty-input" placeholder="Qty" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-h height-input" placeholder="উচ্চতা" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-w width-input" placeholder="পাশ" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-q qty-input" placeholder="সংখ্যা" oninput="calculateAll()"></td>
       <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
@@ -449,7 +457,7 @@
   function updateIndexes() {
     let rows = document.querySelectorAll('#winTableBody tr');
     rows.forEach((row, i) => {
-      row.querySelector('.row-index').innerText = i + 1;
+      row.querySelector('.row-index').innerText = toBnNum(i + 1);
     });
   }
 
@@ -498,16 +506,16 @@
     return matched;
   }
 
-  // --- 🌟 পারফেক্ট গ্রুপ ও মিক্স কাটিং অ্যালগরিদম (ব্লেড লস ছাড়া) 🌟 ---
+  // --- স্মার্ট কাটিং অ্যালগরিদম (বাংলা টেক্সট ও সংখ্যা) ---
   function getCuttingPlan(piecesList, barSize) {
     if (!piecesList || piecesList.length === 0) {
-      return { totalBars: 0, detailsHTML: "0 টি বার" };
+      return { totalBars: 0, detailsHTML: "০ টি বার" };
     }
 
     let plan = [];
     let unassigned = [...piecesList];
 
-    // ১. ২১ ফিট বারের জন্য ৭ ফিটের ৩টি করে টুকরো মেলানো (7 * 3 = 21 ft)
+    // ১. ২১ ফিট বারের জন্য ৭ ফিটের ৩টি করে টুকরো
     if (Math.abs(barSize - 21) < 0.1) {
       let sevens = unassigned.filter(x => Math.abs(x - 7.0) < 0.05);
       while (sevens.length >= 3) {
@@ -523,7 +531,7 @@
       }
     }
 
-    // ২. ১৮.৫ ফিট বারের জন্য ৪.৫ ফিটের ৪টি করে টুকরো মেলানো (4.5 * 4 = 18 ft)
+    // ২. ১৮.৫ ফিট বারের জন্য ৪.৫ ফিটের ৪টি করে টুকরো
     if (Math.abs(barSize - 18.5) < 0.1) {
       let fourFifties = unassigned.filter(x => Math.abs(x - 4.5) < 0.05);
       while (fourFifties.length >= 4) {
@@ -539,7 +547,6 @@
       }
     }
 
-    // ৩. অবশিষ্ট টুকরোগুলোর জন্য ফার্স্ট-ফিট অ্যালগরিদম (ব্লেড লস ছাড়া)
     unassigned.sort((a, b) => b - a);
 
     while (unassigned.length > 0) {
@@ -568,19 +575,18 @@
       unassigned = unassigned.filter((_, idx) => !usedIndices.includes(idx));
     }
 
-    // ফরম্যাটিং
-    let detailsHTML = `<strong>মোট: ${plan.length} টি বার</strong>`;
+    let detailsHTML = `<strong>মোট: ${toBnNum(plan.length)} টি বার</strong>`;
     let detailsStr = plan.map((b, idx) => {
-      let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
+      let pcsStr = b.piecesCut.map(x => toBnNum(x.toFixed(2)) + "ফিট").join(" + ");
       
       let wastageTag = "";
       if (b.wastage > 0.05) {
-        wastageTag = `<span class="wastage-red">অপচয়: ${b.wastage}ft</span>`;
+        wastageTag = `<span class="wastage-red">অপচয়: ${toBnNum(b.wastage)}ফিট</span>`;
       } else {
-        wastageTag = `(অপচয়: ${b.wastage}ft)`;
+        wastageTag = `(অপচয়: ${toBnNum(b.wastage)}ফিট)`;
       }
 
-      return `বার #${idx + 1}: [${pcsStr}] ${wastageTag}`;
+      return `বার #${toBnNum(idx + 1)}: [${pcsStr}] ${wastageTag}`;
     }).join("<br>");
 
     detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;
@@ -654,25 +660,25 @@
     let netFt = isNetActive ? (netPieces.reduce((a,b)=>a+b, 0)) : 0;
     let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
 
-    document.getElementById('mOuterSide').innerText = outerH.toFixed(2);
-    document.getElementById('mOuterTop').innerText = outerTop.toFixed(2);
-    document.getElementById('mOuterBottom').innerText = outerBottom.toFixed(2);
-    document.getElementById('mShutterLock').innerText = shutterLock.toFixed(2);
-    document.getElementById('mShutterInterlock').innerText = shutterInterlock.toFixed(2);
-    document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
-    document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
+    document.getElementById('mOuterSide').innerText = toBnNum(outerH.toFixed(2));
+    document.getElementById('mOuterTop').innerText = toBnNum(outerTop.toFixed(2));
+    document.getElementById('mOuterBottom').innerText = toBnNum(outerBottom.toFixed(2));
+    document.getElementById('mShutterLock').innerText = toBnNum(shutterLock.toFixed(2));
+    document.getElementById('mShutterInterlock').innerText = toBnNum(shutterInterlock.toFixed(2));
+    document.getElementById('mShutterTop').innerText = toBnNum(shutterTop.toFixed(2));
+    document.getElementById('mShutterBottom').innerText = toBnNum(shutterBottom.toFixed(2));
 
     let netMeshSqft = 0;
     if (isNetActive) {
       netMeshSqft = (totalSqft / 2);
       document.getElementById('netRow').style.display = 'table-row';
       document.getElementById('netMeshRow').style.display = 'table-row';
-      document.getElementById('mNetSection').innerText = netFt.toFixed(2);
-      document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
+      document.getElementById('mNetSection').innerText = toBnNum(netFt.toFixed(2));
+      document.getElementById('mNetMeshSqft').innerText = toBnNum(netMeshSqft.toFixed(2));
       document.getElementById('net21Row').style.display = 'table-row';
       
       let p21_net = getCuttingPlan(netPieces, 21);
-      document.getElementById('c21_netLen').innerText = netFt.toFixed(2) + " ft";
+      document.getElementById('c21_netLen').innerText = toBnNum(netFt.toFixed(2)) + " ফিট";
       document.getElementById('c21_netBar').innerHTML = p21_net.detailsHTML;
     } else {
       document.getElementById('netRow').style.display = 'none';
@@ -680,41 +686,41 @@
       document.getElementById('net21Row').style.display = 'none';
     }
 
-    document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
+    document.getElementById('mTotalAlu').innerText = toBnNum(totalAlu.toFixed(2));
 
-    // --- ১. ১৮.৫ ফিট সেট (Outer Side, Lock, Interlock) ---
-    document.getElementById('c18_outerSideLen').innerText = outerH.toFixed(2) + " ft";
+    // --- ১. ১৮.৫ ফিট সেট ---
+    document.getElementById('c18_outerSideLen').innerText = toBnNum(outerH.toFixed(2)) + " ফিট";
     document.getElementById('c18_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 18.5).detailsHTML;
 
-    document.getElementById('c18_lockLen').innerText = shutterLock.toFixed(2) + " ft";
+    document.getElementById('c18_lockLen').innerText = toBnNum(shutterLock.toFixed(2)) + " ফিট";
     document.getElementById('c18_lockBar').innerHTML = getCuttingPlan(sLockPieces, 18.5).detailsHTML;
 
-    document.getElementById('c18_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
+    document.getElementById('c18_intLen').innerText = toBnNum(shutterInterlock.toFixed(2)) + " ফিট";
     document.getElementById('c18_intBar').innerHTML = getCuttingPlan(sIntPieces, 18.5).detailsHTML;
 
     // --- ২. ২১ ফিট সেট ---
-    document.getElementById('c21_outerSideLen').innerText = outerH.toFixed(2) + " ft";
+    document.getElementById('c21_outerSideLen').innerText = toBnNum(outerH.toFixed(2)) + " ফিট";
     document.getElementById('c21_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 21).detailsHTML;
 
-    document.getElementById('c21_lockLen').innerText = shutterLock.toFixed(2) + " ft";
+    document.getElementById('c21_lockLen').innerText = toBnNum(shutterLock.toFixed(2)) + " ফিট";
     document.getElementById('c21_lockBar').innerHTML = getCuttingPlan(sLockPieces, 21).detailsHTML;
 
-    document.getElementById('c21_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
+    document.getElementById('c21_intLen').innerText = toBnNum(shutterInterlock.toFixed(2)) + " ফিট";
     document.getElementById('c21_intBar').innerHTML = getCuttingPlan(sIntPieces, 21).detailsHTML;
 
-    document.getElementById('c21_topLen').innerText = outerTop.toFixed(2) + " ft";
+    document.getElementById('c21_topLen').innerText = toBnNum(outerTop.toFixed(2)) + " ফিট";
     document.getElementById('c21_topBar').innerHTML = getCuttingPlan(oTopPieces, 21).detailsHTML;
 
-    document.getElementById('c21_botLen').innerText = outerBottom.toFixed(2) + " ft";
+    document.getElementById('c21_botLen').innerText = toBnNum(outerBottom.toFixed(2)) + " ফিট";
     document.getElementById('c21_botBar').innerHTML = getCuttingPlan(oBotPieces, 21).detailsHTML;
 
-    document.getElementById('c21_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
+    document.getElementById('c21_sTopLen').innerText = toBnNum(shutterTop.toFixed(2)) + " ফিট";
     document.getElementById('c21_sTopBar').innerHTML = getCuttingPlan(sTopPieces, 21).detailsHTML;
 
-    document.getElementById('c21_sBotLen').innerText = shutterBottom.toFixed(2) + " ft";
+    document.getElementById('c21_sBotLen').innerText = toBnNum(shutterBottom.toFixed(2)) + " ফিট";
     document.getElementById('c21_sBotBar').innerHTML = getCuttingPlan(sBotPieces, 21).detailsHTML;
 
-    // Costing calculation
+    // কস্টিং হিসাব
     let glassSqft = totalSqft; 
     let aluTotalCost = totalAlu * (rateData.aluRate || 0);
     let glassTotalCost = glassSqft * (rateData.glassRate || 0);
@@ -731,21 +737,21 @@
     let sellingRatePerSqft = baseSumRates + profitPerSqft;
     let sellingPrice = totalSqft > 0 ? (totalSqft * sellingRatePerSqft) : 0;
 
-    document.getElementById('mGlassSqft').innerText = glassSqft.toFixed(2);
-    document.getElementById('mAluCost').innerText = aluTotalCost.toFixed(2);
-    document.getElementById('mGlassCost').innerText = glassTotalCost.toFixed(2);
-    document.getElementById('mHardware').innerText = hardwareCost.toFixed(2);
-    document.getElementById('mFittings').innerText = fittingsCharge.toFixed(2);
-    document.getElementById('mLabour').innerText = labourCharge.toFixed(2);
-    document.getElementById('mMaterialCost').innerText = totalMaterialCost.toFixed(2);
-    document.getElementById('mSellingRatePerSqft').innerText = sellingRatePerSqft.toFixed(2);
-    document.getElementById('mProfitPerSqft').innerText = profitPerSqft.toFixed(2);
-    document.getElementById('mSellingPrice').innerText = sellingPrice.toFixed(2);
+    document.getElementById('mGlassSqft').innerText = toBnNum(glassSqft.toFixed(2));
+    document.getElementById('mAluCost').innerText = toBnNum(aluTotalCost.toFixed(2));
+    document.getElementById('mGlassCost').innerText = toBnNum(glassTotalCost.toFixed(2));
+    document.getElementById('mHardware').innerText = toBnNum(hardwareCost.toFixed(2));
+    document.getElementById('mFittings').innerText = toBnNum(fittingsCharge.toFixed(2));
+    document.getElementById('mLabour').innerText = toBnNum(labourCharge.toFixed(2));
+    document.getElementById('mMaterialCost').innerText = toBnNum(totalMaterialCost.toFixed(2));
+    document.getElementById('mSellingRatePerSqft').innerText = toBnNum(sellingRatePerSqft.toFixed(2));
+    document.getElementById('mProfitPerSqft').innerText = toBnNum(profitPerSqft.toFixed(2));
+    document.getElementById('mSellingPrice').innerText = toBnNum(sellingPrice.toFixed(2));
 
     if (totalSqft > 0) {
       let cust = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
-      let proj = document.getElementById('projectName').value || 'N/A';
-      let summaryText = `গ্রাহক: ${cust} | প্রজেক্ট: ${proj} | মোট স্কয়ার ফিট: ${totalSqft.toFixed(2)} Sqft | মোট অ্যালুমিনিয়াম: ${totalAlu.toFixed(2)} ft | মোট মূল্য: ${sellingPrice.toFixed(2)} ৳`;
+      let proj = document.getElementById('projectName').value || 'এন/এ';
+      let summaryText = `গ্রাহক: ${cust} | প্রজেক্ট: ${proj} | মোট স্কয়ার ফিট: ${toBnNum(totalSqft.toFixed(2))} Sqft | মোট অ্যালুমিনিয়াম: ${toBnNum(totalAlu.toFixed(2))} ফিট | মোট মূল্য: ${toBnNum(sellingPrice.toFixed(2))} ৳`;
       saveToHistory(summaryText);
     }
   }
@@ -774,13 +780,13 @@
     container.innerHTML = '';
     
     if (history.length === 0) {
-      container.innerHTML = '<li style="justify-content: center; color: #64748b;">কোনো হিস্টরি পাওয়া যায়নি।</li>';
+      container.innerHTML = '<li style="justify-content: center; color: #64748b;">কোনো হিসাবের ইতিহাস পাওয়া যায়নি।</li>';
       return;
     }
 
     history.forEach((item, index) => {
       let li = document.createElement('li');
-      li.innerHTML = `<div><strong>#${index + 1} (${item.time})</strong><br>${item.details}</div> <button class="btn-danger" onclick="deleteSingleHistory(${index})">Delete</button>`;
+      li.innerHTML = `<div><strong>#${toBnNum(index + 1)} (${item.time})</strong><br>${item.details}</div> <button class="btn-danger" onclick="deleteSingleHistory(${index})">মুছে ফেলুন</button>`;
       container.appendChild(li);
     });
   }

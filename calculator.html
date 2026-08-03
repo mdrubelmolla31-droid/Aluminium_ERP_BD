@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>আরএম. থাই অ্যালুমিনিয়াম - স্মার্ট কাটিং ক্যালকুলেটর</title>
+  <title>আরএম. থাই অ্যালুমিনিয়াম - কাটিং ক্যালকুলেটর</title>
 
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -104,6 +104,7 @@
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
     table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 12px; }
+    table.report-table td { border: 1px solid #e2e8f0; padding: 8px; font-size: 13px; }
     table.input-table input { padding: 6px; text-align: center; }
 
     .notice-box {
@@ -197,15 +198,23 @@
       padding: 2px 6px;
       border-radius: 4px;
     }
-    .section-subhead {
-      margin-top: 15px;
-      margin-bottom: 8px;
-      font-size: 14px;
+    .table-title-18 {
+      background: #1e40af;
+      color: white;
+      padding: 8px 12px;
       font-weight: bold;
-      color: #1e3a8a;
-      background: #e0f2fe;
-      padding: 6px 10px;
-      border-radius: 4px;
+      font-size: 14px;
+      border-radius: 4px 4px 0 0;
+      margin-top: 10px;
+    }
+    .table-title-21 {
+      background: #0369a1;
+      color: white;
+      padding: 8px 12px;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 4px 4px 0 0;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -311,12 +320,12 @@
     </table>
   </div>
 
-  <!-- কাটিং লিস্ট টেবিলসমূহ -->
+  <!-- কাটিং লিস্ট (আলাদা ১৮.৫ ফিট উপরে এবং ২১ ফিট নিচে স্থায়ীভাবে সাজানো) -->
   <div class="card">
-    <div class="card-title">✂️ কাটিং লিস্ট (বার সাইজ অনুযায়ী)</div>
+    <div class="card-title">✂️ কাটিং লিস্ট</div>
     
-    <!-- ১. ১৮.৫ ফিট বারের কাটিং লিস্ট (উপরে) -->
-    <div class="section-subhead">📌 ১৮.৫ / ১৮ ফিট বারের কাটিং লিস্ট (উপরে)</div>
+    <!-- ১. ১৮.৫/১৮ ফিটের কাটিং টেবিল (উপরে) -->
+    <div class="table-title-18">📌 ১৮.৫ / ১৮ ফিট বারের কাটিং লিস্ট</div>
     <table class="report-table">
       <thead>
         <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
@@ -324,10 +333,8 @@
       <tbody id="tableBody18"></tbody>
     </table>
 
-    <br>
-
-    <!-- ২. ২১ ফিট বারের কাটিং লিস্ট (নিচে) -->
-    <div class="section-subhead">📌 ২১ ফিট বারের কাটিং লিস্ট (নিচে)</div>
+    <!-- ২. ২১ ফিটের কাটিং টেবিল (নিচে) -->
+    <div class="table-title-21">📌 ২১ ফিট বারের কাটিং লিস্ট</div>
     <table class="report-table">
       <thead>
         <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
@@ -500,13 +507,15 @@
     return matched;
   }
 
-  // কাটিং সলভার (স্মার্ট অ্যালগরিদম)
-  function solveBarCutting(pieces, barCapacity) {
+  // কাটিং অপটিমাইজেশন ইঞ্জিন
+  function solveBarCutting(piecesList, barCap) {
+    if (!piecesList || piecesList.length === 0) return null;
+
     let plan = [];
-    let unassigned = [...pieces].sort((a,b) => b - a);
+    let unassigned = [...piecesList].sort((a,b) => b - a);
 
     while (unassigned.length > 0) {
-      let currentCap = barCapacity;
+      let currentCap = barCap;
       let usedIndexes = [];
 
       for (let i = 0; i < unassigned.length; i++) {
@@ -525,39 +534,17 @@
       unassigned = unassigned.filter((_, idx) => !usedIndexes.includes(idx));
     }
 
-    let totalBars = plan.length;
-    let totalWastage = plan.reduce((sum, b) => sum + b.wastage, 0);
-
-    return { plan, totalBars, totalWastage };
-  }
-
-  // ফ্লেক্সিবল ও আনকমন মালের জন্য দুই বারের মধ্যে সেরা বার খুঁজে বের করার লজিক
-  function getBestPlanForFlexiblePieces(flexiblePieces) {
-    if (flexiblePieces.length === 0) return { plan18: null, plan21: null };
-
-    let res18 = solveBarCutting(flexiblePieces, 18.5);
-    let res21 = solveBarCutting(flexiblePieces, 21.0);
-
-    // যে বারে অপচয় কম হবে অ্যালগরিদম সেটাকে বেছে নেবে
-    if (res18.totalWastage <= res21.totalWastage) {
-      return { plan18: res18, plan21: null };
-    } else {
-      return { plan18: null, plan21: res21 };
-    }
-  }
-
-  function formatPlanToHTML(planObj) {
-    if (!planObj || !planObj.plan || planObj.plan.length === 0) return null;
-
-    let detailsHTML = `<strong>মোট: ${toBnNum(planObj.plan.length)} টি বার</strong>`;
-    let detailsStr = planObj.plan.map((b, idx) => {
+    let detailsHTML = `<strong>মোট: ${toBnNum(plan.length)} টি বার</strong>`;
+    let detailsStr = plan.map((b, idx) => {
       let pcsStr = b.piecesCut.map(x => toBnNum(x.toFixed(2)) + "ফিট").join(" + ");
       let wastageTag = b.wastage > 0.05 ? `<span class="wastage-red">অপচয়: ${toBnNum(b.wastage)}ফিট</span>` : `<span class="wastage-green">(অপচয়: ${toBnNum(b.wastage)}ফিট)</span>`;
       return `বার #${toBnNum(idx + 1)}: [${pcsStr}] ${wastageTag}`;
     }).join("<br>");
 
     detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;
-    return detailsHTML;
+    let totalLen = piecesList.reduce((a,b)=>a+b, 0);
+
+    return { detailsHTML: detailsHTML, totalLen: totalLen };
   }
 
   function calculateAll() {
@@ -653,7 +640,7 @@
 
     document.getElementById('mTotalAlu').innerText = toBnNum(totalAlu.toFixed(2));
 
-    // --- সুনির্দিষ্ট কাটিং রুলস অনুযায়ী রেন্ডারিং ---
+    // --- ১৮.৫ এবং ২১ ফিট টেবিল আলাদা রেন্ডারিং ---
     let table18Body = document.getElementById('tableBody18');
     let table21Body = document.getElementById('tableBody21');
     table18Body.innerHTML = '';
@@ -666,88 +653,56 @@
       let pcs = itemsMap[itemName];
       if (pcs.length === 0) return;
 
-      let fixed18Pcs = [];
-      let fixed21Pcs = [];
-      let flexiblePcs = [];
+      let pcs18 = [];
+      let pcs21 = [];
 
-      // ১. আউটার টপ, আউটার বটম, শাটার টপ, শাটার বটম -> সবসময় ২১ ফিটের বারে যাবে
+      // আউটার টপ/বটম ও শাটার টপ/বটম সবসময় ২১ এর মালে যাবে
       if (["আউটার টপ", "আউটার বটম", "শাটার টপ", "শাটার বটম"].includes(itemName)) {
-        fixed21Pcs = [...pcs];
+        pcs21 = [...pcs];
       } else {
-        // অন্যান্য আইটেম (আউটার সাইড, লক, ইন্টারলক ইত্যাদি)
         pcs.forEach(p => {
-          let pRound = parseFloat(p.toFixed(2));
-          
-          if (Math.abs(pRound - 4.5) < 0.1 || Math.abs(pRound - 6.0) < 0.1) {
-            // ৪.৫ ফিট ও ৬.০ ফিট -> ফিক্সড ১৮.৫ ফিট বার
-            fixed18Pcs.push(p);
-          } else if (Math.abs(pRound - 7.0) < 0.1 || Math.abs(pRound - 4.0) < 0.1 || Math.abs(pRound - 5.0) < 0.1 || Math.abs(pRound - 3.0) < 0.1 || Math.abs(pRound - 3.5) < 0.1 || Math.abs(pRound - 2.0) < 0.1) {
-            // ৭ ফিট, ৪ ফিট, ৫ ফিট, ৩ ফিট, ৩.৫ ফিট, ২ ফিট -> ফিক্সড ২১ ফিট বার
-            fixed21Pcs.push(p);
+          let pVal = parseFloat(p.toFixed(2));
+          // ৪.৫ ফিট (৫৪") এবং ৬.০ ফিট (৭২") যাবে ১৮.৫ বারে
+          if (Math.abs(pVal - 4.5) < 0.1 || Math.abs(pVal - 6.0) < 0.1) {
+            pcs18.push(p);
           } else {
-            // আনকমন সাইজ -> অ্যালগরিদম কোনটা ভালো তা বেছে নেবে
-            flexiblePcs.push(p);
+            // বাকি সব (৭ ফিট, ৪ ফিট, ৫ ফিট ইত্যাদি) যাবে ২১ ফিট বারে
+            pcs21.push(p);
           }
         });
       }
 
-      // ফিক্সড ১৮.৫ এর হিসাব
-      let plan18Fixed = fixed18Pcs.length > 0 ? solveBarCutting(fixed18Pcs, 18.5) : null;
-      
-      // ফিক্সড ২১ এর হিসাব
-      let plan21Fixed = fixed21Pcs.length > 0 ? solveBarCutting(fixed21Pcs, 21.0) : null;
-
-      // আনকমন সাইজের স্মার্টি হিসাব
-      let flexResult = getBestPlanForFlexiblePieces(flexiblePcs);
-
-      // ১৮.৫ এর টেবিল রেন্ডার
-      let finalPlan18 = null;
-      if (plan18Fixed && flexResult.plan18) {
-        finalPlan18 = solveBarCutting([...fixed18Pcs, ...flexiblePcs], 18.5);
-      } else if (plan18Fixed) {
-        finalPlan18 = plan18Fixed;
-      } else if (flexResult.plan18) {
-        finalPlan18 = flexResult.plan18;
+      // ১৮.৫/১৮ ফিট বারের টেবিল প্রসেসিং (উপরে)
+      if (pcs18.length > 0) {
+        let res18 = solveBarCutting(pcs18, 18.5);
+        if (res18) {
+          has18Data = true;
+          let tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${itemName}</strong></td>
+            <td><span style="color:#1e40af; font-weight:bold;">১৮.৫ ফিট বার</span></td>
+            <td>${toBnNum(res18.totalLen.toFixed(2))} ফিট</td>
+            <td>${res18.detailsHTML}</td>
+          `;
+          table18Body.appendChild(tr);
+        }
       }
 
-      if (finalPlan18 && finalPlan18.plan.length > 0) {
-        has18Data = true;
-        let htmlDetails = formatPlanToHTML(finalPlan18);
-        let tr = document.createElement('tr');
-        let totLen = finalPlan18.plan.reduce((s, b) => s + b.piecesCut.reduce((a,c)=>a+c,0), 0);
-        tr.innerHTML = `
-          <td><strong>${itemName}</strong></td>
-          <td><span style="color:#1e40af; font-weight:bold;">১৮.৫ ফিট বার</span></td>
-          <td>${toBnNum(totLen.toFixed(2))} ফিট</td>
-          <td>${htmlDetails}</td>
-        `;
-        table18Body.appendChild(tr);
+      // ২১ ফিট বারের টেবিল প্রসেসিং (নিচে)
+      if (pcs21.length > 0) {
+        let res21 = solveBarCutting(pcs21, 21.0);
+        if (res21) {
+          has21Data = true;
+          let tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${itemName}</strong></td>
+            <td><span style="color:#0369a1; font-weight:bold;">২১ ফিট বার</span></td>
+            <td>${toBnNum(res21.totalLen.toFixed(2))} ফিট</td>
+            <td>${res21.detailsHTML}</td>
+          `;
+          table21Body.appendChild(tr);
+        }
       }
-
-      // ২১ এর টেবিল রেন্ডার
-      let finalPlan21 = null;
-      if (plan21Fixed && flexResult.plan21) {
-        finalPlan21 = solveBarCutting([...fixed21Pcs, ...flexiblePcs], 21.0);
-      } else if (plan21Fixed) {
-        finalPlan21 = plan21Fixed;
-      } else if (flexResult.plan21) {
-        finalPlan21 = flexResult.plan21;
-      }
-
-      if (finalPlan21 && finalPlan21.plan.length > 0) {
-        has21Data = true;
-        let htmlDetails = formatPlanToHTML(finalPlan21);
-        let tr = document.createElement('tr');
-        let totLen = finalPlan21.plan.reduce((s, b) => s + b.piecesCut.reduce((a,c)=>a+c,0), 0);
-        tr.innerHTML = `
-          <td><strong>${itemName}</strong></td>
-          <td><span style="color:#1e40af; font-weight:bold;">২১ ফিট বার</span></td>
-          <td>${toBnNum(totLen.toFixed(2))} ফিট</td>
-          <td>${htmlDetails}</td>
-        `;
-        table21Body.appendChild(tr);
-      }
-
     });
 
     if (!has18Data) {

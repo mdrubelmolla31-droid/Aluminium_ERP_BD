@@ -194,7 +194,9 @@
       cursor: pointer;
       font-weight: bold;
     }
-    .opt-detail { font-size: 11px; text-align: left; color: #475569; }
+    .opt-detail { font-size: 11px; text-align: left; margin-top: 4px; }
+    .opt-block { border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px; margin-bottom: 6px; }
+    .opt-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
   </style>
 </head>
 <body>
@@ -479,87 +481,76 @@
     return matched;
   }
 
-  // --- 🌟 ১. গ্লোবাল বিআইএন প্যাকিং অপটিমাইজেশন অ্যালগরিদম 🌟 ---
-  function globalCuttingOptimization(piecesList, bladeLossFt = 0.0104) { // Default bladeLossFt ~ 1/8 inch
+  // --- 🌟 সংশোধিত আলাদা সেকশন অপটিমাইজেশন অ্যালগরিদম 🌟 ---
+  function globalCuttingOptimization(piecesList, bladeLossFt = 0.0104) {
     if (!piecesList || piecesList.length === 0) {
-      return {
-        bar18_5: 0,
-        bar21: 0,
-        totalWastageFt: 0,
-        cuttingPlan: [],
-        detailsHTML: "0 টি বার"
-      };
+      return { detailsHTML: "0 টি বার" };
     }
 
-    let remainingPieces = [...piecesList].sort((a, b) => b - a);
+    // নির্দিষ্ট বারের জন্য ফার্স্ট-ফিট ডিক্রিজিং (FFD) অপটিমাইজেশন লজিক
+    function runBinPackingForSize(pieces, barSize) {
+      let remaining = [...pieces].sort((a, b) => b - a);
+      let plan = [];
 
-    let result = {
-      bar18_5: 0,
-      bar21: 0,
-      totalWastageFt: 0,
-      cuttingPlan: []
-    };
-
-    while (remainingPieces.length > 0) {
-      let bestBarSize = 21;
-      let minWaste = 999;
-      let bestUsedIndices = [];
-
-      const candidateBars = [18.5, 21];
-
-      for (let barSize of candidateBars) {
-        let currentWastage = barSize;
+      while (remaining.length > 0) {
+        let currentCapacity = barSize;
         let usedIndices = [];
 
-        for (let i = 0; i < remainingPieces.length; i++) {
-          let pieceWithSize = remainingPieces[i] + bladeLossFt;
-          if (currentWastage >= pieceWithSize) {
-            currentWastage -= pieceWithSize;
+        for (let i = 0; i < remaining.length; i++) {
+          let sizeWithBlade = remaining[i] + bladeLossFt;
+          if (currentCapacity >= sizeWithBlade) {
+            currentCapacity -= sizeWithBlade;
             usedIndices.push(i);
           }
         }
 
-        if (usedIndices.length > 0 && currentWastage < minWaste) {
-          minWaste = currentWastage;
-          bestBarSize = barSize;
-          bestUsedIndices = usedIndices;
-        }
+        if (usedIndices.length === 0) break;
+
+        let cutPieces = usedIndices.map(idx => remaining[idx]);
+        plan.push({
+          piecesCut: cutPieces,
+          wastage: currentCapacity.toFixed(2)
+        });
+
+        remaining = remaining.filter((_, idx) => !usedIndices.includes(idx));
       }
 
-      if (bestBarSize === 18.5) {
-        result.bar18_5++;
-      } else {
-        result.bar21++;
-      }
-
-      result.totalWastageFt += minWaste;
-
-      let cutPieces = bestUsedIndices.map(idx => remainingPieces[idx]);
-      result.cuttingPlan.push({
-        barType: `${bestBarSize} ft`,
-        piecesCut: cutPieces,
-        wastage: minWaste.toFixed(2)
-      });
-
-      remainingPieces = remainingPieces.filter((_, idx) => !bestUsedIndices.includes(idx));
+      return plan;
     }
 
-    // UI Formatting Summary
-    let totalBars = result.cuttingPlan.length;
-    let summaryArr = [];
-    if (result.bar21 > 0) summaryArr.push(`${result.bar21} টি (21 ft)`);
-    if (result.bar18_5 > 0) summaryArr.push(`${result.bar18_5} টি (18.5 ft)`);
-    
-    let breakdownText = `<strong>মোট বার: ${totalBars} টি [ ${summaryArr.join(", ")} ]</strong>`;
-    
-    let detailsArr = result.cuttingPlan.map((b, idx) => {
-      let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
-      return `বার #${idx + 1} (${b.barType}): [${pcsStr}] (অপচয়: ${b.wastage}ft)`;
-    });
+    // ২১ ফিট এবং ১৮.৫ ফিটের হিসাব সম্পূর্ণ আলাদা
+    let plan21 = runBinPackingForSize(piecesList, 21);
+    let plan18 = runBinPackingForSize(piecesList, 18.5);
 
-    result.detailsHTML = breakdownText + `<div class="opt-detail">${detailsArr.join("<br>")}</div>`;
+    // ২১ ফিট সেকশন HTML (উপরে)
+    let html21 = `<div class="opt-block">`;
+    html21 += `<strong style="color:#1e40af;">🔵 ২১ ফিট বার (মোট: ${plan21.length} টি)</strong>`;
+    if (plan21.length > 0) {
+      let details21 = plan21.map((b, idx) => {
+        let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
+        return `বার #${idx + 1}: [${pcsStr}] (অপচয়: ${b.wastage}ft)`;
+      });
+      html21 += `<div class="opt-detail" style="color: #1e3a8a;">${details21.join("<br>")}</div>`;
+    } else {
+      html21 += `<div class="opt-detail" style="color:#94a3b8;">প্রয়োজন নেই</div>`;
+    }
+    html21 += `</div>`;
 
-    return result;
+    // ১৮.৫ ফিট সেকশন HTML (নিচে)
+    let html18 = `<div class="opt-block">`;
+    html18 += `<strong style="color:#15803d;">🟢 ১৮.৫ ফিট বার (মোট: ${plan18.length} টি)</strong>`;
+    if (plan18.length > 0) {
+      let details18 = plan18.map((b, idx) => {
+        let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
+        return `বার #${idx + 1}: [${pcsStr}] (অপচয়: ${b.wastage}ft)`;
+      });
+      html18 += `<div class="opt-detail" style="color: #166534;">${details18.join("<br>")}</div>`;
+    } else {
+      html18 += `<div class="opt-detail" style="color:#94a3b8;">প্রয়োজন নেই</div>`;
+    }
+    html18 += `</div>`;
+
+    return { detailsHTML: html21 + html18 };
   }
 
   function calculateAll() {
@@ -603,7 +594,6 @@
         let winSqft = hFt * wFt * q;
         totalSqft += winSqft;
 
-        // পিস অ্যারে তৈরি
         for(let j = 0; j < (q * 2); j++) { 
           oSidePieces.push(hFt);
           sLockPieces.push(hFt);
@@ -659,7 +649,7 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // --- নতুন গ্লোবাল অপটিমাইজেশন অ্যালগরিদম প্রয়োগ ---
+    // --- গ্লোবাল অপটিমাইজেশন আলাদা আউটপুট ---
     let optOSide = globalCuttingOptimization(oSidePieces, bladeLossFt);
     document.getElementById('c_outerSideLen').innerText = outerH.toFixed(2) + " ft";
     document.getElementById('c_outerSideBar').innerHTML = optOSide.detailsHTML;

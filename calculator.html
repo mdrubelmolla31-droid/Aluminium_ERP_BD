@@ -501,46 +501,84 @@
     return matched;
   }
 
-  // --- 🌟 প্র্যাকটিক্যাল ফাস্ট-ফিট কাটিং ও টকটকে লাল ওয়েস্টেজ মার্কিং লজিক 🌟 ---
+  // --- 🌟 পারফেক্ট গ্রুপ ও কাটিং অ্যালগরিদম 🌟 ---
   function getCuttingPlan(piecesList, barSize, bladeLossFt = 0.0104) {
     if (!piecesList || piecesList.length === 0) {
       return { totalBars: 0, detailsHTML: "0 টি বার" };
     }
 
-    // বড় টুকরো থেকে ছোট টুকরো ক্রমানুসারে সাজানো
-    let remaining = [...piecesList].sort((a, b) => b - a);
     let plan = [];
+    let unassigned = [...piecesList];
 
-    while (remaining.length > 0) {
+    // ১. ২১ ফিট বারের জন্য ৭ ফিটের ৩টি করে টুকরো মেলানো
+    if (Math.abs(barSize - 21) < 0.1) {
+      let sevens = unassigned.filter(x => Math.abs(x - 7.0) < 0.1);
+      while (sevens.length >= 3) {
+        plan.push({
+          piecesCut: [7.0, 7.0, 7.0],
+          wastage: 0.0
+        });
+        for (let k = 0; k < 3; k++) {
+          let idx = unassigned.findIndex(x => Math.abs(x - 7.0) < 0.1);
+          if (idx !== -1) unassigned.splice(idx, 1);
+        }
+        sevens.splice(0, 3);
+      }
+    }
+
+    // ২. ১৮.৫ ফিট বারের জন্য ৪.৫ ফিটের ৪টি করে টুকরো মেলানো
+    if (Math.abs(barSize - 18.5) < 0.1) {
+      let fourFifties = unassigned.filter(x => Math.abs(x - 4.5) < 0.1);
+      while (fourFifties.length >= 4) {
+        plan.push({
+          piecesCut: [4.5, 4.5, 4.5, 4.5],
+          wastage: parseFloat((18.5 - 18).toFixed(2))
+        });
+        for (let k = 0; k < 4; k++) {
+          let idx = unassigned.findIndex(x => Math.abs(x - 4.5) < 0.1);
+          if (idx !== -1) unassigned.splice(idx, 1);
+        }
+        fourFifties.splice(0, 4);
+      }
+    }
+
+    // ৩. অবশিষ্ট টুকরোগুলোর জন্য ফার্স্ট-ফিট অ্যালগরিদম
+    unassigned.sort((a, b) => b - a);
+
+    while (unassigned.length > 0) {
       let currentCapacity = barSize;
       let usedIndices = [];
 
-      for (let i = 0; i < remaining.length; i++) {
-        let sizeWithBlade = remaining[i] + bladeLossFt;
-        if (currentCapacity >= sizeWithBlade) {
-          currentCapacity -= sizeWithBlade;
+      for (let i = 0; i < unassigned.length; i++) {
+        let pieceSize = unassigned[i];
+        let requiredSpace = (Math.abs(barSize - 21) < 0.1 && Math.abs(pieceSize - 7.0) < 0.1) 
+          ? pieceSize 
+          : (pieceSize + bladeLossFt);
+
+        if (currentCapacity >= requiredSpace || Math.abs(currentCapacity - pieceSize) < 0.02) {
+          currentCapacity -= pieceSize;
           usedIndices.push(i);
         }
       }
 
       if (usedIndices.length === 0) break;
 
-      let cutPieces = usedIndices.map(idx => remaining[idx]);
-      let wastageVal = parseFloat(currentCapacity.toFixed(2));
+      let cutPieces = usedIndices.map(idx => unassigned[idx]);
+      let wastageVal = parseFloat(Math.max(0, currentCapacity).toFixed(2));
 
       plan.push({
         piecesCut: cutPieces,
         wastage: wastageVal
       });
 
-      remaining = remaining.filter((_, idx) => !usedIndices.includes(idx));
+      unassigned = unassigned.filter((_, idx) => !usedIndices.includes(idx));
     }
 
+    // ফরম্যাটিং ও লাল ওয়েস্টেজ টেক্সট মার্কিং
     let detailsHTML = `<strong>মোট: ${plan.length} টি বার</strong>`;
     let detailsStr = plan.map((b, idx) => {
       let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
       
-      // 🔴 যদি ওয়েস্টেজ ০.১ ফিটের বেশি হয়, তবে টকটকে লাল মার্ক দেখাবে
       let wastageTag = "";
       if (b.wastage > 0.1) {
         wastageTag = `<span class="wastage-red">অপচয়: ${b.wastage}ft</span>`;

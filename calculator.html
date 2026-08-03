@@ -104,26 +104,7 @@
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
     table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 12px; }
-    table.report-table.green-header th { background-color: #15803d; }
     table.input-table input { padding: 6px; text-align: center; }
-
-    .section-title {
-      font-size: 14px;
-      font-weight: bold;
-      color: #15803d;
-      margin-top: 14px;
-      margin-bottom: 6px;
-      background: #f0fdf4;
-      padding: 8px;
-      border-radius: 4px;
-      text-align: center;
-      border: 1px solid #bbf7d0;
-    }
-    .section-title.blue-title {
-      color: #1e3a8a;
-      background: #eff6ff;
-      border-color: #bfdbfe;
-    }
 
     .notice-box {
       background-color: #eff6ff;
@@ -313,41 +294,18 @@
     </table>
   </div>
 
-  <!-- অপটিমাইজড কাটিং মাপ টেবিল -->
+  <!-- পার্মানেন্ট স্মার্ট কাটিং লিস্ট (অটো বার ম্যাচিং) -->
   <div class="card">
-    <div class="card-title">✂️ কাটিং লিস্ট (স্মার্ট অপটিমাইজেশন)</div>
+    <div class="card-title">✂️ কাটিং লিস্ট (পার্মানেন্ট বার সাইজ অনুযায়ী)</div>
     
-    <!-- ১. ১৮.৫ ফিট বার অপশন -->
-    <div class="section-title">🟢 ১৮.৫ ফিট সাইড মেজারমেন্ট সেট (আউটার সাইড + লক + ইন্টারলক)</div>
-    <table class="report-table green-header">
-      <thead>
-        <tr><th>আইটেমের নাম</th><th>মোট দৈঘ্য</th><th>বার / কাটিং ব্রেকডাউন (১৮.৫ ফিট সেট)</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>আউটার সাইড</td><td id="c18_outerSideLen">০.০০ ফিট</td><td id="c18_outerSideBar">০</td></tr>
-        <tr><td>শাটার লক</td><td id="c18_lockLen">০.০০ ফিট</td><td id="c18_lockBar">০</td></tr>
-        <tr><td>শাটার ইন্টারলক</td><td id="c18_intLen">০.০০ ফিট</td><td id="c18_intBar">০</td></tr>
-      </tbody>
-    </table>
-
-    <!-- ২. ২১ ফিট বার অপশন -->
-    <div class="section-title blue-title" style="margin-top: 20px;">🔵 ২১ ফিট সেট (সকল সেকশন সিঙ্ক)</div>
     <table class="report-table">
       <thead>
-        <tr><th>আইটেমের নাম</th><th>মোট দৈঘ্য</th><th>বার / কাটিং ব্রেকডাউন (২১ ফিট সেট)</th></tr>
+        <tr><th>আইটেমের নাম</th><th>নির্ধারিত বার</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
       </thead>
-      <tbody>
-        <tr><td>আউটার সাইড</td><td id="c21_outerSideLen">০.০০ ফিট</td><td id="c21_outerSideBar">০</td></tr>
-        <tr><td>শাটার লক</td><td id="c21_lockLen">০.০০ ফিট</td><td id="c21_lockBar">০</td></tr>
-        <tr><td>শাটার ইন্টারলক</td><td id="c21_intLen">০.০০ ফিট</td><td id="c21_intBar">০</td></tr>
-        <tr><td>আউটার টপ (২১ ফিট বার)</td><td id="c21_topLen">০.০০ ফিট</td><td id="c21_topBar">০</td></tr>
-        <tr><td>আউটার বটম (২১ ফিট বার)</td><td id="c21_botLen">০.০০ ফিট</td><td id="c21_botBar">০</td></tr>
-        <tr><td>শাটার টপ (২১ ফিট বার)</td><td id="c21_sTopLen">০.০০ ফিট</td><td id="c21_sTopBar">০</td></tr>
-        <tr><td>শাটার বটম (২১ ফিট বার)</td><td id="c21_sBotLen">০.০০ ফিট</td><td id="c21_sBotBar">০</td></tr>
-        <tr id="net21Row" style="display: none;"><td>নেট সেকশন (২১ ফিট বার)</td><td id="c21_netLen">০.০০ ফিট</td><td id="c21_netBar">০</td></tr>
+      <tbody id="smartCuttingTableBody">
+        <!-- অটোমেটিক ডায়নামিকভাবে ডাটা বসবে -->
       </tbody>
     </table>
-
   </div>
 
 </div>
@@ -364,7 +322,6 @@
 </div>
 
 <script>
-  // ইংরেজি থেকে বাংলা সংখ্যায় রূপান্তর করার ফাংশন
   function toBnNum(num) {
     if (num === null || num === undefined) return '০';
     let str = num.toString();
@@ -506,23 +463,36 @@
     return matched;
   }
 
-  // --- স্মার্ট কাটিং অ্যালগরিদম (বাংলা টেক্সট ও সংখ্যা) ---
-  function getCuttingPlan(piecesList, barSize) {
+  // পার্মানেন্ট বার সাইজ নির্বাচনের লজিক
+  function getBestBarSizeForGroup(pieces) {
+    if(!pieces || pieces.length === 0) return 21;
+    let avgLen = pieces.reduce((a,b)=>a+b, 0) / pieces.length;
+
+    // ৪.৫ ফিট হলে ১৮.৫ ফিট বার (৪ টি পিস)
+    if(Math.abs(avgLen - 4.5) < 0.25) return 18.5;
+    // ৭ ফিট হলে ২১ ফিট বার (৩ টি পিস)
+    if(Math.abs(avgLen - 7.0) < 0.25) return 21;
+    // ৬ ফিট হলে ১৮ ফিট বার (৩ টি পিস)
+    if(Math.abs(avgLen - 6.0) < 0.25) return 18;
+    // ৫ ফিট বা ৪ ফিট বা বাকি সব ক্ষেত্রে ২১ ফিট বার
+    return 21;
+  }
+
+  // কাটিং ক্যালকুলেটর অ্যালগরিদম
+  function getCuttingPlan(piecesList, defaultBarSize = null) {
     if (!piecesList || piecesList.length === 0) {
-      return { totalBars: 0, detailsHTML: "০ টি বার" };
+      return { totalBars: 0, detailsHTML: "০ টি বার", chosenBar: 21 };
     }
 
+    let barSize = defaultBarSize || getBestBarSizeForGroup(piecesList);
     let plan = [];
     let unassigned = [...piecesList];
 
-    // ১. ২১ ফিট বারের জন্য ৭ ফিটের ৩টি করে টুকরো
+    // ১. ২১ ফিট বারের জন্য ৭ ফিটের ৩টি পিস
     if (Math.abs(barSize - 21) < 0.1) {
       let sevens = unassigned.filter(x => Math.abs(x - 7.0) < 0.05);
       while (sevens.length >= 3) {
-        plan.push({
-          piecesCut: [7.0, 7.0, 7.0],
-          wastage: 0.0
-        });
+        plan.push({ piecesCut: [7.0, 7.0, 7.0], wastage: 0.0 });
         for (let k = 0; k < 3; k++) {
           let idx = unassigned.findIndex(x => Math.abs(x - 7.0) < 0.05);
           if (idx !== -1) unassigned.splice(idx, 1);
@@ -531,19 +501,29 @@
       }
     }
 
-    // ২. ১৮.৫ ফিট বারের জন্য ৪.৫ ফিটের ৪টি করে টুকরো
+    // ২. ১৮.৫ ফিট বারের জন্য ৪.৫ ফিটের ৪টি পিস
     if (Math.abs(barSize - 18.5) < 0.1) {
       let fourFifties = unassigned.filter(x => Math.abs(x - 4.5) < 0.05);
       while (fourFifties.length >= 4) {
-        plan.push({
-          piecesCut: [4.5, 4.5, 4.5, 4.5],
-          wastage: 0.5
-        });
+        plan.push({ piecesCut: [4.5, 4.5, 4.5, 4.5], wastage: 0.5 });
         for (let k = 0; k < 4; k++) {
           let idx = unassigned.findIndex(x => Math.abs(x - 4.5) < 0.05);
           if (idx !== -1) unassigned.splice(idx, 1);
         }
         fourFifties.splice(0, 4);
+      }
+    }
+
+    // ৩. ১৮ ফিট বারের জন্য ৬ ফিটের ৩টি পিস
+    if (Math.abs(barSize - 18.0) < 0.1) {
+      let sixes = unassigned.filter(x => Math.abs(x - 6.0) < 0.05);
+      while (sixes.length >= 3) {
+        plan.push({ piecesCut: [6.0, 6.0, 6.0], wastage: 0.0 });
+        for (let k = 0; k < 3; k++) {
+          let idx = unassigned.findIndex(x => Math.abs(x - 6.0) < 0.05);
+          if (idx !== -1) unassigned.splice(idx, 1);
+        }
+        sixes.splice(0, 3);
       }
     }
 
@@ -591,7 +571,7 @@
 
     detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;
 
-    return { totalBars: plan.length, detailsHTML: detailsHTML };
+    return { totalBars: plan.length, detailsHTML: detailsHTML, chosenBar: barSize };
   }
 
   function calculateAll() {
@@ -675,50 +655,42 @@
       document.getElementById('netMeshRow').style.display = 'table-row';
       document.getElementById('mNetSection').innerText = toBnNum(netFt.toFixed(2));
       document.getElementById('mNetMeshSqft').innerText = toBnNum(netMeshSqft.toFixed(2));
-      document.getElementById('net21Row').style.display = 'table-row';
-      
-      let p21_net = getCuttingPlan(netPieces, 21);
-      document.getElementById('c21_netLen').innerText = toBnNum(netFt.toFixed(2)) + " ফিট";
-      document.getElementById('c21_netBar').innerHTML = p21_net.detailsHTML;
     } else {
       document.getElementById('netRow').style.display = 'none';
       document.getElementById('netMeshRow').style.display = 'none';
-      document.getElementById('net21Row').style.display = 'none';
     }
 
     document.getElementById('mTotalAlu').innerText = toBnNum(totalAlu.toFixed(2));
 
-    // --- ১. ১৮.৫ ফিট সেট ---
-    document.getElementById('c18_outerSideLen').innerText = toBnNum(outerH.toFixed(2)) + " ফিট";
-    document.getElementById('c18_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 18.5).detailsHTML;
+    // --- পার্মানেন্ট স্মার্ট কাটিং লিস্ট ডায়নামিকভাবে রেন্ডার ---
+    let itemsToCut = [
+      { name: "আউটার সাইড", len: outerH, pieces: oSidePieces },
+      { name: "শাটার লক", len: shutterLock, pieces: sLockPieces },
+      { name: "শাটার ইন্টারলক", len: shutterInterlock, pieces: sIntPieces },
+      { name: "আউটার টপ", len: outerTop, pieces: oTopPieces },
+      { name: "আউটার বটম", len: outerBottom, pieces: oBotPieces },
+      { name: "শাটার টপ", len: shutterTop, pieces: sTopPieces },
+      { name: "শাটার বটম", len: shutterBottom, pieces: sBotPieces }
+    ];
 
-    document.getElementById('c18_lockLen').innerText = toBnNum(shutterLock.toFixed(2)) + " ফিট";
-    document.getElementById('c18_lockBar').innerHTML = getCuttingPlan(sLockPieces, 18.5).detailsHTML;
+    if (isNetActive) {
+      itemsToCut.push({ name: "নেট সেকশন", len: netFt, pieces: netPieces });
+    }
 
-    document.getElementById('c18_intLen').innerText = toBnNum(shutterInterlock.toFixed(2)) + " ফিট";
-    document.getElementById('c18_intBar').innerHTML = getCuttingPlan(sIntPieces, 18.5).detailsHTML;
+    let smartBody = document.getElementById('smartCuttingTableBody');
+    smartBody.innerHTML = '';
 
-    // --- ২. ২১ ফিট সেট ---
-    document.getElementById('c21_outerSideLen').innerText = toBnNum(outerH.toFixed(2)) + " ফিট";
-    document.getElementById('c21_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 21).detailsHTML;
-
-    document.getElementById('c21_lockLen').innerText = toBnNum(shutterLock.toFixed(2)) + " ফিট";
-    document.getElementById('c21_lockBar').innerHTML = getCuttingPlan(sLockPieces, 21).detailsHTML;
-
-    document.getElementById('c21_intLen').innerText = toBnNum(shutterInterlock.toFixed(2)) + " ফিট";
-    document.getElementById('c21_intBar').innerHTML = getCuttingPlan(sIntPieces, 21).detailsHTML;
-
-    document.getElementById('c21_topLen').innerText = toBnNum(outerTop.toFixed(2)) + " ফিট";
-    document.getElementById('c21_topBar').innerHTML = getCuttingPlan(oTopPieces, 21).detailsHTML;
-
-    document.getElementById('c21_botLen').innerText = toBnNum(outerBottom.toFixed(2)) + " ফিট";
-    document.getElementById('c21_botBar').innerHTML = getCuttingPlan(oBotPieces, 21).detailsHTML;
-
-    document.getElementById('c21_sTopLen').innerText = toBnNum(shutterTop.toFixed(2)) + " ফিট";
-    document.getElementById('c21_sTopBar').innerHTML = getCuttingPlan(sTopPieces, 21).detailsHTML;
-
-    document.getElementById('c21_sBotLen').innerText = toBnNum(shutterBottom.toFixed(2)) + " ফিট";
-    document.getElementById('c21_sBotBar').innerHTML = getCuttingPlan(sBotPieces, 21).detailsHTML;
+    itemsToCut.forEach(item => {
+      let cutRes = getCuttingPlan(item.pieces);
+      let tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${item.name}</strong></td>
+        <td><span style="color:#1e40af; font-weight:bold;">${toBnNum(cutRes.chosenBar)} ফিট বার</span></td>
+        <td>${toBnNum(item.len.toFixed(2))} ফিট</td>
+        <td>${cutRes.detailsHTML}</td>
+      `;
+      smartBody.appendChild(tr);
+    });
 
     // কস্টিং হিসাব
     let glassSqft = totalSqft; 

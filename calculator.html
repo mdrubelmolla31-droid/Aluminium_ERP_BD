@@ -628,7 +628,7 @@
     document.getElementById('mOuterBottom').innerText = toBnNum(outerBottom.toFixed(2));
     document.getElementById('mShutterLock').innerText = toBnNum(shutterLock.toFixed(2));
     document.getElementById('mShutterInterlock').innerText = toBnNum(shutterInterlock.toFixed(2));
-    document.getElementById('mShutterTop').innerText = toBnNum(shutterTop.innerText = toBnNum(shutterTop.toFixed(2)));
+    document.getElementById('mShutterTop').innerText = toBnNum(shutterTop.toFixed(2));
     document.getElementById('mShutterBottom').innerText = toBnNum(shutterBottom.toFixed(2));
 
     let netMeshSqft = 0;
@@ -645,7 +645,7 @@
 
     document.getElementById('mTotalAlu').innerText = toBnNum(totalAlu.toFixed(2));
 
-    // --- ১৮.৫ এবং ২১ ফিট টেবিল সঠিক পৃথকীকরণ ---
+    // --- স্মার্ট মিক্সড-সাইজ কাটিং ডিস্ট্রিবিউশন লজিক ---
     let table18Body = document.getElementById('tableBody18');
     let table21Body = document.getElementById('tableBody21');
     table18Body.innerHTML = '';
@@ -661,18 +661,23 @@
       let pcs18 = [];
       let pcs21 = [];
 
-      // পিসভিত্তিক স্মার্ট লজিক:
-      // ৪.৫ ফিট (৫৪") এবং ৬.০ ফিট (৭২") সরাসরি ১৮.৫ ফিট বারে যাবে
+      // প্রতিটি আনকমন/মিক্সড পিসের জন্য অপটিমাল বার নির্বাচন
       pcs.forEach(p => {
         let pVal = parseFloat(p.toFixed(2));
-        if (Math.abs(pVal - 4.5) < 0.1 || Math.abs(pVal - 6.0) < 0.1) {
+        
+        // ১৮.৫ ফিট ও ২১ ফিটে কাটলে কতটুকু অপচয় থাকে তা চেক করা
+        let rem18 = 18.5 % pVal;
+        let rem21 = 21.0 % pVal;
+
+        // যেখানে অপচয় কম, সেটিতে পাঠানো
+        if (rem18 <= rem21) {
           pcs18.push(p);
         } else {
           pcs21.push(p);
         }
       });
 
-      // ১৮.৫ ফিট বারের তালিকা রেন্ডারিং
+      // ১৮.৫ ফিটের টেবিলে আউটপুট
       if (pcs18.length > 0) {
         let res18 = solveBarCutting(pcs18, 18.5);
         if (res18) {
@@ -688,7 +693,7 @@
         }
       }
 
-      // ২১ ফিট বারের তালিকা রেন্ডারিং
+      // ২১ ফিটের টেবিলে আউটপুট
       if (pcs21.length > 0) {
         let res21 = solveBarCutting(pcs21, 21.0);
         if (res21) {

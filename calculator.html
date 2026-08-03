@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>আরএম. থাই অ্যালুমিনিয়াম - কাটিং ক্যালকুলেটর</title>
+  <title>RM THAI ALUMINIUM - CUTTING CALCULATOR</title>
 
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -20,8 +20,8 @@
       text-align: center;
       position: relative;
     }
-    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; }
-    .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; }
+    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; text-transform: uppercase; }
+    .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; text-transform: uppercase; }
     
     .shop-input-box {
       background: rgba(255, 255, 255, 0.15);
@@ -60,6 +60,7 @@
       margin-bottom: 12px;
       border-bottom: 2px solid #eff6ff;
       padding-bottom: 6px;
+      text-transform: uppercase;
     }
 
     .row { display: flex; gap: 10px; margin-bottom: 10px; }
@@ -158,7 +159,7 @@
       padding-bottom: 8px;
       margin-bottom: 12px;
     }
-    .history-header h3 { margin: 0; color: #1e40af; font-size: 16px; }
+    .history-header h3 { margin: 0; color: #1e40af; font-size: 16px; text-transform: uppercase; }
     .history-list { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
     .history-list li {
       background: #f8fafc;
@@ -206,6 +207,7 @@
       font-size: 14px;
       border-radius: 4px 4px 0 0;
       margin-top: 10px;
+      text-transform: uppercase;
     }
     .table-title-21 {
       background: #0369a1;
@@ -215,6 +217,7 @@
       font-size: 14px;
       border-radius: 4px 4px 0 0;
       margin-top: 20px;
+      text-transform: uppercase;
     }
   </style>
 </head>
@@ -224,17 +227,17 @@
 
   <div class="header-card">
     <button class="menu-btn" onclick="openHistory()">☰</button>
-    <h2>আরএম. থাই অ্যালুমিনিয়াম</h2>
-    <p>কস্টিং ও কোটেশন ক্যালকুলেটর</p>
+    <h2>RM THAI ALUMINIUM</h2>
+    <p>COSTING & QUOTATION CALCULATOR</p>
     
     <div class="shop-input-box">
-      <input type="text" id="shopOwnerName" value="আরএম. থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম লিখুন" oninput="saveHeaderInfo()">
+      <input type="text" id="shopOwnerName" value="RM THAI ALUMINIUM" placeholder="দোকানের নাম লিখুন" oninput="saveHeaderInfo()">
       <input type="text" id="shopPhone" value="01676474412" placeholder="মোবাইল নম্বর লিখুন" oninput="saveHeaderInfo()">
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">গ্রাহকের বিবরণ</div>
+    <div class="card-title">CUSTOMER DETAILS</div>
     <div class="row">
       <div class="col"><label>গ্রাহকের নাম</label><input type="text" id="custName" placeholder="গ্রাহকের নাম"></div>
       <div class="col"><label>প্রজেক্টের নাম</label><input type="text" id="projectName" placeholder="প্রজেক্ট বা সাইটের নাম"></div>
@@ -242,7 +245,7 @@
   </div>
 
   <div class="card">
-    <div class="card-title">মালামালের বিবরণ</div>
+    <div class="card-title">MATERIAL DETAILS</div>
     <div class="notice-box">💡 রেট সেটিংস পেজ থেকে সেভ করা রেট এখানে স্বয়ংক্রিয়ভাবে কাজ করবে।</div>
     
     <div class="row">
@@ -274,8 +277,8 @@
   </div>
 
   <div class="card">
-    <div class="card-title">জানালা / উইন্ডোর মাপ (ইঞ্চি)</div>
-    <div class="notice-box">ℹ️ উইন্ডো যুক্ত করার সময় মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
+    <div class="card-title">WINDOW DIMENSIONS (INCH)</div>
+    <div class="notice-box">ℹ️ উইন্ডোর মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
     <table class="input-table">
       <thead>
         <tr><th>ক্রম</th><th>উচ্চতা (ইঞ্চি)</th><th>পাশ (ইঞ্চি)</th><th>পরিমাণ</th><th>অ্যাকশন</th></tr>
@@ -287,7 +290,7 @@
   </div>
 
   <div class="card">
-    <div class="card-title">মালামালের মোট মাপ ও খরচ</div>
+    <div class="card-title">TOTAL MATERIAL & COST</div>
     <table class="mat-table">
       <tbody>
         <tr><td>আউটার সাইড (উচ্চতা)</td><td><span id="mOuterSide">০.০০</span> ফিট</td></tr>
@@ -320,12 +323,12 @@
     </table>
   </div>
 
-  <!-- কাটিং লিস্ট (আলাদা ১৮.৫ ফিট উপরে এবং ২১ ফিট নিচে স্থায়ীভাবে সাজানো) -->
+  <!-- কাটিং লিস্ট (১৮.৫ ফিট উপরে এবং ২১ ফিট নিচে) -->
   <div class="card">
-    <div class="card-title">✂️ কাটিং লিস্ট</div>
+    <div class="card-title">CUTTING LIST</div>
     
     <!-- ১. ১৮.৫/১৮ ফিটের কাটিং টেবিল (উপরে) -->
-    <div class="table-title-18">📌 ১৮.৫ / ১৮ ফিট বারের কাটিং লিস্ট</div>
+    <div class="table-title-18">📌 18.5 / 18 FEET BAR CUTTING LIST</div>
     <table class="report-table">
       <thead>
         <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
@@ -334,7 +337,7 @@
     </table>
 
     <!-- ২. ২১ ফিটের কাটিং টেবিল (নিচে) -->
-    <div class="table-title-21">📌 ২১ ফিট বারের কাটিং লিস্ট</div>
+    <div class="table-title-21">📌 21 FEET BAR CUTTING LIST</div>
     <table class="report-table">
       <thead>
         <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
@@ -348,7 +351,7 @@
 <div id="historyModal" onclick="if(event.target === this) closeHistory()">
   <div class="history-content">
     <div class="history-header">
-      <h3>পূর্ববর্তী হিসাবের তালিকা</h3>
+      <h3>CALCULATION HISTORY</h3>
       <button class="btn-close-history" onclick="closeHistory()">X</button>
     </div>
     <ul id="historyListContainer" class="history-list"></ul>
@@ -370,8 +373,9 @@
     
     let tbody = document.getElementById('winTableBody');
     tbody.innerHTML = '';
-    addPresetRow(54, 60, 4);
-    addPresetRow(84, 60, 3);
+    
+    // পেজ লোড হলে শুধুমাত্র ১টি সম্পূর্ণ খালি উইন্ডো রো থাকবে
+    addPresetRow('', '', '');
     
     toggleNetSection();
     calculateAll();
@@ -423,7 +427,7 @@
   }
 
   function loadHeaderInfo() {
-    let name = localStorage.getItem('rm_shop_name') || 'আরএম. থাই অ্যালুমিনিয়াম';
+    let name = localStorage.getItem('rm_shop_name') || 'RM THAI ALUMINIUM';
     let phone = localStorage.getItem('rm_shop_phone') || '01676474412';
     document.getElementById('shopOwnerName').value = name;
     document.getElementById('shopPhone').value = phone;
@@ -666,7 +670,7 @@
           if (Math.abs(pVal - 4.5) < 0.1 || Math.abs(pVal - 6.0) < 0.1) {
             pcs18.push(p);
           } else {
-            // বাকি সব (৭ ফিট, ৪ ফিট, ৫ ফিট ইত্যাদি) যাবে ২১ ফিট বারে
+            // বাকি সব যাবে ২১ ফিট বারে
             pcs21.push(p);
           }
         });

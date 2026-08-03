@@ -498,8 +498,8 @@
     return matched;
   }
 
-  // --- 🌟 পারফেক্ট গ্রুপ ও মিক্স কাটিং অ্যালগরিদম 🌟 ---
-  function getCuttingPlan(piecesList, barSize, bladeLossFt = 0.0104) {
+  // --- 🌟 পারফেক্ট গ্রুপ ও মিক্স কাটিং অ্যালগরিদম (ব্লেড লস ছাড়া) 🌟 ---
+  function getCuttingPlan(piecesList, barSize) {
     if (!piecesList || piecesList.length === 0) {
       return { totalBars: 0, detailsHTML: "0 টি বার" };
     }
@@ -507,39 +507,39 @@
     let plan = [];
     let unassigned = [...piecesList];
 
-    // ১. ২১ ফিট বারের জন্য ৭ ফিটের ৩টি করে টুকরো মেলানো
+    // ১. ২১ ফিট বারের জন্য ৭ ফিটের ৩টি করে টুকরো মেলানো (7 * 3 = 21 ft)
     if (Math.abs(barSize - 21) < 0.1) {
-      let sevens = unassigned.filter(x => Math.abs(x - 7.0) < 0.1);
+      let sevens = unassigned.filter(x => Math.abs(x - 7.0) < 0.05);
       while (sevens.length >= 3) {
         plan.push({
           piecesCut: [7.0, 7.0, 7.0],
           wastage: 0.0
         });
         for (let k = 0; k < 3; k++) {
-          let idx = unassigned.findIndex(x => Math.abs(x - 7.0) < 0.1);
+          let idx = unassigned.findIndex(x => Math.abs(x - 7.0) < 0.05);
           if (idx !== -1) unassigned.splice(idx, 1);
         }
         sevens.splice(0, 3);
       }
     }
 
-    // ২. ১৮.৫ ফিট বারের জন্য ৪.৫ ফিটের ৪টি করে টুকরো মেলানো
+    // ২. ১৮.৫ ফিট বারের জন্য ৪.৫ ফিটের ৪টি করে টুকরো মেলানো (4.5 * 4 = 18 ft)
     if (Math.abs(barSize - 18.5) < 0.1) {
-      let fourFifties = unassigned.filter(x => Math.abs(x - 4.5) < 0.1);
+      let fourFifties = unassigned.filter(x => Math.abs(x - 4.5) < 0.05);
       while (fourFifties.length >= 4) {
         plan.push({
           piecesCut: [4.5, 4.5, 4.5, 4.5],
-          wastage: parseFloat((18.5 - 18).toFixed(2))
+          wastage: 0.5
         });
         for (let k = 0; k < 4; k++) {
-          let idx = unassigned.findIndex(x => Math.abs(x - 4.5) < 0.1);
+          let idx = unassigned.findIndex(x => Math.abs(x - 4.5) < 0.05);
           if (idx !== -1) unassigned.splice(idx, 1);
         }
         fourFifties.splice(0, 4);
       }
     }
 
-    // ৩. অবশিষ্ট টুকরোগুলোর জন্য ফার্স্ট-ফিট অ্যালগরিদম (মিক্স কাটিং)
+    // ৩. অবশিষ্ট টুকরোগুলোর জন্য ফার্স্ট-ফিট অ্যালগরিদম (ব্লেড লস ছাড়া)
     unassigned.sort((a, b) => b - a);
 
     while (unassigned.length > 0) {
@@ -548,11 +548,8 @@
 
       for (let i = 0; i < unassigned.length; i++) {
         let pieceSize = unassigned[i];
-        let requiredSpace = (Math.abs(barSize - 21) < 0.1 && Math.abs(pieceSize - 7.0) < 0.1) 
-          ? pieceSize 
-          : (pieceSize + bladeLossFt);
 
-        if (currentCapacity >= requiredSpace || Math.abs(currentCapacity - pieceSize) < 0.02) {
+        if (currentCapacity >= pieceSize - 0.001) {
           currentCapacity -= pieceSize;
           usedIndices.push(i);
         }
@@ -577,7 +574,7 @@
       let pcsStr = b.piecesCut.map(x => x.toFixed(2) + "ft").join(" + ");
       
       let wastageTag = "";
-      if (b.wastage > 0.1) {
+      if (b.wastage > 0.05) {
         wastageTag = `<span class="wastage-red">অপচয়: ${b.wastage}ft</span>`;
       } else {
         wastageTag = `(অপচয়: ${b.wastage}ft)`;
@@ -665,8 +662,6 @@
     document.getElementById('mShutterTop').innerText = shutterTop.toFixed(2);
     document.getElementById('mShutterBottom').innerText = shutterBottom.toFixed(2);
 
-    let bladeLossFt = 0.125 / 12;
-
     let netMeshSqft = 0;
     if (isNetActive) {
       netMeshSqft = (totalSqft / 2);
@@ -676,7 +671,7 @@
       document.getElementById('mNetMeshSqft').innerText = netMeshSqft.toFixed(2);
       document.getElementById('net21Row').style.display = 'table-row';
       
-      let p21_net = getCuttingPlan(netPieces, 21, bladeLossFt);
+      let p21_net = getCuttingPlan(netPieces, 21);
       document.getElementById('c21_netLen').innerText = netFt.toFixed(2) + " ft";
       document.getElementById('c21_netBar').innerHTML = p21_net.detailsHTML;
     } else {
@@ -687,37 +682,37 @@
 
     document.getElementById('mTotalAlu').innerText = totalAlu.toFixed(2);
 
-    // --- ১. ১৮.৫ ফিট সেট (Outer Side, Lock, Interlock সিঙ্ক করা) ---
+    // --- ১. ১৮.৫ ফিট সেট (Outer Side, Lock, Interlock) ---
     document.getElementById('c18_outerSideLen').innerText = outerH.toFixed(2) + " ft";
-    document.getElementById('c18_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 18.5, bladeLossFt).detailsHTML;
+    document.getElementById('c18_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 18.5).detailsHTML;
 
     document.getElementById('c18_lockLen').innerText = shutterLock.toFixed(2) + " ft";
-    document.getElementById('c18_lockBar').innerHTML = getCuttingPlan(sLockPieces, 18.5, bladeLossFt).detailsHTML;
+    document.getElementById('c18_lockBar').innerHTML = getCuttingPlan(sLockPieces, 18.5).detailsHTML;
 
     document.getElementById('c18_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
-    document.getElementById('c18_intBar').innerHTML = getCuttingPlan(sIntPieces, 18.5, bladeLossFt).detailsHTML;
+    document.getElementById('c18_intBar').innerHTML = getCuttingPlan(sIntPieces, 18.5).detailsHTML;
 
-    // --- ২. ২১ ফিট সেট (সবগুলো ২১ ফিটে সিঙ্ক করা) ---
+    // --- ২. ২১ ফিট সেট ---
     document.getElementById('c21_outerSideLen').innerText = outerH.toFixed(2) + " ft";
-    document.getElementById('c21_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 21, bladeLossFt).detailsHTML;
+    document.getElementById('c21_outerSideBar').innerHTML = getCuttingPlan(oSidePieces, 21).detailsHTML;
 
     document.getElementById('c21_lockLen').innerText = shutterLock.toFixed(2) + " ft";
-    document.getElementById('c21_lockBar').innerHTML = getCuttingPlan(sLockPieces, 21, bladeLossFt).detailsHTML;
+    document.getElementById('c21_lockBar').innerHTML = getCuttingPlan(sLockPieces, 21).detailsHTML;
 
     document.getElementById('c21_intLen').innerText = shutterInterlock.toFixed(2) + " ft";
-    document.getElementById('c21_intBar').innerHTML = getCuttingPlan(sIntPieces, 21, bladeLossFt).detailsHTML;
+    document.getElementById('c21_intBar').innerHTML = getCuttingPlan(sIntPieces, 21).detailsHTML;
 
     document.getElementById('c21_topLen').innerText = outerTop.toFixed(2) + " ft";
-    document.getElementById('c21_topBar').innerHTML = getCuttingPlan(oTopPieces, 21, bladeLossFt).detailsHTML;
+    document.getElementById('c21_topBar').innerHTML = getCuttingPlan(oTopPieces, 21).detailsHTML;
 
     document.getElementById('c21_botLen').innerText = outerBottom.toFixed(2) + " ft";
-    document.getElementById('c21_botBar').innerHTML = getCuttingPlan(oBotPieces, 21, bladeLossFt).detailsHTML;
+    document.getElementById('c21_botBar').innerHTML = getCuttingPlan(oBotPieces, 21).detailsHTML;
 
     document.getElementById('c21_sTopLen').innerText = shutterTop.toFixed(2) + " ft";
-    document.getElementById('c21_sTopBar').innerHTML = getCuttingPlan(sTopPieces, 21, bladeLossFt).detailsHTML;
+    document.getElementById('c21_sTopBar').innerHTML = getCuttingPlan(sTopPieces, 21).detailsHTML;
 
     document.getElementById('c21_sBotLen').innerText = shutterBottom.toFixed(2) + " ft";
-    document.getElementById('c21_sBotBar').innerHTML = getCuttingPlan(sBotPieces, 21, bladeLossFt).detailsHTML;
+    document.getElementById('c21_sBotBar').innerHTML = getCuttingPlan(sBotPieces, 21).detailsHTML;
 
     // Costing calculation
     let glassSqft = totalSqft; 

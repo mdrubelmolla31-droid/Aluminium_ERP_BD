@@ -395,11 +395,13 @@
     <div class="input-group">
       <div class="input-box">
         <label>দৈর্ঘ্য (ft):</label>
-        <input type="number" id="cLength" value="30" oninput="calculateCeiling()">
+        <input type="number" id="cLength" value="30" oninput="calculateCeiling()" placeholder="দৈর্ঘ্য (ft)">
+
       </div>
       <div class="input-box">
         <label>প্রস্থ (ft):</label>
-        <input type="number" id="cWidth" value="30" oninput="calculateCeiling()">
+        <input type="number" id="cWidth" value="30" oninput="calculateCeiling()" placeholder="প্রস্থ (ft)">
+        
       </div>
     </div>
 
@@ -450,30 +452,44 @@
 
   function closeCalc(modalId) {
     document.getElementById(modalId).style.display = 'none';
+  }function calculateCeiling() {
+  let length = parseFloat(document.getElementById('cLength')?.value) || 0;
+  let width = parseFloat(document.getElementById('cWidth')?.value) || 0;
+
+  if (length <= 0 || width <= 0) {
+    if(document.getElementById('cArea')) document.getElementById('cArea').innerText = "0 sq ft";
+    if(document.getElementById('cWallAngle')) document.getElementById('cWallAngle').innerText = "0 টি";
+    if(document.getElementById('cMainTee')) document.getElementById('cMainTee').innerText = "0 টি";
+    if(document.getElementById('cCrossTee')) document.getElementById('cCrossTee').innerText = "0 টি";
+    if(document.getElementById('cBoard')) document.getElementById('cBoard').innerText = "0 টি";
+    return;
   }
 
-  function calculateCeiling() {
-    let len = parseFloat(document.getElementById('cLength').value) || 0;
-    let wid = parseFloat(document.getElementById('cWidth').value) || 0;
+  let totalArea = length * width;
 
-    if (len <= 0 || wid <= 0) return;
+  // ১. ওয়াল এঙ্গেল (১০ ফিট) -> పరిధి ÷ ১০
+  let perimeter = (length + width) * 2;
+  let wallAngle = Math.ceil(perimeter / 10);
 
-    let area = len * wid;
-    let wallAngle = Math.ceil(((len + wid) * 2) / 10);
-    
-    let mainTeeLines = Math.floor(wid / 2) - 1;
-    if (mainTeeLines < 0) mainTeeLines = 0;
-    let mainTee = mainTeeLines * Math.ceil(len / 10);
+  // ২. মেইন টি (১২ ফিট) -> ২ ফিট পর পর লাইন
+  let lines = Math.floor(width / 2) - 1;
+  if (lines < 0) lines = 0;
+  let mainTee = Math.ceil((lines * length) / 12);
 
-    let crossTee = Math.ceil(len / 2) * (Math.ceil(wid / 2) - 1);
-    let board = Math.ceil(area / 4);
+  // ৩. সিলিং বোর্ড (২'×২')
+  let ceilingBoard = Math.ceil(totalArea / 4);
 
-    document.getElementById('cArea').innerText = area + " sq ft";
-    document.getElementById('cWallAngle').innerText = wallAngle + " টি";
-    document.getElementById('cMainTee').innerText = mainTee + " টি";
-    document.getElementById('cCrossTee').innerText = crossTee + " টি";
-    document.getElementById('cBoard').innerText = board + " টি";
-  }
+  // ৪. ক্রস টি (২ ফিট) -> বোর্ডের সমান
+  let crossTee = ceilingBoard;
+
+  // UI আউটপুট
+  if(document.getElementById('cArea')) document.getElementById('cArea').innerText = totalArea + " sq ft";
+  if(document.getElementById('cWallAngle')) document.getElementById('cWallAngle').innerText = wallAngle + " টি";
+  if(document.getElementById('cMainTee')) document.getElementById('cMainTee').innerText = mainTee + " টি";
+  if(document.getElementById('cCrossTee')) document.getElementById('cCrossTee').innerText = crossTee + " টি";
+  if(document.getElementById('cBoard')) document.getElementById('cBoard').innerText = ceilingBoard + " টি";
+}
+
 
   function calculateFixed() {
     let h = parseFloat(document.getElementById('fHeight').value) || 0;

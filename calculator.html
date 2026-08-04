@@ -6,33 +6,6 @@
   <title>RM THAI ALUMINIUM - CUTTING CALCULATOR</title>
 
   <style>
-      /* আদার্স ক্যালকুলেটর পপ-আপ ডিজাইন */
-  .calc-modal {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 9999; padding: 15px;
-  }
-  .calc-card {
-    background: #0b58de; width: 100%; max-width: 400px;
-    border-radius: 12px; padding: 15px; border: 2px solid #2563eb;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  }
-  .calc-header {
-    display: flex; justify-content: space-between; align-items: center;
-    background: #2563eb; color: #fff; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px;
-  }
-  .calc-header h3 { margin: 0; font-size: 15px; color: #ffffff; }
-  .calc-header button { background: transparent; border: none; color: #fff; font-size: 18px; cursor: pointer; }
-  .input-group { display: flex; gap: 10px; margin-bottom: 12px; }
-  .input-box { flex: 1; }
-  .input-box label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #1e293b; }
-  .input-box input { width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; font-weight: bold; }
-  .result-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px; }
-  .result-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #cbd5e1; font-size: 12px; font-weight: bold; color: #0f172a; }
-  .result-item:last-child { border-bottom: none; }
-
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
     .container { max-width: 650px; margin: 0 auto; }
@@ -250,14 +223,6 @@
       <input type="text" id="shopPhone" value="01676474412" placeholder="মোবাইল নম্বর লিখুন" oninput="saveHeaderInfo()">
     </div>
   </div>
-<!-- হেডার কার্ডের ভেতরের আদার্স ক্যালকুলেটর বাটন -->
-<div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.2); text-align: center;">
-  <div style="font-weight: bold; margin-bottom: 8px; color: #ffffff; font-size: 13px;">🧮 OTHERS CALCULATORS</div>
-  <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-    <button type="button" class="nav-btn" onclick="openCalc('ceilingModal')" style="padding: 8px 12px; background: #2563eb; color: #ffffff; border: 1px solid #ffffff; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px;">🏠 ২'×২' সিলিং ক্যালকুলেটর</button>
-    <button type="button" class="nav-btn" onclick="openCalc('fixedModal')" style="padding: 8px 12px; background: #0891b2; color: #ffffff; border: 1px solid #ffffff; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px;">🪟 গ্লাস ফিক্সড ক্যালকুলেটর</button>
-  </div>
-</div>
 
   <div class="card">
     <div class="card-title">CUSTOMER DETAILS</div>
@@ -311,7 +276,7 @@
     <button class="btn btn-add" type="button" onclick="addRow()">+ নতুন উইন্ডো যোগ করুন</button>
     <button class="btn btn-calc" type="button" onclick="calculateAll(true)">হিসাব ও ফাইল সেভ করুন</button>
   </div>
-  
+
   <div class="card">
     <div class="card-title">TOTAL MATERIAL & COST</div>
     <table class="mat-table">
@@ -368,147 +333,8 @@
       <tbody id="tableBody21"></tbody>
     </table>
   </div>
-  <!-- হিস্ট্রি মডালের ভেতরে আদার্স ক্যালকুলেটর সেকশন -->
-  <div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #cbd5e1; text-align: center;">
-    <div style="font-size: 14px; font-weight: bold; color: #1e293b; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">
-      🧮 OTHERS CALCULATORS
-    </div>
-    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-      <button type="button" onclick="document.getElementById('historyModal').style.display='none'; openCalc('ceilingModal');" style="flex: 1; min-width: 130px; padding: 10px 8px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px;">
-        🏠 ২'×২' সিলিং ক্যালকুলেটর
-      </button>
-      <button type="button" onclick="document.getElementById('historyModal').style.display='none'; openCalc('fixedModal');" style="flex: 1; min-width: 130px; padding: 10px 8px; background: #0891b2; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px;">
-        🪟 গ্লাস ফিক্সড ক্যালকুলেটর
-      </button>
-    </div>
-  </div>
 
 </div>
-<!-- ১. সিলিং ক্যালকুলেটর ডায়ালগ -->
-<div id="ceilingModal" class="calc-modal" style="display:none;">
-  <div class="calc-card">
-    <div class="calc-header">
-      <h3>🏠 ২'×২' সিলিং ক্যালকুলেটর</h3>
-      <button onclick="closeCalc('ceilingModal')">✖</button>
-    </div>
-
-    <div class="input-group">
-      <div class="input-box">
-        <label>দৈর্ঘ্য (ft):</label>
-        <input type="number" id="cLength" value="30" oninput="calculateCeiling()" placeholder="দৈর্ঘ্য (ft)">
-
-      </div>
-      <div class="input-box">
-        <label>প্রস্থ (ft):</label>
-        <input type="number" id="cWidth" value="30" oninput="calculateCeiling()" placeholder="প্রস্থ (ft)">
-        
-      </div>
-    </div>
-
-    <div class="result-box">
-      <div class="result-item"><span>📏 মোট ক্ষেত্রফল:</span> <b id="cArea">900 sq ft</b></div>
-      <div class="result-item"><span>📌 ওয়াল এঙ্গেল (১০ ft):</span> <b id="cWallAngle">১২ টি</b></div>
-      <div class="result-item"><span>🔹 মেইন টি (১০ ft):</span> <b id="cMainTee">৪২ টি</b></div>
-      <div class="result-item"><span>🔸 ক্রস টি (২ ft):</span> <b id="cCrossTee">২১০ টি</b></div>
-      <div class="result-item"><span>🔲 সিলিং বোর্ড (২'×২'):</span> <b id="cBoard">২২৫ টি</b></div>
-    </div>
-  </div>
-</div>
-
-<!-- ২. গ্লাস ফিক্সড ক্যালকুলেটর ডায়ালগ -->
-<div id="fixedModal" class="calc-modal" style="display:none;">
-  <div class="calc-card">
-    <div class="calc-header">
-      <h3>🪟 গ্লাস ফিক্সড ক্যালকুলেটর</h3>
-      <button onclick="closeCalc('fixedModal')">✖</button>
-    </div>
-
-    <div class="input-group">
-      <div class="input-box">
-        <label>উচ্চতা (ইঞ্চি):</label>
-        <input type="number" id="fHeight" value="48" oninput="calculateFixed()">
-      </div>
-      <div class="input-box">
-        <label>চওড়া (ইঞ্চি):</label>
-        <input type="number" id="fWidth" value="72" oninput="calculateFixed()">
-      </div>
-    </div>
-
-    <div class="result-box">
-      <div class="result-item"><span>📐 মোট স্কয়ার ফিট:</span> <b id="fSft">24.00 SFT</b></div>
-      <div class="result-item"><span>🧱 গ্লাস কাটিং সাইজ:</span> <b id="fGlassSize">46.5" × 70.5"</b></div>
-      <div class="result-item"><span>📏 ফিক্সড চ্যানেল (RFT):</span> <b id="fChannel">20.00 Rft (2 টি স্টিক)</b></div>
-    </div>
-  </div>
-</div>
-
-<!-- জাভাস্ক্রিপ্ট ফাংশনসমূহ -->
-<script>
-  function openCalc(modalId) {
-    document.getElementById(modalId).style.display = 'flex';
-    if(modalId === 'ceilingModal') calculateCeiling();
-    if(modalId === 'fixedModal') calculateFixed();
-  }
-
-  function closeCalc(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-  }function calculateCeiling() {
-  let length = parseFloat(document.getElementById('cLength')?.value) || 0;
-  let width = parseFloat(document.getElementById('cWidth')?.value) || 0;
-
-  if (length <= 0 || width <= 0) {
-    if(document.getElementById('cArea')) document.getElementById('cArea').innerText = "0 sq ft";
-    if(document.getElementById('cWallAngle')) document.getElementById('cWallAngle').innerText = "0 টি";
-    if(document.getElementById('cMainTee')) document.getElementById('cMainTee').innerText = "0 টি";
-    if(document.getElementById('cCrossTee')) document.getElementById('cCrossTee').innerText = "0 টি";
-    if(document.getElementById('cBoard')) document.getElementById('cBoard').innerText = "0 টি";
-    return;
-  }
-
-  let totalArea = length * width;
-
-  // ১. ওয়াল এঙ্গেল (১০ ফিট) -> పరిధి ÷ ১০
-  let perimeter = (length + width) * 2;
-  let wallAngle = Math.ceil(perimeter / 10);
-
-  // ২. মেইন টি (১২ ফিট) -> ২ ফিট পর পর লাইন
-  let lines = Math.floor(width / 2) - 1;
-  if (lines < 0) lines = 0;
-  let mainTee = Math.ceil((lines * length) / 12);
-
-  // ৩. সিলিং বোর্ড (২'×২')
-  let ceilingBoard = Math.ceil(totalArea / 4);
-
-  // ৪. ক্রস টি (২ ফিট) -> বোর্ডের সমান
-  let crossTee = ceilingBoard;
-
-  // UI আউটপুট
-  if(document.getElementById('cArea')) document.getElementById('cArea').innerText = totalArea + " sq ft";
-  if(document.getElementById('cWallAngle')) document.getElementById('cWallAngle').innerText = wallAngle + " টি";
-  if(document.getElementById('cMainTee')) document.getElementById('cMainTee').innerText = mainTee + " টি";
-  if(document.getElementById('cCrossTee')) document.getElementById('cCrossTee').innerText = crossTee + " টি";
-  if(document.getElementById('cBoard')) document.getElementById('cBoard').innerText = ceilingBoard + " টি";
-}
-
-
-  function calculateFixed() {
-    let h = parseFloat(document.getElementById('fHeight').value) || 0;
-    let w = parseFloat(document.getElementById('fWidth').value) || 0;
-
-    if (h <= 0 || w <= 0) return;
-
-    let sft = (h * w) / 144;
-    let gHeight = h > 1.5 ? (h - 1.5) : h;
-    let gWidth = w > 1.5 ? (w - 1.5) : w;
-
-    let totalRft = ((h + w) * 2) / 12;
-    let stickCount = Math.ceil(totalRft / 18);
-
-    document.getElementById('fSft').innerText = sft.toFixed(2) + " SFT";
-    document.getElementById('fGlassSize').innerText = gHeight.toFixed(1) + '" × ' + gWidth.toFixed(1) + '"';
-    document.getElementById('fChannel').innerText = totalRft.toFixed(2) + " Rft (" + stickCount + " টি স্টিক)";
-  }
-</script>
 
 <div id="historyModal" onclick="if(event.target === this) closeHistory()">
   <div class="history-content">

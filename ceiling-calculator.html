@@ -140,11 +140,11 @@
             font-weight: bold;
         }
 
-        /* প্রাইস ও কস্টিং সেকশন স্টাইল */
+        /* কস্টিং সেকশন থিম কালার (সবুজ বাদ দিয়ে ড্যাশবোর্ড কালার দেওয়া হলো) */
         .costing-box {
             display: none;
             background: #111827;
-            border: 1px solid #10b981;
+            border: 1px solid #3b82f6;
             border-radius: 16px;
             padding: 20px;
         }
@@ -158,25 +158,29 @@
         }
 
         .cost-row label {
-            font-size: 12px;
-            color: #e5e7eb;
+            font-size: 13px;
+            color: #f3f4f6;
             grid-column: span 3;
             font-weight: 600;
         }
 
         .cost-row input {
-            padding: 8px;
+            padding: 10px;
             background: #1e293b;
             border: 1px solid #334155;
             color: white;
-            border-radius: 6px;
-            font-size: 13px;
+            border-radius: 8px;
+            font-size: 14px;
             width: 100%;
         }
 
+        .cost-row input:focus {
+            border-color: #3b82f6;
+        }
+
         .subtotal-text {
-            font-size: 13px;
-            color: #10b981;
+            font-size: 14px;
+            color: #38bdf8;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -185,9 +189,9 @@
 
         .grand-total-card {
             margin-top: 16px;
-            padding: 12px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
+            padding: 14px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
@@ -203,7 +207,7 @@
         .grand-total-val {
             font-size: 18px;
             font-weight: bold;
-            color: #10b981;
+            color: #fbbf24;
         }
     </style>
 </head>
@@ -215,7 +219,7 @@
             <div class="header-title">🛖 সিলিং ক্যালকুলেটর</div>
         </div>
 
-        <!-- ১. পরিমাপ ইনপুট -->
+        <!-- পরিমাপ ইনপুট -->
         <div class="card">
             <div class="input-group">
                 <label>রুমের দৈর্ঘ্য (ফিট):</label>
@@ -230,7 +234,7 @@
             <button class="btn-calc" onclick="calculateCeiling()">মালামালের হিসাব করুন</button>
         </div>
 
-        <!-- ২. মালামালের তালিকা (ধাপ ১ এর ফলাফল) -->
+        <!-- মালামালের তালিকা -->
         <div class="result-box" id="resultBox">
             <div class="result-title">📊 প্রয়োজনীয় মালামালের তালিকা</div>
             
@@ -260,9 +264,9 @@
             </div>
         </div>
 
-        <!-- ৩. কস্টিং ও প্রাইস হিসাব (ধাপ ২) -->
+        <!-- কস্টিং ও প্রাইস হিসাব -->
         <div class="costing-box" id="costingBox">
-            <div class="result-title" style="color: #10b981; border-color: #10b981;">💰 মালামালের দর ও মোট খরচের হিসাব</div>
+            <div class="result-title">💰 মালামালের দর ও মোট খরচের হিসাব</div>
 
             <!-- ওয়াল এঙ্গেল -->
             <div class="cost-row">
@@ -314,73 +318,57 @@
                 return;
             }
 
-            // ১. মোট স্কয়ার ফিট
             const totalSqft = length * width;
-
-            // ২. ওয়াল এঙ্গেল (১০ ফিট)
             const perimeter = 2 * (length + width);
             const wallAngleCount = Math.ceil(perimeter / 10);
 
-            // ৩. মেইন টি (১২ ফিট)
             const longSide = Math.max(length, width);
             const shortSide = Math.min(length, width);
             const mainTeeRows = Math.floor(shortSide / 2) - 1; 
             const mainTeePerRow = Math.ceil(longSide / 12);
             const mainTeeCount = Math.max(0, mainTeeRows * mainTeePerRow);
 
-            // ৪. ক্রস টি (২ ফিট)
             const crossTeeCount = Math.ceil((length * width) / 2);
-
-            // ৫. সিলিং বোর্ড (২' × ২')
             const boardCount = Math.ceil(totalSqft / 4);
 
-            // ১ম ধাপে ফলাফল দেখানো
             document.getElementById('totalArea').innerText = totalSqft.toFixed(2) + ' Sqft';
             document.getElementById('wallAngleText').innerText = wallAngleCount + ' টি';
             document.getElementById('mainTeeText').innerText = mainTeeCount + ' টি';
             document.getElementById('crossTeeText').innerText = crossTeeCount + ' টি';
             document.getElementById('ceilingBoardText').innerText = boardCount + ' টি';
 
-            // ২য় ধাপের ইনপুট বক্সে পরিমাণ স্বয়ংক্রিয়ভাবে বসানো
             document.getElementById('wallAngleQty').value = wallAngleCount;
             document.getElementById('mainTeeQty').value = mainTeeCount;
             document.getElementById('crossTeeQty').value = crossTeeCount;
             document.getElementById('boardQty').value = boardCount;
 
-            // বক্স দুটি ভিজিবল করা
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('costingBox').style.display = 'block';
 
-            // কস্টিং হিসাব আপডেট করা
             calculateCost();
         }
 
         function calculateCost() {
-            // পরিমাণ
             const wallAngleQty = parseFloat(document.getElementById('wallAngleQty').value) || 0;
             const mainTeeQty = parseFloat(document.getElementById('mainTeeQty').value) || 0;
             const crossTeeQty = parseFloat(document.getElementById('crossTeeQty').value) || 0;
             const boardQty = parseFloat(document.getElementById('boardQty').value) || 0;
 
-            // দর/দাম
             const wallAnglePrice = parseFloat(document.getElementById('wallAnglePrice').value) || 0;
             const mainTeePrice = parseFloat(document.getElementById('mainTeePrice').value) || 0;
             const crossTeePrice = parseFloat(document.getElementById('crossTeePrice').value) || 0;
             const boardPrice = parseFloat(document.getElementById('boardPrice').value) || 0;
 
-            // সাব-টোটাল
             const wallAngleSubtotal = wallAngleQty * wallAnglePrice;
             const mainTeeSubtotal = mainTeeQty * mainTeePrice;
             const crossTeeSubtotal = crossTeeQty * crossTeePrice;
             const boardSubtotal = boardQty * boardPrice;
 
-            // সাব-টোটাল টেক্সট আপডেট
             document.getElementById('wallAngleSubtotal').innerText = '৳ ' + wallAngleSubtotal.toFixed(2);
             document.getElementById('mainTeeSubtotal').innerText = '৳ ' + mainTeeSubtotal.toFixed(2);
             document.getElementById('crossTeeSubtotal').innerText = '৳ ' + crossTeeSubtotal.toFixed(2);
             document.getElementById('boardSubtotal').innerText = '৳ ' + boardSubtotal.toFixed(2);
 
-            // সর্বমোট হিসাব
             const grandTotal = wallAngleSubtotal + mainTeeSubtotal + crossTeeSubtotal + boardSubtotal;
             document.getElementById('grandTotal').innerText = '৳ ' + grandTotal.toFixed(2);
         }

@@ -286,6 +286,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     initDropdowns();
     loadRateList();
+    setupDropdownLongPress();
   });
 
   function initDropdowns() {
@@ -317,6 +318,55 @@
     });
 
     select.value = currentVal;
+  }
+
+  // ড্রপডাউনে সিলেক্ট থাকা আইটেমটিকে লং প্রেস করে মুছে ফেলার ফাংশন
+  function setupDropdownLongPress() {
+    const dropdowns = [
+      { id: 'company', storageKey: 'companyList' },
+      { id: 'series', storageKey: 'seriesList' },
+      { id: 'aluThickness', storageKey: 'thickList' },
+      { id: 'aluColour', storageKey: 'aluColourList' },
+      { id: 'glassCompany', storageKey: 'glassCoList' },
+      { id: 'glassThickness', storageKey: 'glassThickList' },
+      { id: 'glassColour', storageKey: 'glassColourList' }
+    ];
+
+    dropdowns.forEach(item => {
+      const selectEl = document.getElementById(item.id);
+      let timer;
+
+      const triggerDelete = () => {
+        const selectedValue = selectEl.value;
+        if (!selectedValue) {
+          alert("মুছে ফেলার জন্য প্রথমে ড্রপডাউন থেকে যেকোনো একটি অপশন সিলেক্ট করুন।");
+          return;
+        }
+
+        if (confirm(`আপনি কি "${selectedValue}" অপশনটি ড্রপডাউন থেকে ডিলিট করতে চান?`)) {
+          let list = JSON.parse(localStorage.getItem(item.storageKey)) || [];
+          list = list.filter(val => val !== selectedValue);
+          localStorage.setItem(item.storageKey, JSON.stringify(list));
+          populateDropdown(item.storageKey, item.id);
+        }
+      };
+
+      // মোবাইল স্পর্শ (Touch Long Press)
+      selectEl.addEventListener('touchstart', (e) => {
+        timer = setTimeout(() => {
+          triggerDelete();
+        }, 800); // ৮০০ মিলি-সেকেন্ড চেপে রাখলে ডিলিট ট্রিগার হবে
+      });
+
+      selectEl.addEventListener('touchend', () => clearTimeout(timer));
+      selectEl.addEventListener('touchmove', () => clearTimeout(timer));
+
+      // পিসিতে মাউসের রাইট-ক্লিক
+      selectEl.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        triggerDelete();
+      });
+    });
   }
 
   function addMasterItem(storageKey, inputId, labelName, selectId) {

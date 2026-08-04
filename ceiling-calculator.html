@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceiling Calculator - Aluminium ERP BD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            padding: 16px;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: #9ca3af;
+            margin-bottom: 6px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #ffffff;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #3b82f6;
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-calc:hover {
+            background: #1d4ed8;
+        }
+
+        .result-box {
+            display: none;
+            background: #111827;
+            border: 1px solid #3b82f6;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 14px;
+            text-align: center;
+            border-bottom: 1px dashed #334155;
+            padding-bottom: 8px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #1e293b;
+            font-size: 14px;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #9ca3af;
+        }
+
+        .result-val {
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        /* প্রাইস ও কস্টিং সেকশন স্টাইল */
+        .costing-box {
+            display: none;
+            background: #111827;
+            border: 1px solid #10b981;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .cost-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .cost-row label {
+            font-size: 12px;
+            color: #e5e7eb;
+            grid-column: span 3;
+            font-weight: 600;
+        }
+
+        .cost-row input {
+            padding: 8px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 6px;
+            font-size: 13px;
+            width: 100%;
+        }
+
+        .subtotal-text {
+            font-size: 13px;
+            color: #10b981;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .grand-total-card {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grand-total-label {
+            font-size: 15px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .grand-total-val {
+            font-size: 18px;
+            font-weight: bold;
+            color: #10b981;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">⬅️</a>
+            <div class="header-title">🛖 সিলিং ক্যালকুলেটর</div>
+        </div>
+
+        <!-- ১. পরিমাপ ইনপুট -->
+        <div class="card">
+            <div class="input-group">
+                <label>রুমের দৈর্ঘ্য (ফিট):</label>
+                <input type="number" id="length" placeholder="যেমন: 25">
+            </div>
+
+            <div class="input-group">
+                <label>রুমের প্রস্থ (ফিট):</label>
+                <input type="number" id="width" placeholder="যেমন: 14">
+            </div>
+
+            <button class="btn-calc" onclick="calculateCeiling()">মালামালের হিসাব করুন</button>
+        </div>
+
+        <!-- ২. মালামালের তালিকা (ধাপ ১ এর ফলাফল) -->
+        <div class="result-box" id="resultBox">
+            <div class="result-title">📊 প্রয়োজনীয় মালামালের তালিকা</div>
+            
+            <div class="result-item">
+                <span class="result-label">মোট এরিয়া:</span>
+                <span class="result-val" id="totalArea">0 Sqft</span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">ওয়াল এঙ্গেল (১০ ফিট):</span>
+                <span class="result-val" id="wallAngleText">0 টি</span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">মেইন টি (১২ ফিট):</span>
+                <span class="result-val" id="mainTeeText">0 টি</span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">ক্রস টি (২ ফিট):</span>
+                <span class="result-val" id="crossTeeText">0 টি</span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">সিলিং বোর্ড (২' × ২'):</span>
+                <span class="result-val" id="ceilingBoardText">0 টি</span>
+            </div>
+        </div>
+
+        <!-- ৩. কস্টিং ও প্রাইস হিসাব (ধাপ ২) -->
+        <div class="costing-box" id="costingBox">
+            <div class="result-title" style="color: #10b981; border-color: #10b981;">💰 মালামালের দর ও মোট খরচের হিসাব</div>
+
+            <!-- ওয়াল এঙ্গেল -->
+            <div class="cost-row">
+                <label>১. ওয়াল এঙ্গেল (১০ ফিট)</label>
+                <input type="number" id="wallAngleQty" placeholder="পরিমাণ (পিস)" oninput="calculateCost()">
+                <input type="number" id="wallAnglePrice" placeholder="দর (টাকা)" oninput="calculateCost()">
+                <div class="subtotal-text" id="wallAngleSubtotal">৳ 0</div>
+            </div>
+
+            <!-- মেইন টি -->
+            <div class="cost-row">
+                <label>২. মেইন টি (১২ ফিট)</label>
+                <input type="number" id="mainTeeQty" placeholder="পরিমাণ (পিস)" oninput="calculateCost()">
+                <input type="number" id="mainTeePrice" placeholder="দর (টাকা)" oninput="calculateCost()">
+                <div class="subtotal-text" id="mainTeeSubtotal">৳ 0</div>
+            </div>
+
+            <!-- ক্রস টি -->
+            <div class="cost-row">
+                <label>৩. ক্রস টি (২ ফিট)</label>
+                <input type="number" id="crossTeeQty" placeholder="পরিমাণ (পিস)" oninput="calculateCost()">
+                <input type="number" id="crossTeePrice" placeholder="দর (টাকা)" oninput="calculateCost()">
+                <div class="subtotal-text" id="crossTeeSubtotal">৳ 0</div>
+            </div>
+
+            <!-- সিলিং বোর্ড -->
+            <div class="cost-row">
+                <label>৪. সিলিং বোর্ড (২' × ২')</label>
+                <input type="number" id="boardQty" placeholder="পরিমাণ (পিস)" oninput="calculateCost()">
+                <input type="number" id="boardPrice" placeholder="দর (টাকা)" oninput="calculateCost()">
+                <div class="subtotal-text" id="boardSubtotal">৳ 0</div>
+            </div>
+
+            <!-- সর্বমোট খরচ -->
+            <div class="grand-total-card">
+                <span class="grand-total-label">সর্বমোট আনুমানিক খরচ:</span>
+                <span class="grand-total-val" id="grandTotal">৳ 0</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateCeiling() {
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+
+            if (!length || !width || length <= 0 || width <= 0) {
+                alert('অনুগ্রহ করে সঠিক দৈর্ঘ্য ও প্রস্থ লিখুন!');
+                return;
+            }
+
+            // ১. মোট স্কয়ার ফিট
+            const totalSqft = length * width;
+
+            // ২. ওয়াল এঙ্গেল (১০ ফিট)
+            const perimeter = 2 * (length + width);
+            const wallAngleCount = Math.ceil(perimeter / 10);
+
+            // ৩. মেইন টি (১২ ফিট)
+            const longSide = Math.max(length, width);
+            const shortSide = Math.min(length, width);
+            const mainTeeRows = Math.floor(shortSide / 2) - 1; 
+            const mainTeePerRow = Math.ceil(longSide / 12);
+            const mainTeeCount = Math.max(0, mainTeeRows * mainTeePerRow);
+
+            // ৪. ক্রস টি (২ ফিট)
+            const crossTeeCount = Math.ceil((length * width) / 2);
+
+            // ৫. সিলিং বোর্ড (২' × ২')
+            const boardCount = Math.ceil(totalSqft / 4);
+
+            // ১ম ধাপে ফলাফল দেখানো
+            document.getElementById('totalArea').innerText = totalSqft.toFixed(2) + ' Sqft';
+            document.getElementById('wallAngleText').innerText = wallAngleCount + ' টি';
+            document.getElementById('mainTeeText').innerText = mainTeeCount + ' টি';
+            document.getElementById('crossTeeText').innerText = crossTeeCount + ' টি';
+            document.getElementById('ceilingBoardText').innerText = boardCount + ' টি';
+
+            // ২য় ধাপের ইনপুট বক্সে পরিমাণ স্বয়ংক্রিয়ভাবে বসানো
+            document.getElementById('wallAngleQty').value = wallAngleCount;
+            document.getElementById('mainTeeQty').value = mainTeeCount;
+            document.getElementById('crossTeeQty').value = crossTeeCount;
+            document.getElementById('boardQty').value = boardCount;
+
+            // বক্স দুটি ভিজিবল করা
+            document.getElementById('resultBox').style.display = 'block';
+            document.getElementById('costingBox').style.display = 'block';
+
+            // কস্টিং হিসাব আপডেট করা
+            calculateCost();
+        }
+
+        function calculateCost() {
+            // পরিমাণ
+            const wallAngleQty = parseFloat(document.getElementById('wallAngleQty').value) || 0;
+            const mainTeeQty = parseFloat(document.getElementById('mainTeeQty').value) || 0;
+            const crossTeeQty = parseFloat(document.getElementById('crossTeeQty').value) || 0;
+            const boardQty = parseFloat(document.getElementById('boardQty').value) || 0;
+
+            // দর/দাম
+            const wallAnglePrice = parseFloat(document.getElementById('wallAnglePrice').value) || 0;
+            const mainTeePrice = parseFloat(document.getElementById('mainTeePrice').value) || 0;
+            const crossTeePrice = parseFloat(document.getElementById('crossTeePrice').value) || 0;
+            const boardPrice = parseFloat(document.getElementById('boardPrice').value) || 0;
+
+            // সাব-টোটাল
+            const wallAngleSubtotal = wallAngleQty * wallAnglePrice;
+            const mainTeeSubtotal = mainTeeQty * mainTeePrice;
+            const crossTeeSubtotal = crossTeeQty * crossTeePrice;
+            const boardSubtotal = boardQty * boardPrice;
+
+            // সাব-টোটাল টেক্সট আপডেট
+            document.getElementById('wallAngleSubtotal').innerText = '৳ ' + wallAngleSubtotal.toFixed(2);
+            document.getElementById('mainTeeSubtotal').innerText = '৳ ' + mainTeeSubtotal.toFixed(2);
+            document.getElementById('crossTeeSubtotal').innerText = '৳ ' + crossTeeSubtotal.toFixed(2);
+            document.getElementById('boardSubtotal').innerText = '৳ ' + boardSubtotal.toFixed(2);
+
+            // সর্বমোট হিসাব
+            const grandTotal = wallAngleSubtotal + mainTeeSubtotal + crossTeeSubtotal + boardSubtotal;
+            document.getElementById('grandTotal').innerText = '৳ ' + grandTotal.toFixed(2);
+        }
+    </script>
+</body>
+</html>

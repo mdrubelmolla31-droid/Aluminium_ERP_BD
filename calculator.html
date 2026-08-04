@@ -161,6 +161,18 @@
     }
     .history-header h3 { margin: 0; color: #1e40af; font-size: 16px; text-transform: uppercase; }
     .history-list { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
+    .history-list li {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
     .btn-close-history {
       background: #ef4444;
       color: white;
@@ -274,7 +286,7 @@
       <tbody id="winTableBody"></tbody>
     </table>
     <button class="btn btn-add" type="button" onclick="addRow()">+ নতুন উইন্ডো যোগ করুন</button>
-    <button class="btn btn-calc" type="button" onclick="calculateAll(true)">হিসাব ও ফাইল সেভ করুন</button>
+    <button class="btn btn-calc" type="button" onclick="calculateAll()">হিসাব করুন</button>
   </div>
 
   <div class="card">
@@ -342,7 +354,7 @@
       <h3>CALCULATION HISTORY</h3>
       <button class="btn-close-history" onclick="closeHistory()">X</button>
     </div>
-    <div id="historyListContainer" class="history-list"></div>
+    <ul id="historyListContainer" class="history-list"></ul>
     <button class="btn btn-danger" style="margin-top: 10px;" onclick="clearAllHistory()">সব হিসাব মুছে ফেলুন</button>
   </div>
 </div>
@@ -365,7 +377,7 @@
     addPresetRow('', '', '');
     
     toggleNetSection();
-    calculateAll(false);
+    calculateAll();
   });
 
   function addPresetRow(h, w, q) {
@@ -374,9 +386,9 @@
     tr.className = 'window-row';
     tr.innerHTML = `
       <td class="row-index"></td>
-      <td><input type="number" class="w-h height-input" value="${h}" placeholder="উচ্চতা" oninput="calculateAll(false)"></td>
-      <td><input type="number" class="w-w width-input" value="${w}" placeholder="পাশ" oninput="calculateAll(false)"></td>
-      <td><input type="number" class="w-q qty-input" value="${q}" placeholder="সংখ্যা" oninput="calculateAll(false)"></td>
+      <td><input type="number" class="w-h height-input" value="${h}" placeholder="উচ্চতা" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-w width-input" value="${w}" placeholder="পাশ" oninput="calculateAll()"></td>
+      <td><input type="number" class="w-q qty-input" value="${q}" placeholder="সংখ্যা" oninput="calculateAll()"></td>
       <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
@@ -440,7 +452,7 @@
     if (rows.length > 1) {
       btn.closest('tr').remove();
       updateIndexes();
-      calculateAll(false);
+      calculateAll();
     } else {
       alert("কমপক্ষে একটি উইন্ডো রো থাকতে হবে!");
     }
@@ -540,7 +552,7 @@
     return { detailsHTML: detailsHTML, totalLen: totalLen, totalWastage: totalWastage, barCount: plan.length };
   }
 
-  function calculateAll(shouldSave = false) {
+  function calculateAll() {
     let rateData = getMatchedRate();
 
     let heights = document.querySelectorAll('.w-h');
@@ -733,35 +745,11 @@
     document.getElementById('mProfitPerSqft').innerText = toBnNum(profitPerSqft.toFixed(2));
     document.getElementById('mSellingPrice').innerText = toBnNum(sellingPrice.toFixed(2));
 
-    if (shouldSave && totalSqft > 0) {
-      let windowItems = [];
-      document.querySelectorAll('#winTableBody tr').forEach(row => {
-        let h = row.querySelector('.w-h').value;
-        let w = row.querySelector('.w-w').value;
-        let q = row.querySelector('.w-q').value;
-        if (h && w && q) windowItems.push({ h, w, q });
-      });
-
-      let fileData = {
-        id: Date.now(),
-        date: new Date().toLocaleDateString('bn-BD'),
-        custName: document.getElementById('custName').value || 'সাধারণ গ্রাহক',
-        projectName: document.getElementById('projectName').value || 'সাধারণ প্রজেক্ট',
-        company: document.getElementById('aluCompany').value,
-        series: document.getElementById('aluSeries').value,
-        aluThickness: document.getElementById('aluThickness').value,
-        aluColour: document.getElementById('aluColour').value,
-        glassCompany: document.getElementById('glassCompany').value,
-        glassThickness: document.getElementById('glassThickness').value,
-        glassColour: document.getElementById('glassColour').value,
-        netSection: document.getElementById('netSection').value,
-        windowItems: windowItems,
-        totalSqft: totalSqft.toFixed(2),
-        sellingPrice: sellingPrice.toFixed(2)
-      };
-
-      saveCustomerFile(fileData);
-      alert(`✅ "${fileData.custName}" এর হিসাব ও ফাইল সেভ করা হয়েছে!`);
+    if (totalSqft > 0) {
+      let cust = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
+      let proj = document.getElementById('projectName').value || 'এন/এ';
+      let summaryText = `গ্রাহক: ${cust} | প্রজেক্ট: ${proj} | মোট স্কয়ার ফিট: ${toBnNum(totalSqft.toFixed(2))} Sqft | মোট অ্যালুমিনিয়াম: ${toBnNum(totalAlu.toFixed(2))} ফিট | মোট মূল্য: ${toBnNum(sellingPrice.toFixed(2))} ৳`;
+      saveToHistory(summaryText);
     }
   }
 
@@ -774,86 +762,42 @@
     document.getElementById('historyModal').style.display = 'none';
   }
 
-  function saveCustomerFile(data) {
-    let history = JSON.parse(localStorage.getItem('rm_cust_files')) || [];
-    history.unshift(data);
+  function saveToHistory(summaryData) {
+    let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
+    let timestamp = new Date().toLocaleString('bn-BD');
+    if (history.length > 0 && history[0].details === summaryData) return;
+    history.unshift({ time: timestamp, details: summaryData });
     if (history.length > 50) history.pop();
-    localStorage.setItem('rm_cust_files', JSON.stringify(history));
+    localStorage.setItem('rm_calc_history', JSON.stringify(history));
   }
 
   function renderHistoryList() {
     let container = document.getElementById('historyListContainer');
-    let history = JSON.parse(localStorage.getItem('rm_cust_files')) || [];
+    let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
     container.innerHTML = '';
     
     if (history.length === 0) {
-      container.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">কোনো সেভ করা ফাইল পাওয়া যায়নি।</div>';
+      container.innerHTML = '<li style="justify-content: center; color: #64748b;">কোনো হিসাবের ইতিহাস পাওয়া যায়নি।</li>';
       return;
     }
 
-    history.forEach((file) => {
-      let card = document.createElement('div');
-      card.style.cssText = "background:#f8fafc; border:1px solid #e2e8f0; padding:10px; border-radius:6px; margin-bottom:8px; cursor:pointer;";
-      card.innerHTML = `
-        <div style="display:flex; justify-content:space-between; font-weight:bold; color:#1e40af;">
-          <span>👤 ${file.custName}</span>
-          <span style="font-size:11px; color:#64748b;">${file.date}</span>
-        </div>
-        <div style="font-size:12px; margin-top:4px;"><strong>প্রজেক্ট:</strong> ${file.projectName}</div>
-        <div style="font-size:12px;"><strong>সাইজ:</strong> ${toBnNum(file.totalSqft)} Sqft</div>
-        <div style="font-size:13px; color:#0369a1; font-weight:bold; margin-top:4px;">মোট মূল্য: ${toBnNum(file.sellingPrice)} ৳</div>
-        <div style="text-align:right; margin-top:6px;">
-          <button class="btn-danger" onclick="event.stopPropagation(); deleteSingleFile(${file.id})">মুছুন</button>
-        </div>
-      `;
-      card.onclick = () => loadSavedFile(file);
-      container.appendChild(card);
+    history.forEach((item, index) => {
+      let li = document.createElement('li');
+      li.innerHTML = `<div><strong>#${toBnNum(index + 1)} (${item.time})</strong><br>${item.details}</div> <button class="btn-danger" onclick="deleteSingleHistory(${index})">মুছে ফেলুন</button>`;
+      container.appendChild(li);
     });
   }
 
-  function loadSavedFile(file) {
-    document.getElementById('custName').value = file.custName || '';
-    document.getElementById('projectName').value = file.projectName || '';
-    
-    if(file.company) document.getElementById('aluCompany').value = file.company;
-    if(file.series) document.getElementById('aluSeries').value = file.series;
-    if(file.aluThickness) document.getElementById('aluThickness').value = file.aluThickness;
-    if(file.aluColour) document.getElementById('aluColour').value = file.aluColour;
-    
-    if(file.glassCompany) document.getElementById('glassCompany').value = file.glassCompany;
-    if(file.glassThickness) document.getElementById('glassThickness').value = file.glassThickness;
-    if(file.glassColour) document.getElementById('glassColour').value = file.glassColour;
-    if(file.netSection) document.getElementById('netSection').value = file.netSection;
-
-    let tbody = document.getElementById('winTableBody');
-    tbody.innerHTML = '';
-
-    if (file.windowItems && file.windowItems.length > 0) {
-      file.windowItems.forEach(item => {
-        addPresetRow(item.h, item.w, item.q);
-      });
-    } else {
-      addPresetRow('', '', '');
-    }
-
-    toggleNetSection();
-    calculateAll(false);
-    closeHistory();
-    alert(`📂 "${file.custName}" এর ফাইলটি রি-ওপেন করা হয়েছে!`);
-  }
-
-  function deleteSingleFile(id) {
-    let history = JSON.parse(localStorage.getItem('rm_cust_files')) || [];
-    history = history.filter(f => f.id !== id);
-    localStorage.setItem('rm_cust_files', JSON.stringify(history));
+  function deleteSingleHistory(index) {
+    let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
+    history.splice(index, 1);
+    localStorage.setItem('rm_calc_history', JSON.stringify(history));
     renderHistoryList();
   }
 
   function clearAllHistory() {
-    if (confirm("আপনি কি নিশ্চিত যে সব সেভ ফাইল মুছে ফেলতে চান?")) {
-      localStorage.removeItem('rm_cust_files');
-      renderHistoryList();
-    }
+    localStorage.removeItem('rm_calc_history');
+    renderHistoryList();
   }
 </script>
 

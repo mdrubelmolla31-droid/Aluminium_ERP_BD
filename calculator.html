@@ -303,15 +303,6 @@
     <button class="btn btn-add" type="button" onclick="addRow()">+ নতুন উইন্ডো যোগ করুন</button>
     <button class="btn btn-calc" type="button" onclick="calculateAll(true)">হিসাব ও ফাইল সেভ করুন</button>
   </div>
-  <!-- আদার্স ক্যালকুলেটর বাটন সেকশন -->
-<div class="card" style="display: block !important; margin: 15px 0; text-align: center; background: #ffffff; padding: 12px; border-radius: 8px; border: 2px solid #2563eb; position: relative; z-index: 10;">
-  <div class="card-title" style="font-weight: bold; margin-bottom: 10px; color: #1e293b; font-size: 14px;">🧮 OTHERS CALCULATORS</div>
-  <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-    <button type="button" class="nav-btn" onclick="openCalc('ceilingModal')" style="padding: 10px 15px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;">🏠 ২'×২' সিলিং ক্যালকুলেটর</button>
-    <button type="button" class="nav-btn" onclick="openCalc('fixedModal')" style="padding: 10px 15px; background: #0891b2; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;">🪟 গ্লাস ফিক্সড ক্যালকুলেটর</button>
-  </div>
-</div>
-
   
   <div class="card">
     <div class="card-title">TOTAL MATERIAL & COST</div>
@@ -368,6 +359,20 @@
       </thead>
       <tbody id="tableBody21"></tbody>
     </table>
+  </div>
+  <!-- হিস্ট্রি মডালের ভেতরে আদার্স ক্যালকুলেটর সেকশন -->
+  <div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #cbd5e1; text-align: center;">
+    <div style="font-size: 14px; font-weight: bold; color: #1e293b; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">
+      🧮 OTHERS CALCULATORS
+    </div>
+    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+      <button type="button" onclick="document.getElementById('historyModal').style.display='none'; openCalc('ceilingModal');" style="flex: 1; min-width: 130px; padding: 10px 8px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px;">
+        🏠 ২'×২' সিলিং ক্যালকুলেটর
+      </button>
+      <button type="button" onclick="document.getElementById('historyModal').style.display='none'; openCalc('fixedModal');" style="flex: 1; min-width: 130px; padding: 10px 8px; background: #0891b2; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px;">
+        🪟 গ্লাস ফিক্সড ক্যালকুলেটর
+      </button>
+    </div>
   </div>
 
 </div>

@@ -343,45 +343,75 @@ function calculateTotal() {
         }
     }
 
-    // ২. উচ্চতার অংশগুলোর আসল কাটিং হিসাব রেন্ডার করা
-    for (let secName in heightPiecesList) {
-        const pieces = heightPiecesList[secName];
+        // ===============================================
+    // B. RENDER VERTICAL (HEIGHT) SECTIONS (স্মার্ট কাটিং ও অপচয় ছাড়া একচুয়াল হিসাব)
+    // ===============================================
+    for (let secName in heightPieces) {
+        const pieces = heightPieces[secName];
         if (pieces.length > 0) {
-            // কাটিং লজিক রান করা
-            let cuttingResult = solveBarCutting(pieces);
+            let pieceLenFt = pieces[0]; // প্রতি পিসের সাইজ (ফিটে)
+            let totalQty = pieces.length; // মোট পিস সংখ্যা (যেমন ৪টি জানালার জন্য ৮ পিস)
 
-            let idKey = secName.includes("2123B") ? "2123B" :
-                        secName.includes("2124B") ? "2124B" : "2125B";
-
-            let rate185 = parseFloat(document.getElementById(`rate_${idKey}_185`).value) || 0;
-            let rate21 = parseFloat(document.getElementById(`rate_${idKey}_21`).value) || 0;
-
-            let rawCost = 0;
-            let summaryList = [];
-
-            cuttingResult.forEach(bar => {
-                let barRate = (bar.barSize === 18.5) ? rate185 : rate21;
-                let perFtRate = barRate / bar.barSize;
+            // ১. বার নির্বাচন লজিক (স্মার্ট সাইজ ম্যাচিং)
+            let selectedBarLength = 21.0; // ডিফল্ট ২১ ফিট
+            
+            if (Math.abs(pieceLenFt - 4.5) < 0.05) {
+                selectedBarLength = 18.5; // ৪.৫ ফিট হাইটের জন্য ১৮.৫ ফিটের বার
+            } else if (Math.abs(pieceLenFt - 6.0) < 0.05 && totalQty % 3 === 0) {
+                selectedBarLength = 18.5; // ৬ ফিট হাইটের জন্য ১৮.৫ ফিটের বার
+            } else if (Math.abs(pieceLenFt - 7.0) < 0.05) {
+                selectedBarLength = 21.0; // ৭ ফিটের জন্য ২১ ফিট বার
+            } else if (Math.abs(pieceLenFt - 5.0) < 0.05) {
+                selectedBarLength = 21.0; // ৫ ফিটের জন্য ২১ ফিট বার
+            } else {
+                // আনকমন সাইজ: ২১ ফিট বনাম ১৮.৫ ফিটের স্মার্ট ক্যালকুলেশন
+                let p21 = Math.floor(21.0 / (pieceLenFt + bladeLossFt));
+                let p185 = Math.floor(18.5 / (pieceLenFt + bladeLossFt));
                 
-                // শুধুমাত্র ব্যবহৃত ফিটের দাম যোগ হবে
-                rawCost += (bar.usedFt * perFtRate);
-                summaryList.push(`${bar.usedFt.toFixed(2)} ft (${bar.barSize}ft বার থেকে)`);
-            });
+                let w21 = p21 > 0 ? (21.0 - (p21 * pieceLenFt)) : 999;
+                let w185 = p185 > 0 ? (18.5 - (p185 * pieceLenFt)) : 999;
 
+                if (p21 > 0 && w21 <= w185) {
+                    selectedBarLength = 21.0;
+                } else if (p185 > 0) {
+                    selectedBarLength = 18.5;
+                }
+            }
+
+            // ২. ১টি বার থেকে কয়টি কাটিং পাওয়া যায়
+            let piecesPerBar = Math.floor(selectedBarLength / (pieceLenFt + bladeLossFt));
+            if (piecesPerBar <= 0) piecesPerBar = 1;
+
+            // ৩. প্রকৃত বার ও একচুয়াল কাটিং ফুট হিসাব (অপচয় ছাড়া)
+            let barsNeeded = Math.ceil(totalQty / piecesPerBar);
+            let actualCuttingFeet = totalQty * pieceLenFt; // প্রকৃতপক্ষে যত ফিট মাল কাটা হচ্ছে
+
+            // ৪. রেট ও প্রাইস ক্যালকুলেশন
+            let idKey = secName.includes("2123B") ? "2123B" : (secName.includes("2124B") ? "2124B" : "2125B");
+            let rateKey = selectedBarLength === 18.5 ? "185" : (selectedBarLength === 18.0 ? "18" : "21");
+            let barRate = parseFloat(document.getElementById(`rate_${idKey}_${rateKey}`)?.value) || 0;
+
+            let rawCost = barsNeeded * barRate;
             let discountedCost = rawCost - (rawCost * (discount / 100));
             grandTotalCost += discountedCost;
+
+            // আউটপুট টেক্সট প্রিপারেশন (এখানে ওয়েস্টেজ না দেখিয়ে একচুয়াল কাটিং দেখাবে)
+            let outputBarText = `${actualCuttingFeet.toFixed(2)} ft (${selectedBarLength}ft বার থেকে)`;
+            let noteText = `<span class="badge badge-success">${barsNeeded} টি বার ব্যবহৃত</span>`;
 
             breakdownBody.innerHTML += `
                 <tr>
                     <td><b>${secName}</b></td>
-                    <td>${pieces.length} পিস (${pieces[0].toFixed(2)} ft করে)</td>
-                    <td><b>${summaryList.join(' + ')}</b></td>
+                    <td>${totalQty} পিস (${pieceLenFt.toFixed(2)} ft করে)</td>
+                    <td><b>${outputBarText}</b></td>
+                    <td>${noteText}</td>
                     <td>${formatMoney(rawCost)} টাকা</td>
                     <td><b>${formatMoney(discountedCost)} টাকা</b></td>
                 </tr>
             `;
         }
     }
+
 
     document.getElementById('resultBox').style.display = 'block';
     document.getElementById('resCompany').innerText = company;

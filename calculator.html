@@ -607,20 +607,22 @@
         }
       }
     }
-    // ===============================================
+        // ===============================================
     // C. ACCESSORIES CALCULATIONS (এক্সেসরিজ হিসাব)
     // ===============================================
     let totalWindowsCount = 0;
     let totalPerimeterFeet = 0;
 
     // ১. মোট উইন্ডো সংখ্যা ও মোট রানিং ফিট বের করা
-    windowData.forEach(win => {
-        let winQty = win.qty || 1;
-        totalWindowsCount += winQty;
-        
-        let runningFtPerWin = ((win.height + win.width) * 2) / 12; // ইঞ্চি থেকে ফিট
-        totalPerimeterFeet += (runningFtPerWin * winQty);
-    });
+    if (typeof windowData !== 'undefined' && Array.isArray(windowData)) {
+        windowData.forEach(win => {
+            let winQty = win.qty || 1;
+            totalWindowsCount += winQty;
+            
+            let runningFtPerWin = ((win.height + win.width) * 2) / 12; // ইঞ্চি থেকে ফিট
+            totalPerimeterFeet += (runningFtPerWin * winQty);
+        });
+    }
 
     // ২. সিরিজ চেক করা (৪ ইঞ্চি সিরিজ কিনা)
     let selectedSeries = document.getElementById("series")?.value || ""; 
@@ -646,7 +648,7 @@
         totalRivets = totalWindowsCount * 20;     // ২০ টি রিভিট
     }
 
-    // ৫. টেবিলের ডাটা তৈরি করা
+    // ৫. ডায়নামিক এক্সেসরিজ টেবিল তৈরি ও রেন্ডার
     let accessoriesRows = `
         <tr><td>লক (Lock)</td><td><b>${totalLocks}</b></td><td>পিস</td></tr>
         <tr><td>চাকা (Wheel)</td><td><b>${totalWheels}</b></td><td>পিস</td></tr>
@@ -665,9 +667,12 @@
         `;
     }
 
-    // ৬. কাটিং টেবিলের নিচে এক্সেসরিজের কার্ড প্রিন্ট করা
-    let accessoriesSectionHTML = `
-        <div class="card mt-4 border-primary">
+    let accessoriesCard = document.getElementById("accessoriesSummaryBox");
+    if (!accessoriesCard) {
+        let newBox = document.createElement("div");
+        newBox.id = "accessoriesSummaryBox";
+        newBox.className = "card mt-4 border-primary";
+        newBox.innerHTML = `
             <div class="card-header bg-primary text-white font-weight-bold">
                 প্রয়োজনীয় এক্সেসরিজ তালিকা (ACCESSORIES BREAKDOWN)
             </div>
@@ -680,13 +685,17 @@
                             <th>একক</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="accessoriesTbody">
                         ${accessoriesRows}
                     </tbody>
                 </table>
             </div>
-        </div>
-    `;
+        `;
+        let resultContainer = document.getElementById('resultBox') || document.body;
+        resultContainer.appendChild(newBox);
+    } else {
+        document.getElementById("accessoriesTbody").innerHTML = accessoriesRows;
+    }
 
     document.getElementById('resultBox').innerHTML += accessoriesSectionHTML;
 

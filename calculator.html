@@ -820,18 +820,59 @@ function calculateAccessories() {
         let seriesVal = seriesSelect ? seriesSelect.value : "";
         let is4Inch = seriesVal.includes("4");
 
-        // হিসাব
-        let locks = totalQty * 2;
-        let wheels = totalQty * 4;
-        let cordScrews = totalQty * 8;
-        let screws15 = totalQty * 30;
-        let mohair = (totalRunningFt * 1.1).toFixed(2);
-        let rubber = (totalRunningFt * 1.1).toFixed(2);
-        let silicone = Math.ceil(totalRunningFt / 35);
+// ===============================================
+// মূল হিসাব ও সেভ বাটন ফিক্স + এক্সেসরিজ অটো রানার
+// ===============================================
+window.addEventListener('DOMContentLoaded', function() {
+    // সেভ বা হিসাব বাটনে ক্লিক ইভেন্ট ধরা
+    document.querySelectorAll('button').forEach(function(btn) {
+        if (btn.innerText.includes('হিসাব') || btn.innerText.includes('সেভ')) {
+            btn.addEventListener('click', function() {
+                setTimeout(runAccessoriesCalculation, 150);
+            });
+        }
+    });
+});
 
-        let netWheels = is4Inch ? (totalQty * 2) : 0;
-        let netAngles = is4Inch ? (totalQty * 4) : 0;
-        let rivets = is4Inch ? (totalQty * 20) : 0;
+function runAccessoriesCalculation() {
+    try {
+        let totalWinQty = 0;
+        let totalPerimeter = 0;
+
+        // ইনপুট টেবিলের সকল রো থেকে মান সংগ্রহ
+        let rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(function(row) {
+            let inputs = row.querySelectorAll('input');
+            if (inputs.length >= 2) {
+                let h = parseFloat(inputs[0].value) || 0;
+                let w = parseFloat(inputs[1].value) || 0;
+                let q = inputs[2] ? (parseInt(inputs[2].value) || 1) : 1;
+
+                if (h > 0 && w > 0) {
+                    totalWinQty += q;
+                    totalPerimeter += (((h + w) * 2) / 12) * q;
+                }
+            }
+        });
+
+        if (totalWinQty === 0) return;
+
+        // সিরিজ চেক (৪ ইঞ্চি নাকি ৩ ইঞ্চি)
+        let seriesEl = document.getElementById('series') || document.querySelector('select');
+        let is4Inch = seriesEl ? seriesEl.value.includes('4') : false;
+
+        // এক্সেসরিজ ক্যালকুলেশন
+        let locks = totalWinQty * 2;
+        let wheels = totalWinQty * 4;
+        let cordScrews = totalWinQty * 8;
+        let screws15 = totalWinQty * 30;
+        let mohair = (totalPerimeter * 1.1).toFixed(2);
+        let rubber = (totalPerimeter * 1.1).toFixed(2);
+        let silicone = Math.ceil(totalPerimeter / 35);
+
+        let netWheels = is4Inch ? totalWinQty * 2 : 0;
+        let netAngles = is4Inch ? totalWinQty * 4 : 0;
+        let rivets = is4Inch ? totalWinQty * 20 : 0;
 
         let rowsHTML = `
             <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
@@ -847,16 +888,17 @@ function calculateAccessories() {
             rowsHTML += `
                 <tr class="table-warning"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
                 <tr class="table-warning"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
-                <tr class="table-warning"><td>রিভিট (Rivet)</td><td><b>${netRivets}</b></td><td>পিস</td></tr>
+                <tr class="table-warning"><td>রিভিট (Rivet)</td><td><b>${rivets}</b></td><td>পিস</td></tr>
             `;
         }
 
-        let tbody = document.getElementById("accessoriesTbody");
+        // টেবিল রেন্ডার
+        let tbody = document.getElementById('accessoriesTbody');
         if (tbody) {
             tbody.innerHTML = rowsHTML;
         }
-    } catch (e) {
-        console.log("Error: ", e);
+    } catch (err) {
+        console.error('Accessories error:', err);
     }
 }
 

@@ -772,36 +772,94 @@
             tbody.innerHTML = accessoriesRows;
         } else {
             let accessoriesCard = document.getElementById("accessoriesSummaryBox");
-            if (!accessoriesCard) {
-                let newBox = document.createElement("div");
-                newBox.id = "accessoriesSummaryBox";
-                newBox.className = "card mt-4 border-primary";
-                newBox.innerHTML = `
-                    <div class="card-header bg-primary text-white font-weight-bold" style="padding: 10px; background-color: #007bff; color: white;">
-                        প্রয়োজনীয় এক্সেসরিজ তালিকা (ACCESSORIES BREAKDOWN)
-                    </div>
-                    <div class="card-body p-0">
-                        <table class="table table-striped table-bordered m-0" style="width: 100%; border-collapse: collapse;">
-                            <thead class="thead-dark">
-                                <tr style="background: #343a40; color: white;">
-                                    <th style="padding: 8px;">আইটেমের নাম</th>
-                                    <th style="padding: 8px;">পরিমাণ</th>
-                                    <th style="padding: 8px;">একক</th>
-                                </tr>
-                            </thead>
-                            <tbody id="accessoriesTbody">
-                                ${accessoriesRows}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                let resultContainer = document.getElementById('resultBox') || document.body;
-                resultContainer.appendChild(newBox);
-            }
+// ===============================================
+// এক্সেসরিজ অটো হিসাব (নিরাপদ ফাংশন)
+// ===============================================
+document.addEventListener("DOMContentLoaded", function() {
+    let calcBtn = document.querySelector("button[onclick*='calculate']"), 
+        submitBtn = document.querySelector("form button[type='submit']"), 
+        allBtns = document.querySelectorAll("button");
+
+    let targetBtn = null;
+    allBtns.forEach(btn => {
+        if(btn.innerText.includes("হিসাব") || btn.innerText.includes("সেভ")) {
+            targetBtn = btn;
         }
-    } catch (err) {
-        console.log("Accessories Calc Error: ", err);
+    });
+
+    if (targetBtn) {
+        targetBtn.addEventListener("click", function() {
+            setTimeout(calculateAccessories, 100);
+        });
     }
+});
+
+function calculateAccessories() {
+    try {
+        let totalQty = 0;
+        let totalRunningFt = 0;
+
+        // টেবিল থেকে উইন্ডোর মাপ বের করা
+        let rows = document.querySelectorAll("table tbody tr");
+        rows.forEach(row => {
+            let numInputs = row.querySelectorAll("input[type='number']");
+            if (numInputs.length >= 2) {
+                let h = parseFloat(numInputs[0].value) || 0;
+                let w = parseFloat(numInputs[1].value) || 0;
+                let q = numInputs[2] ? (parseInt(numInputs[2].value) || 1) : 1;
+
+                if (h > 0 && w > 0) {
+                    totalQty += q;
+                    totalRunningFt += (((h + w) * 2) / 12) * q;
+                }
+            }
+        });
+
+        // সিরিজ চেক (৪ ইঞ্চি কিনা)
+        let seriesSelect = document.getElementById("series") || document.querySelector("select");
+        let seriesVal = seriesSelect ? seriesSelect.value : "";
+        let is4Inch = seriesVal.includes("4");
+
+        // হিসাব
+        let locks = totalQty * 2;
+        let wheels = totalQty * 4;
+        let cordScrews = totalQty * 8;
+        let screws15 = totalQty * 30;
+        let mohair = (totalRunningFt * 1.1).toFixed(2);
+        let rubber = (totalRunningFt * 1.1).toFixed(2);
+        let silicone = Math.ceil(totalRunningFt / 35);
+
+        let netWheels = is4Inch ? (totalQty * 2) : 0;
+        let netAngles = is4Inch ? (totalQty * 4) : 0;
+        let rivets = is4Inch ? (totalQty * 20) : 0;
+
+        let rowsHTML = `
+            <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
+            <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
+            <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
+            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
+            <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
+            <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
+            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব (আনুমানিক)</td></tr>
+        `;
+
+        if (is4Inch) {
+            rowsHTML += `
+                <tr class="table-warning"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
+                <tr class="table-warning"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
+                <tr class="table-warning"><td>রিভিট (Rivet)</td><td><b>${netRivets}</b></td><td>পিস</td></tr>
+            `;
+        }
+
+        let tbody = document.getElementById("accessoriesTbody");
+        if (tbody) {
+            tbody.innerHTML = rowsHTML;
+        }
+    } catch (e) {
+        console.log("Error: ", e);
+    }
+}
+
 
 
     document.getElementById('resultBox').innerHTML += accessoriesSectionHTML;

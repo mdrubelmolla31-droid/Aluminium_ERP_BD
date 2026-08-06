@@ -607,6 +607,88 @@
         }
       }
     }
+    // ===============================================
+    // C. ACCESSORIES CALCULATIONS (এক্সেসরিজ হিসাব)
+    // ===============================================
+    let totalWindowsCount = 0;
+    let totalPerimeterFeet = 0;
+
+    // ১. মোট উইন্ডো সংখ্যা ও মোট রানিং ফিট বের করা
+    windowData.forEach(win => {
+        let winQty = win.qty || 1;
+        totalWindowsCount += winQty;
+        
+        let runningFtPerWin = ((win.height + win.width) * 2) / 12; // ইঞ্চি থেকে ফিট
+        totalPerimeterFeet += (runningFtPerWin * winQty);
+    });
+
+    // ২. সিরিজ চেক করা (৪ ইঞ্চি সিরিজ কিনা)
+    let selectedSeries = document.getElementById("series")?.value || ""; 
+    let is4InchSeries = selectedSeries.includes("4"); 
+
+    // ৩. কমন এক্সেসরিজ (৩ ও ৪ ইঞ্চি—সব সিরিজের জন্যই প্রযোজ্য)
+    let totalLocks = totalWindowsCount * 2;                 // প্রতি জানালায় ২ টি লক
+    let totalWheels = totalWindowsCount * 4;                // প্রতি জানালায় ৪ টি চাকা
+    let totalCordScrews = totalWindowsCount * 8;            // প্রতি জানালায় ৮ টি কড স্ক্রু
+    let totalOneAndHalfScrews = totalWindowsCount * 30;     // প্রতি জানালায় ৩০ টি ১.৫ ইঞ্চি স্ক্রু
+    let totalMohairFt = (totalPerimeterFeet * 1.1).toFixed(2); // মহিয়ার (১০% ওয়েস্টেজ সহ)
+    let totalRubberFt = (totalPerimeterFeet * 1.1).toFixed(2); // রাবার (১০% ওয়েস্টেজ সহ)
+    let totalSiliconeTubes = Math.ceil(totalPerimeterFeet / 35); // সিলিকন গাম
+
+    // ৪. ৪ ইঞ্চি সিরিজের জন্য নেটের উপাদান
+    let totalNetWheels = 0;
+    let totalNetAngles = 0;
+    let totalRivets = 0;
+
+    if (is4InchSeries) {
+        totalNetWheels = totalWindowsCount * 2;   // ২ টি নেটের চাকা
+        totalNetAngles = totalWindowsCount * 4;   // ৪ টি নেটের এঙ্গেল
+        totalRivets = totalWindowsCount * 20;     // ২০ টি রিভিট
+    }
+
+    // ৫. টেবিলের ডাটা তৈরি করা
+    let accessoriesRows = `
+        <tr><td>লক (Lock)</td><td><b>${totalLocks}</b></td><td>পিস</td></tr>
+        <tr><td>চাকা (Wheel)</td><td><b>${totalWheels}</b></td><td>পিস</td></tr>
+        <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${totalCordScrews}</b></td><td>পিস</td></tr>
+        <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${totalOneAndHalfScrews}</b></td><td>পিস</td></tr>
+        <tr><td>মহিয়ার (Mohair)</td><td><b>${totalMohairFt}</b></td><td>ফিট</td></tr>
+        <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${totalRubberFt}</b></td><td>ফিট</td></tr>
+        <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${totalSiliconeTubes}</b></td><td>টিউব (আনুমানিক)</td></tr>
+    `;
+
+    if (is4InchSeries) {
+        accessoriesRows += `
+            <tr class="table-warning"><td>নেটের চাকা (Net Wheel)</td><td><b>${totalNetWheels}</b></td><td>পিস</td></tr>
+            <tr class="table-warning"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${totalNetAngles}</b></td><td>পিস</td></tr>
+            <tr class="table-warning"><td>রিভিট (Rivet)</td><td><b>${totalRivets}</b></td><td>পিস</td></tr>
+        `;
+    }
+
+    // ৬. কাটিং টেবিলের নিচে এক্সেসরিজের কার্ড প্রিন্ট করা
+    let accessoriesSectionHTML = `
+        <div class="card mt-4 border-primary">
+            <div class="card-header bg-primary text-white font-weight-bold">
+                প্রয়োজনীয় এক্সেসরিজ তালিকা (ACCESSORIES BREAKDOWN)
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped table-bordered m-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>আইটেমের নাম</th>
+                            <th>পরিমাণ</th>
+                            <th>একক</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${accessoriesRows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('resultBox').innerHTML += accessoriesSectionHTML;
 
     let netFt = isNetActive ? (itemsMap["নেট সেকশন"].reduce((a,b)=>a+b, 0)) : 0;
     let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;

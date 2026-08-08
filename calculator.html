@@ -334,6 +334,25 @@
     </table>
   </div>
 
+
+
+          <!-- প্রয়োজনীয় এক্সেসরিজ টেবিল -->
+        <div style="margin-top: 15px;">
+            <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজ তালিকা)</div>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>মালামালের নাম</th>
+                        <th>পরিমাণ</th>
+                        <th>একক</th>
+                    </tr>
+                </thead>
+                <tbody id="accessoriesTbody">
+                    <!-- জাভাস্ক্রিপ্ট থেকে ডাটা এখানে আসবে -->
+                </tbody>
+            </table>
+        </div>
+
 </div>
 
 <div id="historyModal" onclick="if(event.target === this) closeHistory()">
@@ -924,10 +943,11 @@ function runAccessoriesCalculation() {
         }
 
         // টেবিল বডিতে এইচটিএমএল বসানো
-        let tbody = document.getElementById('accessoriesTbody');
+                let tbody = document.getElementById('accessoriesTbody') || document.querySelectorAll('table tbody')[1];
         if (tbody) {
             tbody.innerHTML = rowsHTML;
         }
+
     } catch (err) {
         console.error('Accessories Calculation Error:', err);
     }

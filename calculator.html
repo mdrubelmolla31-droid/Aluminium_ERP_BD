@@ -874,52 +874,76 @@
       renderHistoryList();
     }
   }
- // ===============================================
-// স্বাধীন এক্সেসরিজ রানার (কাটিং টেবিলের জন্য)
 // ===============================================
-document.addEventListener('click', function (e) {
-    // যেকোনো হিসাব বা সেভ বাটনে ক্লিক করলে এটি রান করবে
-    if (e.target && e.target.innerText && (e.target.innerText.includes('হিসাব') || e.target.innerText.includes('সেভ'))) {
-        setTimeout(runAccessoriesCalculation, 150);
-    }
-});
-
+// ডায়নামিক সাইজ-ভিত্তিক এক্সেসরিজ অ্যালগরিদম
+// ===============================================
 function runAccessoriesCalculation() {
     try {
         let totalWinQty = 0;
         let totalPerimeterFt = 0;
+        let totalScrews = 0;
+        let totalSiliconeEstimate = 0;
 
-        // ইনপুট টেবিলের সকল রো থেকে পরিমাপ ধরা
         let rows = document.querySelectorAll('table tbody tr');
         rows.forEach(function(row) {
-            let inputs = row.querySelectorAll('input');
+            let inputs = row.querySelectorAll('input[type="number"], input[type="text"]');
             if (inputs.length >= 2) {
-                let h = parseFloat(inputs[0].value) || 0;
-                let w = parseFloat(inputs[1].value) || 0;
-                let q = inputs[2] ? (parseInt(inputs[2].value) || 1) : 1;
+                let h = parseFloat(inputs[0].value) || 0; // উচ্চতা
+                let w = parseFloat(inputs[1].value) || 0; // প্রস্থ
+                let q = inputs[2] ? (parseInt(inputs[2].value) || 1) : 1; // পরিমাণ
 
                 if (h > 0 && w > 0) {
                     totalWinQty += q;
-                    // (উচ্চতা + প্রস্থ) * ২ = মোট ইঞ্চি, তাকে ১২ দিয়ে ভাগ করে ফিট
-                    totalPerimeterFt += (((h + w) * 2) / 12) * q;
+
+                    // ইঞ্চিকে ফিটে রূপান্তর (যদি ইনপুট ইঞ্চিতে দেওয়া হয়)
+                    let hFt = h > 12 ? h / 12 : h; 
+                    let wFt = w > 12 ? w / 12 : w;
+                    
+                    let singlePerimeter = (hFt + wFt) * 2; // ১টি জানালার পরিধি (ফিটে)
+                    totalPerimeterFt += singlePerimeter * q;
+
+                    // ----------------------------------------
+                    // ১. স্ক্রু অ্যালগরিদম (সাইজ অনুযায়ী)
+                    // ----------------------------------------
+                    if (hFt <= 3 && wFt <= 3) {
+                        // ছোট জানালা (২ বা ৩ ফিট)
+                        totalScrews += (21 * q); 
+                    } else if (hFt >= 6 || wFt >= 6) {
+                        // বড় জানালা (৬ বা ৭ ফিট+)
+                        totalScrews += (37 * q); 
+                    } else {
+                        // মাঝারি/স্ট্যান্ডার্ড জানালা (৪.৫ x ৫ ফিট)
+                        totalScrews += (32 * q); 
+                    }
+
+                    // ----------------------------------------
+                    // ২. সিলিকন গাম অ্যালগরিদম (সাইজ ও পরিধি অনুযায়ী)
+                    // ----------------------------------------
+                    if (hFt >= 7 && q >= 4) {
+                        // ৭ ফিট বা তার বড় ৪টি জানালা হলে অন্তত ১টি পুরো টিউব লাগবেই
+                        totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80);
+                    } else {
+                        // সাধারণ জানালার সিলিকন কাভারেজ হিসাব (গড়ে ৮০-৯০ রানিং ফিটে ১ টিউব)
+                        totalSiliconeEstimate += (singlePerimeter * q) / 85;
+                    }
                 }
             }
         });
 
         if (totalWinQty === 0) return;
 
-        // ৪ ইঞ্চি নাকি ৩ ইঞ্চি প্রফাইল চেক
+        // ৪ ইঞ্চি নাকি ৩ ইঞ্চি চেক
         let seriesEl = document.getElementById('series') || document.querySelector('select');
         let is4Inch = seriesEl ? seriesEl.value.includes('4') : false;
 
-        // ৩ ইঞ্চি ও সাধারণ এক্সেসরিজ হিসাব
-        let locks = totalWinQty * 2;                 // প্রতি জানালায় ২ টি লক
-        let wheels = totalWinQty * 4;                // ৪ টি চাকা
-        let cordScrews = totalWinQty * 8;            // ৮ টি কড স্ক্রু
-        let screws15 = totalWinQty * 30;             // ৩০ টি ১.৫" স্ক্রু
-        let mohair = (totalPerimeterFt * 1.1).toFixed(2); // মহিয়ার (১০% ওয়েস্টেজ সহ)
-        let rubber = (totalPerimeterFt * 1.1).toFixed(2); // গ্লাস রাবার
-        let silicone = Math.ceil(totalPerimeterFt / 35);  // সিলিকন গাম
+        // এক্সেসরিজ হিসাব
+        let locks = totalWinQty * 2;                             // প্রতি জানালায় ২ টি লক
+        let wheels = totalWinQty * 4;                            // ৪ টি চাকা
+        let cordScrews = totalWinQty * 8;                        // ৮ টি কড স্ক্রু
+        let screws15 = totalScrews;                              // অ্যালগরিদম থেকে প্রাপ্ত স্ক্রু
+        let mohair = (totalPerimeterFt * 1.1).toFixed(2);         // মহিয়ার (১০% ওয়েস্টেজ সহ)
+        let rubber = (totalPerimeterFt * 1.1).toFixed(2);         // গ্লাস রাবার (১০% ওয়েস্টেজ সহ)
+        let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate)); // ন্যূনতম ১ টিউব সহ সিলিকন গাম
 
         let rowsHTML = `
             <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
@@ -928,10 +952,10 @@ function runAccessoriesCalculation() {
             <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
             <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
             <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
-            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব (আনুমানিক)</td></tr>
+            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
         `;
 
-        // ৪ ইঞ্চি হলে বাড়তি নেটের চাকা ও নেটের এঙ্গেল যোগ হবে
+        // ৪ ইঞ্চি প্রফাইল হলে নেটের চাকা ও এঙ্গেল যোগ হবে
         if (is4Inch) {
             let netWheels = totalWinQty * 2;
             let netAngles = totalWinQty * 4;
@@ -942,16 +966,16 @@ function runAccessoriesCalculation() {
             `;
         }
 
-        // টেবিল বডিতে এইচটিএমএল বসানো
-                let tbody = document.getElementById('accessoriesTbody') || document.querySelectorAll('table tbody')[1];
+        // টেবিলে ডাটা বসানো
+        let tbody = document.getElementById('accessoriesTbody');
         if (tbody) {
             tbody.innerHTML = rowsHTML;
         }
-
     } catch (err) {
-        console.error('Accessories Calculation Error:', err);
+        console.error('Accessories Algorithm Error:', err);
     }
 }
+
 
 </script>
 

@@ -957,26 +957,152 @@ function runAccessoriesCalculation() {
             <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
             <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
             <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
+            <// ===============================================
+// ১. ডায়নামিক এক্সেসরিজ অ্যালগরিদম (সংশোধিত ১৮.৫ ফিট মান অনুযায়ী)
+// ===============================================
+function runAccessoriesCalculation() {
+    try {
+        let totalWinQty = 0;
+        let totalPerimeterFt = 0;
+        let totalScrews = 0;
+        let totalSiliconeEstimate = 0;
+
+        let rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(function(row) {
+            let inputs = row.querySelectorAll('input');
+            if (inputs.length >= 2) {
+                let h = parseFloat(inputs[0].value) || 0;
+                let w = parseFloat(inputs[1].value) || 0;
+                let q = inputs[2] ? (parseInt(inputs[2].value) || 1) : 1;
+
+                if (h > 0 && w > 0) {
+                    totalWinQty += q;
+                    let hFt = h > 12 ? (h / 12) : h; 
+                    let wFt = w > 12 ? (w / 12) : w;
+                    
+                    let singlePerimeter = (hFt + wFt) * 2;
+                    totalPerimeterFt += (singlePerimeter * q);
+
+                    // স্ক্রু হিসাব
+                    if (hFt <= 3 && wFt <= 3) {
+                        totalScrews += (21 * q);
+                    } else if (hFt >= 6 || wFt >= 6) {
+                        totalScrews += (37 * q);
+                    } else {
+                        totalScrews += (32 * q);
+                    }
+
+                    // সিলিকন হিসাব
+                    if (hFt >= 7 && q >= 4) {
+                        totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80);
+                    } else {
+                        totalSiliconeEstimate += (singlePerimeter * q) / 85;
+                    }
+                }
+            }
+        });
+
+        let tbody = document.getElementById('accessoriesTbody');
+        if (!tbody) return;
+
+        if (totalWinQty === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#94a3b8;">ইনপুট দিন, হিসাব চলে আসবে</td></tr>';
+            return;
+        }
+
+        let seriesEl = document.getElementById('series') || document.querySelector('select');
+        let is4Inch = seriesEl ? seriesEl.value.includes('4') : false;
+
+        let locks = totalWinQty * 2;
+        let wheels = totalWinQty * 4;
+        let cordScrews = totalWinQty * 8;
+        let screws15 = totalScrews;
+        let mohair = (totalPerimeterFt * 1.1).toFixed(2);
+        let rubber = (totalPerimeterFt * 1.1).toFixed(2);
+        let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
+
+        let rowsHTML = `
+            <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
+            <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
+            <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
+            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
+            <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
+            <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
             <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
         `;
 
         if (is4Inch) {
             let netWheels = totalWinQty * 2;
             let netAngles = totalWinQty * 4;
-
             rowsHTML += `
                 <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
                 <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
             `;
         }
 
-        // টেবিলে ডাটা প্রিন্ট করা
         tbody.innerHTML = rowsHTML;
-
     } catch (err) {
-        console.error('Accessories Calculation Error:', err);
+        console.error('Accessories Error:', err);
     }
 }
+
+// ===============================================
+// ২. হোয়াটসঅ্যাপ সেন্ড ফাংশন (১৮.৫ ও ২১ ফিট ফরম্যাট অনুযায়ী)
+// ===============================================
+function sendToWhatsApp() {
+    try {
+        let text = "নাম: RM COMPUTER / Rubel\n";
+        text += "মোবাইল: 01XXXXXXXXX\n";
+        text += "----------------------------------------\n\n";
+
+        let cuttingTables = document.querySelectorAll('.report-table');
+        if (cuttingTables.length > 0) {
+            text += "মেটেরিয়ালস ডিটেইলস (অ্যালুমিনিয়াম কাটিং):\n";
+            cuttingTables.forEach((table) => {
+                let rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    let cols = row.querySelectorAll('td');
+                    if (cols.length >= 2) {
+                        let item = cols[0].innerText.trim();
+                        let details = cols[1].innerText.trim();
+                        
+                        // অপচয় বাদ
+                        if (!item.includes("অপচয়") && !item.includes("Waste")) {
+                            text += `${item}: ${details}\n`;
+                        }
+                    }
+                });
+            });
+            text += "\n";
+        }
+
+        let accTbody = document.getElementById('accessoriesTbody');
+        if (accTbody) {
+            let accRows = accTbody.querySelectorAll('tr');
+            if (accRows.length > 0 && !accRows[0].innerText.includes("ইনপুট দিন")) {
+                text += "এক্সেসরিজ ডিটেইলস:\n";
+                accRows.forEach(row => {
+                    let cols = row.querySelectorAll('td');
+                    if (cols.length >= 3) {
+                        let name = cols[0].innerText.trim();
+                        let qty = cols[1].innerText.trim();
+                        let unit = cols[2].innerText.trim();
+                        text += `${name}: ${qty} ${unit}\n`;
+                    }
+                });
+            }
+        }
+
+        let encodedText = encodeURIComponent(text);
+        window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+    } catch (err) {
+        console.error("WhatsApp Error:", err);
+    }
+}
+
+document.addEventListener('input', runAccessoriesCalculation);
+document.addEventListener('click', runAccessoriesCalculation);
+
 
 </script>
 

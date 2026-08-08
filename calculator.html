@@ -855,6 +855,84 @@
       renderHistoryList();
     }
   }
+ // ===============================================
+// স্বাধীন এক্সেসরিজ রানার (কাটিং টেবিলের জন্য)
+// ===============================================
+document.addEventListener('click', function (e) {
+    // যেকোনো হিসাব বা সেভ বাটনে ক্লিক করলে এটি রান করবে
+    if (e.target && e.target.innerText && (e.target.innerText.includes('হিসাব') || e.target.innerText.includes('সেভ'))) {
+        setTimeout(runAccessoriesCalculation, 150);
+    }
+});
+
+function runAccessoriesCalculation() {
+    try {
+        let totalWinQty = 0;
+        let totalPerimeterFt = 0;
+
+        // ইনপুট টেবিলের সকল রো থেকে পরিমাপ ধরা
+        let rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(function(row) {
+            let inputs = row.querySelectorAll('input');
+            if (inputs.length >= 2) {
+                let h = parseFloat(inputs[0].value) || 0;
+                let w = parseFloat(inputs[1].value) || 0;
+                let q = inputs[2] ? (parseInt(inputs[2].value) || 1) : 1;
+
+                if (h > 0 && w > 0) {
+                    totalWinQty += q;
+                    // (উচ্চতা + প্রস্থ) * ২ = মোট ইঞ্চি, তাকে ১২ দিয়ে ভাগ করে ফিট
+                    totalPerimeterFt += (((h + w) * 2) / 12) * q;
+                }
+            }
+        });
+
+        if (totalWinQty === 0) return;
+
+        // ৪ ইঞ্চি নাকি ৩ ইঞ্চি প্রফাইল চেক
+        let seriesEl = document.getElementById('series') || document.querySelector('select');
+        let is4Inch = seriesEl ? seriesEl.value.includes('4') : false;
+
+        // ৩ ইঞ্চি ও সাধারণ এক্সেসরিজ হিসাব
+        let locks = totalWinQty * 2;                 // প্রতি জানালায় ২ টি লক
+        let wheels = totalWinQty * 4;                // ৪ টি চাকা
+        let cordScrews = totalWinQty * 8;            // ৮ টি কড স্ক্রু
+        let screws15 = totalWinQty * 30;             // ৩০ টি ১.৫" স্ক্রু
+        let mohair = (totalPerimeterFt * 1.1).toFixed(2); // মহিয়ার (১০% ওয়েস্টেজ সহ)
+        let rubber = (totalPerimeterFt * 1.1).toFixed(2); // গ্লাস রাবার
+        let silicone = Math.ceil(totalPerimeterFt / 35);  // সিলিকন গাম
+
+        let rowsHTML = `
+            <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
+            <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
+            <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
+            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
+            <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
+            <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
+            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব (আনুমানিক)</td></tr>
+        `;
+
+        // ৪ ইঞ্চি হলে বাড়তি নেটের চাকা ও নেটের এঙ্গেল যোগ হবে
+        if (is4Inch) {
+            let netWheels = totalWinQty * 2;
+            let netAngles = totalWinQty * 4;
+
+            rowsHTML += `
+                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
+                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
+            `;
+        }
+
+        // টেবিল বডিতে এইচটিএমএল বসানো
+        let tbody = document.getElementById('accessoriesTbody');
+        if (tbody) {
+            tbody.innerHTML = rowsHTML;
+        }
+    } catch (err) {
+        console.error('Accessories Calculation Error:', err);
+    }
+}
+
 </script>
 
 </body>

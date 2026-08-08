@@ -199,7 +199,7 @@
             color: #ffffff;
             border-radius: 8px;
             font-size: 14px;
-            width: 50%;
+            width: 45%;
             text-align: right;
         }
 
@@ -331,10 +331,10 @@
                 <input type="number" id="carryingCharge" placeholder="যেমন: ৫০০" oninput="calculateCost()">
             </div>
 
-            <!-- ফিটিং চার্জ -->
+            <!-- ফিটিং চার্জ (পার স্কয়ার ফিট) -->
             <div class="extra-charge-row">
-                <label>৬. ফিটিং চার্জ (টাকা):</label>
-                <input type="number" id="fittingCharge" placeholder="যেমন: ১৫০০" oninput="calculateCost()">
+                <label>৬. ফিটিং চার্জ (পার স্কয়ার ফিট):</label>
+                <input type="number" id="fittingChargePerSqft" placeholder="যেমন: ১০" oninput="calculateCost()">
             </div>
 
             <!-- সর্বমোট খরচ -->
@@ -346,6 +346,8 @@
     </div>
 
     <script>
+        let calculatedTotalSqft = 0;
+
         function calculateCeiling() {
             const length = parseFloat(document.getElementById('length').value);
             const width = parseFloat(document.getElementById('width').value);
@@ -355,7 +357,7 @@
                 return;
             }
 
-            const totalSqft = length * width;
+            calculatedTotalSqft = length * width;
             const perimeter = 2 * (length + width);
             const wallAngleCount = Math.ceil(perimeter / 10);
 
@@ -366,9 +368,9 @@
             const mainTeeCount = Math.max(0, mainTeeRows * mainTeePerRow);
 
             const crossTeeCount = Math.ceil((length * width) / 2);
-            const boardCount = Math.ceil(totalSqft / 4);
+            const boardCount = Math.ceil(calculatedTotalSqft / 4);
 
-            document.getElementById('totalArea').innerText = totalSqft.toFixed(2) + ' বর্গফুট';
+            document.getElementById('totalArea').innerText = calculatedTotalSqft.toFixed(2) + ' বর্গফুট';
             document.getElementById('wallAngleText').innerText = wallAngleCount + ' টি';
             document.getElementById('mainTeeText').innerText = mainTeeCount + ' টি';
             document.getElementById('crossTeeText').innerText = crossTeeCount + ' টি';
@@ -397,7 +399,7 @@
             const boardPrice = parseFloat(document.getElementById('boardPrice').value) || 0;
 
             const carryingCharge = parseFloat(document.getElementById('carryingCharge').value) || 0;
-            const fittingCharge = parseFloat(document.getElementById('fittingCharge').value) || 0;
+            const fittingChargePerSqft = parseFloat(document.getElementById('fittingChargePerSqft').value) || 0;
 
             const wallAngleSubtotal = wallAngleQty * wallAnglePrice;
             const mainTeeSubtotal = mainTeeQty * mainTeePrice;
@@ -410,7 +412,9 @@
             document.getElementById('boardSubtotal').innerText = '৳ ' + boardSubtotal.toFixed(2);
 
             const materialTotal = wallAngleSubtotal + mainTeeSubtotal + crossTeeSubtotal + boardSubtotal;
-            const grandTotal = materialTotal + carryingCharge + fittingCharge;
+            const totalFittingCost = calculatedTotalSqft * fittingChargePerSqft;
+            
+            const grandTotal = materialTotal + carryingCharge + totalFittingCost;
 
             document.getElementById('grandTotal').innerText = '৳ ' + grandTotal.toFixed(2);
         }

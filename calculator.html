@@ -1144,6 +1144,93 @@ function runAccessoriesCalculation() {
                     } else if (hFt >= 6 || wFt >= 6) {
                         totalScrews += (37 * q);
                     } else {
+<!-- ১. স্ক্রিনে হোয়াটসঅ্যাপ বাটন দেখানোর অংশ -->
+<div style="text-align: center; margin: 25px 0;">
+    <button onclick="sendToWhatsApp()" style="background-color: #25D366; color: white; border: none; padding: 14px 28px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.15);">
+        📱 হোয়াটসঅ্যাপে লিস্ট পাঠান
+    </button>
+</div>
+
+<!-- ২. হোয়াটসঅ্যাপে পাঠানো ও এক্সেসরিজ হিসাবের জাভাস্ক্রিপ্ট -->
+<script>
+function sendToWhatsApp() {
+    try {
+        let text = "==============================\n";
+        text += "   মেটেরিয়ালস ও এক্সেসরিজ লিস্ট\n";
+        text += "==============================\n\n";
+
+        let cuttingTables = document.querySelectorAll('.report-table');
+        if (cuttingTables.length > 0) {
+            text += "🪟 *অ্যালুমিনিয়াম কাটিং সাইজ:*\n";
+            cuttingTables.forEach((table) => {
+                let rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    let cols = row.querySelectorAll('td');
+                    if (cols.length >= 2) {
+                        let item = cols[0].innerText.trim();
+                        let details = cols[1].innerText.trim();
+                        
+                        if (!item.includes("অপচয়") && !item.includes("Waste")) {
+                            text += `• ${item}: ${details}\n`;
+                        }
+                    }
+                });
+            });
+            text += "\n";
+        }
+
+        let accTbody = document.getElementById('accessoriesTbody');
+        if (accTbody) {
+            let accRows = accTbody.querySelectorAll('tr');
+            if (accRows.length > 0 && !accRows[0].innerText.includes("ইনপুট দিন")) {
+                text += "🔩 *এক্সেসরিজ লিস্ট:*\n";
+                accRows.forEach(row => {
+                    let cols = row.querySelectorAll('td');
+                    if (cols.length >= 3) {
+                        let name = cols[0].innerText.trim();
+                        let qty = cols[1].innerText.trim();
+                        let unit = cols[2].innerText.trim();
+                        text += `• ${name}: ${qty} ${unit}\n`;
+                    }
+                });
+            }
+        }
+
+        let encodedText = encodeURIComponent(text);
+        window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+    } catch (err) {
+        console.error("WhatsApp Error:", err);
+    }
+}
+
+function runAccessoriesCalculation() {
+    try {
+        let totalWinQty = 0;
+        let totalPerimeterFt = 0;
+        let totalScrews = 0;
+        let totalSiliconeEstimate = 0;
+
+        let rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(function(row) {
+            let inputs = row.querySelectorAll('input');
+            if (inputs.length >= 2) {
+                let h = parseFloat(inputs[0].value) || 0;
+                let w = parseFloat(inputs[1].value) || 0;
+                let q = inputs[2] ? (parseInt(inputs[2].value) || 1) : 1;
+
+                if (h > 0 && w > 0) {
+                    totalWinQty += q;
+                    let hFt = h > 12 ? (h / 12) : h; 
+                    let wFt = w > 12 ? (w / 12) : w;
+                    
+                    let singlePerimeter = (hFt + wFt) * 2;
+                    totalPerimeterFt += (singlePerimeter * q);
+
+                    if (hFt <= 3 && wFt <= 3) {
+                        totalScrews += (21 * q);
+                    } else if (hFt >= 6 || wFt >= 6) {
+                        totalScrews += (37 * q);
+                    } else {
                         totalScrews += (32 * q);
                     }
 
@@ -1203,6 +1290,7 @@ function runAccessoriesCalculation() {
 document.addEventListener('input', runAccessoriesCalculation);
 document.addEventListener('click', runAccessoriesCalculation);
 </script>
+
 
 </body>
 

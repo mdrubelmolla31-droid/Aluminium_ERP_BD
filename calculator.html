@@ -726,8 +726,8 @@
     // কস্টিং হিসাব
         // সঠিক কস্টিং ও বিক্রয় মূল্যের হিসাব
     let glassSqft = totalSqft; 
-    let aluTotalCost = totalAlu * (rateData.aluRate || 0); 
-    let glassTotalCost = glassSqft * (rateData.glassRate || 0);
+    let aluTotalCost = totalSqft * (rateData.aluRate || 0);
+   let glassTotalCost = glassSqft * (rateData.glassRate || 0);
     let hardwareCost = totalSqft * (rateData.hwRate || 0);
     let fittingsCharge = totalSqft * (rateData.fitRate || 0);
     let labourCharge = totalSqft * (rateData.labourRate || 0);

@@ -334,24 +334,22 @@
     </table>
   </div>
 
-
-
-          <!-- প্রয়োজনীয় এক্সেসরিজ টেবিল -->
-        <div style="margin-top: 15px;">
-            <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজ তালিকা)</div>
-            <table class="report-table">
-                <thead>
-                    <tr>
-                        <th>মালামালের নাম</th>
-                        <th>পরিমাণ</th>
-                        <th>একক</th>
-                    </tr>
-                </thead>
-                <tbody id="accessoriesTbody">
-                    <!-- জাভাস্ক্রিপ্ট থেকে ডাটা এখানে আসবে -->
-                </tbody>
-            </table>
-        </div>
+  <!-- প্রয়োজনীয় এক্সেসরিজ টেবিল -->
+  <div style="margin-top: 15px;">
+      <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজ তালিকা)</div>
+      <table class="report-table">
+          <thead>
+              <tr>
+                  <th>মালামালের নাম</th>
+                  <th>পরিমাণ</th>
+                  <th>একক</th>
+              </tr>
+          </thead>
+          <tbody id="accessoriesTbody">
+              <!-- জাভাস্ক্রিপ্ট থেকে ডাটা এখানে আসবে -->
+          </tbody>
+      </table>
+  </div>
 
 </div>
 
@@ -440,7 +438,8 @@
   }
 
   function toggleNetSection() {
-    let series = document.getElementById('aluSeries').value;
+    let seriesSelect = document.getElementById('aluSeries');
+    let series = seriesSelect ? seriesSelect.value : '';
     let netSelect = document.getElementById('netSection');
     if (series && (series.includes('4') || series.includes('ফোর') || series.includes('Four'))) {
       netSelect.disabled = false;
@@ -725,8 +724,9 @@
     }
 
     // কস্টিং হিসাব
+        // সঠিক কস্টিং ও বিক্রয় মূল্যের হিসাব
     let glassSqft = totalSqft; 
-    let aluTotalCost = totalAlu * (rateData.aluRate || 0);
+    let aluTotalCost = totalAlu * (rateData.aluRate || 0); 
     let glassTotalCost = glassSqft * (rateData.glassRate || 0);
     let hardwareCost = totalSqft * (rateData.hwRate || 0);
     let fittingsCharge = totalSqft * (rateData.fitRate || 0);
@@ -734,12 +734,14 @@
     let netMeshCost = isNetActive ? (netMeshSqft * (rateData.netRate || 0)) : 0;
 
     let totalMaterialCost = aluTotalCost + glassTotalCost + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
-    
-    let baseSumRates = (rateData.aluRate || 0) + (rateData.glassRate || 0) + (rateData.hwRate || 0) + (rateData.fitRate || 0) + (rateData.labourRate || 0);
+
+    let actualCostPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;
     let profitPercent = rateData.profit || 0;
-    let profitPerSqft = baseSumRates * (profitPercent / 100); 
-    let sellingRatePerSqft = baseSumRates + profitPerSqft;
+    let profitPerSqft = actualCostPerSqft * (profitPercent / 100); 
+
+    let sellingRatePerSqft = actualCostPerSqft + profitPerSqft;
     let sellingPrice = totalSqft > 0 ? (totalSqft * sellingRatePerSqft) : 0;
+
 
     document.getElementById('mGlassSqft').innerText = toBnNum(glassSqft.toFixed(2));
     document.getElementById('mAluCost').innerText = toBnNum(aluTotalCost.toFixed(2));
@@ -751,6 +753,8 @@
     document.getElementById('mSellingRatePerSqft').innerText = toBnNum(sellingRatePerSqft.toFixed(2));
     document.getElementById('mProfitPerSqft').innerText = toBnNum(profitPerSqft.toFixed(2));
     document.getElementById('mSellingPrice').innerText = toBnNum(sellingPrice.toFixed(2));
+
+    runAccessoriesCalculation();
 
     if (shouldSave && totalSqft > 0) {
       let windowItems = [];
@@ -874,11 +878,11 @@
       renderHistoryList();
     }
   }
+
 // ===============================================
 // সম্পূর্ণ অটোমেটিক ও ডায়নামিক এক্সেসরিজ ক্যালকুলেটর
 // ===============================================
 
-// যেকোনো ইনপুট পরিবর্তন বা ক্লিকে সাথে সাথে হিসাব আপডেট হবে
 document.addEventListener('input', runAccessoriesCalculation);
 document.addEventListener('click', runAccessoriesCalculation);
 document.addEventListener('DOMContentLoaded', runAccessoriesCalculation);
@@ -890,35 +894,34 @@ function runAccessoriesCalculation() {
         let totalScrews = 0;
         let totalSiliconeEstimate = 0;
 
-        // ইনপুট টেবিলে থাকা সকল রো (tr) থেকে পরিমাপ বের করা
-        let rows = document.querySelectorAll('table tbody tr');
+        let rows = document.querySelectorAll('#winTableBody tr');
         rows.forEach(function(row) {
-            let inputs = row.querySelectorAll('input');
-            if (inputs.length >= 2) {
-                let h = parseFloat(inputs[0].value) || 0; // উচ্চতা
-                let w = parseFloat(inputs[1].value) || 0; // প্রস্থ
-                let q = inputs[2] ? (parseInt(inputs[2].value) || 1) : 1; // পরিমাণ
+            let hInput = row.querySelector('.w-h');
+            let wInput = row.querySelector('.w-w');
+            let qInput = row.querySelector('.w-q');
+
+            if (hInput && wInput) {
+                let h = parseFloat(hInput.value) || 0; 
+                let w = parseFloat(wInput.value) || 0; 
+                let q = qInput ? (parseInt(qInput.value) || 1) : 1; 
 
                 if (h > 0 && w > 0) {
                     totalWinQty += q;
 
-                    // ইঞ্চিকে ফিটে নিয়ে আসা (যদি মান ১২ এর চেয়ে বড় হয়)
                     let hFt = h > 12 ? (h / 12) : h; 
                     let wFt = w > 12 ? (w / 12) : w;
                     
-                    let singlePerimeter = (hFt + wFt) * 2; // ১টি জানালার পরিধি
+                    let singlePerimeter = (hFt + wFt) * 2; 
                     totalPerimeterFt += (singlePerimeter * q);
 
-                    // ১. ডায়নামিক স্ক্রু অ্যালগরিদম
                     if (hFt <= 3 && wFt <= 3) {
-                        totalScrews += (21 * q); // ছোট জানালা
+                        totalScrews += (21 * q); 
                     } else if (hFt >= 6 || wFt >= 6) {
-                        totalScrews += (37 * q); // বড় জানালা
+                        totalScrews += (37 * q); 
                     } else {
-                        totalScrews += (32 * q); // মাঝারি / সাধারণ জানালা
+                        totalScrews += (32 * q); 
                     }
 
-                    // ২. ডায়নামিক সিলিকন গাম অ্যালগরিদম
                     if (hFt >= 7 && q >= 4) {
                         totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80);
                     } else {
@@ -928,7 +931,6 @@ function runAccessoriesCalculation() {
             }
         });
 
-        // যদি কোনো ইনপুট দেওয়া না থাকে
         let tbody = document.getElementById('accessoriesTbody');
         if (!tbody) return;
 
@@ -937,11 +939,15 @@ function runAccessoriesCalculation() {
             return;
         }
 
-        // ৪ ইঞ্চি নাকি ৩ ইঞ্চি চেক করা
-        let seriesEl = document.getElementById('series') || document.querySelector('select');
-        let is4Inch = seriesEl ? seriesEl.value.includes('4') : false;
+        let seriesEl = document.getElementById('aluSeries');
+        let netEl = document.getElementById('netSection');
 
-        // এক্সেসরিজ মালামালের হিসাব
+        let seriesVal = seriesEl ? seriesEl.value : '';
+        let netVal = netEl ? netEl.value : '';
+
+        let is4Inch = seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four');
+        let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
+
         let locks = totalWinQty * 2;
         let wheels = totalWinQty * 4;
         let cordScrews = totalWinQty * 8;
@@ -959,56 +965,25 @@ function runAccessoriesCalculation() {
             <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
             <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
         `;
-    // ৪ ইঞ্চি অথবা নেট সেকশন সিলেক্ট থাকলে নেটের আইটেম যোগ হবে
-    let allSelects = document.querySelectorAll('select');
-    let is4Inch = false;
-    let hasNet = false;
 
-    allSelects.forEach(function(s) {
-      let txt = s.options[s.selectedIndex] ? s.options[s.selectedIndex].text : '';
-      let val = s.value || '';
-      if (txt.includes('4"') || txt.includes('Sliding 4') || txt.includes('৪"') || val.includes('4')) {
-        is4Inch = true;
-      }
-      if ((txt.includes('নেট') || val.includes('net')) && !txt.includes('ছাড়াই')) {
-        hasNet = true;
-      }
-    });
+        if (is4Inch || hasNet) {
+            let netWheels = totalWinQty * 2;
+            let netAngles = totalWinQty * 4;
+            let netRivet = totalWinQty * 20;
 
-    if (is4Inch || hasNet) {
-      let netWheels = totalWinQty * 2;
-      let netAngles = totalWinQty * 4;
-      let netRivet = totalWinQty * 20;
+            rowsHTML += `
+                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
+                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
+                <tr style="background-color: #fff3cd; color: #856404;"><td>রিপিট / রিভেট (Rivet)</td><td><b>${netRivet}</b></td><td>পিস</td></tr>
+            `;
+        }
 
-      rowsHTML += `
-        <tr><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
-        <tr><td>নেট এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
-        <tr><td>রিপিট / রিভেট (Rivet)</td><td><b>${netRivet}</b></td><td>পিস</td></tr>
-      `;
-    }
-
-
-    if (is4Inch || hasNet) {
-      let netWheels = totalWinQty * 2;
-      let netAngles = totalWinQty * 4;
-      let netRivet = totalWinQty * 20;
-
-      rowsHTML += `
-        <tr><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
-        <tr><td>নেট এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
-        <tr><td>রিপিট / রিভেট (Rivet)</td><td><b>${netRivet}</b></td><td>পিস</td></tr>
-      `;
-    }
-
-
-        // টেবিলে ডাটা প্রিন্ট করা
         tbody.innerHTML = rowsHTML;
 
     } catch (err) {
         console.error('Accessories Calculation Error:', err);
     }
 }
-
 </script>
 
 </body>

@@ -1061,6 +1061,83 @@ function runAccessoriesCalculation() {
                     
                     let singlePerimeter = (hFt + wFt) * 2;
                     totalPerimeterFt += (singlePerimeter * q);
+<script>
+// ১. কাটিং ও এক্সেসরিজ হোয়াটসঅ্যাপে পাঠানোর ফাংশন (অপচয় ছাড়া)
+function sendToWhatsApp() {
+    try {
+        let text = "==============================\n";
+        text += "   মেটেরিয়ালস ও এক্সেসরিজ লিস্ট\n";
+        text += "==============================\n\n";
+
+        // কাটিং টেবিল ডাটা (অপচয় ফিল্টার করা)
+        let cuttingTables = document.querySelectorAll('.report-table');
+        if (cuttingTables.length > 0) {
+            text += "🪟 *অ্যালুমিনিয়াম কাটিং সাইজ:*\n";
+            cuttingTables.forEach((table) => {
+                let rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    let cols = row.querySelectorAll('td');
+                    if (cols.length >= 2) {
+                        let item = cols[0].innerText.trim();
+                        let details = cols[1].innerText.trim();
+                        
+                        if (!item.includes("অপচয়") && !item.includes("Waste")) {
+                            text += `• ${item}: ${details}\n`;
+                        }
+                    }
+                });
+            });
+            text += "\n";
+        }
+
+        // এক্সেসরিজ টেবিল ডাটা
+        let accTbody = document.getElementById('accessoriesTbody');
+        if (accTbody) {
+            let accRows = accTbody.querySelectorAll('tr');
+            if (accRows.length > 0 && !accRows[0].innerText.includes("ইনপুট দিন")) {
+                text += "🔩 *এক্সেসরিজ লিস্ট:*\n";
+                accRows.forEach(row => {
+                    let cols = row.querySelectorAll('td');
+                    if (cols.length >= 3) {
+                        let name = cols[0].innerText.trim();
+                        let qty = cols[1].innerText.trim();
+                        let unit = cols[2].innerText.trim();
+                        text += `• ${name}: ${qty} ${unit}\n`;
+                    }
+                });
+            }
+        }
+
+        let encodedText = encodeURIComponent(text);
+        window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+    } catch (err) {
+        console.error("WhatsApp Error:", err);
+    }
+}
+
+// ২. ডায়নামিক এক্সেসরিজ অটো হিসাব ফাংশন
+function runAccessoriesCalculation() {
+    try {
+        let totalWinQty = 0;
+        let totalPerimeterFt = 0;
+        let totalScrews = 0;
+        let totalSiliconeEstimate = 0;
+
+        let rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(function(row) {
+            let inputs = row.querySelectorAll('input');
+            if (inputs.length >= 2) {
+                let h = parseFloat(inputs[0].value) || 0;
+                let w = parseFloat(inputs[1].value) || 0;
+                let q = inputs[2] ? (parseInt(inputs[2].value) || 1) : 1;
+
+                if (h > 0 && w > 0) {
+                    totalWinQty += q;
+                    let hFt = h > 12 ? (h / 12) : h; 
+                    let wFt = w > 12 ? (w / 12) : w;
+                    
+                    let singlePerimeter = (hFt + wFt) * 2;
+                    totalPerimeterFt += (singlePerimeter * q);
 
                     if (hFt <= 3 && wFt <= 3) {
                         totalScrews += (21 * q);

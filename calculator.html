@@ -937,38 +937,50 @@ function runAccessoriesCalculation() {
             return;
         }
 
-        // ৪ ইঞ্চি নাকি ৩ ইঞ্চি চেক করা
-        let seriesEl = document.getElementById('series') || document.querySelector('select');
-        let is4Inch = seriesEl ? seriesEl.value.includes('4') : false;
+        // ৪ ইঞ্চি এবং নেট সেকশন চেক করা
+let seriesValue = document.getElementById('seriesSelect') ? document.getElementById('seriesSelect').value : ''; // আপনার সিরিজ ড্রপডাউনের ID দিন
+let netSectionValue = document.getElementById('netSectionSelect') ? document.getElementById('netSectionSelect').value : ''; // আপনার নেট ড্রপডাউনের ID দিন
 
-        // এক্সেসরিজ মালামালের হিসাব
-        let locks = totalWinQty * 2;
-        let wheels = totalWinQty * 4;
-        let cordScrews = totalWinQty * 8;
-        let screws15 = totalScrews;
-        let mohair = (totalPerimeterFt * 1.1).toFixed(2);
-        let rubber = (totalPerimeterFt * 1.1).toFixed(2);
-        let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
+// ৪ ইঞ্চি অথবা নেট সেকশন সিলেক্ট আছে কিনা নিশ্চিত করা
+let is4Inch = seriesValue.includes('4');
+let hasNetSection = netSectionValue !== '' && netSectionValue !== 'none' && !netSectionValue.includes('ছাড়াই');
 
-        let rowsHTML = `
-            <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
-            <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
-            <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
-            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
-            <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
-            <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
-            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
-        `;
+// এক্সেসরিজ মালামালের মৌলিক হিসাব
+let locks = totalWinQty * 2;
+let wheels = totalWinQty * 4;
+let cordScrews = totalWinQty * 8;
+let screws15 = totalScrews;
+let mohair = (totalPerimeterFt * 1.5).toFixed(2); // প্রয়োজনমতো গুণফল ঠিক রাখুন
+let rubber = (totalPerimeterFt * 1.5).toFixed(2);
+let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
 
-        if (is4Inch) {
-            let netWheels = totalWinQty * 2;
-            let netAngles = totalWinQty * 4;
+// মূল টেবিল রো (Rows)
+let rowsHTML = `
+  <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
+  <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
+  <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
+  <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
+  <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
+  <tr><td>গ্লাস রাবার (Rubber)</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
+  <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
+`;
 
-            rowsHTML += `
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
-            `;
-        }
+// যদি ৪ ইঞ্চি হয় অথবা নেট সেকশন সিলেক্ট করা থাকে, তবেই নেটের আইটেমগুলো যোগ হবে
+if (is4Inch || hasNetSection) {
+  let netWheels = totalWinQty * 2;
+  let netAngles = totalWinQty * 4;
+  let netRepeat = totalWinQty * 4; // বা আপনার প্রয়োজনমতো হিসাব
+
+  rowsHTML += `
+    <tr><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
+    <tr><td>নেট এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
+    <tr><td>রিপিট / রিভেট (Net Rivet)</td><td><b>${netRepeat}</b></td><td>পিস</td></tr>
+  `;
+}
+
+// টেবিলে ডাটা প্রিন্ট করা
+tbody.innerHTML = rowsHTML;
+
 
         // টেবিলে ডাটা প্রিন্ট করা
         tbody.innerHTML = rowsHTML;

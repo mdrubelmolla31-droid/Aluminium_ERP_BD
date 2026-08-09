@@ -616,11 +616,14 @@
           itemsMap["শাটার টপ"].push(wFt);
           itemsMap["শাটার বটম"].push(wFt);
         }
-
-        if (isNetActive) {
-          let netLenPerWin = ((hFt * 2) + (wFt * 2)) / 2;
-          for(let j = 0; j < q; j++) {
-            itemsMap["নেট সেকশন"].push(netLenPerWin);
+      if (isNetActive) {
+        let netWidthFt = wFt / 2;
+        for (let j = 0; j < q; j++) {
+          itemsMap["নেট সেকশন"].push(hFt);
+          itemsMap["নেট সেকশন"].push(hFt);
+          itemsMap["নেট সেকশন"].push(netWidthFt);
+          itemsMap["নেট সেকশন"].push(netWidthFt);
+        
           }
         }
       }

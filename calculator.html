@@ -960,15 +960,28 @@ function runAccessoriesCalculation() {
             <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
         `;
 
-        if (is4Inch) {
-            let netWheels = totalWinQty * 2;
-            let netAngles = totalWinQty * 4;
+            // ৪ ইঞ্চি অথবা নেট সেকশন সিলেক্ট থাকলে নেটের আইটেম যোগ হবে
+    let seriesEl = document.getElementById('seriesSelect') || document.querySelector('select[name="series"]');
+    let netEl = document.getElementById('netSectionSelect') || document.querySelector('select[name="netSection"]');
 
-            rowsHTML += `
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
-            `;
-        }
+    let seriesVal = seriesEl ? seriesEl.value : '';
+    let netVal = netEl ? netEl.value : '';
+
+    let is4Inch = seriesVal.includes('4') || seriesVal.includes('Sliding 4');
+    let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
+
+    if (is4Inch || hasNet) {
+      let netWheels = totalWinQty * 2;
+      let netAngles = totalWinQty * 4;
+      let netRivet = totalWinQty * 20;
+
+      rowsHTML += `
+        <tr><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
+        <tr><td>নেট এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
+        <tr><td>রিপিট / রিভেট (Rivet)</td><td><b>${netRivet}</b></td><td>পিস</td></tr>
+      `;
+    }
+
 
         // টেবিলে ডাটা প্রিন্ট করা
         tbody.innerHTML = rowsHTML;

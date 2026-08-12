@@ -61,8 +61,8 @@
     /* History Sidebar */
     .sidebar {
       position: fixed;
-      top: 0; left: -300px;
-      width: 280px; height: 100%;
+      top: 0; left: -320px;
+      width: 300px; height: 100%;
       background: #060b17;
       border-right: 1px solid var(--border);
       transition: 0.3s;
@@ -74,6 +74,53 @@
     .sidebar.active { left: 0; }
     .close-btn { color: #ef4444; float: right; font-size: 20px; cursor: pointer; font-weight: bold; }
     
+    .history-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+      position: relative;
+    }
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .history-date {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .history-actions {
+      display: flex;
+      gap: 6px;
+    }
+    .history-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    .btn-reopen { color: #38bdf8; border: 1px solid #38bdf8; }
+    .btn-delete-item { color: #ef4444; border: 1px solid #ef4444; }
+    
+    .clear-all-btn {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
     /* Input Section */
     .window-row {
       background: var(--card-bg);
@@ -97,7 +144,6 @@
       box-sizing: border-box;
       outline: none;
     }
-    /* Delete Row Button */
     .delete-row-btn {
       background: #ef4444;
       color: #fff;
@@ -258,7 +304,6 @@
       <button class="menu-btn" onclick="toggleHistory()">☰</button>
       <span style="color: var(--accent); font-weight: bold; font-size: 18px;">গ্লাস কাটিং সাইজ</span>
     </div>
-    <!-- কোম্পানির নাম ও মোবাইল নাম্বার পরিবর্তন করা হয়েছে -->
     <input type="text" id="shopName" class="editable-input title" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম">
     <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর">
   </div>
@@ -334,12 +379,26 @@
       return suta > 0 ? `${inches}" ${suta} সুতা` : `${inches}"`;
     }
 
-    function getQtyOptions() {
+    function getQtyOptions(selectedQty = 2) {
       let options = "";
       for (let i = 1; i <= 100; i++) {
-        options += `<option value="${i}" ${i === 2 ? 'selected' : ''}>${i}</option>`;
+        options += `<option value="${i}" ${i === parseInt(selectedQty) ? 'selected' : ''}>${i}</option>`;
       }
       return options;
+    }
+
+    function getMmOptions(selectedMm = "5.5mm") {
+      const mms = ["5mm", "5.5mm", "6mm", "8mm", "10mm", "12mm", "15mm"];
+      return mms.map(mm => `<option value="${mm}" ${mm === selectedMm ? 'selected' : ''}>${mm}</option>`).join('');
+    }
+
+    function getColorOptions(selectedColor = "Navy Blue Markeri") {
+      const colors = [
+        "Clear", "Navy Blue Markeri", "Navy Blue Normal", 
+        "Green Markeri", "Green Normal", "Lake Blue Markeri", 
+        "Lake Blue Normal", "Dark Grey Normal", "Light Bronze Normal"
+      ];
+      return colors.map(c => `<option value="${c}" ${c === selectedColor ? 'selected' : ''}>${c}</option>`).join('');
     }
 
     function calculateGlass() {
@@ -348,7 +407,7 @@
       const tbody = document.getElementById("glassTableBody");
       tbody.innerHTML = "";
 
-      let historyData = [];
+      let historyItems = [];
 
       heights.forEach((hInput, index) => {
         let hVal = parseFloat(hInput.value);
@@ -367,52 +426,38 @@
           tr.innerHTML = `
             <td class="glass-size-text">${finalSizeText}</td>
             <td>
-              <select class="table-select">
-                <option value="5mm">5mm</option>
-                <option value="5.5mm" selected>5.5mm</option>
-                <option value="6mm">6mm</option>
-                <option value="8mm">8mm</option>
-                <option value="10mm">10mm</option>
-                <option value="12mm">12mm</option>
-                <option value="15mm">15mm</option>
-              </select>
+              <select class="table-select">${getMmOptions("5.5mm")}</select>
             </td>
             <td>
-              <select class="table-select">
-                <option value="Clear">Clear</option>
-                <option value="Navy Blue Markeri" selected>Navy Blue Markeri</option>
-                <option value="Navy Blue Normal">Navy Blue Normal</option>
-                <option value="Green Markeri">Green Markeri</option>
-                <option value="Green Normal">Green Normal</option>
-                <option value="Lake Blue Markeri">Lake Blue Markeri</option>
-                <option value="Lake Blue Normal">Lake Blue Normal</option>
-                <option value="Dark Grey Normal">Dark Grey Normal</option>
-                <option value="Light Bronze Normal">Light Bronze Normal</option>
-              </select>
+              <select class="table-select">${getColorOptions("Navy Blue Markeri")}</select>
             </td>
             <td>
-              <select class="table-select">
-                ${getQtyOptions()}
-              </select>
+              <select class="table-select">${getQtyOptions(2)}</select>
             </td>
           `;
           tbody.appendChild(tr);
 
-          historyData.push(`উইন্ডো ${index+1}: ${finalSizeText}`);
+          historyItems.push({
+            size: finalSizeText,
+            mm: "5.5mm",
+            color: "Navy Blue Markeri",
+            qty: 2
+          });
         }
       });
 
       if (tbody.children.length > 0) {
         document.getElementById("resultContainer").style.display = "block";
-        saveHistory(historyData);
+        saveHistory(historyItems);
       }
     }
 
-    function saveHistory(data) {
+    function saveHistory(items) {
       let existing = JSON.parse(localStorage.getItem("glassHistory") || "[]");
       let newEntry = {
+        id: Date.now(),
         date: new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' }) + ', ' + new Date().toLocaleDateString('bn-BD'),
-        items: data
+        items: items
       };
       existing.unshift(newEntry);
       localStorage.setItem("glassHistory", JSON.stringify(existing));
@@ -422,18 +467,74 @@
     function renderHistory() {
       let existing = JSON.parse(localStorage.getItem("glassHistory") || "[]");
       let historyContent = document.getElementById("historyContent");
-      if(existing.length === 0) return;
       
-      let html = "";
-      existing.forEach((item) => {
-        html += `<div style="border-bottom:1px solid var(--border); padding:8px 0;">
-          <small style="color:var(--accent); font-weight:bold;">${item.date}</small>
-          <ul style="padding-left:15px; margin:5px 0; color:#cbd5e1;">
-            ${item.items.map(i => `<li>${i}</li>`).join('')}
-          </ul>
-        </div>`;
+      if(existing.length === 0) {
+        historyContent.innerHTML = "<div style='color: #94a3b8; text-align: center; margin-top: 20px;'>কোনো হিস্টরি পাওয়া যায়নি।</div>";
+        return;
+      }
+      
+      let html = `<button class="clear-all-btn" onclick="clearAllHistory()">সব হিস্টরি মুছুন</button>`;
+      
+      existing.forEach((entry) => {
+        let itemListHtml = entry.items.map(item => 
+          `<li>${item.size} (${item.mm}, ${item.qty} পিস)</li>`
+        ).join('');
+
+        html += `
+          <div class="history-card">
+            <div class="history-header">
+              <span class="history-date">${entry.date}</span>
+              <div class="history-actions">
+                <button class="history-btn btn-reopen" onclick="reopenHistory(${entry.id})" title="পুনরায় খুলুন">📂 খুলুন</button>
+                <button class="history-btn btn-delete-item" onclick="deleteHistoryItem(${entry.id})" title="মুছে ফেলুন">🗑️</button>
+              </div>
+            </div>
+            <ul style="padding-left: 18px; margin: 5px 0; color: #cbd5e1; font-size: 13px; cursor: pointer;" onclick="reopenHistory(${entry.id})">
+              ${itemListHtml}
+            </ul>
+          </div>
+        `;
       });
+
       historyContent.innerHTML = html;
+    }
+
+    function deleteHistoryItem(id) {
+      let existing = JSON.parse(localStorage.getItem("glassHistory") || "[]");
+      let updated = existing.filter(item => item.id !== id);
+      localStorage.setItem("glassHistory", JSON.stringify(updated));
+      renderHistory();
+    }
+
+    function clearAllHistory() {
+      if(confirm("আপনি কি সব হিস্টরি মুছে ফেলতে চান?")) {
+        localStorage.removeItem("glassHistory");
+        renderHistory();
+      }
+    }
+
+    function reopenHistory(id) {
+      let existing = JSON.parse(localStorage.getItem("glassHistory") || "[]");
+      let selectedEntry = existing.find(item => item.id === id);
+
+      if (selectedEntry) {
+        const tbody = document.getElementById("glassTableBody");
+        tbody.innerHTML = "";
+
+        selectedEntry.items.forEach(item => {
+          let tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td class="glass-size-text">${item.size}</td>
+            <td><select class="table-select">${getMmOptions(item.mm)}</select></td>
+            <td><select class="table-select">${getColorOptions(item.color)}</select></td>
+            <td><select class="table-select">${getQtyOptions(item.qty)}</select></td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById("resultContainer").style.display = "block";
+        toggleHistory(); // হিস্টোরি প্যানেল স্লাইড করে বন্ধ করার জন্য
+      }
     }
 
     function sendWhatsApp() {

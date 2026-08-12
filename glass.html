@@ -138,27 +138,96 @@
 
     /* গ্লাসের মূল মাপে বড় ও স্পষ্ট ফন্ট */
     .glass-size-text {
-      font-size: 18px !important;
+      font-size: 17px !important;
       font-weight: 800 !important;
       color: #facc15 !important;
       text-shadow: 0px 0px 1px #000;
       line-height: 1.3;
     }
 
-    /* Dropdown Auto-width & No Text Overflow */
+    /* Dropdown Styling */
     .table-select {
       width: 100%;
-      padding: 8px 2px;
+      padding: 6px 0px;
       background: var(--input-bg);
       border: 1px solid var(--border);
       color: #fff;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       outline: none;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
+    }
+
+    /* ==========================================
+       PRINT / PDF DESIGN (প্রিন্টের জন্য বিশেষ স্টাইল)
+       ========================================== */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      /* হেডারকে মেমোর মতো রূপ দেওয়া */
+      .header-card {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 2px solid #000 !important;
+        border-radius: 0 !important;
+        padding: 0 0 10px 0 !important;
+        margin-bottom: 20px !important;
+      }
+      .menu-btn, .header-top span {
+        display: none !important; /* ৩-লাইন মেনু প্রিন্টে আসবে না */
+      }
+      .editable-input {
+        color: #000000 !important;
+        border: none !important;
+        font-weight: bold !important;
+      }
+      .editable-input.title {
+        font-size: 24px !important;
+      }
+
+      /* ইনপুট ফিল্ড ও বাটনসমূহ হাইড করে দেওয়া */
+      #windowsContainer, .btn-add, .btn, .sidebar {
+        display: none !important;
+      }
+
+      /* ফলাফল টেবিল সম্পূর্ণ স্পষ্ট করা */
+      #resultContainer {
+        display: block !important;
+        background: transparent !important;
+        border: none !important;
+      }
+      table {
+        border: 1px solid #000 !important;
+      }
+      th {
+        background: #f0f0f0 !important;
+        color: #000000 !important;
+        border: 1px solid #000 !important;
+        font-weight: bold !important;
+      }
+      td {
+        border: 1px solid #000 !important;
+        color: #000000 !important;
+      }
+      .glass-size-text {
+        color: #000000 !important; /* প্রিন্টে কালো ও স্পষ্ট আসবে */
+        font-size: 16px !important;
+      }
+      .table-select {
+        background: transparent !important;
+        border: none !important;
+        color: #000000 !important;
+        font-weight: bold !important;
+        appearance: none;
+        -webkit-appearance: none;
+        text-align-last: center;
+      }
+      .btn-whatsapp, .btn-pdf {
+        display: none !important; /* বাটন প্রিন্টে আসবে না */
+      }
     }
   </style>
 </head>
@@ -178,8 +247,8 @@
       <button class="menu-btn" onclick="toggleHistory()">☰</button>
       <span style="color: var(--accent); font-weight: bold; font-size: 18px;">গ্লাস কাটিং সাইজ</span>
     </div>
-    <input type="text" class="editable-input title" value="মেসার্স গ্লাস অ্যান্ড থাই হাউস" placeholder="দোকানের নাম">
-    <input type="text" class="editable-input" value="মোবাইল: ০১XXXXXXXXX" placeholder="মোবাইল নম্বর">
+    <input type="text" id="shopName" class="editable-input title" value="মেসার্স গ্লাস অ্যান্ড থাই হাউস" placeholder="দোকানের নাম">
+    <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: ০১XXXXXXXXX" placeholder="মোবাইল নম্বর">
   </div>
 
   <!-- Dynamic Input Windows -->
@@ -198,9 +267,9 @@
     <table>
       <thead>
         <tr>
-          <th style="width: 42%;">গ্লাসের সাইজ (ইঞ্চি)</th>
-          <th style="width: 17%;">মিলি</th>
-          <th style="width: 27%;">কালার</th>
+          <th style="width: 38%;">গ্লাসের সাইজ (ইঞ্চি)</th>
+          <th style="width: 16%;">মিলি</th>
+          <th style="width: 32%;">কালার</th>
           <th style="width: 14%;">পিস</th>
         </tr>
       </thead>
@@ -229,7 +298,6 @@
       container.appendChild(div);
     }
 
-    // mm থেকে ইঞ্চি এবং সুতা কনভার্ট করার ফাংশন
     function mmToInchSuta(mm) {
       let totalInches = mm / 25.4;
       let inches = Math.floor(totalInches);
@@ -243,7 +311,6 @@
       return suta > 0 ? `${inches}" ${suta} সুতা` : `${inches}"`;
     }
 
-    // ১ থেকে ১০০ কোয়ান্টিটি অপশন
     function getQtyOptions() {
       let options = "";
       for (let i = 1; i <= 100; i++) {
@@ -265,9 +332,7 @@
         let wVal = parseFloat(widths[index].value);
 
         if (hVal && wVal) {
-          // সুত্র: হাইট - ১০৭ mm
           let finalH_mm = hVal - 107;
-          // সুত্র: (চওড়া - ১২৫ mm) / ২
           let finalW_mm = (wVal - 125) / 2;
 
           let hFormatted = mmToInchSuta(finalH_mm);
@@ -348,8 +413,25 @@
       historyContent.innerHTML = html;
     }
 
+    // WhatsApp শেয়ার লজিক (দোকানের নাম ও নাম্বারের সাথে স্পষ্ট টেক্সট হিসেবে যাবে)
     function sendWhatsApp() {
-      alert("WhatsApp শেয়ারের জন্য প্রস্তুতি নেওয়া হচ্ছে...");
+      let shopName = document.getElementById("shopName").value;
+      let shopPhone = document.getElementById("shopPhone").value;
+      
+      let message = `*${shopName}*\n${shopPhone}\n---------------------------\n*গ্লাস কাটিং লিস্ট:*\n\n`;
+      
+      let rows = document.querySelectorAll("#glassTableBody tr");
+      rows.forEach((row, i) => {
+        let size = row.cells[0].innerText;
+        let mm = row.cells[1].querySelector("select").value;
+        let color = row.cells[2].querySelector("select").value;
+        let qty = row.cells[3].querySelector("select").value;
+        
+        message += `${i+1}. সাইজ: ${size}\n   মিলি: ${mm} | কালার: ${color} | পিস: ${qty}\n\n`;
+      });
+
+      let encodedMsg = encodeURIComponent(message);
+      window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
     }
 
     function downloadPDF() {

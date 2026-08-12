@@ -13,13 +13,15 @@
       --border: #1e2d52;
       --input-bg: #091024;
     }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text);
       margin: 0;
       padding: 12px;
-      box-sizing: border-box;
     }
     .header-card {
       background: var(--card-bg);
@@ -69,7 +71,6 @@
       padding: 15px;
       z-index: 1000;
       overflow-y: auto;
-      box-sizing: border-box;
     }
     .sidebar.active { left: 0; }
     .close-btn { color: #ef4444; float: right; font-size: 20px; cursor: pointer; font-weight: bold; }
@@ -141,7 +142,6 @@
       color: #fff;
       font-size: 16px;
       text-align: center;
-      box-sizing: border-box;
       outline: none;
     }
     .delete-row-btn {
@@ -232,28 +232,35 @@
       outline: none;
     }
 
-    /* Print / PDF Design - বর্ডার ও গাঢ় ফন্টের স্টাইল */
+    /* Print / PDF Design - ২ পেজের ওভারফ্লো ফিক্স এবং পারফেক্ট বর্ডার */
     @media print {
       @page {
-        margin: 15mm;
-        size: A4 portrait;
+        margin: 8mm;
+        size: auto;
       }
-      body {
+      html, body {
+        height: auto !important;
+        overflow: visible !important;
         background-color: #ffffff !important;
         color: #000000 !important;
-        padding: 15px !important;
-        font-weight: 900 !important;
-        border: 4px solid #1e3a8a !important; /* চারিপাশে সুন্দর গাঢ় ব্লু বর্ডার */
-        box-sizing: border-box !important;
-        min-height: 95vh;
+        padding: 0 !important;
+        margin: 0 !important;
       }
+      
+      .print-wrapper {
+        border: 3px solid #1e3a8a !important;
+        padding: 12px !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+
       .header-card {
         background: transparent !important;
         border: none !important;
-        border-bottom: 3px solid #1e3a8a !important;
+        border-bottom: 2px solid #1e3a8a !important;
         border-radius: 0 !important;
-        padding: 0 0 10px 0 !important;
-        margin-bottom: 20px !important;
+        padding: 0 0 8px 0 !important;
+        margin-bottom: 12px !important;
       }
       .menu-btn, .header-top span {
         display: none !important;
@@ -262,13 +269,14 @@
         color: #000000 !important;
         border: none !important;
         font-weight: 900 !important;
+        margin-bottom: 4px !important;
       }
       .editable-input.title {
-        font-size: 28px !important;
+        font-size: 24px !important;
         letter-spacing: 0.5px;
       }
       .editable-input {
-        font-size: 18px !important;
+        font-size: 16px !important;
       }
 
       #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn {
@@ -279,6 +287,7 @@
         display: block !important;
         background: transparent !important;
         border: none !important;
+        margin-top: 0 !important;
       }
       table {
         border: 2px solid #000000 !important;
@@ -289,35 +298,36 @@
         color: #000000 !important;
         border: 1.5px solid #000000 !important;
         font-weight: 900 !important;
-        font-size: 17px !important;
-        padding: 12px 4px !important;
+        font-size: 15px !important;
+        padding: 8px 2px !important;
       }
       td {
         border: 1.5px solid #000000 !important;
         color: #000000 !important;
         font-weight: 900 !important;
-        font-size: 17px !important;
-        padding: 14px 4px !important;
+        font-size: 15px !important;
+        padding: 10px 2px !important;
       }
       .glass-size-text {
         color: #000000 !important;
-        font-size: 19px !important;
+        font-size: 17px !important;
         font-weight: 900 !important;
       }
       .sn-text {
         color: #000000 !important;
-        font-size: 18px !important;
+        font-size: 16px !important;
         font-weight: 900 !important;
       }
       .table-select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-size: 17px !important;
+        font-size: 14px !important;
         font-weight: 900 !important;
         appearance: none;
         -webkit-appearance: none;
         text-align-last: center;
+        padding: 0 !important;
       }
       .btn-whatsapp, .btn-pdf {
         display: none !important;
@@ -327,54 +337,56 @@
 </head>
 <body>
 
-  <!-- History Sidebar -->
-  <div id="sidebar" class="sidebar">
-    <span class="close-btn" onclick="toggleHistory()">✕ বন্ধ করুন</span>
-    <h3 style="color: var(--accent); margin-top: 0;">সম্পূর্ণ হিস্টরি</h3>
-    <hr style="border-color: var(--border);">
-    <div id="historyContent">কোনো হিস্টরি পাওয়া যায়নি।</div>
-  </div>
-
-  <!-- Header Section -->
-  <div class="header-card">
-    <div class="header-top">
-      <button class="menu-btn" onclick="toggleHistory()">☰</button>
-      <span style="color: var(--accent); font-weight: bold; font-size: 18px;">গ্লাস কাটিং সাইজ</span>
+  <div class="print-wrapper">
+    <!-- History Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <span class="close-btn" onclick="toggleHistory()">✕ বন্ধ করুন</span>
+      <h3 style="color: var(--accent); margin-top: 0;">সম্পূর্ণ হিস্টরি</h3>
+      <hr style="border-color: var(--border);">
+      <div id="historyContent">কোনো হিস্টরি পাওয়া যায়নি।</div>
     </div>
-    <input type="text" id="shopName" class="editable-input title" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম">
-    <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর">
-  </div>
 
-  <!-- Dynamic Input Windows -->
-  <div id="windowsContainer">
-    <div class="window-row">
-      <input type="number" class="mm-h" placeholder="হাইট (mm)">
-      <input type="number" class="mm-w" placeholder="চওড়া (mm)">
-      <button class="delete-row-btn" onclick="removeWindow(this)">✕</button>
+    <!-- Header Section -->
+    <div class="header-card">
+      <div class="header-top">
+        <button class="menu-btn" onclick="toggleHistory()">☰</button>
+        <span style="color: var(--accent); font-weight: bold; font-size: 18px;">গ্লাস কাটিং সাইজ</span>
+      </div>
+      <input type="text" id="shopName" class="editable-input title" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম">
+      <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর">
     </div>
-  </div>
 
-  <button class="btn btn-add" onclick="addWindow()">+ আরও উইন্ডো যোগ করুন</button>
-  <button class="btn" onclick="calculateGlass()">গ্লাস কাটিং সাইজ বের করুন</button>
+    <!-- Dynamic Input Windows -->
+    <div id="windowsContainer">
+      <div class="window-row">
+        <input type="number" class="mm-h" placeholder="হাইট (mm)">
+        <input type="number" class="mm-w" placeholder="চওড়া (mm)">
+        <button class="delete-row-btn" onclick="removeWindow(this)">✕</button>
+      </div>
+    </div>
 
-  <!-- Results Table -->
-  <div class="table-container" id="resultContainer" style="display:none;">
-    <table>
-      <thead>
-        <tr>
-          <th style="width: 12%;">নং (S/N)</th>
-          <th style="width: 38%;">গ্লাসের সাইজ (ইঞ্চি)</th>
-          <th style="width: 16%;">মিলি</th>
-          <th style="width: 22%;">কালার</th>
-          <th style="width: 12%;">পিস</th>
-        </tr>
-      </thead>
-      <tbody id="glassTableBody"></tbody>
-    </table>
+    <button class="btn btn-add" onclick="addWindow()">+ আরও উইন্ডো যোগ করুন</button>
+    <button class="btn" onclick="calculateGlass()">গ্লাস কাটিং সাইজ বের করুন</button>
 
-    <div style="padding: 10px;">
-      <button class="btn btn-whatsapp" onclick="sendWhatsApp()">WhatsApp-এ পাঠান</button>
-      <button class="btn btn-pdf" onclick="downloadPDF()">PDF ডাউনলোড</button>
+    <!-- Results Table -->
+    <div class="table-container" id="resultContainer" style="display:none;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 10%;">নং</th>
+            <th style="width: 38%;">গ্লাসের সাইজ (ইঞ্চি)</th>
+            <th style="width: 16%;">মিলি</th>
+            <th style="width: 26%;">কালার</th>
+            <th style="width: 10%;">পিস</th>
+          </tr>
+        </thead>
+        <tbody id="glassTableBody"></tbody>
+      </table>
+
+      <div style="padding: 10px;">
+        <button class="btn btn-whatsapp" onclick="sendWhatsApp()">WhatsApp-এ পাঠান</button>
+        <button class="btn btn-pdf" onclick="downloadPDF()">PDF ডাউনলোড</button>
+      </div>
     </div>
   </div>
 

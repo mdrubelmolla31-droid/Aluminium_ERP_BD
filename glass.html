@@ -192,7 +192,7 @@
       table-layout: fixed;
     }
     th, td {
-      padding: 12px 6px;
+      padding: 10px 4px;
       border: 1px solid var(--border);
       text-align: center;
       word-wrap: break-word;
@@ -200,16 +200,22 @@
     th { 
       background: #081023; 
       color: var(--accent); 
-      font-size: 15px; 
+      font-size: 14px; 
       font-weight: 800; 
     }
 
     .glass-size-text {
-      font-size: 18px !important;
+      font-size: 17px !important;
       font-weight: 900 !important;
       color: #facc15 !important;
       text-shadow: 0px 0px 1px #000;
       line-height: 1.3;
+    }
+
+    .sn-text {
+      font-size: 16px !important;
+      font-weight: 900 !important;
+      color: #ffffff;
     }
 
     /* Dropdown Styling */
@@ -226,18 +232,25 @@
       outline: none;
     }
 
-    /* Print / PDF Design - একদম স্পষ্ট ও গাঢ় বোল্ড করার জন্য স্টাইল */
+    /* Print / PDF Design - বর্ডার ও গাঢ় ফন্টের স্টাইল */
     @media print {
+      @page {
+        margin: 15mm;
+        size: A4 portrait;
+      }
       body {
         background-color: #ffffff !important;
         color: #000000 !important;
-        padding: 0 !important;
+        padding: 15px !important;
         font-weight: 900 !important;
+        border: 4px solid #1e3a8a !important; /* চারিপাশে সুন্দর গাঢ় ব্লু বর্ডার */
+        box-sizing: border-box !important;
+        min-height: 95vh;
       }
       .header-card {
         background: transparent !important;
         border: none !important;
-        border-bottom: 2px solid #000 !important;
+        border-bottom: 3px solid #1e3a8a !important;
         border-radius: 0 !important;
         padding: 0 0 10px 0 !important;
         margin-bottom: 20px !important;
@@ -251,7 +264,11 @@
         font-weight: 900 !important;
       }
       .editable-input.title {
-        font-size: 26px !important;
+        font-size: 28px !important;
+        letter-spacing: 0.5px;
+      }
+      .editable-input {
+        font-size: 18px !important;
       }
 
       #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn {
@@ -264,25 +281,30 @@
         border: none !important;
       }
       table {
-        border: 2px solid #000 !important;
+        border: 2px solid #000000 !important;
         width: 100% !important;
       }
       th {
-        background: #f0f0f0 !important;
+        background: #f1f5f9 !important;
         color: #000000 !important;
-        border: 1px solid #000 !important;
+        border: 1.5px solid #000000 !important;
         font-weight: 900 !important;
-        font-size: 16px !important;
-        padding: 12px 6px !important;
+        font-size: 17px !important;
+        padding: 12px 4px !important;
       }
       td {
-        border: 1px solid #000 !important;
+        border: 1.5px solid #000000 !important;
         color: #000000 !important;
         font-weight: 900 !important;
-        font-size: 16px !important;
-        padding: 14px 6px !important;
+        font-size: 17px !important;
+        padding: 14px 4px !important;
       }
       .glass-size-text {
+        color: #000000 !important;
+        font-size: 19px !important;
+        font-weight: 900 !important;
+      }
+      .sn-text {
         color: #000000 !important;
         font-size: 18px !important;
         font-weight: 900 !important;
@@ -291,7 +313,7 @@
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-size: 16px !important;
+        font-size: 17px !important;
         font-weight: 900 !important;
         appearance: none;
         -webkit-appearance: none;
@@ -340,9 +362,10 @@
     <table>
       <thead>
         <tr>
-          <th style="width: 42%;">গ্লাসের সাইজ (ইঞ্চি)</th>
-          <th style="width: 18%;">মিলি</th>
-          <th style="width: 28%;">কালার</th>
+          <th style="width: 12%;">নং (S/N)</th>
+          <th style="width: 38%;">গ্লাসের সাইজ (ইঞ্চি)</th>
+          <th style="width: 16%;">মিলি</th>
+          <th style="width: 22%;">কালার</th>
           <th style="width: 12%;">পিস</th>
         </tr>
       </thead>
@@ -423,6 +446,7 @@
       tbody.innerHTML = "";
 
       let historyItems = [];
+      let serialNumber = 1;
 
       heights.forEach((hInput, index) => {
         let hVal = parseFloat(hInput.value);
@@ -439,6 +463,7 @@
 
           let tr = document.createElement("tr");
           tr.innerHTML = `
+            <td class="sn-text">${serialNumber}</td>
             <td class="glass-size-text">${finalSizeText}</td>
             <td>
               <select class="table-select">${getMmOptions("5.5mm")}</select>
@@ -453,11 +478,14 @@
           tbody.appendChild(tr);
 
           historyItems.push({
+            sn: serialNumber,
             size: finalSizeText,
             mm: "5.5mm",
             color: "Navy Blue Markeri",
             qty: 2
           });
+
+          serialNumber++;
         }
       });
 
@@ -492,7 +520,7 @@
       
       existing.forEach((entry) => {
         let itemListHtml = entry.items.map(item => 
-          `<li>${item.size} (${item.mm}, ${item.qty} পিস)</li>`
+          `<li>#${item.sn || 1}: ${item.size} (${item.mm}, ${item.qty} পিস)</li>`
         ).join('');
 
         html += `
@@ -536,9 +564,10 @@
         const tbody = document.getElementById("glassTableBody");
         tbody.innerHTML = "";
 
-        selectedEntry.items.forEach(item => {
+        selectedEntry.items.forEach((item, index) => {
           let tr = document.createElement("tr");
           tr.innerHTML = `
+            <td class="sn-text">${item.sn || (index + 1)}</td>
             <td class="glass-size-text">${item.size}</td>
             <td><select class="table-select">${getMmOptions(item.mm)}</select></td>
             <td><select class="table-select">${getColorOptions(item.color)}</select></td>
@@ -559,13 +588,14 @@
       let message = `*${shopName}*\n${shopPhone}\n---------------------------\n*গ্লাস কাটিং লিস্ট:*\n\n`;
       
       let rows = document.querySelectorAll("#glassTableBody tr");
-      rows.forEach((row, i) => {
-        let size = row.cells[0].innerText;
-        let mm = row.cells[1].querySelector("select").value;
-        let color = row.cells[2].querySelector("select").value;
-        let qty = row.cells[3].querySelector("select").value;
+      rows.forEach((row) => {
+        let sn = row.cells[0].innerText;
+        let size = row.cells[1].innerText;
+        let mm = row.cells[2].querySelector("select").value;
+        let color = row.cells[3].querySelector("select").value;
+        let qty = row.cells[4].querySelector("select").value;
         
-        message += `${i+1}. সাইজ: ${size}\n   মিলি: ${mm} | কালার: ${color} | পিস: ${qty}\n\n`;
+        message += `${sn}. সাইজ: ${size}\n   মিলি: ${mm} | কালার: ${color} | পিস: ${qty}\n\n`;
       });
 
       let encodedMsg = encodeURIComponent(message);

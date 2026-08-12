@@ -192,16 +192,21 @@
       table-layout: fixed;
     }
     th, td {
-      padding: 8px 4px;
+      padding: 12px 6px;
       border: 1px solid var(--border);
       text-align: center;
       word-wrap: break-word;
     }
-    th { background: #081023; color: var(--accent); font-size: 13px; font-weight: 600; }
+    th { 
+      background: #081023; 
+      color: var(--accent); 
+      font-size: 15px; 
+      font-weight: 800; 
+    }
 
     .glass-size-text {
-      font-size: 17px !important;
-      font-weight: 800 !important;
+      font-size: 18px !important;
+      font-weight: 900 !important;
       color: #facc15 !important;
       text-shadow: 0px 0px 1px #000;
       line-height: 1.3;
@@ -210,22 +215,24 @@
     /* Dropdown Styling */
     .table-select {
       width: 100%;
-      padding: 6px 0px;
+      padding: 8px 2px;
       background: var(--input-bg);
       border: 1px solid var(--border);
       color: #fff;
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 14px;
+      font-weight: bold;
       cursor: pointer;
       outline: none;
     }
 
-    /* Print / PDF Design */
+    /* Print / PDF Design - একদম স্পষ্ট ও গাঢ় বোল্ড করার জন্য স্টাইল */
     @media print {
       body {
         background-color: #ffffff !important;
         color: #000000 !important;
         padding: 0 !important;
+        font-weight: 900 !important;
       }
       .header-card {
         background: transparent !important;
@@ -241,10 +248,10 @@
       .editable-input {
         color: #000000 !important;
         border: none !important;
-        font-weight: bold !important;
+        font-weight: 900 !important;
       }
       .editable-input.title {
-        font-size: 24px !important;
+        font-size: 26px !important;
       }
 
       #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn {
@@ -257,27 +264,35 @@
         border: none !important;
       }
       table {
-        border: 1px solid #000 !important;
+        border: 2px solid #000 !important;
+        width: 100% !important;
       }
       th {
         background: #f0f0f0 !important;
         color: #000000 !important;
         border: 1px solid #000 !important;
-        font-weight: bold !important;
+        font-weight: 900 !important;
+        font-size: 16px !important;
+        padding: 12px 6px !important;
       }
       td {
         border: 1px solid #000 !important;
         color: #000000 !important;
+        font-weight: 900 !important;
+        font-size: 16px !important;
+        padding: 14px 6px !important;
       }
       .glass-size-text {
         color: #000000 !important;
-        font-size: 16px !important;
+        font-size: 18px !important;
+        font-weight: 900 !important;
       }
       .table-select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-weight: bold !important;
+        font-size: 16px !important;
+        font-weight: 900 !important;
         appearance: none;
         -webkit-appearance: none;
         text-align-last: center;
@@ -325,10 +340,10 @@
     <table>
       <thead>
         <tr>
-          <th style="width: 38%;">গ্লাসের সাইজ (ইঞ্চি)</th>
-          <th style="width: 16%;">মিলি</th>
-          <th style="width: 32%;">কালার</th>
-          <th style="width: 14%;">পিস</th>
+          <th style="width: 42%;">গ্লাসের সাইজ (ইঞ্চি)</th>
+          <th style="width: 18%;">মিলি</th>
+          <th style="width: 28%;">কালার</th>
+          <th style="width: 12%;">পিস</th>
         </tr>
       </thead>
       <tbody id="glassTableBody"></tbody>
@@ -533,7 +548,7 @@
         });
 
         document.getElementById("resultContainer").style.display = "block";
-        toggleHistory(); // হিস্টোরি প্যানেল স্লাইড করে বন্ধ করার জন্য
+        toggleHistory();
       }
     }
 

@@ -6,23 +6,25 @@
   <title>গ্লাস কাটিং ক্যালকুলেটর</title>
   <style>
     :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
+      --bg-color: #0b1329;
+      --card-bg: #131e3a;
       --accent: #38bdf8;
-      --text: #f8fafc;
-      --border: #334155;
+      --text: #ffffff;
+      --border: #1e2d52;
+      --input-bg: #091024;
     }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text);
       margin: 0;
-      padding: 15px;
+      padding: 12px;
+      box-sizing: border-box;
     }
     .header-card {
       background: var(--card-bg);
       padding: 15px;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-bottom: 15px;
       border: 1px solid var(--border);
     }
@@ -30,14 +32,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .menu-btn {
-      font-size: 24px;
+      font-size: 26px;
       background: none;
       border: none;
       color: var(--accent);
       cursor: pointer;
+      padding: 0;
     }
     .editable-input {
       background: transparent;
@@ -46,7 +49,8 @@
       color: var(--text);
       font-size: 16px;
       width: 100%;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      outline: none;
     }
     .editable-input.title {
       font-size: 20px;
@@ -59,44 +63,48 @@
       position: fixed;
       top: 0; left: -300px;
       width: 280px; height: 100%;
-      background: #090d16;
+      background: #060b17;
       border-right: 1px solid var(--border);
       transition: 0.3s;
       padding: 15px;
       z-index: 1000;
       overflow-y: auto;
+      box-sizing: border-box;
     }
     .sidebar.active { left: 0; }
-    .close-btn { color: #ff4d4d; float: right; font-size: 20px; cursor: pointer; }
+    .close-btn { color: #ef4444; float: right; font-size: 20px; cursor: pointer; font-weight: bold; }
     
     /* Input Section */
     .window-row {
       background: var(--card-bg);
-      padding: 12px;
-      border-radius: 8px;
+      padding: 10px;
+      border-radius: 10px;
       margin-bottom: 10px;
       display: flex;
       gap: 10px;
-      align-items: center;
+      border: 1px solid var(--border);
     }
     .window-row input {
-      width: 45%;
-      padding: 10px;
-      border-radius: 5px;
+      width: 50%;
+      padding: 12px;
+      border-radius: 8px;
       border: 1px solid var(--border);
-      background: #0f172a;
+      background: var(--input-bg);
       color: #fff;
       font-size: 16px;
+      text-align: center;
+      box-sizing: border-box;
+      outline: none;
     }
 
     /* Action Buttons */
     .btn {
       background: var(--accent);
-      color: #000;
+      color: #0b1329;
       border: none;
-      padding: 12px 20px;
+      padding: 14px;
       font-weight: bold;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       width: 100%;
       margin-top: 10px;
@@ -108,43 +116,49 @@
 
     /* Table Design */
     .table-container {
-      overflow-x: auto;
-      margin-top: 20px;
+      width: 100%;
+      margin-top: 15px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      overflow: hidden;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--card-bg);
-      border-radius: 8px;
-      overflow: hidden;
+      table-layout: fixed;
     }
     th, td {
-      padding: 10px 6px;
+      padding: 8px 4px;
       border: 1px solid var(--border);
       text-align: center;
+      word-wrap: break-word;
     }
-    th { background: #0f172a; color: var(--accent); font-size: 14px; }
+    th { background: #081023; color: var(--accent); font-size: 13px; font-weight: 600; }
 
-    /* দূর থেকে স্পষ্টভাবে দেখার জন্য গ্লাসের সাইজ বিশেষ বড় ফন্ট */
+    /* গ্লাসের মূল মাপে বড় ও স্পষ্ট ফন্ট */
     .glass-size-text {
-      font-size: 20px !important;
-      font-weight: 900 !important;
+      font-size: 18px !important;
+      font-weight: 800 !important;
       color: #facc15 !important;
-      text-shadow: 0px 0px 2px #000;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
+      text-shadow: 0px 0px 1px #000;
+      line-height: 1.3;
     }
 
-    /* Dropdown Styling */
+    /* Dropdown Auto-width & No Text Overflow */
     .table-select {
       width: 100%;
-      padding: 8px 4px;
-      background: #0f172a;
+      padding: 8px 2px;
+      background: var(--input-bg);
       border: 1px solid var(--border);
       color: #fff;
-      border-radius: 4px;
-      font-size: 14px;
+      border-radius: 6px;
+      font-size: 13px;
       cursor: pointer;
+      outline: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -153,7 +167,7 @@
   <!-- History Sidebar -->
   <div id="sidebar" class="sidebar">
     <span class="close-btn" onclick="toggleHistory()">✕ বন্ধ করুন</span>
-    <h3>সম্পূর্ণ হিস্টরি (History)</h3>
+    <h3 style="color: var(--accent); margin-top: 0;">সম্পূর্ণ হিস্টরি</h3>
     <hr style="border-color: var(--border);">
     <div id="historyContent">কোনো হিস্টরি পাওয়া যায়নি।</div>
   </div>
@@ -162,7 +176,7 @@
   <div class="header-card">
     <div class="header-top">
       <button class="menu-btn" onclick="toggleHistory()">☰</button>
-      <span style="color: var(--accent); font-weight: bold;">গ্লাস কাটিং সাইজ</span>
+      <span style="color: var(--accent); font-weight: bold; font-size: 18px;">গ্লাস কাটিং সাইজ</span>
     </div>
     <input type="text" class="editable-input title" value="মেসার্স গ্লাস অ্যান্ড থাই হাউস" placeholder="দোকানের নাম">
     <input type="text" class="editable-input" value="মোবাইল: ০১XXXXXXXXX" placeholder="মোবাইল নম্বর">
@@ -184,17 +198,19 @@
     <table>
       <thead>
         <tr>
-          <th>গ্লাসের সাইজ (ইঞ্চি)</th>
-          <th>মিলি (mm)</th>
-          <th>কালার</th>
-          <th>পিস (Qty)</th>
+          <th style="width: 42%;">গ্লাসের সাইজ (ইঞ্চি)</th>
+          <th style="width: 17%;">মিলি</th>
+          <th style="width: 27%;">কালার</th>
+          <th style="width: 14%;">পিস</th>
         </tr>
       </thead>
       <tbody id="glassTableBody"></tbody>
     </table>
 
-    <button class="btn btn-whatsapp" onclick="sendWhatsApp()">WhatsApp-এ পাঠান</button>
-    <button class="btn btn-pdf" onclick="downloadPDF()">PDF ডাউনলোড</button>
+    <div style="padding: 10px;">
+      <button class="btn btn-whatsapp" onclick="sendWhatsApp()">WhatsApp-এ পাঠান</button>
+      <button class="btn btn-pdf" onclick="downloadPDF()">PDF ডাউনলোড</button>
+    </div>
   </div>
 
   <script>
@@ -227,7 +243,7 @@
       return suta > 0 ? `${inches}" ${suta} সুতা` : `${inches}"`;
     }
 
-    // ১ থেকে ১০০ কোয়ান্টিটি ড্রপডাউন
+    // ১ থেকে ১০০ কোয়ান্টিটি অপশন
     function getQtyOptions() {
       let options = "";
       for (let i = 1; i <= 100; i++) {
@@ -322,8 +338,8 @@
       
       let html = "";
       existing.forEach((item) => {
-        html += `<div style="border-bottom:1px solid #334155; padding:8px 0;">
-          <small style="color:#38bdf8; font-weight:bold;">${item.date}</small>
+        html += `<div style="border-bottom:1px solid var(--border); padding:8px 0;">
+          <small style="color:var(--accent); font-weight:bold;">${item.date}</small>
           <ul style="padding-left:15px; margin:5px 0; color:#cbd5e1;">
             ${item.items.map(i => `<li>${i}</li>`).join('')}
           </ul>
@@ -333,7 +349,7 @@
     }
 
     function sendWhatsApp() {
-      alert("WhatsApp শেয়ারের লিংক তৈরি করা হচ্ছে...");
+      alert("WhatsApp শেয়ারের জন্য প্রস্তুতি নেওয়া হচ্ছে...");
     }
 
     function downloadPDF() {

@@ -64,27 +64,31 @@
       outline: none;
     }
     .editable-input.title {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
       color: var(--accent);
     }
 
-    /* Floor & Unit Section Styles */
+    /* Floor & Unit Section Fixes */
     .floor-unit-box {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-top: 10px;
+      width: 100%;
     }
-    .floor-unit-box input, .floor-unit-box select {
+    .floor-unit-box select {
       flex: 1;
-      padding: 8px 10px;
+      min-width: 0; /* ওভারফ্লো বন্ধ করার জন্য */
+      padding: 8px 6px;
       background: var(--input-bg);
       border: 1px solid var(--accent);
       color: #fff;
       border-radius: 6px;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: bold;
       outline: none;
+      cursor: pointer;
+      text-align: center;
     }
     
     /* History Sidebar */
@@ -233,7 +237,7 @@
       font-weight: 900; 
     }
 
-    /* "নং" Column Adjustment Fix */
+    /* "নং" Column Adjustment */
     th:nth-child(1), td:nth-child(1) { width: 10% !important; }
     th:nth-child(2), td:nth-child(2) { width: 38% !important; }
     th:nth-child(3), td:nth-child(3) { width: 14% !important; }
@@ -330,7 +334,7 @@
         padding-top: 6px !important;
         margin-top: 6px !important;
       }
-      .floor-unit-box input, .floor-unit-box select {
+      .floor-unit-box select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
@@ -435,17 +439,53 @@
         <input type="text" id="shopName" class="editable-input title" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম">
         <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর">
         
-        <!-- Floor and Unit Box -->
+        <!-- Floor and Unit Dropdowns -->
         <div class="floor-unit-box">
-          <input type="text" id="floorInput" placeholder="তলা (যেমন: ৩য় তলা)" value="">
+          <select id="floorSelect">
+            <option value="">তলা</option>
+            <option value="নিচ তলা">নিচ তলা</option>
+            <option value="১ম তলা">১ম তলা</option>
+            <option value="২য় তলা">২য় তলা</option>
+            <option value="৩য় তলা">৩য় তলা</option>
+            <option value="৪র্থ তলা">৪র্থ তলা</option>
+            <option value="৫ম তলা">৫ম তলা</option>
+            <option value="৬ষ্ঠ তলা">৬ষ্ঠ তলা</option>
+            <option value="৭ম তলা">৭ম তলা</option>
+            <option value="৮ম তলা">৮ম তলা</option>
+            <option value="৯ম তলা">৯ম তলা</option>
+            <option value="১০ম তলা">১০ম তলা</option>
+            <option value="১১তম তলা">১১তম তলা</option>
+            <option value="১২তম তলা">১২তম তলা</option>
+            <option value="১৩তম তলা">১৩তম তলা</option>
+            <option value="১৪তম তলা">১৪তম তলা</option>
+            <option value="১৫তম তলা">১৫তম তলা</option>
+            <option value="১৬তম তলা">১৬তম তলা</option>
+            <option value="১৭তম তলা">১৭তম তলা</option>
+            <option value="১৮তম তলা">১৮তম তলা</option>
+            <option value="১৯তম তলা">১৯তম তলা</option>
+            <option value="২০তম তলা">২০তম তলা</option>
+            <option value="২১তম তলা">২১তম তলা</option>
+            <option value="২২তম তলা">২২তম তলা</option>
+            <option value="২৩তম তলা">২৩তম তলা</option>
+            <option value="২৪তম তলা">২৪তম তলা</option>
+            <option value="২৫তম তলা">২৫তম তলা</option>
+            <option value="২৬তম তলা">২৬তম তলা</option>
+            <option value="২৭তম তলা">২৭তম তলা</option>
+            <option value="২৮তম তলা">২৮তম তলা</option>
+            <option value="২৯তম তলা">২৯তম তলা</option>
+            <option value="৩০তম তলা">৩০তম তলা</option>
+          </select>
+          
           <select id="unitSelect">
-            <option value="">ইউনিট সিলেক্ট করুন</option>
-            <option value="ইউনিট A">ইউনিট A</option>
-            <option value="ইউনিট B">ইউনিট B</option>
-            <option value="ইউনিট C">ইউনিট C</option>
-            <option value="ইউনিট D">ইউনিট D</option>
-            <option value="ইউনিট E">ইউনিট E</option>
-            <option value="ইউনিট F">ইউনিট F</option>
+            <option value="">ইউনিট</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
           </select>
         </div>
       </div>
@@ -604,9 +644,9 @@
     }
 
     function saveHistory(items) {
-      let floor = document.getElementById("floorInput").value;
+      let floor = document.getElementById("floorSelect").value;
       let unit = document.getElementById("unitSelect").value;
-      let locationText = (floor || unit) ? ` (${floor} ${unit})`.trim() : "";
+      let locationText = (floor || unit) ? ` (${floor} ${unit ? 'ইউনিট ' + unit : ''})`.trim() : "";
 
       let existing = JSON.parse(localStorage.getItem("glassHistory") || "[]");
       let newEntry = {
@@ -696,10 +736,10 @@
     function sendWhatsApp() {
       let shopName = document.getElementById("shopName").value;
       let shopPhone = document.getElementById("shopPhone").value;
-      let floor = document.getElementById("floorInput").value;
+      let floor = document.getElementById("floorSelect").value;
       let unit = document.getElementById("unitSelect").value;
       
-      let locationInfo = (floor || unit) ? `\n*অবস্থান:* ${floor} ${unit}` : "";
+      let locationInfo = (floor || unit) ? `\n*অবস্থান:* ${floor} ${unit ? 'ইউনিট ' + unit : ''}` : "";
       
       let message = `*${shopName}*\n${shopPhone}${locationInfo}\n---------------------------\n*গ্লাস কাটিং লিস্ট:*\n\n`;
       

@@ -272,12 +272,12 @@
     }
 
     /* ========================================================= */
-    /* STRICT SINGLE PAGE PRINT DESIGN WITH ROYAL BLUE DOUBLE BORDER */
+    /* BIG TEXT & FULL WIDTH PRINT DESIGN */
     /* ========================================================= */
     @media print {
       @page {
         size: A4 portrait;
-        margin: 0; /* মার্জিন জিরো যাতে ১ পেজেই ফিট থাকে */
+        margin: 0;
       }
       
       html, body {
@@ -287,14 +287,14 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
-        overflow: hidden !important; /* অতিরিক্ত পেজ তৈরি বন্ধ করবে */
+        overflow: hidden !important;
       }
       
       /* পুরো A4 পেজের চারপাশে রয়্যাল ব্লু ডাবল বর্ডার */
       body {
-        border: 8px double #002366 !important; /* Royal Blue / Dark Blue Double Border */
+        border: 8px double #002366 !important;
         box-sizing: border-box !important;
-        padding: 10mm !important;
+        padding: 8mm !important;
       }
 
       .main-container {
@@ -304,52 +304,53 @@
         padding: 0 !important;
       }
 
-      /* ছবির হুবহু বাইরের লাইট ব্লু ডাবল বর্ডার কার্ট ফ্রেমিং */
+      /* বাইরের ফ্রেম যা পুরো চওড়া জুড়ে বিস্তৃত */
       .print-wrapper {
         border: 3px double #0088cc !important;
         border-radius: 8px !important;
-        padding: 12px !important;
+        padding: 16px !important;
         margin: 0 !important;
+        width: 100% !important;
         box-sizing: border-box !important;
       }
 
-      /* হেডার সেকশনটি হুবহু ছবির মতো লাইট ব্লু কালার টেক্সট ও স্টাইল */
       .header-card {
         background: transparent !important;
         border: none !important;
-        padding: 0 0 8px 0 !important;
-        margin-bottom: 8px !important;
+        padding: 0 0 10px 0 !important;
+        margin-bottom: 10px !important;
       }
       .menu-btn, .header-top span {
         display: none !important;
       }
       
-      .editable-input {
-        color: #0088cc !important; /* হুবহু আকাশি/ব্লু টেক্সট কালার */
-        border: none !important;
-        font-weight: 900 !important;
-        margin: 0 0 2px 0 !important;
-        padding: 0 !important;
-      }
+      /* বড় ফন্টে দোকানের নাম */
       .editable-input.title {
-        font-size: 20px !important;
+        font-size: 28px !important;
+        color: #0088cc !important;
+        font-weight: 900 !important;
+        margin: 0 0 6px 0 !important;
       }
+      
+      /* বড় ফন্টে ফোন নম্বর */
       #shopPhone {
-        font-size: 15px !important;
-        font-weight: bold !important;
+        font-size: 20px !important;
+        font-weight: 900 !important;
         color: #000000 !important;
+        margin-bottom: 8px !important;
       }
 
+      /* তলা এবং ইউনিট বড় ফন্টে */
       .floor-unit-box {
-        border-top: 1px dotted #0088cc !important;
-        padding-top: 4px !important;
-        margin-top: 4px !important;
+        border-top: 1.5px dotted #0088cc !important;
+        padding-top: 8px !important;
+        margin-top: 8px !important;
       }
       .floor-unit-box select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-size: 15px !important;
+        font-size: 20px !important;
         font-weight: 900 !important;
         padding: 0 !important;
         appearance: none;
@@ -366,13 +367,15 @@
         border: none !important;
         margin-top: 0 !important;
         padding: 0 !important;
+        width: 100% !important;
       }
       .table-container {
         border: none !important;
         margin: 0 !important;
+        width: 100% !important;
       }
       
-      /* টেবিল ডিজাইন হুবহু ছবির রঙের ডাবল বর্ডার ও টেক্সট */
+      /* টেবিল সম্পূর্ণ বক্স জুড়ে বিস্তৃত এবং বড় বড় লেখা */
       table {
         border: 2px solid #0088cc !important;
         border-collapse: collapse !important;
@@ -380,43 +383,54 @@
         table-layout: fixed !important;
       }
 
+      /* হেডার র কলামের ফন্ট বড় ও স্পষ্ট */
       th {
         background: #ffffff !important;
         color: #0088cc !important;
-        border: 1.5px solid #0088cc !important;
+        border: 2px solid #0088cc !important;
         font-weight: 900 !important;
-        font-size: 15px !important;
-        padding: 6px 2px !important;
+        font-size: 20px !important;
+        padding: 12px 4px !important;
       }
+      
+      /* ডেটা সেলগুলোর ফন্ট বড় ও ছড়ানো */
       td {
-        border: 1.5px solid #0088cc !important;
+        border: 2px solid #0088cc !important;
         color: #000000 !important;
-        font-weight: bold !important;
-        font-size: 15px !important;
-        padding: 8px 2px !important;
+        font-weight: 900 !important;
+        font-size: 20px !important;
+        padding: 14px 4px !important;
       }
       .glass-size-text {
         color: #000000 !important;
-        font-size: 16px !important;
+        font-size: 22px !important;
         font-weight: 900 !important;
       }
       .sn-text {
         color: #0088cc !important;
-        font-size: 15px !important;
+        font-size: 20px !important;
         font-weight: 900 !important;
       }
       .table-select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-size: 15px !important;
-        font-weight: bold !important;
+        font-size: 20px !important;
+        font-weight: 900 !important;
         appearance: none;
         -webkit-appearance: none;
         text-align-last: center;
         padding: 0 !important;
         width: 100% !important;
       }
+      
+      /* কলামের পার্সেন্টেজ স্পেস সুন্দর করে দেওয়া হলো */
+      th:nth-child(1), td:nth-child(1) { width: 10% !important; }
+      th:nth-child(2), td:nth-child(2) { width: 42% !important; }
+      th:nth-child(3), td:nth-child(3) { width: 14% !important; }
+      th:nth-child(4), td:nth-child(4) { width: 24% !important; }
+      th:nth-child(5), td:nth-child(5) { width: 10% !important; }
+
       .btn-whatsapp, .btn-pdf {
         display: none !important;
       }

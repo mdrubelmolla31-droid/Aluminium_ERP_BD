@@ -247,7 +247,7 @@
     /* PRINT & PDF ADJUSTMENTS */
     @media print {
       @page {
-        margin: 6mm;
+        margin: 8mm;
         size: A4 portrait;
       }
       html, body {
@@ -268,7 +268,7 @@
 
       .print-wrapper {
         border: 2px solid #000000 !important;
-        padding: 12px !important;
+        padding: 16px 14px 12px 14px !important;
         margin: 0 !important;
         box-sizing: border-box !important;
       }
@@ -278,24 +278,28 @@
         border: none !important;
         border-bottom: 2px solid #000000 !important;
         border-radius: 0 !important;
-        padding: 0 0 10px 0 !important;
+        padding: 10px 0 10px 0 !important;
         margin-bottom: 12px !important;
       }
       .menu-btn, .header-top span {
         display: none !important;
       }
+      
+      /* দোকানের নাম ও ফোন নম্বরের প্রিন্ট সেটিং (কাটিং বন্ধ ও সাইজ বড়) */
       .editable-input {
         color: #000000 !important;
         border: none !important;
         font-weight: 900 !important;
-        margin-bottom: 4px !important;
-        padding: 0 !important;
+        margin: 0 0 6px 0 !important;
+        padding: 4px 0 !important;
+        line-height: 1.4 !important;
       }
       .editable-input.title {
         font-size: 26px !important;
       }
-      .editable-input {
-        font-size: 18px !important;
+      #shopPhone {
+        font-size: 21px !important; /* ফোন নম্বর আরও বড় করা হয়েছে */
+        font-weight: 900 !important;
       }
 
       #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn {
@@ -322,7 +326,7 @@
         page-break-inside: avoid;
       }
       
-      /* Column Width Adjustments for PDF */
+      /* Column Width Adjustments */
       th:nth-child(1), td:nth-child(1) { width: 6% !important; }
       th:nth-child(2), td:nth-child(2) { width: 40% !important; }
       th:nth-child(3), td:nth-child(3) { width: 14% !important; }
@@ -484,9 +488,10 @@
 
     function getColorOptions(selectedColor = "Dark Grey Normal") {
       const colors = [
-        "Clear", "Navy Blue Markeri", "Navy Blue Normal", 
+        "Clear", "Blue Markeri", "Blue Normal", 
         "Green Markeri", "Green Normal", "Lake Blue Markeri", 
-        "Lake Blue Normal", "Dark Grey Normal", "Light Bronze Normal"
+        "Lake Blue Normal", "Dark Grey Normal", "Light Bronze Normal",
+        "Winer", "Emboss", "Coffee"
       ];
       return colors.map(c => `<option value="${c}" ${c === selectedColor ? 'selected' : ''}>${c}</option>`).join('');
     }

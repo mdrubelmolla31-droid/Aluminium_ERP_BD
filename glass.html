@@ -202,7 +202,7 @@
       table-layout: fixed;
     }
     th, td {
-      padding: 10px 2px;
+      padding: 12px 4px;
       border: 1px solid var(--border);
       text-align: center;
       vertical-align: middle;
@@ -211,12 +211,12 @@
     th { 
       background: #081023; 
       color: var(--accent); 
-      font-size: 16px; 
+      font-size: 18px; 
       font-weight: 900; 
     }
 
     .glass-size-text {
-      font-size: 17px !important;
+      font-size: 20px !important;
       font-weight: 900 !important;
       color: #facc15 !important;
       text-shadow: 0px 0px 1px #000;
@@ -224,19 +224,19 @@
     }
 
     .sn-text {
-      font-size: 16px !important;
+      font-size: 18px !important;
       font-weight: 900 !important;
       color: #ffffff;
     }
 
     .table-select {
       width: 100%;
-      padding: 6px 1px;
+      padding: 8px 2px;
       background: var(--input-bg);
       border: 1px solid var(--border);
       color: #fff;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       outline: none;
@@ -247,7 +247,7 @@
     /* PRINT & PDF ADJUSTMENTS */
     @media print {
       @page {
-        margin: 8mm;
+        margin: 6mm;
         size: A4 portrait;
       }
       html, body {
@@ -292,7 +292,7 @@
         padding: 0 !important;
       }
       .editable-input.title {
-        font-size: 24px !important;
+        font-size: 26px !important;
       }
       .editable-input {
         font-size: 18px !important;
@@ -321,42 +321,51 @@
       tr {
         page-break-inside: avoid;
       }
+      
+      /* Column Width Adjustments for PDF */
+      th:nth-child(1), td:nth-child(1) { width: 6% !important; }
+      th:nth-child(2), td:nth-child(2) { width: 40% !important; }
+      th:nth-child(3), td:nth-child(3) { width: 14% !important; }
+      th:nth-child(4), td:nth-child(4) { width: 30% !important; }
+      th:nth-child(5), td:nth-child(5) { width: 10% !important; }
+
       th {
         background: #f1f5f9 !important;
         color: #000000 !important;
         border: 1.5px solid #000000 !important;
         font-weight: 900 !important;
-        font-size: 15px !important;
-        padding: 8px 2px !important;
+        font-size: 18px !important;
+        padding: 10px 2px !important;
       }
       td {
         border: 1.5px solid #000000 !important;
         color: #000000 !important;
         font-weight: 900 !important;
-        font-size: 15px !important;
-        padding: 10px 2px !important;
+        font-size: 18px !important;
+        padding: 12px 2px !important;
       }
       .glass-size-text {
         color: #000000 !important;
-        font-size: 17px !important;
+        font-size: 20px !important;
         font-weight: 900 !important;
       }
       .sn-text {
         color: #000000 !important;
-        font-size: 15px !important;
+        font-size: 18px !important;
         font-weight: 900 !important;
       }
       .table-select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-size: 13px !important;
+        font-size: 18px !important;
         font-weight: 900 !important;
         appearance: none;
         -webkit-appearance: none;
         text-align-last: center;
         padding: 0 !important;
         width: 100% !important;
+        height: auto !important;
       }
       .btn-whatsapp, .btn-pdf {
         display: none !important;
@@ -403,10 +412,10 @@
         <table>
           <thead>
             <tr>
-              <th style="width: 8%;">নং</th>
-              <th style="width: 44%;">গ্লাসের সাইজ (ইঞ্চি)</th>
-              <th style="width: 13%;">মিলি</th>
-              <th style="width: 25%;">কালার</th>
+              <th style="width: 6%;">নং</th>
+              <th style="width: 40%;">গ্লাসের সাইজ (ইঞ্চি)</th>
+              <th style="width: 14%;">মিলি</th>
+              <th style="width: 30%;">কালার</th>
               <th style="width: 10%;">পিস</th>
             </tr>
           </thead>
@@ -475,7 +484,7 @@
 
     function getColorOptions(selectedColor = "Dark Grey Normal") {
       const colors = [
-        "Clear", "Blue Markeri", "Blue Normal", 
+        "Clear", "Navy Blue Markeri", "Navy Blue Normal", 
         "Green Markeri", "Green Normal", "Lake Blue Markeri", 
         "Lake Blue Normal", "Dark Grey Normal", "Light Bronze Normal"
       ];

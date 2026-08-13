@@ -187,7 +187,7 @@
     .btn-whatsapp { background: #25D366; color: #fff; margin-top: 15px; }
     .btn-pdf { background: #ef4444; color: #fff; margin-top: 10px; }
 
-    /* Large Universal Responsive Table Design */
+    /* Responsive Table Design */
     .table-container {
       width: 100%;
       margin-top: 15px;
@@ -202,21 +202,21 @@
       table-layout: fixed;
     }
     th, td {
-      padding: 14px 4px;
+      padding: 10px 2px;
       border: 1px solid var(--border);
       text-align: center;
       vertical-align: middle;
-      word-wrap: break-word;
+      word-break: break-word;
     }
     th { 
       background: #081023; 
       color: var(--accent); 
-      font-size: 18px; 
+      font-size: 16px; 
       font-weight: 900; 
     }
 
     .glass-size-text {
-      font-size: 20px !important;
+      font-size: 17px !important;
       font-weight: 900 !important;
       color: #facc15 !important;
       text-shadow: 0px 0px 1px #000;
@@ -224,19 +224,19 @@
     }
 
     .sn-text {
-      font-size: 18px !important;
+      font-size: 16px !important;
       font-weight: 900 !important;
       color: #ffffff;
     }
 
     .table-select {
       width: 100%;
-      padding: 8px 2px;
+      padding: 6px 1px;
       background: var(--input-bg);
       border: 1px solid var(--border);
       color: #fff;
       border-radius: 6px;
-      font-size: 17px;
+      font-size: 13px;
       font-weight: bold;
       cursor: pointer;
       outline: none;
@@ -244,10 +244,10 @@
       text-align-last: center;
     }
 
-    /* LARGE PRINT & MULTI-PAGE SUPPORT */
+    /* PRINT & PDF ADJUSTMENTS */
     @media print {
       @page {
-        margin: 10mm;
+        margin: 8mm;
         size: A4 portrait;
       }
       html, body {
@@ -267,8 +267,8 @@
       }
 
       .print-wrapper {
-        border: 3px solid #000000 !important;
-        padding: 15px !important;
+        border: 2px solid #000000 !important;
+        padding: 12px !important;
         margin: 0 !important;
         box-sizing: border-box !important;
       }
@@ -276,10 +276,10 @@
       .header-card {
         background: transparent !important;
         border: none !important;
-        border-bottom: 3px solid #000000 !important;
+        border-bottom: 2px solid #000000 !important;
         border-radius: 0 !important;
         padding: 0 0 10px 0 !important;
-        margin-bottom: 15px !important;
+        margin-bottom: 12px !important;
       }
       .menu-btn, .header-top span {
         display: none !important;
@@ -292,10 +292,10 @@
         padding: 0 !important;
       }
       .editable-input.title {
-        font-size: 28px !important;
+        font-size: 24px !important;
       }
       .editable-input {
-        font-size: 20px !important;
+        font-size: 18px !important;
       }
 
       #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn {
@@ -314,49 +314,49 @@
         margin: 0 !important;
       }
       table {
-        border: 2.5px solid #000000 !important;
+        border: 2px solid #000000 !important;
         width: 100% !important;
-        page-break-inside: auto;
+        table-layout: fixed !important;
       }
       tr {
         page-break-inside: avoid;
-        page-break-after: auto;
       }
       th {
-        background: #e2e8f0 !important;
+        background: #f1f5f9 !important;
         color: #000000 !important;
-        border: 2px solid #000000 !important;
+        border: 1.5px solid #000000 !important;
         font-weight: 900 !important;
-        font-size: 20px !important;
-        padding: 12px 4px !important;
+        font-size: 15px !important;
+        padding: 8px 2px !important;
       }
       td {
-        border: 2px solid #000000 !important;
+        border: 1.5px solid #000000 !important;
         color: #000000 !important;
         font-weight: 900 !important;
-        font-size: 20px !important;
-        padding: 16px 4px !important; /* উঁচু প্যাডিং যেন ঘরগুলো বড় দেখায় */
+        font-size: 15px !important;
+        padding: 10px 2px !important;
       }
       .glass-size-text {
         color: #000000 !important;
-        font-size: 22px !important; /* ইঞ্চি ও সুতার লেখা অনেক বড় */
+        font-size: 17px !important;
         font-weight: 900 !important;
       }
       .sn-text {
         color: #000000 !important;
-        font-size: 20px !important;
+        font-size: 15px !important;
         font-weight: 900 !important;
       }
       .table-select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-size: 19px !important;
+        font-size: 13px !important;
         font-weight: 900 !important;
         appearance: none;
         -webkit-appearance: none;
         text-align-last: center;
         padding: 0 !important;
+        width: 100% !important;
       }
       .btn-whatsapp, .btn-pdf {
         display: none !important;
@@ -404,10 +404,10 @@
           <thead>
             <tr>
               <th style="width: 8%;">নং</th>
-              <th style="width: 42%;">গ্লাসের সাইজ (ইঞ্চি)</th>
-              <th style="width: 16%;">মিলি</th>
-              <th style="width: 22%;">কালার</th>
-              <th style="width: 12%;">পিস</th>
+              <th style="width: 44%;">গ্লাসের সাইজ (ইঞ্চি)</th>
+              <th style="width: 13%;">মিলি</th>
+              <th style="width: 25%;">কালার</th>
+              <th style="width: 10%;">পিস</th>
             </tr>
           </thead>
           <tbody id="glassTableBody"></tbody>
@@ -473,7 +473,7 @@
       return mms.map(mm => `<option value="${mm}" ${mm === selectedMm ? 'selected' : ''}>${mm}</option>`).join('');
     }
 
-    function getColorOptions(selectedColor = "Navy Blue Markeri") {
+    function getColorOptions(selectedColor = "Dark Grey Normal") {
       const colors = [
         "Clear", "Navy Blue Markeri", "Navy Blue Normal", 
         "Green Markeri", "Green Normal", "Lake Blue Markeri", 
@@ -512,7 +512,7 @@
               <select class="table-select">${getMmOptions("5.5mm")}</select>
             </td>
             <td>
-              <select class="table-select">${getColorOptions("Navy Blue Markeri")}</select>
+              <select class="table-select">${getColorOptions("Dark Grey Normal")}</select>
             </td>
             <td>
               <select class="table-select">${getQtyOptions(2)}</select>
@@ -524,7 +524,7 @@
             sn: serialNumber,
             size: finalSizeText,
             mm: "5.5mm",
-            color: "Navy Blue Markeri",
+            color: "Dark Grey Normal",
             qty: 2
           });
 

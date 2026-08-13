@@ -57,16 +57,34 @@
       border: none;
       border-bottom: 2px dashed var(--accent);
       color: var(--text);
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       width: 100%;
       margin-bottom: 8px;
       outline: none;
     }
     .editable-input.title {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 900;
       color: var(--accent);
+    }
+
+    /* Floor & Unit Section Styles */
+    .floor-unit-box {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .floor-unit-box input, .floor-unit-box select {
+      flex: 1;
+      padding: 8px 10px;
+      background: var(--input-bg);
+      border: 1px solid var(--accent);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      outline: none;
     }
     
     /* History Sidebar */
@@ -187,7 +205,7 @@
     .btn-whatsapp { background: #25D366; color: #fff; margin-top: 15px; }
     .btn-pdf { background: #ef4444; color: #fff; margin-top: 10px; }
 
-    /* Responsive Table Design */
+    /* Responsive Table Design Fixes */
     .table-container {
       width: 100%;
       margin-top: 15px;
@@ -202,7 +220,7 @@
       table-layout: fixed;
     }
     th, td {
-      padding: 12px 4px;
+      padding: 10px 2px;
       border: 1px solid var(--border);
       text-align: center;
       vertical-align: middle;
@@ -211,32 +229,38 @@
     th { 
       background: #081023; 
       color: var(--accent); 
-      font-size: 18px; 
+      font-size: 16px; 
       font-weight: 900; 
     }
 
+    /* "নং" Column Adjustment Fix */
+    th:nth-child(1), td:nth-child(1) { width: 10% !important; }
+    th:nth-child(2), td:nth-child(2) { width: 38% !important; }
+    th:nth-child(3), td:nth-child(3) { width: 14% !important; }
+    th:nth-child(4), td:nth-child(4) { width: 28% !important; }
+    th:nth-child(5), td:nth-child(5) { width: 10% !important; }
+
     .glass-size-text {
-      font-size: 20px !important;
+      font-size: 18px !important;
       font-weight: 900 !important;
       color: #facc15 !important;
-      text-shadow: 0px 0px 1px #000;
       line-height: 1.3;
     }
 
     .sn-text {
-      font-size: 18px !important;
+      font-size: 16px !important;
       font-weight: 900 !important;
       color: #ffffff;
     }
 
     .table-select {
       width: 100%;
-      padding: 8px 2px;
+      padding: 6px 1px;
       background: var(--input-bg);
       border: 1px solid var(--border);
       color: #fff;
       border-radius: 6px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
       outline: none;
@@ -278,28 +302,43 @@
         border: none !important;
         border-bottom: 2px solid #000000 !important;
         border-radius: 0 !important;
-        padding: 10px 0 10px 0 !important;
+        padding: 5px 0 10px 0 !important;
         margin-bottom: 12px !important;
       }
       .menu-btn, .header-top span {
         display: none !important;
       }
       
-      /* দোকানের নাম ও ফোন নম্বরের প্রিন্ট সেটিং (কাটিং বন্ধ ও সাইজ বড়) */
       .editable-input {
         color: #000000 !important;
         border: none !important;
         font-weight: 900 !important;
-        margin: 0 0 6px 0 !important;
-        padding: 4px 0 !important;
-        line-height: 1.4 !important;
+        margin: 0 0 4px 0 !important;
+        padding: 2px 0 !important;
+        line-height: 1.3 !important;
       }
       .editable-input.title {
-        font-size: 26px !important;
+        font-size: 24px !important;
       }
       #shopPhone {
-        font-size: 21px !important; /* ফোন নম্বর আরও বড় করা হয়েছে */
+        font-size: 20px !important;
         font-weight: 900 !important;
+      }
+
+      .floor-unit-box {
+        border-top: 1px dashed #000 !important;
+        padding-top: 6px !important;
+        margin-top: 6px !important;
+      }
+      .floor-unit-box input, .floor-unit-box select {
+        background: transparent !important;
+        border: none !important;
+        color: #000000 !important;
+        font-size: 18px !important;
+        font-weight: 900 !important;
+        padding: 0 !important;
+        appearance: none;
+        -webkit-appearance: none;
       }
 
       #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn {
@@ -326,11 +365,10 @@
         page-break-inside: avoid;
       }
       
-      /* Column Width Adjustments */
-      th:nth-child(1), td:nth-child(1) { width: 6% !important; }
+      th:nth-child(1), td:nth-child(1) { width: 8% !important; }
       th:nth-child(2), td:nth-child(2) { width: 40% !important; }
       th:nth-child(3), td:nth-child(3) { width: 14% !important; }
-      th:nth-child(4), td:nth-child(4) { width: 30% !important; }
+      th:nth-child(4), td:nth-child(4) { width: 28% !important; }
       th:nth-child(5), td:nth-child(5) { width: 10% !important; }
 
       th {
@@ -339,14 +377,14 @@
         border: 1.5px solid #000000 !important;
         font-weight: 900 !important;
         font-size: 18px !important;
-        padding: 10px 2px !important;
+        padding: 8px 2px !important;
       }
       td {
         border: 1.5px solid #000000 !important;
         color: #000000 !important;
         font-weight: 900 !important;
         font-size: 18px !important;
-        padding: 12px 2px !important;
+        padding: 10px 2px !important;
       }
       .glass-size-text {
         color: #000000 !important;
@@ -369,7 +407,6 @@
         text-align-last: center;
         padding: 0 !important;
         width: 100% !important;
-        height: auto !important;
       }
       .btn-whatsapp, .btn-pdf {
         display: none !important;
@@ -397,6 +434,20 @@
         </div>
         <input type="text" id="shopName" class="editable-input title" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম">
         <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর">
+        
+        <!-- Floor and Unit Box -->
+        <div class="floor-unit-box">
+          <input type="text" id="floorInput" placeholder="তলা (যেমন: ৩য় তলা)" value="">
+          <select id="unitSelect">
+            <option value="">ইউনিট সিলেক্ট করুন</option>
+            <option value="ইউনিট A">ইউনিট A</option>
+            <option value="ইউনিট B">ইউনিট B</option>
+            <option value="ইউনিট C">ইউনিট C</option>
+            <option value="ইউনিট D">ইউনিট D</option>
+            <option value="ইউনিট E">ইউনিট E</option>
+            <option value="ইউনিট F">ইউনিট F</option>
+          </select>
+        </div>
       </div>
 
       <!-- Dynamic Input Windows -->
@@ -416,11 +467,11 @@
         <table>
           <thead>
             <tr>
-              <th style="width: 6%;">নং</th>
-              <th style="width: 40%;">গ্লাসের সাইজ (ইঞ্চি)</th>
-              <th style="width: 14%;">মিলি</th>
-              <th style="width: 30%;">কালার</th>
-              <th style="width: 10%;">পিস</th>
+              <th>নং</th>
+              <th>গ্লাসের সাইজ (ইঞ্চি)</th>
+              <th>মিলি</th>
+              <th>কালার</th>
+              <th>পিস</th>
             </tr>
           </thead>
           <tbody id="glassTableBody"></tbody>
@@ -553,10 +604,14 @@
     }
 
     function saveHistory(items) {
+      let floor = document.getElementById("floorInput").value;
+      let unit = document.getElementById("unitSelect").value;
+      let locationText = (floor || unit) ? ` (${floor} ${unit})`.trim() : "";
+
       let existing = JSON.parse(localStorage.getItem("glassHistory") || "[]");
       let newEntry = {
         id: Date.now(),
-        date: new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' }) + ', ' + new Date().toLocaleDateString('bn-BD'),
+        date: new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' }) + ', ' + new Date().toLocaleDateString('bn-BD') + locationText,
         items: items
       };
       existing.unshift(newEntry);
@@ -641,8 +696,12 @@
     function sendWhatsApp() {
       let shopName = document.getElementById("shopName").value;
       let shopPhone = document.getElementById("shopPhone").value;
+      let floor = document.getElementById("floorInput").value;
+      let unit = document.getElementById("unitSelect").value;
       
-      let message = `*${shopName}*\n${shopPhone}\n---------------------------\n*গ্লাস কাটিং লিস্ট:*\n\n`;
+      let locationInfo = (floor || unit) ? `\n*অবস্থান:* ${floor} ${unit}` : "";
+      
+      let message = `*${shopName}*\n${shopPhone}${locationInfo}\n---------------------------\n*গ্লাস কাটিং লিস্ট:*\n\n`;
       
       let rows = document.querySelectorAll("#glassTableBody tr");
       rows.forEach((row) => {

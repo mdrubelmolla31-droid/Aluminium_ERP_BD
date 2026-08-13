@@ -69,7 +69,7 @@
       color: var(--accent);
     }
 
-    /* Floor & Unit Section Fixes */
+    /* Floor & Unit Section */
     .floor-unit-box {
       display: flex;
       gap: 8px;
@@ -209,7 +209,7 @@
     .btn-whatsapp { background: #25D366; color: #fff; margin-top: 15px; }
     .btn-pdf { background: #ef4444; color: #fff; margin-top: 10px; }
 
-    /* Responsive Table Design Fixes */
+    /* Responsive Table Design */
     .table-container {
       width: 100%;
       margin-top: 15px;
@@ -237,7 +237,6 @@
       font-weight: 900; 
     }
 
-    /* "নং" Column Adjustment */
     th:nth-child(1), td:nth-child(1) { width: 10% !important; }
     th:nth-child(2), td:nth-child(2) { width: 38% !important; }
     th:nth-child(3), td:nth-child(3) { width: 14% !important; }
@@ -272,25 +271,29 @@
       text-align-last: center;
     }
 
-    /* PRINT & PDF ADJUSTMENTS WITH OUTER PAGE NAVY BLUE DOUBLE BORDER */
+    /* ========================================================= */
+    /* STRICT SINGLE PAGE PRINT DESIGN WITH ROYAL BLUE DOUBLE BORDER */
+    /* ========================================================= */
     @media print {
       @page {
-        margin: 5mm;
         size: A4 portrait;
+        margin: 0; /* মার্জিন জিরো যাতে ১ পেজেই ফিট থাকে */
       }
+      
       html, body {
-        height: 100% !important;
+        width: 210mm;
+        height: 297mm;
         margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        overflow: hidden !important; /* অতিরিক্ত পেজ তৈরি বন্ধ করবে */
       }
       
-      /* পুরো পেজের একদম শেষ কর্নারে নেভি ব্লু ডাবল বর্ডার */
+      /* পুরো A4 পেজের চারপাশে রয়্যাল ব্লু ডাবল বর্ডার */
       body {
-        border: 6px double #0a192f !important;
+        border: 8px double #002366 !important; /* Royal Blue / Dark Blue Double Border */
         box-sizing: border-box !important;
-        min-height: 98vh !important;
         padding: 10mm !important;
       }
 
@@ -301,52 +304,52 @@
         padding: 0 !important;
       }
 
-      /* ছবির ভেতরের আসল রেগুলার বর্ডার ফ্রেমটি (হুবহু অপরিবর্তিত) */
+      /* ছবির হুবহু বাইরের লাইট ব্লু ডাবল বর্ডার কার্ট ফ্রেমিং */
       .print-wrapper {
-        border: 2px solid #000000 !important;
-        padding: 16px 14px 12px 14px !important;
+        border: 3px double #0088cc !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
         margin: 0 !important;
         box-sizing: border-box !important;
       }
 
+      /* হেডার সেকশনটি হুবহু ছবির মতো লাইট ব্লু কালার টেক্সট ও স্টাইল */
       .header-card {
         background: transparent !important;
         border: none !important;
-        border-bottom: 2px solid #000000 !important;
-        border-radius: 0 !important;
-        padding: 5px 0 10px 0 !important;
-        margin-bottom: 12px !important;
+        padding: 0 0 8px 0 !important;
+        margin-bottom: 8px !important;
       }
       .menu-btn, .header-top span {
         display: none !important;
       }
       
       .editable-input {
-        color: #000000 !important;
+        color: #0088cc !important; /* হুবহু আকাশি/ব্লু টেক্সট কালার */
         border: none !important;
         font-weight: 900 !important;
-        margin: 0 0 4px 0 !important;
-        padding: 2px 0 !important;
-        line-height: 1.3 !important;
+        margin: 0 0 2px 0 !important;
+        padding: 0 !important;
       }
       .editable-input.title {
-        font-size: 24px !important;
+        font-size: 20px !important;
       }
       #shopPhone {
-        font-size: 20px !important;
-        font-weight: 900 !important;
+        font-size: 15px !important;
+        font-weight: bold !important;
+        color: #000000 !important;
       }
 
       .floor-unit-box {
-        border-top: 1px dashed #000 !important;
-        padding-top: 6px !important;
-        margin-top: 6px !important;
+        border-top: 1px dotted #0088cc !important;
+        padding-top: 4px !important;
+        margin-top: 4px !important;
       }
       .floor-unit-box select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-size: 18px !important;
+        font-size: 15px !important;
         font-weight: 900 !important;
         padding: 0 !important;
         appearance: none;
@@ -368,52 +371,46 @@
         border: none !important;
         margin: 0 !important;
       }
+      
+      /* টেবিল ডিজাইন হুবহু ছবির রঙের ডাবল বর্ডার ও টেক্সট */
       table {
-        border: 2px solid #000000 !important;
+        border: 2px solid #0088cc !important;
+        border-collapse: collapse !important;
         width: 100% !important;
         table-layout: fixed !important;
       }
-      tr {
-        page-break-inside: avoid;
-      }
-      
-      th:nth-child(1), td:nth-child(1) { width: 8% !important; }
-      th:nth-child(2), td:nth-child(2) { width: 40% !important; }
-      th:nth-child(3), td:nth-child(3) { width: 14% !important; }
-      th:nth-child(4), td:nth-child(4) { width: 28% !important; }
-      th:nth-child(5), td:nth-child(5) { width: 10% !important; }
 
       th {
-        background: #f1f5f9 !important;
-        color: #000000 !important;
-        border: 1.5px solid #000000 !important;
+        background: #ffffff !important;
+        color: #0088cc !important;
+        border: 1.5px solid #0088cc !important;
         font-weight: 900 !important;
-        font-size: 18px !important;
-        padding: 8px 2px !important;
+        font-size: 15px !important;
+        padding: 6px 2px !important;
       }
       td {
-        border: 1.5px solid #000000 !important;
+        border: 1.5px solid #0088cc !important;
         color: #000000 !important;
-        font-weight: 900 !important;
-        font-size: 18px !important;
-        padding: 10px 2px !important;
+        font-weight: bold !important;
+        font-size: 15px !important;
+        padding: 8px 2px !important;
       }
       .glass-size-text {
         color: #000000 !important;
-        font-size: 20px !important;
+        font-size: 16px !important;
         font-weight: 900 !important;
       }
       .sn-text {
-        color: #000000 !important;
-        font-size: 18px !important;
+        color: #0088cc !important;
+        font-size: 15px !important;
         font-weight: 900 !important;
       }
       .table-select {
         background: transparent !important;
         border: none !important;
         color: #000000 !important;
-        font-size: 18px !important;
-        font-weight: 900 !important;
+        font-size: 15px !important;
+        font-weight: bold !important;
         appearance: none;
         -webkit-appearance: none;
         text-align-last: center;
@@ -462,26 +459,6 @@
             <option value="৮ম তলা">৮ম তলা</option>
             <option value="৯ম তলা">৯ম তলা</option>
             <option value="১০ম তলা">১০ম তলা</option>
-            <option value="১১তম তলা">১১তম তলা</option>
-            <option value="১২তম তলা">১২তম তলা</option>
-            <option value="১৩তম তলা">১৩তম তলা</option>
-            <option value="১৪তম তলা">১৪তম তলা</option>
-            <option value="১৫তম তলা">১৫তম তলা</option>
-            <option value="১৬তম তলা">১৬তম তলা</option>
-            <option value="১৭তম তলা">১৭তম তলা</option>
-            <option value="১৮তম তলা">১৮তম তলা</option>
-            <option value="১৯তম তলা">১৯তম তলা</option>
-            <option value="২০তম তলা">২০তম তলা</option>
-            <option value="২১তম তলা">২১তম তলা</option>
-            <option value="২২তম তলা">২২তম তলা</option>
-            <option value="২৩তম তলা">২৩তম তলা</option>
-            <option value="২৪তম তলা">২৪তম তলা</option>
-            <option value="২৫তম তলা">২৫তম তলা</option>
-            <option value="২৬তম তলা">২৬তম তলা</option>
-            <option value="২৭তম তলা">২৭তম তলা</option>
-            <option value="২৮তম তলা">২৮তম তলা</option>
-            <option value="২৯তম তলা">২৯তম তলা</option>
-            <option value="৩০তম তলা">৩০তম তলা</option>
           </select>
           
           <select id="unitSelect">
@@ -491,9 +468,6 @@
             <option value="C">C</option>
             <option value="D">D</option>
             <option value="E">E</option>
-            <option value="F">F</option>
-            <option value="G">G</option>
-            <option value="H">H</option>
           </select>
         </div>
       </div>

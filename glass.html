@@ -272,10 +272,10 @@
       text-align-last: center;
     }
 
-    /* FULL PAGE NAVY BLUE BORDER FOR PDF / PRINT */
+    /* PRINT & PDF ADJUSTMENTS WITH OUTER PAGE NAVY BLUE DOUBLE BORDER */
     @media print {
       @page {
-        margin: 6mm;
+        margin: 5mm;
         size: A4 portrait;
       }
       html, body {
@@ -284,33 +284,35 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
-        overflow: hidden !important;
       }
       
+      /* পুরো পেজের একদম শেষ কর্নারে নেভি ব্লু ডাবল বর্ডার */
+      body {
+        border: 6px double #0a192f !important;
+        box-sizing: border-box !important;
+        min-height: 98vh !important;
+        padding: 10mm !important;
+      }
+
       .main-container {
         max-width: 100% !important;
         width: 100% !important;
-        height: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
       }
 
-      /* পুরো পেজ জুড়ে সুন্দর নেভি ব্লু বর্ডার */
+      /* ছবির ভেতরের আসল রেগুলার বর্ডার ফ্রেমটি (হুবহু অপরিবর্তিত) */
       .print-wrapper {
-        border: 4px double #0a192f !important; /* নেভি ব্লু ডাবল বর্ডার */
-        outline: 2px solid #0a192f !important; /* নেভি ব্লু আউটার বর্ডার */
-        outline-offset: -8px;
-        padding: 20px 16px !important;
+        border: 2px solid #000000 !important;
+        padding: 16px 14px 12px 14px !important;
         margin: 0 !important;
         box-sizing: border-box !important;
-        background: #ffffff !important;
-        min-height: 98vh !important;
       }
 
       .header-card {
         background: transparent !important;
         border: none !important;
-        border-bottom: 2px solid #0a192f !important;
+        border-bottom: 2px solid #000000 !important;
         border-radius: 0 !important;
         padding: 5px 0 10px 0 !important;
         margin-bottom: 12px !important;
@@ -329,7 +331,6 @@
       }
       .editable-input.title {
         font-size: 24px !important;
-        color: #0a192f !important; /* নেভি ব্লু টাইটেল */
       }
       #shopPhone {
         font-size: 20px !important;
@@ -337,7 +338,7 @@
       }
 
       .floor-unit-box {
-        border-top: 1px dashed #0a192f !important;
+        border-top: 1px dashed #000 !important;
         padding-top: 6px !important;
         margin-top: 6px !important;
       }
@@ -368,7 +369,7 @@
         margin: 0 !important;
       }
       table {
-        border: 2px solid #0a192f !important;
+        border: 2px solid #000000 !important;
         width: 100% !important;
         table-layout: fixed !important;
       }
@@ -383,15 +384,15 @@
       th:nth-child(5), td:nth-child(5) { width: 10% !important; }
 
       th {
-        background: #e2e8f0 !important;
-        color: #0a192f !important;
-        border: 1.5px solid #0a192f !important;
+        background: #f1f5f9 !important;
+        color: #000000 !important;
+        border: 1.5px solid #000000 !important;
         font-weight: 900 !important;
         font-size: 18px !important;
         padding: 8px 2px !important;
       }
       td {
-        border: 1.5px solid #0a192f !important;
+        border: 1.5px solid #000000 !important;
         color: #000000 !important;
         font-weight: 900 !important;
         font-size: 18px !important;

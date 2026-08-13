@@ -78,7 +78,7 @@
     }
     .floor-unit-box select {
       flex: 1;
-      min-width: 0; /* ওভারফ্লো বন্ধ করার জন্য */
+      min-width: 0;
       padding: 8px 6px;
       background: var(--input-bg);
       border: 1px solid var(--accent);
@@ -272,10 +272,10 @@
       text-align-last: center;
     }
 
-    /* PRINT & PDF ADJUSTMENTS */
+    /* PRINT & PDF BEAUTIFUL BORDER ADJUSTMENTS */
     @media print {
       @page {
-        margin: 8mm;
+        margin: 5mm;
         size: A4 portrait;
       }
       html, body {
@@ -294,17 +294,22 @@
         padding: 0 !important;
       }
 
+      /* PDF Single Page Decorative Blue Border */
       .print-wrapper {
-        border: 2px solid #000000 !important;
+        border: 4px solid #0284c7 !important; /* সুন্দর আকর্ষণীয় ব্লু বর্ডার */
+        outline: 2px solid #0284c7 !important;
+        outline-offset: 3px;
+        border-radius: 8px !important;
         padding: 16px 14px 12px 14px !important;
-        margin: 0 !important;
+        margin: 5px !important;
         box-sizing: border-box !important;
+        background: #ffffff !important;
       }
 
       .header-card {
         background: transparent !important;
         border: none !important;
-        border-bottom: 2px solid #000000 !important;
+        border-bottom: 2px solid #0284c7 !important;
         border-radius: 0 !important;
         padding: 5px 0 10px 0 !important;
         margin-bottom: 12px !important;
@@ -323,6 +328,7 @@
       }
       .editable-input.title {
         font-size: 24px !important;
+        color: #0284c7 !important; /* প্রিন্ট হেডারে সুন্দর ব্লু টাইটেল */
       }
       #shopPhone {
         font-size: 20px !important;
@@ -330,7 +336,7 @@
       }
 
       .floor-unit-box {
-        border-top: 1px dashed #000 !important;
+        border-top: 1px dashed #0284c7 !important;
         padding-top: 6px !important;
         margin-top: 6px !important;
       }
@@ -361,7 +367,7 @@
         margin: 0 !important;
       }
       table {
-        border: 2px solid #000000 !important;
+        border: 2px solid #0284c7 !important;
         width: 100% !important;
         table-layout: fixed !important;
       }
@@ -376,15 +382,15 @@
       th:nth-child(5), td:nth-child(5) { width: 10% !important; }
 
       th {
-        background: #f1f5f9 !important;
-        color: #000000 !important;
-        border: 1.5px solid #000000 !important;
+        background: #e0f2fe !important; /* হালকা নীল ব্যাকগ্রাউন্ড */
+        color: #0369a1 !important;
+        border: 1.5px solid #0284c7 !important;
         font-weight: 900 !important;
         font-size: 18px !important;
         padding: 8px 2px !important;
       }
       td {
-        border: 1.5px solid #000000 !important;
+        border: 1.5px solid #0284c7 !important;
         color: #000000 !important;
         font-weight: 900 !important;
         font-size: 18px !important;

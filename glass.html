@@ -484,10 +484,9 @@
 
     function getColorOptions(selectedColor = "Dark Grey Normal") {
       const colors = [
-        "Clear", "Blue Markeri", "Blue Normal", 
+        "Clear", "Navy Blue Markeri", "Navy Blue Normal", 
         "Green Markeri", "Green Normal", "Lake Blue Markeri", 
         "Lake Blue Normal", "Dark Grey Normal", "Light Bronze Normal"
-         "Winer", "Amboos", "Cofi colar",
       ];
       return colors.map(c => `<option value="${c}" ${c === selectedColor ? 'selected' : ''}>${c}</option>`).join('');
     }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminium Window Cost Calculator & Material Estimator</title>
+    <title>Aluminium Cost Calculator</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { margin: 10px; background-color: #f4f4f9; color: #333; }
@@ -38,6 +38,7 @@
         .breakdown-table th { background: #28a745; }
         .grand-total-box { margin-top: 15px; background: #e6f4ea; padding: 15px; border-radius: 6px; text-align: center; }
         .grand-total-box h3 { margin: 0; color: #155724; font-size: 20px; }
+        .per-sqft-box { margin-top: 8px; color: #0d5302; font-size: 16px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -45,7 +46,6 @@
 <div class="container">
     <h2>অ্যালুমিনিয়াম ক্যালকুলেটর ও মেটেরিয়াল এস্টিমেশন</h2>
 
-    <!-- হেডার ইনপুট -->
     <div class="header-section">
         <div>
             <label>কোম্পানি:</label>
@@ -56,15 +56,6 @@
                 <option value="BTA">BTA Aluminium</option>
                 <option value="Max">Max Aluminium</option>
                 <option value="Alpha">Alpha Aluminium</option>
-                <option value="Nasir">Nasir syntax</option>
-                <option value="Nikki">Nikki Aluminium</option>
-                <option value="Aloco">Alco Aluminium</option>
-                <option value="Maxpro">Maxpro Aluminum</option>
-                <option value="Fresh">Fresh Aluminum</option>
-                <option value="Neo">Neo Aluminium</option>
-                <option value="Alumax">Alumax Aluminium</option>
-                <option value="Akij">Akij Aluminium</option>
-                <option value="EDF">EDF Aluminium</option>
             </select>
         </div>
 
@@ -84,64 +75,62 @@
         </div>
     </div>
 
-    <!-- সেকশন কারেন্ট রেট টেবিল -->
-    <h3>সেকশন কারেন্ট রেট</h3>
+    <!-- সেকশন ২১ ফিট বারের ফিক্সড দাম টেবিল -->
+    <h3>সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</h3>
     <div class="table-responsive">
         <table>
             <thead>
                 <tr>
                     <th>সেকশনের নাম</th>
-                    <th>কারেন্ট রেট (টাকা/Rft)</th>
+                    <th>২১ ফিট বারের দাম (টাকা/বার)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
                 <tr>
                     <td>Outer Top (2121B)</td>
-                    <td><input type="number" id="rate_2121B" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td><input type="number" id="rate_2121B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
                 </tr>
                 <tr>
                     <td>Outer Bottom (2122B)</td>
-                    <td><input type="number" id="rate_2122B" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td><input type="number" id="rate_2122B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
                 </tr>
                 <tr>
                     <td>Shutter Top (2126B)</td>
-                    <td><input type="number" id="rate_2126B_top" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td><input type="number" id="rate_2126B_top" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
                 </tr>
                 <tr>
                     <td>Shutter Bottom (2126B)</td>
-                    <td><input type="number" id="rate_2126B_bot" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td><input type="number" id="rate_2126B_bot" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
                 </tr>
                 <tr>
                     <td>Outer Side (2123B)</td>
-                    <td><input type="number" id="rate_2123B" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td><input type="number" id="rate_2123B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
                 </tr>
                 <tr>
                     <td>Lock Style (2124B)</td>
-                    <td><input type="number" id="rate_2124B" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td><input type="number" id="rate_2124B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
                 </tr>
                 <tr>
                     <td>Interlock (2125B)</td>
-                    <td><input type="number" id="rate_2125B" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td><input type="number" id="rate_2125B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
                 </tr>
 
                 <tr class="category-header"><td colspan="2">নেট সেকশন (Net Section)</td></tr>
                 <tr>
                     <td>Net Section</td>
-                    <td><input type="number" id="rate_net_section" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td><input type="number" id="rate_net_section" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- উইন্ডো ইনপুট লিস্ট -->
     <h3>উইন্ডোর তালিকা</h3>
     <div id="windowsList"></div>
 
     <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
     <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
 
-    <!-- রেজাল্ট ও মেটেরিয়াল ব্রেকডাউন -->
     <div class="result-box" id="resultBox" style="display:none;">
         <h3>বিস্তারিত মেটেরিয়াল হিসাব</h3>
         <p><b>কোম্পানি:</b> <span id="resCompany"></span> | <b>থিকনেস:</b> <span id="resThickness"></span></p>
@@ -163,6 +152,7 @@
 
         <div class="grand-total-box">
             <h3>সর্বমোট মেটেরিয়াল মূল্য (ডিসকাউন্ট সহ): <span id="resFinalPrice">০</span> টাকা</h3>
+            <div class="per-sqft-box">প্রতি স্কয়ার ফিটে গড়ে মূল্য পড়ল: <span id="resPerSqftRate">০</span> টাকা / SFT</div>
         </div>
     </div>
 </div>
@@ -215,7 +205,6 @@ function calculateTotal() {
 
     let totalSqft = 0;
 
-    // প্রতিটি সেকশনের জন্য মোট রানিং ফিট (Rft)
     let sectionTotals = {
         "Outer Top (2121B)": 0,
         "Outer Bottom (2122B)": 0,
@@ -238,18 +227,15 @@ function calculateTotal() {
             const hFeet = hInch / 12;
             const lFeet = lInch / 12;
 
-            // চওড়ার সেকশনগুলো
             sectionTotals["Outer Top (2121B)"] += (lFeet * qty);
             sectionTotals["Outer Bottom (2122B)"] += (lFeet * qty);
             sectionTotals["Shutter Top (2126B)"] += (lFeet * qty);
             sectionTotals["Shutter Bottom (2126B)"] += (lFeet * qty);
 
-            // উচ্চতার সেকশনগুলো (প্রতি উইন্ডোতে ২ পিস করে)
             sectionTotals["Outer Side (2123B)"] += (hFeet * 2 * qty);
             sectionTotals["Lock Style (2124B)"] += (hFeet * 2 * qty);
             sectionTotals["Interlock (2125B)"] += (hFeet * 2 * qty);
 
-            // নেট সেকশন (চওড়া ২ সাইড + উচ্চতা ২ সাইড)
             sectionTotals["Net Section"] += ((lFeet * 2) + (hFeet * 2)) * qty;
         }
     });
@@ -260,7 +246,6 @@ function calculateTotal() {
 
     const formatMoney = (amount) => Math.round(amount).toLocaleString('bn-BD');
 
-    // নির্দিষ্ট সিকোয়েন্সে শো করা
     const displayOrder = [
         "Outer Top (2121B)",
         "Outer Bottom (2122B)",
@@ -283,7 +268,11 @@ function calculateTotal() {
                         secName.includes("2124B") ? "2124B" :
                         secName.includes("2125B") ? "2125B" : "net_section";
 
-            let perFtRate = parseFloat(document.getElementById(`rate_${idKey}`)?.value) || 0;
+            // ২১ ফিট বারের পুরো ইনপুট দাম
+            let fullBarRate = parseFloat(document.getElementById(`rate_${idKey}`)?.value) || 0;
+
+            // ২১ দিয়ে ভাগ করে প্রতি ফিটের রেট অটোমেটিক বের করা
+            let perFtRate = fullBarRate / 21;
 
             let rawCost = totalFt * perFtRate;
             let discountedCost = rawCost - (rawCost * (discount / 100));
@@ -300,14 +289,17 @@ function calculateTotal() {
         }
     });
 
+    // প্রতি স্কয়ার ফিট গড়ের হিসাব (মোট দাম ÷ মোট স্কয়ার ফিট)
+    let perSqftRate = totalSqft > 0 ? (grandTotalCost / totalSqft) : 0;
+
     document.getElementById('resultBox').style.display = 'block';
     document.getElementById('resCompany').innerText = company;
     document.getElementById('resThickness').innerText = thickness;
     document.getElementById('resTotalSqft').innerText = totalSqft.toFixed(2);
     document.getElementById('resFinalPrice').innerText = formatMoney(grandTotalCost);
+    document.getElementById('resPerSqftRate').innerText = perSqftRate.toFixed(2);
 }
 
-// প্রথম উইন্ডো নিজে থেকে লোড হবে
 addWindow();
 </script>
 

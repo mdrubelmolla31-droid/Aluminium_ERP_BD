@@ -7,18 +7,18 @@
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { margin: 10px; background-color: #f4f4f9; color: #333; }
-        .container { max-width: 1050px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .container { max-width: 1050px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         h2, h3 { text-align: center; color: #111; margin-bottom: 15px; }
         
         .header-section { background: #eef2f5; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between; }
         .header-section div { display: flex; align-items: center; gap: 8px; }
         .header-section select, .header-section input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; }
 
-        .table-responsive { overflow-x: auto; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
+        .table-responsive { overflow-x: auto; margin-bottom: 20px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
         table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 8px 10px; text-align: left; font-size: 13px; }
-        th { background: #007bff; color: white; }
+        th, td { padding: 8px 6px; text-align: left; font-size: 12px; word-break: break-word; }
+        th { background: #007bff; color: white; white-space: nowrap; }
         td input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
         .category-header { background: #6c757d; color: white; font-weight: bold; text-align: center; }
 
@@ -37,15 +37,19 @@
         .result-box { margin-top: 20px; padding: 15px; background: #fff; border: 2px solid #28a745; border-radius: 6px; }
         .breakdown-table th { background: #28a745; }
         .grand-total-box { margin-top: 15px; background: #e6f4ea; padding: 15px; border-radius: 6px; text-align: center; }
-        .grand-total-box h3 { margin: 0; color: #155724; font-size: 22px; }
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .grand-total-box h3 { margin: 0; color: #155724; font-size: 20px; }
+        .badge { padding: 3px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; display: inline-block; }
         .badge-success { background: #28a745; color: #fff; }
+
+        @media screen and (max-width: 600px) {
+            th, td { font-size: 11px; padding: 6px 4px; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>অ্যালুমিনিয়াম ক্যালকুলেটর ও মেটেরিয়াল এস্টিমেশন (কাটিং লজিক সহ)</h2>
+    <h2>অ্যালুমিনিয়াম ক্যালকুলেটর ও মেটেরিয়াল এস্টিমেশন</h2>
 
     <!-- হেডার ইনপুট -->
     <div class="header-section">
@@ -86,7 +90,7 @@
         </div>
     </div>
 
-    <!-- সেকশন কারেন্ট রেট টেবিল (রানিং ফিট ভিত্তিক) -->
+    <!-- সেকশন কারেন্ট রেট টেবিল -->
     <h3>সেকশন কারেন্ট রেট</h3>
     <div class="table-responsive">
         <table>
@@ -111,14 +115,6 @@
                     <td><input type="number" id="rate_2123B" placeholder="টাকা/Rft" step="0.01"></td>
                 </tr>
                 <tr>
-                    <td>Lock Style (2124B)</td>
-                    <td><input type="number" id="rate_2124B" placeholder="টাকা/Rft" step="0.01"></td>
-                </tr>
-                <tr>
-                    <td>Interlock (2125B)</td>
-                    <td><input type="number" id="rate_2125B" placeholder="টাকা/Rft" step="0.01"></td>
-                </tr>
-                <tr>
                     <td>Shutter Top (2126B)</td>
                     <td><input type="number" id="rate_2126B_top" placeholder="টাকা/Rft" step="0.01"></td>
                 </tr>
@@ -126,15 +122,19 @@
                     <td>Shutter Bottom (2126B)</td>
                     <td><input type="number" id="rate_2126B_bot" placeholder="টাকা/Rft" step="0.01"></td>
                 </tr>
-
-                <tr class="category-header"><td colspan="2">নেট সেকশন (Net Sections)</td></tr>
                 <tr>
-                    <td>Net Outer Frame</td>
-                    <td><input type="number" id="rate_net_outer" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td>Lock Style (2124B)</td>
+                    <td><input type="number" id="rate_2124B" placeholder="টাকা/Rft" step="0.01"></td>
                 </tr>
                 <tr>
-                    <td>Net Shutter Frame</td>
-                    <td><input type="number" id="rate_net_shutter" placeholder="টাকা/Rft" step="0.01"></td>
+                    <td>Interlock (2125B)</td>
+                    <td><input type="number" id="rate_2125B" placeholder="টাকা/Rft" step="0.01"></td>
+                </tr>
+
+                <tr class="category-header"><td colspan="2">নেট সেকশন (Net Section)</td></tr>
+                <tr>
+                    <td>Net Section</td>
+                    <td><input type="number" id="rate_net_section" placeholder="টাকা/Rft" step="0.01"></td>
                 </tr>
             </tbody>
         </table>
@@ -158,8 +158,8 @@
                 <thead>
                     <tr>
                         <th>সেকশনের নাম</th>
-                        <th>কাটিং পিসের বিবরণ</th>
-                        <th>লাগা মালের পরিমাণ</th>
+                        <th>কাটিং বিবরণ</th>
+                        <th>লাগা মাল (Rft)</th>
                         <th>স্ট্যাটাস</th>
                         <th>মূল দাম (টাকা)</th>
                         <th>ডিসকাউন্ট মূল্য (টাকা)</th>
@@ -177,7 +177,7 @@
 
 <script>
 let windowCount = 0;
-const bladeLossFt = 0.01; // ব্লেড লস কনস্ট্যান্ট
+const bladeLossFt = 0.01;
 
 function addWindow() {
     windowCount++;
@@ -215,51 +215,6 @@ function removeWindow(id) {
     document.getElementById(id).remove();
 }
 
-/**
- * মূল কাটিং লজিক (First-Fit Decreasing Algorithm)
- */
-function solveBarCutting(pieces) {
-    let sortedPieces = [...pieces].sort((a, b) => b - a);
-    let barsUsed = [];
-
-    while (sortedPieces.length > 0) {
-        let bestBarSize = 21;
-        let bestFitIndices = [];
-        let minRemainder = 999;
-
-        [18.5, 21].forEach(barSize => {
-            let currentCap = barSize;
-            let tempIndices = [];
-
-            for (let i = 0; i < sortedPieces.length; i++) {
-                if (currentCap >= sortedPieces[i]) {
-                    currentCap -= sortedPieces[i];
-                    tempIndices.push(i);
-                }
-            }
-
-            if (tempIndices.length > 0 && currentCap < minRemainder) {
-                minRemainder = currentCap;
-                bestBarSize = barSize;
-                bestFitIndices = tempIndices;
-            }
-        });
-
-        let usedPieces = bestFitIndices.map(idx => sortedPieces[idx]);
-        let totalUsedFtInBar = usedPieces.reduce((a, b) => a + b, 0);
-
-        barsUsed.push({
-            barSize: bestBarSize,
-            usedFt: totalUsedFtInBar,
-            pieces: usedPieces
-        });
-
-        sortedPieces = sortedPieces.filter((_, idx) => !bestFitIndices.includes(idx));
-    }
-
-    return barsUsed;
-}
-
 function calculateTotal() {
     const company = document.getElementById('companySelect').options[document.getElementById('companySelect').selectedIndex].text;
     const thickness = document.getElementById('thicknessSelect').value;
@@ -269,22 +224,23 @@ function calculateTotal() {
 
     let totalSqft = 0;
 
-    // চওড়া সেকশনগুলো
+    // ১. দৈর্ঘ্য ভিত্তিক সেকশন
     let lengthNeededFt = {
         "Outer Top (2121B)": 0,
         "Outer Bottom (2122B)": 0,
         "Shutter Top (2126B)": 0,
-        "Shutter Bottom (2126B)": 0,
-        "Net Outer Frame": 0,
-        "Net Shutter Frame": 0
+        "Shutter Bottom (2126B)": 0
     };
 
-    // উচ্চতা সেকশনগুলোর কাটিং পিসের লিস্ট
-    let heightPieces = {
-        "Outer Side (2123B)": [],
-        "Lock Style (2124B)": [],
-        "Interlock (2125B)": []
+    // ২. উচ্চতা ভিত্তিক সেকশন (সাইজ অনুযায়ী গ্রুপ করা হবে)
+    let heightGrouped = {
+        "Outer Side (2123B)": {},
+        "Lock Style (2124B)": {},
+        "Interlock (2125B)": {}
     };
+
+    // ৩. নেট সেকশন
+    let netSectionFt = 0;
 
     windows.forEach(win => {
         const hInch = parseFloat(win.querySelector('.height').value) || 0;
@@ -297,20 +253,25 @@ function calculateTotal() {
             const hFeet = hInch / 12;
             const lFeet = lInch / 12;
 
-            // চওড়ার হিসাব (Rft)
+            // চওড়ার সেকশন
             lengthNeededFt["Outer Top (2121B)"] += (lFeet * qty);
             lengthNeededFt["Outer Bottom (2122B)"] += (lFeet * qty);
             lengthNeededFt["Shutter Top (2126B)"] += (lFeet * qty);
             lengthNeededFt["Shutter Bottom (2126B)"] += (lFeet * qty);
-            lengthNeededFt["Net Outer Frame"] += (lFeet * qty);
-            lengthNeededFt["Net Shutter Frame"] += (lFeet * qty);
 
-            // উচ্চতার পিস জেনারেট
-            for (let i = 0; i < qty * 2; i++) {
-                heightPieces["Outer Side (2123B)"].push(hFeet);
-                heightPieces["Lock Style (2124B)"].push(hFeet);
-                heightPieces["Interlock (2125B)"].push(hFeet);
-            }
+            // নেট সেকশন (চওড়া + উচ্চতা মিলিয়ে)
+            netSectionFt += ((lFeet * 2) + (hFeet * 2)) * qty;
+
+            // উচ্চতার পিস গ্রুপিং (প্রতি সাইজের জন্য সঠিক সংখ্যা)
+            const pcsCount = qty * 2;
+            const hKey = hFeet.toFixed(2);
+
+            ["Outer Side (2123B)", "Lock Style (2124B)", "Interlock (2125B)"].forEach(sec => {
+                if (!heightGrouped[sec][hKey]) {
+                    heightGrouped[sec][hKey] = 0;
+                }
+                heightGrouped[sec][hKey] += pcsCount;
+            });
         }
     });
 
@@ -320,19 +281,16 @@ function calculateTotal() {
 
     const formatMoney = (amount) => Math.round(amount).toLocaleString('bn-BD');
 
-    // ১. চওড়া সেকশনের হিসাব রেন্ডার (রানিং ফিট রেট দিয়ে)
+    // ১. চওড়া সেকশন রেন্ডার
     for (let secName in lengthNeededFt) {
         const totalFt = lengthNeededFt[secName];
         if (totalFt > 0) {
             let idKey = secName.includes("2121B") ? "2121B" :
                         secName.includes("2122B") ? "2122B" :
-                        secName.includes("Shutter Top") ? "2126B_top" :
-                        secName.includes("Shutter Bottom") ? "2126B_bot" :
-                        secName.includes("Net Outer") ? "net_outer" : "net_shutter";
+                        secName.includes("Shutter Top") ? "2126B_top" : "2126B_bot";
 
             let perFtRate = parseFloat(document.getElementById(`rate_${idKey}`)?.value) || 0;
 
-            let barOutputText = `${totalFt.toFixed(2)} Rft`;
             let rawCost = totalFt * perFtRate;
             let discountedCost = rawCost - (rawCost * (discount / 100));
             grandTotalCost += discountedCost;
@@ -341,7 +299,7 @@ function calculateTotal() {
                 <tr>
                     <td><b>${secName}</b></td>
                     <td>মোট চওড়া: ${totalFt.toFixed(2)} ft</td>
-                    <td><b>${barOutputText}</b></td>
+                    <td><b>${totalFt.toFixed(2)} Rft</b></td>
                     <td><span class="badge badge-success">Rft ভিত্তিক</span></td>
                     <td>${formatMoney(rawCost)} টাকা</td>
                     <td><b>${formatMoney(discountedCost)} টাকা</b></td>
@@ -350,64 +308,52 @@ function calculateTotal() {
         }
     }
 
-    // ২. উচ্চতা সেকশনগুলোর হিসাব (স্মার্ট কাটিং ও রানিং ফিট রেট)
-    for (let secName in heightPieces) {
-        const pieces = heightPieces[secName];
-        if (pieces.length > 0) {
-            let pieceLenFt = pieces[0];
-            let totalQty = pieces.length;
+    // ২. উচ্চতা সেকশন রেন্ডার (সঠিক পিস ও সাইজ আলাদা করে)
+    for (let secName in heightGrouped) {
+        let idKey = secName.includes("2123B") ? "2123B" : (secName.includes("2124B") ? "2124B" : "2125B");
+        let perFtRate = parseFloat(document.getElementById(`rate_${idKey}`)?.value) || 0;
 
-            let selectedBarLength = 21.0;
-            
-            if (Math.abs(pieceLenFt - 4.5) < 0.05) {
-                selectedBarLength = 18.5;
-            } else if (Math.abs(pieceLenFt - 6.0) < 0.05 && totalQty % 3 === 0) {
-                selectedBarLength = 18.5;
-            } else if (Math.abs(pieceLenFt - 7.0) < 0.05) {
-                selectedBarLength = 21.0;
-            } else if (Math.abs(pieceLenFt - 5.0) < 0.05) {
-                selectedBarLength = 21.0;
-            } else {
-                let p21 = Math.floor(21.0 / (pieceLenFt + bladeLossFt));
-                let p185 = Math.floor(18.5 / (pieceLenFt + bladeLossFt));
-                
-                let w21 = p21 > 0 ? (21.0 - (p21 * pieceLenFt)) : 999;
-                let w185 = p185 > 0 ? (18.5 - (p185 * pieceLenFt)) : 999;
+        for (let sizeKey in heightGrouped[secName]) {
+            let pcs = heightGrouped[secName][sizeKey];
+            let pieceLenFt = parseFloat(sizeKey);
+            let actualCuttingFeet = pcs * pieceLenFt;
 
-                if (p21 > 0 && w21 <= w185) {
-                    selectedBarLength = 21.0;
-                } else if (p185 > 0) {
-                    selectedBarLength = 18.5;
-                }
+            if (pcs > 0) {
+                let rawCost = actualCuttingFeet * perFtRate;
+                let discountedCost = rawCost - (rawCost * (discount / 100));
+                grandTotalCost += discountedCost;
+
+                breakdownBody.innerHTML += `
+                    <tr>
+                        <td><b>${secName}</b></td>
+                        <td>${pcs} পিস (${pieceLenFt.toFixed(2)} ft)</td>
+                        <td><b>${actualCuttingFeet.toFixed(2)} Rft</b></td>
+                        <td><span class="badge badge-success">Rft ভিত্তিক</span></td>
+                        <td>${formatMoney(rawCost)} টাকা</td>
+                        <td><b>${formatMoney(discountedCost)} টাকা</b></td>
+                    </tr>
+                `;
             }
-
-            let piecesPerBar = Math.floor(selectedBarLength / (pieceLenFt + bladeLossFt));
-            if (piecesPerBar <= 0) piecesPerBar = 1;
-
-            let barsNeeded = Math.ceil(totalQty / piecesPerBar);
-            let actualCuttingFeet = totalQty * pieceLenFt;
-
-            let idKey = secName.includes("2123B") ? "2123B" : (secName.includes("2124B") ? "2124B" : "2125B");
-            let perFtRate = parseFloat(document.getElementById(`rate_${idKey}`)?.value) || 0;
-
-            let rawCost = actualCuttingFeet * perFtRate;
-            let discountedCost = rawCost - (rawCost * (discount / 100));
-            grandTotalCost += discountedCost;
-
-            let outputBarText = `${actualCuttingFeet.toFixed(2)} Rft`;
-            let noteText = `<span class="badge badge-success">${barsNeeded} টি বার (${selectedBarLength}ft)</span>`;
-
-            breakdownBody.innerHTML += `
-                <tr>
-                    <td><b>${secName}</b></td>
-                    <td>${totalQty} পিস (${pieceLenFt.toFixed(2)} ft করে)</td>
-                    <td><b>${outputBarText}</b></td>
-                    <td>${noteText}</td>
-                    <td>${formatMoney(rawCost)} টাকা</td>
-                    <td><b>${formatMoney(discountedCost)} টাকা</b></td>
-                </tr>
-            `;
         }
+    }
+
+    // ৩. নেট সেকশন (সবার শেষে রেন্ডার হবে)
+    if (netSectionFt > 0) {
+        let perFtRate = parseFloat(document.getElementById('rate_net_section')?.value) || 0;
+        let rawCost = netSectionFt * perFtRate;
+        let discountedCost = rawCost - (rawCost * (discount / 100));
+        grandTotalCost += discountedCost;
+
+        breakdownBody.innerHTML += `
+            <tr>
+                <td><b>Net Section</b></td>
+                <td>মোট নেট ফ্রেম: ${netSectionFt.toFixed(2)} ft</td>
+                <td><b>${netSectionFt.toFixed(2)} Rft</b></td>
+                <td><span class="badge badge-success">Rft ভিত্তিক</span></td>
+                <td>${formatMoney(rawCost)} টাকা</td>
+                <td><b>${formatMoney(discountedCost)} টাকা</b></td>
+            </tr>
+        `;
     }
 
     document.getElementById('resultBox').style.display = 'block';
@@ -417,7 +363,7 @@ function calculateTotal() {
     document.getElementById('resFinalPrice').innerText = formatMoney(grandTotalCost);
 }
 
-// প্রথম উইন্ডো স্বয়ংক্রিয়ভাবে লোড হবে
+// প্রথম উইন্ডো নিজে থেকে লোড হবে
 addWindow();
 </script>
 

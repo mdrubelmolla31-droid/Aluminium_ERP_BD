@@ -52,6 +52,14 @@
       cursor: pointer;
       padding: 0;
     }
+    
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
     .editable-input {
       background: transparent;
       border: none;
@@ -67,6 +75,14 @@
       font-size: 22px;
       font-weight: 900;
       color: var(--accent);
+    }
+
+    .date-display {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--accent);
+      white-space: nowrap;
+      margin-bottom: 8px;
     }
 
     /* Floor & Unit Section */
@@ -272,7 +288,7 @@
     }
 
     /* ========================================================= */
-    /* BIG TEXT & FULL WIDTH PRINT DESIGN */
+    /* PRINT DESIGN WITH CURRENT DATE */
     /* ========================================================= */
     @media print {
       @page {
@@ -290,7 +306,6 @@
         overflow: hidden !important;
       }
       
-      /* পুরো A4 পেজের চারপাশে রয়্যাল ব্লু ডাবল বর্ডার */
       body {
         border: 8px double #002366 !important;
         box-sizing: border-box !important;
@@ -304,7 +319,6 @@
         padding: 0 !important;
       }
 
-      /* বাইরের ফ্রেম যা পুরো চওড়া জুড়ে বিস্তৃত */
       .print-wrapper {
         border: 3px double #0088cc !important;
         border-radius: 8px !important;
@@ -324,23 +338,26 @@
         display: none !important;
       }
       
-      /* বড় ফন্টে দোকানের নাম */
       .editable-input.title {
-        font-size: 28px !important;
-        color: #130d82 !important;
+        font-size: 26px !important;
+        color: #0088cc !important;
         font-weight: 900 !important;
-        margin: 0 0 6px 0 !important;
+        margin: 0 !important;
       }
       
-      /* বড় ফন্টে ফোন নম্বর */
+      .date-display {
+        font-size: 18px !important;
+        color: #000000 !important;
+        font-weight: 900 !important;
+      }
+
       #shopPhone {
-        font-size: 25px !important;
-        font-weight: 1000 !important;
+        font-size: 20px !important;
+        font-weight: 900 !important;
         color: #000000 !important;
         margin-bottom: 8px !important;
       }
 
-      /* তলা এবং ইউনিট বড় ফন্টে */
       .floor-unit-box {
         border-top: 1.5px dotted #0088cc !important;
         padding-top: 8px !important;
@@ -375,7 +392,6 @@
         width: 100% !important;
       }
       
-      /* টেবিল সম্পূর্ণ বক্স জুড়ে বিস্তৃত এবং বড় বড় লেখা */
       table {
         border: 2px solid #0088cc !important;
         border-collapse: collapse !important;
@@ -383,7 +399,6 @@
         table-layout: fixed !important;
       }
 
-      /* হেডার র কলামের ফন্ট বড় ও স্পষ্ট */
       th {
         background: #ffffff !important;
         color: #0088cc !important;
@@ -393,7 +408,6 @@
         padding: 12px 4px !important;
       }
       
-      /* ডেটা সেলগুলোর ফন্ট বড় ও ছড়ানো */
       td {
         border: 2px solid #0088cc !important;
         color: #000000 !important;
@@ -424,7 +438,6 @@
         width: 100% !important;
       }
       
-      /* কলামের পার্সেন্টেজ স্পেস সুন্দর করে দেওয়া হলো */
       th:nth-child(1), td:nth-child(1) { width: 10% !important; }
       th:nth-child(2), td:nth-child(2) { width: 42% !important; }
       th:nth-child(3), td:nth-child(3) { width: 14% !important; }
@@ -455,12 +468,17 @@
           <button class="menu-btn" onclick="toggleHistory()">☰</button>
           <span style="color: var(--accent); font-weight: bold; font-size: 18px;">গ্লাস কাটিং সাইজ</span>
         </div>
-        <input type="text" id="shopName" class="editable-input title" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম">
-        <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর">
+        
+        <div class="header-row">
+          <input type="text" id="shopName" class="editable-input title" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveCurrentFormState()">
+          <div id="currentDate" class="date-display"></div>
+        </div>
+        
+        <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveCurrentFormState()">
         
         <!-- Floor and Unit Dropdowns -->
         <div class="floor-unit-box">
-          <select id="floorSelect">
+          <select id="floorSelect" onchange="saveCurrentFormState()">
             <option value="">তলা</option>
             <option value="নিচ তলা">নিচ তলা</option>
             <option value="১ম তলা">১ম তলা</option>
@@ -473,19 +491,9 @@
             <option value="৮ম তলা">৮ম তলা</option>
             <option value="৯ম তলা">৯ম তলা</option>
             <option value="১০ম তলা">১০ম তলা</option>
-            <option value="১১তম তলা">১১তম তলা</option>
-            <option value="১২তম তলা">১২তম তলা</option>
-            <option value="১৩তম তলা">১৩তম তলা</option>
-            <option value="১৪তম তলা">১৪তম তলা</option>
-            <option value="১৫তম তলা">১৫তম তলা</option>
-            <option value="১৬তম তলা">১৬তম তলা</option>
-            <option value="১৭তম তলা">১৭তম তলা</option>
-            <option value="১৮তম তলা">১৮তম তলা</option>
-            <option value="১৯তম তলা">১৯তম তলা</option>
-            <option value="২০তম তলা">২০তম তলা</option>
           </select>
           
-          <select id="unitSelect">
+          <select id="unitSelect" onchange="saveCurrentFormState()">
             <option value="">ইউনিট</option>
             <option value="A">A</option>
             <option value="B">B</option>
@@ -497,13 +505,7 @@
       </div>
 
       <!-- Dynamic Input Windows -->
-      <div id="windowsContainer">
-        <div class="window-row">
-          <input type="number" class="mm-h" placeholder="হাইট (mm)">
-          <input type="number" class="mm-w" placeholder="চওড়া (mm)">
-          <button class="delete-row-btn" onclick="removeWindow(this)">✕</button>
-        </div>
-      </div>
+      <div id="windowsContainer"></div>
 
       <button class="btn btn-add" onclick="addWindow()">+ আরও উইন্ডো যোগ করুন</button>
       <button class="btn" onclick="calculateGlass()">গ্লাস কাটিং সাইজ বের করুন</button>
@@ -536,24 +538,87 @@
       document.getElementById("sidebar").classList.toggle("active");
     }
 
-    function addWindow() {
+    /* তারিখ দেখানোর ফাংশন (DD/MM/YYYY) */
+    function setCurrentDate() {
+      const today = new Date();
+      const day = String(today.getDate()).padStart(2, '0');
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const year = today.getFullYear();
+      document.getElementById("currentDate").innerText = `তারিখ: ${day}/${month}/${year}`;
+    }
+
+    function addWindow(hVal = "", wVal = "") {
       const container = document.getElementById("windowsContainer");
       const div = document.createElement("div");
       div.className = "window-row";
       div.innerHTML = `
-        <input type="number" class="mm-h" placeholder="হাইট (mm)">
-        <input type="number" class="mm-w" placeholder="চওড়া (mm)">
+        <input type="number" class="mm-h" placeholder="হাইট (mm)" value="${hVal}" oninput="saveCurrentFormState()">
+        <input type="number" class="mm-w" placeholder="চওড়া (mm)" value="${wVal}" oninput="saveCurrentFormState()">
         <button class="delete-row-btn" onclick="removeWindow(this)">✕</button>
       `;
       container.appendChild(div);
+      saveCurrentFormState();
     }
 
     function removeWindow(button) {
       const rows = document.querySelectorAll("#windowsContainer .window-row");
       if (rows.length > 1) {
         button.parentElement.remove();
+        saveCurrentFormState();
       } else {
         alert("কমপক্ষে একটি উইন্ডো থাকা আবশ্যক!");
+      }
+    }
+
+    function saveCurrentFormState() {
+      const shopName = document.getElementById("shopName").value;
+      const shopPhone = document.getElementById("shopPhone").value;
+      const floorSelect = document.getElementById("floorSelect").value;
+      const unitSelect = document.getElementById("unitSelect").value;
+
+      const windowRows = document.querySelectorAll("#windowsContainer .window-row");
+      const windowsData = [];
+
+      windowRows.forEach(row => {
+        const h = row.querySelector(".mm-h").value;
+        const w = row.querySelector(".mm-w").value;
+        windowsData.push({ h, w });
+      });
+
+      const formState = {
+        shopName,
+        shopPhone,
+        floorSelect,
+        unitSelect,
+        windowsData
+      };
+
+      localStorage.setItem("glassFormData", JSON.stringify(formState));
+    }
+
+    function loadSavedFormState() {
+      const savedState = localStorage.getItem("glassFormData");
+      if (!savedState) {
+        addWindow();
+        return;
+      }
+
+      const formState = JSON.parse(savedState);
+
+      if (formState.shopName !== undefined) document.getElementById("shopName").value = formState.shopName;
+      if (formState.shopPhone !== undefined) document.getElementById("shopPhone").value = formState.shopPhone;
+      if (formState.floorSelect !== undefined) document.getElementById("floorSelect").value = formState.floorSelect;
+      if (formState.unitSelect !== undefined) document.getElementById("unitSelect").value = formState.unitSelect;
+
+      const container = document.getElementById("windowsContainer");
+      container.innerHTML = "";
+
+      if (formState.windowsData && formState.windowsData.length > 0) {
+        formState.windowsData.forEach(win => {
+          addWindow(win.h, win.w);
+        });
+      } else {
+        addWindow();
       }
     }
 
@@ -744,10 +809,11 @@
       let shopPhone = document.getElementById("shopPhone").value;
       let floor = document.getElementById("floorSelect").value;
       let unit = document.getElementById("unitSelect").value;
+      let dateText = document.getElementById("currentDate").innerText;
       
       let locationInfo = (floor || unit) ? `\n*অবস্থান:* ${floor} ${unit ? 'ইউনিট ' + unit : ''}` : "";
       
-      let message = `*${shopName}*\n${shopPhone}${locationInfo}\n---------------------------\n*গ্লাস কাটিং লিস্ট:*\n\n`;
+      let message = `*${shopName}*\n${shopPhone}\n${dateText}${locationInfo}\n---------------------------\n*গ্লাস কাটিং লিস্ট:*\n\n`;
       
       let rows = document.querySelectorAll("#glassTableBody tr");
       rows.forEach((row) => {
@@ -768,7 +834,11 @@
       window.print();
     }
 
-    renderHistory();
+    window.onload = function() {
+      setCurrentDate();
+      loadSavedFormState();
+      renderHistory();
+    };
   </script>
 </body>
 </html>

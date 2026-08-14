@@ -11,7 +11,7 @@
     .container { max-width: 650px; margin: 0 auto; }
 
     .header-card {
-      background: linear-gradient(135deg, #0d3b66, #00509d);
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
       color: white;
       padding: 16px;
       border-radius: 8px;
@@ -20,7 +20,7 @@
       text-align: center;
       position: relative;
     }
-    .header-card h2 { margin: 0 0 5px 0; font-size: 24px; font-weight: 800; text-transform: uppercase; }
+    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; text-transform: uppercase; }
     .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; text-transform: uppercase; }
     
     .shop-input-box {
@@ -53,7 +53,7 @@
     }
 
     .card-title {
-      color: #00509d;
+      color: #1e40af;
       font-size: 16px;
       font-weight: 700;
       text-align: center;
@@ -88,10 +88,9 @@
       text-align: center;
     }
 
-    .btn-calc { background-color: #00509d; color: white; margin-top: 10px; }
+    .btn-calc { background-color: #2563eb; color: white; margin-top: 10px; }
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
-    .btn-pdf { background-color: #003049; color: white; margin-top: 10px; font-size: 15px; }
-    .btn-whatsapp { background-color: #25D366; color: white; margin-top: 10px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-whatsapp { background-color: #25D366; color: white; margin-top: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
@@ -100,20 +99,20 @@
     .mat-table td:last-child { text-align: right; font-weight: 600; color: #0f172a; }
     .mat-table tr.highlight { background-color: #f0fdf4; }
     .mat-table tr.highlight-blue { background-color: #eff6ff; }
-    .mat-table tr.highlight-blue td { font-weight: 700; color: #00509d; font-size: 14px; }
+    .mat-table tr.highlight-blue td { font-weight: 700; color: #1e40af; font-size: 14px; }
     .mat-table tr.highlight-grand { background-color: #e0f2fe; }
-    .mat-table tr.highlight-grand td { font-weight: 800; color: #003049; font-size: 15px; }
+    .mat-table tr.highlight-grand td { font-weight: 800; color: #0369a1; font-size: 15px; }
 
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
-    table.input-table th, table.report-table th { background-color: #00509d; color: white; font-weight: 600; font-size: 12px; }
+    table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 12px; }
     table.report-table td { border: 1px solid #e2e8f0; padding: 8px; font-size: 13px; }
     table.input-table input { padding: 6px; text-align: center; }
 
     .notice-box {
       background-color: #eff6ff;
       border: 1px solid #bfdbfe;
-      color: #00509d;
+      color: #1e40af;
       padding: 8px;
       border-radius: 6px;
       font-size: 12px;
@@ -164,7 +163,7 @@
       padding-bottom: 8px;
       margin-bottom: 12px;
     }
-    .modal-header h3 { margin: 0; color: #00509d; font-size: 16px; text-transform: uppercase; }
+    .modal-header h3 { margin: 0; color: #1e40af; font-size: 16px; text-transform: uppercase; }
     
     .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.6; }
     
@@ -184,7 +183,7 @@
       border-radius: 4px;
     }
     .table-title-18 {
-      background: #00509d;
+      background: #1e40af;
       color: white;
       padding: 8px 12px;
       font-weight: bold;
@@ -194,7 +193,7 @@
       text-transform: uppercase;
     }
     .table-title-21 {
-      background: #003049;
+      background: #0369a1;
       color: white;
       padding: 8px 12px;
       font-weight: bold;
@@ -202,125 +201,6 @@
       border-radius: 4px 4px 0 0;
       margin-top: 20px;
       text-transform: uppercase;
-    }
-
-    /* =========================================================
-       PRINT / PDF LAYOUT - HUBHU APNAR CHOBI ER MOTO DESIGN
-    ========================================================= */
-    #pdfTemplate {
-      display: none;
-    }
-
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      #pdfTemplate, #pdfTemplate * {
-        visibility: visible;
-      }
-      #pdfTemplate {
-        display: block !important;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 10px;
-        background: #ffffff;
-      }
-
-      /* Image style container */
-      .pdf-card-frame {
-        border: 2px solid #0d3b66;
-        border-radius: 16px;
-        padding: 20px;
-        background: #fcfdff;
-        font-family: 'Segoe UI', Tahoma, sans-serif;
-      }
-
-      .pdf-header-title {
-        text-align: center;
-        color: #0d2b5c;
-        font-size: 32px;
-        font-weight: 900;
-        margin: 0;
-        letter-spacing: 0.5px;
-      }
-
-      .pdf-phone-pill {
-        background-color: #00296b;
-        color: white;
-        text-align: center;
-        border-radius: 20px;
-        padding: 6px 16px;
-        width: max-content;
-        margin: 10px auto 16px auto;
-        font-size: 16px;
-        font-weight: bold;
-      }
-
-      .pdf-info-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 15px;
-        border: 1.5px solid #00296b;
-        border-radius: 6px;
-        overflow: hidden;
-      }
-
-      .pdf-info-table td {
-        border: 1px solid #00296b;
-        padding: 8px 12px;
-        font-size: 14px;
-        font-weight: 600;
-      }
-
-      .pdf-info-table td.label-cell {
-        background-color: #003566;
-        color: white;
-        width: 25%;
-      }
-
-      .pdf-section-title {
-        text-align: center;
-        color: #001d3d;
-        font-size: 18px;
-        font-weight: 800;
-        margin: 15px 0 10px 0;
-      }
-
-      .pdf-data-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 15px;
-      }
-
-      .pdf-data-table th {
-        background-color: #003566;
-        color: white;
-        border: 1px solid #00296b;
-        padding: 8px;
-        font-size: 14px;
-        text-align: center;
-      }
-
-      .pdf-data-table td {
-        border: 1px solid #abc4ff;
-        padding: 8px 10px;
-        font-size: 13px;
-        color: #000;
-      }
-
-      .pdf-data-table td.center {
-        text-align: center;
-      }
-
-      .pdf-footer-note {
-        text-align: center;
-        font-size: 15px;
-        font-weight: 800;
-        color: #001d3d;
-        margin-top: 25px;
-      }
     }
   </style>
 </head>
@@ -334,7 +214,7 @@
     <p>COSTING & QUOTATION CALCULATOR</p>
     
     <div class="shop-input-box">
-      <input type="text" id="shopOwnerName" value="আরএম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম লিখুন" oninput="saveHeaderInfo()">
+      <input type="text" id="shopOwnerName" value="RM THAI ALUMINIUM" placeholder="দোকানের নাম লিখুন" oninput="saveHeaderInfo()">
       <input type="text" id="shopPhone" value="01676474412" placeholder="মোবাইল নম্বর লিখুন" oninput="saveHeaderInfo()">
     </div>
   </div>
@@ -342,11 +222,11 @@
   <div class="card">
     <div class="card-title">CUSTOMER DETAILS</div>
     <div class="row">
-      <div class="col"><label>গ্রাহকের নাম</label><input type="text" id="custName" placeholder="আবদুল্লাহ ভাই"></div>
+      <div class="col"><label>গ্রাহকের নাম</label><input type="text" id="custName" placeholder="গ্রাহকের নাম"></div>
       <div class="col"><label>গ্রাহকের নাম্বার</label><input type="text" id="custnambar" placeholder="গ্রাহকের নাম্বার"></div>
     </div>
     <div class="row">
-      <div class="col"><label>প্রজেক্টের নাম</label><input type="text" id="projectName" placeholder="মাটির মসজিদ রোড ভোগড়া বাইপাস"></div>
+      <div class="col"><label>প্রজেক্টের নাম</label><input type="text" id="projectName" placeholder="প্রজেক্টের নাম"></div>
     </div>
   </div>
 
@@ -461,68 +341,18 @@
                   <th>একক</th>
               </tr>
           </thead>
-          <tbody id="accessoriesTbody"></tbody>
+          <tbody id="accessoriesTbody">
+              <!-- জাভাস্ক্রিপ্ট থেকে ডাটা এখানে আসবে -->
+          </tbody>
       </table>
 
-      <!-- PDF ও WhatsApp বাটন -->
-      <button class="btn btn-pdf" onclick="generatePdfView()">
-        📄 ছবির ডিজাইনে PDF ডাউনলোড / প্রিন্ট করুন
-      </button>
-
+      <!-- WhatsApp বাটন -->
       <button class="btn btn-whatsapp" onclick="openWhatsAppModal()">
         <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
         WhatsApp এ পাঠান
       </button>
   </div>
 
-</div>
-
-<!-- PDF TEMPLATE CONTAINER (DESIGN MATCHED EXACTLY WITH YOUR IMAGE) -->
-<div id="pdfTemplate">
-  <div class="pdf-card-frame">
-    <h1 class="pdf-header-title" id="pdfShopTitle">আরএম থাই অ্যালুমিনিয়াম</h1>
-    <div class="pdf-phone-pill">📞 মোবাইল: <span id="pdfShopPhone">01676474412</span></div>
-
-    <table class="pdf-info-table">
-      <tr>
-        <td class="label-cell">👤 কাস্টমার</td>
-        <td id="pdfCustName">আবদুল্লাহ ভাই</td>
-      </tr>
-      <tr>
-        <td class="label-cell">🏢 প্রজেক্ট</td>
-        <td id="pdfProjectName">মাটির মসজিদ রোড ভোগড়া বাইপাস</td>
-      </tr>
-    </table>
-
-    <div class="pdf-section-title">প্রয়োজনীয় মালামালের বিবরণ (পরিকৃত পরিমাণ)</div>
-    <table class="pdf-data-table">
-      <thead>
-        <tr>
-          <th style="width:10%">ক্রমিক নং</th>
-          <th style="width:45%">মালামালের নাম</th>
-          <th style="width:15%">সাইজ</th>
-          <th style="width:30%">পরিকৃত পরিমাণ</th>
-        </tr>
-      </thead>
-      <tbody id="pdfAluTable"></tbody>
-    </table>
-
-    <div class="pdf-section-title">এক্সেসরিজের তালিকা</div>
-    <table class="pdf-data-table">
-      <thead>
-        <tr>
-          <th style="width:15%">ক্রমিক নং</th>
-          <th style="width:55%">এক্সেসরিজের নাম</th>
-          <th style="width:30%">পরিমাণ</th>
-        </tr>
-      </thead>
-      <tbody id="pdfAccTable"></tbody>
-    </table>
-
-    <div class="pdf-footer-note">
-      ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।
-    </div>
-  </div>
 </div>
 
 <!-- History Modal -->
@@ -588,9 +418,11 @@
     updateIndexes();
   }
 
+  /* --- নতুন সংযুক্ত অংশ: রেট সেটিংস পেজের লোকাল স্টোরেজ থেকে অপশনগুলো লোড করা --- */
   function initCalculatorDropdowns() {
     let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
 
+    // ১. আলাদা লিস্টের Key বা Saved RateList থেকে ইউনিক নাম সংগ্রহ করা
     let companies = JSON.parse(localStorage.getItem('companyList')) || extractUnique(rateList, 'company');
     let series = JSON.parse(localStorage.getItem('seriesList')) || extractUnique(rateList, 'series');
     let aluThicks = JSON.parse(localStorage.getItem('thickList')) || extractUnique(rateList, 'aluThickness');
@@ -599,6 +431,7 @@
     let glassThicks = JSON.parse(localStorage.getItem('glassThickList')) || extractUnique(rateList, 'glassThickness');
     let glassColours = JSON.parse(localStorage.getItem('glassColourList')) || extractUnique(rateList, 'glassColour');
 
+    // ২. ড্রপডাউনে অপশনগুলো পপুলেট করা
     populateDropdownDirect('aluCompany', companies);
     populateDropdownDirect('aluSeries', series);
     populateDropdownDirect('aluThickness', aluThicks);
@@ -636,6 +469,7 @@
       select.appendChild(opt);
     });
   }
+  /* --------------------------------------------------------------------------------- */
 
   function saveHeaderInfo() {
     let name = document.getElementById('shopOwnerName').value;
@@ -645,7 +479,7 @@
   }
 
   function loadHeaderInfo() {
-    let name = localStorage.getItem('rm_shop_name') || 'আরএম থাই অ্যালুমিনিয়াম';
+    let name = localStorage.getItem('rm_shop_name') || 'RM THAI ALUMINIUM';
     let phone = localStorage.getItem('rm_shop_phone') || '01676474412';
     document.getElementById('shopOwnerName').value = name;
     document.getElementById('shopPhone').value = phone;
@@ -908,7 +742,7 @@
           let tr = document.createElement('tr');
           tr.innerHTML = `
             <td><strong>${itemName}</strong></td>
-            <td><span style="color:#00509d; font-weight:bold;">১৮.৫ ফিট বার</span></td>
+            <td><span style="color:#1e40af; font-weight:bold;">১৮.৫ ফিট বার</span></td>
             <td>${toBnNum(res18.totalLen.toFixed(2))} ফিট</td>
             <td>${res18.detailsHTML}</td>
           `;
@@ -923,7 +757,7 @@
           let tr = document.createElement('tr');
           tr.innerHTML = `
             <td><strong>${itemName}</strong></td>
-            <td><span style="color:#003049; font-weight:bold;">২১ ফিট বার</span></td>
+            <td><span style="color:#0369a1; font-weight:bold;">২১ ফিট বার</span></td>
             <td>${toBnNum(res21.totalLen.toFixed(2))} ফিট</td>
             <td>${res21.detailsHTML}</td>
           `;
@@ -1033,13 +867,13 @@
       let card = document.createElement('div');
       card.style.cssText = "background:#f8fafc; border:1px solid #e2e8f0; padding:10px; border-radius:6px; margin-bottom:8px; cursor:pointer;";
       card.innerHTML = `
-        <div style="display:flex; justify-content:space-between; font-weight:bold; color:#00509d;">
+        <div style="display:flex; justify-content:space-between; font-weight:bold; color:#1e40af;">
           <span>👤 ${file.custName}</span>
           <span style="font-size:11px; color:#64748b;">${file.date}</span>
         </div>
         <div style="font-size:12px; margin-top:4px;"><strong>প্রজেক্ট:</strong> ${file.projectName}</div>
         <div style="font-size:12px;"><strong>সাইজ:</strong> ${toBnNum(file.totalSqft)} Sqft</div>
-        <div style="font-size:13px; color:#003049; font-weight:bold; margin-top:4px;">মোট মূল্য: ${toBnNum(file.sellingPrice)} ৳</div>
+        <div style="font-size:13px; color:#0369a1; font-weight:bold; margin-top:4px;">মোট মূল্য: ${toBnNum(file.sellingPrice)} ৳</div>
         <div style="text-align:right; margin-top:6px;">
           <button class="btn-danger" onclick="event.stopPropagation(); deleteSingleFile(${file.id})">মুছুন</button>
         </div>
@@ -1157,7 +991,7 @@ function runAccessoriesCalculation() {
         let is4Inch = seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four');
         let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
 
-        let rubberLabel = "গ্লাস রাবার (5mm Rubber)";
+        let rubberLabel = "গ্লাস রাবার (Rubber)";
         if (glassThickVal) {
           if (glassThickVal.includes('5.5') || glassThickVal.includes('6')) {
             rubberLabel = "গ্লাস রাবার (6mm Rubber)";
@@ -1172,18 +1006,18 @@ function runAccessoriesCalculation() {
         let wheels = totalWinQty * 4;
         let cordScrews = totalWinQty * 8;
         let screws15 = totalScrews;
-        let mohair = Math.round(totalPerimeterFt * 1.1);
-        let rubber = Math.round(totalPerimeterFt * 1.1);
+        let mohair = (totalPerimeterFt * 1.1).toFixed(2);
+        let rubber = (totalPerimeterFt * 1.1).toFixed(2);
         let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
 
         let rowsHTML = `
-            <tr><td>লক (Lock)</td><td><b>${toBnNum(locks)}</b></td><td>পিস</td></tr>
-            <tr><td>চাকা (Wheel)</td><td><b>${toBnNum(wheels)}</b></td><td>পিস</td></tr>
-            <tr><td>কর্ড স্ক্রু (Cord Screw)</td><td><b>${toBnNum(cordScrews)}</b></td><td>পিস</td></tr>
-            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${toBnNum(screws15)}</b></td><td>পিস</td></tr>
-            <tr><td>মহিয়ার (Mohair)</td><td><b>${toBnNum(mohair)}</b></td><td>ফিট</td></tr>
-            <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${toBnNum(rubber)}</b></td><td>ফিট</td></tr>
-            <tr><td>সিলিকন গাম (দুধ কালার)</td><td><b>${toBnNum(silicone)}</b></td><td>পিস</td></tr>
+            <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
+            <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
+            <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
+            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
+            <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
+            <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
+            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
         `;
 
         if (is4Inch || hasNet) {
@@ -1192,9 +1026,9 @@ function runAccessoriesCalculation() {
             let netRivet = totalWinQty * 17;
 
             rowsHTML += `
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${toBnNum(netWheels)}</b></td><td>পিস</td></tr>
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${toBnNum(netAngles)}</b></td><td>পিস</td></tr>
-                <tr style="background-color: #fff3cd; color: #856404;"><td>রিপিট / রিভেট (Rivet)</td><td><b>${toBnNum(netRivet)}</b></td><td>পিস</td></tr>
+                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
+                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
+                <tr style="background-color: #fff3cd; color: #856404;"><td>রিপিট / রিভেট (Rivet)</td><td><b>${netRivet}</b></td><td>পিস</td></tr>
             `;
         }
 
@@ -1205,89 +1039,19 @@ function runAccessoriesCalculation() {
     }
 }
 
-/* =========================================================
-   GENERATE PDF TEMPLATE BASED ON YOUR IMAGE DESIGN
-========================================================= */
-function generatePdfView() {
-  let shopTitle = document.getElementById('shopOwnerName').value || 'আরএম থাই অ্যালুমিনিয়াম';
-  let shopPhone = document.getElementById('shopPhone').value || '01676474412';
-  let custName = document.getElementById('custName').value || 'আবদুল্লাহ ভাই';
-  let projName = document.getElementById('projectName').value || 'মাটির মসজিদ রোড ভোগড়া বাইপাস';
-
-  document.getElementById('pdfShopTitle').innerText = shopTitle;
-  document.getElementById('pdfShopPhone').innerText = shopPhone;
-  document.getElementById('pdfCustName').innerText = custName;
-  document.getElementById('pdfProjectName').innerText = projName;
-
-  // 1. Populate Aluminium Details
-  let pdfAluTable = document.getElementById('pdfAluTable');
-  pdfAluTable.innerHTML = '';
-
-  let aluItems = [
-    { name: "আউটার সাইড", size: "২১এর", val: document.getElementById('mOuterSide').innerText },
-    { name: "আউটার টপ", size: "২১এর", val: document.getElementById('mOuterTop').innerText },
-    { name: "আউটার বটম", size: "২১এর", val: document.getElementById('mOuterBottom').innerText },
-    { name: "শাটার লক", size: "২১এর", val: document.getElementById('mShutterLock').innerText },
-    { name: "শাটার ইন্টারলক", size: "২১এর", val: document.getElementById('mShutterInterlock').innerText },
-    { name: "শাটার টপ", size: "২১এর", val: document.getElementById('mShutterTop').innerText },
-    { name: "শাটার বটম", size: "২১এর", val: document.getElementById('mShutterBottom').innerText }
-  ];
-
-  let netSelVal = document.getElementById('netSection').value;
-  if (netSelVal !== 'none') {
-    aluItems.push({ name: "নেট সেকশন", size: "২১এর", val: document.getElementById('mNetSection').innerText });
-  }
-
-  aluItems.forEach((item, index) => {
-    let tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="center">${toBnNum(index + 1)}</td>
-      <td>${item.name}</td>
-      <td class="center">${item.size}</td>
-      <td class="center">${item.val} ফিট</td>
-    `;
-    pdfAluTable.appendChild(tr);
-  });
-
-  // 2. Populate Accessories Details
-  let pdfAccTable = document.getElementById('pdfAccTable');
-  pdfAccTable.innerHTML = '';
-
-  let accRows = document.querySelectorAll('#accessoriesTbody tr');
-  accRows.forEach((row, index) => {
-    let tds = row.querySelectorAll('td');
-    if (tds.length >= 3) {
-      let name = tds[0].innerText;
-      let qty = tds[1].innerText;
-      let unit = tds[2].innerText;
-
-      let tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td class="center">${toBnNum(index + 1)}</td>
-        <td>${name}</td>
-        <td class="center">${qty} ${unit}</td>
-      `;
-      pdfAccTable.appendChild(tr);
-    }
-  });
-
-  // Trigger Print Browser Dialog
-  window.print();
-}
-
 function openWhatsAppModal() {
-  let shopName = document.getElementById('shopOwnerName').value || 'আরএম থাই অ্যালুমিনিয়াম';
-  let shopPhone = document.getElementById('shopPhone').value || '01676474412';
-  let custName = document.getElementById('custName').value || 'আবদুল্লাহ ভাই';
+  let shopName = document.getElementById('shopOwnerName').value || 'RM THAI ALUMINIUM';
+  let shopPhone = document.getElementById('shopPhone').value || '';
+  let custName = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
   let projEl = document.getElementById('projectName');
-  let projectName = projEl ? projEl.value : 'মাটির মসজিদ রোড ভোগড়া বাইপাস';
+  let projectName = projEl ? projEl.value : 'সাধারণ প্রজেক্ট';
 
   let msg = `🏪 *${shopName}*\n📱 মোবাইল: ${shopPhone}\n`;
   msg += `----------------------------\n`;
   msg += `👤 কাস্টমার: ${custName}\n`;
   msg += `🏢 প্রজেক্ট: ${projectName}\n`;
   msg += `----------------------------\n`;
-  msg += `📦 *প্রয়োজনীয় মালামালের বিবরণ (পরিকৃত পরিমাণ):*\n\n`;
+  msg += `📦 *প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ):*\n\n`;
 
   let outerSide = document.getElementById('mOuterSide').innerText;
   let outerTop = document.getElementById('mOuterTop').innerText;
@@ -1298,33 +1062,31 @@ function openWhatsAppModal() {
   let shutterBottom = document.getElementById('mShutterBottom').innerText;
   let netSection = document.getElementById('mNetSection').innerText;
 
-  msg += `১. আউটার সাইড (২১এর) : ${outerSide} ফিট\n`;
-  msg += `২. আউটার টপ (২১এর) : ${outerTop} ফিট\n`;
-  msg += `৩. আউটার বটম (২১এর) : ${outerBottom} ফিট\n`;
-  msg += `৪. শাটার লক (২১এর) : ${shutterLock} ফিট\n`;
-  msg += `৫. শাটার ইন্টারলক (২১এর) : ${shutterInterlock} ফিট\n`;
-  msg += `৬. শাটার টপ (২১এর) : ${shutterTop} ফিট\n`;
-  msg += `৭. শাটার বটম (২১এর) : ${shutterBottom} ফিট\n`;
+  msg += `• আউটার সাইড: ${outerSide} ফিট\n`;
+  msg += `• আউটার টপ: ${outerTop} ফিট\n`;
+  msg += `• আউটার বটম: ${outerBottom} ফিট\n`;
+  msg += `• শাটার লক: ${shutterLock} ফিট\n`;
+  msg += `• শাটার ইন্টারলক: ${shutterInterlock} ফিট\n`;
+  msg += `• শাটার টপ: ${shutterTop} ফিট\n`;
+  msg += `• শাটার বটম: ${shutterBottom} ফিট\n`;
 
   let netSelVal = document.getElementById('netSection').value;
   if (netSelVal !== 'none') {
-    msg += `৮. নেট ফ্রেম সেকশন (২১এর) : ${netSection} ফিট\n`;
+    msg += `• নেট ফ্রেম সেকশন (২১ ফিট): ${netSection} ফিট\n`;
   }
 
   msg += `\n🔧 *এক্সেসরিজের তালিকা:*\n`;
 
   let accRows = document.querySelectorAll('#accessoriesTbody tr');
-  accRows.forEach((row, i) => {
+  accRows.forEach(row => {
     let tds = row.querySelectorAll('td');
     if (tds.length >= 3) {
       let name = tds[0].innerText;
       let qty = tds[1].innerText;
       let unit = tds[2].innerText;
-      msg += `${toBnNum(i + 1)}. ${name}: ${qty} ${unit}\n`;
+      msg += `• ${name}: ${qty} ${unit}\n`;
     }
   });
-
-  msg += `\nধন্যবাদ আপনার মূল্যবান আস্থার জন্য।`;
 
   document.getElementById('waMessageText').value = msg;
   document.getElementById('whatsappModal').style.display = 'flex';

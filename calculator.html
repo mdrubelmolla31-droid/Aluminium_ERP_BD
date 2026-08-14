@@ -418,36 +418,58 @@
     updateIndexes();
   }
 
+  /* --- নতুন সংযুক্ত অংশ: রেট সেটিংস পেজের লোকাল স্টোরেজ থেকে অপশনগুলো লোড করা --- */
   function initCalculatorDropdowns() {
-    populateDropdown('companyList', 'aluCompany');
-    populateDropdown('seriesList', 'aluSeries');
-    populateDropdown('thickList', 'aluThickness');
-    populateDropdown('aluColourList', 'aluColour');
-    populateDropdown('glassCoList', 'glassCompany');
-    populateDropdown('glassThickList', 'glassThickness');
-    populateDropdown('glassColourList', 'glassColour');
+    let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
+
+    // ১. আলাদা লিস্টের Key বা Saved RateList থেকে ইউনিক নাম সংগ্রহ করা
+    let companies = JSON.parse(localStorage.getItem('companyList')) || extractUnique(rateList, 'company');
+    let series = JSON.parse(localStorage.getItem('seriesList')) || extractUnique(rateList, 'series');
+    let aluThicks = JSON.parse(localStorage.getItem('thickList')) || extractUnique(rateList, 'aluThickness');
+    let aluColours = JSON.parse(localStorage.getItem('aluColourList')) || extractUnique(rateList, 'aluColour');
+    let glassCos = JSON.parse(localStorage.getItem('glassCoList')) || extractUnique(rateList, 'glassCompany');
+    let glassThicks = JSON.parse(localStorage.getItem('glassThickList')) || extractUnique(rateList, 'glassThickness');
+    let glassColours = JSON.parse(localStorage.getItem('glassColourList')) || extractUnique(rateList, 'glassColour');
+
+    // ২. ড্রপডাউনে অপশনগুলো পপুলেট করা
+    populateDropdownDirect('aluCompany', companies);
+    populateDropdownDirect('aluSeries', series);
+    populateDropdownDirect('aluThickness', aluThicks);
+    populateDropdownDirect('aluColour', aluColours);
+    populateDropdownDirect('glassCompany', glassCos);
+    populateDropdownDirect('glassThickness', glassThicks);
+    populateDropdownDirect('glassColour', glassColours);
   }
 
-  function populateDropdown(storageKey, selectId) {
-    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
+  function extractUnique(list, key) {
+    let set = new Set();
+    list.forEach(item => {
+      if (item && item[key]) set.add(item[key]);
+    });
+    return Array.from(set);
+  }
+
+  function populateDropdownDirect(selectId, itemsArray) {
     let select = document.getElementById(selectId);
     if (!select) return;
     select.innerHTML = '';
-    if(list.length === 0) {
-      // ডিফল্ট অপশন যদি LocalStorage খালি থাকে
+
+    if (!itemsArray || itemsArray.length === 0) {
       let defaultOpt = document.createElement('option');
       defaultOpt.value = "ডিফল্ট";
       defaultOpt.textContent = "ডিফল্ট";
       select.appendChild(defaultOpt);
       return;
     }
-    list.forEach(item => {
+
+    itemsArray.forEach(item => {
       let opt = document.createElement('option');
       opt.value = item;
       opt.textContent = item;
       select.appendChild(opt);
     });
   }
+  /* --------------------------------------------------------------------------------- */
 
   function saveHeaderInfo() {
     let name = document.getElementById('shopOwnerName').value;

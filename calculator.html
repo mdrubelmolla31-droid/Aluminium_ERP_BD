@@ -225,6 +225,9 @@
       <div class="col"><label>গ্রাহকের নাম</label><input type="text" id="custName" placeholder="গ্রাহকের নাম"></div>
       <div class="col"><label>গ্রাহকের নাম্বার</label><input type="text" id="custnambar" placeholder="গ্রাহকের নাম্বার"></div>
     </div>
+    <div class="row">
+      <div class="col"><label>প্রজেক্টের নাম</label><input type="text" id="projectName" placeholder="প্রজেক্টের নাম"></div>
+    </div>
   </div>
 
   <div class="card">
@@ -310,7 +313,6 @@
   <div class="card">
     <div class="card-title">CUTTING LIST</div>
     
-    <!-- ১. ১৮.৫/১৮ ফিটের কাটিং টেবিল -->
     <div class="table-title-18">📌 18.5 / 18 FEET BAR CUTTING LIST</div>
     <table class="report-table">
       <thead>
@@ -319,7 +321,6 @@
       <tbody id="tableBody18"></tbody>
     </table>
 
-    <!-- ২. ২১ ফিটের কাটিং টেবিল -->
     <div class="table-title-21">📌 21 FEET BAR CUTTING LIST</div>
     <table class="report-table">
       <thead>
@@ -432,6 +433,14 @@
     let select = document.getElementById(selectId);
     if (!select) return;
     select.innerHTML = '';
+    if(list.length === 0) {
+      // ডিফল্ট অপশন যদি LocalStorage খালি থাকে
+      let defaultOpt = document.createElement('option');
+      defaultOpt.value = "ডিফল্ট";
+      defaultOpt.textContent = "ডিফল্ট";
+      select.appendChild(defaultOpt);
+      return;
+    }
     list.forEach(item => {
       let opt = document.createElement('option');
       opt.value = item;
@@ -533,7 +542,6 @@
     return matched;
   }
 
-  // কাটিং ইঞ্জিনের মূল সমাধান
   function solveBarCutting(piecesList, barCap) {
     if (!piecesList || piecesList.length === 0) return null;
 
@@ -645,7 +653,6 @@
       }
     }
 
-    // নেট সেকশন সবসময় ২১ ফিট বার দিয়ে হিসাব
     let netRawSum = isNetActive ? itemsMap["নেট সেকশন"].reduce((a, b) => a + b, 0) : 0;
     let netBarCount = Math.ceil(netRawSum / 21);
     let netFt = netBarCount * 21;
@@ -674,7 +681,6 @@
 
     document.getElementById('mTotalAlu').innerText = toBnNum(totalAlu.toFixed(2));
 
-    // --- কাটিং ডিস্ট্রিবিউশন (নেট সেকশন বাধ্যতামূলকভাবে ২১ ফিট) ---
     let table18Body = document.getElementById('tableBody18');
     let table21Body = document.getElementById('tableBody21');
     table18Body.innerHTML = '';
@@ -745,7 +751,6 @@
       table21Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">২১ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>';
     }
 
-    // কস্টিং হিসাব
     let glassSqft = totalSqft; 
     let aluTotalCost = totalSqft * (rateData.aluRate || 0);
     let glassTotalCost = glassSqft * (rateData.glassRate || 0);
@@ -785,11 +790,13 @@
         if (h && w && q) windowItems.push({ h, w, q });
       });
 
+      let projName = document.getElementById('projectName') ? document.getElementById('projectName').value : 'সাধারণ প্রজেক্ট';
+
       let fileData = {
         id: Date.now(),
         date: new Date().toLocaleDateString('bn-BD'),
         custName: document.getElementById('custName').value || 'সাধারণ গ্রাহক',
-        projectName: document.getElementById('projectName').value || 'সাধারণ প্রজেক্ট',
+        projectName: projName || 'সাধারণ প্রজেক্ট',
         company: document.getElementById('aluCompany').value,
         series: document.getElementById('aluSeries').value,
         aluThickness: document.getElementById('aluThickness').value,
@@ -856,7 +863,7 @@
 
   function loadSavedFile(file) {
     document.getElementById('custName').value = file.custName || '';
-    document.getElementById('projectName').value = file.projectName || '';
+    if(document.getElementById('projectName')) document.getElementById('projectName').value = file.projectName || '';
     
     if(file.company) document.getElementById('aluCompany').value = file.company;
     if(file.series) document.getElementById('aluSeries').value = file.series;
@@ -898,14 +905,6 @@
       renderHistoryList();
     }
   }
-
-// ===============================================
-// সম্পূর্ণ অটোমেটিক ও ডায়নামিক এক্সেসরিজ ক্যালকুলেটর
-// ===============================================
-
-document.addEventListener('input', runAccessoriesCalculation);
-document.addEventListener('click', runAccessoriesCalculation);
-document.addEventListener('DOMContentLoaded', runAccessoriesCalculation);
 
 function runAccessoriesCalculation() {
     try {
@@ -970,7 +969,6 @@ function runAccessoriesCalculation() {
         let is4Inch = seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four');
         let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
 
-        // ডায়নামিক রাবার লেবেল নির্ধারণ
         let rubberLabel = "গ্লাস রাবার (Rubber)";
         if (glassThickVal) {
           if (glassThickVal.includes('5.5') || glassThickVal.includes('6')) {
@@ -1019,15 +1017,12 @@ function runAccessoriesCalculation() {
     }
 }
 
-// ===============================================
-// WHATSAPP Eডিটেবল মোডাল ও মেসেজ জেনারেটর
-// ===============================================
-
 function openWhatsAppModal() {
   let shopName = document.getElementById('shopOwnerName').value || 'RM THAI ALUMINIUM';
   let shopPhone = document.getElementById('shopPhone').value || '';
   let custName = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
-  let projectName = document.getElementById('projectName').value || 'সাধারণ প্রজেক্ট';
+  let projEl = document.getElementById('projectName');
+  let projectName = projEl ? projEl.value : 'সাধারণ প্রজেক্ট';
 
   let msg = `🏪 *${shopName}*\n📱 মোবাইল: ${shopPhone}\n`;
   msg += `----------------------------\n`;
@@ -1036,7 +1031,6 @@ function openWhatsAppModal() {
   msg += `----------------------------\n`;
   msg += `📦 *প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ):*\n\n`;
 
-  // মালামালের দৈঘ্য (অপচয় ছাড়া)
   let outerSide = document.getElementById('mOuterSide').innerText;
   let outerTop = document.getElementById('mOuterTop').innerText;
   let outerBottom = document.getElementById('mOuterBottom').innerText;

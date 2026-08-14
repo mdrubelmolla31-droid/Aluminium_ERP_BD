@@ -10,12 +10,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    * { box-sizing: border-box; font-family: 'Kalpurush', 'SolaimanLipi', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
     .container { max-width: 650px; margin: 0 auto; }
 
     .header-card {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      background: linear-gradient(135deg, #003366, #00509d);
       color: white;
       padding: 16px;
       border-radius: 8px;
@@ -24,8 +24,8 @@
       text-align: center;
       position: relative;
     }
-    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; text-transform: uppercase; }
-    .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; text-transform: uppercase; }
+    .header-card h2 { margin: 0 0 5px 0; font-size: 24px; text-transform: uppercase; font-weight: 900; }
+    .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 700; text-transform: uppercase; }
     
     .shop-input-box {
       background: rgba(255, 255, 255, 0.15);
@@ -38,13 +38,13 @@
     }
     .shop-input-box input {
       padding: 6px 10px;
-      font-size: 13px;
+      font-size: 14px;
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 4px;
       background: #fff;
-      color: #0f172a;
+      color: #003366;
       text-align: center;
-      font-weight: 600;
+      font-weight: 800;
     }
 
     .card {
@@ -53,16 +53,16 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       margin-bottom: 16px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #cbd5e1;
     }
 
     .card-title {
-      color: #1e40af;
+      color: #003366;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 800;
       text-align: center;
       margin-bottom: 12px;
-      border-bottom: 2px solid #eff6ff;
+      border-bottom: 2px solid #00509d;
       padding-bottom: 6px;
       text-transform: uppercase;
     }
@@ -70,14 +70,16 @@
     .row { display: flex; gap: 10px; margin-bottom: 10px; }
     .col { flex: 1; }
 
-    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #334155; }
+    label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 4px; color: #003366; }
     input, select {
       width: 100%;
       padding: 9px;
       font-size: 14px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid #00509d;
       border-radius: 6px;
       background-color: #fff;
+      color: #000;
+      font-weight: 600;
     }
     select:disabled { background-color: #e2e8f0; cursor: not-allowed; }
 
@@ -92,34 +94,56 @@
       text-align: center;
     }
 
-    .btn-calc { background-color: #2563eb; color: white; margin-top: 10px; }
+    .btn-calc { background-color: #00509d; color: white; margin-top: 10px; }
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
-    .btn-pdf { background-color: #0284c7; color: white; margin-top: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-pdf { background-color: #003366; color: white; margin-top: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
-    .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
-    .mat-table td:first-child { text-align: left; color: #334155; font-weight: 500; }
-    .mat-table td:last-child { text-align: right; font-weight: 600; color: #0f172a; }
+    .mat-table td { padding: 9px 12px; border-bottom: 1px solid #cbd5e1; font-size: 14px; }
+    .mat-table td:first-child { text-align: left; color: #000000; font-weight: 700; }
+    .mat-table td:last-child { text-align: right; font-weight: 800; color: #003366; }
     .mat-table tr.highlight { background-color: #f0fdf4; }
     .mat-table tr.highlight-blue { background-color: #eff6ff; }
-    .mat-table tr.highlight-blue td { font-weight: 700; color: #1e40af; font-size: 14px; }
+    .mat-table tr.highlight-blue td { font-weight: 800; color: #003366; font-size: 15px; }
     .mat-table tr.highlight-grand { background-color: #e0f2fe; }
-    .mat-table tr.highlight-grand td { font-weight: 800; color: #0369a1; font-size: 15px; }
+    .mat-table tr.highlight-grand td { font-weight: 900; color: #003366; font-size: 16px; }
 
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
-    table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 12px; }
-    table.report-table td { border: 1px solid #e2e8f0; padding: 8px; font-size: 13px; }
+    table.input-table th, table.report-table th { border: 1px solid #00509d; padding: 8px; text-align: center; font-size: 14px; background-color: #00509d; color: white; font-weight: 800; }
+    table.report-table td { border: 1px solid #cbd5e1; padding: 8px; font-size: 13px; color: #000; font-weight: 600; }
     table.input-table input { padding: 6px; text-align: center; }
+
+    /* Green and Red Styling for Bar Cutting Breakdowns */
+    .cut-piece-usable {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #10b981;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 800;
+      display: inline-block;
+      margin: 1px;
+    }
+    .cut-piece-waste {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #ef4444;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 800;
+      display: inline-block;
+      margin: 1px;
+    }
 
     .notice-box {
       background-color: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1e40af;
+      border: 1px solid #00509d;
+      color: #003366;
       padding: 8px;
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: 700;
       text-align: center;
       margin-bottom: 10px;
     }
@@ -163,62 +187,66 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #eff6ff;
+      border-bottom: 2px solid #00509d;
       padding-bottom: 8px;
       margin-bottom: 12px;
     }
-    .modal-header h3 { margin: 0; color: #1e40af; font-size: 16px; text-transform: uppercase; }
+    .modal-header h3 { margin: 0; color: #003366; font-size: 16px; font-weight: 800; text-transform: uppercase; }
     
-    .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.6; }
+    .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.8; color: #000; font-weight: 600; }
 
     .table-title-18 {
-      background: #1e40af;
+      background: #003366;
       color: white;
       padding: 8px 12px;
-      font-weight: bold;
+      font-weight: 800;
       font-size: 14px;
       border-radius: 4px 4px 0 0;
       margin-top: 10px;
       text-transform: uppercase;
     }
     .table-title-21 {
-      background: #0369a1;
+      background: #00509d;
       color: white;
       padding: 8px 12px;
-      font-weight: bold;
+      font-weight: 800;
       font-size: 14px;
       border-radius: 4px 4px 0 0;
       margin-top: 20px;
       text-transform: uppercase;
     }
 
-    /* PDF Template Ultra HD & Dark Typography */
+    /* PDF Template Ultra HD */
     #pdfRenderArea {
       position: absolute;
       left: -9999px;
       top: -9999px;
       width: 800px;
       background: #ffffff;
-      padding: 30px;
-      border: 3px solid #0f172a;
+      padding: 25px;
+      border: 2px solid #00509d;
       border-radius: 12px;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'SolaimanLipi', 'Kalpurush', 'Segoe UI', Arial, sans-serif;
       color: #000000;
     }
-    .pdf-header { text-align: center; border-bottom: 3px solid #0f172a; padding-bottom: 12px; margin-bottom: 18px; }
-    .pdf-header h1 { font-size: 34px; color: #000000; margin: 0; font-weight: 900; letter-spacing: 0.5px; }
-    .pdf-phone { background: #0f172a; color: #ffffff; display: inline-block; padding: 6px 18px; border-radius: 20px; margin-top: 8px; font-weight: 800; font-size: 15px; }
-    .pdf-cust-box { border: 2px solid #0f172a; margin-bottom: 18px; border-radius: 4px; overflow: hidden; }
-    .pdf-cust-row { display: flex; border-bottom: 1px solid #0f172a; }
-    .pdf-cust-row:last-child { border-bottom: none; }
-    .pdf-cust-label { background: #0f172a; color: #ffffff; width: 140px; padding: 8px; font-weight: 800; font-size: 14px; text-align: center; }
-    .pdf-cust-val { padding: 8px 12px; font-size: 14px; flex: 1; font-weight: 800; color: #000000; }
-    .pdf-sec-title { background: #0f172a; color: #ffffff; text-align: center; padding: 8px; font-weight: 800; font-size: 15px; margin-top: 18px; text-transform: uppercase; }
-    .pdf-table { width: 100%; border-collapse: collapse; margin-top: 6px; }
-    .pdf-table th, .pdf-table td { border: 1px solid #0f172a; padding: 8px 10px; font-size: 13px; text-align: center; color: #000000; font-weight: 700; }
-    .pdf-table th { background: #1e293b; color: #ffffff; font-weight: 800; }
-    .pdf-footer { text-align: center; margin-top: 25px; border-top: 2px solid #0f172a; padding-top: 10px; font-size: 13px; font-weight: 800; color: #000000; }
-    .edit-table input { width: 100%; border: 1px solid #cbd5e1; padding: 4px; font-size: 12px; border-radius: 4px; }
+    .pdf-header { text-align: center; padding-bottom: 10px; margin-bottom: 15px; }
+    .pdf-header h1 { font-size: 38px; color: #003366; margin: 0; font-weight: 900; letter-spacing: 0.5px; }
+    .pdf-phone { background-color: #003366; color: #ffffff; display: inline-block; padding: 6px 24px; border-radius: 20px; font-size: 16px; font-weight: 800; margin-top: 8px; }
+    
+    .pdf-cust-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; border: 1.5px solid #003366; }
+    .pdf-cust-table td { border: 1px solid #003366; padding: 8px 12px; font-size: 15px; font-weight: 800; }
+    .pdf-cust-label { background-color: #00509d; color: #ffffff; width: 130px; text-align: center; }
+    .pdf-cust-val { background-color: #ffffff; color: #000000; }
+
+    .pdf-sec-title { color: #003366; text-align: center; font-size: 18px; font-weight: 900; margin: 12px 0 6px 0; }
+    
+    .pdf-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; border: 1.5px solid #003366; }
+    .pdf-table th { background-color: #00509d; color: #ffffff; font-size: 15px; font-weight: 900; padding: 8px; border: 1px solid #003366; text-align: center; }
+    .pdf-table td { border: 1px solid #003366; padding: 8px 10px; font-size: 14px; font-weight: 800; color: #000000; text-align: center; }
+    
+    .pdf-footer { text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1.5px solid #003366; font-size: 15px; font-weight: 900; color: #003366; }
+    
+    .edit-table input { width: 100%; border: 1px solid #00509d; padding: 6px; font-size: 13px; font-weight: bold; border-radius: 4px; color: #000; }
   </style>
 </head>
 <body>
@@ -326,7 +354,7 @@
     </table>
   </div>
 
-  <!-- কাটিং লিস্ট (১৮.৬ ফিট বার উপরে, ২১ ফিট বার নিচে) -->
+  <!-- কাটিং লিস্ট -->
   <div class="card">
     <div class="card-title">CUTTING LIST</div>
     
@@ -349,7 +377,7 @@
 
   <!-- প্রয়োজনীয় এক্সেসরিজ টেবিল -->
   <div class="card" style="margin-top: 15px;">
-      <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজ তালিকা)</div>
+      <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজের তালিকা)</div>
       <table class="report-table">
           <thead>
               <tr>
@@ -389,27 +417,27 @@
       <button class="btn-danger" onclick="closePdfModal()">X</button>
     </div>
     
-    <div style="font-size: 12px; color: #1e40af; background: #eff6ff; padding: 6px; border-radius: 4px; margin-bottom: 10px;">
-      💡 ১৮.৬এর তথ্য উপরে এবং ২১এর তথ্য নিচে পর পর সাজানো আছে। আপনি পিডিএফ তৈরি করার আগে পরিমাপ ও এক্সেসরিজ ইচ্ছামতো এডিট বা নতুন সারি যোগ করতে পারেন।
+    <div style="font-size: 13px; color: #003366; background: #eff6ff; padding: 8px; border-radius: 4px; margin-bottom: 10px; font-weight:700;">
+      💡 ১৮.৬ এর তথ্য উপরে এবং ২১ এর তথ্য নিচে পর পর সাজানো আছে। আপনি পিডিএফ তৈরি করার আগে পরিমাপ ও এক্সেসরিজ ইচ্ছামতো এডিট বা নতুন সারি যোগ করতে পারেন।
     </div>
 
-    <h4>১. প্রয়োজনীয় মালামালের বিবরণ (অ্যালুমিনিয়াম)</h4>
+    <h4 style="color: #003366; font-weight:800;">১. প্রয়োজনীয় মালামালের বিবরণ (অ্যালুমিনিয়াম)</h4>
     <table class="report-table edit-table" id="pdfMatEditTable">
       <thead>
         <tr><th>ক্রমিক</th><th>মালামালের নাম</th><th>সাইজ</th><th>পরিকৃত পরিমাণ</th><th>অ্যাকশন</th></tr>
       </thead>
       <tbody id="pdfMatEditBody"></tbody>
     </table>
-    <button class="btn btn-add" style="font-size: 12px; padding: 6px; margin-top: 5px;" onclick="addPdfMatRow()">+ নতুন মালামাল যোগ করুন</button>
+    <button class="btn btn-add" style="font-size: 13px; padding: 6px; margin-top: 5px;" onclick="addPdfMatRow()">+ নতুন মালামাল যোগ করুন</button>
 
-    <h4 style="margin-top: 15px;">২. এক্সেসরিজের তালিকা</h4>
+    <h4 style="margin-top: 15px; color: #003366; font-weight:800;">২. এক্সেসরিজের তালিকা</h4>
     <table class="report-table edit-table" id="pdfAccEditTable">
       <thead>
         <tr><th>ক্রমিক</th><th>এক্সেসরিজের নাম</th><th>পরিমাণ</th><th>অ্যাকশন</th></tr>
       </thead>
       <tbody id="pdfAccEditBody"></tbody>
     </table>
-    <button class="btn btn-add" style="font-size: 12px; padding: 6px; margin-top: 5px;" onclick="addPdfAccRow()">+ নতুন এক্সেসরিজ যোগ করুন</button>
+    <button class="btn btn-add" style="font-size: 13px; padding: 6px; margin-top: 5px;" onclick="addPdfAccRow()">+ নতুন এক্সেসরিজ যোগ করুন</button>
 
     <button class="btn btn-pdf" style="margin-top: 15px;" onclick="generateAndSavePDF()">
       📥 পিডিএফ তৈরি ও ডাউনলোড করুন
@@ -420,29 +448,31 @@
 <!-- Offscreen PDF Print Structure -->
 <div id="pdfRenderArea">
   <div class="pdf-header">
+    <div style="font-size: 20px; color: #003366;">꧁༺ ༒ ༻꧂</div>
     <h1 id="pdfShopName">আরএম থাই অ্যালুমিনিয়াম</h1>
+    <div style="font-size: 16px; color: #003366;">────────  ❁  ────────</div>
     <div class="pdf-phone">📱 মোবাইল: <span id="pdfShopPhone">01676474412</span></div>
   </div>
 
-  <div class="pdf-cust-box">
-    <div class="pdf-cust-row">
-      <div class="pdf-cust-label">👤 কাস্টমার</div>
-      <div class="pdf-cust-val" id="pdfCustName">-</div>
-    </div>
-    <div class="pdf-cust-row">
-      <div class="pdf-cust-label">🏢 প্রজেক্ট</div>
-      <div class="pdf-cust-val" id="pdfProjName">-</div>
-    </div>
-  </div>
+  <table class="pdf-cust-table">
+    <tr>
+      <td class="pdf-cust-label">👤 কাস্টমার</td>
+      <td class="pdf-cust-val" id="pdfCustName">-</td>
+    </tr>
+    <tr>
+      <td class="pdf-cust-label">🏢 প্রজেক্ট</td>
+      <td class="pdf-cust-val" id="pdfProjName">-</td>
+    </tr>
+  </table>
 
   <div class="pdf-sec-title">প্রয়োজনীয় মালামালের বিবরণ (পরিকৃত পরিমাণ)</div>
   <table class="pdf-table">
     <thead>
       <tr>
-        <th style="width: 10%;">ক্রমিক নং</th>
-        <th style="width: 35%;">মালামালের নাম</th>
+        <th style="width: 12%;">ক্রমিক নং</th>
+        <th style="width: 38%;">মালামালের নাম</th>
         <th style="width: 20%;">সাইজ</th>
-        <th style="width: 35%;">পরিকৃত পরিমাণ</th>
+        <th style="width: 30%;">পরিকৃত পরিমাণ</th>
       </tr>
     </thead>
     <tbody id="pdfMatRenderBody"></tbody>
@@ -461,12 +491,12 @@
   </table>
 
   <div class="pdf-footer">
+    ────────  ❁  ────────<br>
     ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।
   </div>
 </div>
 
 <script>
-  // Global structured data for edit modal
   let globalCuttingData = [];
 
   function toBnNum(num) {
@@ -633,6 +663,7 @@
     return matched;
   }
 
+  /* কাটিং সমাধান - গ্রিন এবং রেড কালার কোডিং সহ */
   function solveBarCutting(piecesList, barCap) {
     if (!piecesList || piecesList.length === 0) return null;
 
@@ -662,16 +693,17 @@
     }
 
     let detailsHTML = `<strong>মোট: ${toBnNum(plan.length)} টি বার</strong>`;
+    
+    // কাটিং পিসগুলো সবুজ এবং অপচয়কে লালে প্রদর্শন করা
     let detailsStr = plan.map((b, idx) => {
-      let pcsStr = b.piecesCut.map(x => toBnNum(x.toFixed(2)) + "ফিট").join(" + ");
-      return `বার #${toBnNum(idx + 1)}: [${pcsStr}]`;
+      let pcsStr = b.piecesCut.map(x => `<span class="cut-piece-usable">${toBnNum(x.toFixed(2))} ফিট</span>`).join(" + ");
+      let wasteStr = b.wastage > 0 ? ` + <span class="cut-piece-waste">অপচয়: ${toBnNum(b.wastage)} ফিট</span>` : '';
+      return `বার #${toBnNum(idx + 1)}: [ ${pcsStr}${wasteStr} ]`;
     }).join("<br>");
 
     detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;
 
-    // অপচয় বাদ না দিয়ে ব্যবহৃত সম্পূর্ণ বারের সঠিক হিসাব (বার সংখ্যা × প্রতি বারের সাইজ)
     let totalPurchasedLen = plan.length * barCap;
-
     let fullPcsCount = plan.length;
     let scraps = plan.map(b => b.wastage).filter(w => w > 0.1);
     let remStr = "";
@@ -805,7 +837,6 @@
         if (itemName === "নেট সেকশন") {
           pcs21.push(p);
         } else {
-          // ১৮.৬ ফিটের সঠিক হিসাব
           let rem18 = 18.6 % pVal;
           let rem21 = 21.0 % pVal;
           if (rem18 <= rem21) pcs18.push(p);
@@ -813,7 +844,6 @@
         }
       });
 
-      // ১৮.৬ ফিট বার আগে যোগ
       if (pcs18.length > 0) {
         let res18 = solveBarCutting(pcs18, 18.6);
         if (res18) {
@@ -821,7 +851,7 @@
           let tr = document.createElement('tr');
           tr.innerHTML = `
             <td><strong>${itemName}</strong></td>
-            <td><span style="color:#1e40af; font-weight:bold;">১৮.৬ ফিট বার</span></td>
+            <td><span style="color:#003366; font-weight:bold;">১৮.৬ ফিট বার</span></td>
             <td>${toBnNum(res18.totalLen.toFixed(2))} ফিট</td>
             <td>${res18.detailsHTML}</td>
           `;
@@ -836,7 +866,6 @@
         }
       }
 
-      // ২১ ফিট বার পরে যোগ
       if (pcs21.length > 0) {
         let res21 = solveBarCutting(pcs21, 21.0);
         if (res21) {
@@ -844,7 +873,7 @@
           let tr = document.createElement('tr');
           tr.innerHTML = `
             <td><strong>${itemName}</strong></td>
-            <td><span style="color:#0369a1; font-weight:bold;">২১ ফিট বার</span></td>
+            <td><span style="color:#00509d; font-weight:bold;">২১ ফিট বার</span></td>
             <td>${toBnNum(res21.totalLen.toFixed(2))} ফিট</td>
             <td>${res21.detailsHTML}</td>
           `;
@@ -1041,14 +1070,12 @@
     }
 }
 
-  /* --- PDF EDIT MODAL & PDF GENERATION LOGIC --- */
   function openPdfEditModal() {
     let matBody = document.getElementById('pdfMatEditBody');
     let accBody = document.getElementById('pdfAccEditBody');
     matBody.innerHTML = '';
     accBody.innerHTML = '';
 
-    // ১৮.৬ ফিট বার উপরে এবং ২১ ফিট বার নিচে সাজানো
     let sortedList = [...globalCuttingData].sort((a,b) => (a.type === '18' ? -1 : 1));
 
     sortedList.forEach((item, index) => {
@@ -1063,7 +1090,6 @@
       matBody.appendChild(tr);
     });
 
-    // Populate Accessories list
     let accRows = document.querySelectorAll('#accessoriesTbody tr');
     accRows.forEach((row, index) => {
       let tds = row.querySelectorAll('td');
@@ -1134,7 +1160,6 @@
     document.getElementById('pdfCustName').innerText = custName;
     document.getElementById('pdfProjName').innerText = projName;
 
-    // Fill Aluminum Table in PDF
     let pdfMatRender = document.getElementById('pdfMatRenderBody');
     pdfMatRender.innerHTML = '';
     let matRows = document.querySelectorAll('#pdfMatEditBody tr');
@@ -1144,15 +1169,14 @@
       let qty = row.querySelector('.edit-mat-qty').value;
       let tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>${toBnNum(i + 1)}</td>
-        <td style="text-align:left; font-weight:800; color:#000000;">${name}</td>
-        <td style="font-weight:700; color:#000000;">${size}</td>
-        <td style="text-align:left; font-weight:700; color:#000000;">${qty}</td>
+        <td style="font-weight:900; color:#000;">${toBnNum(i + 1)}</td>
+        <td style="text-align:left; font-weight:900; color:#000000;">${name}</td>
+        <td style="font-weight:800; color:#000000;">${size}</td>
+        <td style="text-align:left; font-weight:800; color:#000000;">${qty}</td>
       `;
       pdfMatRender.appendChild(tr);
     });
 
-    // Fill Accessories Table in PDF
     let pdfAccRender = document.getElementById('pdfAccRenderBody');
     pdfAccRender.innerHTML = '';
     let accRows = document.querySelectorAll('#pdfAccEditBody tr');
@@ -1161,14 +1185,13 @@
       let qty = row.querySelector('.edit-acc-qty').value;
       let tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>${toBnNum(i + 1)}</td>
-        <td style="text-align:left; font-weight:800; color:#000000;">${name}</td>
-        <td style="font-weight:700; color:#000000;">${qty}</td>
+        <td style="font-weight:900; color:#000;">${toBnNum(i + 1)}</td>
+        <td style="text-align:left; font-weight:900; color:#000000;">${name}</td>
+        <td style="font-weight:800; color:#000000;">${qty}</td>
       `;
       pdfAccRender.appendChild(tr);
     });
 
-    // Render to Canvas (Scale 3 Ultra HD) & Download PDF
     closePdfModal();
     let element = document.getElementById('pdfRenderArea');
     
@@ -1177,7 +1200,6 @@
       let pdf = new jsPDF('p', 'mm', 'a4');
       let imgData = canvas.toDataURL('image/png');
       let imgWidth = 210;
-      let pageHeight = 295;
       let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
@@ -1213,15 +1235,15 @@
 
     history.forEach((file) => {
       let card = document.createElement('div');
-      card.style.cssText = "background:#f8fafc; border:1px solid #e2e8f0; padding:10px; border-radius:6px; margin-bottom:8px; cursor:pointer;";
+      card.style.cssText = "background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:6px; margin-bottom:8px; cursor:pointer;";
       card.innerHTML = `
-        <div style="display:flex; justify-content:space-between; font-weight:bold; color:#1e40af;">
+        <div style="display:flex; justify-content:space-between; font-weight:bold; color:#003366;">
           <span>👤 ${file.custName}</span>
           <span style="font-size:11px; color:#64748b;">${file.date}</span>
         </div>
         <div style="font-size:12px; margin-top:4px;"><strong>প্রজেক্ট:</strong> ${file.projectName}</div>
         <div style="font-size:12px;"><strong>সাইজ:</strong> ${toBnNum(file.totalSqft)} Sqft</div>
-        <div style="font-size:13px; color:#0369a1; font-weight:bold; margin-top:4px;">মোট মূল্য: ${toBnNum(file.sellingPrice)} ৳</div>
+        <div style="font-size:13px; color:#00509d; font-weight:bold; margin-top:4px;">মোট মূল্য: ${toBnNum(file.sellingPrice)} ৳</div>
         <div style="text-align:right; margin-top:6px;">
           <button class="btn-danger" onclick="event.stopPropagation(); deleteSingleFile(${file.id})">মুছুন</button>
         </div>

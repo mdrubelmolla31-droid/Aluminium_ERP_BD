@@ -111,29 +111,33 @@
 
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     table.input-table th, table.report-table th { border: 1px solid #00509d; padding: 8px; text-align: center; font-size: 14px; background-color: #00509d; color: white; font-weight: 800; }
-    table.report-table td { border: 1px solid #cbd5e1; padding: 8px; font-size: 13px; color: #000; font-weight: 600; }
+    table.report-table td { border: 1px solid #cbd5e1; padding: 8px; font-size: 14px; color: #000000; font-weight: 700; }
     table.input-table input { padding: 6px; text-align: center; }
 
-    /* Green and Red Styling for Bar Cutting Breakdowns */
+    /* Green and Red Styling for Bar Cutting Breakdowns - Fixed Wrap Issue */
     .cut-piece-usable {
       background-color: #d1fae5;
       color: #065f46;
       border: 1px solid #10b981;
-      padding: 2px 6px;
+      padding: 3px 6px;
       border-radius: 4px;
       font-weight: 800;
       display: inline-block;
-      margin: 1px;
+      margin: 2px 1px;
+      white-space: nowrap;
+      font-size: 13px;
     }
     .cut-piece-waste {
       background-color: #fee2e2;
       color: #991b1b;
       border: 1px solid #ef4444;
-      padding: 2px 6px;
+      padding: 3px 6px;
       border-radius: 4px;
       font-weight: 800;
       display: inline-block;
-      margin: 1px;
+      margin: 2px 1px;
+      white-space: nowrap;
+      font-size: 13px;
     }
 
     .notice-box {
@@ -193,7 +197,7 @@
     }
     .modal-header h3 { margin: 0; color: #003366; font-size: 16px; font-weight: 800; text-transform: uppercase; }
     
-    .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.8; color: #000; font-weight: 600; }
+    .opt-detail { font-size: 13px; text-align: left; margin-top: 6px; line-height: 1.8; color: #000; font-weight: 700; word-break: break-word; }
 
     .table-title-18 {
       background: #003366;
@@ -234,19 +238,19 @@
     .pdf-phone { background-color: #003366; color: #ffffff; display: inline-block; padding: 6px 24px; border-radius: 20px; font-size: 16px; font-weight: 800; margin-top: 8px; }
     
     .pdf-cust-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; border: 1.5px solid #003366; }
-    .pdf-cust-table td { border: 1px solid #003366; padding: 8px 12px; font-size: 15px; font-weight: 800; }
+    .pdf-cust-table td { border: 1px solid #003366; padding: 8px 12px; font-size: 16px; font-weight: 900; }
     .pdf-cust-label { background-color: #00509d; color: #ffffff; width: 130px; text-align: center; }
     .pdf-cust-val { background-color: #ffffff; color: #000000; }
 
-    .pdf-sec-title { color: #003366; text-align: center; font-size: 18px; font-weight: 900; margin: 12px 0 6px 0; }
+    .pdf-sec-title { color: #003366; text-align: center; font-size: 19px; font-weight: 900; margin: 12px 0 6px 0; }
     
     .pdf-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; border: 1.5px solid #003366; }
-    .pdf-table th { background-color: #00509d; color: #ffffff; font-size: 15px; font-weight: 900; padding: 8px; border: 1px solid #003366; text-align: center; }
-    .pdf-table td { border: 1px solid #003366; padding: 8px 10px; font-size: 14px; font-weight: 800; color: #000000; text-align: center; }
+    .pdf-table th { background-color: #00509d; color: #ffffff; font-size: 16px; font-weight: 900; padding: 9px; border: 1px solid #003366; text-align: center; }
+    .pdf-table td { border: 1px solid #003366; padding: 9px 10px; font-size: 15px; font-weight: 900; color: #000000; text-align: center; }
     
     .pdf-footer { text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1.5px solid #003366; font-size: 15px; font-weight: 900; color: #003366; }
     
-    .edit-table input { width: 100%; border: 1px solid #00509d; padding: 6px; font-size: 13px; font-weight: bold; border-radius: 4px; color: #000; }
+    .edit-table input { width: 100%; border: 1px solid #00509d; padding: 6px; font-size: 14px; font-weight: bold; border-radius: 4px; color: #000; }
   </style>
 </head>
 <body>
@@ -499,6 +503,18 @@
 <script>
   let globalCuttingData = [];
 
+  // মালামাল সঠিকভাবে সাজানোর প্রায়োরিটি ম্যাপ
+  const itemPriority = {
+    "আউটার সাইড": 1,
+    "আউটার টপ": 2,
+    "আউটার বটম": 3,
+    "শাটার লক": 4,
+    "শাটার ইন্টারলক": 5,
+    "শাটার টপ": 6,
+    "শাটার বটম": 7,
+    "নেট সেকশন": 8
+  };
+
   function toBnNum(num) {
     if (num === null || num === undefined) return '০';
     let str = num.toString();
@@ -663,7 +679,7 @@
     return matched;
   }
 
-  /* কাটিং সমাধান - গ্রিন এবং রেড কালার কোডিং সহ */
+  /* কাটিং সমাধান - ডিজাইন ও অপচয় ফিল্টার */
   function solveBarCutting(piecesList, barCap) {
     if (!piecesList || piecesList.length === 0) return null;
 
@@ -694,7 +710,6 @@
 
     let detailsHTML = `<strong>মোট: ${toBnNum(plan.length)} টি বার</strong>`;
     
-    // কাটিং পিসগুলো সবুজ এবং অপচয়কে লালে প্রদর্শন করা
     let detailsStr = plan.map((b, idx) => {
       let pcsStr = b.piecesCut.map(x => `<span class="cut-piece-usable">${toBnNum(x.toFixed(2))} ফিট</span>`).join(" + ");
       let wasteStr = b.wastage > 0 ? ` + <span class="cut-piece-waste">অপচয়: ${toBnNum(b.wastage)} ফিট</span>` : '';
@@ -705,16 +720,11 @@
 
     let totalPurchasedLen = plan.length * barCap;
     let fullPcsCount = plan.length;
-    let scraps = plan.map(b => b.wastage).filter(w => w > 0.1);
-    let remStr = "";
-    if (scraps.length > 0) {
-      let scrapSums = scraps.map(s => toBnNum(s) + " ফিট").join(", ");
-      remStr = ` + ${scrapSums} টুকরা`;
-    }
+    
+    // পিডিএফের জন্য শুধুমাত্র পূর্ণাঙ্গ বারের হিসাব প্রস্তুত (অপচয় সম্পূর্ণ বাদ দিয়ে)
+    let summaryTextClean = `${toBnNum(fullPcsCount)} পিস`;
 
-    let summaryText = `${toBnNum(fullPcsCount)} পিস${remStr}`;
-
-    return { detailsHTML: detailsHTML, totalLen: totalPurchasedLen, totalWastage: totalWastage, barCount: plan.length, summaryText: summaryText, barCountRaw: plan.length };
+    return { detailsHTML: detailsHTML, totalLen: totalPurchasedLen, totalWastage: totalWastage, barCount: plan.length, summaryText: summaryTextClean };
   }
 
   function calculateAll(shouldSave = false) {
@@ -730,10 +740,10 @@
 
     let itemsMap = {
       "আউটার সাইড": [],
-      "শাটার লক": [],
-      "শাটার ইন্টারলক": [],
       "আউটার টপ": [],
       "আউটার বটম": [],
+      "শাটার লক": [],
+      "শাটার ইন্টারলক": [],
       "শাটার টপ": [],
       "শাটার বটম": [],
       "নেট সেকশন": []
@@ -861,7 +871,8 @@
             name: itemName,
             size: '১৮.৬ এর',
             quantity: res18.summaryText,
-            type: '18'
+            type: '18',
+            priority: itemPriority[itemName] || 99
           });
         }
       }
@@ -883,7 +894,8 @@
             name: itemName,
             size: '২১ এর',
             quantity: res21.summaryText,
-            type: '21'
+            type: '21',
+            priority: itemPriority[itemName] || 99
           });
         }
       }
@@ -1076,7 +1088,8 @@
     matBody.innerHTML = '';
     accBody.innerHTML = '';
 
-    let sortedList = [...globalCuttingData].sort((a,b) => (a.type === '18' ? -1 : 1));
+    // মালামালের নির্দিষ্ট সিরিয়াল অনুযায়ী সাজানো
+    let sortedList = [...globalCuttingData].sort((a, b) => a.priority - b.priority);
 
     sortedList.forEach((item, index) => {
       let tr = document.createElement('tr');
@@ -1171,8 +1184,8 @@
       tr.innerHTML = `
         <td style="font-weight:900; color:#000;">${toBnNum(i + 1)}</td>
         <td style="text-align:left; font-weight:900; color:#000000;">${name}</td>
-        <td style="font-weight:800; color:#000000;">${size}</td>
-        <td style="text-align:left; font-weight:800; color:#000000;">${qty}</td>
+        <td style="font-weight:900; color:#000000;">${size}</td>
+        <td style="text-align:left; font-weight:900; color:#000000;">${qty}</td>
       `;
       pdfMatRender.appendChild(tr);
     });
@@ -1187,7 +1200,7 @@
       tr.innerHTML = `
         <td style="font-weight:900; color:#000;">${toBnNum(i + 1)}</td>
         <td style="text-align:left; font-weight:900; color:#000000;">${name}</td>
-        <td style="font-weight:800; color:#000000;">${qty}</td>
+        <td style="font-weight:900; color:#000000;">${qty}</td>
       `;
       pdfAccRender.appendChild(tr);
     });
@@ -1195,6 +1208,8 @@
     closePdfModal();
     let element = document.getElementById('pdfRenderArea');
     
+    let fileName = `${custName}_মালামাল_তালিকা.pdf`;
+
     html2canvas(element, { scale: 3, useCORS: true }).then(canvas => {
       const { jsPDF } = window.jspdf;
       let pdf = new jsPDF('p', 'mm', 'a4');
@@ -1203,7 +1218,12 @@
       let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save(`${custName}_মালামাল_তালিকা.pdf`);
+      pdf.save(fileName);
+
+      // পিডিএফ ডাউনলোড লোকেশন এলার্ট
+      setTimeout(() => {
+        alert(`🎉 পিডিএফ ফাইলটি সফলভাবে ডাউনলোড হয়েছে!\n\n📁 ফাইলের নাম: ${fileName}\n📍 সেভ হওয়ার স্থান: আপনার ডিভাইসের 'Downloads' ফোল্ডার।`);
+      }, 500);
     });
   }
 

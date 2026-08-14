@@ -58,6 +58,8 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap; /* ছোট স্ক্রিনে টেক্সট ওভারল্যাপ হওয়া বন্ধ করবে */
+      margin-bottom: 8px;
     }
 
     .editable-input {
@@ -72,17 +74,19 @@
       outline: none;
     }
     .editable-input.title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 900;
       color: var(--accent);
+      flex: 1;
+      min-width: 180px;
+      margin-bottom: 0;
     }
 
     .date-display {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       color: var(--accent);
       white-space: nowrap;
-      margin-bottom: 8px;
     }
 
     /* Floor & Unit Section */
@@ -339,7 +343,7 @@
       }
       
       .editable-input.title {
-        font-size: 26px !important;
+        font-size: 24px !important;
         color: #0088cc !important;
         font-weight: 900 !important;
         margin: 0 !important;
@@ -352,8 +356,8 @@
       }
 
       #shopPhone {
-        font-size: 20px !important;
-        font-weight: 900 !important;
+        font-size: 25px !important;
+        font-weight: 1000 !important;
         color: #000000 !important;
         margin-bottom: 8px !important;
       }

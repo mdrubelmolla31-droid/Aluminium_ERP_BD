@@ -114,7 +114,6 @@
     table.report-table td { border: 1px solid #cbd5e1; padding: 8px; font-size: 14px; color: #000000; font-weight: 700; }
     table.input-table input { padding: 6px; text-align: center; }
 
-    /* Green and Red Styling for Bar Cutting Breakdowns - Fixed Wrap Issue */
     .cut-piece-usable {
       background-color: #d1fae5;
       color: #065f46;
@@ -165,7 +164,6 @@
       cursor: pointer;
     }
 
-    /* Modal Styling */
     .modal {
       display: none;
       position: fixed;
@@ -220,7 +218,7 @@
       text-transform: uppercase;
     }
 
-    /* PDF Template Ultra HD */
+    /* PDF Template Layout - Kept Original & Enhanced Clarity */
     #pdfRenderArea {
       position: absolute;
       left: -9999px;
@@ -234,13 +232,13 @@
       color: #000000;
     }
     .pdf-header { text-align: center; padding-bottom: 10px; margin-bottom: 15px; }
-    .pdf-header h1 { font-size: 38px; color: #003366; margin: 0; font-weight: 900; letter-spacing: 0.5px; }
-    .pdf-phone { background-color: #003366; color: #ffffff; display: inline-block; padding: 6px 24px; border-radius: 20px; font-size: 16px; font-weight: 800; margin-top: 8px; }
+    .pdf-header h1 { font-size: 40px; color: #003366; margin: 0; font-weight: 900; letter-spacing: 0.5px; }
+    .pdf-phone { background-color: #003366; color: #ffffff; display: inline-block; padding: 6px 24px; border-radius: 20px; font-size: 18px; font-weight: 900; margin-top: 8px; }
     
     .pdf-cust-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; border: 1.5px solid #003366; }
-    .pdf-cust-table td { border: 1px solid #003366; padding: 8px 12px; font-size: 16px; font-weight: 900; }
-    .pdf-cust-label { background-color: #00509d; color: #ffffff; width: 130px; text-align: center; }
-    .pdf-cust-val { background-color: #ffffff; color: #000000; }
+    .pdf-cust-table td { border: 1px solid #003366; padding: 10px 14px; font-size: 18px; font-weight: 900; }
+    .pdf-cust-label { background-color: #00509d; color: #ffffff; width: 140px; text-align: center; font-size: 18px; }
+    .pdf-cust-val { background-color: #ffffff; color: #000000; font-size: 18px; }
 
     .pdf-sec-title { color: #003366; text-align: center; font-size: 19px; font-weight: 900; margin: 12px 0 6px 0; }
     
@@ -248,7 +246,7 @@
     .pdf-table th { background-color: #00509d; color: #ffffff; font-size: 16px; font-weight: 900; padding: 9px; border: 1px solid #003366; text-align: center; }
     .pdf-table td { border: 1px solid #003366; padding: 9px 10px; font-size: 15px; font-weight: 900; color: #000000; text-align: center; }
     
-    .pdf-footer { text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1.5px solid #003366; font-size: 15px; font-weight: 900; color: #003366; }
+    .pdf-footer { text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1.5px solid #003366; font-size: 16px; font-weight: 900; color: #003366; }
     
     .edit-table input { width: 100%; border: 1px solid #00509d; padding: 6px; font-size: 14px; font-weight: bold; border-radius: 4px; color: #000; }
   </style>
@@ -503,7 +501,6 @@
 <script>
   let globalCuttingData = [];
 
-  // মালামাল সঠিকভাবে সাজানোর প্রায়োরিটি ম্যাপ
   const itemPriority = {
     "আউটার সাইড": 1,
     "আউটার টপ": 2,
@@ -679,7 +676,6 @@
     return matched;
   }
 
-  /* কাটিং সমাধান - ডিজাইন ও অপচয় ফিল্টার */
   function solveBarCutting(piecesList, barCap) {
     if (!piecesList || piecesList.length === 0) return null;
 
@@ -721,7 +717,6 @@
     let totalPurchasedLen = plan.length * barCap;
     let fullPcsCount = plan.length;
     
-    // পিডিএফের জন্য শুধুমাত্র পূর্ণাঙ্গ বারের হিসাব প্রস্তুত (অপচয় সম্পূর্ণ বাদ দিয়ে)
     let summaryTextClean = `${toBnNum(fullPcsCount)} পিস`;
 
     return { detailsHTML: detailsHTML, totalLen: totalPurchasedLen, totalWastage: totalWastage, barCount: plan.length, summaryText: summaryTextClean };
@@ -967,7 +962,6 @@
       };
 
       saveCustomerFile(fileData);
-      alert(`✅ "${fileData.custName}" এর হিসাব ও ফাইল সেভ করা হয়েছে!`);
     }
   }
 
@@ -1088,7 +1082,6 @@
     matBody.innerHTML = '';
     accBody.innerHTML = '';
 
-    // মালামালের নির্দিষ্ট সিরিয়াল অনুযায়ী সাজানো
     let sortedList = [...globalCuttingData].sort((a, b) => a.priority - b.priority);
 
     sortedList.forEach((item, index) => {
@@ -1162,6 +1155,7 @@
     });
   }
 
+  /* অ্যান্ড্রয়েড নেটিভ Save as PDF জেনারেটর (No Default Popup) */
   function generateAndSavePDF() {
     let shopName = document.getElementById('shopOwnerName').value || 'আরএম থাই অ্যালুমিনিয়াম';
     let shopPhone = document.getElementById('shopPhone').value || '01676474412';
@@ -1218,12 +1212,15 @@
       let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save(fileName);
 
-      // পিডিএফ ডাউনলোড লোকেশন এলার্ট
-      setTimeout(() => {
-        alert(`🎉 পিডিএফ ফাইলটি সফলভাবে ডাউনলোড হয়েছে!\n\n📁 ফাইলের নাম: ${fileName}\n📍 সেভ হওয়ার স্থান: আপনার ডিভাইসের 'Downloads' ফোল্ডার।`);
-      }, 500);
+      // আপনার ১ম ও ২য় ছবির মতো সরাসরি অ্যান্ড্রয়েড 'Save as PDF' ট্রিগার
+      const blob = pdf.output('bloburl');
+      const windowRef = window.open(blob, '_blank');
+      
+      // ফাইল ব্যাকআপ সেভ ট্র্যাকিং
+      if(!windowRef) {
+         pdf.save(fileName);
+      }
     });
   }
 
@@ -1301,7 +1298,6 @@
     toggleNetSection();
     calculateAll(false);
     closeHistory();
-    alert(`📂 "${file.custName}" এর ফাইলটি রি-ওপেন করা হয়েছে!`);
   }
 
   function deleteSingleFile(id) {

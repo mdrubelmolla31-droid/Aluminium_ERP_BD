@@ -204,7 +204,6 @@
 
   <div class="card">
     <div class="card-title">MATERIAL DETAILS</div>
-    <div class="notice-box">💡 রেট সেটিংস পেজ থেকে সেভ করা রেট এখানে স্বয়ংক্রিয়ভাবে কাজ করবে।</div>
     
     <div class="row">
       <div class="col"><label>কোম্পানি</label><select id="aluCompany" onchange="calculateAll()"></select></div>
@@ -236,7 +235,6 @@
 
   <div class="card">
     <div class="card-title">WINDOW DIMENSIONS (INCH)</div>
-    <div class="notice-box">ℹ️ উইন্ডোর মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
     <table class="input-table">
       <thead>
         <tr><th>ক্রম</th><th>উচ্চতা (ইঞ্চি)</th><th>পাশ (ইঞ্চি)</th><th>পরিমাণ</th><th>অ্যাকশন</th></tr>
@@ -275,28 +273,6 @@
     </table>
   </div>
 
-  <!-- ওয়েবসাইটের বিস্তারিত কাটিং লিস্ট (অপরিবর্তিত) -->
-  <div class="card">
-    <div class="card-title">CUTTING LIST (WEB VIEW)</div>
-    
-    <div class="table-title-18">📌 18.5 / 18 FEET BAR CUTTING LIST</div>
-    <table class="report-table">
-      <thead>
-        <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
-      </thead>
-      <tbody id="tableBody18"></tbody>
-    </table>
-
-    <div class="table-title-21">📌 21 FEET BAR CUTTING LIST</div>
-    <table class="report-table">
-      <thead>
-        <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
-      </thead>
-      <tbody id="tableBody21"></tbody>
-    </table>
-  </div>
-
-  <!-- প্রয়োজনীয় এক্সেসরিজ টেবিল -->
   <div class="card" style="margin-top: 15px;">
       <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজ তালিকা)</div>
       <table class="report-table">
@@ -308,11 +284,8 @@
               </tr>
           </thead>
           <tbody id="accessoriesTbody">
-              <!-- ডাটা এখানে আসবে -->
           </tbody>
       </table>
-
-      <!-- PDF বাটন -->
       <button class="btn btn-pdf" onclick="openPdfModal()">
         📄 পিডিএফ ডাউনলোড ও এডিট করুন
       </button>
@@ -341,12 +314,11 @@
     </div>
     <div style="font-size: 13px; color: #64748b; margin-bottom: 8px;">💡 পিডিএফ-এ কাটিং লিস্ট সামারি হিসেবে দেখানো হয়েছে। প্রয়োজনে ক্লিক করে এডিট করতে পারেন।</div>
     
-    <!-- পিডিএফ প্রিভিউ এরিয়া -->
     <div id="pdfPreviewArea" contenteditable="true" style="flex: 1; overflow-y: auto; padding: 20px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff;">
         <!-- ডাইনামিক কনটেন্ট জেনারেট হবে -->
     </div>
     
-    <button class="btn btn-calc" style="background-color: #d97706; margin-top: 12px;" onclick="downloadPDF()">
+    <button id="pdfDownloadBtn" class="btn btn-calc" style="background-color: #d97706; margin-top: 12px;" onclick="downloadPDF()">
       📥 ফাইনাল পিডিএফ ডাউনলোড করুন
     </button>
   </div>
@@ -365,10 +337,8 @@
   document.addEventListener("DOMContentLoaded", function() {
     initCalculatorDropdowns();
     loadHeaderInfo();
-    
     let tbody = document.getElementById('winTableBody');
     tbody.innerHTML = '';
-    
     addPresetRow('', '', '');
     toggleNetSection();
     calculateAll(false);
@@ -489,41 +459,6 @@
     return matched;
   }
 
-  // ওয়েব প্রিভিউ এর বিস্তারিত বিন প্যাকিং লজিক (প্রথম ছবির মতো অপরিবর্তিত)
-  function solveBarCutting(piecesList, barCap) {
-    if (!piecesList || piecesList.length === 0) return null;
-    let plan = [];
-    let unassigned = [...piecesList].sort((a,b) => b - a);
-    let totalWastage = 0;
-
-    while (unassigned.length > 0) {
-      let currentCap = barCap;
-      let usedIndexes = [];
-      for (let i = 0; i < unassigned.length; i++) {
-        if (currentCap >= unassigned[i] - 0.001) {
-          currentCap -= unassigned[i];
-          usedIndexes.push(i);
-        }
-      }
-      if (usedIndexes.length === 0) break;
-      let cutPcs = usedIndexes.map(i => unassigned[i]);
-      let wastage = parseFloat(Math.max(0, currentCap).toFixed(2));
-      totalWastage += wastage;
-      plan.push({ piecesCut: cutPcs, wastage: wastage });
-      unassigned = unassigned.filter((_, idx) => !usedIndexes.includes(idx));
-    }
-
-    let detailsHTML = `<strong>মোট: ${toBnNum(plan.length)} টি বার</strong>`;
-    let detailsStr = plan.map((b, idx) => {
-      let pcsStr = b.piecesCut.map(x => toBnNum(x.toFixed(2)) + "ফিট").join(" + ");
-      let wastageTag = b.wastage > 0.05 ? `<span class="wastage-red">অপচয়: ${toBnNum(b.wastage)}ফিট</span>` : `<span class="wastage-green">(অপচয়: ${toBnNum(b.wastage)}ফিট)</span>`;
-      return `বার #${toBnNum(idx + 1)}: [${pcsStr}] ${wastageTag}`;
-    }).join("<br>");
-
-    detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;
-    return { detailsHTML: detailsHTML, totalLen: piecesList.reduce((a,b)=>a+b, 0), totalWastage: totalWastage, barCount: plan.length };
-  }
-
   function calculateAll(shouldSave = false) {
     let rateData = getMatchedRate();
     let heights = document.querySelectorAll('.w-h');
@@ -589,43 +524,6 @@
     }
 
     document.getElementById('mTotalAlu').innerText = toBnNum(totalAlu.toFixed(2));
-
-    let table18Body = document.getElementById('tableBody18');
-    let table21Body = document.getElementById('tableBody21');
-    table18Body.innerHTML = ''; table21Body.innerHTML = '';
-    let has18Data = false, has21Data = false;
-
-    Object.keys(itemsMap).forEach(itemName => {
-      let pcs = itemsMap[itemName];
-      if (pcs.length === 0) return;
-      let pcs18 = [], pcs21 = [];
-      pcs.forEach(p => {
-        let pVal = parseFloat(p.toFixed(2));
-        if (itemName === "নেট সেকশন") pcs21.push(p);
-        else {
-          if (18.5 % pVal <= 21.0 % pVal) pcs18.push(p);
-          else pcs21.push(p);
-        }
-      });
-
-      if (pcs18.length > 0) {
-        let res18 = solveBarCutting(pcs18, 18.5);
-        if (res18) {
-          has18Data = true;
-          table18Body.innerHTML += `<tr><td><strong>${itemName}</strong></td><td><span style="color:#1e40af; font-weight:bold;">১৮.৫ ফিট বার</span></td><td>${toBnNum(res18.totalLen.toFixed(2))} ফিট</td><td>${res18.detailsHTML}</td></tr>`;
-        }
-      }
-      if (pcs21.length > 0) {
-        let res21 = solveBarCutting(pcs21, 21.0);
-        if (res21) {
-          has21Data = true;
-          table21Body.innerHTML += `<tr><td><strong>${itemName}</strong></td><td><span style="color:#0369a1; font-weight:bold;">২১ ফিট বার</span></td><td>${toBnNum(res21.totalLen.toFixed(2))} ফিট</td><td>${res21.detailsHTML}</td></tr>`;
-        }
-      }
-    });
-
-    if (!has18Data) table18Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">১৮.৫ ফিট বারের কোনো পিস নেই</td></tr>';
-    if (!has21Data) table21Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">২১ ফিট বারের কোনো পিস নেই</td></tr>';
 
     let aluCost = totalSqft * (rateData.aluRate || 0);
     let glassCost = totalSqft * (rateData.glassRate || 0);
@@ -771,7 +669,7 @@
   }
   function clearAllHistory() { if (confirm("সব ফাইল মুছতে চান?")) { localStorage.removeItem('rm_cust_files'); renderHistoryList(); } }
 
-  // পিডিএফ জেনারেটর (নতুন লজিক এবং স্টাইলসহ)
+  // পিডিএফ জেনারেটর 
   function openPdfModal() {
     calculateAll(false);
     let shopName = document.getElementById('shopOwnerName').value || 'RM THAI ALUMINIUM';
@@ -779,9 +677,8 @@
     let custName = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
     let projectName = document.getElementById('projectName').value || 'সাধারণ প্রজেক্ট';
     
-    // হেডারের এইচটিএমএল - ফন্ট অনেক বড় এবং কালো
     let htmlContent = `
-      <div style="font-family: Arial, sans-serif; color: #000000;">
+      <div style="font-family: Arial, sans-serif; color: #000000; padding: 10px;">
         <div style="text-align: center; margin-bottom: 25px;">
           <h2 style="margin: 0; font-size: 32px; font-weight: 900; color: #000000;">${shopName}</h2>
           <p style="margin: 5px 0 0 0; font-size: 20px; font-weight: bold; color: #000000;">মোবাইল: ${shopPhone}</p>
@@ -793,58 +690,49 @@
         </div>
         
         <h3 style="color: #000000; border-bottom: 2px solid #000000; padding-bottom: 8px; text-transform: uppercase; font-size: 20px; font-weight: 900;">কাটিং লিস্ট (সারাংশ)</h3>
-        <div style="margin-bottom: 30px; font-size: 17px; font-weight: bold; color: #000000;">
+        <div style="margin-bottom: 30px; font-size: 18px; font-weight: bold; color: #000000;">
     `;
 
-    // আপনার নিয়মে টোটাল হিসাব করে শুধু পিস এবং টুকরা দেখানো
     const order = ['আউটার সাইড', 'আউটার টপ', 'আউটার বটম', 'শাটার লক', 'শাটার ইন্টারলক', 'শাটার টপ', 'শাটার বটম', 'নেট সেকশন'];
     
     order.forEach(itemName => {
       let pcs = globalItemsMap[itemName];
       if (pcs && pcs.length > 0) {
-        let pcs18 = [];
-        let pcs21 = [];
+        let sum18 = 0;
+        let sum21 = 0;
         
         pcs.forEach(p => {
           let pVal = parseFloat(p.toFixed(2));
-          if (itemName === "নেট সেকশন") pcs21.push(pVal);
-          else {
-            if (18.5 % pVal <= 21.0 % pVal) pcs18.push(pVal);
-            else pcs21.push(pVal);
+          if (itemName === "নেট সেকশন") {
+            sum21 += pVal;
+          } else {
+            if (18.5 % pVal <= 21.0 % pVal) sum18 += pVal;
+            else sum21 += pVal;
           }
         });
 
-        // 18.5 ফিটের শর্টকাট হিসাব (Total Length / 18.5)
-        let sum18 = pcs18.reduce((a, b) => a + b, 0);
+        // ১৮.৫ ফিটের নিয়ম: শুধুই ফুল পিস দেখাবে (Math.ceil) 
         if (sum18 > 0) {
-          let fullBars = Math.floor(sum18 / 18.5);
-          let rem = sum18 - (fullBars * 18.5);
-          
-          let textStr = '';
-          if (fullBars > 0) textStr += `${toBnNum(fullBars)} পিস`;
-          if (rem > 0.05) { // সামান্য ফ্র্যাকশন ইগনোর করার জন্য
-             if(fullBars > 0) textStr += ` + `;
-             textStr += `${toBnNum(rem.toFixed(2))} ফিট টুকরা`;
-          }
-          if(textStr !== '') {
-             htmlContent += `<p style="margin: 10px 0;"><strong>${itemName}:</strong> ১৮.৫ ফিটের ${textStr}</p>`;
-          }
+          let fullBars = Math.ceil(sum18 / 18.5);
+          htmlContent += `<p style="margin: 10px 0; font-size: 18px;"><strong>${itemName}:</strong> ১৮.৫ ফিটের ${toBnNum(fullBars)} পিস</p>`;
         }
         
-        // 21 ফিটের শর্টকাট হিসাব (Total Length / 21)
-        let sum21 = pcs21.reduce((a, b) => a + b, 0);
+        // ২১ ফিটের নিয়ম: ফুল পিস দেখাবে + ঠিক যতটুকু বাকি থাকে সেই টুকরা দেখাবে (Math.floor ও Remainder)
         if (sum21 > 0) {
           let fullBars = Math.floor(sum21 / 21.0);
           let rem = sum21 - (fullBars * 21.0);
           
           let textStr = '';
           if (fullBars > 0) textStr += `${toBnNum(fullBars)} পিস`;
+          
           if (rem > 0.05) {
              if(fullBars > 0) textStr += ` + `;
-             textStr += `${toBnNum(rem.toFixed(2))} ফিট টুকরা`;
+             // দশমিক সংখ্যা মুছে সলিড ফিট দেখানোর জন্য parseFloat
+             let exactlyLeftover = parseFloat(rem.toFixed(2));
+             textStr += `${toBnNum(exactlyLeftover)} ফিট টুকরা`;
           }
           if(textStr !== '') {
-             htmlContent += `<p style="margin: 10px 0;"><strong>${itemName}:</strong> ২১ ফিটের ${textStr}</p>`;
+             htmlContent += `<p style="margin: 10px 0; font-size: 18px;"><strong>${itemName}:</strong> ২১ ফিটের ${textStr}</p>`;
           }
         }
       }
@@ -852,10 +740,10 @@
 
     htmlContent += `</div>`;
 
-    // এক্সেসরিজ টেবিল - ফুল ব্ল্যাক এবং বোল্ড
+    // এক্সেসরিজ টেবিল 
     htmlContent += `
         <h3 style="color: #000000; border-bottom: 2px solid #000000; padding-bottom: 8px; text-transform: uppercase; font-size: 20px; font-weight: 900;">প্রয়োজনীয় এক্সেসরিজ</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 17px; font-weight: 800; color: #000000;">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 18px; font-weight: 800; color: #000000;">
            <thead>
              <tr>
                <th style="border: 2px solid #000000; padding: 12px; text-align: left; font-weight: 900;">মালামালের নাম</th>
@@ -888,21 +776,25 @@
     document.getElementById('pdfModal').style.display = 'none';
   }
 
-  // পিডিএফ ব্ল্যাংক হওয়া রোধ করতে নতুন অ্যাপ্রোচ (হিডেন এলিমেন্ট দিয়ে)
+  // পিডিএফ ব্ল্যাংক বা সাদা হওয়ার সমস্যার সমাধান
   async function downloadPDF() {
-    // 1. প্রিভিউ এরিয়ার এইচটিএমএল কপি করা
+    let btn = document.getElementById('pdfDownloadBtn');
+    btn.innerText = "⏳ পিডিএফ তৈরি হচ্ছে...";
+    btn.disabled = true;
+
     const content = document.getElementById('pdfPreviewArea').innerHTML;
 
-    // 2. টেম্পোরারি একটি ডিভ তৈরি করা
+    // টেম্পোরারি ডিভটি ব্যাকগ্রাউন্ডে তৈরি করা হলো
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = content;
     tempDiv.style.width = '800px'; 
     tempDiv.style.padding = '30px';
     tempDiv.style.backgroundColor = '#ffffff';
     tempDiv.style.color = '#000000';
-    // স্ক্রিনে যেন দেখা না যায় সেভাবে পজিশন করা
     tempDiv.style.position = 'absolute';
-    tempDiv.style.top = '-9999px';
+    tempDiv.style.top = '0';
+    tempDiv.style.left = '0';
+    tempDiv.style.zIndex = '-9999'; // যেন স্ক্রিনে দেখা না যায়
     document.body.appendChild(tempDiv);
 
     const custName = document.getElementById('custName').value || 'Customer';
@@ -912,53 +804,41 @@
       margin:       0.5,
       filename:     defaultFileName,
       image:        { type: 'jpeg', quality: 1.0 },
-      html2canvas:  { scale: 2, useCORS: true, windowWidth: 800 },
+      html2canvas:  { scale: 2, useCORS: true },
       jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
     
-    try {
-      // 3. আধুনিক File System Access API চেক করা (সরাসরি Save As উইন্ডো আনার জন্য)
-      if (window.showSaveFilePicker) {
-        // পিডিএফটি একটি Blob (ফাইল ডাটা) হিসেবে তৈরি করা
-        const pdfBlob = await html2pdf().set(opt).from(tempDiv).output('blob');
-        
-        // কম্পিউটারের "Save As" ডায়ালগ ওপেন করা
-        const handle = await window.showSaveFilePicker({
-          suggestedName: defaultFileName,
-          types: [{
-            description: 'PDF File',
-            accept: { 'application/pdf': ['.pdf'] },
-          }],
-        });
-        
-        // সিলেক্ট করা জায়গায় ফাইলটি রাইট বা সেভ করা
-        const writable = await handle.createWritable();
-        await writable.write(pdfBlob);
-        await writable.close();
-        
-        document.body.removeChild(tempDiv);
-        closePdfModal();
-      } else {
-        // যদি ব্রাউজার (যেমন মোবাইল বা ফায়ারফক্স) showSaveFilePicker সাপোর্ট না করে, তখন ফলব্যাক:
-        let userFileName = prompt("পিডিএফ ফাইলের নাম দিন (এখানে নাম পরিবর্তন করতে পারেন):", defaultFileName);
-        
-        if (userFileName) {
-          if (!userFileName.toLowerCase().endsWith('.pdf')) {
-            userFileName += '.pdf';
+    // ব্রাউজারকে রেন্ডার করার একটু সময় দেওয়ার জন্য ডிலே (সাদা পেজ সমাধান)
+    setTimeout(async () => {
+      try {
+        if (window.showSaveFilePicker) {
+          const pdfBlob = await html2pdf().set(opt).from(tempDiv).output('blob');
+          const handle = await window.showSaveFilePicker({
+            suggestedName: defaultFileName,
+            types: [{ description: 'PDF File', accept: { 'application/pdf': ['.pdf'] } }],
+          });
+          const writable = await handle.createWritable();
+          await writable.write(pdfBlob);
+          await writable.close();
+        } else {
+          let userFileName = prompt("পিডিএফ ফাইলের নাম দিন:", defaultFileName);
+          if (userFileName) {
+            if (!userFileName.toLowerCase().endsWith('.pdf')) userFileName += '.pdf';
+            opt.filename = userFileName;
+            await html2pdf().set(opt).from(tempDiv).save();
           }
-          opt.filename = userFileName;
-          await html2pdf().set(opt).from(tempDiv).save();
         }
-        document.body.removeChild(tempDiv);
+      } catch (error) {
+        console.log("PDF Save Error:", error);
+      } finally {
+        if (document.body.contains(tempDiv)) {
+          document.body.removeChild(tempDiv);
+        }
+        btn.innerText = "📥 ফাইনাল পিডিএফ ডাউনলোড করুন";
+        btn.disabled = false;
         closePdfModal();
       }
-    } catch (error) {
-      // যদি ইউজার Save As উইন্ডো কেটে দেয় বা কোনো এরর হয়
-      console.log("PDF Save Cancelled or Error:", error);
-      if (document.body.contains(tempDiv)) {
-        document.body.removeChild(tempDiv);
-      }
-    }
+    }, 300); // 300 মিলি-সেকেন্ড অপেক্ষা করে পিডিএফ তৈরি শুরু করবে
   }
 </script>
 

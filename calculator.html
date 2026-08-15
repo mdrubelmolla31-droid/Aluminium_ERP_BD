@@ -109,19 +109,8 @@
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
     table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 12px; }
-    table.report-table td { border: 1px solid #e2e8f0; padding: 8px; font-size: 13px; }
+    table.report-table td { border: 1px solid #e2e8f0; padding: 8px; font-size: 13px; text-align: center; }
     table.input-table input { padding: 6px; text-align: center; }
-
-    .notice-box {
-      background-color: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1e40af;
-      padding: 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      text-align: center;
-      margin-bottom: 10px;
-    }
 
     .menu-btn {
       position: absolute;
@@ -149,8 +138,8 @@
     .modal-content {
       background: white;
       padding: 20px;
-      width: 90%;
-      max-width: 500px;
+      width: 95%;
+      max-width: 550px;
       height: 90%;
       margin: auto;
       border-radius: 8px;
@@ -168,12 +157,7 @@
     }
     .modal-header h3 { margin: 0; color: #1e40af; font-size: 16px; text-transform: uppercase; }
     
-    .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.6; }
-    
-    .wastage-red { color: #dc2626; font-weight: 800; background-color: #fee2e2; padding: 2px 6px; border-radius: 4px; border: 1px solid #fca5a5; }
-    .wastage-green { color: #166534; font-weight: 700; background-color: #dcfce7; padding: 2px 6px; border-radius: 4px; }
     .table-title-18 { background: #1e40af; color: white; padding: 8px 12px; font-weight: bold; font-size: 14px; border-radius: 4px 4px 0 0; margin-top: 10px; text-transform: uppercase; }
-    .table-title-21 { background: #0369a1; color: white; padding: 8px 12px; font-weight: bold; font-size: 14px; border-radius: 4px 4px 0 0; margin-top: 20px; text-transform: uppercase; }
   </style>
 </head>
 <body>
@@ -287,7 +271,7 @@
           </tbody>
       </table>
       <button class="btn btn-pdf" onclick="openPdfModal()">
-        📄 পিডিএফ ডাউনলোড ও এডিট করুন
+        📄 পিডিএফ ডাউনলোড ও প্রিভিউ
       </button>
   </div>
 
@@ -307,19 +291,18 @@
 
 <!-- Editable PDF Preview Modal -->
 <div id="pdfModal" class="modal" onclick="if(event.target === this) closePdfModal()">
-  <div class="modal-content" style="max-width: 650px;">
+  <div class="modal-content" style="max-width: 700px; padding: 15px;">
     <div class="modal-header">
-      <h3>পিডিএফ প্রিভিউ ও এডিট</h3>
+      <h3>পিডিএফ প্রিভিউ</h3>
       <button class="btn-danger" onclick="closePdfModal()">X</button>
     </div>
-    <div style="font-size: 13px; color: #64748b; margin-bottom: 8px;">💡 পিডিএফ-এ কাটিং লিস্ট সামারি হিসেবে দেখানো হয়েছে। প্রয়োজনে ক্লিক করে এডিট করতে পারেন।</div>
     
-    <div id="pdfPreviewArea" contenteditable="true" style="flex: 1; overflow-y: auto; padding: 20px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff;">
+    <div id="pdfPreviewArea" contenteditable="true" style="flex: 1; overflow-y: auto; overflow-x: hidden; padding: 15px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff;">
         <!-- ডাইনামিক কনটেন্ট জেনারেট হবে -->
     </div>
     
     <button id="pdfDownloadBtn" class="btn btn-calc" style="background-color: #d97706; margin-top: 12px;" onclick="downloadPDF()">
-      📥 ফাইনাল পিডিএফ ডাউনলোড করুন
+      📥 পিডিএফ ডাউনলোড করুন
     </button>
   </div>
 </div>
@@ -349,11 +332,11 @@
     let tr = document.createElement('tr');
     tr.className = 'window-row';
     tr.innerHTML = `
-      <td class="row-index"></td>
+      <td class="row-index" style="text-align:center; font-weight:bold;"></td>
       <td><input type="number" class="w-h height-input" value="${h}" placeholder="উচ্চতা" oninput="calculateAll(false)"></td>
       <td><input type="number" class="w-w width-input" value="${w}" placeholder="পাশ" oninput="calculateAll(false)"></td>
       <td><input type="number" class="w-q qty-input" value="${q}" placeholder="সংখ্যা" oninput="calculateAll(false)"></td>
-      <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
+      <td><button class="btn-danger" style="width:100%; padding:8px;" type="button" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
     updateIndexes();
@@ -501,7 +484,7 @@
     globalItemsMap = itemsMap;
 
     let netRawSum = isNetActive ? itemsMap["নেট সেকশন"].reduce((a, b) => a + b, 0) : 0;
-    let netFt = Math.ceil(netRawSum / 21) * 21;
+    let netFt = Math.ceil(netRawSum / 21) * 21; // Full bars logic for actual usage inside cost
     let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
 
     document.getElementById('mOuterSide').innerText = toBnNum(outerH.toFixed(2));
@@ -678,7 +661,7 @@
     let projectName = document.getElementById('projectName').value || 'সাধারণ প্রজেক্ট';
     
     let htmlContent = `
-      <div style="font-family: Arial, sans-serif; color: #000000; padding: 10px;">
+      <div style="font-family: Arial, sans-serif; color: #000000; padding: 10px; background-color: #ffffff;">
         <div style="text-align: center; margin-bottom: 25px;">
           <h2 style="margin: 0; font-size: 32px; font-weight: 900; color: #000000;">${shopName}</h2>
           <p style="margin: 5px 0 0 0; font-size: 20px; font-weight: bold; color: #000000;">মোবাইল: ${shopPhone}</p>
@@ -689,7 +672,7 @@
           <div><strong>প্রজেক্ট:</strong> ${projectName}</div>
         </div>
         
-        <h3 style="color: #000000; border-bottom: 2px solid #000000; padding-bottom: 8px; text-transform: uppercase; font-size: 20px; font-weight: 900;">কাটিং লিস্ট (সারাংশ)</h3>
+        <h3 style="color: #000000; border-bottom: 2px solid #000000; padding-bottom: 8px; text-transform: uppercase; font-size: 20px; font-weight: 900;">অ্যালুমিনিয়াম বার ও টুকরা হিসাব</h3>
         <div style="margin-bottom: 30px; font-size: 18px; font-weight: bold; color: #000000;">
     `;
 
@@ -711,28 +694,27 @@
           }
         });
 
-        // ১৮.৫ ফিটের নিয়ম: শুধুই ফুল পিস দেখাবে (Math.ceil) 
+        // ১৮.৫ ফিটের নিয়ম: শুধুই ফুল পিস দেখাবে (Math.ceil)
         if (sum18 > 0) {
           let fullBars = Math.ceil(sum18 / 18.5);
-          htmlContent += `<p style="margin: 10px 0; font-size: 18px;"><strong>${itemName}:</strong> ১৮.৫ ফিটের ${toBnNum(fullBars)} পিস</p>`;
+          htmlContent += `<p style="margin: 10px 0; font-size: 18px; border-bottom: 1px dotted #ccc; padding-bottom: 5px;"><strong>${itemName}:</strong> ১৮.৫ ফিটের ${toBnNum(fullBars)} পিস</p>`;
         }
         
-        // ২১ ফিটের নিয়ম: ফুল পিস দেখাবে + ঠিক যতটুকু বাকি থাকে সেই টুকরা দেখাবে (Math.floor ও Remainder)
+        // ২১ ফিটের নিয়ম: ফুল পিস + রিমাইন্ডার (সঠিক টুকরা)
         if (sum21 > 0) {
           let fullBars = Math.floor(sum21 / 21.0);
-          let rem = sum21 - (fullBars * 21.0);
+          let rem = sum21 % 21.0; 
           
           let textStr = '';
           if (fullBars > 0) textStr += `${toBnNum(fullBars)} পিস`;
           
           if (rem > 0.05) {
              if(fullBars > 0) textStr += ` + `;
-             // দশমিক সংখ্যা মুছে সলিড ফিট দেখানোর জন্য parseFloat
              let exactlyLeftover = parseFloat(rem.toFixed(2));
              textStr += `${toBnNum(exactlyLeftover)} ফিট টুকরা`;
           }
           if(textStr !== '') {
-             htmlContent += `<p style="margin: 10px 0; font-size: 18px;"><strong>${itemName}:</strong> ২১ ফিটের ${textStr}</p>`;
+             htmlContent += `<p style="margin: 10px 0; font-size: 18px; border-bottom: 1px dotted #ccc; padding-bottom: 5px;"><strong>${itemName}:</strong> ২১ ফিটের ${textStr}</p>`;
           }
         }
       }
@@ -740,15 +722,57 @@
 
     htmlContent += `</div>`;
 
+    // ---------------------------------
+    // বিস্তারিত কাটিং টেবিল (এখানে সাইজ ইঞ্চিতে দেখাবে)
+    // ---------------------------------
+    htmlContent += `
+        <h3 style="color: #000000; border-bottom: 2px solid #000000; padding-bottom: 8px; text-transform: uppercase; font-size: 20px; font-weight: 900; margin-top: 30px;">বিস্তারিত কাটিং লিস্ট (ইঞ্চি)</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 30px; font-size: 18px; font-weight: bold; color: #000000;">
+           <thead>
+             <tr>
+               <th style="border: 2px solid #000000; padding: 10px; text-align: left;">মালামালের নাম</th>
+               <th style="border: 2px solid #000000; padding: 10px; text-align: center;">কাটিং সাইজ (ইঞ্চি)</th>
+               <th style="border: 2px solid #000000; padding: 10px; text-align: center;">পরিমাণ (পিস)</th>
+             </tr>
+           </thead>
+           <tbody>
+    `;
+
+    order.forEach(itemName => {
+      let pcs = globalItemsMap[itemName];
+      if (pcs && pcs.length > 0) {
+        let sizeCounts = {};
+        // ইঞ্চিতে রূপান্তর করে গ্রুপ করা হচ্ছে
+        pcs.forEach(p => {
+          let inchSize = Math.round(p * 12 * 100) / 100;
+          sizeCounts[inchSize] = (sizeCounts[inchSize] || 0) + 1;
+        });
+
+        for (let size in sizeCounts) {
+          htmlContent += `
+            <tr>
+              <td style="border: 1px solid #000000; padding: 8px;">${itemName}</td>
+              <td style="border: 1px solid #000000; padding: 8px; text-align: center;">${toBnNum(size)}"</td>
+              <td style="border: 1px solid #000000; padding: 8px; text-align: center;">${toBnNum(sizeCounts[size])}</td>
+            </tr>
+          `;
+        }
+      }
+    });
+
+    htmlContent += `</tbody></table>`;
+
+    // ---------------------------------
     // এক্সেসরিজ টেবিল 
+    // ---------------------------------
     htmlContent += `
         <h3 style="color: #000000; border-bottom: 2px solid #000000; padding-bottom: 8px; text-transform: uppercase; font-size: 20px; font-weight: 900;">প্রয়োজনীয় এক্সেসরিজ</h3>
         <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 18px; font-weight: 800; color: #000000;">
            <thead>
              <tr>
-               <th style="border: 2px solid #000000; padding: 12px; text-align: left; font-weight: 900;">মালামালের নাম</th>
-               <th style="border: 2px solid #000000; padding: 12px; text-align: center; font-weight: 900;">পরিমাণ</th>
-               <th style="border: 2px solid #000000; padding: 12px; text-align: center; font-weight: 900;">একক</th>
+               <th style="border: 2px solid #000000; padding: 12px; text-align: left;">মালামালের নাম</th>
+               <th style="border: 2px solid #000000; padding: 12px; text-align: center;">পরিমাণ</th>
+               <th style="border: 2px solid #000000; padding: 12px; text-align: center;">একক</th>
              </tr>
            </thead>
            <tbody>
@@ -776,69 +800,45 @@
     document.getElementById('pdfModal').style.display = 'none';
   }
 
-  // পিডিএফ ব্ল্যাংক বা সাদা হওয়ার সমস্যার সমাধান
+  // পিডিএফ ব্ল্যাংক বা সাদা হওয়ার সমস্যার চিরস্থায়ী সমাধান
   async function downloadPDF() {
     let btn = document.getElementById('pdfDownloadBtn');
     btn.innerText = "⏳ পিডিএফ তৈরি হচ্ছে...";
     btn.disabled = true;
 
-    const content = document.getElementById('pdfPreviewArea').innerHTML;
-
-    // টেম্পোরারি ডিভটি ব্যাকগ্রাউন্ডে তৈরি করা হলো
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = content;
-    tempDiv.style.width = '800px'; 
-    tempDiv.style.padding = '30px';
-    tempDiv.style.backgroundColor = '#ffffff';
-    tempDiv.style.color = '#000000';
-    tempDiv.style.position = 'absolute';
-    tempDiv.style.top = '0';
-    tempDiv.style.left = '0';
-    tempDiv.style.zIndex = '-9999'; // যেন স্ক্রিনে দেখা না যায়
-    document.body.appendChild(tempDiv);
+    // সরাসরি প্রিভিউ এরিয়া টার্গেট করা হচ্ছে (যেহেতু এটা স্ক্রিনে ভিজিবল, তাই সাদা আসবে না)
+    const element = document.getElementById('pdfPreviewArea');
+    
+    // স্ক্রলজনিত সমস্যা এড়াতে সাময়িকভাবে overflow পরিবর্তন করা হলো
+    const originalOverflow = element.style.overflow;
+    const originalHeight = element.style.height;
+    element.style.overflow = 'visible';
+    element.style.height = 'auto';
 
     const custName = document.getElementById('custName').value || 'Customer';
     let defaultFileName = `Cutting_List_${custName}.pdf`;
 
     const opt = {
-      margin:       0.5,
+      margin:       0.3,
       filename:     defaultFileName,
       image:        { type: 'jpeg', quality: 1.0 },
-      html2canvas:  { scale: 2, useCORS: true },
+      html2canvas:  { scale: 2, useCORS: true, logging: false },
       jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
     
-    // ব্রাউজারকে রেন্ডার করার একটু সময় দেওয়ার জন্য ডிலே (সাদা পেজ সমাধান)
-    setTimeout(async () => {
-      try {
-        if (window.showSaveFilePicker) {
-          const pdfBlob = await html2pdf().set(opt).from(tempDiv).output('blob');
-          const handle = await window.showSaveFilePicker({
-            suggestedName: defaultFileName,
-            types: [{ description: 'PDF File', accept: { 'application/pdf': ['.pdf'] } }],
-          });
-          const writable = await handle.createWritable();
-          await writable.write(pdfBlob);
-          await writable.close();
-        } else {
-          let userFileName = prompt("পিডিএফ ফাইলের নাম দিন:", defaultFileName);
-          if (userFileName) {
-            if (!userFileName.toLowerCase().endsWith('.pdf')) userFileName += '.pdf';
-            opt.filename = userFileName;
-            await html2pdf().set(opt).from(tempDiv).save();
-          }
-        }
-      } catch (error) {
-        console.log("PDF Save Error:", error);
-      } finally {
-        if (document.body.contains(tempDiv)) {
-          document.body.removeChild(tempDiv);
-        }
-        btn.innerText = "📥 ফাইনাল পিডিএফ ডাউনলোড করুন";
-        btn.disabled = false;
-        closePdfModal();
-      }
-    }, 300); // 300 মিলি-সেকেন্ড অপেক্ষা করে পিডিএফ তৈরি শুরু করবে
+    try {
+      await html2pdf().set(opt).from(element).save();
+    } catch (error) {
+      console.log("PDF Save Error:", error);
+      alert("পিডিএফ সেভ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।");
+    } finally {
+      // আগের স্টাইলে ফিরিয়ে আনা হলো
+      element.style.overflow = originalOverflow;
+      element.style.height = originalHeight;
+      btn.innerText = "📥 পিডিএফ ডাউনলোড করুন";
+      btn.disabled = false;
+      closePdfModal();
+    }
   }
 </script>
 

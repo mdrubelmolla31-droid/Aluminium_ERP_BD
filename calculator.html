@@ -96,7 +96,6 @@
 
     .btn-calc { background-color: #00509d; color: white; margin-top: 10px; }
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
-    .btn-pdf { background-color: #003366; color: white; margin-top: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
@@ -158,11 +157,27 @@
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.4);
       color: white;
-      font-size: 20px;
-      padding: 4px 10px;
-      border-radius: 4px;
+      font-size: 18px;
+      padding: 6px 12px;
+      border-radius: 6px;
       cursor: pointer;
     }
+
+    .pdf-top-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #10b981;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .pdf-top-btn:hover { background: #059669; }
 
     .modal {
       display: none;
@@ -218,37 +233,35 @@
       text-transform: uppercase;
     }
 
-    /* PDF Template Layout - Kept Original & Enhanced Clarity */
+    /* PDF Template Layout - Big Header & Clean Spacing */
     #pdfRenderArea {
       position: absolute;
       left: -9999px;
       top: -9999px;
       width: 800px;
       background: #ffffff;
-      padding: 25px;
-      border: 2px solid #00509d;
-      border-radius: 12px;
+      padding: 30px;
+      border: 2px solid #003366;
+      border-radius: 8px;
       font-family: 'SolaimanLipi', 'Kalpurush', 'Segoe UI', Arial, sans-serif;
       color: #000000;
     }
-    .pdf-header { text-align: center; padding-bottom: 10px; margin-bottom: 15px; }
-    .pdf-header h1 { font-size: 40px; color: #003366; margin: 0; font-weight: 900; letter-spacing: 0.5px; }
-    .pdf-phone { background-color: #003366; color: #ffffff; display: inline-block; padding: 6px 24px; border-radius: 20px; font-size: 18px; font-weight: 900; margin-top: 8px; }
+    .pdf-header { text-align: center; padding-bottom: 15px; margin-bottom: 20px; border-bottom: 2px solid #003366; }
+    .pdf-header h1 { font-size: 48px; color: #003366; margin: 0 0 10px 0; font-weight: 900; letter-spacing: 1px; line-height: 1.1; }
+    .pdf-phone { background-color: #003366; color: #ffffff; display: inline-block; padding: 8px 30px; border-radius: 25px; font-size: 24px; font-weight: 900; margin-top: 5px; }
     
-    .pdf-cust-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; border: 1.5px solid #003366; }
-    .pdf-cust-table td { border: 1px solid #003366; padding: 10px 14px; font-size: 18px; font-weight: 900; }
+    .pdf-cust-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 2px solid #003366; }
+    .pdf-cust-table td { border: 1.5px solid #003366; padding: 10px 16px; font-size: 18px; font-weight: 900; }
     .pdf-cust-label { background-color: #00509d; color: #ffffff; width: 140px; text-align: center; font-size: 18px; }
     .pdf-cust-val { background-color: #ffffff; color: #000000; font-size: 18px; }
 
-    .pdf-sec-title { color: #003366; text-align: center; font-size: 19px; font-weight: 900; margin: 12px 0 6px 0; }
+    .pdf-sec-title { color: #003366; text-align: center; font-size: 20px; font-weight: 900; margin: 15px 0 8px 0; text-transform: uppercase; }
     
-    .pdf-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; border: 1.5px solid #003366; }
-    .pdf-table th { background-color: #00509d; color: #ffffff; font-size: 16px; font-weight: 900; padding: 9px; border: 1px solid #003366; text-align: center; }
-    .pdf-table td { border: 1px solid #003366; padding: 9px 10px; font-size: 15px; font-weight: 900; color: #000000; text-align: center; }
+    .pdf-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 2px solid #003366; }
+    .pdf-table th { background-color: #00509d; color: #ffffff; font-size: 17px; font-weight: 900; padding: 10px; border: 1px solid #003366; text-align: center; }
+    .pdf-table td { border: 1px solid #003366; padding: 10px; font-size: 16px; font-weight: 800; color: #000000; text-align: center; }
     
-    .pdf-footer { text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1.5px solid #003366; font-size: 16px; font-weight: 900; color: #003366; }
-    
-    .edit-table input { width: 100%; border: 1px solid #00509d; padding: 6px; font-size: 14px; font-weight: bold; border-radius: 4px; color: #000; }
+    .pdf-footer { text-align: center; margin-top: 30px; padding-top: 15px; border-top: 2px solid #003366; font-size: 18px; font-weight: 900; color: #003366; }
   </style>
 </head>
 <body>
@@ -256,7 +269,8 @@
 <div class="container">
 
   <div class="header-card">
-    <button class="menu-btn" onclick="openHistory()">☰</button>
+    <button class="menu-btn" onclick="openHistory()">☰ হিস্ট্রি</button>
+    <button class="pdf-top-btn" onclick="generateAndSavePDF()">📄 PDF ডাউনলোড</button>
     <h2>RM THAI ALUMINIUM</h2>
     <p>COSTING & QUOTATION CALCULATOR</p>
     
@@ -390,11 +404,6 @@
           </thead>
           <tbody id="accessoriesTbody"></tbody>
       </table>
-
-      <!-- PDF Download Button -->
-      <button class="btn btn-pdf" onclick="openPdfEditModal()">
-        📄 পিডিএফ ডাউনলোড করুন (Edit & Download PDF)
-      </button>
   </div>
 
 </div>
@@ -411,48 +420,10 @@
   </div>
 </div>
 
-<!-- Editable PDF Modal -->
-<div id="pdfEditModal" class="modal" onclick="if(event.target === this) closePdfModal()">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>পিডিএফ এডিটর (পিডিএফ তৈরির আগে এডিট করুন)</h3>
-      <button class="btn-danger" onclick="closePdfModal()">X</button>
-    </div>
-    
-    <div style="font-size: 13px; color: #003366; background: #eff6ff; padding: 8px; border-radius: 4px; margin-bottom: 10px; font-weight:700;">
-      💡 ১৮.৬ এর তথ্য উপরে এবং ২১ এর তথ্য নিচে পর পর সাজানো আছে। আপনি পিডিএফ তৈরি করার আগে পরিমাপ ও এক্সেসরিজ ইচ্ছামতো এডিট বা নতুন সারি যোগ করতে পারেন।
-    </div>
-
-    <h4 style="color: #003366; font-weight:800;">১. প্রয়োজনীয় মালামালের বিবরণ (অ্যালুমিনিয়াম)</h4>
-    <table class="report-table edit-table" id="pdfMatEditTable">
-      <thead>
-        <tr><th>ক্রমিক</th><th>মালামালের নাম</th><th>সাইজ</th><th>পরিকৃত পরিমাণ</th><th>অ্যাকশন</th></tr>
-      </thead>
-      <tbody id="pdfMatEditBody"></tbody>
-    </table>
-    <button class="btn btn-add" style="font-size: 13px; padding: 6px; margin-top: 5px;" onclick="addPdfMatRow()">+ নতুন মালামাল যোগ করুন</button>
-
-    <h4 style="margin-top: 15px; color: #003366; font-weight:800;">২. এক্সেসরিজের তালিকা</h4>
-    <table class="report-table edit-table" id="pdfAccEditTable">
-      <thead>
-        <tr><th>ক্রমিক</th><th>এক্সেসরিজের নাম</th><th>পরিমাণ</th><th>অ্যাকশন</th></tr>
-      </thead>
-      <tbody id="pdfAccEditBody"></tbody>
-    </table>
-    <button class="btn btn-add" style="font-size: 13px; padding: 6px; margin-top: 5px;" onclick="addPdfAccRow()">+ নতুন এক্সেসরিজ যোগ করুন</button>
-
-    <button class="btn btn-pdf" style="margin-top: 15px;" onclick="generateAndSavePDF()">
-      📥 পিডিএফ তৈরি ও ডাউনলোড করুন
-    </button>
-  </div>
-</div>
-
 <!-- Offscreen PDF Print Structure -->
 <div id="pdfRenderArea">
   <div class="pdf-header">
-    <div style="font-size: 20px; color: #003366;">꧁༺ ༒ ༻꧂</div>
     <h1 id="pdfShopName">আরএম থাই অ্যালুমিনিয়াম</h1>
-    <div style="font-size: 16px; color: #003366;">────────  ❁  ────────</div>
     <div class="pdf-phone">📱 মোবাইল: <span id="pdfShopPhone">01676474412</span></div>
   </div>
 
@@ -493,7 +464,6 @@
   </table>
 
   <div class="pdf-footer">
-    ────────  ❁  ────────<br>
     ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।
   </div>
 </div>
@@ -717,9 +687,26 @@
     let totalPurchasedLen = plan.length * barCap;
     let fullPcsCount = plan.length;
     
-    let summaryTextClean = `${toBnNum(fullPcsCount)} পিস`;
+    // পিডিএফ ফরম্যাটিং এর জন্য লজিক (অপচয় বাদ এবং টুকরা হিসাব)
+    let pdfSummary = `${toBnNum(fullPcsCount)} পিস (${toBnNum(barCap)} ফিট)`;
+    let usableRemnant = 0;
+    plan.forEach(b => {
+      if (b.wastage >= 3.0) { // ৩ ফিট বা তার বড় থাকলে ব্যবহারযোগ্য টুকরা হিসেবে গণ্য
+        usableRemnant += b.wastage;
+      }
+    });
 
-    return { detailsHTML: detailsHTML, totalLen: totalPurchasedLen, totalWastage: totalWastage, barCount: plan.length, summaryText: summaryTextClean };
+    if (usableRemnant > 0) {
+      pdfSummary = `${toBnNum(fullPcsCount)} পিস + ${toBnNum(usableRemnant.toFixed(2))} ফিট টুকরা`;
+    }
+
+    return { 
+      detailsHTML: detailsHTML, 
+      totalLen: totalPurchasedLen, 
+      totalWastage: totalWastage, 
+      barCount: plan.length, 
+      pdfSummary: pdfSummary 
+    };
   }
 
   function calculateAll(shouldSave = false) {
@@ -865,8 +852,7 @@
           globalCuttingData.push({
             name: itemName,
             size: '১৮.৬ এর',
-            quantity: res18.summaryText,
-            type: '18',
+            quantity: res18.pdfSummary,
             priority: itemPriority[itemName] || 99
           });
         }
@@ -888,8 +874,7 @@
           globalCuttingData.push({
             name: itemName,
             size: '২১ এর',
-            quantity: res21.summaryText,
-            type: '21',
+            quantity: res21.pdfSummary,
             priority: itemPriority[itemName] || 99
           });
         }
@@ -1076,86 +1061,7 @@
     }
 }
 
-  function openPdfEditModal() {
-    let matBody = document.getElementById('pdfMatEditBody');
-    let accBody = document.getElementById('pdfAccEditBody');
-    matBody.innerHTML = '';
-    accBody.innerHTML = '';
-
-    let sortedList = [...globalCuttingData].sort((a, b) => a.priority - b.priority);
-
-    sortedList.forEach((item, index) => {
-      let tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td class="mat-idx" style="text-align:center;">${toBnNum(index + 1)}</td>
-        <td><input type="text" class="edit-mat-name" value="${item.name}"></td>
-        <td><input type="text" class="edit-mat-size" value="${item.size}"></td>
-        <td><input type="text" class="edit-mat-qty" value="${item.quantity}"></td>
-        <td style="text-align:center;"><button class="btn-danger" onclick="this.closest('tr').remove(); reindexPdfEditTable('pdfMatEditBody');">X</button></td>
-      `;
-      matBody.appendChild(tr);
-    });
-
-    let accRows = document.querySelectorAll('#accessoriesTbody tr');
-    accRows.forEach((row, index) => {
-      let tds = row.querySelectorAll('td');
-      if (tds.length >= 3) {
-        let name = tds[0].innerText;
-        let qty = tds[1].innerText + " " + tds[2].innerText;
-        let tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="acc-idx" style="text-align:center;">${toBnNum(index + 1)}</td>
-          <td><input type="text" class="edit-acc-name" value="${name}"></td>
-          <td><input type="text" class="edit-acc-qty" value="${qty}"></td>
-          <td style="text-align:center;"><button class="btn-danger" onclick="this.closest('tr').remove(); reindexPdfEditTable('pdfAccEditBody');">X</button></td>
-        `;
-        accBody.appendChild(tr);
-      }
-    });
-
-    document.getElementById('pdfEditModal').style.display = 'flex';
-  }
-
-  function closePdfModal() {
-    document.getElementById('pdfEditModal').style.display = 'none';
-  }
-
-  function addPdfMatRow() {
-    let matBody = document.getElementById('pdfMatEditBody');
-    let count = matBody.querySelectorAll('tr').length;
-    let tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="mat-idx" style="text-align:center;">${toBnNum(count + 1)}</td>
-      <td><input type="text" class="edit-mat-name" placeholder="মালামালের নাম"></td>
-      <td><input type="text" class="edit-mat-size" value="১৮.৬ এর"></td>
-      <td><input type="text" class="edit-mat-qty" placeholder="পরিমাণ"></td>
-      <td style="text-align:center;"><button class="btn-danger" onclick="this.closest('tr').remove(); reindexPdfEditTable('pdfMatEditBody');">X</button></td>
-    `;
-    matBody.appendChild(tr);
-  }
-
-  function addPdfAccRow() {
-    let accBody = document.getElementById('pdfAccEditBody');
-    let count = accBody.querySelectorAll('tr').length;
-    let tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="acc-idx" style="text-align:center;">${toBnNum(count + 1)}</td>
-      <td><input type="text" class="edit-acc-name" placeholder="এক্সেসরিজের নাম"></td>
-      <td><input type="text" class="edit-acc-qty" placeholder="পরিমাণ"></td>
-      <td style="text-align:center;"><button class="btn-danger" onclick="this.closest('tr').remove(); reindexPdfEditTable('pdfAccEditBody');">X</button></td>
-    `;
-    accBody.appendChild(tr);
-  }
-
-  function reindexPdfEditTable(tbodyId) {
-    let rows = document.querySelectorAll(`#${tbodyId} tr`);
-    rows.forEach((row, i) => {
-      let td = row.querySelector('td');
-      if (td) td.innerText = toBnNum(i + 1);
-    });
-  }
-
-  /* অ্যান্ড্রয়েড নেটিভ Save as PDF জেনারেটর (No Default Popup) */
+  /* সরাসরি PDF ডাউনলোড ও সেভ অপশন */
   function generateAndSavePDF() {
     let shopName = document.getElementById('shopOwnerName').value || 'আরএম থাই অ্যালুমিনিয়াম';
     let shopPhone = document.getElementById('shopPhone').value || '01676474412';
@@ -1163,47 +1069,58 @@
     let projName = document.getElementById('projectName').value || 'সাধারণ প্রজেক্ট';
 
     document.getElementById('pdfShopName').innerText = shopName;
-    document.getElementById('pdfShopPhone').innerText = shopPhone;
+    document.getElementById('pdfShopPhone').innerText = `📱 মোবাইল: ${shopPhone}`;
     document.getElementById('pdfCustName').innerText = custName;
     document.getElementById('pdfProjName').innerText = projName;
 
+    // ১. প্রয়োজনীয় মালামালের বিবরণ রেন্ডারিং (Cutting Data Sorted)
     let pdfMatRender = document.getElementById('pdfMatRenderBody');
     pdfMatRender.innerHTML = '';
-    let matRows = document.querySelectorAll('#pdfMatEditBody tr');
-    matRows.forEach((row, i) => {
-      let name = row.querySelector('.edit-mat-name').value;
-      let size = row.querySelector('.edit-mat-size').value;
-      let qty = row.querySelector('.edit-mat-qty').value;
-      let tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="font-weight:900; color:#000;">${toBnNum(i + 1)}</td>
-        <td style="text-align:left; font-weight:900; color:#000000;">${name}</td>
-        <td style="font-weight:900; color:#000000;">${size}</td>
-        <td style="text-align:left; font-weight:900; color:#000000;">${qty}</td>
-      `;
-      pdfMatRender.appendChild(tr);
-    });
+    let sortedList = [...globalCuttingData].sort((a, b) => a.priority - b.priority);
 
+    if (sortedList.length === 0) {
+      pdfMatRender.innerHTML = '<tr><td colspan="4">কোনো মালামাল যুক্ত করা হয়নি</td></tr>';
+    } else {
+      sortedList.forEach((item, i) => {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${toBnNum(i + 1)}</td>
+          <td style="text-align:left;">${item.name}</td>
+          <td>${item.size}</td>
+          <td style="text-align:left;">${item.quantity}</td>
+        `;
+        pdfMatRender.appendChild(tr);
+      });
+    }
+
+    // ২. এক্সেসরিজের বিবরণ রেন্ডারিং
     let pdfAccRender = document.getElementById('pdfAccRenderBody');
     pdfAccRender.innerHTML = '';
-    let accRows = document.querySelectorAll('#pdfAccEditBody tr');
-    accRows.forEach((row, i) => {
-      let name = row.querySelector('.edit-acc-name').value;
-      let qty = row.querySelector('.edit-acc-qty').value;
-      let tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="font-weight:900; color:#000;">${toBnNum(i + 1)}</td>
-        <td style="text-align:left; font-weight:900; color:#000000;">${name}</td>
-        <td style="font-weight:900; color:#000000;">${qty}</td>
-      `;
-      pdfAccRender.appendChild(tr);
-    });
+    let accRows = document.querySelectorAll('#accessoriesTbody tr');
 
-    closePdfModal();
+    if (accRows.length === 0 || accRows[0].cells.length < 3) {
+      pdfAccRender.innerHTML = '<tr><td colspan="3">কোনো এক্সেসরিজ নেই</td></tr>';
+    } else {
+      accRows.forEach((row, i) => {
+        let tds = row.querySelectorAll('td');
+        if (tds.length >= 3) {
+          let name = tds[0].innerText;
+          let qty = tds[1].innerText + " " + tds[2].innerText;
+          let tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${toBnNum(i + 1)}</td>
+            <td style="text-align:left;">${name}</td>
+            <td>${qty}</td>
+          `;
+          pdfAccRender.appendChild(tr);
+        }
+      });
+    }
+
     let element = document.getElementById('pdfRenderArea');
-    
     let fileName = `${custName}_মালামাল_তালিকা.pdf`;
 
+    // html2canvas & jsPDF দিয়ে সরাসরি Save As ফাইল ডাউনলোড
     html2canvas(element, { scale: 3, useCORS: true }).then(canvas => {
       const { jsPDF } = window.jspdf;
       let pdf = new jsPDF('p', 'mm', 'a4');
@@ -1212,15 +1129,7 @@
       let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-      // আপনার ১ম ও ২য় ছবির মতো সরাসরি অ্যান্ড্রয়েড 'Save as PDF' ট্রিগার
-      const blob = pdf.output('bloburl');
-      const windowRef = window.open(blob, '_blank');
-      
-      // ফাইল ব্যাকআপ সেভ ট্র্যাকিং
-      if(!windowRef) {
-         pdf.save(fileName);
-      }
+      pdf.save(fileName); // ব্রাউজারের নিজস্ব 'Save As' বা ডাইরেক্ট ডাউনলোড ট্রিগার করবে
     });
   }
 

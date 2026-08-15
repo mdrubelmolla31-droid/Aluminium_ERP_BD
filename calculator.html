@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RM THAI ALUMINIUM - CUTTING CALCULATOR</title>
 
+  <!-- html2pdf Library for High-Quality PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
@@ -20,7 +23,7 @@
       text-align: center;
       position: relative;
     }
-    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; text-transform: uppercase; }
+    .header-card h2 { margin: 0 0 5px 0; font-size: 24px; text-transform: uppercase; font-weight: 900; }
     .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; text-transform: uppercase; }
     
     .shop-input-box {
@@ -34,13 +37,13 @@
     }
     .shop-input-box input {
       padding: 6px 10px;
-      font-size: 13px;
+      font-size: 14px;
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 4px;
       background: #fff;
       color: #0f172a;
       text-align: center;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .card {
@@ -77,6 +80,8 @@
     }
     select:disabled { background-color: #e2e8f0; cursor: not-allowed; }
 
+    .btn-group-row { display: flex; gap: 10px; margin-top: 12px; }
+
     .btn {
       width: 100%;
       padding: 12px;
@@ -90,7 +95,8 @@
 
     .btn-calc { background-color: #2563eb; color: white; margin-top: 10px; }
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
-    .btn-whatsapp { background-color: #25D366; color: white; margin-top: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-whatsapp { background-color: #25D366; color: white; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px; flex: 1; }
+    .btn-pdf { background-color: #dc2626; color: white; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px; flex: 1; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
@@ -133,7 +139,7 @@
       cursor: pointer;
     }
 
-    /* Modal Styling */
+    /* Modals */
     .modal {
       display: none;
       position: fixed;
@@ -146,8 +152,8 @@
     .modal-content {
       background: white;
       padding: 20px;
-      width: 90%;
-      max-width: 500px;
+      width: 95%;
+      max-width: 600px;
       height: 90%;
       margin: auto;
       border-radius: 8px;
@@ -165,23 +171,34 @@
     }
     .modal-header h3 { margin: 0; color: #1e40af; font-size: 16px; text-transform: uppercase; }
     
-    .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.6; }
+    .opt-detail { font-size: 13px; text-align: left; margin-top: 6px; line-height: 1.8; }
     
+    /* Single Line & Clear Styling Fixes */
+    .cut-line-item {
+      display: block;
+      white-space: nowrap;
+      margin-bottom: 4px;
+    }
+    .cut-piece-green {
+      color: #166534;
+      font-weight: 700;
+      background-color: #dcfce7;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #86efac;
+      display: inline-block;
+    }
     .wastage-red {
       color: #dc2626;
       font-weight: 800;
       background-color: #fee2e2;
-      padding: 2px 6px;
+      padding: 3px 8px;
       border-radius: 4px;
       border: 1px solid #fca5a5;
+      display: inline-block;
+      margin-left: 6px;
     }
-    .wastage-green {
-      color: #166534;
-      font-weight: 700;
-      background-color: #dcfce7;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
+
     .table-title-18 {
       background: #1e40af;
       color: white;
@@ -201,6 +218,76 @@
       border-radius: 4px 4px 0 0;
       margin-top: 20px;
       text-transform: uppercase;
+    }
+
+    /* PDF Template High Visibility Styling */
+    #pdfPrintContainer {
+      background: #ffffff;
+      padding: 20px;
+      color: #000;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .pdf-header {
+      text-align: center;
+      border-bottom: 3px solid #000;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    .pdf-header h1 {
+      font-size: 32px;
+      font-weight: 900;
+      margin: 0;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .pdf-header p {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 4px 0 0 0;
+      color: #000;
+    }
+    .pdf-meta-box {
+      border: 2px solid #000;
+      padding: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .pdf-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .pdf-table th {
+      border: 2px solid #000;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      font-size: 18px;
+      font-weight: 900;
+      text-align: left;
+    }
+    .pdf-table td {
+      border: 2px solid #000;
+      padding: 10px 8px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #000;
+    }
+    .pdf-table td.num-col {
+      width: 8%;
+      text-align: center;
+    }
+    .pdf-table td.item-col {
+      width: 42%;
+    }
+    .pdf-table td.qty-col {
+      width: 50%;
+      font-size: 19px;
+      font-weight: 900;
     }
   </style>
 </head>
@@ -341,16 +428,19 @@
                   <th>একক</th>
               </tr>
           </thead>
-          <tbody id="accessoriesTbody">
-              <!-- জাভাস্ক্রিপ্ট থেকে ডাটা এখানে আসবে -->
-          </tbody>
+          <tbody id="accessoriesTbody"></tbody>
       </table>
 
-      <!-- WhatsApp বাটন -->
-      <button class="btn btn-whatsapp" onclick="openWhatsAppModal()">
-        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-        WhatsApp এ পাঠান
-      </button>
+      <!-- WhatsApp এবং PDF বাটন রো -->
+      <div class="btn-group-row">
+        <button class="btn btn-whatsapp" onclick="openWhatsAppModal()">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          WhatsApp এ পাঠান
+        </button>
+        <button class="btn btn-pdf" onclick="openPdfEditModal()">
+          📄 PDF ডাউনলোড করুন
+        </button>
+      </div>
   </div>
 
 </div>
@@ -382,7 +472,66 @@
   </div>
 </div>
 
+<!-- Editable PDF Modal & Preview -->
+<div id="pdfEditModal" class="modal" onclick="if(event.target === this) closePdfEditModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>PDF EDIT & DOWNLOAD PREVIEW</h3>
+      <button class="btn-danger" onclick="closePdfEditModal()">X</button>
+    </div>
+    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">💡 ডাউনলোড করার আগে নিচে তালিকা থেকে মান সংযোজন, বিয়োজন বা পরিবর্তন করতে পারেন:</div>
+    
+    <div style="flex: 1; overflow-y: auto; border: 1px solid #cbd5e1; padding: 10px; border-radius: 6px; background: #fff;">
+      <table class="report-table" id="pdfEditTable">
+        <thead>
+          <tr>
+            <th>আইটেমের নাম</th>
+            <th>পরিমাণ / টুকরা</th>
+            <th>অ্যাকশন</th>
+          </tr>
+        </thead>
+        <tbody id="pdfEditTbody"></tbody>
+      </table>
+      <button class="btn btn-add" style="margin-top: 8px;" onclick="addPdfEditRow('', '')">+ নতুন আইটেম যোগ করুন</button>
+    </div>
+
+    <button class="btn btn-pdf" style="margin-top: 10px;" onclick="downloadFinalPdf()">
+      📥 নিশ্চিত করুন ও PDF ডাউনলোড করুন
+    </button>
+  </div>
+</div>
+
+<!-- Hidden PDF Element Container for Printing -->
+<div style="display: none;">
+  <div id="pdfPrintContainer">
+    <div class="pdf-header">
+      <h1 id="pdfShopName">RM THAI ALUMINIUM</h1>
+      <p>মোবাইল: <span id="pdfShopPhone">01676474412</span></p>
+    </div>
+
+    <div class="pdf-meta-box">
+      <div>কাস্টমার: <span id="pdfCustName"></span></div>
+      <div>প্রজেক্ট: <span id="pdfProjName"></span></div>
+      <div>তারিখ: <span id="pdfDate"></span></div>
+    </div>
+
+    <table class="pdf-table">
+      <thead>
+        <tr>
+          <th class="num-col">ক্রম</th>
+          <th class="item-col">সেকশন/আইটেমের নাম</th>
+          <th class="qty-col">প্রয়োজনীয় পরিমাণ (পিস + টুকরা)</th>
+        </tr>
+      </thead>
+      <tbody id="pdfPrintTbody"></tbody>
+    </table>
+  </div>
+</div>
+
 <script>
+  // Global cutting summary storage for PDF logic
+  let globalPdfItemsList = [];
+
   function toBnNum(num) {
     if (num === null || num === undefined) return '০';
     let str = num.toString();
@@ -418,11 +567,9 @@
     updateIndexes();
   }
 
-  /* --- নতুন সংযুক্ত অংশ: রেট সেটিংস পেজের লোকাল স্টোরেজ থেকে অপশনগুলো লোড করা --- */
   function initCalculatorDropdowns() {
     let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
 
-    // ১. আলাদা লিস্টের Key বা Saved RateList থেকে ইউনিক নাম সংগ্রহ করা
     let companies = JSON.parse(localStorage.getItem('companyList')) || extractUnique(rateList, 'company');
     let series = JSON.parse(localStorage.getItem('seriesList')) || extractUnique(rateList, 'series');
     let aluThicks = JSON.parse(localStorage.getItem('thickList')) || extractUnique(rateList, 'aluThickness');
@@ -431,7 +578,6 @@
     let glassThicks = JSON.parse(localStorage.getItem('glassThickList')) || extractUnique(rateList, 'glassThickness');
     let glassColours = JSON.parse(localStorage.getItem('glassColourList')) || extractUnique(rateList, 'glassColour');
 
-    // ২. ড্রপডাউনে অপশনগুলো পপুলেট করা
     populateDropdownDirect('aluCompany', companies);
     populateDropdownDirect('aluSeries', series);
     populateDropdownDirect('aluThickness', aluThicks);
@@ -469,7 +615,6 @@
       select.appendChild(opt);
     });
   }
-  /* --------------------------------------------------------------------------------- */
 
   function saveHeaderInfo() {
     let name = document.getElementById('shopOwnerName').value;
@@ -595,14 +740,20 @@
     let detailsHTML = `<strong>মোট: ${toBnNum(plan.length)} টি বার</strong>`;
     let detailsStr = plan.map((b, idx) => {
       let pcsStr = b.piecesCut.map(x => toBnNum(x.toFixed(2)) + "ফিট").join(" + ");
-      let wastageTag = b.wastage > 0.05 ? `<span class="wastage-red">অপচয়: ${toBnNum(b.wastage)}ফিট</span>` : `<span class="wastage-green">(অপচয়: ${toBnNum(b.wastage)}ফিট)</span>`;
-      return `বার #${toBnNum(idx + 1)}: [${pcsStr}] ${wastageTag}`;
-    }).join("<br>");
+      let wastageTag = b.wastage > 0.05 ? `<span class="wastage-red">অপচয়: ${toBnNum(b.wastage)}ফিট</span>` : `<span class="wastage-red">অপচয়: ${toBnNum(b.wastage)}ফিট</span>`;
+      return `<div class="cut-line-item">বার #${toBnNum(idx + 1)}: <span class="cut-piece-green">[${pcsStr}]</span> ${wastageTag}</div>`;
+    }).join("");
 
     detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;
     let totalLen = piecesList.reduce((a,b)=>a+b, 0);
 
-    return { detailsHTML: detailsHTML, totalLen: totalLen, totalWastage: totalWastage, barCount: plan.length };
+    return { 
+      detailsHTML: detailsHTML, 
+      totalLen: totalLen, 
+      totalWastage: totalWastage, 
+      barCount: plan.length,
+      plan: plan 
+    };
   }
 
   function calculateAll(shouldSave = false) {
@@ -618,10 +769,10 @@
 
     let itemsMap = {
       "আউটার সাইড": [],
-      "শাটার লক": [],
-      "শাটার ইন্টারলক": [],
       "আউটার টপ": [],
       "আউটার বটম": [],
+      "শাটার লক": [],
+      "শাটার ইন্টারলক": [],
       "শাটার টপ": [],
       "শাটার বটম": [],
       "নেট সেকশন": []
@@ -710,23 +861,36 @@
 
     let has18Data = false;
     let has21Data = false;
+    
+    // Clear Global PDF List
+    globalPdfItemsList = [];
 
-    Object.keys(itemsMap).forEach(itemName => {
+    // Order Sequence for Output
+    let sequenceKeys = [
+      "আউটার সাইড",
+      "আউটার টপ",
+      "আউটার বটম",
+      "শাটার লক",
+      "শাটার ইন্টারলক",
+      "শাটার টপ",
+      "শাটার বটম",
+      "নেট সেকশন"
+    ];
+
+    sequenceKeys.forEach(itemName => {
       let pcs = itemsMap[itemName];
-      if (pcs.length === 0) return;
+      if (!pcs || pcs.length === 0) return;
 
       let pcs18 = [];
       let pcs21 = [];
 
       pcs.forEach(p => {
         let pVal = parseFloat(p.toFixed(2));
-        
         if (itemName === "নেট সেকশন") {
           pcs21.push(p);
         } else {
           let rem18 = 18.5 % pVal;
           let rem21 = 21.0 % pVal;
-
           if (rem18 <= rem21) {
             pcs18.push(p);
           } else {
@@ -735,6 +899,7 @@
         }
       });
 
+      // 18.5 Feet Calculation
       if (pcs18.length > 0) {
         let res18 = solveBarCutting(pcs18, 18.5);
         if (res18) {
@@ -747,9 +912,34 @@
             <td>${res18.detailsHTML}</td>
           `;
           table18Body.appendChild(tr);
+
+          // Prepare PDF Piece Breakdown (No Wastage)
+          let fullPcs = 0;
+          let extraPieces = [];
+          res18.plan.forEach(b => {
+            let usedSum = b.piecesCut.reduce((a,c)=>a+c, 0);
+            if (Math.abs(usedSum - 18.5) < 0.1) {
+              fullPcs++;
+            } else {
+              b.piecesCut.forEach(pc => extraPieces.push(pc));
+            }
+          });
+
+          let pdfString = "";
+          if (fullPcs > 0) pdfString += `${toBnNum(fullPcs)} পিস (১৮.৫ ফিট)`;
+          if (extraPieces.length > 0) {
+            let extraStr = extraPieces.map(x => `${toBnNum(x.toFixed(2))} ফিট`).join(" + ");
+            pdfString += (pdfString ? " + " : "") + `${extraStr} টুকরা`;
+          }
+
+          globalPdfItemsList.push({
+            name: `${itemName} (১৮.৫ ফিট)`,
+            breakdown: pdfString
+          });
         }
       }
 
+      // 21 Feet Calculation
       if (pcs21.length > 0) {
         let res21 = solveBarCutting(pcs21, 21.0);
         if (res21) {
@@ -762,6 +952,30 @@
             <td>${res21.detailsHTML}</td>
           `;
           table21Body.appendChild(tr);
+
+          // Prepare PDF Piece Breakdown (No Wastage)
+          let fullPcs = 0;
+          let extraPieces = [];
+          res21.plan.forEach(b => {
+            let usedSum = b.piecesCut.reduce((a,c)=>a+c, 0);
+            if (Math.abs(usedSum - 21.0) < 0.1) {
+              fullPcs++;
+            } else {
+              b.piecesCut.forEach(pc => extraPieces.push(pc));
+            }
+          });
+
+          let pdfString = "";
+          if (fullPcs > 0) pdfString += `${toBnNum(fullPcs)} পিস (২১ ফিট)`;
+          if (extraPieces.length > 0) {
+            let extraStr = extraPieces.map(x => `${toBnNum(x.toFixed(2))} ফিট`).join(" + ");
+            pdfString += (pdfString ? " + " : "") + `${extraStr} টুকরা`;
+          }
+
+          globalPdfItemsList.push({
+            name: `${itemName} (২১ ফিট)`,
+            breakdown: pdfString
+          });
         }
       }
     });
@@ -928,181 +1142,259 @@
     }
   }
 
-function runAccessoriesCalculation() {
-    try {
-        let totalWinQty = 0;
-        let totalPerimeterFt = 0;
-        let totalScrews = 0;
-        let totalSiliconeEstimate = 0;
+  function runAccessoriesCalculation() {
+      try {
+          let totalWinQty = 0;
+          let totalPerimeterFt = 0;
+          let totalScrews = 0;
+          let totalSiliconeEstimate = 0;
 
-        let rows = document.querySelectorAll('#winTableBody tr');
-        rows.forEach(function(row) {
-            let hInput = row.querySelector('.w-h');
-            let wInput = row.querySelector('.w-w');
-            let qInput = row.querySelector('.w-q');
+          let rows = document.querySelectorAll('#winTableBody tr');
+          rows.forEach(function(row) {
+              let hInput = row.querySelector('.w-h');
+              let wInput = row.querySelector('.w-w');
+              let qInput = row.querySelector('.w-q');
 
-            if (hInput && wInput) {
-                let h = parseFloat(hInput.value) || 0; 
-                let w = parseFloat(wInput.value) || 0; 
-                let q = qInput ? (parseInt(qInput.value) || 1) : 1; 
+              if (hInput && wInput) {
+                  let h = parseFloat(hInput.value) || 0; 
+                  let w = parseFloat(wInput.value) || 0; 
+                  let q = qInput ? (parseInt(qInput.value) || 1) : 1; 
 
-                if (h > 0 && w > 0) {
-                    totalWinQty += q;
+                  if (h > 0 && w > 0) {
+                      totalWinQty += q;
 
-                    let hFt = h > 12 ? (h / 12) : h; 
-                    let wFt = w > 12 ? (w / 12) : w;
-                    
-                    let singlePerimeter = (hFt + wFt) * 2; 
-                    totalPerimeterFt += (singlePerimeter * q);
+                      let hFt = h > 12 ? (h / 12) : h; 
+                      let wFt = w > 12 ? (w / 12) : w;
+                      
+                      let singlePerimeter = (hFt + wFt) * 2; 
+                      totalPerimeterFt += (singlePerimeter * q);
 
-                    if (hFt <= 3 && wFt <= 3) {
-                        totalScrews += (21 * q); 
-                    } else if (hFt >= 6 || wFt >= 6) {
-                        totalScrews += (37 * q); 
-                    } else {
-                        totalScrews += (32 * q); 
-                    }
+                      if (hFt <= 3 && wFt <= 3) {
+                          totalScrews += (21 * q); 
+                      } else if (hFt >= 6 || wFt >= 6) {
+                          totalScrews += (37 * q); 
+                      } else {
+                          totalScrews += (32 * q); 
+                      }
 
-                    if (hFt >= 7 && q >= 4) {
-                        totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80);
-                    } else {
-                        totalSiliconeEstimate += (singlePerimeter * q) / 85;
-                    }
-                }
-            }
-        });
+                      if (hFt >= 7 && q >= 4) {
+                          totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80);
+                      } else {
+                          totalSiliconeEstimate += (singlePerimeter * q) / 85;
+                      }
+                  }
+              }
+          });
 
-        let tbody = document.getElementById('accessoriesTbody');
-        if (!tbody) return;
+          let tbody = document.getElementById('accessoriesTbody');
+          if (!tbody) return;
 
-        if (totalWinQty === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#94a3b8;">ইনপুট দিন, হিসাব চলে আসবে</td></tr>';
-            return;
-        }
-
-        let seriesEl = document.getElementById('aluSeries');
-        let netEl = document.getElementById('netSection');
-        let glassThickEl = document.getElementById('glassThickness');
-
-        let seriesVal = seriesEl ? seriesEl.value : '';
-        let netVal = netEl ? netEl.value : '';
-        let glassThickVal = glassThickEl ? glassThickEl.value : '';
-
-        let is4Inch = seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four');
-        let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
-
-        let rubberLabel = "গ্লাস রাবার (Rubber)";
-        if (glassThickVal) {
-          if (glassThickVal.includes('5.5') || glassThickVal.includes('6')) {
-            rubberLabel = "গ্লাস রাবার (6mm Rubber)";
-          } else if (glassThickVal.includes('5')) {
-            rubberLabel = "গ্লাস রাবার (5mm Rubber)";
-          } else {
-            rubberLabel = `গ্লাস রাবার (${glassThickVal} Rubber)`;
+          if (totalWinQty === 0) {
+              tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#94a3b8;">ইনপুট দিন, হিসাব চলে আসবে</td></tr>';
+              return;
           }
-        }
 
-        let locks = totalWinQty * 2;
-        let wheels = totalWinQty * 4;
-        let cordScrews = totalWinQty * 8;
-        let screws15 = totalScrews;
-        let mohair = (totalPerimeterFt * 1.1).toFixed(2);
-        let rubber = (totalPerimeterFt * 1.1).toFixed(2);
-        let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
+          let seriesEl = document.getElementById('aluSeries');
+          let netEl = document.getElementById('netSection');
+          let glassThickEl = document.getElementById('glassThickness');
 
-        let rowsHTML = `
-            <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
-            <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
-            <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
-            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
-            <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
-            <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
-            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
-        `;
+          let seriesVal = seriesEl ? seriesEl.value : '';
+          let netVal = netEl ? netEl.value : '';
+          let glassThickVal = glassThickEl ? glassThickEl.value : '';
 
-        if (is4Inch || hasNet) {
-            let netWheels = totalWinQty * 2;
-            let netAngles = totalWinQty * 4;
-            let netRivet = totalWinQty * 17;
+          let is4Inch = seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four');
+          let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
 
-            rowsHTML += `
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
-                <tr style="background-color: #fff3cd; color: #856404;"><td>রিপিট / রিভেট (Rivet)</td><td><b>${netRivet}</b></td><td>পিস</td></tr>
-            `;
-        }
+          let rubberLabel = "গ্লাস রাবার (Rubber)";
+          if (glassThickVal) {
+            if (glassThickVal.includes('5.5') || glassThickVal.includes('6')) {
+              rubberLabel = "গ্লাস রাবার (6mm Rubber)";
+            } else if (glassThickVal.includes('5')) {
+              rubberLabel = "গ্লাস রাবার (5mm Rubber)";
+            } else {
+              rubberLabel = `গ্লাস রাবার (${glassThickVal} Rubber)`;
+            }
+          }
 
-        tbody.innerHTML = rowsHTML;
+          let locks = totalWinQty * 2;
+          let wheels = totalWinQty * 4;
+          let cordScrews = totalWinQty * 8;
+          let screws15 = totalScrews;
+          let mohair = (totalPerimeterFt * 1.1).toFixed(2);
+          let rubber = (totalPerimeterFt * 1.1).toFixed(2);
+          let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
 
-    } catch (err) {
-        console.error('Accessories Calculation Error:', err);
-    }
-}
+          let rowsHTML = `
+              <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
+              <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
+              <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
+              <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
+              <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
+              <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
+              <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
+          `;
 
-function openWhatsAppModal() {
-  let shopName = document.getElementById('shopOwnerName').value || 'RM THAI ALUMINIUM';
-  let shopPhone = document.getElementById('shopPhone').value || '';
-  let custName = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
-  let projEl = document.getElementById('projectName');
-  let projectName = projEl ? projEl.value : 'সাধারণ প্রজেক্ট';
+          if (is4Inch || hasNet) {
+              let netWheels = totalWinQty * 2;
+              let netAngles = totalWinQty * 4;
+              let netRivet = totalWinQty * 17;
 
-  let msg = `🏪 *${shopName}*\n📱 মোবাইল: ${shopPhone}\n`;
-  msg += `----------------------------\n`;
-  msg += `👤 কাস্টমার: ${custName}\n`;
-  msg += `🏢 প্রজেক্ট: ${projectName}\n`;
-  msg += `----------------------------\n`;
-  msg += `📦 *প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ):*\n\n`;
+              rowsHTML += `
+                  <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
+                  <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
+                  <tr style="background-color: #fff3cd; color: #856404;"><td>রিপিট / রিভেট (Rivet)</td><td><b>${netRivet}</b></td><td>পিস</td></tr>
+              `;
+          }
 
-  let outerSide = document.getElementById('mOuterSide').innerText;
-  let outerTop = document.getElementById('mOuterTop').innerText;
-  let outerBottom = document.getElementById('mOuterBottom').innerText;
-  let shutterLock = document.getElementById('mShutterLock').innerText;
-  let shutterInterlock = document.getElementById('mShutterInterlock').innerText;
-  let shutterTop = document.getElementById('mShutterTop').innerText;
-  let shutterBottom = document.getElementById('mShutterBottom').innerText;
-  let netSection = document.getElementById('mNetSection').innerText;
+          tbody.innerHTML = rowsHTML;
 
-  msg += `• আউটার সাইড: ${outerSide} ফিট\n`;
-  msg += `• আউটার টপ: ${outerTop} ফিট\n`;
-  msg += `• আউটার বটম: ${outerBottom} ফিট\n`;
-  msg += `• শাটার লক: ${shutterLock} ফিট\n`;
-  msg += `• শাটার ইন্টারলক: ${shutterInterlock} ফিট\n`;
-  msg += `• শাটার টপ: ${shutterTop} ফিট\n`;
-  msg += `• শাটার বটম: ${shutterBottom} ফিট\n`;
-
-  let netSelVal = document.getElementById('netSection').value;
-  if (netSelVal !== 'none') {
-    msg += `• নেট ফ্রেম সেকশন (২১ ফিট): ${netSection} ফিট\n`;
+      } catch (err) {
+          console.error('Accessories Calculation Error:', err);
+      }
   }
 
-  msg += `\n🔧 *এক্সেসরিজের তালিকা:*\n`;
+  function openWhatsAppModal() {
+    let shopName = document.getElementById('shopOwnerName').value || 'RM THAI ALUMINIUM';
+    let shopPhone = document.getElementById('shopPhone').value || '';
+    let custName = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
+    let projEl = document.getElementById('projectName');
+    let projectName = projEl ? projEl.value : 'সাধারণ প্রজেক্ট';
 
-  let accRows = document.querySelectorAll('#accessoriesTbody tr');
-  accRows.forEach(row => {
-    let tds = row.querySelectorAll('td');
-    if (tds.length >= 3) {
-      let name = tds[0].innerText;
-      let qty = tds[1].innerText;
-      let unit = tds[2].innerText;
-      msg += `• ${name}: ${qty} ${unit}\n`;
+    let msg = `🏪 *${shopName}*\n📱 মোবাইল: ${shopPhone}\n`;
+    msg += `----------------------------\n`;
+    msg += `👤 কাস্টমার: ${custName}\n`;
+    msg += `🏢 প্রজেক্ট: ${projectName}\n`;
+    msg += `----------------------------\n`;
+    msg += `📦 *প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ):*\n\n`;
+
+    let outerSide = document.getElementById('mOuterSide').innerText;
+    let outerTop = document.getElementById('mOuterTop').innerText;
+    let outerBottom = document.getElementById('mOuterBottom').innerText;
+    let shutterLock = document.getElementById('mShutterLock').innerText;
+    let shutterInterlock = document.getElementById('mShutterInterlock').innerText;
+    let shutterTop = document.getElementById('mShutterTop').innerText;
+    let shutterBottom = document.getElementById('mShutterBottom').innerText;
+    let netSection = document.getElementById('mNetSection').innerText;
+
+    msg += `• আউটার সাইড: ${outerSide} ফিট\n`;
+    msg += `• আউটার টপ: ${outerTop} ফিট\n`;
+    msg += `• আউটার বটম: ${outerBottom} ফিট\n`;
+    msg += `• শাটার লক: ${shutterLock} ফিট\n`;
+    msg += `• শাটার ইন্টারলক: ${shutterInterlock} ফিট\n`;
+    msg += `• শাটার টপ: ${shutterTop} ফিট\n`;
+    msg += `• শাটার বটম: ${shutterBottom} ফিট\n`;
+
+    let netSelVal = document.getElementById('netSection').value;
+    if (netSelVal !== 'none') {
+      msg += `• নেট ফ্রেম সেকশন (২১ ফিট): ${netSection} ফিট\n`;
     }
-  });
 
-  document.getElementById('waMessageText').value = msg;
-  document.getElementById('whatsappModal').style.display = 'flex';
-}
+    msg += `\n🔧 *এক্সেসরিজের তালিকা:*\n`;
 
-function closeWhatsAppModal() {
-  document.getElementById('whatsappModal').style.display = 'none';
-}
+    let accRows = document.querySelectorAll('#accessoriesTbody tr');
+    accRows.forEach(row => {
+      let tds = row.querySelectorAll('td');
+      if (tds.length >= 3) {
+        let name = tds[0].innerText;
+        let qty = tds[1].innerText;
+        let unit = tds[2].innerText;
+        msg += `• ${name}: ${qty} ${unit}\n`;
+      }
+    });
 
-function sendFinalWhatsAppMessage() {
-  let text = document.getElementById('waMessageText').value;
-  let encodedText = encodeURIComponent(text);
-  let url = `https://wa.me/?text=${encodedText}`;
-  window.open(url, '_blank');
-  closeWhatsAppModal();
-}
+    document.getElementById('waMessageText').value = msg;
+    document.getElementById('whatsappModal').style.display = 'flex';
+  }
+
+  function closeWhatsAppModal() {
+    document.getElementById('whatsappModal').style.display = 'none';
+  }
+
+  function sendFinalWhatsAppMessage() {
+    let text = document.getElementById('waMessageText').value;
+    let encodedText = encodeURIComponent(text);
+    let url = `https://wa.me/?text=${encodedText}`;
+    window.open(url, '_blank');
+    closeWhatsAppModal();
+  }
+
+  /* --- PDF EDIT & DOWNLOAD LOGIC --- */
+  function openPdfEditModal() {
+    let tbody = document.getElementById('pdfEditTbody');
+    tbody.innerHTML = '';
+
+    if (globalPdfItemsList.length === 0) {
+      addPdfEditRow('আউটার সাইড (২১ ফিট)', '২ পিস (২১ ফিট)');
+    } else {
+      globalPdfItemsList.forEach(item => {
+        addPdfEditRow(item.name, item.breakdown);
+      });
+    }
+
+    document.getElementById('pdfEditModal').style.display = 'flex';
+  }
+
+  function closePdfEditModal() {
+    document.getElementById('pdfEditModal').style.display = 'none';
+  }
+
+  function addPdfEditRow(name = '', breakdown = '') {
+    let tbody = document.getElementById('pdfEditTbody');
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="pdf-item-name" value="${name}" placeholder="সেকশনের নাম"></td>
+      <td><input type="text" class="pdf-item-qty" value="${breakdown}" placeholder="পিস ও টুকরা"></td>
+      <td><button class="btn-danger" type="button" onclick="this.closest('tr').remove()">X</button></td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  function downloadFinalPdf() {
+    let shopName = document.getElementById('shopOwnerName').value || 'RM THAI ALUMINIUM';
+    let shopPhone = document.getElementById('shopPhone').value || '01676474412';
+    let custName = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
+    let projName = document.getElementById('projectName') ? document.getElementById('projectName').value : 'সাধারণ প্রজেক্ট';
+
+    document.getElementById('pdfShopName').innerText = shopName;
+    document.getElementById('pdfShopPhone').innerText = shopPhone;
+    document.getElementById('pdfCustName').innerText = custName;
+    document.getElementById('pdfProjName').innerText = projName;
+    document.getElementById('pdfDate').innerText = new Date().toLocaleDateString('bn-BD');
+
+    let printTbody = document.getElementById('pdfPrintTbody');
+    printTbody.innerHTML = '';
+
+    let rows = document.querySelectorAll('#pdfEditTbody tr');
+    let count = 1;
+    rows.forEach(row => {
+      let name = row.querySelector('.pdf-item-name').value;
+      let qty = row.querySelector('.pdf-item-qty').value;
+      if (name || qty) {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="num-col">${toBnNum(count++)}</td>
+          <td class="item-col">${name}</td>
+          <td class="qty-col">${qty}</td>
+        `;
+        printTbody.appendChild(tr);
+      }
+    });
+
+    let element = document.getElementById('pdfPrintContainer');
+    
+    // PDF Generate Options
+    let opt = {
+      margin:       0.3,
+      filename:     `Material_List_${custName}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+      closePdfEditModal();
+    });
+  }
 </script>
 
 </body>

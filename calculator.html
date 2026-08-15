@@ -90,7 +90,7 @@
 
     .btn-calc { background-color: #2563eb; color: white; margin-top: 10px; }
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
-    .btn-pdf { background-color: #8b5cf6; color: white; margin-top: 10px; font-size: 16px; }
+    .btn-pdf { background-color: #0d9488; color: white; margin-top: 10px; font-size: 16px; font-weight: 800; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
@@ -347,9 +347,9 @@
       </table>
   </div>
 
-  <!-- পিডিএফ ডাউনলোড বাটন (নতুন যুক্ত করা হয়েছে) -->
+  <!-- পিডিএফ ডাউনলোড বাটন -->
   <div style="margin-bottom: 30px;">
-    <button class="btn btn-pdf" type="button" onclick="generateCuttingPDF()">📄 কাটিং লিস্ট পিডিএফ ডাউনলোড করুন</button>
+    <button class="btn btn-pdf" type="button" onclick="generateCuttingPDF()">📄 কাটিং লিস্ট পিডিএফ ডাউনলোড করুন (Ultra-HD)</button>
   </div>
 
 </div>
@@ -367,7 +367,6 @@
 </div>
 
 <script>
-  // গ্লোবাল অবজেক্ট যাতে কাটিং ডাটা পিডিয়েফ তৈরিতে ব্যবহার করা যায়
   let globalPdfCuttingData = {};
 
   function toBnNum(num) {
@@ -601,11 +600,11 @@
 
     let itemsMap = {
       "আউটার সাইড": [],
-      "শাটার লক": [],
-      "শাটার ইন্টারলক": [],
       "আউটার টপ": [],
       "আউটার বটম": [],
       "শাটার টপ": [],
+      "শাটার লক": [],
+      "শাটার ইন্টারলক": [],
       "শাটার বটম": [],
       "নেট সেকশন": []
     };
@@ -1000,13 +999,13 @@ function runAccessoriesCalculation() {
         let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
 
         let rowsHTML = `
-            <tr><td>লক (Lock)</td><td><b>${locks}</b></td><td>পিস</td></tr>
-            <tr><td>চাকা (Wheel)</td><td><b>${wheels}</b></td><td>পিস</td></tr>
-            <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${cordScrews}</b></td><td>পিস</td></tr>
-            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${screws15}</b></td><td>পিস</td></tr>
-            <tr><td>মহিয়ার (Mohair)</td><td><b>${mohair}</b></td><td>ফিট</td></tr>
-            <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${rubber}</b></td><td>ফিট</td></tr>
-            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${silicone}</b></td><td>টিউব</td></tr>
+            <tr><td><b>লক (Lock)</b></td><td><b>${locks}</b></td><td><b>পিস</b></td></tr>
+            <tr><td><b>চাকা (Wheel)</b></td><td><b>${wheels}</b></td><td><b>পিস</b></td></tr>
+            <tr><td><b>কড স্ক্রু (Cord Screw)</b></td><td><b>${cordScrews}</b></td><td><b>পিস</b></td></tr>
+            <tr><td><b>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</b></td><td><b>${screws15}</b></td><td><b>পিস</b></td></tr>
+            <tr><td><b>মহিয়ার (Mohair)</b></td><td><b>${mohair}</b></td><td><b>ফিট</b></td></tr>
+            <tr><td id="rubberLabelTd"><b>${rubberLabel}</b></td><td><b>${rubber}</b></td><td><b>ফিট</b></td></tr>
+            <tr><td><b>সিলিকন গাম (Silicone Tube)</b></td><td><b>${silicone}</b></td><td><b>টিউব</b></td></tr>
         `;
 
         if (is4Inch || hasNet) {
@@ -1015,9 +1014,9 @@ function runAccessoriesCalculation() {
             let netRivet = totalWinQty * 17;
 
             rowsHTML += `
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের চাকা (Net Wheel)</td><td><b>${netWheels}</b></td><td>পিস</td></tr>
-                <tr style="background-color: #fff3cd; color: #856404;"><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${netAngles}</b></td><td>পিস</td></tr>
-                <tr style="background-color: #fff3cd; color: #856404;"><td>রিপিট / রিভেট (Rivet)</td><td><b>${netRivet}</b></td><td>পিস</td></tr>
+                <tr style="background-color: #fef9c3; color: #856404;"><td><b>নেটের চাকা (Net Wheel)</b></td><td><b>${netWheels}</b></td><td><b>পিস</b></td></tr>
+                <tr style="background-color: #fef9c3; color: #856404;"><td><b>নেটের এঙ্গেল (Net Angle)</b></td><td><b>${netAngles}</b></td><td><b>পিস</b></td></tr>
+                <tr style="background-color: #fef9c3; color: #856404;"><td><b>রিপিট / রিভেট (Rivet)</b></td><td><b>${netRivet}</b></td><td><b>পিস</b></td></tr>
             `;
         }
 
@@ -1028,7 +1027,7 @@ function runAccessoriesCalculation() {
     }
 }
 
-// পিডিএফ তৈরি করার নতুন ফাংশন (ওয়েস্টেজ ছাড়া এবং নির্দিষ্ট সিকোয়েন্সে)
+// আল্ট্রা-এইচডি এবং রয়েল ব্লু ডাবল বর্ডারসহ সিঙ্গেল পেজ PDF তৈরি
 function generateCuttingPDF() {
   let shopName = document.getElementById('shopOwnerName').value || 'RM THAI ALUMINIUM';
   let shopPhone = document.getElementById('shopPhone').value || '01676474412';
@@ -1036,7 +1035,6 @@ function generateCuttingPDF() {
   let custPhone = document.getElementById('custnambar').value || 'N/A';
   let projName = document.getElementById('projectName').value || 'সাধারণ প্রজেক্ট';
 
-  // নির্দিষ্ট ক্রমানুসারে সেকশনগুলো প্রিন্ট হবে
   const orderedSections = [
     "আউটার সাইড",
     "আউটার টপ",
@@ -1054,7 +1052,6 @@ function generateCuttingPDF() {
     let itemData = globalPdfCuttingData[itemName];
     if (!itemData) return;
 
-    // ১৮.৫ ফিট বারের জন্য
     if (itemData.res18 && itemData.res18.plan && itemData.res18.plan.length > 0) {
       let breakdown18 = itemData.res18.plan.map((b, idx) => {
         let pcsStr = b.piecesCut.map(x => toBnNum(x.toFixed(2)) + " ফিট").join(" + ");
@@ -1063,15 +1060,14 @@ function generateCuttingPDF() {
 
       cuttingRowsHTML += `
         <tr>
-          <td><strong>${itemName}</strong></td>
-          <td>১৮.৫ ফিট বার</td>
-          <td>${toBnNum(itemData.res18.totalLen.toFixed(2))} ফিট</td>
-          <td>${breakdown18}</td>
+          <td><b style="font-size: 16px;">${itemName}</b></td>
+          <td><b style="color:#1e40af; font-size: 15px;">১৮.৫ ফিট বার</b></td>
+          <td><b style="font-size: 15px;">${toBnNum(itemData.res18.totalLen.toFixed(2))} ফিট</b></td>
+          <td><b style="font-size: 15px; color:#0f172a;">${breakdown18}</b></td>
         </tr>
       `;
     }
 
-    // ২১ ফিট বারের জন্য
     if (itemData.res21 && itemData.res21.plan && itemData.res21.plan.length > 0) {
       let breakdown21 = itemData.res21.plan.map((b, idx) => {
         let pcsStr = b.piecesCut.map(x => toBnNum(x.toFixed(2)) + " ফিট").join(" + ");
@@ -1080,89 +1076,127 @@ function generateCuttingPDF() {
 
       cuttingRowsHTML += `
         <tr>
-          <td><strong>${itemName}</strong></td>
-          <td>২১ ফিট বার</td>
-          <td>${toBnNum(itemData.res21.totalLen.toFixed(2))} ফিট</td>
-          <td>${breakdown21}</td>
+          <td><b style="font-size: 16px;">${itemName}</b></td>
+          <td><b style="color:#0369a1; font-size: 15px;">২১ ফিট বার</b></td>
+          <td><b style="font-size: 15px;">${toBnNum(itemData.res21.totalLen.toFixed(2))} ফিট</b></td>
+          <td><b style="font-size: 15px; color:#0f172a;">${breakdown21}</b></td>
         </tr>
       `;
     }
   });
 
   if (!cuttingRowsHTML) {
-    cuttingRowsHTML = '<tr><td colspan="4" style="text-align:center;">কোনো কাটিং ডাটা পাওয়া যায়নি।</td></tr>';
+    cuttingRowsHTML = '<tr><td colspan="4" style="text-align:center;"><b>কোনো কাটিং ডাটা পাওয়া যায়নি।</b></td></tr>';
   }
 
   let accTbody = document.getElementById('accessoriesTbody').innerHTML;
 
-  let printWindow = window.open('', '', 'width=900,height=1000');
+  let printWindow = window.open('', '', 'width=950,height=1000');
   printWindow.document.write(`
     <!DOCTYPE html>
-    <html>
+    <html lang="bn">
     <head>
+      <meta charset="UTF-8">
       <title>Cutting List Sheet - ${custName}</title>
       <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; padding: 20px; color: #0f172a; }
-        .header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 20px; }
-        .header h1 { margin: 0; color: #1e3a8a; font-size: 24px; }
-        .header p { margin: 4px 0; font-size: 14px; font-weight: bold; }
-        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .info-table td { padding: 6px; font-size: 14px; border: 1px solid #e2e8f0; }
-        .title { background: #1e3a8a; color: white; padding: 6px 10px; font-weight: bold; font-size: 14px; margin-top: 15px; margin-bottom: 5px; }
-        table.report { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        table.report th { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px; font-size: 13px; text-align: left; }
-        table.report td { border: 1px solid #cbd5e1; padding: 8px; font-size: 13px; vertical-align: top; }
+        @page {
+          size: A4 auto;
+          margin: 0;
+        }
+        * { box-sizing: border-box; }
+        body {
+          font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+          margin: 0;
+          padding: 15px;
+          background: #ffffff;
+          color: #000000;
+          -webkit-print-color-adjust: exact;
+        }
+
+        /* রয়েল ব্লু ডাবল লেয়ার বর্ডার (Royal Blue Double Border Frame) */
+        .pdf-frame-outer {
+          border: 4px solid #4169E1; /* Royal Blue Outer Line */
+          padding: 4px;
+          min-height: 96vh;
+        }
+        .pdf-frame-inner {
+          border: 2px solid #4169E1; /* Royal Blue Inner Line */
+          padding: 18px;
+          min-height: 95vh;
+        }
+
+        .header { text-align: center; border-bottom: 3px solid #4169E1; padding-bottom: 8px; margin-bottom: 15px; }
+        .header h1 { margin: 0; color: #4169E1; font-size: 28px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .header p { margin: 4px 0 0 0; font-size: 16px; font-weight: 800; color: #0f172a; }
+        .header .sub-title { display: inline-block; background: #4169E1; color: #fff; padding: 4px 15px; border-radius: 4px; margin-top: 8px; font-size: 16px; font-weight: 800; }
+
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+        .info-table td { padding: 8px 12px; font-size: 16px; font-weight: 800; border: 2px solid #cbd5e1; background: #f8fafc; color: #000; }
+
+        .sec-header { background: #4169E1; color: white; padding: 8px 12px; font-weight: 900; font-size: 17px; margin-top: 15px; margin-bottom: 6px; border-radius: 2px; text-transform: uppercase; }
+        
+        table.report { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        table.report th { background: #1e3a8a; color: #ffffff; border: 2px solid #1e3a8a; padding: 10px; font-size: 16px; font-weight: 900; text-align: left; }
+        table.report td { border: 2px solid #94a3b8; padding: 9px 12px; font-size: 15px; font-weight: 800; vertical-align: top; color: #000; }
+
         @media print {
-          body { padding: 0; }
+          body { padding: 8px; }
+          .pdf-frame-outer { min-height: 98vh; }
         }
       </style>
     </head>
     <body>
-      <div class="header">
-        <h1>${shopName}</h1>
-        <p>মোবাইল: ${shopPhone}</p>
-        <p style="text-decoration: underline; margin-top:8px;">অ্যালুমিনিয়াম কাটিং ব্রেকডাউন ও এক্সেসরিজ শিট</p>
+      <div class="pdf-frame-outer">
+        <div class="pdf-frame-inner">
+          
+          <div class="header">
+            <h1>${shopName}</h1>
+            <p>📱 মোবাইল: ${shopPhone}</p>
+            <div class="sub-title">অ্যালুমিনিয়াম কাটিং ব্রেকডাউন ও এক্সেসরিজ শিট</div>
+          </div>
+
+          <table class="info-table">
+            <tr>
+              <td><b>গ্রাহকের নাম:</b> ${custName}</td>
+              <td><b>মোবাইল:</b> ${custPhone}</td>
+            </tr>
+            <tr>
+              <td><b>প্রজেক্টের নাম:</b> ${projName}</td>
+              <td><b>তারিখ:</b> ${new Date().toLocaleDateString('bn-BD')}</td>
+            </tr>
+          </table>
+
+          <div class="sec-header">📌 কাটিং ব্রেকডাউন তালিকা (CUTTING LIST)</div>
+          <table class="report">
+            <thead>
+              <tr>
+                <th style="width:22%;">আইটেমের নাম</th>
+                <th style="width:18%;">বার সাইজ</th>
+                <th style="width:15%;">মোট দৈর্ঘ্য</th>
+                <th style="width:45%;">কাটিং ব্রেকডাউন</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${cuttingRowsHTML}
+            </tbody>
+          </table>
+
+          <div class="sec-header">📌 প্রয়োজনীয় এক্সেসরিজ তালিকা (ACCESSORIES LIST)</div>
+          <table class="report">
+            <thead>
+              <tr>
+                <th>মালামালের নাম</th>
+                <th>পরিমাণ</th>
+                <th>একক</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${accTbody}
+            </tbody>
+          </table>
+
+        </div>
       </div>
-
-      <table class="info-table">
-        <tr>
-          <td><strong>গ্রাহকের নাম:</strong> ${custName}</td>
-          <td><strong>মোবাইল:</strong> ${custPhone}</td>
-        </tr>
-        <tr>
-          <td><strong>প্রজেক্টের নাম:</strong> ${projName}</td>
-          <td><strong>তারিখ:</strong> ${new Date().toLocaleDateString('bn-BD')}</td>
-        </tr>
-      </table>
-
-      <div class="title">📌 কাটিং ব্রেকডাউন তালিকা (CUTTING LIST)</div>
-      <table class="report">
-        <thead>
-          <tr>
-            <th style="width:20%;">আইটেমের নাম</th>
-            <th style="width:15%;">বার সাইজ</th>
-            <th style="width:15%;">মোট দৈর্ঘ্য</th>
-            <th style="width:50%;">কাটিং ব্রেকডাউন</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${cuttingRowsHTML}
-        </tbody>
-      </table>
-
-      <div class="title">📌 প্রয়োজনীয় এক্সেসরিজ তালিকা (ACCESSORIES LIST)</div>
-      <table class="report">
-        <thead>
-          <tr>
-            <th>মালামালের নাম</th>
-            <th>পরিমাণ</th>
-            <th>একক</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${accTbody}
-        </tbody>
-      </table>
 
       <script>
         window.onload = function() {

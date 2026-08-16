@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মূল ফিক্সড ক্যালকুলেটর</title>
+    <title>মূল ফিক্সড ক্যালকুলেটর - স্মার্ট কাটিং সিস্টেম</title>
     <style>
         body {
             background-color: #0f172a;
@@ -13,12 +13,12 @@
             padding: 20px;
         }
         .container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             background: #1e293b;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
         h2 {
             text-align: center;
@@ -26,12 +26,13 @@
             margin-bottom: 20px;
         }
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
         label {
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             font-size: 14px;
+            color: #cbd5e1;
         }
         input, select {
             width: 100%;
@@ -43,6 +44,16 @@
             font-size: 16px;
             box-sizing: border-box;
         }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+        }
         button {
             width: 100%;
             padding: 12px;
@@ -53,104 +64,130 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         button:hover {
             background: #0369a1;
         }
         .result {
-            margin-top: 20px;
+            margin-top: 25px;
             background: #0f172a;
-            padding: 15px;
-            border-radius: 6px;
+            padding: 20px;
+            border-radius: 8px;
             border: 1px solid #334155;
         }
         .result h3 {
-            margin: 0 0 10px 0;
-            font-size: 16px;
+            margin: 0 0 15px 0;
+            font-size: 18px;
             color: #38bdf8;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
         }
         .result p {
-            margin: 6px 0;
-            font-size: 14px;
+            margin: 8px 0;
+            font-size: 15px;
+        }
+        .highlight {
+            color: #38bdf8;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>📌 মূল ফিক্সড ক্যালকুলেটর</h2>
+    <h2>📌 মূল ফিক্সড ক্যালকুলেটর (স্মার্ট কাটিং)</h2>
     
     <div class="form-group">
-        <label for="height">উচ্চতা (ফিট):</label>
-        <input type="number" id="height" placeholder="উচ্চতা লিখুন (যেমন: 11)" step="any">
+        <label for="height">মোট উচ্চতা (ফিট):</label>
+        <input type="number" id="height" placeholder="যেমন: 11" step="any" value="11">
     </div>
 
     <div class="form-group">
-        <label for="width">প্রস্থ / লেন্থ (ফিট):</label>
-        <input type="number" id="width" placeholder="প্রস্থ লিখুন (যেমন: 24)" step="any">
+        <label for="width">মোট প্রস্থ / লেন্থ (ফিট):</label>
+        <input type="number" id="width" placeholder="যেমন: 24" step="any" value="24">
     </div>
 
     <div class="form-group">
         <label for="cols">খাড়া খোপ / কলাম সংখ্যা:</label>
-        <input type="number" id="cols" placeholder="যেমন: 6" value="6">
+        <input type="number" id="cols" value="6">
     </div>
 
     <div class="form-group">
         <label for="rows">অনুভূমিক খোপ / সারি সংখ্যা:</label>
-        <input type="number" id="rows" placeholder="যেমন: 3" value="3">
+        <input type="number" id="rows" value="3">
     </div>
 
-    <button onclick="calculateFixed()">হিসাব করুন</button>
+    <div class="checkbox-group">
+        <input type="checkbox" id="needPlainCover">
+        <label for="needPlainCover" style="margin-bottom:0; cursor:pointer;">প্লেন কভার প্রয়োজন আছে কি?</label>
+    </div>
+
+    <button onclick="calculateSmartFixed()">হিসাব করুন</button>
 
     <div class="result" id="resultBox" style="display: none;">
-        <h3>ফলাফল:</h3>
-        <p id="resGlass">গ্লাসের ক্ষেত্রফল: </p>
-        <p id="resTopSide">টপ এন্ড সাইড সেকশন: </p>
-        <p id="resBottom">ফিক্সডের বটম সেকশন: </p>
-        <p id="resBottomBit">বটম বিট: </p>
-        <p id="resGrooveCover">গ্রুপ কভার: </p>
-        <p id="resPlainCover">প্লেন কভার (প্রয়োজনীয়): </p>
+        <h3>কাটিং ও হিসাবের ফলাফল:</h3>
+        <p id="resGlass"></p>
+        <p id="resTopSide"></p>
+        <p id="resBottom"></p>
+        <p id="resBottomBit"></p>
+        <p id="resGrooveCover"></p>
+        <p id="resPlainCover" style="display:none;"></p>
     </div>
 </div>
 
 <script>
-    function calculateFixed() {
+    function calculateSmartFixed() {
         const height = parseFloat(document.getElementById('height').value);
         const width = parseFloat(document.getElementById('width').value);
         const cols = parseInt(document.getElementById('cols').value);
         const rows = parseInt(document.getElementById('rows').value);
+        const needPlainCover = document.getElementById('needPlainCover').checked;
         const resultBox = document.getElementById('resultBox');
         
         if (isNaN(height) || isNaN(width) || height <= 0 || width <= 0 || isNaN(cols) || isNaN(rows)) {
-            alert('দয়া করে উচ্চতা, প্রস্থ এবং খোপের সংখ্যা সঠিকভাবে ইনপুট দিন।');
+            alert('দয়া করে সঠিক মাপ এবং খোপের সংখ্যা ইনপুট দিন।');
             return;
         }
+
+        const standardSectionLength = 21; // ২১ ফিট স্ট্যান্ডার্ড সেকশন
 
         // ১. গ্লাসের ক্ষেত্রফল (বর্গফুট)
         const totalSqft = height * width;
 
-        // ২. টপ এন্ড সাইড সেকশন (ছাদের আউটার + খাড়া মালগুলো)
-        // খাড়া মাল সংখ্যা = cols + 1 (দুই পাশ সহ) অথবা কলাম অনুযায়ী
-        const verticalCount = cols + 1;
-        const topAndSideLength = (width * 2) + (height * verticalCount);
+        // ২. টপ এন্ড সাইড সেকশন হিসাব (আউটার ও খাড়া মাল)
+        const verticalCount = cols + 1; // খাড়া মালের সংখ্যা
+        const totalTopSideFeet = (width * 2) + (height * verticalCount);
+        const topSidePieces = Math.ceil(totalTopSideFeet / standardSectionLength);
 
-        // ৩. ফিক্সডের বটম সেকশন (নিচের বটম + মাঝের হরিজন্টাল ডিভিশনগুলো)
-        const horizontalCount = rows; // সারির ওপর ভিত্তি করে বটম বা মাঝের মাল
-        const fixedBottomLength = (width * horizontalCount) + (height * (rows - 1)); // আনুমানিক কাঠামোগত লজিক
+        // ৩. ফিক্সডের বটম সেকশন হিসাব
+        const horizontalCount = rows; // বটম ও মাঝের হরিজন্টাল মাল
+        const totalBottomFeet = (width * horizontalCount) + (height * (rows - 1));
+        const bottomPieces = Math.ceil(totalBottomFeet / standardSectionLength);
 
-        // ৪. অ্যাক্সেসরিজ হিসাব (বটম বিট, গ্রুপ কভার, প্লেন কভার)
-        const bottomBit = fixedBottomLength; // বটমের ভেতরে সমপরিমাণ বটম বিট
-        const grooveCover = topAndSideLength + (width * (rows - 1)); // খাড়া মাল ও মাঝের মালের জন্য গ্রুপ কভার
-        const plainCover = (width * 2); // সাধারণ প্লেন কভারের প্রাথমিক মাপ
+        // ৪. অ্যাক্সেসরিজ হিসাব
+        const totalBottomBitFeet = totalBottomFeet; // সমপরিমাণ বটম বিট
+        const totalGrooveCoverFeet = totalTopSideFeet + (width * (rows - 1)); // গ্রুপ কভার
 
-        // ফলাফল প্রদর্শন (২১ ফিটের হিসেবে কয়টা সেকশন লাগতে পারে তা বোঝার জন্য ফিট হিসেবে দেখানো হলো)
-        document.getElementById('resGlass').innerText = `গ্লাসের পরিমাণ: ${totalSqft.toFixed(2)} বর্গফুট`;
-        document.getElementById('resTopSide').innerText = `টপ এন্ড সাইড সেকশন: ${topAndSideLength.toFixed(2)} ফিট`;
-        document.getElementById('resBottom').innerText = `ফিক্সডের বটম সেকশন: ${fixedBottomLength.toFixed(2)} ফিট`;
-        document.getElementById('resBottomBit').innerText = `বটম বিট: ${bottomBit.toFixed(2)} ফিট`;
-        document.getElementById('resGrooveCover').innerText = `গ্রুপ কভার: ${grooveCover.toFixed(2)} ফিট`;
-        document.getElementById('resPlainCover').innerText = `প্লেন কভার: ${plainCover.toFixed(2)} ফিট`;
+        // ফলাফল এইচটিএমএল এ বসানো
+        document.getElementById('resGlass').innerHTML = `মোট গ্লাস প্রয়োজন: <span class="highlight">${totalSqft.toFixed(2)} বর্গফুট</span>`;
+        
+        document.getElementById('resTopSide').innerHTML = `টপ এন্ড সাইড সেকশন: <span class="highlight">${totalTopSideFeet.toFixed(2)} ফিট</span> (২১ ফিটের পাইপ লাগবে: <span class="highlight">${topSidePieces} টি</span>)`;
+        
+        document.getElementById('resBottom').innerHTML = `ফিক্সডের বটম সেকশন: <span class="highlight">${totalBottomFeet.toFixed(2)} ফিট</span> (২১ ফিটের পাইপ লাগবে: <span class="highlight">${bottomPieces} টি</span>)`;
+        
+        document.getElementById('resBottomBit').innerHTML = `বটম বিট: <span class="highlight">${totalBottomBitFeet.toFixed(2)} ফিট</span>`;
+        
+        document.getElementById('resGrooveCover').innerHTML = `গ্রুপ কভার: <span class="highlight">${totalGrooveCoverFeet.toFixed(2)} ফিট</span>`;
+
+        const plainCoverEl = document.getElementById('resPlainCover');
+        if (needPlainCover) {
+            const totalPlainCoverFeet = width * 2;
+            plainCoverEl.innerHTML = `প্লেন কভার: <span class="highlight">${totalPlainCoverFeet.toFixed(2)} ফিট</span>`;
+            plainCoverEl.style.display = 'block';
+        } else {
+            plainCoverEl.style.display = 'none';
+        }
         
         resultBox.style.display = 'block';
     }

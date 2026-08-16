@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মূল ফিক্সড ক্যালকুলেটর</title>
+    <title>প্রফেশনাল মূল ফিক্সড ক্যালকুলেটর</title>
     <style>
         body {
             background-color: #0f172a;
@@ -13,7 +13,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 650px;
+            max-width: 700px;
             margin: 0 auto;
             background: #1e293b;
             padding: 25px;
@@ -96,13 +96,14 @@
             font-size: 15px;
             font-weight: bold;
             color: #38bdf8;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>📌 মূল ফিক্সড ক্যালকুলেটর</h2>
+    <h2>📌 মূল ফিক্সড ক্যালকুলেটর (স্মার্ট অপ্টিমাইজেশন)</h2>
     
     <div class="form-group">
         <label for="height">মোট উচ্চতা (ফিট):</label>
@@ -129,22 +130,23 @@
         <div id="rowInputsList"></div>
     </div>
 
-    <button onclick="calculateFixedTable()">হিসাব করুন</button>
+    <button onclick="calculateAdvancedFixed()">হিসাব করুন</button>
 
     <div class="result" id="resultBox" style="display: none;">
-        <h3>হিসাবের ফলাফল ও কাটিং তালিকা:</h3>
-        <div class="summary-box" id="resGlass"></div>
+        <h3>হিসাবের ফলাফল ও কাটিং ব্রেকডাউন:</h3>
+        <div class="summary-box" id="resSummary"></div>
         
         <table>
             <thead>
                 <tr>
-                    <th>সেকশনের নাম</th>
-                    <th>প্রয়োজনীয় মাপ / পরিমাণ</th>
+                    <th>সেকشنের নাম</th>
+                    <th>কাটিং সাইজ ও পরিমাণ</th>
                     <th>২১ ফিট সেকশন লাগবে</th>
+                    <th>অবশিষ্ট অপচয় (Waste)</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <!-- ডাইনামিক টেবিল ডাটা এখানে আসবে -->
+                <!-- ডাইনামিক টেবিল ডাটা -->
             </tbody>
         </table>
     </div>
@@ -171,7 +173,7 @@
 
     window.onload = generateRowInputs;
 
-    function calculateFixedTable() {
+    function calculateAdvancedFixed() {
         const height = parseFloat(document.getElementById('height').value);
         const width = parseFloat(document.getElementById('width').value);
         const cols = parseInt(document.getElementById('cols').value);
@@ -183,52 +185,89 @@
             return;
         }
 
+        // অ্যালুমিনিয়াম সেকশনের আনুমানিক পুরুত্ব (ইঞ্চিকে ফিটে রূপান্তর: যেমন ১.৫ ইঞ্চি = ০.১২৫ ফিট)
+        // খোপের সংখ্যা বাড়লে অ্যালুমিনিয়াম যে জায়গা খাবে, তা গ্লাস থেকে বাদ যাবে
+        const aluThicknessPerDiv = 1.25 / 12; // ১.২৫ ইঞ্চি
+        const totalVerticalAluWidth = (cols - 1) * aluThicknessPerDiv;
+        const totalHorizontalAluHeight = (rows - 1) * aluThicknessPerDiv;
+
+        const netWidth = Math.max(0, width - totalVerticalAluWidth);
+        const netHeight = Math.max(0, height - totalHorizontalAluHeight);
+
+        // ১. নিখুঁত গ্লাস এরিয়া হিসাব
+        const totalGlassSqft = netWidth * netHeight;
+
         const standardLen = 21; // ২১ ফিট স্ট্যান্ডার্ড সেকশন
 
-        // ১. গ্লাসের ক্ষেত্রফল
-        const totalSqft = height * width;
+        // কাটিং অপ্টিমাইজেশন ফাংশন (প্রতি ২১ ফিট পাইপ থেকে কয় পিস কাটবে এবং কত ওয়েস্টেজ হবে)
+        function getCuttingDetails(pieceLength, totalPiecesNeeded) {
+            let piecesPerStandard = Math.floor(standardLen / pieceLength);
+            if (piecesPerStandard < 1) piecesPerStandard = 1; // যদি মালের সাইজ ২১ ফিটের বেশি হয়
+            
+            let totalSections = Math.ceil(totalPiecesNeeded / piecesPerStandard);
+            let totalLengthUsed = totalPiecesNeeded * pieceLength;
+            let totalLengthBought = totalSections * standardLen;
+            let totalWaste = totalLengthBought - totalLengthUsed;
 
-        // ২. অ্যালুমিনিয়াম সেকশন হিসাব
-        const verticalCount = cols + 1; // খাড়া মালের সংখ্যা
+            return {
+                totalSections: totalSections,
+                waste: totalWaste > 0 ? totalWaste : 0
+            };
+        }
+
+        // ২. টপ এন্ড সাইড সেকশন (লম্বালম্বি খাড়া মাল)
+        const verticalCount = cols + 1;
+        const topSideCutLen = height;
+        const topSideCalc = getCuttingDetails(topSideCutLen, verticalCount);
         const totalTopSideFeet = (width * 2) + (height * verticalCount);
-        const topSidePcs = Math.ceil(totalTopSideFeet / standardLen);
 
-        const horizontalCount = rows; 
+        // ৩. ফিক্সডের বটম সেকশন (অনুভূমিক মাল)
+        const horizontalCount = rows;
+        const bottomCutLen = width / cols; // প্রতি খোপের প্রস্থ অনুযায়ী আনুমানিক কাটিং বা মোট প্রস্থ
         const totalBottomFeet = (width * horizontalCount) + (height * (rows - 1));
-        const bottomPcs = Math.ceil(totalBottomFeet / standardLen);
+        const bottomCalc = getCuttingDetails(width, horizontalCount); // পূর্ণ প্রস্থ ধরে হিসাব
 
+        // ৪. বটম বিট ও গ্রুপ কভার
         const totalBottomBitFeet = totalBottomFeet;
-        const bottomBitPcs = Math.ceil(totalBottomBitFeet / standardLen);
+        const bottomBitCalc = getCuttingDetails(width, horizontalCount);
 
         const totalGrooveCoverFeet = totalTopSideFeet + (width * (rows - 1));
-        const grooveCoverPcs = Math.ceil(totalGrooveCoverFeet / standardLen);
+        const grooveCalc = getCuttingDetails(width, verticalCount);
 
         // টেবিল ডাটা তৈরি
         const tableBody = document.getElementById('tableBody');
         tableBody.innerHTML = `
             <tr>
                 <td><strong>টপ এন্ড সাইড সেকশন</strong></td>
-                <td>${totalTopSideFeet.toFixed(2)} ফিট</td>
-                <td><strong>${topSidePcs} টি</strong> (২১ ফিটিংস)</td>
+                <td>${verticalCount} পিস (প্রতিটি ${topSideCutLen.toFixed(1)} ফিট)</td>
+                <td><strong>${topSideCalc.totalSections} টি</strong> (২১ ফিটিংস)</td>
+                <td style="color: #f87171;">${topSideCalc.waste.toFixed(2)} ফিট</td>
             </tr>
             <tr>
                 <td><strong>ফিক্সডের বটম সেকশন</strong></td>
-                <td>${totalBottomFeet.toFixed(2)} ফিট</td>
-                <td><strong>${bottomPcs} টি</strong> (২১ ফিটিংস)</td>
+                <td>${horizontalCount} পিস (প্রতিটি ${width.toFixed(1)} ফিট)</td>
+                <td><strong>${bottomCalc.totalSections} টি</strong> (২১ ফিটিংস)</td>
+                <td style="color: #f87171;">${bottomCalc.waste.toFixed(2)} ফিট</td>
             </tr>
             <tr>
                 <td><strong>বটম বিট</strong></td>
-                <td>${totalBottomBitFeet.toFixed(2)} ফিট</td>
-                <td><strong>${bottomBitPcs} টি</strong> (২১ ফিটিংস)</td>
+                <td>${horizontalCount} পিস (প্রতিটি ${width.toFixed(1)} ফিট)</td>
+                <td><strong>${bottomBitCalc.totalSections} টি</strong> (২১ ফিটিংস)</td>
+                <td style="color: #f87171;">${bottomBitCalc.waste.toFixed(2)} ফিট</td>
             </tr>
             <tr>
                 <td><strong>গ্রুপ কভার</strong></td>
-                <td>${totalGrooveCoverFeet.toFixed(2)} ফিট</td>
-                <td><strong>${grooveCoverPcs} টি</strong> (২১ ফিটিংস)</td>
+                <td>মাল অনুযায়ী</td>
+                <td><strong>${grooveCalc.totalSections} টি</strong> (২১ ফিটিংস)</td>
+                <td style="color: #f87171;">${grooveCalc.waste.toFixed(2)} ফিট</td>
             </tr>
         `;
 
-        document.getElementById('resGlass').innerHTML = `মোট গ্লাস এরিয়া: ${totalSqft.toFixed(2)} বর্গফুট`;
+        document.getElementById('resSummary').innerHTML = `
+            নেট গ্লাস এরিয়া (অ্যালুমিনিয়াম বাদ দিয়ে): ${totalGlassSqft.toFixed(2)} বর্গফুট<br>
+            মোট অ্যালুমিনিয়াম সেকশন প্রয়োজন: ${(totalTopSideFeet + totalBottomFeet).toFixed(2)} রানিং ফিট
+        `;
+        
         resultBox.style.display = 'block';
     }
 </script>

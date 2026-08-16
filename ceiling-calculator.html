@@ -249,7 +249,7 @@
             background: #15803d;
         }
 
-        /* প্রিন্টের জন্য আলাদা হেডার ডিজাইন (যা শুধু প্রিন্ট করার সময়ই দেখা যাবে) */
+        /* প্রিন্টের জন্য আলাদা হেডার ডিজাইন */
         .print-header {
             display: none;
             text-align: center;
@@ -274,7 +274,6 @@
                 width: 100%;
             }
 
-            /* প্রিন্টে যে অংশগুলো হাইড থাকবে */
             .header,
             .card,
             .costing-box,
@@ -282,7 +281,6 @@
                 display: none !important;
             }
 
-            /* প্রিন্ট হেডার দৃশ্যমান হবে */
             .print-header {
                 display: block !important;
             }
@@ -299,7 +297,6 @@
                 color: #000000;
             }
 
-            /* শুধুমাত্র মালামালের তালিকা দেখাবে এবং ডিজাইন পরিষ্কার হবে */
             .result-box {
                 display: block !important;
                 background: #ffffff !important;
@@ -399,7 +396,7 @@
             </div>
         </div>
 
-        <!-- কস্টিং ও মূল্য হিসাব (যা স্ক্রিনে থাকবে কিন্তু প্রিন্টে আসবে না) -->
+        <!-- কস্টিং ও মূল্য হিসাব -->
         <div class="costing-box" id="costingBox">
             <div class="result-title">
                 💰 মালামালের দর ও মোট খরচের হিসাব
@@ -512,7 +509,7 @@
 
             const wallAngleSubtotal = wallAngleQty * wallAnglePrice;
             const mainTeeSubtotal = mainTeeQty * mainTeePrice;
-            const crossTeeSubtotal = crossTeeQty * crossT-priceQty = crossTeeQty * crossTeePrice;
+            const crossTeeSubtotal = crossTeeQty * crossTeePrice;
             const boardSubtotal = boardQty * boardPrice;
 
             document.getElementById('wallAngleSubtotal').innerText = '৳ ' + wallAngleSubtotal.toFixed(2);

@@ -787,7 +787,7 @@
         if (h && w && q) windowItems.push({ h, w, q });
       });
 
-      let projName = document.getElementById('projectName') ? document.getElementById('projectName').value : 'সাধারণ প্রজেক্ট';
+      let projName = document.getElementById('projectName') ? document.getElementById('projectName.value') : 'সাধারণ প্রজেক্ট';
 
       let fileData = {
         id: Date.now(),
@@ -906,19 +906,45 @@
     } catch (err) { console.error('Accessories Calculation Error:', err); }
   }
 
-  // --- Print Preparation Logic Matching the Image ---
-  function formatCutText(plan) {
+  // --- Updated Print Preparation Logic (No Wastage, Bar + Extra Piece Format) ---
+  function formatCutText(plan, isBar21) {
     if(!plan || plan.length === 0) return "-";
-    let barCount = plan.length;
-    let allCuts = [];
-    plan.forEach(b => {
-        b.piecesCut.forEach(c => {
-            let numStr = c.toFixed(2);
-            numStr = parseFloat(numStr).toString(); 
-            allCuts.push(toBnNum(numStr) + " ফিট");
-        });
-    });
-    return `${toBnNum(barCount)} পিস + ${allCuts.join(", ")} টুকরা`;
+    
+    if (isBar21) {
+      // ২১ ফিটের বারের জন্য পূর্ণ পিস এবং অতিরিক্ত টুকরা আলাদা করা
+      let fullBars = 0;
+      let extraPieces = [];
+
+      plan.forEach(b => {
+        // যদি বারের মধ্যে শুধু একটি পিস থাকে এবং সেটি ২১ বা খুব কাছাকাছি হয় অথবা পূর্ণ বার ব্যবহার হয়
+        if (b.piecesCut.length === 1 && b.piecesCut[0] >= 20.9) {
+          fullBars++;
+        } else {
+          // টুকরাগুলো যোগ করা হচ্ছে
+          b.piecesCut.forEach(c => {
+            let numStr = parseFloat(c.toFixed(2)).toString();
+            extraPieces.push(toBnNum(numStr) + " ফিট");
+          });
+        }
+      });
+
+      let resultText = "";
+      if (fullBars > 0) {
+        resultText += `${toBnNum(fullBars)} পিস`;
+      }
+      if (extraPieces.length > 0) {
+        if (resultText !== "") resultText += " + ";
+        resultText += extraPieces.join(" + ") + " টুকরা";
+      }
+      return resultText !== "" ? resultText : `${toBnNum(plan.length)} পিস`;
+    } else {
+      // ১৮.৫ ফিট বারের জন্য শুধুমাত্র পূর্ণ পিস বা হিসাব অনুযায়ী পিস দেখাবে
+      let totalPiecesCount = 0;
+      plan.forEach(b => {
+        totalPiecesCount += b.piecesCut.length;
+      });
+      return `${toBnNum(totalPiecesCount)} পিস`;
+    }
   }
 
   function openPrintModal() {
@@ -938,7 +964,7 @@
     
     order.forEach(item => {
        if(window.printData.items21 && window.printData.items21[item]) {
-           let cutStr = formatCutText(window.printData.items21[item].plan);
+           let cutStr = formatCutText(window.printData.items21[item].plan, true);
            materialRowsHTML += `<tr>
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">${toBnNum(matCounter++)}</td>
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left; font-weight: bold;">${item}</td>
@@ -947,11 +973,11 @@
            </tr>`;
        }
        if(window.printData.items18 && window.printData.items18[item]) {
-           let cutStr = formatCutText(window.printData.items18[item].plan);
+           let cutStr = formatCutText(window.printData.items18[item].plan, false);
            materialRowsHTML += `<tr>
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">${toBnNum(matCounter++)}</td>
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left; font-weight: bold;">${item}</td>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">১৮.৬ এর</td>
+             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">১৮.৫ এর</td>
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left;">${cutStr}</td>
            </tr>`;
        }

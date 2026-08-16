@@ -13,7 +13,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto;
             background: #1e293b;
             padding: 20px;
@@ -26,14 +26,14 @@
             margin-bottom: 20px;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-size: 14px;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             background: #0f172a;
@@ -71,7 +71,7 @@
             color: #38bdf8;
         }
         .result p {
-            margin: 5px 0;
+            margin: 6px 0;
             font-size: 14px;
         }
     </style>
@@ -82,42 +82,75 @@
     <h2>📌 মূল ফিক্সড ক্যালকুলেটর</h2>
     
     <div class="form-group">
-        <label for="width">প্রস্থ (ফিট/ইঞ্চি বা ইঞ্চি):</label>
-        <input type="number" id="width" placeholder="প্রস্থ লিখুন" step="any">
+        <label for="height">উচ্চতা (ফিট):</label>
+        <input type="number" id="height" placeholder="উচ্চতা লিখুন (যেমন: 11)" step="any">
     </div>
 
     <div class="form-group">
-        <label for="height">উচ্চতা (ফিট/ইঞ্চি বা ইঞ্চি):</label>
-        <input type="number" id="height" placeholder="উচ্চতা লিখুন" step="any">
+        <label for="width">প্রস্থ / লেন্থ (ফিট):</label>
+        <input type="number" id="width" placeholder="প্রস্থ লিখুন (যেমন: 24)" step="any">
+    </div>
+
+    <div class="form-group">
+        <label for="cols">খাড়া খোপ / কলাম সংখ্যা:</label>
+        <input type="number" id="cols" placeholder="যেমন: 6" value="6">
+    </div>
+
+    <div class="form-group">
+        <label for="rows">অনুভূমিক খোপ / সারি সংখ্যা:</label>
+        <input type="number" id="rows" placeholder="যেমন: 3" value="3">
     </div>
 
     <button onclick="calculateFixed()">হিসাব করুন</button>
 
     <div class="result" id="resultBox" style="display: none;">
         <h3>ফলাফল:</h3>
-        <p id="resArea">গ্লাসের ক্ষেত্রফল: </p>
-        <p id="resSection">সেকশন মাপ: </p>
+        <p id="resGlass">গ্লাসের ক্ষেত্রফল: </p>
+        <p id="resTopSide">টপ এন্ড সাইড সেকশন: </p>
+        <p id="resBottom">ফিক্সডের বটম সেকশন: </p>
+        <p id="resBottomBit">বটম বিট: </p>
+        <p id="resGrooveCover">গ্রুপ কভার: </p>
+        <p id="resPlainCover">প্লেন কভার (প্রয়োজনীয়): </p>
     </div>
 </div>
 
 <script>
     function calculateFixed() {
-        const width = parseFloat(document.getElementById('width').value);
         const height = parseFloat(document.getElementById('height').value);
+        const width = parseFloat(document.getElementById('width').value);
+        const cols = parseInt(document.getElementById('cols').value);
+        const rows = parseInt(document.getElementById('rows').value);
         const resultBox = document.getElementById('resultBox');
         
-        if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
-            alert('দয়া করে সঠিক মাপ ইনপুট দিন।');
+        if (isNaN(height) || isNaN(width) || height <= 0 || width <= 0 || isNaN(cols) || isNaN(rows)) {
+            alert('দয়া করে উচ্চতা, প্রস্থ এবং খোপের সংখ্যা সঠিকভাবে ইনপুট দিন।');
             return;
         }
 
-        // সাধারণ হিসাব (উদাহরণস্বরূপ স্কয়ার ফিট এবং সেকশনের প্রাথমিক হিসাব)
-        // যদি আপনার মাপ ইঞ্চি বা অন্য মাপে হয়, তবে ফর্মুলা পরবর্তীতে কাস্টমাইজ করা যাবে।
-        const sqft = (width * height) / 144; // যদি ইঞ্চি ইনপুট হয়
-        const totalSection = (width + height) * 2; // চারপাশের সেকশনের প্রাথমিক ধারণা
+        // ১. গ্লাসের ক্ষেত্রফল (বর্গফুট)
+        const totalSqft = height * width;
 
-        document.getElementById('resArea').innerText = `গ্লাসের ক্ষেত্রফল: ${sqft.toFixed(2)} বর্গফিট (SQFT)`;
-        document.getElementById('resSection').innerText = `সেকশন প্রয়োজন: ${totalSection.toFixed(2)} ইঞ্চি`;
+        // ২. টপ এন্ড সাইড সেকশন (ছাদের আউটার + খাড়া মালগুলো)
+        // খাড়া মাল সংখ্যা = cols + 1 (দুই পাশ সহ) অথবা কলাম অনুযায়ী
+        const verticalCount = cols + 1;
+        const topAndSideLength = (width * 2) + (height * verticalCount);
+
+        // ৩. ফিক্সডের বটম সেকশন (নিচের বটম + মাঝের হরিজন্টাল ডিভিশনগুলো)
+        const horizontalCount = rows; // সারির ওপর ভিত্তি করে বটম বা মাঝের মাল
+        const fixedBottomLength = (width * horizontalCount) + (height * (rows - 1)); // আনুমানিক কাঠামোগত লজিক
+
+        // ৪. অ্যাক্সেসরিজ হিসাব (বটম বিট, গ্রুপ কভার, প্লেন কভার)
+        const bottomBit = fixedBottomLength; // বটমের ভেতরে সমপরিমাণ বটম বিট
+        const grooveCover = topAndSideLength + (width * (rows - 1)); // খাড়া মাল ও মাঝের মালের জন্য গ্রুপ কভার
+        const plainCover = (width * 2); // সাধারণ প্লেন কভারের প্রাথমিক মাপ
+
+        // ফলাফল প্রদর্শন (২১ ফিটের হিসেবে কয়টা সেকশন লাগতে পারে তা বোঝার জন্য ফিট হিসেবে দেখানো হলো)
+        document.getElementById('resGlass').innerText = `গ্লাসের পরিমাণ: ${totalSqft.toFixed(2)} বর্গফুট`;
+        document.getElementById('resTopSide').innerText = `টপ এন্ড সাইড সেকশন: ${topAndSideLength.toFixed(2)} ফিট`;
+        document.getElementById('resBottom').innerText = `ফিক্সডের বটম সেকশন: ${fixedBottomLength.toFixed(2)} ফিট`;
+        document.getElementById('resBottomBit').innerText = `বটম বিট: ${bottomBit.toFixed(2)} ফিট`;
+        document.getElementById('resGrooveCover').innerText = `গ্রুপ কভার: ${grooveCover.toFixed(2)} ফিট`;
+        document.getElementById('resPlainCover').innerText = `প্লেন কভার: ${plainCover.toFixed(2)} ফিট`;
         
         resultBox.style.display = 'block';
     }

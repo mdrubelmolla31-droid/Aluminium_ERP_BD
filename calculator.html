@@ -349,7 +349,6 @@
     </div>
     <div style="font-size: 13px; color: #1e3a8a; font-weight: 600; margin-bottom: 8px; text-align: center;">💡 আপনি চাইলে যেকোনো লেখায় ক্লিক করে এডিট করতে পারবেন (ডিজাইন ছবির মতই হবে):</div>
     
-    <!-- This div holds the editable rich HTML content -->
     <div id="printContent" contenteditable="true" style="flex: 1; overflow-y: auto; border: 2px solid #cbd5e1; padding: 20px; border-radius: 8px; background: #fff; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
     </div>
     
@@ -582,7 +581,7 @@
 
   function calculateAll(shouldSave = false) {
     let rateData = getMatchedRate();
-    window.printData = { items18: {}, items21: {} }; // Reset print data
+    window.printData = { items18: {}, items21: {} };
 
     let heights = document.querySelectorAll('.w-h');
     let widths = document.querySelectorAll('.w-w');
@@ -908,7 +907,6 @@
   }
 
   // --- Print Preparation Logic Matching the Image ---
-
   function formatCutText(plan) {
     if(!plan || plan.length === 0) return "-";
     let barCount = plan.length;
@@ -916,7 +914,7 @@
     plan.forEach(b => {
         b.piecesCut.forEach(c => {
             let numStr = c.toFixed(2);
-            numStr = parseFloat(numStr).toString(); // remove trailing zeros
+            numStr = parseFloat(numStr).toString(); 
             allCuts.push(toBnNum(numStr) + " ফিট");
         });
     });
@@ -939,7 +937,6 @@
     let materialRowsHTML = '';
     
     order.forEach(item => {
-       // Check 21 ft
        if(window.printData.items21 && window.printData.items21[item]) {
            let cutStr = formatCutText(window.printData.items21[item].plan);
            materialRowsHTML += `<tr>
@@ -949,7 +946,6 @@
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left;">${cutStr}</td>
            </tr>`;
        }
-       // Check 18.5/18.6 ft
        if(window.printData.items18 && window.printData.items18[item]) {
            let cutStr = formatCutText(window.printData.items18[item].plan);
            materialRowsHTML += `<tr>

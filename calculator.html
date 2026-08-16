@@ -284,7 +284,7 @@
   <div class="card">
     <div class="card-title">CUTTING LIST</div>
     
-    <div class="table-title-18">📌 18.5 / 18 FEET BAR CUTTING LIST</div>
+    <div class="table-title-18">📌 18.6 FEET BAR CUTTING LIST</div>
     <table class="report-table">
       <thead>
         <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
@@ -313,7 +313,6 @@
               </tr>
           </thead>
           <tbody id="accessoriesTbody">
-              <!-- জাভাস্ক্রিপ্ট থেকে ডাটা এখানে আসবে -->
           </tbody>
       </table>
 
@@ -398,7 +397,6 @@
 
   function initCalculatorDropdowns() {
     let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
-
     let companies = JSON.parse(localStorage.getItem('companyList')) || extractUnique(rateList, 'company');
     let series = JSON.parse(localStorage.getItem('seriesList')) || extractUnique(rateList, 'series');
     let aluThicks = JSON.parse(localStorage.getItem('thickList')) || extractUnique(rateList, 'aluThickness');
@@ -418,9 +416,7 @@
 
   function extractUnique(list, key) {
     let set = new Set();
-    list.forEach(item => {
-      if (item && item[key]) set.add(item[key]);
-    });
+    list.forEach(item => { if (item && item[key]) set.add(item[key]); });
     return Array.from(set);
   }
 
@@ -428,7 +424,6 @@
     let select = document.getElementById(selectId);
     if (!select) return;
     select.innerHTML = '';
-
     if (!itemsArray || itemsArray.length === 0) {
       let defaultOpt = document.createElement('option');
       defaultOpt.value = "ডিফল্ট";
@@ -436,7 +431,6 @@
       select.appendChild(defaultOpt);
       return;
     }
-
     itemsArray.forEach(item => {
       let opt = document.createElement('option');
       opt.value = item;
@@ -471,31 +465,23 @@
     }
   }
 
-  function addRow() {
-    addPresetRow('', '', '');
-  }
-
+  function addRow() { addPresetRow('', '', ''); }
   function removeRow(btn) {
     let rows = document.querySelectorAll('#winTableBody tr');
     if (rows.length > 1) {
       btn.closest('tr').remove();
       updateIndexes();
       calculateAll(false);
-    } else {
-      alert("কমপক্ষে একটি উইন্ডো রো থাকতে হবে!");
-    }
+    } else { alert("কমপক্ষে একটি উইন্ডো রো থাকতে হবে!"); }
   }
 
   function updateIndexes() {
     let rows = document.querySelectorAll('#winTableBody tr');
-    rows.forEach((row, i) => {
-      row.querySelector('.row-index').innerText = toBnNum(i + 1);
-    });
+    rows.forEach((row, i) => { row.querySelector('.row-index').innerText = toBnNum(i + 1); });
   }
 
   function getMatchedRate() {
     let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
-
     let curCompany = document.getElementById('aluCompany').value;
     let curSeries = document.getElementById('aluSeries').value;
     let curThick = document.getElementById('aluThickness').value;
@@ -505,42 +491,18 @@
     let curGlassColor = document.getElementById('glassColour').value;
 
     let matched = rateList.find(item => 
-      item.company === curCompany &&
-      item.series === curSeries &&
-      item.aluThickness === curThick &&
-      item.aluColour === curColor &&
-      item.glassCompany === curGlassCo &&
-      item.glassThickness === curGlassThick &&
+      item.company === curCompany && item.series === curSeries && item.aluThickness === curThick &&
+      item.aluColour === curColor && item.glassCompany === curGlassCo && item.glassThickness === curGlassThick &&
       item.glassColour === curGlassColor
     );
-
-    if (!matched) {
-      matched = rateList.find(item => 
-        item.company === curCompany &&
-        item.series === curSeries &&
-        item.aluThickness === curThick
-      );
-    }
-
-    if (!matched) {
-      matched = rateList.find(item => 
-        item.series === curSeries &&
-        item.aluThickness === curThick
-      );
-    }
-
-    if (!matched) {
-      matched = rateList[0] || {
-        aluRate: 0, glassRate: 0, hwRate: 0, fitRate: 0, labourRate: 0, profit: 0, netRate: 0
-      };
-    }
-
+    if (!matched) matched = rateList.find(item => item.company === curCompany && item.series === curSeries && item.aluThickness === curThick);
+    if (!matched) matched = rateList.find(item => item.series === curSeries && item.aluThickness === curThick);
+    if (!matched) matched = rateList[0] || { aluRate: 0, glassRate: 0, hwRate: 0, fitRate: 0, labourRate: 0, profit: 0, netRate: 0 };
     return matched;
   }
 
   function solveBarCutting(piecesList, barCap) {
     if (!piecesList || piecesList.length === 0) return null;
-
     let plan = [];
     let unassigned = [...piecesList].sort((a,b) => b - a);
     let totalWastage = 0;
@@ -548,21 +510,17 @@
     while (unassigned.length > 0) {
       let currentCap = barCap;
       let usedIndexes = [];
-
       for (let i = 0; i < unassigned.length; i++) {
         if (currentCap >= unassigned[i] - 0.001) {
           currentCap -= unassigned[i];
           usedIndexes.push(i);
         }
       }
-
       if (usedIndexes.length === 0) break;
-
       let cutPcs = usedIndexes.map(i => unassigned[i]);
       let wastage = parseFloat(Math.max(0, currentCap).toFixed(2));
       totalWastage += wastage;
       plan.push({ piecesCut: cutPcs, wastage: wastage });
-
       unassigned = unassigned.filter((_, idx) => !usedIndexes.includes(idx));
     }
 
@@ -592,14 +550,8 @@
     let totalSqft = 0;
 
     let itemsMap = {
-      "আউটার সাইড": [],
-      "আউটার টপ": [],
-      "আউটার বটম": [],
-      "শাটার লক": [],
-      "শাটার ইন্টারলক": [],
-      "শাটার টপ": [],
-      "শাটার বটম": [],
-      "নেট সেকশন": []
+      "আউটার সাইড": [], "আউটার টপ": [], "আউটার বটম": [],
+      "শাটার লক": [], "শাটার ইন্টারলক": [], "শাটার টপ": [], "শাটার বটম": [], "নেট সেকশন": []
     };
 
     let seriesVal = document.getElementById('aluSeries').value;
@@ -612,40 +564,17 @@
       let q = parseFloat(qtys[i].value) || 0;
 
       if (h > 0 && w > 0 && q > 0) {
-        let hFt = h / 12;
-        let wFt = w / 12;
+        let hFt = h / 12; let wFt = w / 12;
+        outerH += hFt * 2 * q; outerTop += wFt * q; outerBottom += wFt * q; 
+        shutterLock += hFt * 2 * q; shutterInterlock += hFt * 2 * q; shutterTop += wFt * q; shutterBottom += wFt * q;
+        let winSqft = hFt * wFt * q; totalSqft += winSqft;
+
+        for(let j = 0; j < (q * 2); j++) { itemsMap["আউটার সাইড"].push(hFt); itemsMap["শাটার লক"].push(hFt); itemsMap["শাটার ইন্টারলক"].push(hFt); }
+        for(let j = 0; j < q; j++) { itemsMap["আউটার টপ"].push(wFt); itemsMap["আউটার বটম"].push(wFt); itemsMap["শাটার টপ"].push(wFt); itemsMap["শাটার বটম"].push(wFt); }
         
-        outerH += hFt * 2 * q;
-        outerTop += wFt * q;
-        outerBottom += wFt * q; 
-        shutterLock += hFt * 2 * q;
-        shutterInterlock += hFt * 2 * q;
-        shutterTop += wFt * q;
-        shutterBottom += wFt * q;
-
-        let winSqft = hFt * wFt * q;
-        totalSqft += winSqft;
-
-        for(let j = 0; j < (q * 2); j++) { 
-          itemsMap["আউটার সাইড"].push(hFt);
-          itemsMap["শাটার লক"].push(hFt);
-          itemsMap["শাটার ইন্টারলক"].push(hFt);
-        }
-
-        for(let j = 0; j < q; j++) {
-          itemsMap["আউটার টপ"].push(wFt);
-          itemsMap["আউটার বটম"].push(wFt);
-          itemsMap["শাটার টপ"].push(wFt);
-          itemsMap["শাটার বটম"].push(wFt);
-        }
         if (isNetActive) {
           let netWidthFt = wFt / 2;
-          for (let j = 0; j < q; j++) {
-            itemsMap["নেট সেকশন"].push(hFt);
-            itemsMap["নেট সেকশন"].push(hFt);
-            itemsMap["নেট সেকশন"].push(netWidthFt);
-            itemsMap["নেট সেকশন"].push(netWidthFt);
-          }
+          for (let j = 0; j < q; j++) { itemsMap["নেট সেকশন"].push(hFt); itemsMap["নেট সেকশন"].push(hFt); itemsMap["নেট সেকশন"].push(netWidthFt); itemsMap["নেট সেকশন"].push(netWidthFt); }
         }
       }
     }
@@ -653,7 +582,6 @@
     let netRawSum = isNetActive ? itemsMap["নেট সেকশন"].reduce((a, b) => a + b, 0) : 0;
     let netBarCount = Math.ceil(netRawSum / 21);
     let netFt = netBarCount * 21;
-
     let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
 
     document.getElementById('mOuterSide').innerText = toBnNum(outerH.toFixed(2));
@@ -680,43 +608,35 @@
 
     let table18Body = document.getElementById('tableBody18');
     let table21Body = document.getElementById('tableBody21');
-    table18Body.innerHTML = '';
-    table21Body.innerHTML = '';
-
-    let has18Data = false;
-    let has21Data = false;
+    table18Body.innerHTML = ''; table21Body.innerHTML = '';
+    let has18Data = false; let has21Data = false;
 
     Object.keys(itemsMap).forEach(itemName => {
       let pcs = itemsMap[itemName];
       if (pcs.length === 0) return;
 
-      let pcs18 = [];
-      let pcs21 = [];
-
+      let pcs18 = []; let pcs21 = [];
       pcs.forEach(p => {
         let pVal = parseFloat(p.toFixed(2));
         if (itemName === "নেট সেকশন") {
           pcs21.push(p);
         } else {
-          let rem18 = 18.5 % pVal;
+          // Changed to 18.6
+          let rem18 = 18.6 % pVal;
           let rem21 = 21.0 % pVal;
-          if (rem18 <= rem21) {
-            pcs18.push(p);
-          } else {
-            pcs21.push(p);
-          }
+          if (rem18 <= rem21) { pcs18.push(p); } else { pcs21.push(p); }
         }
       });
 
       if (pcs18.length > 0) {
-        let res18 = solveBarCutting(pcs18, 18.5);
+        let res18 = solveBarCutting(pcs18, 18.6); // Changed to 18.6
         if (res18) {
           has18Data = true;
           window.printData.items18[itemName] = res18;
           let tr = document.createElement('tr');
           tr.innerHTML = `
             <td><strong>${itemName}</strong></td>
-            <td><span style="color:#1e40af; font-weight:bold;">১৮.৫ ফিট বার</span></td>
+            <td><span style="color:#1e40af; font-weight:bold;">১৮.৬ ফিট বার</span></td>
             <td>${toBnNum(res18.totalLen.toFixed(2))} ফিট</td>
             <td>${res18.detailsHTML}</td>
           `;
@@ -741,31 +661,22 @@
       }
     });
 
-    if (!has18Data) {
-      table18Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">১৮.৫ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>';
-    }
-    if (!has21Data) {
-      table21Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">২১ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>';
-    }
+    if (!has18Data) { table18Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">১৮.৬ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>'; }
+    if (!has21Data) { table21Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">২১ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>'; }
 
-    let glassSqft = totalSqft; 
     let aluTotalCost = totalSqft * (rateData.aluRate || 0);
-    let glassTotalCost = glassSqft * (rateData.glassRate || 0);
+    let glassTotalCost = totalSqft * (rateData.glassRate || 0);
     let hardwareCost = totalSqft * (rateData.hwRate || 0);
     let fittingsCharge = totalSqft * (rateData.fitRate || 0);
     let labourCharge = totalSqft * (rateData.labourRate || 0);
     let netMeshCost = isNetActive ? (netMeshSqft * (rateData.netRate || 0)) : 0;
-
     let totalMaterialCost = aluTotalCost + glassTotalCost + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
-
     let actualCostPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;
-    let profitPercent = rateData.profit || 0;
-    let profitPerSqft = actualCostPerSqft * (profitPercent / 100); 
-
+    let profitPerSqft = actualCostPerSqft * ((rateData.profit || 0) / 100); 
     let sellingRatePerSqft = actualCostPerSqft + profitPerSqft;
     let sellingPrice = totalSqft > 0 ? (totalSqft * sellingRatePerSqft) : 0;
 
-    document.getElementById('mGlassSqft').innerText = toBnNum(glassSqft.toFixed(2));
+    document.getElementById('mGlassSqft').innerText = toBnNum(totalSqft.toFixed(2));
     document.getElementById('mAluCost').innerText = toBnNum(aluTotalCost.toFixed(2));
     document.getElementById('mGlassCost').innerText = toBnNum(glassTotalCost.toFixed(2));
     document.getElementById('mHardware').innerText = toBnNum(hardwareCost.toFixed(2));
@@ -781,32 +692,20 @@
     if (shouldSave && totalSqft > 0) {
       let windowItems = [];
       document.querySelectorAll('#winTableBody tr').forEach(row => {
-        let h = row.querySelector('.w-h').value;
-        let w = row.querySelector('.w-w').value;
-        let q = row.querySelector('.w-q').value;
+        let h = row.querySelector('.w-h').value; let w = row.querySelector('.w-w').value; let q = row.querySelector('.w-q').value;
         if (h && w && q) windowItems.push({ h, w, q });
       });
 
-      let projName = document.getElementById('projectName') ? document.getElementById('projectName.value') : 'সাধারণ প্রজেক্ট';
-
       let fileData = {
-        id: Date.now(),
-        date: new Date().toLocaleDateString('bn-BD'),
+        id: Date.now(), date: new Date().toLocaleDateString('bn-BD'),
         custName: document.getElementById('custName').value || 'সাধারণ গ্রাহক',
-        projectName: projName || 'সাধারণ প্রজেক্ট',
-        company: document.getElementById('aluCompany').value,
-        series: document.getElementById('aluSeries').value,
-        aluThickness: document.getElementById('aluThickness').value,
-        aluColour: document.getElementById('aluColour').value,
-        glassCompany: document.getElementById('glassCompany').value,
-        glassThickness: document.getElementById('glassThickness').value,
-        glassColour: document.getElementById('glassColour').value,
-        netSection: document.getElementById('netSection').value,
-        windowItems: windowItems,
-        totalSqft: totalSqft.toFixed(2),
-        sellingPrice: sellingPrice.toFixed(2)
+        projectName: document.getElementById('projectName') ? document.getElementById('projectName').value : 'সাধারণ প্রজেক্ট',
+        company: document.getElementById('aluCompany').value, series: document.getElementById('aluSeries').value,
+        aluThickness: document.getElementById('aluThickness').value, aluColour: document.getElementById('aluColour').value,
+        glassCompany: document.getElementById('glassCompany').value, glassThickness: document.getElementById('glassThickness').value,
+        glassColour: document.getElementById('glassColour').value, netSection: document.getElementById('netSection').value,
+        windowItems: windowItems, totalSqft: totalSqft.toFixed(2), sellingPrice: sellingPrice.toFixed(2)
       };
-
       saveCustomerFile(fileData);
       alert(`✅ "${fileData.custName}" এর হিসাব ও ফাইল সেভ করা হয়েছে!`);
     }
@@ -815,7 +714,6 @@
   function openHistory() { document.getElementById('historyModal').style.display = 'flex'; renderHistoryList(); }
   function closeHistory() { document.getElementById('historyModal').style.display = 'none'; }
   function saveCustomerFile(data) { let history = JSON.parse(localStorage.getItem('rm_cust_files')) || []; history.unshift(data); if (history.length > 50) history.pop(); localStorage.setItem('rm_cust_files', JSON.stringify(history)); }
-
   function renderHistoryList() {
     let container = document.getElementById('historyListContainer');
     let history = JSON.parse(localStorage.getItem('rm_cust_files')) || [];
@@ -833,7 +731,6 @@
       container.appendChild(card);
     });
   }
-
   function loadSavedFile(file) {
     document.getElementById('custName').value = file.custName || '';
     if(document.getElementById('projectName')) document.getElementById('projectName').value = file.projectName || '';
@@ -849,7 +746,6 @@
     if (file.windowItems && file.windowItems.length > 0) { file.windowItems.forEach(item => { addPresetRow(item.h, item.w, item.q); }); } else { addPresetRow('', '', ''); }
     toggleNetSection(); calculateAll(false); closeHistory(); alert(`📂 "${file.custName}" এর ফাইলটি রি-ওপেন করা হয়েছে!`);
   }
-
   function deleteSingleFile(id) { let history = JSON.parse(localStorage.getItem('rm_cust_files')) || []; history = history.filter(f => f.id !== id); localStorage.setItem('rm_cust_files', JSON.stringify(history)); renderHistoryList(); }
   function clearAllHistory() { if (confirm("আপনি কি নিশ্চিত যে সব সেভ ফাইল মুছে ফেলতে চান?")) { localStorage.removeItem('rm_cust_files'); renderHistoryList(); } }
 
@@ -862,8 +758,7 @@
             if (hInput && wInput) {
                 let h = parseFloat(hInput.value) || 0; let w = parseFloat(wInput.value) || 0; let q = qInput ? (parseInt(qInput.value) || 1) : 1; 
                 if (h > 0 && w > 0) {
-                    totalWinQty += q;
-                    let hFt = h > 12 ? (h / 12) : h; let wFt = w > 12 ? (w / 12) : w;
+                    totalWinQty += q; let hFt = h > 12 ? (h / 12) : h; let wFt = w > 12 ? (w / 12) : w;
                     let singlePerimeter = (hFt + wFt) * 2; totalPerimeterFt += (singlePerimeter * q);
                     if (hFt <= 3 && wFt <= 3) { totalScrews += (21 * q); } else if (hFt >= 6 || wFt >= 6) { totalScrews += (37 * q); } else { totalScrews += (32 * q); }
                     if (hFt >= 7 && q >= 4) { totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80); } else { totalSiliconeEstimate += (singlePerimeter * q) / 85; }
@@ -906,44 +801,40 @@
     } catch (err) { console.error('Accessories Calculation Error:', err); }
   }
 
-  // --- Updated Print Preparation Logic (No Wastage, Bar + Extra Piece Format) ---
+  // --- প্রিন্ট লজিক: ওয়েস্টেজ বাদ দিয়ে শুধু ফুল পিস ও টুকরার হিসাব ---
   function formatCutText(plan, isBar21) {
     if(!plan || plan.length === 0) return "-";
     
     if (isBar21) {
-      // ২১ ফিটের বারের জন্য পূর্ণ পিস এবং অতিরিক্ত টুকরা আলাদা করা
-      let fullBars = 0;
-      let extraPieces = [];
-
-      plan.forEach(b => {
-        // যদি বারের মধ্যে শুধু একটি পিস থাকে এবং সেটি ২১ বা খুব কাছাকাছি হয় অথবা পূর্ণ বার ব্যবহার হয়
-        if (b.piecesCut.length === 1 && b.piecesCut[0] >= 20.9) {
+      // ২১ ফিটের জন্য: ফুল পিস আলাদা করে, শেষ টুকরা বের করা
+      let sortedPlan = [...plan].sort((a, b) => a.wastage - b.wastage);
+      let fullBars = sortedPlan.length - 1;
+      let lastBar = sortedPlan[sortedPlan.length - 1];
+      
+      // শেষ বার থেকে যতোটুকু কাটা হচ্ছে তার যোগফল
+      let lastBarUsedLen = lastBar.piecesCut.reduce((sum, val) => sum + val, 0);
+      
+      // যদি শেষ বারের টুকরাও প্রায় ২১ ফিট হয়ে যায়, তবে সেটিও ফুল পিস হিসেবে ধরবে
+      if (lastBarUsedLen >= 20.8) {
           fullBars++;
-        } else {
-          // টুকরাগুলো যোগ করা হচ্ছে
-          b.piecesCut.forEach(c => {
-            let numStr = parseFloat(c.toFixed(2)).toString();
-            extraPieces.push(toBnNum(numStr) + " ফিট");
-          });
+          lastBarUsedLen = 0;
         }
-      });
-
+        
       let resultText = "";
       if (fullBars > 0) {
         resultText += `${toBnNum(fullBars)} পিস`;
       }
-      if (extraPieces.length > 0) {
+      
+      if (lastBarUsedLen > 0) {
         if (resultText !== "") resultText += " + ";
-        resultText += extraPieces.join(" + ") + " টুকরা";
+        // অপ্রয়োজনীয় ডেসিমাল জিরো বাদ দিয়ে শুধু টুকরা দেখানো
+        let lenStr = parseFloat(lastBarUsedLen.toFixed(2)).toString();
+        resultText += `${toBnNum(lenStr)} ফিট টুকরা`;
       }
       return resultText !== "" ? resultText : `${toBnNum(plan.length)} পিস`;
     } else {
-      // ১৮.৫ ফিট বারের জন্য শুধুমাত্র পূর্ণ পিস বা হিসাব অনুযায়ী পিস দেখাবে
-      let totalPiecesCount = 0;
-      plan.forEach(b => {
-        totalPiecesCount += b.piecesCut.length;
-      });
-      return `${toBnNum(totalPiecesCount)} পিস`;
+      // ১৮.৬ ফিটের জন্য: শুধু ফুল পিস হিসেবে দেখাবে
+      return `${toBnNum(plan.length)} পিস`;
     }
   }
 
@@ -977,7 +868,7 @@
            materialRowsHTML += `<tr>
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">${toBnNum(matCounter++)}</td>
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left; font-weight: bold;">${item}</td>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">১৮.৫ এর</td>
+             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">১৮.৬ এর</td>
              <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left;">${cutStr}</td>
            </tr>`;
        }
@@ -1032,7 +923,7 @@
           <thead>
             <tr>
               <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 8%;">ক্রমিক নং</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 25%;">মালামালের নাম</th>
+              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 30%;">মালামালের নাম</th>
               <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 15%;">সাইজ</th>
               <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a;">পরিক্রত পরিমাণ</th>
             </tr>
@@ -1079,18 +970,25 @@
     printWin.document.write(`
       <html>
         <head>
-          <title>Print Document - RM THAI</title>
+          <title>RM THAI QUOTATION</title>
           <style>
             @media print {
               @page { size: A4; margin: 10mm; }
-              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+              body { 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 12px;
+              }
+              /* ডাবল পেজ এড়ানোর জন্য CSS ফিক্স */
+              #printContent { page-break-inside: avoid; }
+              table { page-break-inside: auto; width: 100%; border-collapse: collapse; }
+              tr { page-break-inside: avoid; page-break-after: auto; }
+              thead { display: table-header-group; }
+              tfoot { display: table-footer-group; }
             }
-            body { 
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-              color: #000; 
-              margin: 0;
-              padding: 0;
-            }
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #000; margin: 0; padding: 0; }
+            th, td { border: 1px solid #1e3a8a; padding: 6px; text-align: left; }
           </style>
         </head>
         <body>

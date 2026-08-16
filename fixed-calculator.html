@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মূল ফিক্সড ক্যালکুলেটর</title>
+    <title>মূল ফিক্সড ক্যালকুলেটর</title>
     <style>
         body {
             background-color: #0f172a;
@@ -13,7 +13,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 550px;
+            max-width: 650px;
             margin: 0 auto;
             background: #1e293b;
             padding: 25px;
@@ -73,13 +73,29 @@
             border-bottom: 1px solid #334155;
             padding-bottom: 8px;
         }
-        .result p {
-            margin: 10px 0;
-            font-size: 15px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
         }
-        .highlight {
-            color: #38bdf8;
+        th, td {
+            border: 1px solid #334155;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #0284c7;
+            color: white;
+        }
+        td {
+            background-color: #1e293b;
+        }
+        .summary-box {
+            margin-top: 15px;
+            font-size: 15px;
             font-weight: bold;
+            color: #38bdf8;
         }
     </style>
 </head>
@@ -108,26 +124,33 @@
         <input type="number" id="rows" value="3" oninput="generateRowInputs()">
     </div>
 
-    <!-- সারির আলাদা মাপ দেওয়ার ডাইনামিক সেকশন -->
     <div id="rowHeightsContainer" class="form-group">
         <label>প্রতিটি সারির উচ্চতা (ফিট করে):</label>
         <div id="rowInputsList"></div>
     </div>
 
-    <button onclick="calculateFixedPrecise()">হিসাব করুন</button>
+    <button onclick="calculateFixedTable()">হিসাব করুন</button>
 
     <div class="result" id="resultBox" style="display: none;">
-        <h3>হিসাবের ফলাফল:</h3>
-        <p id="resGlass"></p>
-        <p id="resTopSide"></p>
-        <p id="resBottom"></p>
-        <p id="resBottomBit"></p>
-        <p id="resGrooveCover"></p>
+        <h3>হিসাবের ফলাফল ও কাটিং তালিকা:</h3>
+        <div class="summary-box" id="resGlass"></div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>সেকশনের নাম</th>
+                    <th>প্রয়োজনীয় মাপ / পরিমাণ</th>
+                    <th>২১ ফিট সেকশন লাগবে</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- ডাইনামিক টেবিল ডাটা এখানে আসবে -->
+            </tbody>
+        </table>
     </div>
 </div>
 
 <script>
-    // সারিগুলোর ইনপুট ফিল্ড অটো তৈরি করার ফাংশন
     function generateRowInputs() {
         const rows = parseInt(document.getElementById('rows').value) || 0;
         const totalHeight = parseFloat(document.getElementById('height').value) || 0;
@@ -139,17 +162,16 @@
         for (let i = 1; i <= rows; i++) {
             container.innerHTML += `
                 <div style="margin-bottom: 8px; display: flex; align-items: center; gap: 10px;">
-                    <span>সারি ${i}:</span>
-                    <input type="number" class="row-h-input" value="${defaultVal}" step="any" style="width: 100%;">
+                    <span style="font-size:14px; min-width:50px;">সারি ${i}:</span>
+                    <input type="number" class="row-h-input" value="${defaultVal}" step="any">
                 </div>
             `;
         }
     }
 
-    // পেজ লোড হওয়ার সময় একবার কল হবে
     window.onload = generateRowInputs;
 
-    function calculateFixedPrecise() {
+    function calculateFixedTable() {
         const height = parseFloat(document.getElementById('height').value);
         const width = parseFloat(document.getElementById('width').value);
         const cols = parseInt(document.getElementById('cols').value);
@@ -161,46 +183,52 @@
             return;
         }
 
-        // প্রতি সারির উচ্চতা সংগ্রহ
-        const rowInputs = document.querySelectorAll('.row-h-input');
-        let sumRowHeights = 0;
-        let rowHeights = [];
-        rowInputs.forEach(input => {
-            let val = parseFloat(input.value) || 0;
-            rowHeights.push(val);
-            sumRowHeights += val;
-        });
+        const standardLen = 21; // ২১ ফিট স্ট্যান্ডার্ড সেকশন
 
-        const standardSectionLength = 21; // ২১ ফিট স্ট্যান্ডার্ড সেকশন
-
-        // ১. গ্লাসের ক্ষেত্রফল (বর্গফুট)
+        // ১. গ্লাসের ক্ষেত্রফল
         const totalSqft = height * width;
 
-        // ২. টপ এন্ড সাইড সেকশন হিসাব (আউটার ও খাড়া মাল)
+        // ২. অ্যালুমিনিয়াম সেকশন হিসাব
         const verticalCount = cols + 1; // খাড়া মালের সংখ্যা
         const totalTopSideFeet = (width * 2) + (height * verticalCount);
-        const topSidePieces = Math.ceil(totalTopSideFeet / standardSectionLength);
+        const topSidePcs = Math.ceil(totalTopSideFeet / standardLen);
 
-        // ৩. ফিক্সডের বটম সেকশন হিসাব (নিচ এবং মাঝের হরিজন্টাল ডিভিশন)
         const horizontalCount = rows; 
         const totalBottomFeet = (width * horizontalCount) + (height * (rows - 1));
-        const bottomPieces = Math.ceil(totalBottomFeet / standardSectionLength);
+        const bottomPcs = Math.ceil(totalBottomFeet / standardLen);
 
-        // ৪. অ্যাক্সেসরিজ হিসাব
-        const totalBottomBitFeet = totalBottomFeet; // সমপরিমাণ বটম বিট
-        const totalGrooveCoverFeet = totalTopSideFeet + (width * (rows - 1)); // গ্রুপ কভার
+        const totalBottomBitFeet = totalBottomFeet;
+        const bottomBitPcs = Math.ceil(totalBottomBitFeet / standardLen);
 
-        // ফলাফল প্রদর্শন
-        document.getElementById('resGlass').innerHTML = `মোট গ্লাস এরিয়া: <span class="highlight">${totalSqft.toFixed(2)} বর্গফুট</span>`;
-        
-        document.getElementById('resTopSide').innerHTML = `টপ এন্ড সাইড সেকশন: <span class="highlight">${totalTopSideFeet.toFixed(2)} ফিট</span> (২১ ফিটের পাইপ লাগবে: <span class="highlight">${topSidePieces} টি</span>)`;
-        
-        document.getElementById('resBottom').innerHTML = `ফিক্সডের বটম সেকশন: <span class="highlight">${totalBottomFeet.toFixed(2)} ফিট</span> (২১ ফিটের পাইপ লাগবে: <span class="highlight">${bottomPieces} টি</span>)`;
-        
-        document.getElementById('resBottomBit').innerHTML = `বটম বিট: <span class="highlight">${totalBottomBitFeet.toFixed(2)} ফিট</span>`;
-        
-        document.getElementById('resGrooveCover').innerHTML = `গ্রুপ কভার: <span class="highlight">${totalGrooveCoverFeet.toFixed(2)} ফিট</span>`;
-        
+        const totalGrooveCoverFeet = totalTopSideFeet + (width * (rows - 1));
+        const grooveCoverPcs = Math.ceil(totalGrooveCoverFeet / standardLen);
+
+        // টেবিল ডাটা তৈরি
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = `
+            <tr>
+                <td><strong>টপ এন্ড সাইড সেকশন</strong></td>
+                <td>${totalTopSideFeet.toFixed(2)} ফিট</td>
+                <td><strong>${topSidePcs} টি</strong> (২১ ফিটিংস)</td>
+            </tr>
+            <tr>
+                <td><strong>ফিক্সডের বটম সেকশন</strong></td>
+                <td>${totalBottomFeet.toFixed(2)} ফিট</td>
+                <td><strong>${bottomPcs} টি</strong> (২১ ফিটিংস)</td>
+            </tr>
+            <tr>
+                <td><strong>বটম বিট</strong></td>
+                <td>${totalBottomBitFeet.toFixed(2)} ফিট</td>
+                <td><strong>${bottomBitPcs} টি</strong> (২১ ফিটিংস)</td>
+            </tr>
+            <tr>
+                <td><strong>গ্রুপ কভার</strong></td>
+                <td>${totalGrooveCoverFeet.toFixed(2)} ফিট</td>
+                <td><strong>${grooveCoverPcs} টি</strong> (২১ ফিটিংস)</td>
+            </tr>
+        `;
+
+        document.getElementById('resGlass').innerHTML = `মোট গ্লাস এরিয়া: ${totalSqft.toFixed(2)} বর্গফুট`;
         resultBox.style.display = 'block';
     }
 </script>

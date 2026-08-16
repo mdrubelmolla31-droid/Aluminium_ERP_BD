@@ -839,14 +839,6 @@
     let projEl = document.getElementById('projectName');
     let projectName = projEl ? projEl.value : 'সাধারণ প্রজেক্ট';
 
-    // === কারেন্ট ডেট বের করার নতুন কোড (দিন/মাস/বছর) ===
-    let today = new Date();
-    let day = String(today.getDate()).padStart(2, '0');
-    let month = String(today.getMonth() + 1).padStart(2, '0');
-    let year = today.getFullYear();
-    let currentDate = toBnNum(`${day}/${month}/${year}`);
-    // ==================================================
-
     let order = [
       "আউটার সাইড", "আউটার টপ", "আউটার বটম", 
       "শাটার লক", "শাটার ইন্টারলক", "শাটার টপ", "শাটার বটম", "নেট সেকশন"
@@ -898,15 +890,10 @@
       }
     });
 
-    // ফন্ট সাইজ এবং স্পেস অনেক বাড়ানো হয়েছে (এবং তারিখের ডিভ যোগ করা হয়েছে)
+    // ফন্ট সাইজ এবং স্পেস অনেক বাড়ানো হয়েছে
     let printHTML = `
-      <div style="border: 3px solid #1e3a8a; border-radius: 12px; padding: 30px; position: relative; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff;">
+      <div style="border: 3px solid #1e3a8a; border-radius: 12px; padding: 30px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff;">
         
-        <!-- ডান পাশের উপরের কর্নারে তারিখের কোড -->
-        <div style="position: absolute; top: 30px; right: 30px; font-size: 18px; font-weight: 900; color: #000;">
-          তারিখ: ${currentDate}
-        </div>
-
         <div style="text-align: center; margin-bottom: 25px;">
           <h1 style="color: #1e3a8a; font-size: 42px; font-weight: 900; margin: 0; text-transform: uppercase;">${shopName}</h1>
           <div style="background-color: #1e3a8a; color: white; display: inline-block; padding: 10px 24px; border-radius: 30px; margin-top: 10px; font-weight: bold; font-size: 18px;">

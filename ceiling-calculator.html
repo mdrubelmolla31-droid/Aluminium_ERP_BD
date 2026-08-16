@@ -253,20 +253,26 @@
         .print-header {
             display: none;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             border-bottom: 2px solid #000;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
 
         /* ==========================================
-           PRINT / PDF STYLE
+           PRINT / PDF STYLE (ONE PAGE & BOLD)
            ========================================== */
         @media print {
+            @page {
+                size: portrait;
+                margin: 10mm;
+            }
+
             body {
                 background: #ffffff !important;
                 color: #000000 !important;
                 padding: 0;
                 display: block;
+                font-size: 15px;
             }
 
             .container {
@@ -286,14 +292,15 @@
             }
 
             .print-header h1 {
-                font-size: 22px;
-                font-weight: bold;
+                font-size: 24px;
+                font-weight: 900;
                 color: #000000;
-                margin-bottom: 5px;
+                margin-bottom: 4px;
             }
 
             .print-header p {
-                font-size: 14px;
+                font-size: 16px;
+                font-weight: bold;
                 color: #000000;
             }
 
@@ -301,31 +308,37 @@
                 display: block !important;
                 background: #ffffff !important;
                 color: #000000 !important;
-                border: 1px solid #000000 !important;
-                border-radius: 8px;
+                border: 2px solid #000000 !important;
+                border-radius: 6px;
                 box-shadow: none;
                 margin-bottom: 0;
+                padding: 12px;
             }
 
             .result-title {
                 color: #000000 !important;
-                border-bottom: 1px dashed #000000 !important;
-                font-size: 16px;
+                border-bottom: 2px dashed #000000 !important;
+                font-size: 18px;
+                font-weight: 900;
+                margin-bottom: 10px;
+                padding-bottom: 6px;
             }
 
             .result-item {
-                border-bottom: 1px solid #ddd !important;
-                padding: 10px 0;
+                border-bottom: 1px solid #bbb !important;
+                padding: 8px 0;
             }
 
             .result-label {
                 color: #000000 !important;
-                font-size: 14px;
+                font-size: 16px;
+                font-weight: bold;
             }
 
             .result-val {
                 color: #000000 !important;
-                font-size: 14px;
+                font-size: 16px;
+                font-weight: 900;
             }
         }
     </style>

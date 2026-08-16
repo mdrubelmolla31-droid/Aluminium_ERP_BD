@@ -92,7 +92,7 @@
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
     .btn-print { background-color: #dc2626; color: white; margin-top: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-print:hover { background-color: #b91c1c; }
-    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
 
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
     .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
@@ -105,10 +105,20 @@
     .mat-table tr.highlight-grand td { font-weight: 800; color: #0369a1; font-size: 15px; }
 
     table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 6px; text-align: center; font-size: 13px; }
-    table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 600; font-size: 12px; }
+    table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 12px 6px; text-align: center; font-size: 14px; }
+    table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 700; }
     table.report-table td { border: 1px solid #e2e8f0; padding: 8px; font-size: 13px; }
-    table.input-table input { padding: 6px; text-align: center; }
+    
+    /* আপডেট: ইনপুট বক্স বড় এবং বোল্ড করা হয়েছে */
+    table.input-table input { 
+      padding: 12px 8px; 
+      text-align: center; 
+      font-size: 16px; 
+      font-weight: 700; 
+      border: 1px solid #94a3b8; 
+      border-radius: 4px;
+    }
+    table.input-table td { padding: 6px; }
 
     .notice-box {
       background-color: #eff6ff;
@@ -196,6 +206,7 @@
       <div class="col"><label>কাস্টমার নাম</label><input type="text" id="custName" placeholder="নাম"></div>
       <div class="col"><label>কাস্টমার ঠিকানা</label><input type="text" id="custnambar" placeholder="ঠিকানা"></div>
     </div>
+  </div> <!-- Added missing closing div for Customer Details -->
 
 
   <div class="card">
@@ -235,7 +246,7 @@
     <div class="notice-box">ℹ️ উইন্ডোর মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
     <table class="input-table">
       <thead>
-        <tr><th>ক্রম</th><th>উচ্চতা (ইঞ্চি)</th><th>পাশ (ইঞ্চি)</th><th>পরিমাণ</th><th>অ্যাকশন</th></tr>
+        <tr><th style="width: 15%;">ক্রম</th><th style="width: 25%;">উচ্চতা (ইঞ্চি)</th><th style="width: 25%;">পাশ (ইঞ্চি)</th><th style="width: 20%;">পরিমাণ</th><th style="width: 15%;">অ্যাকশন</th></tr>
       </thead>
       <tbody id="winTableBody"></tbody>
     </table>
@@ -277,7 +288,6 @@
     </table>
   </div>
 
-  <!-- কাটিং লিস্ট -->
   <div class="card">
     <div class="card-title">CUTTING LIST</div>
     
@@ -298,7 +308,6 @@
     </table>
   </div>
 
-  <!-- প্রয়োজনীয় এক্সেসরিজ টেবিল -->
   <div class="card" style="margin-top: 15px;">
       <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজ তালিকা)</div>
       <table class="report-table">
@@ -329,10 +338,10 @@
   <div class="modal-content" style="max-width: 500px;">
     <div class="modal-header">
       <h3>CALCULATION HISTORY</h3>
-      <button class="btn-danger" onclick="closeHistory()">X</button>
+      <button class="btn-danger" style="padding: 6px 12px;" onclick="closeHistory()">X</button>
     </div>
     <div id="historyListContainer" class="history-list" style="flex: 1; overflow-y: auto;"></div>
-    <button class="btn btn-danger" style="margin-top: 10px;" onclick="clearAllHistory()">সব হিসাব মুছে ফেলুন</button>
+    <button class="btn btn-danger" style="margin-top: 10px; width: 100%; padding: 12px;" onclick="clearAllHistory()">সব হিসাব মুছে ফেলুন</button>
   </div>
 </div>
 
@@ -341,7 +350,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h3>PRINT PREVIEW & EDIT</h3>
-      <button class="btn-danger" onclick="closePrintModal()">X</button>
+      <button class="btn-danger" style="padding: 6px 12px;" onclick="closePrintModal()">X</button>
     </div>
     <div style="font-size: 13px; color: #1e3a8a; font-weight: 600; margin-bottom: 8px; text-align: center;">💡 আপনি চাইলে যেকোনো লেখায় ক্লিক করে এডিট করতে পারবেন (ডিজাইন ছবির মতই হবে):</div>
     
@@ -382,11 +391,11 @@
     let tr = document.createElement('tr');
     tr.className = 'window-row';
     tr.innerHTML = `
-      <td class="row-index"></td>
+      <td class="row-index" style="text-align: center; font-weight: bold; font-size: 16px;"></td>
       <td><input type="number" class="w-h height-input" value="${h}" placeholder="উচ্চতা" oninput="calculateAll(false)"></td>
       <td><input type="number" class="w-w width-input" value="${w}" placeholder="পাশ" oninput="calculateAll(false)"></td>
       <td><input type="number" class="w-q qty-input" value="${q}" placeholder="সংখ্যা" oninput="calculateAll(false)"></td>
-      <td><button class="btn-danger" type="button" onclick="removeRow(this)">X</button></td>
+      <td style="text-align: center;"><button class="btn-danger" type="button" style="padding: 10px 15px;" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
     updateIndexes();
@@ -618,7 +627,6 @@
         if (itemName === "নেট সেকশন") {
           pcs21.push(p);
         } else {
-          // Changed to 18.6
           let rem18 = 18.6 % pVal;
           let rem21 = 21.0 % pVal;
           if (rem18 <= rem21) { pcs18.push(p); } else { pcs21.push(p); }
@@ -626,7 +634,7 @@
       });
 
       if (pcs18.length > 0) {
-        let res18 = solveBarCutting(pcs18, 18.6); // Changed to 18.6
+        let res18 = solveBarCutting(pcs18, 18.6); 
         if (res18) {
           has18Data = true;
           window.printData.items18[itemName] = res18;
@@ -748,7 +756,7 @@
 
   function runAccessoriesCalculation() {
     try {
-        let totalWinQty = 0; let totalPerimeterFt = 0; let totalScrews = 0; let totalSiliconeEstimate = 0;
+        let totalWinQty = 0; let totalPerimeterFt = 0; let totalNetPerimeterFt = 0; let totalScrews = 0; let totalSiliconeEstimate = 0;
         let rows = document.querySelectorAll('#winTableBody tr');
         rows.forEach(function(row) {
             let hInput = row.querySelector('.w-h'); let wInput = row.querySelector('.w-w'); let qInput = row.querySelector('.w-q');
@@ -756,7 +764,14 @@
                 let h = parseFloat(hInput.value) || 0; let w = parseFloat(wInput.value) || 0; let q = qInput ? (parseInt(qInput.value) || 1) : 1; 
                 if (h > 0 && w > 0) {
                     totalWinQty += q; let hFt = h > 12 ? (h / 12) : h; let wFt = w > 12 ? (w / 12) : w;
-                    let singlePerimeter = (hFt + wFt) * 2; totalPerimeterFt += (singlePerimeter * q);
+                    
+                    let singlePerimeter = (hFt + wFt) * 2; 
+                    totalPerimeterFt += (singlePerimeter * q);
+                    
+                    // নেট রাবারের জন্য নেটের পেরিমিটার হিসাব করা হলো
+                    let singleNetPerimeter = (hFt + (wFt / 2)) * 2;
+                    totalNetPerimeterFt += (singleNetPerimeter * q);
+
                     if (hFt <= 3 && wFt <= 3) { totalScrews += (21 * q); } else if (hFt >= 6 || wFt >= 6) { totalScrews += (37 * q); } else { totalScrews += (32 * q); }
                     if (hFt >= 7 && q >= 4) { totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80); } else { totalSiliconeEstimate += (singlePerimeter * q) / 85; }
                 }
@@ -786,13 +801,15 @@
             <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${toBnNum(rubber)}</b></td><td>ফিট</td></tr>
             <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${toBnNum(silicone)}</b></td><td>টিউব</td></tr>
         `;
+        // আপডেট: ৪ ইঞ্চি বা নেটের জন্য নেট রাবার যুক্ত করা হয়েছে
         if (is4Inch || hasNet) {
             let netWheels = totalWinQty * 2; let netAngles = totalWinQty * 4; let netRivet = totalWinQty * 17;
+            let netRubber = (totalNetPerimeterFt * 1.1).toFixed(2);
             rowsHTML += `
                 <tr><td>নেটের চাকা (Net Wheel)</td><td><b>${toBnNum(netWheels)}</b></td><td>পিস</td></tr>
                 <tr><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${toBnNum(netAngles)}</b></td><td>পিস</td></tr>
                 <tr><td>রিপিট / রিভেট (Rivet)</td><td><b>${toBnNum(netRivet)}</b></td><td>পিস</td></tr>
-        
+                <tr><td>নেট রাবার (Net Rubber)</td><td><b>${toBnNum(netRubber)}</b></td><td>ফিট</td></tr>
             `;
         }                                                                                                                          
   
@@ -800,20 +817,15 @@
     } catch (err) { console.error('Accessories Calculation Error:', err); }
   }
 
-  // --- প্রিন্ট লজিক: ওয়েস্টেজ বাদ দিয়ে শুধু ফুল পিস ও টুকরার হিসাব ---
   function formatCutText(plan, isBar21) {
     if(!plan || plan.length === 0) return "-";
     
     if (isBar21) {
-      // ২১ ফিটের জন্য: ফুল পিস আলাদা করে, শেষ টুকরা বের করা
       let sortedPlan = [...plan].sort((a, b) => a.wastage - b.wastage);
       let fullBars = sortedPlan.length - 1;
       let lastBar = sortedPlan[sortedPlan.length - 1];
-      
-      // শেষ বার থেকে যতোটুকু কাটা হচ্ছে তার যোগফল
       let lastBarUsedLen = lastBar.piecesCut.reduce((sum, val) => sum + val, 0);
       
-      // যদি শেষ বারের টুকরাও প্রায় ২১ ফিট হয়ে যায়, তবে সেটিও ফুল পিস হিসেবে ধরবে
       if (lastBarUsedLen >= 20.8) {
           fullBars++;
           lastBarUsedLen = 0;
@@ -826,23 +838,29 @@
       
       if (lastBarUsedLen > 0) {
         if (resultText !== "") resultText += " + ";
-        // অপ্রয়োজনীয় ডেসিমাল জিরো বাদ দিয়ে শুধু টুকরা দেখানো
         let lenStr = parseFloat(lastBarUsedLen.toFixed(2)).toString();
         resultText += `${toBnNum(lenStr)} ফিট টুকরা`;
       }
       return resultText !== "" ? resultText : `${toBnNum(plan.length)} পিস`;
     } else {
-      // ১৮.৬ ফিটের জন্য: শুধু ফুল পিস হিসেবে দেখাবে
       return `${toBnNum(plan.length)} পিস`;
     }
   }
 
+  // আপডেট: প্রিন্ট লেআউটে ফন্ট বড় করা হয়েছে এবং তারিখ যুক্ত করা হয়েছে
   function openPrintModal() {
     let shopName = document.getElementById('shopOwnerName').value || 'RM.THAI.ALUMINIUM';
     let shopPhone = document.getElementById('shopPhone').value || '01676474412';
     let custName = document.getElementById('custName').value || 'সাধারণ গ্রাহক';
     let projEl = document.getElementById('projectName');
     let projectName = projEl ? projEl.value : 'সাধারণ প্রজেক্ট';
+
+    // আজকের তারিখ বের করা
+    let currDate = new Date();
+    let d = String(currDate.getDate()).padStart(2, '0');
+    let m = String(currDate.getMonth() + 1).padStart(2, '0');
+    let y = currDate.getFullYear();
+    let printDate = `${toBnNum(d)}/${toBnNum(m)}/${toBnNum(y)}`;
 
     let order = [
       "আউটার সাইড", "আউটার টপ", "আউটার বটম", 
@@ -852,29 +870,30 @@
     let matCounter = 1;
     let materialRowsHTML = '';
     
+    // টেবিলের ডেটা আরও গাঢ় কালো এবং ফন্ট বড় করা হয়েছে
     order.forEach(item => {
        if(window.printData.items21 && window.printData.items21[item]) {
            let cutStr = formatCutText(window.printData.items21[item].plan, true);
            materialRowsHTML += `<tr>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">${toBnNum(matCounter++)}</td>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left; font-weight: bold;">${item}</td>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">২১ এর</td>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left;">${cutStr}</td>
+             <td style="border: 2px solid #000; padding: 10px; text-align: center; font-weight: bold; font-size: 16px; color: #000;">${toBnNum(matCounter++)}</td>
+             <td style="border: 2px solid #000; padding: 10px; text-align: left; font-weight: bold; font-size: 16px; color: #000;">${item}</td>
+             <td style="border: 2px solid #000; padding: 10px; text-align: center; font-weight: bold; font-size: 16px; color: #000;">২১ এর</td>
+             <td style="border: 2px solid #000; padding: 10px; text-align: left; font-weight: bold; font-size: 16px; color: #000;">${cutStr}</td>
            </tr>`;
        }
        if(window.printData.items18 && window.printData.items18[item]) {
            let cutStr = formatCutText(window.printData.items18[item].plan, false);
            materialRowsHTML += `<tr>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">${toBnNum(matCounter++)}</td>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left; font-weight: bold;">${item}</td>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">১৮.৬ এর</td>
-             <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left;">${cutStr}</td>
+             <td style="border: 2px solid #000; padding: 10px; text-align: center; font-weight: bold; font-size: 16px; color: #000;">${toBnNum(matCounter++)}</td>
+             <td style="border: 2px solid #000; padding: 10px; text-align: left; font-weight: bold; font-size: 16px; color: #000;">${item}</td>
+             <td style="border: 2px solid #000; padding: 10px; text-align: center; font-weight: bold; font-size: 16px; color: #000;">১৮.৬ এর</td>
+             <td style="border: 2px solid #000; padding: 10px; text-align: left; font-weight: bold; font-size: 16px; color: #000;">${cutStr}</td>
            </tr>`;
        }
     });
 
     if(materialRowsHTML === '') {
-        materialRowsHTML = '<tr><td colspan="4" style="border: 1px solid #1e3a8a; padding: 10px; text-align: center;">কোনো তথ্য নেই</td></tr>';
+        materialRowsHTML = '<tr><td colspan="4" style="border: 2px solid #000; padding: 10px; text-align: center; font-size: 16px; font-weight: bold;">কোনো তথ্য নেই</td></tr>';
     }
 
     let accRowsHTML = '';
@@ -887,44 +906,49 @@
         let qty = tds[1].innerText;
         let unit = tds[2].innerText;
         accRowsHTML += `<tr>
-          <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">${toBnNum(accCounter++)}</td>
-          <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: left; font-weight: bold;">${name}</td>
-          <td style="border: 1px solid #1e3a8a; padding: 6px; text-align: center;">${qty} ${unit}</td>
+          <td style="border: 2px solid #000; padding: 10px; text-align: center; font-weight: bold; font-size: 16px; color: #000;">${toBnNum(accCounter++)}</td>
+          <td style="border: 2px solid #000; padding: 10px; text-align: left; font-weight: bold; font-size: 16px; color: #000;">${name}</td>
+          <td style="border: 2px solid #000; padding: 10px; text-align: center; font-weight: bold; font-size: 16px; color: #000;">${qty} ${unit}</td>
         </tr>`;
       }
     });
 
     let printHTML = `
-      <div style="border: 2px solid #1e3a8a; border-radius: 12px; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+      <div style="border: 3px solid #1e3a8a; border-radius: 12px; padding: 25px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; position: relative; background: #fff;">
         
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="color: #1e3a8a; font-size: 28px; font-weight: bold; margin: 0;">${shopName}</h1>
-          <div style="background-color: #1e3a8a; color: white; display: inline-block; padding: 6px 20px; border-radius: 20px; margin-top: 5px; font-weight: bold; font-size: 14px;">
+        <!-- ডান পাশে তারিখ -->
+        <div style="position: absolute; right: 25px; top: 25px; font-weight: bold; font-size: 18px; color: #1e3a8a;">
+          তারিখ: ${printDate}
+        </div>
+
+        <div style="text-align: center; margin-bottom: 25px;">
+          <h1 style="color: #1e3a8a; font-size: 38px; font-weight: 900; margin: 0; text-transform: uppercase;">${shopName}</h1>
+          <div style="background-color: #1e3a8a; color: white; display: inline-block; padding: 8px 25px; border-radius: 25px; margin-top: 8px; font-weight: bold; font-size: 18px;">
             📱 মোবাইল: ${shopPhone}
           </div>
         </div>
 
-        <table style="width: 100%; border-collapse: collapse; border: 1px solid #1e3a8a; margin-bottom: 15px; font-size: 14px;">
+        <table style="width: 100%; border-collapse: collapse; border: 2px solid #1e3a8a; margin-bottom: 25px;">
            <tr>
-             <td style="background-color: #1e3a8a; color: white; width: 130px; padding: 8px 12px; font-weight: bold; border: 1px solid #1e3a8a;">👤 কাস্টমার</td>
-             <td style="padding: 8px 12px; border: 1px solid #1e3a8a; color: black; font-weight: bold;">${custName}</td>
+             <td style="background-color: #1e3a8a; color: white; width: 150px; padding: 10px 15px; font-weight: bold; font-size: 18px; border: 2px solid #1e3a8a;">👤 কাস্টমার</td>
+             <td style="padding: 10px 15px; border: 2px solid #1e3a8a; color: #000; font-weight: bold; font-size: 18px;">${custName}</td>
            </tr>
            <tr>
-             <td style="background-color: #1e3a8a; color: white; width: 130px; padding: 8px 12px; font-weight: bold; border: 1px solid #1e3a8a;">🏢 প্রজেক্ট</td>
-             <td style="padding: 8px 12px; border: 1px solid #1e3a8a; color: black; font-weight: bold;">${projectName}</td>
+             <td style="background-color: #1e3a8a; color: white; width: 150px; padding: 10px 15px; font-weight: bold; font-size: 18px; border: 2px solid #1e3a8a;">🏢 প্রজেক্ট</td>
+             <td style="padding: 10px 15px; border: 2px solid #1e3a8a; color: #000; font-weight: bold; font-size: 18px;">${projectName}</td>
            </tr>
         </table>
 
-        <div style="background-color: #1e3a8a; color: white; text-align: center; padding: 8px; font-weight: bold; border: 1px solid #1e3a8a; border-bottom: none; font-size: 14px;">
+        <div style="background-color: #1e3a8a; color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 18px; border: 2px solid #1e3a8a; border-bottom: none;">
           প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)
         </div>
-        <table style="width: 100%; border-collapse: collapse; border: 1px solid #1e3a8a; margin-bottom: 20px; font-size: 13px;">
+        <table style="width: 100%; border-collapse: collapse; border: 2px solid #000; margin-bottom: 25px;">
           <thead>
             <tr>
-              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 8%;">ক্রমিক নং</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 30%;">মালামালের নাম</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 15%;">সাইজ</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a;">প্রকৃত পরিমাণ</th>
+              <th style="background-color: #1e3a8a; color: white; padding: 10px; border: 2px solid #1e3a8a; width: 10%; font-size: 16px;">ক্রমিক নং</th>
+              <th style="background-color: #1e3a8a; color: white; padding: 10px; border: 2px solid #1e3a8a; width: 35%; font-size: 16px;">মালামালের নাম</th>
+              <th style="background-color: #1e3a8a; color: white; padding: 10px; border: 2px solid #1e3a8a; width: 15%; font-size: 16px;">সাইজ</th>
+              <th style="background-color: #1e3a8a; color: white; padding: 10px; border: 2px solid #1e3a8a; font-size: 16px;">প্রকৃত পরিমাণ</th>
             </tr>
           </thead>
           <tbody>
@@ -932,15 +956,15 @@
           </tbody>
         </table>
 
-        <div style="background-color: #1e3a8a; color: white; text-align: center; padding: 8px; font-weight: bold; border: 1px solid #1e3a8a; border-bottom: none; font-size: 14px;">
+        <div style="background-color: #1e3a8a; color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 18px; border: 2px solid #1e3a8a; border-bottom: none;">
           এক্সেসরিজের তালিকা
         </div>
-        <table style="width: 100%; border-collapse: collapse; border: 1px solid #1e3a8a; margin-bottom: 15px; font-size: 13px;">
+        <table style="width: 100%; border-collapse: collapse; border: 2px solid #000; margin-bottom: 20px;">
           <thead>
             <tr>
-              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 15%;">ক্রমিক নং</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a; width: 50%;">এক্সেসরিজের নাম</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 8px; border: 1px solid #1e3a8a;">পরিমাণ</th>
+              <th style="background-color: #1e3a8a; color: white; padding: 10px; border: 2px solid #1e3a8a; width: 15%; font-size: 16px;">ক্রমিক নং</th>
+              <th style="background-color: #1e3a8a; color: white; padding: 10px; border: 2px solid #1e3a8a; width: 50%; font-size: 16px;">এক্সেসরিজের নাম</th>
+              <th style="background-color: #1e3a8a; color: white; padding: 10px; border: 2px solid #1e3a8a; font-size: 16px;">পরিমাণ</th>
             </tr>
           </thead>
           <tbody>
@@ -948,7 +972,7 @@
           </tbody>
         </table>
 
-        <div style="text-align: center; font-weight: bold; font-size: 14px; margin-top: 30px; margin-bottom: 10px; color: #000;">
+        <div style="text-align: center; font-weight: bold; font-size: 18px; margin-top: 35px; margin-bottom: 10px; color: #000;">
           ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।
         </div>
       </div>
@@ -977,9 +1001,9 @@
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact; 
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                font-size: 12px;
+                margin: 0;
+                padding: 0;
               }
-              /* ডাবল পেজ এড়ানোর জন্য CSS ফিক্স */
               #printContent { page-break-inside: avoid; }
               table { page-break-inside: auto; width: 100%; border-collapse: collapse; }
               tr { page-break-inside: avoid; page-break-after: auto; }
@@ -987,7 +1011,6 @@
               tfoot { display: table-footer-group; }
             }
             body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #000; margin: 0; padding: 0; }
-            th, td { border: 1px solid #1e3a8a; padding: 6px; text-align: left; }
           </style>
         </head>
         <body>

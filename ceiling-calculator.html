@@ -366,7 +366,7 @@
                 <input type="number" id="width" placeholder="যেমন: ১৪">
             </div>
 
-            <button class="btn-calc" onclick="calculateCeiling()">
+            <button class="btn-calc" id="calcBtn">
                 মালামালের হিসাব করুন
             </button>
         </div>
@@ -417,40 +417,40 @@
 
             <div class="cost-row">
                 <label>১. ওয়াল এঙ্গেল (১০ ফিট)</label>
-                <input type="number" id="wallAngleQty" placeholder="পরিমাণ (টি)" oninput="calculateCost()">
-                <input type="number" id="wallAnglePrice" placeholder="দর (টাকা)" oninput="calculateCost()">
+                <input type="number" id="wallAngleQty" placeholder="পরিমাণ (টি)">
+                <input type="number" id="wallAnglePrice" placeholder="দর (টাকা)">
                 <div class="subtotal-text" id="wallAngleSubtotal">৳ ০.০০</div>
             </div>
 
             <div class="cost-row">
                 <label>২. মেইন টি (১২ ফিট)</label>
-                <input type="number" id="mainTeeQty" placeholder="পরিমাণ (টি)" oninput="calculateCost()">
-                <input type="number" id="mainTeePrice" placeholder="দর (টাকা)" oninput="calculateCost()">
+                <input type="number" id="mainTeeQty" placeholder="পরিমাণ (টি)">
+                <input type="number" id="mainTeePrice" placeholder="দর (টাকা)">
                 <div class="subtotal-text" id="mainTeeSubtotal">৳ ০.০০</div>
             </div>
 
             <div class="cost-row">
                 <label>৩. ক্রস টি (২ ফিট)</label>
-                <input type="number" id="crossTeeQty" placeholder="পরিমাণ (টি)" oninput="calculateCost()">
-                <input type="number" id="crossTeePrice" placeholder="দর (টাকা)" oninput="calculateCost()">
+                <input type="number" id="crossTeeQty" placeholder="পরিমাণ (টি)">
+                <input type="number" id="crossTeePrice" placeholder="দর (টাকা)">
                 <div class="subtotal-text" id="crossTeeSubtotal">৳ ০.০০</div>
             </div>
 
             <div class="cost-row">
                 <label>৪. সিলিং বোর্ড (২' × ২')</label>
-                <input type="number" id="boardQty" placeholder="পরিমাণ (টি)" oninput="calculateCost()">
-                <input type="number" id="boardPrice" placeholder="দর (টাকা)" oninput="calculateCost()">
+                <input type="number" id="boardQty" placeholder="পরিমাণ (টি)">
+                <input type="number" id="boardPrice" placeholder="দর (টাকা)">
                 <div class="subtotal-text" id="boardSubtotal">৳ ০.০০</div>
             </div>
 
             <div class="extra-charge-row">
                 <label>৫. ক্যারিয়িং চার্জ (টাকা):</label>
-                <input type="number" id="carryingCharge" placeholder="যেমন: ৫০০" oninput="calculateCost()">
+                <input type="number" id="carryingCharge" placeholder="যেমন: ৫০০">
             </div>
 
             <div class="extra-charge-row">
                 <label>৬. ফিটিং চার্জ (পার স্কয়ার ফিট):</label>
-                <input type="number" id="fittingChargePerSqft" placeholder="যেমন: ১০" oninput="calculateCost()">
+                <input type="number" id="fittingChargePerSqft" placeholder="যেমন: ১০">
             </div>
 
             <div class="grand-total-card">
@@ -459,7 +459,7 @@
             </div>
 
             <!-- PDF PRINT BUTTON -->
-            <button class="pdf-print-btn" onclick="printPDF()">
+            <button class="pdf-print-btn" id="printBtn">
                 🖨️ PDF প্রিন্ট করুন
             </button>
         </div>
@@ -537,13 +537,22 @@
             document.getElementById('grandTotal').innerText = '৳ ' + grandTotal.toFixed(2);
         }
 
-        function printPDF() {
+        // ইভেন্ট লিসেনার যুক্ত করা হলো যাতে বাটন কাজ করতে বাধ্য থাকে
+        document.getElementById('calcBtn').addEventListener('click', calculateCeiling);
+
+        document.getElementById('printBtn').addEventListener('click', function() {
             if (calculatedTotalSqft <= 0) {
                 alert('প্রথমে রুমের দৈর্ঘ্য ও প্রস্থ দিয়ে মালামালের হিসাব করুন!');
                 return;
             }
             window.print();
-        }
+        });
+
+        // ইনপুট পরিবর্তনে স্বয়ংক্রিয় হিসাবের জন্য
+        const allInputs = document.querySelectorAll('.costing-box input');
+        allInputs.forEach(input => {
+            input.addEventListener('input', calculateCost);
+        });
     </script>
 </body>
 </html>

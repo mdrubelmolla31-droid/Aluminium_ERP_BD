@@ -1,39 +1,21 @@
 <!DOCTYPE html>
 <html lang="bn">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bill & Invoice - Aluminium ERP BD</title>
-
 <style>
-
-/* =====================================
-   BASIC
-===================================== */
-
 * {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
 }
-
 body {
     margin: 0;
     padding: 15px;
     background: #f1f5f9;
     color: #111;
 }
-
-
-/* =====================================
-   MAIN CONTAINER
-===================================== */
-
 .container {
     width: 100%;
     max-width: 850px;
@@ -41,19 +23,12 @@ body {
     background: #fff;
     padding: 20px;
 }
-
-
-/* =====================================
-   TOP BUTTON
-===================================== */
-
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
-
 .back-btn {
     background: #1e293b;
     color: #fff;
@@ -64,2157 +39,541 @@ body {
     font-size: 11px;
 }
 
-
-/* =====================================
-   BLUE HEADER
-===================================== */
-
+/* ব্লু হেডার সেকশন */
 .invoice-header {
-    position: relative;
-
-    background:
-        linear-gradient(
-            175deg,
-            #07549b 0%,
-            #0b5fae 55%,
-            #063b78 100%
-        );
-
-    min-height: 190px;
-
-    padding: 18px 18px 35px;
-
+    background: linear-gradient(175deg, #07549b 0%, #0b5fae 55%, #063b78 100%);
+    padding: 15px 15px 20px;
     margin-bottom: 12px;
-
-    overflow: hidden;
-
     color: #fff;
+    border-radius: 6px;
+    text-align: center;
 }
-
-
-/* Decorative lower white wave */
-
-.invoice-header::after {
-    content: "";
-    position: absolute;
-
-    left: -5%;
-    right: -5%;
-    bottom: -65px;
-
-    height: 105px;
-
-    background: #fff;
-
-    border-radius: 50% 50% 0 0 / 55% 55% 0 0;
-}
-
-
-/* =====================================
-   INVOICE TITLE
-===================================== */
 
 .invoice-title-row {
-    position: relative;
-    z-index: 2;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     width: 100%;
+    margin-bottom: 10px;
 }
-
-
-/* ছোট INVOICE লেখা */
 
 .invoice-main-title {
-    font-size: 27px;
+    font-size: 18px;
     line-height: 1;
-
     color: #fff;
-
-    letter-spacing: 1px;
-
+    letter-spacing: 0.5px;
     font-weight: 900;
 }
-
-
-/* Editable Bill No */
 
 .bill-number-box {
     display: flex;
     align-items: center;
     gap: 4px;
-
     color: #fff;
-
-    font-size: 12px;
-
+    font-size: 11px;
     font-weight: 900;
 }
-
 .bill-number-box input {
-    width: 115px;
-
+    width: 90px;
     border: none;
     border-bottom: 1px solid rgba(255,255,255,0.8);
-
     background: transparent;
-
     color: #fff;
-
     outline: none;
-
     text-align: right;
-
-    font-size: 12px;
-
+    font-size: 11px;
     font-weight: 900;
 }
 
-
-/* =====================================
-   SHOP NAME
-===================================== */
-
-.shop-name-wrapper {
-    position: absolute;
-
-    z-index: 3;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 100%;
-
-    text-align: center;
-}
-
+/* দোকানের নাম ও স্লোগান হেডারের ভেতর */
 .shop-name {
     display: inline-block;
-
-    font-size: 32px;
-
+    font-size: 24px;
     line-height: 1.1;
-
     font-weight: 900;
-
-    color: #fff;
-
+    color: #ffffff !important;
     background: transparent;
-
     border: none;
-
     outline: none;
-
     text-align: center;
-
     text-transform: uppercase;
-
-    text-shadow:
-        0 2px 3px rgba(0,0,0,0.35);
-
-    max-width: 95%;
-
-    word-break: break-word;
+    margin: 5px 0 2px 0;
+    width: 100%;
 }
-
-
-/* =====================================
-   SHOP SUBTITLE
-===================================== */
 
 .shop-subtitle {
-    position: absolute;
-
-    z-index: 3;
-
-    left: 50%;
-    top: calc(50% + 42px);
-
-    transform: translateX(-50%);
-
-    width: 95%;
-
-    text-align: center;
-
-    color: #fff;
-
+    color: #f8fafc;
     font-size: 9px;
-
     font-weight: 700;
+    margin-bottom: 12px;
 }
-
-
-/* =====================================
-   SHOP DETAILS
-===================================== */
 
 .shop-details {
-    position: absolute;
-
-    z-index: 3;
-
-    left: 50%;
-    bottom: 12px;
-
-    transform: translateX(-50%);
-
-    width: 94%;
-
-    text-align: center;
-
     color: #fff;
-
     font-size: 9px;
-
     line-height: 1.5;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 8px;
 }
-
 .shop-details input {
     border: none;
-
-    border-bottom: 1px dashed
-        rgba(255,255,255,0.8);
-
+    border-bottom: 1px dashed rgba(255,255,255,0.8);
     background: transparent;
-
     color: #fff;
-
     outline: none;
-
     text-align: center;
-
     font-size: 9px;
-
     font-weight: 700;
 }
 
-
-/* =====================================
-   BILL TO / FROM
-===================================== */
-
+/* বিল ইনফো */
 .bill-info {
     display: flex;
-
     justify-content: space-between;
-
     gap: 20px;
-
     margin: 15px 5px 18px;
 }
-
-.bill-to,
-.bill-from {
+.bill-to, .bill-from {
     width: 48%;
 }
-
 .bill-from {
     text-align: right;
 }
-
 .bill-info h3 {
     margin: 0 0 6px;
-
-    font-size: 14px;
-
+    font-size: 13px;
     color: #222;
 }
-
 .bill-info input {
     width: 100%;
-
     border: none;
-
     border-bottom: 1px solid #aaa;
-
     outline: none;
-
     padding: 3px 0;
-
     font-size: 11px;
-
     background: transparent;
-
     color: #222;
 }
-
 .bill-from input {
     text-align: right;
 }
 
-
-/* =====================================
-   DATE
-===================================== */
-
 .date-row {
     margin: 8px 5px 18px;
-
     font-size: 11px;
 }
-
 .date-row input {
     border: none;
-
     border-bottom: 1px solid #aaa;
-
     outline: none;
-
     font-size: 11px;
-
     padding: 3px;
-
     background: transparent;
 }
 
-
-/* =====================================
-   INVOICE TABLE
-===================================== */
-
+/* টেবিল ডিজাইন */
 .table-responsive {
     width: 100%;
-
     overflow-x: auto;
 }
-
 .invoice-table {
     width: 100%;
-
     border-collapse: collapse;
-
     table-layout: fixed;
 }
-
 .invoice-table th {
     background: #07549b;
-
     color: #fff;
-
     border: 1px solid #07549b;
-
     padding: 7px 4px;
-
     text-align: center;
-
     font-size: 11px;
-
     font-weight: 900;
 }
-
 .invoice-table td {
     border: 1px solid #aaa;
-
     padding: 4px;
-
     text-align: center;
-
     vertical-align: middle;
-
     font-size: 10px;
 }
+.invoice-table th:nth-child(1), .invoice-table td:nth-child(1) { width: 8%; }
+.invoice-table th:nth-child(2), .invoice-table td:nth-child(2) { width: 37%; }
+.invoice-table th:nth-child(3), .invoice-table td:nth-child(3) { width: 12%; }
+.invoice-table th:nth-child(4), .invoice-table td:nth-child(4) { width: 13%; }
+.invoice-table th:nth-child(5), .invoice-table td:nth-child(5) { width: 12%; }
+.invoice-table th:nth-child(6), .invoice-table td:nth-child(6) { width: 18%; }
 
-
-/* Description column */
-
-.invoice-table th:nth-child(1),
-.invoice-table td:nth-child(1) {
-    width: 43%;
-}
-
-
-/* Qty */
-
-.invoice-table th:nth-child(2),
-.invoice-table td:nth-child(2) {
-    width: 12%;
-}
-
-
-/* Rate */
-
-.invoice-table th:nth-child(3),
-.invoice-table td:nth-child(3) {
-    width: 15%;
-}
-
-
-/* Sqft */
-
-.invoice-table th:nth-child(4),
-.invoice-table td:nth-child(4) {
-    width: 12%;
-}
-
-
-/* Total */
-
-.invoice-table th:nth-child(5),
-.invoice-table td:nth-child(5) {
-    width: 18%;
-}
-
-
-/* =====================================
-   TABLE INPUTS
-===================================== */
-
-.invoice-table input,
-.invoice-table textarea {
+.invoice-table input, .invoice-table textarea {
     width: 100%;
-
     border: none;
-
     outline: none;
-
     background: transparent;
-
     color: #111;
-
     font-size: 10px;
-
     font-weight: 700;
 }
-
-.invoice-table textarea {
+.item-description {
     min-height: 34px;
-
     resize: vertical;
-
-    text-align: left;
-
+    text-align: left !important;
     padding: 3px;
-
     line-height: 1.3;
 }
-
 .invoice-table input {
     text-align: center;
-
     padding: 3px;
 }
-
-
-/* =====================================
-   REMOVE BUTTON
-===================================== */
 
 .btn-del {
     background: #dc2626;
-
     color: #fff;
-
     border: none;
-
     border-radius: 3px;
-
     padding: 3px 6px;
-
     font-size: 9px;
-
     cursor: pointer;
 }
-
-
-/* =====================================
-   ADD ITEM BUTTON
-===================================== */
-
 .btn-add {
     margin-top: 8px;
-
     padding: 6px 10px;
-
     background: #198754;
-
     color: #fff;
-
     border: none;
-
     border-radius: 4px;
-
     font-size: 10px;
-
     cursor: pointer;
 }
 
-
-/* =====================================
-   SUB TOTAL
-===================================== */
-
+/* সাব টোটাল */
 .total-section {
     display: flex;
-
     justify-content: flex-end;
-
     margin-top: 8px;
 }
-
 .total-box {
     width: 40%;
-
     background: #07549b;
-
     color: #fff;
-
     padding: 7px 10px;
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     font-size: 12px;
-
     font-weight: 900;
 }
-
 .total-box input {
     width: 90px;
-
     border: none;
-
     background: transparent;
-
     color: #fff;
-
     outline: none;
-
     text-align: right;
-
     font-size: 12px;
-
     font-weight: 900;
 }
-        /* =====================================
-       NOTE SECTION
-    ===================================== */
 
-    .note-section {
-        margin-top: 18px;
-        width: 45%;
-    }
-
-    .note-title {
-        font-size: 12px;
-        font-weight: 900;
-        margin-bottom: 5px;
-    }
-
-    .note-line {
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid #aaa;
-        outline: none;
-        background: transparent;
-        margin: 5px 0;
-        padding: 3px 0;
-        font-size: 10px;
-    }
-
-
-    /* =====================================
-       PAYMENT + THANK YOU
-    ===================================== */
-
-    .bottom-area {
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: flex-end;
-
-        margin-top: 25px;
-
-        gap: 20px;
-    }
-
-    .payment-info {
-        width: 55%;
-
-        font-size: 10px;
-
-        line-height: 1.6;
-    }
-
-    .payment-title {
-        font-size: 12px;
-
-        font-weight: 900;
-
-        margin-bottom: 5px;
-    }
-
-    .payment-row {
-        display: flex;
-
-        gap: 8px;
-
-        margin: 3px 0;
-    }
-
-    .payment-row strong {
-        min-width: 55px;
-    }
-
-    .payment-row input {
-        flex: 1;
-
-        border: none;
-
-        border-bottom: 1px solid #aaa;
-
-        outline: none;
-
-        background: transparent;
-
-        font-size: 10px;
-
-        padding: 2px;
-    }
-
-
-    /* =====================================
-       THANK YOU
-    ===================================== */
-
-    .thank-you {
-        width: 40%;
-
-        text-align: center;
-
-        font-size: 28px;
-
-        color: #07549b;
-
-        font-weight: 500;
-    }
-
-
-    /* =====================================
-       ACTION BUTTONS
-    ===================================== */
-
-    .action-buttons {
-        width: 100%;
-
-        max-width: 850px;
-
-        margin: 15px auto;
-
-        display: flex;
-
-        justify-content: center;
-
-        gap: 10px;
-    }
-
-    .action-buttons button {
-        border: none;
-
-        border-radius: 5px;
-
-        padding: 9px 18px;
-
-        color: #fff;
-
-        font-size: 12px;
-
-        font-weight: 900;
-
-        cursor: pointer;
-    }
-
-    .print-btn {
-        background: #07549b;
-    }
-
-    .add-btn {
-        background: #198754;
-    }
-
-
-    /* =====================================
-       PRINT / PDF
-    ===================================== */
-
-    @media print {
-
-        @page {
-            size: A4 portrait;
-            margin: 7mm;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background: #fff;
-        }
-
-        .container {
-            width: 100%;
-            max-width: none;
-            margin: 0;
-            padding: 10px;
-            border: none;
-        }
-
-        .top-bar,
-        .action-buttons,
-        .btn-add,
-        .no-print {
-            display: none !important;
-        }
-
-        .invoice-header {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
-        .invoice-table th,
-        .total-box {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
-        input,
-        textarea {
-            border: none !important;
-            background: transparent !important;
-            color: #000 !important;
-        }
-
-        .bill-number-box input {
-            color: #fff !important;
-        }
-
-        .shop-name {
-            color: #fff !important;
-        }
-
-        .invoice-table {
-            page-break-inside: avoid;
-        }
-
-        .bottom-area {
-            page-break-inside: avoid;
-        }
-    }
-
-
-    /* =====================================
-       MOBILE
-    ===================================== */
-
-    @media (max-width: 600px) {
-
-        body {
-            padding: 5px;
-        }
-
-        .container {
-            padding: 10px;
-        }
-
-        .invoice-header {
-            min-height: 160px;
-            padding: 14px 10px 25px;
-        }
-
-        .invoice-main-title {
-            font-size: 21px;
-        }
-
-        .bill-number-box {
-            font-size: 9px;
-        }
-
-        .bill-number-box input {
-            width: 80px;
-            font-size: 9px;
-        }
-
-        .shop-name {
-            font-size: 25px;
-        }
-
-        .shop-subtitle {
-            font-size: 7px;
-        }
-
-        .shop-details {
-            font-size: 7px;
-        }
-
-        .shop-details input {
-            font-size: 7px;
-        }
-
-        .bill-info {
-            gap: 10px;
-            margin-left: 2px;
-            margin-right: 2px;
-        }
-
-        .bill-info h3 {
-            font-size: 11px;
-        }
-
-        .bill-info input {
-            font-size: 9px;
-        }
-
-        .date-row {
-            font-size: 9px;
-        }
-
-        .invoice-table th,
-        .invoice-table td {
-            font-size: 8px;
-            padding: 3px 2px;
-        }
-
-        .invoice-table input,
-        .invoice-table textarea {
-            font-size: 8px;
-        }
-
-        .total-box {
-            width: 48%;
-            font-size: 9px;
-        }
-
-        .total-box input {
-            width: 65px;
-            font-size: 9px;
-        }
-
-        .note-section {
-            width: 50%;
-        }
-
-        .bottom-area {
-            gap: 8px;
-        }
-
-        .payment-info {
-            font-size: 8px;
-        }
-
-        .payment-title {
-            font-size: 9px;
-        }
-
-        .payment-row strong {
-            min-width: 40px;
-        }
-
-        .payment-row input {
-            font-size: 8px;
-        }
-
-        .thank-you {
-            font-size: 20px;
-        }
-    }
-
+.note-section {
+    margin-top: 18px;
+    width: 45%;
+}
+.note-title {
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+.note-line {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    outline: none;
+    background: transparent;
+    margin: 5px 0;
+    padding: 3px 0;
+    font-size: 10px;
+}
+
+.bottom-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 25px;
+    gap: 20px;
+}
+.payment-info {
+    width: 55%;
+    font-size: 10px;
+    line-height: 1.6;
+}
+.payment-title {
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+.payment-row {
+    display: flex;
+    gap: 8px;
+    margin: 3px 0;
+}
+.payment-row strong {
+    min-width: 55px;
+}
+.payment-row input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    outline: none;
+    background: transparent;
+    font-size: 10px;
+    padding: 2px;
+}
+.thank-you {
+    width: 40%;
+    text-align: center;
+    font-size: 28px;
+    color: #07549b;
+    font-weight: 500;
+}
+
+.action-buttons {
+    width: 100%;
+    max-width: 850px;
+    margin: 15px auto;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.btn-print {
+    background: #1d4ed8;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.18);
+}
+.btn-print:hover {
+    background: #1e40af;
+}
+
+@media print {
+    @page { size: A4 portrait; margin: 7mm; }
+    body { margin: 0; padding: 0; background: #fff; }
+    .container { width: 100%; max-width: none; margin: 0; padding: 10px; border: none; }
+    .top-bar, .action-buttons, .btn-add, .no-print { display: none !important; }
+    .invoice-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .invoice-table th, .total-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    input, textarea { border: none !important; background: transparent !important; color: #000 !important; }
+    .bill-number-box input, .shop-name { color: #fff !important; }
+}
 </style>
-</style>
-
 </head>
-
 <body>
 
 <div class="container" id="invoiceContainer">
 
-    <!-- =====================================
-         TOP BAR
-    ====================================== -->
-
     <div class="top-bar no-print">
-
-        <a href="index.html" class="back-btn">
-            ⬅️ Back to Dashboard
-        </a>
-
-        <span style="font-size:11px;">
-            Bill & Invoice Management
-        </span>
-
+        <a href="index.html" class="back-btn">⬅️ Back to Dashboard</a>
+        <span style="font-size:11px;">Bill & Invoice Management</span>
     </div>
 
-
-    <!-- =====================================
-         BLUE INVOICE HEADER
-    ====================================== -->
-
+    <!-- ব্লু ইনভয়েস হেডার -->
     <div class="invoice-header">
-
         <div class="invoice-title-row">
-
-            <div class="invoice-main-title">
-                INVOICE
-            </div>
-
+            <div class="invoice-main-title">INVOICE</div>
             <div class="bill-number-box">
-
                 <span>NO:</span>
-
-                <input
-                    type="text"
-                    id="billNo"
-                    value="INV-12345-1"
-                >
-
+                <input type="text" id="billNo" value="INV-12345-1">
             </div>
-
         </div>
 
-
-        <!-- SHOP NAME INSIDE BLUE HEADER -->
-
-        <div class="shop-name-wrapper">
-
-            <input
-                type="text"
-                class="shop-name"
-                id="shopName"
-                value="RM THAI ALUMINIUM"
-            >
-
-        </div>
-
-
-        <div class="shop-subtitle">
-
-            Experts in Thai Windows, Doors, Glass Works & False Ceilings
-
-        </div>
-
+        <input type="text" class="shop-name" id="shopName" value="RM THAI ALUMINIUM">
+        <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
 
         <div class="shop-details">
-
             <div>
-
-                <strong>Proprietor:</strong>
-
-                <input
-                    type="text"
-                    value="Rubel Molla"
-                    style="width:90px;"
-                >
-
-                &nbsp; | &nbsp;
-
-                <strong>Mobile:</strong>
-
-                <input
-                    type="text"
-                    value="01676-474412"
-                    style="width:100px;"
-                >
-
+                <strong>Proprietor:</strong> <input type="text" value="Rubel Molla" style="width:90px;"> &nbsp;|&nbsp; 
+                <strong>Mobile:</strong> <input type="text" value="01676-474412" style="width:100px;">
             </div>
-
-
-            <div>
-
-                <strong>Address:</strong>
-
-                <input
-                    type="text"
-                    value="47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216"
-                    style="width:80%;"
-                >
-
+            <div style="margin-top: 4px;">
+                <strong>Address:</strong> <input type="text" value="47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216" style="width:80%;">
             </div>
-
         </div>
-
     </div>
-
-
-    <!-- =====================================
-         BILL TO / FROM
-    ====================================== -->
 
     <div class="bill-info">
-
-
-        <!-- BILL TO -->
-
         <div class="bill-to">
-
             <h3>Bill To:</h3>
-
-            <input
-                type="text"
-                id="custName"
-                placeholder="Customer Name"
-            >
-
-            <input
-                type="text"
-                id="custMobile"
-                placeholder="Mobile / WhatsApp"
-            >
-
-            <input
-                type="text"
-                id="custAddress"
-                placeholder="Customer Address"
-            >
-
+            <input type="text" id="custName" placeholder="Customer Name">
+            <input type="text" id="custMobile" placeholder="Mobile / WhatsApp">
+            <input type="text" id="custAddress" placeholder="Customer Address">
         </div>
-
-
-        <!-- FROM -->
-
         <div class="bill-from">
-
             <h3>From:</h3>
-
-            <input
-                type="text"
-                value="Rubel Molla"
-            >
-
-            <input
-                type="text"
-                value="01676-474412"
-            >
-
-            <input
-                type="text"
-                value="47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216"
-            >
-
+            <input type="text" value="Rubel Molla">
+            <input type="text" value="01676-474412">
+            <input type="text" value="47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216">
         </div>
-
     </div>
-
-
-    <!-- =====================================
-         DATE
-    ====================================== -->
 
     <div class="date-row">
-
-        <strong>Date:</strong>
-
-        <input
-            type="text"
-            id="billDate"
-        >
-
+        <strong>Date:</strong> <input type="text" id="billDate">
     </div>
-
-
-    <!-- =====================================
-         INVOICE TABLE
-    ====================================== -->
 
     <div class="table-responsive">
-
         <table class="invoice-table">
-
             <thead>
-
                 <tr>
-
-                    <th>
-                        Description
-                    </th>
-
-                    <th>
-                        Qty
-                    </th>
-
-                    <th>
-                        Rate
-                    </th>
-
-                    <th>
-                        Sqft
-                    </th>
-
-                    <th>
-                        Total
-                    </th>
-
-                    <th
-                        class="no-print"
-                        style="width:35px;"
-                    >
-                        Act
-                    </th>
-
+                    <th>Sl.</th>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Sqft</th>
+                    <th>Total</th>
+                    <th class="no-print" style="width:35px;">Act</th>
                 </tr>
-
             </thead>
-
-
-            <tbody id="invoiceTableBody">
-
-            </tbody>
-
+            <tbody id="invoiceTableBody"></tbody>
         </table>
-
     </div>
 
-
-    <!-- ADD ITEM -->
-
-    <button
-        type="button"
-        class="btn-add no-print"
-        onclick="addInvoiceRow()"
-    >
-        + Add Item
-    </button>
-
-
-    <!-- =====================================
-         SUB TOTAL
-    ====================================== -->
+    <button type="button" class="btn-add no-print" onclick="addInvoiceRow()">+ Add Item</button>
 
     <div class="total-section">
-
         <div class="total-box">
-
-            <span>
-                Sub Total
-            </span>
-
-            <span>
-                Tk.
-                <input
-                    type="text"
-                    id="grandTotal"
-                    value="0.00"
-                    readonly
-                >
-            </span>
-
+            <span>Sub Total</span>
+            <span>Tk. <input type="text" id="grandTotal" value="0.00" readonly></span>
         </div>
-
     </div>
-
-
-    <!-- =====================================
-         NOTE
-    ====================================== -->
 
     <div class="note-section">
-
-        <div class="note-title">
-            Note:
-        </div>
-
-        <input
-            type="text"
-            class="note-line"
-            id="note1"
-        >
-
-        <input
-            type="text"
-            class="note-line"
-            id="note2"
-        >
-
-        <input
-            type="text"
-            class="note-line"
-            id="note3"
-        >
-
+        <div class="note-title">Note:</div>
+        <input type="text" class="note-line" id="note1">
+        <input type="text" class="note-line" id="note2">
+        <input type="text" class="note-line" id="note3">
     </div>
-
-
-    <!-- =====================================
-         PAYMENT INFORMATION
-    ====================================== -->
 
     <div class="bottom-area">
-
-
         <div class="payment-info">
-
-            <div class="payment-title">
-                Payment Information:
-            </div>
-
-
-            <div class="payment-row">
-
-                <strong>Bank:</strong>
-
-                <input
-                    type="text"
-                    value="Name Bank"
-                >
-
-            </div>
-
-
-            <div class="payment-row">
-
-                <strong>No Bank:</strong>
-
-                <input
-                    type="text"
-                    value="123-456-7890"
-                >
-
-            </div>
-
-
-            <div class="payment-row">
-
-                <strong>Email:</strong>
-
-                <input
-                    type="text"
-                    value="reallygreatsite.com"
-                >
-
-            </div>
-
+            <div class="payment-title">Payment Information:</div>
+            <div class="payment-row"><strong>Bank:</strong> <input type="text" value="Name Bank"></div>
+            <div class="payment-row"><strong>No Bank:</strong> <input type="text" value="123-456-7890"></div>
+            <div class="payment-row"><strong>Email:</strong> <input type="text" value="reallygreatsite.com"></div>
         </div>
-
-
-        <!-- THANK YOU -->
-
-        <div class="thank-you">
-
-            Thank You!
-
-        </div>
-
+        <div class="thank-you">Thank You!</div>
     </div>
 
 </div>
 
-
-<!-- =====================================
-     PRINT BUTTON
-====================================== -->
-
 <div class="action-buttons no-print">
-
-    <button
-        type="button"
-        class="print-btn"
-        onclick="window.print()"
-    >
-        🖨️ Print / Save PDF
-    </button>
-
+    <button type="button" class="btn-print" onclick="printInvoice()">🖨️ Print / PDF</button>
 </div>
+
 <script>
-
-/* =========================================
-   INVOICE JAVASCRIPT
-   PART-4
-========================================= */
-
-let invoiceLoaded = false;
-
-
-/* =========================================
-   PAGE LOAD
-========================================= */
-
 document.addEventListener("DOMContentLoaded", function () {
+    const quotation = JSON.parse(localStorage.getItem("quotation")) || {};
 
-    const quotation =
-        JSON.parse(localStorage.getItem("quotation")) || {};
+    if (document.getElementById("custName")) document.getElementById("custName").value = quotation.customerName || "";
+    if (document.getElementById("custMobile")) document.getElementById("custMobile").value = quotation.mobile || "";
+    if (document.getElementById("custAddress")) document.getElementById("custAddress").value = quotation.address || "";
+    if (document.getElementById("billNo")) document.getElementById("billNo").value = localStorage.getItem("billNo") || "INV-12345-1";
 
-
-    /* CUSTOMER */
-
-    const custName =
-        document.getElementById("custName");
-
-    const custMobile =
-        document.getElementById("custMobile");
-
-    const custAddress =
-        document.getElementById("custAddress");
-
-
-    if (custName) {
-        custName.value =
-            quotation.customerName || "";
-    }
-
-    if (custMobile) {
-        custMobile.value =
-            quotation.mobile || "";
-    }
-
-    if (custAddress) {
-        custAddress.value =
-            quotation.address || "";
-    }
-
-
-    /* =====================================
-       BILL NUMBER
-    ===================================== */
-
-    const billNo =
-        document.getElementById("billNo");
-
-    if (billNo) {
-
-        billNo.value =
-            localStorage.getItem("billNo") || "01";
-
-    }
-
-
-    /* =====================================
-       DATE
-    ===================================== */
-
-    const billDate =
-        document.getElementById("billDate");
-
-    if (billDate) {
-
-        const today = new Date();
-
-        const dd =
-            String(today.getDate())
-                .padStart(2, "0");
-
-        const mm =
-            String(today.getMonth() + 1)
-                .padStart(2, "0");
-
-        const yyyy =
-            today.getFullYear();
-
-        billDate.value =
-            dd + "-" + mm + "-" + yyyy;
-
-    }
-
-
-    /* =====================================
-       LOAD CALCULATOR DATA
-    ===================================== */
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const yyyy = today.getFullYear();
+    if (document.getElementById("billDate")) document.getElementById("billDate").value = dd + "-" + mm + "-" + yyyy;
 
     loadQuotationItems();
-
-    invoiceLoaded = true;
-
 });
 
-
-/* =========================================
-   LOAD QUOTATION ITEMS
-========================================= */
-
 function loadQuotationItems() {
-
-    const quotation =
-        JSON.parse(
-            localStorage.getItem("quotation")
-        ) || {};
-
-
-    const aluminium =
-        cleanNumber(
-            quotation.totalAluminium
-        );
-
-
-    const glass =
-        cleanNumber(
-            quotation.glass
-        );
-
-
-    const hardware =
-        cleanNumber(
-            quotation.hardwareCost
-        );
-
-
-    const fittings =
-        cleanNumber(
-            quotation.fittingsCost
-        );
-
-
-    const labour =
-        cleanNumber(
-            quotation.labourCost
-        );
-
-
+    const quotation = JSON.parse(localStorage.getItem("quotation")) || {};
     let loaded = false;
 
+    if (quotation.totalAluminium > 0) { addInvoiceRow("Aluminium", 1, "", quotation.totalAluminium); loaded = true; }
+    if (quotation.glass > 0) { addInvoiceRow("Glass", 1, "", quotation.glass); loaded = true; }
+    if (quotation.hardwareCost > 0) { addInvoiceRow("Hardware", 1, quotation.hardwareCost, 1); loaded = true; }
+    if (quotation.fittingsCost > 0) { addInvoiceRow("Fittings", 1, quotation.fittingsCost, 1); loaded = true; }
+    if (quotation.labourCost > 0) { addInvoiceRow("Labour", 1, quotation.labourCost, 1); loaded = true; }
 
-    /* =====================================
-       ALUMINIUM
-    ===================================== */
-
-    if (aluminium > 0) {
-
-        addInvoiceRow(
-            "Aluminium",
-            1,
-            "",
-            aluminium
-        );
-
-        loaded = true;
-
-    }
-
-
-    /* =====================================
-       GLASS
-    ===================================== */
-
-    if (glass > 0) {
-
-        addInvoiceRow(
-            "Glass",
-            1,
-            "",
-            glass
-        );
-
-        loaded = true;
-
-    }
-
-
-    /* =====================================
-       HARDWARE
-    ===================================== */
-
-    if (hardware > 0) {
-
-        addInvoiceRow(
-            "Hardware",
-            1,
-            hardware,
-            1
-        );
-
-        loaded = true;
-
-    }
-
-
-    /* =====================================
-       FITTINGS
-    ===================================== */
-
-    if (fittings > 0) {
-
-        addInvoiceRow(
-            "Fittings",
-            1,
-            fittings,
-            1
-        );
-
-        loaded = true;
-
-    }
-
-
-    /* =====================================
-       LABOUR
-    ===================================== */
-
-    if (labour > 0) {
-
-        addInvoiceRow(
-            "Labour",
-            1,
-            labour,
-            1
-        );
-
-        loaded = true;
-
-    }
-
-
-    /* =====================================
-       EMPTY ROW
-    ===================================== */
-
-    if (!loaded) {
-
-        addInvoiceRow();
-
-    }
-
-
+    if (!loaded) { addInvoiceRow(); }
     calculateGrandTotal();
-
 }
 
-
-/* =========================================
-   CLEAN NUMBER
-========================================= */
-
-function cleanNumber(value) {
-
-    if (
-        value === undefined ||
-        value === null
-    ) {
-
-        return 0;
-
-    }
-
-
-    return parseFloat(
-        String(value)
-            .replace(/[^0-9.-]/g, "")
-    ) || 0;
-
-}
-
-
-/* =========================================
-   ADD INVOICE ROW
-========================================= */
-
-function addInvoiceRow(
-    description = "",
-    qty = 1,
-    rate = "",
-    sqft = ""
-) {
-
-    const tbody =
-        document.getElementById(
-            "invoiceTableBody"
-        );
-
-
+function addInvoiceRow(description = "", qty = 1, rate = "", sqft = "") {
+    const tbody = document.getElementById("invoiceTableBody");
     if (!tbody) return;
 
-
-    const tr =
-        document.createElement("tr");
-
-
+    const tr = document.createElement("tr");
     tr.innerHTML = `
-
         <td class="sl-number"></td>
-
-        <td>
-            <textarea
-                class="item-description"
-                placeholder="Description..."
-            >${description}</textarea>
-        </td>
-
-        <td>
-            <input
-                type="number"
-                class="item-qty"
-                value="${qty}"
-                min="0"
-                step="0.01"
-                oninput="calculateRow(this)"
-            >
-        </td>
-
-        <td>
-            <input
-                type="number"
-                class="item-rate"
-                value="${rate}"
-                min="0"
-                step="0.01"
-                placeholder="Rate"
-                oninput="calculateRow(this)"
-            >
-        </td>
-
-        <td>
-            <input
-                type="number"
-                class="item-sqft"
-                value="${sqft}"
-                min="0"
-                step="0.01"
-                placeholder="Sqft"
-                oninput="calculateRow(this)"
-            >
-        </td>
-
-        <td>
-            <input
-                type="number"
-                class="item-amount"
-                value="0.00"
-                readonly
-            >
-        </td>
-
-        <td class="no-print">
-
-            <button
-                type="button"
-                class="btn-del"
-                onclick="removeInvoiceRow(this)"
-            >
-                X
-            </button>
-
-        </td>
-
+        <td><textarea class="item-description" placeholder="Description...">${description}</textarea></td>
+        <td><input type="number" class="item-qty" value="${qty}" min="0" step="0.01" oninput="calculateRow(this)"></td>
+        <td><input type="number" class="item-rate" value="${rate}" min="0" step="0.01" placeholder="Rate" oninput="calculateRow(this)"></td>
+        <td><input type="number" class="item-sqft" value="${sqft}" min="0" step="0.01" placeholder="Sqft" oninput="calculateRow(this)"></td>
+        <td><input type="number" class="item-amount" value="0.00" readonly></td>
+        <td class="no-print"><button type="button" class="btn-del" onclick="removeInvoiceRow(this)">X</button></td>
     `;
-
-
     tbody.appendChild(tr);
-
-
     updateRowIndices();
-
-
-    calculateRow(
-        tr.querySelector(".item-rate")
-    );
-
+    calculateRow(tr.querySelector(".item-rate"));
 }
-
-
-/* =========================================
-   REMOVE ROW
-========================================= */
 
 function removeInvoiceRow(btn) {
-
-    const tbody =
-        document.getElementById(
-            "invoiceTableBody"
-        );
-
-
-    if (!tbody) return;
-
-
+    const tbody = document.getElementById("invoiceTableBody");
     if (tbody.rows.length <= 1) {
-
-        alert(
-            "কমপক্ষে একটি Item রাখতে হবে!"
-        );
-
+        alert("কমপক্ষে একটি Item রাখতে হবে!");
         return;
-
     }
-
-
-    const row =
-        btn.closest("tr");
-
-
-    if (row) {
-
-        row.remove();
-
-    }
-
-
+    btn.closest("tr").remove();
     updateRowIndices();
-
     calculateGrandTotal();
-
 }
-
-
-/* =========================================
-   SERIAL NUMBER
-========================================= */
 
 function updateRowIndices() {
-
-    const rows =
-        document.querySelectorAll(
-            "#invoiceTableBody tr"
-        );
-
-
-    rows.forEach(
-        function (row, index) {
-
-            const number =
-                index + 1;
-
-
-            const serial =
-                row.querySelector(
-                    ".sl-number"
-                );
-
-
-            if (serial) {
-
-                serial.innerText =
-                    number < 10
-                        ? "0" + number
-                        : number;
-
-            }
-
-        }
-    );
-
+    document.querySelectorAll("#invoiceTableBody tr").forEach((row, index) => {
+        let num = index + 1;
+        let serial = row.querySelector(".sl-number");
+        if (serial) serial.innerText = num < 10 ? "0" + num : num;
+    });
 }
-
-
-/* =========================================
-   CALCULATE ROW
-
-   Qty × Rate × Sqft
-========================================= */
 
 function calculateRow(input) {
-
-    const row =
-        input.closest("tr");
-
-
+    const row = input.closest("tr");
     if (!row) return;
 
+    const qty = parseFloat(row.querySelector(".item-qty").value) || 0;
+    const rate = parseFloat(row.querySelector(".item-rate").value) || 0;
+    const sqft = parseFloat(row.querySelector(".item-sqft").value) || 0;
 
-    const qty =
-        parseFloat(
-            row.querySelector(
-                ".item-qty"
-            ).value
-        ) || 0;
-
-
-    const rate =
-        parseFloat(
-            row.querySelector(
-                ".item-rate"
-            ).value
-        ) || 0;
-
-
-    const sqft =
-        parseFloat(
-            row.querySelector(
-                ".item-sqft"
-            ).value
-        ) || 0;
-
-
-    const amount =
-        qty * rate * sqft;
-
-
-    const amountInput =
-        row.querySelector(
-            ".item-amount"
-        );
-
-
-    if (amountInput) {
-
-        amountInput.value =
-            amount.toFixed(2);
-
-    }
-
-
+    let amount = (sqft > 0) ? (qty * rate * sqft) : (qty * rate);
+    if(sqft === 0 && rate === 0) amount = 0;
+    
+    // Simple fallback calculation matching inputs
+    let totalVal = qty * (rate > 0 ? rate : 1) * (sqft > 0 ? sqft : 1);
+    if(rate === 0 && sqft > 0) totalVal = sqft;
+    
+    row.querySelector(".item-amount").value = totalVal.toFixed(2);
     calculateGrandTotal();
-
 }
-
-
-/* =========================================
-   GRAND TOTAL
-========================================= */
 
 function calculateGrandTotal() {
-
     let total = 0;
-
-
-    document.querySelectorAll(
-        "#invoiceTableBody .item-amount"
-    ).forEach(
-        function (input) {
-
-            total +=
-                parseFloat(
-                    input.value
-                ) || 0;
-
-        }
-    );
-
-
-    const totalInput =
-        document.getElementById(
-            "grandTotal"
-        );
-
-
-    if (totalInput) {
-
-        totalInput.value =
-            total.toFixed(2);
-
-    }
-
+    document.querySelectorAll("#invoiceTableBody .item-amount").forEach(input => {
+        total += parseFloat(input.value) || 0;
+    });
+    const totalInput = document.getElementById("grandTotal");
+    if (totalInput) totalInput.value = total.toFixed(2);
 }
-
-
-/* =========================================
-   BILL NUMBER SAVE
-========================================= */
-
-document.addEventListener(
-    "input",
-    function (event) {
-
-        if (
-            event.target &&
-            event.target.id === "billNo"
-        ) {
-
-            localStorage.setItem(
-                "billNo",
-                event.target.value
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================
-   SAVE INVOICE
-========================================= */
-
-function saveInvoiceData() {
-
-    const rows = [];
-
-
-    document.querySelectorAll(
-        "#invoiceTableBody tr"
-    ).forEach(
-        function (row) {
-
-            const description =
-                row.querySelector(
-                    ".item-description"
-                );
-
-
-            const qty =
-                row.querySelector(
-                    ".item-qty"
-                );
-
-
-            const rate =
-                row.querySelector(
-                    ".item-rate"
-                );
-
-
-            const sqft =
-                row.querySelector(
-                    ".item-sqft"
-                );
-
-
-            const amount =
-                row.querySelector(
-                    ".item-amount"
-                );
-
-
-            rows.push({
-
-                description:
-                    description
-                        ? description.value
-                        : "",
-
-                qty:
-                    qty
-                        ? qty.value
-                        : "0",
-
-                rate:
-                    rate
-                        ? rate.value
-                        : "0",
-
-                sqft:
-                    sqft
-                        ? sqft.value
-                        : "0",
-
-                amount:
-                    amount
-                        ? amount.value
-                        : "0"
-
-            });
-
-        }
-    );
-
-
-    const invoice = {
-
-        customer:
-            document.getElementById(
-                "custName"
-            )?.value || "",
-
-        mobile:
-            document.getElementById(
-                "custMobile"
-            )?.value || "",
-
-        address:
-            document.getElementById(
-                "custAddress"
-            )?.value || "",
-
-        billNo:
-            document.getElementById(
-                "billNo"
-            )?.value || "",
-
-        date:
-            document.getElementById(
-                "billDate"
-            )?.value || "",
-
-        total:
-            document.getElementById(
-                "grandTotal"
-            )?.value || "0.00",
-
-        rows: rows
-
-    };
-
-
-    localStorage.setItem(
-        "currentInvoice",
-        JSON.stringify(invoice)
-    );
-
-}
-
-
-/* =========================================
-   PRINT / PDF
-========================================= */
 
 function printInvoice() {
-
     calculateGrandTotal();
-
-    saveInvoiceData();
-
     window.print();
-
 }
-
-
-/* =========================================
-   BEFORE PRINT
-========================================= */
-
-window.addEventListener(
-    "beforeprint",
-    function () {
-
-        calculateGrandTotal();
-
-        saveInvoiceData();
-
-    }
-);
-
-
-/* =========================================
-   AFTER PRINT
-========================================= */
-
-window.addEventListener(
-    "afterprint",
-    function () {
-
-        saveInvoiceData();
-
-    }
-);
-
 </script>
-<!-- =========================================
-     PART-5
-     PRINT BUTTON + FINAL CONTROLS
-========================================= -->
-
-<div class="btn-container no-print">
-
-    <button
-        type="button"
-        class="btn btn-print"
-        onclick="printInvoice()"
-    >
-        🖨️ Print / PDF
-    </button>
-
-</div>
-
-<style>
-
-/* =========================================
-   PRINT BUTTON
-========================================= */
-
-.btn-print {
-
-    background: #1d4ed8;
-
-    color: #ffffff;
-
-    border: none;
-
-    border-radius: 8px;
-
-    padding: 12px 24px;
-
-    font-size: 15px;
-
-    font-weight: 900;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 3px 6px rgba(0,0,0,0.18);
-
-}
-
-.btn-print:hover {
-
-    background: #1e40af;
-
-}
-
-
-/* =========================================
-   DESCRIPTION EDITABLE
-========================================= */
-
-.item-description {
-
-    width: 100%;
-
-    min-height: 38px;
-
-    resize: vertical;
-
-    border: none;
-
-    outline: none;
-
-    background: transparent;
-
-    color: #000000;
-
-    font-size: 11px;
-
-    font-weight: 900;
-
-    padding: 2px;
-
-}
-
-
-/* =========================================
-   BILL NUMBER EDITABLE
-========================================= */
-
-#billNo {
-
-    cursor: text;
-
-    font-weight: 900;
-
-}
-
-
-/* =========================================
-   PRINT
-========================================= */
-
-@media print {
-
-    .no-print {
-
-        display: none !important;
-
-    }
-
-    .item-description {
-
-        border: none !important;
-
-        background: transparent !important;
-
-        color: #000000 !important;
-
-    }
-
-    #billNo {
-
-        border: none !important;
-
-        background: transparent !important;
-
-        color: #000000 !important;
-
-    }
-
-}
-
-</style>
-<!-- =========================================
-     PART-6
-     FINAL PAGE CLOSE
-========================================= -->
-
-</div>
 
 </body>
 </html>

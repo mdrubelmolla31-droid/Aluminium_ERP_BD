@@ -10,759 +10,456 @@
 
 <style>
 
-/* =========================================
-   RESET
-========================================= */
-
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, "Segoe UI", sans-serif;
 }
 
 body {
-    background: #eef2f7;
-    color: #111827;
-    font-weight: 700;
-    padding: 20px;
+    margin: 0;
+    padding: 15px;
+    background: #e5e7eb;
+    color: #222;
 }
 
-
-/* =========================================
-   MAIN CONTAINER
-========================================= */
-
-.container {
+.invoice-page {
     width: 100%;
-    max-width: 900px;
+    max-width: 850px;
     margin: auto;
     background: #ffffff;
-    min-height: 1120px;
-    padding: 0 45px 35px 45px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.12);
-    overflow: hidden;
+    min-height: 1100px;
+    padding: 0 45px 40px 45px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 
-
-/* =========================================
-   TOP BAR
-========================================= */
-
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    margin-bottom: 5px;
-}
-
-.back-btn {
-    background: #111827;
-    color: white;
-    text-decoration: none;
-    padding: 7px 12px;
-    border-radius: 5px;
-    font-size: 12px;
-}
-
-
-/* =========================================
-   BLUE WAVE HEADER
-========================================= */
+/* =========================
+   TOP BLUE HEADER
+========================= */
 
 .invoice-header {
     position: relative;
     margin-left: -45px;
     margin-right: -45px;
-    margin-bottom: 35px;
-
-    min-height: 250px;
-
-    background: linear-gradient(
-        135deg,
-        #07549b 0%,
-        #0b65b8 45%,
-        #063b78 100%
-    );
-
-    color: white;
-    padding: 50px 55px 90px 55px;
-
+    height: 230px;
+    background: #0755a5;
     overflow: hidden;
+    padding: 55px 55px 0 55px;
+    color: white;
 }
 
-
-/* বড় নিচের সাদা Wave */
-
-.invoice-header::after {
-
-    content: "";
-
-    position: absolute;
-
-    left: -5%;
-    right: -5%;
-    bottom: -115px;
-
-    height: 180px;
-
-    background: #ffffff;
-
-    border-radius: 50% 50% 0 0 / 45% 45% 0 0;
-
-    transform: rotate(-2deg);
-
-}
-
-
-/* উপরের হালকা Wave */
+/* উপরের হালকা বাঁকা অংশ */
 
 .invoice-header::before {
-
     content: "";
-
     position: absolute;
-
-    width: 75%;
-    height: 55px;
-
-    left: -5%;
-    top: -28px;
-
-    background: rgba(255,255,255,0.15);
-
-    border-radius: 50%;
-
-    transform: rotate(-7deg);
-
+    top: -115px;
+    left: -80px;
+    width: 850px;
+    height: 190px;
+    background: #1268bb;
+    border-radius: 0 0 55% 45%;
+    transform: rotate(-4deg);
 }
 
+/* নিচের সাদা wave */
 
-/* =========================================
-   HEADER TITLE
-========================================= */
+.invoice-header::after {
+    content: "";
+    position: absolute;
+    left: -5%;
+    bottom: -95px;
+    width: 110%;
+    height: 150px;
+    background: white;
+    border-radius: 50% 50% 0 0;
+    transform: rotate(-3deg);
+}
 
-.header-main {
+/* Header content */
+
+.header-content {
     position: relative;
     z-index: 5;
-
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
 .invoice-title {
-
-    font-size: 48px;
+    font-size: 46px;
+    font-weight: 900;
     letter-spacing: 2px;
-    font-weight: 900;
-    color: white;
-}
-
-.invoice-number {
-
-    font-size: 17px;
-    font-weight: 900;
-    padding-top: 15px;
-    white-space: nowrap;
-}
-
-
-/* =========================================
-   SHOP INFORMATION
-========================================= */
-
-.shop-information {
-
-    position: relative;
-    z-index: 5;
-
-    margin-top: 25px;
-
-    display: flex;
-    justify-content: space-between;
-
-    gap: 30px;
-}
-
-.shop-left,
-.shop-right {
-
-    width: 48%;
-}
-
-.shop-right {
-    text-align: right;
-}
-
-.shop-name {
-
-    display: inline-block;
-
-    background: white;
-    color: #07549b;
-
-    padding: 7px 12px;
-
-    border-radius: 5px;
-
-    font-size: 20px;
-    font-weight: 900;
-
-    margin-bottom: 7px;
-}
-
-.shop-slogan {
-
-    font-size: 11px;
-    line-height: 1.5;
     color: #ffffff;
 }
 
-.shop-details {
-
-    margin-top: 8px;
-
-    font-size: 11px;
-    line-height: 1.6;
+.invoice-number {
+    font-size: 18px;
+    font-weight: 800;
+    margin-top: 10px;
+    color: #ffffff;
 }
 
-.shop-details input {
+/* =========================
+   COMPANY
+========================= */
 
-    background: transparent;
-    color: white;
-
-    border: none;
-    border-bottom: 1px dashed rgba(255,255,255,0.7);
-
-    outline: none;
-
-    font-size: 11px;
-    font-weight: 700;
-
+.company-area {
     text-align: center;
+    margin-top: -10px;
+    position: relative;
+    z-index: 10;
 }
 
+.company-name {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 900;
+    color: #0755a5;
+    margin-top: -15px;
+}
 
-/* =========================================
+.company-tagline {
+    font-size: 11px;
+    color: #555;
+    margin-top: 3px;
+}
+
+/* =========================
    BILL TO / FROM
-========================================= */
+========================= */
 
 .bill-info {
-
     display: flex;
     justify-content: space-between;
-
-    gap: 50px;
-
-    margin-bottom: 20px;
+    gap: 40px;
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
 
-.bill-to,
-.bill-from {
-
-    width: 50%;
+.bill-box {
+    width: 48%;
 }
 
-.bill-from {
+.bill-box.from {
     text-align: right;
 }
 
 .bill-heading {
-
-    font-size: 22px;
-    color: #07549b;
-
-    margin-bottom: 8px;
-
+    font-size: 19px;
     font-weight: 900;
-}
-
-.bill-info input {
-
-    width: 100%;
-
-    border: none;
-    border-bottom: 1px solid #cbd5e1;
-
-    padding: 4px 0;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    outline: none;
-
-    background: transparent;
-}
-
-.bill-from input {
-    text-align: right;
-}
-
-
-/* =========================================
-   DATE / BILL NUMBER
-========================================= */
-
-.date-row {
-
-    display: flex;
-    justify-content: space-between;
-
-    margin-bottom: 20px;
-
-    font-size: 13px;
-}
-
-.date-row label {
-    color: #374151;
-}
-
-.date-row input {
-
-    border: none;
-    border-bottom: 1px solid #cbd5e1;
-
-    outline: none;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    padding: 3px;
-
-    width: 130px;
-}
-
-
-/* =========================================
-   INVOICE TABLE
-========================================= */
-
-.table-responsive {
-
-    width: 100%;
-    overflow-x: auto;
-
-    margin-top: 10px;
-}
-
-.invoice-table {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-    table-layout: fixed;
-
-    font-size: 12px;
-}
-
-.invoice-table th {
-
-    background: #07549b;
-
-    color: white;
-
-    border: 1px solid #07549b;
-
-    padding: 10px 5px;
-
-    font-size: 12px;
-
-    font-weight: 900;
-}
-
-.invoice-table td {
-
-    border: 1px solid #b7bec8;
-
-    padding: 6px 5px;
-
-    text-align: center;
-
-    height: 45px;
-
-    font-weight: 700;
-
-    vertical-align: middle;
-}
-
-.invoice-table td:nth-child(2) {
-
-    text-align: left;
-
-}
-
-.invoice-table input {
-
-    width: 100%;
-
-    border: none;
-
-    outline: none;
-
-    background: transparent;
-
-    text-align: center;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    color: #111827;
-}
-
-.invoice-table textarea {
-
-    width: 100%;
-
-    border: none;
-
-    outline: none;
-
-    resize: vertical;
-
-    background: transparent;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    color: #111827;
-
-    min-height: 32px;
-
-    text-align: left;
-}
-
-
-/* =========================================
-   COLUMN WIDTH
-========================================= */
-
-.invoice-table th:nth-child(1) {
-    width: 7%;
-}
-
-.invoice-table th:nth-child(2) {
-    width: 39%;
-}
-
-.invoice-table th:nth-child(3) {
-    width: 10%;
-}
-
-.invoice-table th:nth-child(4) {
-    width: 12%;
-}
-
-.invoice-table th:nth-child(5) {
-    width: 14%;
-}
-
-.invoice-table th:nth-child(6) {
-    width: 12%;
-}
-
-.invoice-table th:nth-child(7) {
-    width: 6%;
-}
-
-
-/* =========================================
-   TOTAL BOX
-========================================= */
-
-.total-section {
-
-    display: flex;
-
-    justify-content: flex-end;
-
-    margin-top: 25px;
-}
-
-.total-box {
-
-    width: 55%;
-
-    background: #07549b;
-
-    color: white;
-
-    padding: 11px 18px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    font-size: 15px;
-
-    font-weight: 900;
-}
-
-.total-box input {
-
-    width: 130px;
-
-    border: none;
-
-    outline: none;
-
-    background: transparent;
-
-    color: white;
-
-    text-align: right;
-
-    font-size: 16px;
-
-    font-weight: 900;
-}
-
-
-/* =========================================
-   NOTE
-========================================= */
-
-.in-words {
-
-    margin-top: 25px;
-
-    width: 50%;
-
-    font-size: 12px;
-
-    line-height: 2;
-}
-
-.in-words strong {
-
-    display: block;
-
-    font-size: 15px;
-
-    color: #07549b;
-
-    margin-bottom: 5px;
-}
-
-.in-words input {
-
-    width: 100%;
-
-    border: none;
-
-    border-bottom: 1px solid #9ca3af;
-
-    outline: none;
-
-    padding: 4px;
-
-    font-size: 12px;
-
-    font-weight: 700;
-}
-
-
-/* =========================================
-   PAYMENT + THANK YOU
-========================================= */
-
-.bottom-section {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: flex-end;
-
-    margin-top: 45px;
-
-    gap: 30px;
-}
-
-.payment-info {
-
-    width: 50%;
-
-    font-size: 12px;
-
-    line-height: 1.8;
-}
-
-.payment-info h3 {
-
-    color: #07549b;
-
-    font-size: 16px;
-
+    color: #222;
     margin-bottom: 7px;
 }
 
-.payment-info input {
-
+.bill-box input,
+.bill-box textarea {
+    width: 100%;
     border: none;
-
-    border-bottom: 1px solid #d1d5db;
-
     outline: none;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    width: 65%;
+    background: transparent;
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 2px 0;
 }
+
+.bill-box textarea {
+    resize: none;
+    height: 45px;
+}
+
+.bill-box.from input,
+.bill-box.from textarea {
+    text-align: right;
+}
+
+/* =========================
+   DATE
+========================= */
+
+.date-row {
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+.date-row label {
+    font-size: 14px;
+    font-weight: 800;
+    color: #666;
+}
+
+.date-row input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 700;
+    color: #555;
+    margin-left: 5px;
+}
+
+/* =========================
+   INVOICE TABLE
+========================= */
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.invoice-table th {
+    background: #0755a5;
+    color: white;
+    font-size: 14px;
+    font-weight: 900;
+    padding: 10px 7px;
+    border: 1px solid #0755a5;
+    text-align: center;
+}
+
+.invoice-table td {
+    border: 1px solid #aaa;
+    padding: 6px;
+    height: 45px;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.invoice-table td.description {
+    text-align: left;
+}
+
+.invoice-table input,
+.invoice-table textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.invoice-table textarea {
+    resize: vertical;
+    min-height: 30px;
+}
+
+/* =========================
+   SUB TOTAL
+========================= */
+
+.total-area {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0;
+}
+
+.sub-total {
+    width: 52%;
+    background: #0755a5;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 18px;
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.sub-total input {
+    width: 120px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 900;
+}
+
+/* =========================
+   NOTE
+========================= */
+
+.note-section {
+    margin-top: 25px;
+    width: 45%;
+}
+
+.note-title {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.note-line {
+    border-bottom: 1px solid #aaa;
+    height: 27px;
+}
+
+.note-line input {
+    width: 100%;
+    height: 25px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13px;
+}
+
+/* =========================
+   PAYMENT
+========================= */
+
+.bottom-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 40px;
+}
+
+.payment-info {
+    width: 48%;
+}
+
+.payment-title {
+    font-size: 17px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.payment-row {
+    font-size: 13px;
+    margin: 5px 0;
+    color: #444;
+}
+
+.payment-row strong {
+    color: #222;
+}
+
+.payment-row input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-left: 8px;
+}
+
+/* =========================
+   THANK YOU
+========================= */
 
 .thank-you {
-
     width: 45%;
-
     text-align: center;
-
-    color: #07549b;
-
-    font-size: 38px;
-
-    font-weight: 400;
+    font-size: 36px;
+    font-weight: 500;
+    color: #0755a5;
 }
 
+/* =========================
+   ACTION BUTTONS
+========================= */
 
-/* =========================================
-   SIGNATURE
-========================================= */
-
-.signature-box {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-top: 55px;
-
-    font-size: 11px;
-}
-
-.sig-line {
-
-    width: 150px;
-
-    border-top: 2px solid #111827;
-
-    padding-top: 6px;
-
+.action-buttons {
+    max-width: 850px;
+    margin: 20px auto;
     text-align: center;
 }
 
-
-/* =========================================
-   BUTTONS
-========================================= */
-
-.btn-container {
-
-    max-width: 900px;
-
-    margin: 15px auto;
-
-    display: flex;
-
-    justify-content: center;
-
-    gap: 10px;
-}
-
-.btn {
-
+.action-buttons button {
     border: none;
-
     border-radius: 7px;
-
-    padding: 10px 18px;
-
+    padding: 12px 25px;
+    margin: 5px;
     color: white;
-
-    font-size: 14px;
-
-    font-weight: 900;
-
-    cursor: pointer;
-}
-
-.btn-add {
-
-    background: #059669;
-
-    margin-top: 10px;
-
-    padding: 7px 12px;
-
-    font-size: 11px;
-}
-
-.btn-whatsapp {
-
-    width: 100%;
-
-    max-width: 900px;
-
-    background: #16a34a;
-
-    padding: 13px;
-
+    background: #0755a5;
     font-size: 15px;
-}
-
-.btn-del {
-
-    background: #dc2626;
-
-    color: white;
-
-    border: none;
-
-    padding: 3px 6px;
-
-    border-radius: 4px;
-
-    font-weight: 900;
-
+    font-weight: 800;
     cursor: pointer;
 }
 
+.action-buttons button:hover {
+    opacity: 0.9;
+}
 
-/* =========================================
-   MOBILE
-========================================= */
+/* =========================
+   PRINT
+========================= */
 
-@media (max-width: 650px) {
+@media print {
+
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .invoice-page {
+        width: 100%;
+        max-width: none;
+        min-height: auto;
+        box-shadow: none;
+        padding: 0 35px 25px 35px;
+    }
+
+    .invoice-header {
+        margin-left: -35px;
+        margin-right: -35px;
+    }
+
+    .action-buttons {
+        display: none !important;
+    }
+
+    input,
+    textarea {
+        color: #222 !important;
+    }
+
+    .invoice-table th {
+        background: #0755a5 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .sub-total {
+        background: #0755a5 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .invoice-header {
+        background: #0755a5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+}
+
+/* Mobile */
+
+@media screen and (max-width: 600px) {
 
     body {
         padding: 0;
-        background: white;
     }
 
-    .container {
+    .invoice-page {
         padding: 0 15px 25px 15px;
-        box-shadow: none;
-        min-height: auto;
-    }
-
-    .top-bar {
-        padding: 8px 0;
     }
 
     .invoice-header {
         margin-left: -15px;
         margin-right: -15px;
-
-        padding: 35px 20px 80px 20px;
-
-        min-height: 220px;
+        padding-left: 25px;
+        padding-right: 25px;
+        height: 210px;
     }
 
     .invoice-title {
@@ -770,28 +467,7 @@ body {
     }
 
     .invoice-number {
-        font-size: 12px;
-        padding-top: 10px;
-    }
-
-    .shop-information {
-        gap: 10px;
-    }
-
-    .shop-name {
-        font-size: 15px;
-    }
-
-    .shop-slogan {
-        font-size: 8px;
-    }
-
-    .shop-details {
-        font-size: 8px;
-    }
-
-    .shop-details input {
-        font-size: 8px;
+        font-size: 13px;
     }
 
     .bill-info {
@@ -799,150 +475,54 @@ body {
     }
 
     .bill-heading {
-        font-size: 17px;
+        font-size: 16px;
     }
 
-    .bill-info input {
-        font-size: 10px;
-    }
-
-    .date-row {
-        font-size: 11px;
-    }
-
-    .date-row input {
-        font-size: 11px;
-    }
-
-    .invoice-table {
-        min-width: 650px;
-    }
-
-    .table-responsive {
-        overflow-x: auto;
-    }
-
-    .total-box {
-        width: 70%;
+    .bill-box input,
+    .bill-box textarea {
         font-size: 12px;
     }
 
-    .total-box input {
-        font-size: 13px;
-        width: 90px;
-    }
-
-    .bottom-section {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .payment-info,
-    .thank-you {
-        width: 100%;
-    }
-
-    .thank-you {
-        font-size: 30px;
-        text-align: right;
-    }
-
-    .in-words {
-        width: 100%;
-    }
-
-    .signature-box {
-        margin-top: 40px;
-    }
-
-}
-
-
-/* =========================================
-   PRINT / A4 PDF
-========================================= */
-
-@media print {
-
-    @page {
-        size: A4 portrait;
-        margin: 7mm;
-    }
-
-    body {
-        padding: 0;
-        margin: 0;
-        background: white;
-    }
-
-    .container {
-        width: 100%;
-        max-width: 100%;
-        min-height: auto;
-        box-shadow: none;
-        padding: 0 15px 20px 15px;
-    }
-
-    .no-print {
-        display: none !important;
-    }
-
-    .invoice-header {
-        margin-left: -15px;
-        margin-right: -15px;
-
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+    .invoice-table {
+        font-size: 11px;
     }
 
     .invoice-table th {
-        background: #07549b !important;
-
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        font-size: 11px;
+        padding: 7px 3px;
     }
 
-    .total-box {
-        background: #07549b !important;
-
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+    .invoice-table td {
+        font-size: 11px;
+        padding: 4px 2px;
     }
 
-    input,
-    textarea {
-        border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
+    .sub-total {
+        width: 60%;
+        font-size: 13px;
+    }
+
+    .thank-you {
+        font-size: 27px;
     }
 
 }
-  <div class="container" id="invoiceContainer">
 
-    <!-- =====================================
-         TOP BAR
-    ====================================== -->
+</style>
 
-    <div class="top-bar no-print">
+</head>
 
-        <a href="index.html" class="back-btn">
-            ⬅️ Back to Dashboard
-        </a>
+<body>
 
-        <span style="font-size:12px;">
-            Bill & Invoice Management
-        </span>
+<div class="invoice-page" id="invoiceContainer">
 
-    </div>
-
-
-    <!-- =====================================
-         BLUE HEADER
-    ====================================== -->
+    <!-- =========================
+         HEADER
+    ========================== -->
 
     <div class="invoice-header">
 
-        <div class="header-main">
+        <div class="header-content">
 
             <div class="invoice-title">
                 INVOICE
@@ -950,91 +530,49 @@ body {
 
             <div class="invoice-number">
                 NO:
-                <span id="headerBillNo">
-                    INV-01
-                </span>
-            </div>
-
-        </div>
-
-
-        <div class="shop-information">
-
-            <!-- FROM -->
-            <div class="shop-left">
-
-                <div class="shop-name">
-                    RM THAI ALUMINIUM
-                </div>
-
-                <div class="shop-slogan">
-                    Experts in Thai Windows, Doors,
-                    Glass Works & False Ceilings
-                </div>
-
-                <div class="shop-details">
-
-                    <div>
-                        Proprietor:
-                        <input
-                            type="text"
-                            value="Rubel Molla"
-                            style="width:95px;"
-                        >
-                    </div>
-
-                    <div>
-                        Mobile:
-                        <input
-                            type="text"
-                            value="01676-474412"
-                            style="width:105px;"
-                        >
-                    </div>
-
-                    <div>
-                        Address:
-                        <input
-                            type="text"
-                            value="47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216"
-                            style="width:90%;"
-                        >
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- RIGHT SIDE -->
-            <div class="shop-right">
-
-                <div style="font-size:25px;font-weight:900;">
-                    FROM:
-                </div>
-
-                <div style="margin-top:8px;font-size:14px;">
-                    RM THAI ALUMINIUM
-                </div>
-
-                <div style="font-size:11px;margin-top:5px;">
-                    Thai Windows & Aluminium Works
-                </div>
-
+                <input
+                    type="text"
+                    id="billNo"
+                    value="INV-12345-1"
+                    style="
+                        background:transparent;
+                        border:none;
+                        outline:none;
+                        color:white;
+                        font-size:18px;
+                        font-weight:800;
+                        width:130px;
+                    "
+                >
             </div>
 
         </div>
 
     </div>
 
+    <!-- =========================
+         COMPANY
+    ========================== -->
 
-    <!-- =====================================
-         BILL TO
-    ====================================== -->
+    <div class="company-area">
+
+        <div class="company-name">
+            RM THAI ALUMINIUM
+        </div>
+
+        <div class="company-tagline">
+            Experts in Thai Windows, Doors, Glass Works & False Ceilings
+        </div>
+
+    </div>
+
+    <!-- =========================
+         BILL TO / FROM
+    ========================== -->
 
     <div class="bill-info">
 
-        <div class="bill-to">
+        <div class="bill-box">
 
             <div class="bill-heading">
                 Bill To:
@@ -1052,16 +590,15 @@ body {
                 placeholder="Mobile / WhatsApp"
             >
 
-            <input
-                type="text"
+            <textarea
                 id="custAddress"
                 placeholder="Customer Address"
-            >
+            ></textarea>
 
         </div>
 
 
-        <div class="bill-from">
+        <div class="bill-box from">
 
             <div class="bill-heading">
                 From:
@@ -1069,137 +606,88 @@ body {
 
             <input
                 type="text"
-                value="RM THAI ALUMINIUM"
+                value="Rubel Molla"
+                id="proprietor"
             >
 
             <input
                 type="text"
                 value="01676-474412"
+                id="shopMobile"
             >
 
-            <input
-                type="text"
-                value="Mirpur-13, Dhaka-1216"
-            >
+            <textarea
+                id="shopAddress"
+            >47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216</textarea>
 
         </div>
 
     </div>
 
 
-    <!-- =====================================
-         DATE + BILL NO
-    ====================================== -->
+    <!-- =========================
+         DATE
+    ========================== -->
 
     <div class="date-row">
 
-        <div>
+        <label>
+            Date:
+        </label>
 
-            <label>
-                Date:
-            </label>
-
-            <input
-                type="text"
-                id="billDate"
-                placeholder="DD-MM-YYYY"
-            >
-
-        </div>
-
-
-        <div>
-
-            <label>
-                Bill No:
-            </label>
-
-            <input
-                type="text"
-                id="billNo"
-                value="01"
-                oninput="
-                    document.getElementById('headerBillNo').innerText =
-                    this.value || '01';
-                "
-            >
-
-        </div>
+        <input
+            type="text"
+            id="billDate"
+            placeholder="DD-MM-YYYY"
+        >
 
     </div>
 
 
-    <!-- =====================================
-         INVOICE TABLE
-    ====================================== -->
+    <!-- =========================
+         INVOICE TABLE START
+    ========================== -->
 
-    <div class="table-responsive">
+    <table class="invoice-table">
 
-        <table class="invoice-table">
+        <thead>
 
-            <thead>
+            <tr>
 
-                <tr>
+                <th style="width:45%;">
+                    Description
+                </th>
 
-                    <th>
-                        Sl.
-                    </th>
+                <th style="width:15%;">
+                    Qty
+                </th>
 
-                    <th>
-                        Description
-                    </th>
+                <th style="width:20%;">
+                    Price
+                </th>
 
-                    <th>
-                        Qty
-                    </th>
+                <th style="width:20%;">
+                    Total
+                </th>
 
-                    <th>
-                        Unit
-                    </th>
+            </tr>
 
-                    <th>
-                        Price
-                    </th>
+        </thead>
 
-                    <th>
-                        Total
-                    </th>
+        <tbody id="invoiceTableBody">
 
-                    <th class="no-print">
-                        Act
-                    </th>
+        </tbody>
 
-                </tr>
-
-            </thead>
-
-            <tbody id="invoiceTableBody">
-
-            </tbody>
-
-        </table>
-
-    </div>
+    </table>
 
 
-    <!-- ADD ITEM -->
+    <!-- =========================
+         SUB TOTAL
+    ========================== -->
 
-    <button
-        class="btn btn-add no-print"
-        type="button"
-        onclick="addInvoiceRow()"
-    >
-        + Add Item
-    </button>
+    <div class="total-area">
 
-
-    <!-- =====================================
-         TOTAL
-    ====================================== -->
-
-    <div class="total-section">
-
-        <div class="total-box">
+        <div class="sub-total">
 
             <span>
                 Sub Total
@@ -1210,78 +698,74 @@ body {
                 <input
                     type="text"
                     id="grandTotal"
-                    readonly
                     value="0.00"
+                    readonly
                 >
             </span>
 
         </div>
 
     </div>
+        <!-- =========================
+         NOTE
+    ========================== -->
 
+    <div class="note-section">
 
-    <!-- =====================================
-         IN WORDS / NOTE
-    ====================================== -->
-
-    <div class="in-words">
-
-        <strong>
+        <div class="note-title">
             Note:
-        </strong>
+        </div>
 
-        <input
-            type="text"
-            id="inWords"
-            placeholder="টাকার পরিমাণ / বিশেষ নোট"
-        >
+        <div class="note-line">
+            <input type="text" id="note1">
+        </div>
 
-        <br>
+        <div class="note-line">
+            <input type="text" id="note2">
+        </div>
 
-        <input type="text">
-
-        <br>
-
-        <input type="text">
+        <div class="note-line">
+            <input type="text" id="note3">
+        </div>
 
     </div>
 
 
-    <!-- =====================================
+    <!-- =========================
          PAYMENT + THANK YOU
-    ====================================== -->
+    ========================== -->
 
-    <div class="bottom-section">
+    <div class="bottom-area">
 
         <div class="payment-info">
 
-            <h3>
+            <div class="payment-title">
                 Payment Information:
-            </h3>
+            </div>
 
-            <div>
+            <div class="payment-row">
                 <strong>Bank:</strong>
-
                 <input
                     type="text"
+                    id="bankName"
                     value="Name Bank"
                 >
             </div>
 
-            <div>
+            <div class="payment-row">
                 <strong>No Bank:</strong>
-
                 <input
                     type="text"
+                    id="bankNumber"
                     value="123-456-7890"
                 >
             </div>
 
-            <div>
+            <div class="payment-row">
                 <strong>Email:</strong>
-
                 <input
                     type="text"
+                    id="shopEmail"
                     value="reallygreatsite.com"
                 >
             </div>
@@ -1290,34 +774,7 @@ body {
 
 
         <div class="thank-you">
-
             Thank You!
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================
-         SIGNATURE
-    ====================================== -->
-
-    <div class="signature-box">
-
-        <div>
-
-            <div class="sig-line">
-                Customer's Signature
-            </div>
-
-        </div>
-
-        <div>
-
-            <div class="sig-line">
-                Authorised Signature
-            </div>
-
         </div>
 
     </div>
@@ -1325,293 +782,277 @@ body {
 </div>
 
 
-<!-- =====================================
-     WHATSAPP BUTTON
-====================================== -->
+<!-- =========================
+     ACTION BUTTONS
+========================= -->
 
-<div class="btn-container no-print">
+<div class="action-buttons">
 
     <button
-        class="btn btn-whatsapp"
         type="button"
-        onclick="sendBillToWhatsApp()"
+        onclick="addInvoiceRow()"
     >
-        📲 Send Bill via WhatsApp
+        + Add Item
+    </button>
+
+    <button
+        type="button"
+        onclick="window.print()"
+    >
+        🖨️ PDF / Print
     </button>
 
 </div>
+<script>
 
-let isWaitingForSavePrompt = false;
+document.addEventListener("DOMContentLoaded", function () {
 
+    // =========================
+    // DATE
+    // =========================
 
-/* =========================================
-   PAGE LOAD
-========================================= */
+    const today = new Date();
 
-document.addEventListener("DOMContentLoaded", function() {
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const yyyy = today.getFullYear();
 
-    let today = new Date();
+    const dateBox = document.getElementById("billDate");
 
-    let dd =
-        String(today.getDate()).padStart(2, '0');
-
-    let mm =
-        String(today.getMonth() + 1).padStart(2, '0');
-
-    let yyyy =
-        today.getFullYear();
-
-
-    document.getElementById('billDate').value =
-        dd + '-' + mm + '-' + yyyy;
+    if (dateBox) {
+        dateBox.value = dd + "-" + mm + "-" + yyyy;
+    }
 
 
-    /*
-       প্রথম Invoice Row
-    */
+    // =========================
+    // LOAD QUOTATION DATA
+    // =========================
+
+    const savedQuotation =
+        JSON.parse(localStorage.getItem("quotation")) || null;
+
+    if (savedQuotation) {
+
+        const setValue = (id, value) => {
+
+            const el = document.getElementById(id);
+
+            if (el && value !== undefined && value !== null) {
+                el.value = value;
+            }
+
+        };
+
+
+        setValue("custName", savedQuotation.customerName);
+        setValue("custMobile", savedQuotation.mobile);
+        setValue("custAddress", savedQuotation.address);
+
+        setValue("billNo", savedQuotation.billNo);
+
+        setValue("company", savedQuotation.company);
+        setValue("series", savedQuotation.series);
+        setValue("aluThickness", savedQuotation.aluThickness);
+
+        setValue("glassCompany", savedQuotation.glassCompany);
+        setValue("glassThickness", savedQuotation.glassThickness);
+        setValue("glassColour", savedQuotation.glassColour);
+
+    }
+
+
+    // =========================
+    // FIRST INVOICE ROW
+    // =========================
 
     addInvoiceRow();
 
 });
 
 
-/* =========================================
-   WHATSAPP RETURN
-========================================= */
-
-window.addEventListener('focus', function() {
-
-    if (isWaitingForSavePrompt) {
-
-        isWaitingForSavePrompt = false;
-
-        setTimeout(function() {
-
-            let saveConfirm = confirm(
-                "হোয়াটসঅ্যাপে বিল পাঠানো সম্পূর্ণ হয়েছে!\n\n" +
-                "আপনি কি এই বিলটিকে PDF হিসেবে সেভ করে রাখতে চান?"
-            );
-
-
-            if (saveConfirm) {
-
-                window.print();
-
-            }
-
-        }, 500);
-
-    }
-
-});
-
-
-/* =========================================
-   ADD INVOICE ROW
-========================================= */
+// =====================================
+// ADD INVOICE ROW
+// =====================================
 
 function addInvoiceRow() {
 
-    let tbody =
-        document.getElementById(
-            'invoiceTableBody'
-        );
+    const tbody =
+        document.getElementById("invoiceTableBody");
+
+    if (!tbody) return;
 
 
-    let rowCount =
-        tbody.rows.length + 1;
+    const row = document.createElement("tr");
 
 
-    let tr =
-        document.createElement('tr');
+    row.innerHTML = `
 
-
-    tr.innerHTML = `
+        <td class="sl-number"></td>
 
         <td>
-            ${
-                rowCount < 10
-                ? '0' + rowCount
-                : rowCount
-            }
-        </td>
-
-
-        <td>
-
             <textarea
-                placeholder="কাজের বিবরণ..."
+                class="item-description"
+                placeholder="Your Description"
             ></textarea>
-
         </td>
 
-
         <td>
-
             <input
                 type="number"
                 class="item-qty"
                 value="1"
-                placeholder="0"
+                min="0"
                 oninput="calculateRow(this)"
             >
-
         </td>
 
-
         <td>
-
             <input
                 type="text"
                 class="item-unit"
                 value="sft"
-                placeholder="Unit"
             >
-
         </td>
 
-
         <td>
-
             <input
                 type="number"
                 class="item-rate"
-                placeholder="0"
+                value="0"
+                min="0"
                 oninput="calculateRow(this)"
             >
-
         </td>
 
-
         <td>
-
             <input
                 type="number"
                 class="item-amount"
-                placeholder="0"
+                value="0.00"
                 readonly
             >
-
         </td>
 
-
         <td class="no-print">
-
             <button
-                class="btn-del"
                 type="button"
+                class="btn-del"
                 onclick="removeInvoiceRow(this)"
             >
                 X
             </button>
-
         </td>
 
     `;
 
 
-    tbody.appendChild(tr);
+    tbody.appendChild(row);
 
-
-    updateRowIndices();
-
-}
-
-
-/* =========================================
-   REMOVE ROW
-========================================= */
-
-function removeInvoiceRow(btn) {
-
-    let tbody =
-        document.getElementById(
-            'invoiceTableBody'
-        );
-
-
-    if (tbody.rows.length > 1) {
-
-        btn.closest('tr').remove();
-
-        updateRowIndices();
-
-        calculateGrandTotal();
-
-    }
-
-    else {
-
-        alert(
-            "কমপক্ষে একটি রো থাকতে হবে!"
-        );
-
-    }
+    updateRowNumbers();
 
 }
 
 
-/* =========================================
-   UPDATE SERIAL
-========================================= */
+// =====================================
+// REMOVE ROW
+// =====================================
 
-function updateRowIndices() {
+function removeInvoiceRow(button) {
 
-    let rows =
+    const tbody =
+        document.getElementById("invoiceTableBody");
+
+    if (!tbody) return;
+
+
+    if (tbody.rows.length <= 1) {
+
+        alert("কমপক্ষে একটি Item থাকতে হবে!");
+
+        return;
+    }
+
+
+    const row =
+        button.closest("tr");
+
+    if (row) {
+        row.remove();
+    }
+
+
+    updateRowNumbers();
+
+    calculateGrandTotal();
+
+}
+
+
+// =====================================
+// ROW NUMBER
+// =====================================
+
+function updateRowNumbers() {
+
+    const rows =
         document.querySelectorAll(
-            '#invoiceTableBody tr'
+            "#invoiceTableBody tr"
         );
 
 
-    rows.forEach(function(row, index) {
+    rows.forEach(function (row, index) {
 
-        let num = index + 1;
+        const number =
+            index + 1;
 
+        const cell =
+            row.querySelector(".sl-number");
 
-        row.cells[0].innerText =
-            num < 10
-            ? '0' + num
-            : num;
+        if (cell) {
+
+            cell.innerText =
+                number < 10
+                    ? "0" + number
+                    : number;
+
+        }
 
     });
 
 }
 
 
-/* =========================================
-   CALCULATE ROW
-========================================= */
+// =====================================
+// CALCULATE ROW
+// =====================================
 
 function calculateRow(input) {
 
-    let row =
-        input.closest('tr');
+    const row =
+        input.closest("tr");
+
+    if (!row) return;
 
 
-    let qty =
+    const qty =
         parseFloat(
-            row.querySelector(
-                '.item-qty'
-            ).value
+            row.querySelector(".item-qty").value
         ) || 0;
 
 
-    let rate =
+    const rate =
         parseFloat(
-            row.querySelector(
-                '.item-rate'
-            ).value
+            row.querySelector(".item-rate").value
         ) || 0;
 
 
-    let amount =
+    const amount =
         qty * rate;
 
 
     row.querySelector(
-        '.item-amount'
-    ).value =
-        amount.toFixed(2);
+        ".item-amount"
+    ).value = amount.toFixed(2);
 
 
     calculateGrandTotal();
@@ -1619,9 +1060,9 @@ function calculateRow(input) {
 }
 
 
-/* =========================================
-   GRAND TOTAL
-========================================= */
+// =====================================
+// GRAND TOTAL
+// =====================================
 
 function calculateGrandTotal() {
 
@@ -1629,203 +1070,451 @@ function calculateGrandTotal() {
 
 
     document
-        .querySelectorAll(
-            '.item-amount'
-        )
-        .forEach(function(inp) {
+        .querySelectorAll(".item-amount")
+        .forEach(function (input) {
 
             total +=
-                parseFloat(
-                    inp.value
-                ) || 0;
+                parseFloat(input.value) || 0;
 
         });
 
 
-    document.getElementById(
-        'grandTotal'
-    ).value =
-        total.toFixed(2);
+    const totalBox =
+        document.getElementById("grandTotal");
+
+
+    if (totalBox) {
+
+        totalBox.value =
+            total.toFixed(2);
+
+    }
 
 }
 
 
-/* =========================================
-   WHATSAPP BILL
-========================================= */
+// =====================================
+// SAVE CURRENT BILL
+// =====================================
 
-function sendBillToWhatsApp() {
+function saveBillData() {
 
-    let name =
-        document.getElementById(
-            'custName'
-        ).value.trim();
+    const billData = {
 
+        customerName:
+            document.getElementById("custName")?.value || "",
 
-    let mobile =
-        document.getElementById(
-            'custMobile'
-        ).value.trim();
+        mobile:
+            document.getElementById("custMobile")?.value || "",
 
+        address:
+            document.getElementById("custAddress")?.value || "",
 
-    let billNo =
-        document.getElementById(
-            'billNo'
-        ).value.trim();
+        billNo:
+            document.getElementById("billNo")?.value || "",
 
+        date:
+            document.getElementById("billDate")?.value || "",
 
-    let date =
-        document.getElementById(
-            'billDate'
-        ).value.trim();
+        bankName:
+            document.getElementById("bankName")?.value || "",
 
+        bankNumber:
+            document.getElementById("bankNumber")?.value || "",
 
-    let grandTotal =
-        document.getElementById(
-            'grandTotal'
-        ).value;
+        email:
+            document.getElementById("shopEmail")?.value || "",
 
+        note1:
+            document.getElementById("note1")?.value || "",
 
-    if (!mobile) {
+        note2:
+            document.getElementById("note2")?.value || "",
 
-        alert(
-            "দয়া করে কাস্টমারের WhatsApp / মোবাইল নম্বর লিখুন!"
-        );
+        note3:
+            document.getElementById("note3")?.value || "",
 
-        return;
+        grandTotal:
+            document.getElementById("grandTotal")?.value || "0.00"
 
-    }
-
-
-    /* =====================================
-       MOBILE FORMAT
-    ====================================== */
-
-    let formattedMobile =
-        mobile.replace(
-            /[^0-9]/g,
-            ''
-        );
+    };
 
 
-    if (
-        formattedMobile.startsWith('0')
-    ) {
+    localStorage.setItem(
+        "lastBill",
+        JSON.stringify(billData)
+    );
 
-        formattedMobile =
-            '88' + formattedMobile;
-
-    }
+}
 
 
-    /* =====================================
-       MESSAGE
-    ====================================== */
+// =====================================
+// PDF / PRINT
+// =====================================
 
-    let msg =
-        `*--- RM THAI ALUMINIUM ---*\n`;
+function printPDF() {
 
-    msg +=
-        `*Bill / Invoice Summary*\n\n`;
+    saveBillData();
 
-    msg +=
-        `📄 *Bill No:* ${billNo}\n`;
+    window.print();
 
-    msg +=
-        `📅 *Date:* ${date}\n`;
-
-    msg +=
-        `👤 *Customer Name:* ${
-            name || 'N/A'
-        }\n\n`;
-
-    msg +=
-        `*Item Breakdown:*\n`;
+}
 
 
-    let rows =
-        document.querySelectorAll(
-            '#invoiceTableBody tr'
-        );
+// =====================================
+// PRINT BUTTON SUPPORT
+// =====================================
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const button =
+            event.target.closest(
+                '[onclick="window.print()"]'
+            );
 
 
-    rows.forEach(
-        function(row, idx) {
+        if (button) {
 
-            let desc =
-                row.querySelector(
-                    'textarea'
-                ).value.trim()
-                ||
-                'Item ' + (idx + 1);
+            event.preventDefault();
 
-
-            let qty =
-                row.querySelector(
-                    '.item-qty'
-                ).value || 0;
-
-
-            let unit =
-                row.querySelector(
-                    '.item-unit'
-                ).value || '';
-
-
-            let amount =
-                row.querySelector(
-                    '.item-amount'
-                ).value || 0;
-
-
-            msg +=
-                `${idx + 1}. ${desc} ` +
-                `(${qty} ${unit}) ` +
-                `- Tk. ${amount}\n`;
+            printPDF();
 
         }
-    );
 
+    }
+);
 
-    msg +=
-        `\n💰 *Total Amount: Tk. ${grandTotal}*\n\n`;
+</script>
+<style>
 
+/* =========================
+   PART-4 : FINAL DESIGN CSS
+========================= */
 
-    msg +=
-        `Thank you for doing business with us!`;
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+}
 
+body {
+    margin: 0;
+    padding: 15px;
+    background: #f5f5f5;
+    color: #111;
+}
 
-    /* =====================================
-       WAIT FOR WHATSAPP RETURN
-    ====================================== */
-
-    isWaitingForSavePrompt = true;
-
-
-    let waUrl =
-        `https://wa.me/${formattedMobile}` +
-        `?text=${encodeURIComponent(msg)}`;
-
-
-    window.open(
-        waUrl,
-        '_blank'
-    );
-
+.container {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+    background: #fff;
+    padding: 25px;
+    border: 1px solid #222;
 }
 
 
-/* =========================================
-   CLOSE SCRIPT
-========================================= */
+/* =========================
+   HEADER
+========================= */
 
-</script>
+.invoice-header {
+    text-align: center;
+    border: 2px solid #111;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+.shop-slogan {
+    font-size: 12px;
+    margin: 3px 0;
+}
+
+.shop-title-container {
+    margin: 5px 0;
+}
+
+.shop-title-box {
+    display: inline-block;
+    font-size: 25px;
+    font-weight: 900;
+    padding: 5px 15px;
+    border: 2px solid #111;
+}
+
+.shop-details {
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.shop-details input {
+    border: none;
+    border-bottom: 1px solid #111;
+    text-align: center;
+    outline: none;
+    background: transparent;
+}
 
 
+/* =========================
+   CUSTOMER INFO
+========================= */
+
+.meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.meta-table td {
+    border: 1px solid #111;
+    padding: 6px;
+    font-size: 12px;
+}
+
+.meta-table input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 12px;
+}
+
+
+/* =========================
+   INVOICE TABLE
+========================= */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.invoice-table th,
+.invoice-table td {
+    border: 1px solid #111;
+    padding: 6px 4px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 11px;
+}
+
+.invoice-table th {
+    background: #e5e5e5;
+    color: #111;
+}
+
+.invoice-table textarea {
+    width: 100%;
+    min-height: 42px;
+    border: none;
+    outline: none;
+    resize: vertical;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.invoice-table input {
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 11px;
+    background: transparent;
+}
+
+
+/* =========================
+   TOTAL
+========================= */
+
+.total-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.total-box {
+    border: 2px solid #111;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.total-box input {
+    width: 120px;
+    border: none;
+    outline: none;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+
+/* =========================
+   NOTE
+========================= */
+
+.note-section {
+    margin-top: 20px;
+    border-top: 1px solid #111;
+    padding-top: 10px;
+}
+
+.note-title {
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.note-line {
+    margin: 5px 0;
+}
+
+.note-line input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px dotted #555;
+    outline: none;
+    font-size: 11px;
+}
+
+
+/* =========================
+   PAYMENT
+========================= */
+
+.bottom-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.payment-info {
+    width: 55%;
+    font-size: 11px;
+}
+
+.payment-title {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.payment-row {
+    display: flex;
+    gap: 8px;
+    margin: 5px 0;
+}
+
+.payment-row input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #111;
+    outline: none;
+    font-size: 11px;
+}
+
+.thank-you {
+    font-size: 28px;
+    font-weight: 900;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.action-buttons {
+    max-width: 850px;
+    margin: 15px auto;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.action-buttons button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.action-buttons button:first-child {
+    background: #198754;
+}
+
+.btn-del {
+    background: #dc2626 !important;
+    color: white;
+    border: none;
+    padding: 3px 7px;
+    cursor: pointer;
+}
+
+
+/* =========================
+   PRINT / PDF
+========================= */
+
+@media print {
+
+    @page {
+        size: A4 portrait;
+        margin: 8mm;
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        background: white;
+    }
+
+    .container {
+        width: 100%;
+        max-width: none;
+        border: 1px solid #111;
+        padding: 15px;
+    }
+
+    .action-buttons {
+        display: none !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    input,
+    textarea {
+        border: none !important;
+        background: transparent !important;
+        color: #000 !important;
+    }
+
+    .invoice-table th {
+        background: #e5e5e5 !important;
+        color: #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .invoice-table {
+        page-break-inside: avoid;
+    }
+
+    .bottom-area {
+        page-break-inside: avoid;
+    }
+}
 
 </style>
-
-</head>
-
-<body>
-  

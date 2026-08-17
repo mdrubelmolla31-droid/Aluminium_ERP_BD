@@ -979,8 +979,23 @@
   function executePrint() {
     let htmlContent = document.getElementById('printContent').innerHTML;
     
-    let printWin = window.open('', '_blank');
-    printWin.document.write(`
+    let oldIframe = document.getElementById('printIframe');
+    if (oldIframe) oldIframe.remove();
+
+    let iframe = document.createElement('iframe');
+    iframe.id = 'printIframe';
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = 'none';
+
+    document.body.appendChild(iframe);
+
+    let doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
       <!DOCTYPE html>
       <html>
         <head>
@@ -1004,7 +1019,7 @@
               tr { page-break-inside: avoid; }
               * { box-sizing: border-box; }
             }
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #000; margin: 0; padding: 0; background: white; }
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #000; margin: 0; padding: 10px; background: white; }
             * { box-sizing: border-box; }
           </style>
         </head>
@@ -1014,14 +1029,13 @@
       </html>
     `);
     
-    printWin.document.close();
-    printWin.focus();
+    doc.close();
     
     setTimeout(() => {
-      printWin.print();
-      printWin.close();
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
       closePrintModal();
-    }, 500);
+    }, 400);
   }
 </script>
 

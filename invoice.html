@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bill & Invoice - Aluminium ERP BD</title>
+<title>Bill & Invoice - RM Thai Aluminium</title>
 <style>
 * {
     box-sizing: border-box;
@@ -12,7 +12,7 @@
 }
 body {
     margin: 0;
-    padding: 10px;
+    padding: 0;
     background: #e2e8f0;
     color: #111;
 }
@@ -24,40 +24,24 @@ body {
     padding-bottom: 25px;
     box-shadow: 0 0 15px rgba(0,0,0,0.15);
 }
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background: #1e293b;
-    color: white;
-}
-.back-btn {
-    color: #fff;
-    text-decoration: none;
-    font-size: 13px;
-}
 
-/* =========================================
-   হুবহু আপনার মূল ছবির মতো নিখুঁত ওয়েভ হেডার (Clip-path দিয়ে করা)
-========================================= */
+/* ব্লু কালারের হেডার একদম চিকন ও ওপরের দিকে */
 .invoice-header {
     position: relative;
     background: linear-gradient(135deg, #023871 0%, #0c59a4 55%, #022a52 100%);
-    height: 120px;
-    padding: 0 35px;
+    height: 75px;
+    padding: 0 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* আপনার ছবির মতো নিখুঁত ওয়েভ ও কার্ভ শেপ তৈরি করতে clip-path ব্যবহার করা হয়েছে */
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 75% 100%, 25% 85%, 0 100%);
-    margin-bottom: 10px;
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 100%, 25% 75%, 0 100%);
+    margin-bottom: 5px;
 }
 
 .invoice-main-title {
     position: relative;
     z-index: 5;
-    font-size: 26px;
+    font-size: 20px;
     color: #fff;
     letter-spacing: 2px;
     font-weight: 900;
@@ -70,25 +54,49 @@ body {
     align-items: center;
     gap: 4px;
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
 }
 .bill-number-box input {
-    width: 110px;
+    width: 100px;
     border: none;
     background: transparent;
     color: #fff;
     outline: none;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 900;
     text-align: right;
+}
+
+/* দোকানের নাম সুন্দর বড় ফন্টে নীল রঙে */
+.shop-title-section {
+    text-align: center;
+    margin: 10px 0 15px 0;
+    padding: 0 25px;
+}
+.shop-name {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 900;
+    color: #0c59a4;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+.shop-subtitle {
+    color: #475569;
+    font-size: 10px;
+    margin-top: 2px;
 }
 
 /* বিল ইনফো (এডিটেবল) */
 .bill-info {
     display: flex;
     justify-content: space-between;
-    padding: 0 30px;
-    margin: 15px 0 12px 0;
+    padding: 0 25px;
+    margin: 10px 0 10px 0;
 }
 .bill-to, .bill-from {
     width: 46%;
@@ -116,7 +124,7 @@ body {
 }
 
 .date-row {
-    padding: 0 30px;
+    padding: 0 25px;
     margin-bottom: 15px;
     font-size: 12px;
 }
@@ -131,7 +139,7 @@ body {
 
 /* টেবিল ডিজাইন */
 .table-responsive {
-    padding: 0 30px;
+    padding: 0 25px;
     width: 100%;
 }
 .invoice-table {
@@ -189,7 +197,7 @@ body {
     cursor: pointer;
 }
 .btn-add {
-    margin: 12px 30px;
+    margin: 12px 25px;
     padding: 6px 12px;
     background: #198754;
     color: #fff;
@@ -204,7 +212,7 @@ body {
 .total-section {
     display: flex;
     justify-content: flex-end;
-    padding: 0 30px;
+    padding: 0 25px;
     margin-top: 15px;
 }
 .total-box {
@@ -230,7 +238,7 @@ body {
 }
 
 .note-section {
-    padding: 0 30px;
+    padding: 0 25px;
     margin-top: 20px;
     width: 60%;
 }
@@ -254,7 +262,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 0 30px;
+    padding: 0 25px;
     margin-top: 25px;
 }
 .payment-info {
@@ -308,7 +316,7 @@ body {
     @page { size: A4 portrait; margin: 8mm; }
     body { background: #fff; padding: 0; }
     .container { box-shadow: none; max-width: 100%; padding: 0; margin: 0; }
-    .top-bar, .action-buttons, .btn-add, .no-print, .btn-del { display: none !important; }
+    .action-buttons, .btn-add, .no-print, .btn-del { display: none !important; }
     
     .invoice-header, .invoice-table th, .total-box { 
         -webkit-print-color-adjust: exact !important; 
@@ -322,18 +330,19 @@ body {
 
 <div class="container" id="invoiceContainer">
 
-    <div class="top-bar no-print">
-        <a href="index.html" class="back-btn">⬅️ Back to Dashboard</a>
-        <span>PDF Creator</span>
-    </div>
-
-    <!-- হুবহু কাঙ্ক্ষিত ছবির মতো কার্ভড ওয়েভ হেডার ডিজাইন -->
+    <!-- চিকন ও ওপরের দিকে থাকা কার্ভড হেডার -->
     <div class="invoice-header">
         <div class="invoice-main-title">INVOICE</div>
         <div class="bill-number-box">
             <span>NO:</span>
             <input type="text" id="billNo" value="INV-12345-1">
         </div>
+    </div>
+
+    <!-- সুন্দর বড় ফন্টে নীল রঙে দোকানের নাম -->
+    <div class="shop-title-section">
+        <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
+        <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
     </div>
 
     <!-- বিল টু এবং ফ্রম (এডিটেবল) -->

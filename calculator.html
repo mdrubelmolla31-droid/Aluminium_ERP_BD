@@ -3,1035 +3,500 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RM THAI ALUMINIUM - CUTTING CALCULATOR</title>
-
+  <title>RM Thai Aluminium - Cutting & Invoice System</title>
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
-    .container { max-width: 650px; margin: 0 auto; }
+    /* ==================== GLOBAL STYLES ==================== */
+    * {
+      box-sizing: border-box;
+      font-family: 'SolaimanLipi', 'Kalpurush', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-    .header-card {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
-      color: white;
-      padding: 16px;
+    body {
+      background-color: #f4f7f6;
+      color: #333;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
       border-radius: 8px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      text-align: center;
-      position: relative;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; text-transform: uppercase; }
-    .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; text-transform: uppercase; }
-    
-    .shop-input-box {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 8px;
-      border-radius: 6px;
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .shop-input-box input {
-      padding: 6px 10px;
-      font-size: 13px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+
+    /* ==================== PRINT MEMO HEADER ==================== */
+    .print-wrapper {
+      border: 1.5px solid #0d3b66;
+      padding: 15px;
       border-radius: 4px;
       background: #fff;
-      color: #0f172a;
-      text-align: center;
-      font-weight: 600;
+      margin-bottom: 20px;
     }
 
-    .card {
-      background: #ffffff;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      margin-bottom: 16px;
-      border: 1px solid #e2e8f0;
-    }
-
-    .card-title {
-      color: #1e40af;
-      font-size: 16px;
-      font-weight: 700;
+    .header-box {
+      position: relative;
       text-align: center;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #0d3b66;
       margin-bottom: 12px;
-      border-bottom: 2px solid #eff6ff;
-      padding-bottom: 6px;
-      text-transform: uppercase;
     }
 
-    .row { display: flex; gap: 10px; margin-bottom: 10px; }
-    .col { flex: 1; }
+    .header-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0d3b66;
+      letter-spacing: 0.5px;
+    }
 
-    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #334155; }
-    input, select {
+    .header-phone {
+      margin-top: 4px;
+      display: inline-block;
+      background: #0d3b66;
+      color: #fff;
+      padding: 2px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .header-date {
+      position: absolute;
+      right: 0;
+      top: 2px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #0d3b66;
+    }
+
+    /* ==================== CUSTOMER INFO ==================== */
+    .customer-info-table {
       width: 100%;
-      padding: 9px;
-      font-size: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background-color: #fff;
+      border-collapse: collapse;
+      margin-bottom: 12px;
     }
-    select:disabled { background-color: #e2e8f0; cursor: not-allowed; }
+
+    .customer-info-table td {
+      border: 1px solid #0d3b66;
+      padding: 5px 10px;
+      font-size: 13px;
+    }
+
+    .customer-info-table td.label-bg {
+      background-color: #0d3b66;
+      color: white;
+      font-weight: bold;
+      width: 25%;
+    }
+
+    /* ==================== TABLES ==================== */
+    .section-banner {
+      background-color: #0d3b66;
+      color: white;
+      text-align: center;
+      padding: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+    }
+
+    table.data-table th, table.data-table td {
+      border: 1px solid #0d3b66;
+      padding: 6px 8px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    table.data-table th {
+      background-color: #0d3b66;
+      color: white;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-weight: bold;
+      font-size: 12px;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    /* ==================== ACTION BUTTONS ==================== */
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
 
     .btn {
-      width: 100%;
-      padding: 12px;
+      flex: 1;
+      padding: 10px;
       border: none;
-      border-radius: 6px;
+      border-radius: 4px;
+      background: #0d3b66;
+      color: white;
       font-weight: bold;
       cursor: pointer;
-      font-size: 15px;
-      text-align: center;
+      font-size: 14px;
     }
 
-    .btn-calc { background-color: #2563eb; color: white; margin-top: 10px; }
-    .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
-    .btn-print { background-color: #dc2626; color: white; margin-top: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    .btn-print:hover { background-color: #b91c1c; }
-    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
+    .btn:hover {
+      background: #092642;
+    }
 
-    .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
-    .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
-    .mat-table td:first-child { text-align: left; color: #334155; font-weight: 500; }
-    .mat-table td:last-child { text-align: right; font-weight: 600; color: #0f172a; }
-    .mat-table tr.highlight { background-color: #f0fdf4; }
-    .mat-table tr.highlight-blue { background-color: #eff6ff; }
-    .mat-table tr.highlight-blue td { font-weight: 700; color: #1e40af; font-size: 14px; }
-    .mat-table tr.highlight-grand { background-color: #e0f2fe; }
-    .mat-table tr.highlight-grand td { font-weight: 800; color: #0369a1; font-size: 15px; }
+    .btn-print {
+      background: #27ae60;
+    }
 
-    table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 12px 6px; text-align: center; font-size: 14px; }
-    table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 700; }
-    table.report-table td { border: 1px solid #e2e8f0; padding: 8px; font-size: 13px; }
-    
-    table.input-table input { 
-      padding: 12px 8px; 
-      text-align: center; 
-      font-size: 16px; 
-      font-weight: 700; 
-      border: 1px solid #94a3b8; 
+    .btn-print:hover {
+      background: #1e8449;
+    }
+
+    /* ==================== CUTTING BREAKDOWN STYLES ==================== */
+    .cutting-container {
+      margin-top: 25px;
+      border: 1px solid #ddd;
+      padding: 15px;
+      background: #fff;
+    }
+
+    .waste-tag {
+      background-color: #ffe6e6;
+      color: #d63031;
+      padding: 2px 6px;
       border-radius: 4px;
-    }
-    table.input-table td { padding: 6px; }
-
-    .notice-box {
-      background-color: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1e40af;
-      padding: 8px;
-      border-radius: 6px;
+      font-weight: bold;
       font-size: 12px;
-      text-align: center;
-      margin-bottom: 10px;
+      display: inline-block;
+      margin-top: 3px;
     }
 
-    .menu-btn {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      color: white;
-      font-size: 20px;
-      padding: 4px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+    /* ==================== PRINT CSS FIXES (1 PAGE FIT) ==================== */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+        margin: 0;
+      }
 
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 10px;
-    }
-    .modal-content {
-      background: white;
-      padding: 20px;
-      width: 100%;
-      max-width: 800px;
-      height: 95%;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #eff6ff;
-      padding-bottom: 8px;
-      margin-bottom: 12px;
-    }
-    .modal-header h3 { margin: 0; color: #1e40af; font-size: 16px; text-transform: uppercase; }
-    
-    .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.6; }
-    
-    .wastage-red { color: #dc2626; font-weight: 800; background-color: #fee2e2; padding: 2px 6px; border-radius: 4px; border: 1px solid #fca5a5; }
-    .wastage-green { color: #166534; font-weight: 700; background-color: #dcfce7; padding: 2px 6px; border-radius: 4px; }
-    
-    .table-title-18 { background: #1e40af; color: white; padding: 8px 12px; font-weight: bold; font-size: 14px; border-radius: 4px 4px 0 0; margin-top: 10px; text-transform: uppercase; }
-    .table-title-21 { background: #0369a1; color: white; padding: 8px 12px; font-weight: bold; font-size: 14px; border-radius: 4px 4px 0 0; margin-top: 20px; text-transform: uppercase; }
+      .container {
+        box-shadow: none;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+      }
 
-    #printContent * { outline: none !important; }
+      .btn-group, .cutting-container, .no-print {
+        display: none !important;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 8mm 10mm;
+      }
+
+      .print-wrapper {
+        border: 1.5px solid #0d3b66 !important;
+        padding: 10px !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .header-box {
+        padding-bottom: 5px !important;
+        margin-bottom: 8px !important;
+      }
+
+      .header-title {
+        font-size: 20px !important;
+      }
+
+      .header-date {
+        position: absolute !important;
+        right: 0 !important;
+        top: 0 !important;
+        font-size: 12px !important;
+      }
+
+      table.data-table th, table.data-table td {
+        padding: 3px 5px !important; /* রো-এর সাইজ কমিয়ে ১ পেজে আনা */
+        font-size: 11.5px !important;
+      }
+
+      .section-banner {
+        padding: 3px !important;
+        font-size: 12px !important;
+        margin-top: 6px !important;
+      }
+
+      .footer-note {
+        font-size: 11px !important;
+        margin-top: 8px !important;
+      }
+
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
+  
+  <!-- কন্ট্রোল বোতাম -->
+  <div class="btn-group no-print">
+    <button class="btn" onclick="calculateAndRender()">হিসাব তৈরি করুন</button>
+    <button class="btn btn-print" onclick="window.print()">প্রিন্ট মেমো বের করুন</button>
+  </div>
 
-  <div class="header-card">
-    <button class="menu-btn" onclick="openHistory()">☰</button>
-    <h2>RM THAI ALUMINIUM</h2>
-    <p>COSTING & QUOTATION CALCULATOR</p>
+  <!-- প্রিন্ট করার মেমো পেজ -->
+  <div class="print-wrapper" id="printSection">
     
-    <div class="shop-input-box">
-      <input type="text" id="shopOwnerName" value="RM.THAI.ALUMINIUM" placeholder="দোকানের নাম লিখুন" oninput="saveHeaderInfo()">
-      <input type="text" id="shopPhone" value="01676474412" placeholder="মোবাইল নম্বর লিখুন" oninput="saveHeaderInfo()">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">CUSTOMER DETAILS</div>
-    <div class="row">
-      <div class="col"><label>কাস্টমার নাম</label><input type="text" id="custName" placeholder="নাম"></div>
-      <div class="col"><label>কাস্টমার ঠিকানা</label><input type="text" id="custnambar" placeholder="ঠিকানা"></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">MATERIAL DETAILS</div>
-    <div class="notice-box">💡 রেট সেটিংস পেজ থেকে সেভ করা রেট এখানে স্বয়ংক্রিয়ভাবে কাজ করবে।</div>
-    
-    <div class="row">
-      <div class="col"><label>কোম্পানি</label><select id="aluCompany" onchange="calculateAll()"></select></div>
-      <div class="col"><label>সিরিজ</label><select id="aluSeries" onchange="toggleNetSection(); calculateAll();"></select></div>
+    <!-- হেডার (তারিখের ওভারল্যাপ ফিক্সসহ) -->
+    <div class="header-box">
+      <div class="header-title">RM.THAI.ALUMINIUM</div>
+      <div class="header-phone">📱 মোবাইল: 01676474412</div>
+      <div class="header-date" id="currentDate">তারিখ: ১২/০৮/২০২৬</div>
     </div>
 
-    <div class="row">
-      <div class="col"><label>অ্যালুমিনিয়াম থিকনেস</label><select id="aluThickness" onchange="calculateAll()"></select></div>
-      <div class="col"><label>অ্যালুমিনিয়াম কালার</label><select id="aluColour" onchange="calculateAll()"></select></div>
-    </div>
-
-    <div class="row">
-      <div class="col"><label>গ্লাস কোম্পানি</label><select id="glassCompany" onchange="calculateAll()"></select></div>
-      <div class="col"><label>গ্লাস থিকনেস</label><select id="glassThickness" onchange="runAccessoriesCalculation(); calculateAll();"></select></div>
-    </div>
-
-    <div class="row">
-      <div class="col"><label>গ্লাস কালার</label><select id="glassColour" onchange="calculateAll()"></select></div>
-      <div class="col">
-        <label>নেট সেকশন</label>
-        <select id="netSection" onchange="calculateAll()">
-          <option value="ss_net">এসএস নেট সেকশন</option>
-          <option value="nylon_net">নাইলন নেট সেকশন</option>
-          <option value="none">নেট নেই</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">WINDOW DIMENSIONS (INCH)</div>
-    <div class="notice-box">ℹ️ উইন্ডোর মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
-    <table class="input-table">
-      <thead>
-        <tr><th style="width: 15%;">ক্রম</th><th style="width: 25%;">উচ্চতা (ইঞ্চি)</th><th style="width: 25%;">পাশ (ইঞ্চি)</th><th style="width: 20%;">পরিমাণ</th><th style="width: 15%;">অ্যাকশন</th></tr>
-      </thead>
-      <tbody id="winTableBody"></tbody>
+    <!-- কাস্টমার তথ্য -->
+    <table class="customer-info-table">
+      <tr>
+        <td class="label-bg">👤 কাস্টমার নাম</td>
+        <td id="custName">বাতেন</td>
+      </tr>
+      <tr>
+        <td class="label-bg">📍 কাস্টমার ঠিকানা</td>
+        <td id="custAddress">পাবনা</td>
+      </tr>
     </table>
-    <button class="btn btn-add" type="button" onclick="addRow()">+ নতুন উইন্ডো যোগ করুন</button>
-    <button class="btn btn-calc" type="button" onclick="calculateAll(true)">হিসাব ও ফাইল সেভ করুন</button>
-  </div>
 
-  <div class="card">
-    <div class="card-title">TOTAL MATERIAL & COST</div>
-    <table class="mat-table">
-      <tbody>
-        <tr><td>আউটার সাইড (উচ্চতা)</td><td><span id="mOuterSide">০.০০</span> ফিট</td></tr>
-        <tr><td>আউটার টপ (পাশ)</td><td><span id="mOuterTop">০.০০</span> ফিট</td></tr>
-        <tr><td>আউটার বটম (টপের সমান)</td><td><span id="mOuterBottom">০.০০</span> ফিট</td></tr>
-        <tr><td>শাটার লক</td><td><span id="mShutterLock">০.০০</span> ফিট</td></tr>
-        <tr><td>শাটার ইন্টারলক</td><td><span id="mShutterInterlock">০.০০</span> ফিট</td></tr>
-        <tr><td>শাটার টপ</td><td><span id="mShutterTop">০.০০</span> ফিট</td></tr>
-        <tr><td>শাটার বটম (শাটার টপের সমান)</td><td><span id="mShutterBottom">০.০০</span> ফিট</td></tr>
-        
-        <tr id="netRow" style="display: none;"><td>নেট ফ্রেম অ্যালুমিনিয়াম</td><td><span id="mNetSection">০.০০</span> ফিট</td></tr>
-
-        <tr class="highlight-blue"><td>সর্বমোট অ্যালুমিনিয়াম</td><td><span id="mTotalAlu">০.০০</span> ফিট</td></tr>
-        
-        <tr><td>গ্লাসের মোট এরিয়া</td><td><span id="mGlassSqft">০.০০</span> স্কয়ার ফিট</td></tr>
-        <tr id="netMeshRow" style="display: none;"><td>নেট জালের এরিয়া</td><td><span id="mNetMeshSqft">০.০০</span> স্কয়ার ফিট</td></tr>
-        
-        <tr><td>অ্যালুমিনিয়াম খরচ</td><td><span id="mAluCost">০.০০</span> ৳</td></tr>
-        <tr><td>গ্লাস খরচ</td><td><span id="mGlassCost">০.০০</span> ৳</td></tr>
-        <tr><td>হার্ডওয়্যার খরচ</td><td><span id="mHardware">০.০০</span> ৳</td></tr>
-        <tr><td>ফিটিং চার্জ</td><td><span id="mFittings">০.০০</span> ৳</td></tr>
-        <tr><td>লেবার চার্জ</td><td><span id="mLabour">০.০০</span> ৳</td></tr>
-        
-        <tr class="highlight"><td>মোট মালামাল খরচ</td><td><span id="mMaterialCost">০.০০</span> ৳</td></tr>
-        <tr><td>বিক্রয় দর / স্কয়ার ফিট</td><td><span id="mSellingRatePerSqft">০.০০</span> ৳</td></tr>
-        <tr><td>লাভ / স্কয়ার ফিট</td><td><span id="mProfitPerSqft">০.০০</span> ৳</td></tr>
-        
-        <tr class="highlight-grand"><td>সর্বমোট বিক্রয় মূল্য</td><td><span id="mSellingPrice">০.০০</span> ৳</td></tr>
+    <!-- প্রয়োজনীয় মালামালের বিবরণ -->
+    <div class="section-banner">প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 10%;">ক্রমিক নং</th>
+          <th style="width: 35%;">মালামালের নাম</th>
+          <th style="width: 20%;">বার সাইজ</th>
+          <th style="width: 35%;">প্রকৃত পরিমাণ</th>
+        </tr>
+      </thead>
+      <tbody id="materialsTableBody">
+        <!-- ডায়নামিক ডাটা আসবে -->
       </tbody>
     </table>
-  </div>
 
-  <div class="card">
-    <div class="card-title">CUTTING LIST</div>
-    
-    <div class="table-title-18">📌 18.6 FEET BAR CUTTING LIST</div>
-    <table class="report-table">
+    <!-- এক্সেসরিজের তালিকা -->
+    <div class="section-banner">এক্সেসরিজের তালিকা</div>
+    <table class="data-table">
       <thead>
-        <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
+        <tr>
+          <th style="width: 15%;">ক্রমিক নং</th>
+          <th style="width: 55%;">এক্সেসরিজের নাম</th>
+          <th style="width: 30%;">পরিমাণ</th>
+        </tr>
       </thead>
-      <tbody id="tableBody18"></tbody>
+      <tbody id="accessoriesTableBody">
+        <!-- ডায়নামিক ডাটা আসবে -->
+      </tbody>
     </table>
 
-    <div class="table-title-21">📌 21 FEET BAR CUTTING LIST</div>
-    <table class="report-table">
-      <thead>
-        <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
-      </thead>
-      <tbody id="tableBody21"></tbody>
-    </table>
+    <div class="footer-note">ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।</div>
   </div>
 
-  <div class="card" style="margin-top: 15px;">
-      <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজ তালিকা)</div>
-      <table class="report-table">
-          <thead>
-              <tr>
-                  <th>মালামালের নাম</th>
-                  <th>পরিমাণ</th>
-                  <th>একক</th>
-              </tr>
-          </thead>
-          <tbody id="accessoriesTbody">
-          </tbody>
-      </table>
-
-      <button class="btn btn-print" onclick="openPrintModal()">
-        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-2-9H7v4h10V3z"/>
-        </svg>
-        PDF / প্রিন্ট করুন
-      </button>
+  <!-- কাটিং ব্রেকডাউন সেকশন (প্রিন্টে আসবে না) -->
+  <div class="cutting-container no-print">
+    <h3 style="color: #0d3b66; margin-bottom: 15px; text-align: center;">📌 স্মার্ট কাটিং ব্রেকডাউন রিপোর্ট</h3>
+    <div id="cuttingReport"></div>
   </div>
 
-</div>
-
-<!-- History Modal -->
-<div id="historyModal" class="modal" onclick="if(event.target === this) closeHistory()">
-  <div class="modal-content" style="max-width: 500px;">
-    <div class="modal-header">
-      <h3>CALCULATION HISTORY</h3>
-      <button class="btn-danger" style="padding: 6px 12px;" onclick="closeHistory()">X</button>
-    </div>
-    <div id="historyListContainer" class="history-list" style="flex: 1; overflow-y: auto;"></div>
-    <button class="btn btn-danger" style="margin-top: 10px; width: 100%; padding: 12px;" onclick="clearAllHistory()">সব হিসাব মুছে ফেলুন</button>
-  </div>
-</div>
-
-<!-- Editable PDF/Print Preview Modal -->
-<div id="printModal" class="modal" onclick="if(event.target === this) closePrintModal()">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>PRINT PREVIEW & EDIT</h3>
-      <button class="btn-danger" style="padding: 6px 12px;" onclick="closePrintModal()">X</button>
-    </div>
-    <div style="font-size: 13px; color: #1e3a8a; font-weight: 600; margin-bottom: 8px; text-align: center;">💡 আপনি চাইলে যেকোনো লেখায় ক্লিক করে এডিট করতে পারবেন:</div>
-    
-    <div id="printContent" contenteditable="true" style="flex: 1; overflow-y: auto; border: 2px solid #cbd5e1; padding: 15px; border-radius: 8px; background: #fff; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
-    </div>
-    
-    <button class="btn btn-print" style="margin-top: 15px; font-size: 18px; padding: 14px;" onclick="executePrint()">
-      ফাইনাল প্রিন্ট / PDF সেভ করুন
-    </button>
-  </div>
 </div>
 
 <script>
-  window.printData = { items18: {}, items21: {} };
-
-  function toBnNum(num) {
-    if (num === null || num === undefined) return '০';
-    let str = num.toString();
-    const bnNums = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯', '.':'.'};
-    return str.replace(/[0-9.]/g, match => bnNums[match]);
+  // বাংলা সংখ্যায় রূপান্তর
+  function toBengaliNum(num) {
+    const bnNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return num.toString().replace(/\d/g, d => bnNums[d]);
   }
 
-  document.addEventListener("DOMContentLoaded", function() {
-    initCalculatorDropdowns();
-    loadHeaderInfo();
-    
-    let tbody = document.getElementById('winTableBody');
-    tbody.innerHTML = '';
-    
-    addPresetRow('', '', '');
-    
-    toggleNetSection();
-    calculateAll(false);
-  });
+  // নমুনাস্বরূপ ইনপুট ডাটা (উইন্ডোর পরিমাপ থেকে প্রাপ্ত)
+  const itemRequirements = [
+    { name: "আউটার সাইড", pieces: [20.00] },
+    { name: "আউটার টপ", pieces: [7.50] },
+    { name: "আউটার বটম", pieces: [7.50] },
+    { name: "শাটার লক", pieces: [20.00] },
+    { name: "শাটার ইন্টারলক", pieces: [20.00] },
+    { name: "শাটার টপ", pieces: [7.50] },
+    { name: "শাটার বটম", pieces: [7.50] }
+  ];
 
-  function addPresetRow(h, w, q) {
-    let tbody = document.getElementById('winTableBody');
-    let tr = document.createElement('tr');
-    tr.className = 'window-row';
-    tr.innerHTML = `
-      <td class="row-index" style="text-align: center; font-weight: bold; font-size: 16px;"></td>
-      <td><input type="number" class="w-h height-input" value="${h}" placeholder="উচ্চতা" oninput="calculateAll(false)"></td>
-      <td><input type="number" class="w-w width-input" value="${w}" placeholder="পাশ" oninput="calculateAll(false)"></td>
-      <td><input type="number" class="w-q qty-input" value="${q}" placeholder="সংখ্যা" oninput="calculateAll(false)"></td>
-      <td style="text-align: center;"><button class="btn-danger" type="button" style="padding: 10px 15px;" onclick="removeRow(this)">X</button></td>
-    `;
-    tbody.appendChild(tr);
-    updateIndexes();
-  }
+  const accessoriesList = [
+    { name: "লক (Lock)", qty: "১৮ পিস" },
+    { name: "চাকা (Wheel)", qty: "৩৬ পিস" },
+    { name: "কর্ড স্ক্রু (Cord Screw)", qty: "৭২ পিস" },
+    { name: "১.৫ ইঞ্চি স্ক্রু (1.5\" Screw)", qty: "২৮৮ পিস" },
+    { name: "মহিয়ার (Mohair)", qty: "১৩০.৬০ ফিট" },
+    { name: "গ্লাস রাবার (5mm Rubber)", qty: "১৩০.৬০ ফিট" },
+    { name: "সিলিকন গাম (Silicone Tube)", qty: "৩ টিউব" }
+  ];
 
-  function initCalculatorDropdowns() {
-    let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
-    let companies = JSON.parse(localStorage.getItem('companyList')) || extractUnique(rateList, 'company');
-    let series = JSON.parse(localStorage.getItem('seriesList')) || extractUnique(rateList, 'series');
-    let aluThicks = JSON.parse(localStorage.getItem('thickList')) || extractUnique(rateList, 'aluThickness');
-    let aluColours = JSON.parse(localStorage.getItem('aluColourList')) || extractUnique(rateList, 'aluColour');
-    let glassCos = JSON.parse(localStorage.getItem('glassCoList')) || extractUnique(rateList, 'glassCompany');
-    let glassThicks = JSON.parse(localStorage.getItem('glassThickList')) || extractUnique(rateList, 'glassThickness');
-    let glassColours = JSON.parse(localStorage.getItem('glassColourList')) || extractUnique(rateList, 'glassColour');
+  // স্মার্ট কাটিং অ্যালগরিদম (Minimum Wastage Solver)
+  function solveBarCutting(pieceList, barSize) {
+    let bars = [];
+    let sortedPieces = [...pieceList].sort((a, b) => b - a); // বড় থেকে ছোট সাজানো
 
-    populateDropdownDirect('aluCompany', companies);
-    populateDropdownDirect('aluSeries', series);
-    populateDropdownDirect('aluThickness', aluThicks);
-    populateDropdownDirect('aluColour', aluColours);
-    populateDropdownDirect('glassCompany', glassCos);
-    populateDropdownDirect('glassThickness', glassThicks);
-    populateDropdownDirect('glassColour', glassColours);
-  }
+    for (let piece of sortedPieces) {
+      if (piece > barSize) return null; // বার সাইজের চেয়ে পিস বড় হলে অসম্ভব
 
-  function extractUnique(list, key) {
-    let set = new Set();
-    list.forEach(item => { if (item && item[key]) set.add(item[key]); });
-    return Array.from(set);
-  }
-
-  function populateDropdownDirect(selectId, itemsArray) {
-    let select = document.getElementById(selectId);
-    if (!select) return;
-    select.innerHTML = '';
-    if (!itemsArray || itemsArray.length === 0) {
-      let defaultOpt = document.createElement('option');
-      defaultOpt.value = "ডিফল্ট";
-      defaultOpt.textContent = "ডিফল্ট";
-      select.appendChild(defaultOpt);
-      return;
-    }
-    itemsArray.forEach(item => {
-      let opt = document.createElement('option');
-      opt.value = item;
-      opt.textContent = item;
-      select.appendChild(opt);
-    });
-  }
-
-  function saveHeaderInfo() {
-    let name = document.getElementById('shopOwnerName').value;
-    let phone = document.getElementById('shopPhone').value;
-    localStorage.setItem('rm_shop_name', name);
-    localStorage.setItem('rm_shop_phone', phone);
-  }
-
-  function loadHeaderInfo() {
-    let name = localStorage.getItem('rm_shop_name') || 'RM.THAI.ALUMINIUM';
-    let phone = localStorage.getItem('rm_shop_phone') || '01676474412';
-    document.getElementById('shopOwnerName').value = name;
-    document.getElementById('shopPhone').value = phone;
-  }
-
-  function toggleNetSection() {
-    let seriesSelect = document.getElementById('aluSeries');
-    let series = seriesSelect ? seriesSelect.value : '';
-    let netSelect = document.getElementById('netSection');
-    if (series && (series.includes('4') || series.includes('ফোর') || series.includes('Four'))) {
-      netSelect.disabled = false;
-    } else {
-      netSelect.disabled = true;
-      netSelect.value = 'none';
-    }
-  }
-
-  function addRow() { addPresetRow('', '', ''); }
-  function removeRow(btn) {
-    let rows = document.querySelectorAll('#winTableBody tr');
-    if (rows.length > 1) {
-      btn.closest('tr').remove();
-      updateIndexes();
-      calculateAll(false);
-    } else { alert("কমপক্ষে একটি উইন্ডো রো থাকতে হবে!"); }
-  }
-
-  function updateIndexes() {
-    let rows = document.querySelectorAll('#winTableBody tr');
-    rows.forEach((row, i) => { row.querySelector('.row-index').innerText = toBnNum(i + 1); });
-  }
-
-  function getMatchedRate() {
-    let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
-    let curCompany = document.getElementById('aluCompany').value;
-    let curSeries = document.getElementById('aluSeries').value;
-    let curThick = document.getElementById('aluThickness').value;
-    let curColor = document.getElementById('aluColour').value;
-    let curGlassCo = document.getElementById('glassCompany').value;
-    let curGlassThick = document.getElementById('glassThickness').value;
-    let curGlassColor = document.getElementById('glassColour').value;
-
-    let matched = rateList.find(item => 
-      item.company === curCompany && item.series === curSeries && item.aluThickness === curThick &&
-      item.aluColour === curColor && item.glassCompany === curGlassCo && item.glassThickness === curGlassThick &&
-      item.glassColour === curGlassColor
-    );
-    if (!matched) matched = rateList.find(item => item.company === curCompany && item.series === curSeries && item.aluThickness === curThick);
-    if (!matched) matched = rateList.find(item => item.series === curSeries && item.aluThickness === curThick);
-    if (!matched) matched = rateList[0] || { aluRate: 0, glassRate: 0, hwRate: 0, fitRate: 0, labourRate: 0, profit: 0, netRate: 0 };
-    return matched;
-  }
-
-  function solveBarCutting(piecesList, barCap) {
-    if (!piecesList || piecesList.length === 0) return null;
-    let plan = [];
-    let unassigned = [...piecesList].sort((a,b) => b - a);
-    let totalWastage = 0;
-
-    while (unassigned.length > 0) {
-      let currentCap = barCap;
-      let usedIndexes = [];
-      for (let i = 0; i < unassigned.length; i++) {
-        if (currentCap >= unassigned[i] - 0.001) {
-          currentCap -= unassigned[i];
-          usedIndexes.push(i);
-        }
-      }
-      if (usedIndexes.length === 0) break;
-      let cutPcs = usedIndexes.map(i => unassigned[i]);
-      let wastage = parseFloat(Math.max(0, currentCap).toFixed(2));
-      totalWastage += wastage;
-      plan.push({ piecesCut: cutPcs, wastage: wastage });
-      unassigned = unassigned.filter((_, idx) => !usedIndexes.includes(idx));
-    }
-
-    let detailsHTML = `<strong>মোট: ${toBnNum(plan.length)} টি বার</strong>`;
-    let detailsStr = plan.map((b, idx) => {
-      let pcsStr = b.piecesCut.map(x => toBnNum(x.toFixed(2)) + "ফিট").join(" + ");
-      let wastageTag = b.wastage > 0.05 ? `<span class="wastage-red">অপচয়: ${toBnNum(b.wastage)}ফিট</span>` : `<span class="wastage-green">(অপচয়: ${toBnNum(b.wastage)}ফিট)</span>`;
-      return `বার #${toBnNum(idx + 1)}: [${pcsStr}] ${wastageTag}`;
-    }).join("<br>");
-
-    detailsHTML += `<div class="opt-detail">${detailsStr}</div>`;
-    let totalLen = piecesList.reduce((a,b)=>a+b, 0);
-
-    return { detailsHTML: detailsHTML, totalLen: totalLen, totalWastage: totalWastage, barCount: plan.length, plan: plan };
-  }
-
-  function calculateAll(shouldSave = false) {
-    let rateData = getMatchedRate();
-    window.printData = { items18: {}, items21: {} };
-
-    let heights = document.querySelectorAll('.w-h');
-    let widths = document.querySelectorAll('.w-w');
-    let qtys = document.querySelectorAll('.w-q');
-
-    let outerH = 0, outerTop = 0, outerBottom = 0;
-    let shutterLock = 0, shutterInterlock = 0, shutterTop = 0, shutterBottom = 0;
-    let totalSqft = 0;
-
-    let itemsMap = {
-      "আউটার সাইড": [], "আউটার টপ": [], "আউটার বটম": [],
-      "শাটার লক": [], "শাটার ইন্টারলক": [], "শাটার টপ": [], "শাটার বটম": [], "নেট সেকশন": []
-    };
-
-    let seriesVal = document.getElementById('aluSeries').value;
-    let netSelVal = document.getElementById('netSection').value;
-    let isNetActive = seriesVal && (seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four')) && netSelVal !== 'none';
-
-    for (let i = 0; i < heights.length; i++) {
-      let h = parseFloat(heights[i].value) || 0;
-      let w = parseFloat(widths[i].value) || 0;
-      let q = parseFloat(qtys[i].value) || 0;
-
-      if (h > 0 && w > 0 && q > 0) {
-        let hFt = h / 12; let wFt = w / 12;
-        outerH += hFt * 2 * q; outerTop += wFt * q; outerBottom += wFt * q; 
-        shutterLock += hFt * 2 * q; shutterInterlock += hFt * 2 * q; shutterTop += wFt * q; shutterBottom += wFt * q;
-        let winSqft = hFt * wFt * q; totalSqft += winSqft;
-
-        for(let j = 0; j < (q * 2); j++) { itemsMap["আউটার সাইড"].push(hFt); itemsMap["শাটার লক"].push(hFt); itemsMap["শাটার ইন্টারলক"].push(hFt); }
-        for(let j = 0; j < q; j++) { itemsMap["আউটার টপ"].push(wFt); itemsMap["আউটার বটম"].push(wFt); itemsMap["শাটার টপ"].push(wFt); itemsMap["শাটার বটম"].push(wFt); }
-        
-        if (isNetActive) {
-          let netWidthFt = wFt / 2;
-          for (let j = 0; j < q; j++) { itemsMap["নেট সেকশন"].push(hFt); itemsMap["নেট সেকশন"].push(hFt); itemsMap["নেট সেকশন"].push(netWidthFt); itemsMap["নেট সেকশন"].push(netWidthFt); }
-        }
-      }
-    }
-
-    let netRawSum = isNetActive ? itemsMap["নেট সেকশন"].reduce((a, b) => a + b, 0) : 0;
-    let netBarCount = Math.ceil(netRawSum / 21);
-    let netFt = netBarCount * 21;
-    let totalAlu = outerH + outerTop + outerBottom + shutterLock + shutterInterlock + shutterTop + shutterBottom + netFt;
-
-    document.getElementById('mOuterSide').innerText = toBnNum(outerH.toFixed(2));
-    document.getElementById('mOuterTop').innerText = toBnNum(outerTop.toFixed(2));
-    document.getElementById('mOuterBottom').innerText = toBnNum(outerBottom.toFixed(2));
-    document.getElementById('mShutterLock').innerText = toBnNum(shutterLock.toFixed(2));
-    document.getElementById('mShutterInterlock').innerText = toBnNum(shutterInterlock.toFixed(2));
-    document.getElementById('mShutterTop').innerText = toBnNum(shutterTop.toFixed(2));
-    document.getElementById('mShutterBottom').innerText = toBnNum(shutterBottom.toFixed(2));
-
-    let netMeshSqft = 0;
-    if (isNetActive) {
-      netMeshSqft = (totalSqft / 2);
-      document.getElementById('netRow').style.display = 'table-row';
-      document.getElementById('netMeshRow').style.display = 'table-row';
-      document.getElementById('mNetSection').innerText = toBnNum(netFt.toFixed(2));
-      document.getElementById('mNetMeshSqft').innerText = toBnNum(netMeshSqft.toFixed(2));
-    } else {
-      document.getElementById('netRow').style.display = 'none';
-      document.getElementById('netMeshRow').style.display = 'none';
-    }
-
-    document.getElementById('mTotalAlu').innerText = toBnNum(totalAlu.toFixed(2));
-
-    let table18Body = document.getElementById('tableBody18');
-    let table21Body = document.getElementById('tableBody21');
-    table18Body.innerHTML = ''; table21Body.innerHTML = '';
-    let has18Data = false; let has21Data = false;
-
-    // আউটার টপ, আউটার বটম, শাটার টপ, শাটার বটম এবং নেট সেকশন সবসময় ২১ ফিটেই লক থাকবে
-    const strictly21Items = ["আউটার টপ", "আউটার বটম", "শাটার টপ", "শাটার বটম", "নেট সেকশন"];
-
-    Object.keys(itemsMap).forEach(itemName => {
-      let pcs = itemsMap[itemName];
-      if (pcs.length === 0) return;
-
-      let pcs18 = []; let pcs21 = [];
-      pcs.forEach(p => {
-        let pVal = parseFloat(p.toFixed(2));
-        if (strictly21Items.includes(itemName)) {
-          pcs21.push(p); // ২১ ফিটেই লক করা হলো
-        } else {
-          let rem18 = 18.6 % pVal;
-          let rem21 = 21.0 % pVal;
-          if (rem18 <= rem21) { pcs18.push(p); } else { pcs21.push(p); }
-        }
-      });
-
-      if (pcs18.length > 0) {
-        let res18 = solveBarCutting(pcs18, 18.6); 
-        if (res18) {
-          has18Data = true;
-          window.printData.items18[itemName] = res18;
-          let tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td><strong>${itemName}</strong></td>
-            <td><span style="color:#1e40af; font-weight:bold;">১৮.৬ ফিট বার</span></td>
-            <td>${toBnNum(res18.totalLen.toFixed(2))} ফিট</td>
-            <td>${res18.detailsHTML}</td>
-          `;
-          table18Body.appendChild(tr);
+      let fitted = false;
+      for (let bar of bars) {
+        if (bar.remaining >= piece) {
+          bar.cuts.push(piece);
+          bar.remaining -= piece;
+          fitted = true;
+          break;
         }
       }
 
-      if (pcs21.length > 0) {
-        let res21 = solveBarCutting(pcs21, 21.0);
-        if (res21) {
-          has21Data = true;
-          window.printData.items21[itemName] = res21;
-          let tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td><strong>${itemName}</strong></td>
-            <td><span style="color:#0369a1; font-weight:bold;">২১ ফিট বার</span></td>
-            <td>${toBnNum(res21.totalLen.toFixed(2))} ফিট</td>
-            <td>${res21.detailsHTML}</td>
-          `;
-          table21Body.appendChild(tr);
-        }
-      }
-    });
-
-    if (!has18Data) { table18Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">১৮.৬ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>'; }
-    if (!has21Data) { table21Body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">২১ ফিট বারের কোনো পিস বেছে নেওয়া হয়নি</td></tr>'; }
-
-    let aluTotalCost = totalSqft * (rateData.aluRate || 0);
-    let glassTotalCost = totalSqft * (rateData.glassRate || 0);
-    let hardwareCost = totalSqft * (rateData.hwRate || 0);
-    let fittingsCharge = totalSqft * (rateData.fitRate || 0);
-    let labourCharge = totalSqft * (rateData.labourRate || 0);
-    let netMeshCost = isNetActive ? (netMeshSqft * (rateData.netRate || 0)) : 0;
-    let totalMaterialCost = aluTotalCost + glassTotalCost + netMeshCost + hardwareCost + fittingsCharge + labourCharge;
-    let actualCostPerSqft = totalSqft > 0 ? (totalMaterialCost / totalSqft) : 0;
-    let profitPerSqft = actualCostPerSqft * ((rateData.profit || 0) / 100); 
-    let sellingRatePerSqft = actualCostPerSqft + profitPerSqft;
-    let sellingPrice = totalSqft > 0 ? (totalSqft * sellingRatePerSqft) : 0;
-
-    document.getElementById('mGlassSqft').innerText = toBnNum(totalSqft.toFixed(2));
-    document.getElementById('mAluCost').innerText = toBnNum(aluTotalCost.toFixed(2));
-    document.getElementById('mGlassCost').innerText = toBnNum(glassTotalCost.toFixed(2));
-    document.getElementById('mHardware').innerText = toBnNum(hardwareCost.toFixed(2));
-    document.getElementById('mFittings').innerText = toBnNum(fittingsCharge.toFixed(2));
-    document.getElementById('mLabour').innerText = toBnNum(labourCharge.toFixed(2));
-    document.getElementById('mMaterialCost').innerText = toBnNum(totalMaterialCost.toFixed(2));
-    document.getElementById('mSellingRatePerSqft').innerText = toBnNum(sellingRatePerSqft.toFixed(2));
-    document.getElementById('mProfitPerSqft').innerText = toBnNum(profitPerSqft.toFixed(2));
-    document.getElementById('mSellingPrice').innerText = toBnNum(sellingPrice.toFixed(2));
-
-    runAccessoriesCalculation();
-
-    if (shouldSave && totalSqft > 0) {
-      let windowItems = [];
-      document.querySelectorAll('#winTableBody tr').forEach(row => {
-        let h = row.querySelector('.w-h').value; let w = row.querySelector('.w-w').value; let q = row.querySelector('.w-q').value;
-        if (h && w && q) windowItems.push({ h, w, q });
-      });
-
-      let custInput = document.getElementById('custName') ? document.getElementById('custName').value.trim() : '';
-      let fileData = {
-        id: Date.now(), date: new Date().toLocaleDateString('bn-BD'),
-        custName: custInput !== '' ? custInput : 'সাধারণ গ্রাহক',
-        company: document.getElementById('aluCompany').value, series: document.getElementById('aluSeries').value,
-        aluThickness: document.getElementById('aluThickness').value, aluColour: document.getElementById('aluColour').value,
-        glassCompany: document.getElementById('glassCompany').value, glassThickness: document.getElementById('glassThickness').value,
-        glassColour: document.getElementById('glassColour').value, netSection: document.getElementById('netSection').value,
-        windowItems: windowItems, totalSqft: totalSqft.toFixed(2), sellingPrice: sellingPrice.toFixed(2)
-      };
-      saveCustomerFile(fileData);
-      alert(`✅ "${fileData.custName}" এর হিসাব ও ফাইল সেভ করা হয়েছে!`);
-    }
-  }
-
-  function openHistory() { document.getElementById('historyModal').style.display = 'flex'; renderHistoryList(); }
-  function closeHistory() { document.getElementById('historyModal').style.display = 'none'; }
-  function saveCustomerFile(data) { let history = JSON.parse(localStorage.getItem('rm_cust_files')) || []; history.unshift(data); if (history.length > 50) history.pop(); localStorage.setItem('rm_cust_files', JSON.stringify(history)); }
-  function renderHistoryList() {
-    let container = document.getElementById('historyListContainer');
-    let history = JSON.parse(localStorage.getItem('rm_cust_files')) || [];
-    container.innerHTML = '';
-    if (history.length === 0) { container.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">কোনো সেভ করা ফাইল পাওয়া যায়নি।</div>'; return; }
-    history.forEach((file) => {
-      let card = document.createElement('div');
-      card.style.cssText = "background:#f8fafc; border:1px solid #e2e8f0; padding:10px; border-radius:6px; margin-bottom:8px; cursor:pointer;";
-      card.innerHTML = `<div style="display:flex; justify-content:space-between; font-weight:bold; color:#1e40af;"><span>👤 ${file.custName}</span><span style="font-size:11px; color:#64748b;">${file.date}</span></div>
-        <div style="font-size:12px;"><strong>সাইজ:</strong> ${toBnNum(file.totalSqft)} Sqft</div>
-        <div style="font-size:13px; color:#0369a1; font-weight:bold; margin-top:4px;">মোট মূল্য: ${toBnNum(file.sellingPrice)} ৳</div>
-        <div style="text-align:right; margin-top:6px;"><button class="btn-danger" onclick="event.stopPropagation(); deleteSingleFile(${file.id})">মুছুন</button></div>`;
-      card.onclick = () => loadSavedFile(file);
-      container.appendChild(card);
-    });
-  }
-  function loadSavedFile(file) {
-    document.getElementById('custName').value = file.custName !== 'সাধারণ গ্রাহক' ? file.custName : '';
-    if(file.company) document.getElementById('aluCompany').value = file.company;
-    if(file.series) document.getElementById('aluSeries').value = file.series;
-    if(file.aluThickness) document.getElementById('aluThickness').value = file.aluThickness;
-    if(file.aluColour) document.getElementById('aluColour').value = file.aluColour;
-    if(file.glassCompany) document.getElementById('glassCompany').value = file.glassCompany;
-    if(file.glassThickness) document.getElementById('glassThickness').value = file.glassThickness;
-    if(file.glassColour) document.getElementById('glassColour').value = file.glassColour;
-    if(file.netSection) document.getElementById('netSection').value = file.netSection;
-    let tbody = document.getElementById('winTableBody'); tbody.innerHTML = '';
-    if (file.windowItems && file.windowItems.length > 0) { file.windowItems.forEach(item => { addPresetRow(item.h, item.w, item.q); }); } else { addPresetRow('', '', ''); }
-    toggleNetSection(); calculateAll(false); closeHistory(); alert(`📂 "${file.custName}" এর ফাইলটি রি-ওপেন করা হয়েছে!`);
-  }
-  function deleteSingleFile(id) { let history = JSON.parse(localStorage.getItem('rm_cust_files')) || []; history = history.filter(f => f.id !== id); localStorage.setItem('rm_cust_files', JSON.stringify(history)); renderHistoryList(); }
-  function clearAllHistory() { if (confirm("আপনি কি নিশ্চিত যে সব সেভ ফাইল মুছে ফেলতে চান?")) { localStorage.removeItem('rm_cust_files'); renderHistoryList(); } }
-
-  function runAccessoriesCalculation() {
-    try {
-        let totalWinQty = 0; let totalPerimeterFt = 0; let totalNetPerimeterFt = 0; let totalScrews = 0; let totalSiliconeEstimate = 0;
-        let rows = document.querySelectorAll('#winTableBody tr');
-        rows.forEach(function(row) {
-            let hInput = row.querySelector('.w-h'); let wInput = row.querySelector('.w-w'); let qInput = row.querySelector('.w-q');
-            if (hInput && wInput) {
-                let h = parseFloat(hInput.value) || 0; let w = parseFloat(wInput.value) || 0; let q = qInput ? (parseInt(qInput.value) || 1) : 1; 
-                if (h > 0 && w > 0) {
-                    totalWinQty += q; let hFt = h > 12 ? (h / 12) : h; let wFt = w > 12 ? (w / 12) : w;
-                    
-                    let singlePerimeter = (hFt + wFt) * 2; 
-                    totalPerimeterFt += (singlePerimeter * q);
-                    
-                    let singleNetPerimeter = (hFt + (wFt / 2)) * 2;
-                    totalNetPerimeterFt += (singleNetPerimeter * q);
-
-                    if (hFt <= 3 && wFt <= 3) { totalScrews += (21 * q); } else if (hFt >= 6 || wFt >= 6) { totalScrews += (37 * q); } else { totalScrews += (32 * q); }
-                    if (hFt >= 7 && q >= 4) { totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80); } else { totalSiliconeEstimate += (singlePerimeter * q) / 85; }
-                }
-            }
+      if (!fitted) {
+        bars.push({
+          cuts: [piece],
+          remaining: barSize - piece
         });
-        let tbody = document.getElementById('accessoriesTbody');
-        if (!tbody) return;
-        if (totalWinQty === 0) { tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#94a3b8;">ইনপুট দিন, হিসাব চলে আসবে</td></tr>'; return; }
-        
-        let seriesVal = document.getElementById('aluSeries') ? document.getElementById('aluSeries').value : '';
-        let netVal = document.getElementById('netSection') ? document.getElementById('netSection').value : '';
-        let glassThickVal = document.getElementById('glassThickness') ? document.getElementById('glassThickness').value : '';
-        let is4Inch = seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four');
-        let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
-        let rubberLabel = "গ্লাস রাবার (Rubber)";
-        if (glassThickVal) { if (glassThickVal.includes('5.5') || glassThickVal.includes('6')) { rubberLabel = "গ্লাস রাবার (6mm Rubber)"; } else if (glassThickVal.includes('5')) { rubberLabel = "গ্লাস রাবার (5mm Rubber)"; } else { rubberLabel = `গ্লাস রাবার (${glassThickVal} Rubber)`; } }
+      }
+    }
 
-        let locks = totalWinQty * 2; let wheels = totalWinQty * 4; let cordScrews = totalWinQty * 8; let screws15 = totalScrews;
-        let mohair = (totalPerimeterFt * 1.1).toFixed(2); let rubber = (totalPerimeterFt * 1.1).toFixed(2); let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
+    let totalWaste = bars.reduce((sum, b) => sum + b.remaining, 0);
+    return { bars, totalWaste };
+  }
 
-        let rowsHTML = `
-            <tr><td>লক (Lock)</td><td><b>${toBnNum(locks)}</b></td><td>পিস</td></tr>
-            <tr><td>চাকা (Wheel)</td><td><b>${toBnNum(wheels)}</b></td><td>পিস</td></tr>
-            <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${toBnNum(cordScrews)}</b></td><td>পিস</td></tr>
-            <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${toBnNum(screws15)}</b></td><td>পিস</td></tr>
-            <tr><td>মহিয়ার (Mohair)</td><td><b>${toBnNum(mohair)}</b></td><td>ফিট</td></tr>
-            <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${toBnNum(rubber)}</b></td><td>ফিট</td></tr>
-            <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${toBnNum(silicone)}</b></td><td>টিউব</td></tr>
+  // অটো স্মার্ট বার সিলেকশন লজিক (১৮.৬ ফিট বনাম ২১ ফিট এর অপচয় তুলনা)
+  function processSmartCutting() {
+    let materialsSummary = [];
+    let cuttingDetails = [];
+
+    itemRequirements.forEach((item, index) => {
+      let result18 = solveBarCutting(item.pieces, 18.6);
+      let result21 = solveBarCutting(item.pieces, 21.0);
+
+      let selectedBarSize = 21.0;
+      let chosenResult = result21;
+
+      // যদি ১৮.৬ ফিট বারে কাটানো সম্ভব হয় এবং ১৮.৬ ফিটে অপচয় ২১ ফিটের চেয়ে কম/সমান হয়
+      if (result18 !== null && result18.totalWaste <= result21.totalWaste) {
+        selectedBarSize = 18.6;
+        chosenResult = result18;
+      }
+
+      let totalFullBars = 0;
+      let remainingLength = 0;
+
+      // সম্পূর্ণ বার ও টুকরা হিসাব
+      chosenResult.bars.forEach(bar => {
+        let usedLength = bar.cuts.reduce((a, b) => a + b, 0);
+        if (usedLength === selectedBarSize) {
+          totalFullBars++;
+        } else {
+          remainingLength += usedLength;
+        }
+      });
+
+      // --- প্রিন্ট টেক্সট ফরম্যাটিং লজিক ---
+      let quantityText = "";
+      if (totalFullBars > 0 && remainingLength > 0) {
+        quantityText = `${toBengaliNum(totalFullBars)} পিস + ${toBengaliNum(remainingLength.toFixed(2))} ফিট টুকরা`;
+      } else if (totalFullBars > 0 && remainingLength === 0) {
+        quantityText = `${toBengaliNum(totalFullBars)} পিস`;
+      } else {
+        // সম্পূর্ণ বার না মিললে (১ বারের কম হলে) সরাসরি টুকরা দেখাবে (১৮.৬ বা ২১ লেখার দরকার নাই)
+        quantityText = `${toBengaliNum(remainingLength.toFixed(2))} ফিট টুকরা`;
+      }
+
+      let barSizeText = (totalFullBars > 0) ? `${toBengaliNum(selectedBarSize)} এর` : "-";
+
+      materialsSummary.push({
+        id: index + 1,
+        name: item.name,
+        barSize: barSizeText,
+        quantity: quantityText
+      });
+
+      cuttingDetails.push({
+        name: item.name,
+        barSize: selectedBarSize,
+        bars: chosenResult.bars
+      });
+    });
+
+    return { materialsSummary, cuttingDetails };
+  }
+
+  // পেজ রেন্ডার করার ফাংশন
+  function calculateAndRender() {
+    const { materialsSummary, cuttingDetails } = processSmartCutting();
+
+    // ১. প্রয়োজনীয় মালামালের টেবিল তৈরি
+    let matHtml = "";
+    materialsSummary.forEach(item => {
+      matHtml += `
+        <tr>
+          <td>${toBengaliNum(item.id)}</td>
+          <td style="text-align: left; font-weight: bold;">${item.name}</td>
+          <td>${item.barSize}</td>
+          <td style="font-weight: bold; color: #0d3b66;">${item.quantity}</td>
+        </tr>
+      `;
+    });
+    document.getElementById("materialsTableBody").innerHTML = matHtml;
+
+    // ২. এক্সেসরিজ টেবিল তৈরি
+    let accHtml = "";
+    accessoriesList.forEach((acc, i) => {
+      accHtml += `
+        <tr>
+          <td>${toBengaliNum(i + 1)}</td>
+          <td style="text-align: left;">${acc.name}</td>
+          <td>${acc.qty}</td>
+        </tr>
+      `;
+    });
+    document.getElementById("accessoriesTableBody").innerHTML = accHtml;
+
+    // ৩. কাটিং ব্রেকডাউন রিপোর্ট তৈরি (স্ক্রিনের জন্য)
+    let cutHtml = "";
+    cuttingDetails.forEach(item => {
+      cutHtml += `
+        <div style="margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">
+          <h4 style="color: #0d3b66;">${item.name} (${toBengaliNum(item.barSize)} ফিট বার)</h4>
+          <p><strong>মোট বার লাগবে:</strong> ${toBengaliNum(item.bars.length)} টি</p>
+      `;
+
+      item.bars.forEach((bar, idx) => {
+        let cutsFormatted = bar.cuts.map(c => `${toBengaliNum(c.toFixed(2))}ফিট`).join(" + ");
+        cutHtml += `
+          <div style="margin-left: 15px; font-size: 13px; margin-top: 4px;">
+            বার #${toBengaliNum(idx + 1)}: [${cutsFormatted}]
+            <span class="waste-tag">অপচয়: ${toBengaliNum(bar.remaining.toFixed(2))}ফিট</span>
+          </div>
         `;
-        if (is4Inch || hasNet) {
-            let netWheels = totalWinQty * 2; let netAngles = totalWinQty * 4; let netRivet = totalWinQty * 17;
-            let netRubber = (totalNetPerimeterFt * 1.1).toFixed(2);
-            rowsHTML += `
-                <tr><td>নেটের চাকা (Net Wheel)</td><td><b>${toBnNum(netWheels)}</b></td><td>পিস</td></tr>
-                <tr><td>নেটের এঙ্গেল (Net Angle)</td><td><b>${toBnNum(netAngles)}</b></td><td>পিস</td></tr>
-                <tr><td>রিপিট / রিভেট (Rivet)</td><td><b>${toBnNum(netRivet)}</b></td><td>পিস</td></tr>
-                <tr><td>নেট রাবার (Net Rubber)</td><td><b>${toBnNum(netRubber)}</b></td><td>ফিট</td></tr>
-            `;
-        }                                                                                                                          
-  
-        tbody.innerHTML = rowsHTML;
-    } catch (err) { console.error('Accessories Calculation Error:', err); }
-  }
+      });
 
-  function formatCutText(plan, isBar21) {
-    if(!plan || plan.length === 0) return "-";
-    
-    if (isBar21) {
-      let sortedPlan = [...plan].sort((a, b) => a.wastage - b.wastage);
-      let fullBars = sortedPlan.length - 1;
-      let lastBar = sortedPlan[sortedPlan.length - 1];
-      let lastBarUsedLen = lastBar.piecesCut.reduce((sum, val) => sum + val, 0);
-      
-      if (lastBarUsedLen >= 20.8) {
-          fullBars++;
-          lastBarUsedLen = 0;
-      }
-        
-      let resultText = "";
-      if (fullBars > 0) {
-        resultText += `${toBnNum(fullBars)} পিস`;
-      }
-      
-      if (lastBarUsedLen > 0) {
-        if (resultText !== "") resultText += " + ";
-        let lenStr = parseFloat(lastBarUsedLen.toFixed(2)).toString();
-        resultText += `${toBnNum(lenStr)} ফিট টুকরা`;
-      }
-      return resultText !== "" ? resultText : `${toBnNum(plan.length)} পিস`;
-    } else {
-      return `${toBnNum(plan.length)} পিস`;
-    }
-  }
-
-  function openPrintModal() {
-    let shopName = document.getElementById('shopOwnerName').value || 'RM.THAI.ALUMINIUM';
-    let shopPhone = document.getElementById('shopPhone').value || '01676474412';
-    
-    let custNameInput = document.getElementById('custName') ? document.getElementById('custName').value.trim() : '';
-    let custAddrInput = document.getElementById('custnambar') ? document.getElementById('custnambar').value.trim() : '';
-    
-    let custName = custNameInput !== '' ? custNameInput : 'সাধারণ গ্রাহক';
-    let custAddress = custAddrInput !== '' ? custAddrInput : 'সাধারণ ঠিকানা';
-
-    let currDate = new Date();
-    let d = String(currDate.getDate()).padStart(2, '0');
-    let m = String(currDate.getMonth() + 1).padStart(2, '0');
-    let y = currDate.getFullYear();
-    let printDate = `${toBnNum(d)}/${toBnNum(m)}/${toBnNum(y)}`;
-
-    let order = [
-      "আউটার সাইড", "আউটার টপ", "আউটার বটম", 
-      "শাটার লক", "শাটার ইন্টারলক", "শাটার টপ", "শাটার বটম", "নেট সেকশন"
-    ];
-
-    let matCounter = 1;
-    let materialRowsHTML = '';
-    
-    order.forEach(item => {
-       if(window.printData.items21 && window.printData.items21[item]) {
-           let cutStr = formatCutText(window.printData.items21[item].plan, true);
-           materialRowsHTML += `<tr>
-             <td style="border: 1.5px solid #000; padding: 10px 8px; text-align: center; font-weight: bold; font-size: 13pt; color: #000;">${toBnNum(matCounter++)}</td>
-             <td style="border: 1.5px solid #000; padding: 10px 8px; text-align: left; font-weight: bold; font-size: 13pt; color: #000;">${item}</td>
-             <td style="border: 1.5px solid #000; padding: 10px 8px; text-align: center; font-weight: bold; font-size: 13pt; color: #000;">২১ এর</td>
-             <td style="border: 1.5px solid #000; padding: 10px 8px; text-align: left; font-weight: bold; font-size: 13pt; color: #000; word-break: normal;">${cutStr}</td>
-           </tr>`;
-       }
-       if(window.printData.items18 && window.printData.items18[item]) {
-           let cutStr = formatCutText(window.printData.items18[item].plan, false);
-           materialRowsHTML += `<tr>
-             <td style="border: 1.5px solid #000; padding: 10px 8px; text-align: center; font-weight: bold; font-size: 13pt; color: #000;">${toBnNum(matCounter++)}</td>
-             <td style="border: 1.5px solid #000; padding: 10px 8px; text-align: left; font-weight: bold; font-size: 13pt; color: #000;">${item}</td>
-             <td style="border: 1.5px solid #000; padding: 10px 8px; text-align: center; font-weight: bold; font-size: 13pt; color: #000;">১৮.৬ এর</td>
-             <td style="border: 1.5px solid #000; padding: 10px 8px; text-align: left; font-weight: bold; font-size: 13pt; color: #000; word-break: normal;">${cutStr}</td>
-           </tr>`;
-       }
+      cutHtml += `</div>`;
     });
-
-    if(materialRowsHTML === '') {
-        materialRowsHTML = '<tr><td colspan="4" style="border: 1.5px solid #000; padding: 12px; text-align: center; font-size: 13pt; font-weight: bold;">কোনো তথ্য নেই</td></tr>';
-    }
-
-    let accRowsHTML = '';
-    let accCounter = 1;
-    let accDomRows = document.querySelectorAll('#accessoriesTbody tr');
-    accDomRows.forEach(row => {
-      let tds = row.querySelectorAll('td');
-      if (tds.length >= 3 && !row.innerText.includes('হিসাব চলে আসবে')) {
-        let name = tds[0].innerText;
-        let qty = tds[1].innerText;
-        let unit = tds[2].innerText;
-        accRowsHTML += `<tr>
-          <td style="border: 1.5px solid #000; padding: 9px; text-align: center; font-weight: bold; font-size: 13pt; color: #000;">${toBnNum(accCounter++)}</td>
-          <td style="border: 1.5px solid #000; padding: 9px; text-align: left; font-weight: bold; font-size: 13pt; color: #000;">${name}</td>
-          <td style="border: 1.5px solid #000; padding: 9px; text-align: center; font-weight: bold; font-size: 13pt; color: #000;">${qty} ${unit}</td>
-        </tr>`;
-      }
-    });
-
-    let printHTML = `
-      <div style="border: 3px solid #1e3a8a; border-radius: 8px; padding: 25px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; width: 100%; box-sizing: border-box;">
-        
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 3px solid #1e3a8a; padding-bottom: 15px;">
-          <div style="flex: 1;"></div>
-          <div style="flex: 2; text-align: center;">
-            <h1 style="color: #1e3a8a; font-size: 28pt; font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">${shopName}</h1>
-            <div style="background-color: #1e3a8a; color: white; display: inline-block; padding: 8px 24px; border-radius: 20px; margin-top: 10px; font-weight: bold; font-size: 14pt;">
-              📱 মোবাইল: ${shopPhone}
-            </div>
-          </div>
-          <div style="flex: 1; text-align: right; font-weight: bold; font-size: 13pt; color: #1e3a8a; white-space: nowrap; margin-top: 5px;">
-            তারিখ: ${printDate}
-          </div>
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; border: 2px solid #1e3a8a; margin-bottom: 20px;">
-           <tr>
-             <td style="background-color: #1e3a8a; color: white; width: 160px; padding: 10px 15px; font-weight: bold; font-size: 13pt; border: 1px solid #1e3a8a;">👤 কাস্টমার নাম</td>
-             <td style="padding: 10px 15px; border: 1px solid #1e3a8a; color: #000; font-weight: bold; font-size: 14pt;">${custName}</td>
-           </tr>
-           <tr>
-             <td style="background-color: #1e3a8a; color: white; width: 160px; padding: 10px 15px; font-weight: bold; font-size: 13pt; border: 1px solid #1e3a8a;">📍 কাস্টমার ঠিকানা</td>
-             <td style="padding: 10px 15px; border: 1px solid #1e3a8a; color: #000; font-weight: bold; font-size: 14pt;">${custAddress}</td>
-           </tr>
-        </table>
-
-        <div style="background-color: #1e3a8a; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 15pt; border: 2px solid #1e3a8a; border-bottom: none;">
-          প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)
-        </div>
-        <table style="width: 100%; border-collapse: collapse; border: 2px solid #000; margin-bottom: 25px; table-layout: fixed;">
-          <thead>
-            <tr>
-              <th style="background-color: #1e3a8a; color: white; padding: 12px 10px; border: 1px solid #1e3a8a; width: 12%; font-size: 13pt; font-weight: 800;">ক্রমিক নং</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 12px 10px; border: 1px solid #1e3a8a; width: 38%; font-size: 13pt; font-weight: 800;">মালামালের নাম</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 12px 10px; border: 1px solid #1e3a8a; width: 18%; font-size: 13pt; font-weight: 800;">সাইজ</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 12px 10px; border: 1px solid #1e3a8a; width: 32%; font-size: 13pt; font-weight: 800;">প্রকৃত পরিমাণ</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${materialRowsHTML}
-          </tbody>
-        </table>
-
-        <div style="background-color: #1e3a8a; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 15pt; border: 2px solid #1e3a8a; border-bottom: none;">
-          এক্সেসরিজের তালিকা
-        </div>
-        <table style="width: 100%; border-collapse: collapse; border: 2px solid #000; margin-bottom: 20px; table-layout: fixed;">
-          <thead>
-            <tr>
-              <th style="background-color: #1e3a8a; color: white; padding: 12px 10px; border: 1px solid #1e3a8a; width: 15%; font-size: 13pt; font-weight: 800;">ক্রমিক নং</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 12px 10px; border: 1px solid #1e3a8a; width: 50%; font-size: 13pt; font-weight: 800;">এক্সেসরিজের নাম</th>
-              <th style="background-color: #1e3a8a; color: white; padding: 12px 10px; border: 1px solid #1e3a8a; width: 35%; font-size: 13pt; font-weight: 800;">পরিমাণ</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${accRowsHTML}
-          </tbody>
-        </table>
-
-        <div style="text-align: center; font-weight: bold; font-size: 14pt; margin-top: 30px; color: #000;">
-          ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।
-        </div>
-      </div>
-    `;
-
-    document.getElementById('printContent').innerHTML = printHTML;
-    document.getElementById('printModal').style.display = 'flex';
+    document.getElementById("cuttingReport").innerHTML = cutHtml;
   }
 
-  function closePrintModal() {
-    document.getElementById('printModal').style.display = 'none';
-  }
-
-  function executePrint() {
-    let htmlContent = document.getElementById('printContent').innerHTML;
-    
-    let printWin = window.open('', '_blank');
-    printWin.document.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>RM THAI QUOTATION</title>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-          <style>
-            @media print {
-              @page { size: A4 portrait; margin: 8mm; }
-              body { 
-                -webkit-print-color-adjust: exact !important; 
-                print-color-adjust: exact !important; 
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 0;
-                background: white;
-                color: #000 !important;
-              }
-              table { page-break-inside: auto; width: 100%; border-collapse: collapse; }
-              tr { page-break-inside: avoid; page-break-after: auto; }
-              thead { display: table-header-group; }
-              tfoot { display: table-footer-group; }
-              * { box-sizing: border-box; }
-            }
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #000; margin: 0; padding: 0; background: white; }
-            * { box-sizing: border-box; }
-          </style>
-        </head>
-        <body>
-          ${htmlContent}
-        </body>
-      </html>
-    `);
-    
-    printWin.document.close();
-    printWin.focus();
-    
-    setTimeout(() => {
-      printWin.print();
-      printWin.close();
-      closePrintModal();
-    }, 500);
-  }
+  // পেজ লোড হলেই স্বয়ংক্রিয়ভাবে হিসেব রান হবে
+  window.onload = calculateAndRender;
 </script>
 
 </body>

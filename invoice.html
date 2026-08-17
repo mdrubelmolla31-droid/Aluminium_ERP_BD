@@ -39,7 +39,7 @@ body {
 }
 
 /* =========================================
-   হুবহু আপনার মূল ছবির মতো নিখুঁত কার্ভড ওয়েভ হেডার
+   হুবহু আপনার মূল ছবির মতো নিখুঁত ওয়েভ হেডার (Clip-path দিয়ে করা)
 ========================================= */
 .invoice-header {
     position: relative;
@@ -49,22 +49,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    overflow: hidden;
-    /* আপনার আসল ছবির মতো ওপর ও নিচে কার্ভড ওয়েভ শেপ */
-    border-radius: 0 0 50% 50% / 0% 0% 45px 45px;
-}
-
-/* ওপরের ওয়েভ লাইন ফিউশন */
-.invoice-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -10%;
-    width: 120%;
-    height: 35px;
-    background: radial-gradient(ellipse at center, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
-    border-radius: 0 0 50% 50% / 0% 0% 100% 100%;
-    pointer-events: none;
+    /* আপনার ছবির মতো নিখুঁত ওয়েভ ও কার্ভ শেপ তৈরি করতে clip-path ব্যবহার করা হয়েছে */
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 75% 100%, 25% 85%, 0 100%);
+    margin-bottom: 10px;
 }
 
 .invoice-main-title {
@@ -94,29 +81,6 @@ body {
     font-size: 13px;
     font-weight: 900;
     text-align: right;
-}
-
-/* দোকানের নাম হেডারের নিচে আলাদা অংশে রাখা হয়েছে */
-.shop-info-section {
-    text-align: center;
-    margin: 15px 0 5px 0;
-    padding: 0 30px;
-}
-.shop-name {
-    display: inline-block;
-    font-size: 20px;
-    font-weight: 900;
-    color: #0d5aa7;
-    background: transparent;
-    border: none;
-    outline: none;
-    text-align: center;
-    text-transform: uppercase;
-}
-.shop-subtitle {
-    color: #475569;
-    font-size: 10px;
-    margin-top: 2px;
 }
 
 /* বিল ইনফো (এডিটেবল) */
@@ -370,12 +334,6 @@ body {
             <span>NO:</span>
             <input type="text" id="billNo" value="INV-12345-1">
         </div>
-    </div>
-
-    <!-- দোকানের নাম ও ঠিকানা -->
-    <div class="shop-info-section">
-        <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
-        <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
     </div>
 
     <!-- বিল টু এবং ফ্রম (এডিটেবল) -->

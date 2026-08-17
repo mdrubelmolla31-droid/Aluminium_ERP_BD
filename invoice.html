@@ -39,30 +39,30 @@ body {
 }
 
 /* =========================================
-   হুবহু আপনার ছবির মতো কার্ভড হেডার ডিজাইন
+   হুবহু আপনার মূল ছবির মতো নিখুঁত কার্ভড ওয়েভ হেডার
 ========================================= */
 .invoice-header {
     position: relative;
-    background: linear-gradient(135deg, #024388 0%, #0c59a4 50%, #032b56 100%);
-    height: 110px;
-    padding: 0 30px;
+    background: linear-gradient(135deg, #023871 0%, #0c59a4 55%, #022a52 100%);
+    height: 120px;
+    padding: 0 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    /* ছবির মতো ওপর ও নিচের ঢেউ খেলানো কার্ভ শেপ */
-    border-radius: 25px 25px 50% 50% / 15px 15px 35px 35px;
+    /* আপনার আসল ছবির মতো ওপর ও নিচে কার্ভড ওয়েভ শেপ */
+    border-radius: 0 0 50% 50% / 0% 0% 45px 45px;
 }
 
-/* ভেতরের কার্ভ শ্যাডো ও ওয়েভ ইফেক্ট */
+/* ওপরের ওয়েভ লাইন ফিউশন */
 .invoice-header::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: -10%;
+    width: 120%;
     height: 35px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
     border-radius: 0 0 50% 50% / 0% 0% 100% 100%;
     pointer-events: none;
 }
@@ -70,7 +70,7 @@ body {
 .invoice-main-title {
     position: relative;
     z-index: 5;
-    font-size: 24px;
+    font-size: 26px;
     color: #fff;
     letter-spacing: 2px;
     font-weight: 900;
@@ -99,7 +99,7 @@ body {
 /* দোকানের নাম হেডারের নিচে আলাদা অংশে রাখা হয়েছে */
 .shop-info-section {
     text-align: center;
-    margin: 18px 0 5px 0;
+    margin: 15px 0 5px 0;
     padding: 0 30px;
 }
 .shop-name {
@@ -363,7 +363,7 @@ body {
         <span>PDF Creator</span>
     </div>
 
-    <!-- হুবহু কাঙ্ক্ষিত ছবির মতো কার্ভড হেডার ডিজাইন -->
+    <!-- হুবহু কাঙ্ক্ষিত ছবির মতো কার্ভড ওয়েভ হেডার ডিজাইন -->
     <div class="invoice-header">
         <div class="invoice-main-title">INVOICE</div>
         <div class="bill-number-box">

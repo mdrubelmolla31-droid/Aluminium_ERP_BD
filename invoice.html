@@ -39,60 +39,75 @@ body {
 }
 
 /* =========================================
-   হুবহু কাঙ্ক্ষিত কার্ভড হেডার ডিজাইন
+   হুবহু কাঙ্ক্ষিত কার্ভড হেডার (মাঝখানে দোকানের নাম)
 ========================================= */
 .invoice-header {
     position: relative;
     background: linear-gradient(135deg, #024388 0%, #0d5aa7 50%, #032b56 100%);
-    padding: 25px 30px 45px 30px;
+    padding: 18px 25px 25px 25px;
     overflow: hidden;
     color: #fff;
-    border-radius: 0 0 45% 45% / 0% 0% 30px 30px;
+    /* ছবির মতো ওপর-নিচ ওয়েভ কার্ভ শেপ */
+    border-radius: 0 0 50% 50% / 0% 0% 35px 35px;
+}
+
+/* ওপরের ওয়েভ কার্ভ লাইন */
+.invoice-header::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -5%;
+    width: 110%;
+    height: 35px;
+    background: #fff;
+    border-radius: 0 0 50% 50% / 0% 0% 100% 100%;
+    z-index: 2;
 }
 
 .invoice-top-row {
+    position: relative;
+    z-index: 5;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    z-index: 5;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .invoice-main-title {
-    font-size: 20px;
+    font-size: 14px;
     color: #fff;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     font-weight: 900;
 }
 
 .bill-number-box {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
     color: #fff;
-    font-size: 12px;
+    font-size: 11px;
 }
 .bill-number-box input {
-    width: 100px;
+    width: 90px;
     border: none;
     background: transparent;
     color: #fff;
     outline: none;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 900;
     text-align: right;
 }
 
-/* হেডারের ভেতরের দোকানের নাম ও স্লোগান */
+/* হেডারের ঠিক মাঝখানে দোকানের নাম ও স্লোগান */
 .shop-name-box {
-    text-align: center;
     position: relative;
     z-index: 5;
+    text-align: center;
+    margin-top: 5px;
 }
 .shop-name {
     display: inline-block;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 900;
     color: #ffffff !important;
     background: transparent;
@@ -103,9 +118,9 @@ body {
     width: 100%;
 }
 .shop-subtitle {
-    color: #cbd5e1;
-    font-size: 10px;
-    margin-top: 3px;
+    color: #e2e8f0;
+    font-size: 9px;
+    margin-top: 2px;
 }
 
 /* বিল ইনফো (এডিটেবল) */
@@ -113,7 +128,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 0 30px;
-    margin: 15px 0 12px 0;
+    margin: 20px 0 12px 0;
 }
 .bill-to, .bill-from {
     width: 46%;
@@ -352,7 +367,7 @@ body {
         <span>PDF Creator</span>
     </div>
 
-    <!-- কার্ভড হেডার -->
+    <!-- কার্ভড হেডার (উপরে ছোট করে ইনভয়েস ও বিল নং, মাঝে দোকানের নাম) -->
     <div class="invoice-header">
         <div class="invoice-top-row">
             <div class="invoice-main-title">INVOICE</div>
@@ -368,7 +383,7 @@ body {
         </div>
     </div>
 
-    <!-- বিল টু এবং ফ্রম (সম্পূর্ণ এডিটেবল) -->
+    <!-- বিল টু এবং ফ্রম (এডিটেবল) -->
     <div class="bill-info">
         <div class="bill-to">
             <h3>Bill To:</h3>
@@ -443,7 +458,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const yyyy = today.getFullYear();
     document.getElementById("billDate").value = dd + "-" + mm + "-" + yyyy;
 
-    // ডিফল্ট একটি রো তে স্লাইডিং জানালা ও সাইজ সেট করে দেওয়া হলো টেস্ট করার জন্য
     addInvoiceRow("স্লাইডিং জানালা, ৪.৫*৫", 1, 445, "");
     addInvoiceRow("", 1, "", "");
 });
@@ -463,10 +477,8 @@ function addInvoiceRow(description = "", qty = 1, rate = "", sqft = "") {
     autoExtractSize(tr.querySelector(".item-description"));
 }
 
-// ডেসক্রিপশন থেকে সাইজ (যেমন: 4.5*5 বা 4.5 x 5) অটো বের করে স্কয়ার ফিট হিসাব করার ফাংশন
 function autoExtractSize(textarea) {
     const text = textarea.value;
-    // বাংলা বা ইংরেজি গুণ চিহ্ন (* বা x বা ×) দিয়ে সাইজ খোঁজা
     const regex = /(\d+(?:\.\d+)?)\s*[\*x×]\s*(\d+(?:\.\d+)?)/i;
     const match = text.match(regex);
     
@@ -499,7 +511,6 @@ function calculateRow(element) {
     const sqft = parseFloat(row.querySelector(".item-sqft").value) || 0;
     
     let amount = 0;
-    // যদি স্কয়ার ফিট দেওয়া থাকে, তবে Qty * Rate * Sqft হিসাব হবে, অন্যথায় Qty * Rate হবে
     if (sqft > 0) {
         amount = qty * rate * sqft;
     } else {

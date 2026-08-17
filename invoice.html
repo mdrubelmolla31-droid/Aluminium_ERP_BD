@@ -1,309 +1,1831 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bill & Invoice - Aluminium ERP BD</title>
 
-  <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 800; }
-    body { background-color: #f1f5f9; margin: 0; padding: 0; color: #000000; -webkit-font-smoothing: antialiased; }
-    
-    .container { 
-      width: 100%;
-      max-width: 100%;
-      margin: 0 auto; 
-      background: #ffffff; 
-      padding: 10px 8px; 
-      border-radius: 0; 
-      border: 4px solid #1d4ed8; 
-      box-shadow: none;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bill & Invoice - Aluminium ERP BD</title>
+
+<style>
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #eef2f7;
+    color: #111827;
+    font-weight: 700;
+    padding: 20px;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    background: #ffffff;
+    min-height: 1120px;
+    padding: 0 45px 35px 45px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+    overflow: hidden;
+}
+
+
+/* =========================================
+   TOP BAR
+========================================= */
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    margin-bottom: 5px;
+}
+
+.back-btn {
+    background: #111827;
+    color: white;
+    text-decoration: none;
+    padding: 7px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   BLUE WAVE HEADER
+========================================= */
+
+.invoice-header {
+    position: relative;
+    margin-left: -45px;
+    margin-right: -45px;
+    margin-bottom: 35px;
+
+    min-height: 250px;
+
+    background: linear-gradient(
+        135deg,
+        #07549b 0%,
+        #0b65b8 45%,
+        #063b78 100%
+    );
+
+    color: white;
+    padding: 50px 55px 90px 55px;
+
+    overflow: hidden;
+}
+
+
+/* বড় নিচের সাদা Wave */
+
+.invoice-header::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: -5%;
+    right: -5%;
+    bottom: -115px;
+
+    height: 180px;
+
+    background: #ffffff;
+
+    border-radius: 50% 50% 0 0 / 45% 45% 0 0;
+
+    transform: rotate(-2deg);
+
+}
+
+
+/* উপরের হালকা Wave */
+
+.invoice-header::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 75%;
+    height: 55px;
+
+    left: -5%;
+    top: -28px;
+
+    background: rgba(255,255,255,0.15);
+
+    border-radius: 50%;
+
+    transform: rotate(-7deg);
+
+}
+
+
+/* =========================================
+   HEADER TITLE
+========================================= */
+
+.header-main {
+    position: relative;
+    z-index: 5;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.invoice-title {
+
+    font-size: 48px;
+    letter-spacing: 2px;
+    font-weight: 900;
+    color: white;
+}
+
+.invoice-number {
+
+    font-size: 17px;
+    font-weight: 900;
+    padding-top: 15px;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   SHOP INFORMATION
+========================================= */
+
+.shop-information {
+
+    position: relative;
+    z-index: 5;
+
+    margin-top: 25px;
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+.shop-left,
+.shop-right {
+
+    width: 48%;
+}
+
+.shop-right {
+    text-align: right;
+}
+
+.shop-name {
+
+    display: inline-block;
+
+    background: white;
+    color: #07549b;
+
+    padding: 7px 12px;
+
+    border-radius: 5px;
+
+    font-size: 20px;
+    font-weight: 900;
+
+    margin-bottom: 7px;
+}
+
+.shop-slogan {
+
+    font-size: 11px;
+    line-height: 1.5;
+    color: #ffffff;
+}
+
+.shop-details {
+
+    margin-top: 8px;
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.shop-details input {
+
+    background: transparent;
+    color: white;
+
+    border: none;
+    border-bottom: 1px dashed rgba(255,255,255,0.7);
+
+    outline: none;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   BILL TO / FROM
+========================================= */
+
+.bill-info {
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 50px;
+
+    margin-bottom: 20px;
+}
+
+.bill-to,
+.bill-from {
+
+    width: 50%;
+}
+
+.bill-from {
+    text-align: right;
+}
+
+.bill-heading {
+
+    font-size: 22px;
+    color: #07549b;
+
+    margin-bottom: 8px;
+
+    font-weight: 900;
+}
+
+.bill-info input {
+
+    width: 100%;
+
+    border: none;
+    border-bottom: 1px solid #cbd5e1;
+
+    padding: 4px 0;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    outline: none;
+
+    background: transparent;
+}
+
+.bill-from input {
+    text-align: right;
+}
+
+
+/* =========================================
+   DATE / BILL NUMBER
+========================================= */
+
+.date-row {
+
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+    font-size: 13px;
+}
+
+.date-row label {
+    color: #374151;
+}
+
+.date-row input {
+
+    border: none;
+    border-bottom: 1px solid #cbd5e1;
+
+    outline: none;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    padding: 3px;
+
+    width: 130px;
+}
+
+
+/* =========================================
+   INVOICE TABLE
+========================================= */
+
+.table-responsive {
+
+    width: 100%;
+    overflow-x: auto;
+
+    margin-top: 10px;
+}
+
+.invoice-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+
+    font-size: 12px;
+}
+
+.invoice-table th {
+
+    background: #07549b;
+
+    color: white;
+
+    border: 1px solid #07549b;
+
+    padding: 10px 5px;
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+.invoice-table td {
+
+    border: 1px solid #b7bec8;
+
+    padding: 6px 5px;
+
+    text-align: center;
+
+    height: 45px;
+
+    font-weight: 700;
+
+    vertical-align: middle;
+}
+
+.invoice-table td:nth-child(2) {
+
+    text-align: left;
+
+}
+
+.invoice-table input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.invoice-table textarea {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    resize: vertical;
+
+    background: transparent;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+    min-height: 32px;
+
+    text-align: left;
+}
+
+
+/* =========================================
+   COLUMN WIDTH
+========================================= */
+
+.invoice-table th:nth-child(1) {
+    width: 7%;
+}
+
+.invoice-table th:nth-child(2) {
+    width: 39%;
+}
+
+.invoice-table th:nth-child(3) {
+    width: 10%;
+}
+
+.invoice-table th:nth-child(4) {
+    width: 12%;
+}
+
+.invoice-table th:nth-child(5) {
+    width: 14%;
+}
+
+.invoice-table th:nth-child(6) {
+    width: 12%;
+}
+
+.invoice-table th:nth-child(7) {
+    width: 6%;
+}
+
+
+/* =========================================
+   TOTAL BOX
+========================================= */
+
+.total-section {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 25px;
+}
+
+.total-box {
+
+    width: 55%;
+
+    background: #07549b;
+
+    color: white;
+
+    padding: 11px 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 15px;
+
+    font-weight: 900;
+}
+
+.total-box input {
+
+    width: 130px;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: white;
+
+    text-align: right;
+
+    font-size: 16px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================
+   NOTE
+========================================= */
+
+.in-words {
+
+    margin-top: 25px;
+
+    width: 50%;
+
+    font-size: 12px;
+
+    line-height: 2;
+}
+
+.in-words strong {
+
+    display: block;
+
+    font-size: 15px;
+
+    color: #07549b;
+
+    margin-bottom: 5px;
+}
+
+.in-words input {
+
+    width: 100%;
+
+    border: none;
+
+    border-bottom: 1px solid #9ca3af;
+
+    outline: none;
+
+    padding: 4px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   PAYMENT + THANK YOU
+========================================= */
+
+.bottom-section {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-top: 45px;
+
+    gap: 30px;
+}
+
+.payment-info {
+
+    width: 50%;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+.payment-info h3 {
+
+    color: #07549b;
+
+    font-size: 16px;
+
+    margin-bottom: 7px;
+}
+
+.payment-info input {
+
+    border: none;
+
+    border-bottom: 1px solid #d1d5db;
+
+    outline: none;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    width: 65%;
+}
+
+.thank-you {
+
+    width: 45%;
+
+    text-align: center;
+
+    color: #07549b;
+
+    font-size: 38px;
+
+    font-weight: 400;
+}
+
+
+/* =========================================
+   SIGNATURE
+========================================= */
+
+.signature-box {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 55px;
+
+    font-size: 11px;
+}
+
+.sig-line {
+
+    width: 150px;
+
+    border-top: 2px solid #111827;
+
+    padding-top: 6px;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.btn-container {
+
+    max-width: 900px;
+
+    margin: 15px auto;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.btn {
+
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 10px 18px;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.btn-add {
+
+    background: #059669;
+
+    margin-top: 10px;
+
+    padding: 7px 12px;
+
+    font-size: 11px;
+}
+
+.btn-whatsapp {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    background: #16a34a;
+
+    padding: 13px;
+
+    font-size: 15px;
+}
+
+.btn-del {
+
+    background: #dc2626;
+
+    color: white;
+
+    border: none;
+
+    padding: 3px 6px;
+
+    border-radius: 4px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 0;
+        background: white;
     }
 
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .back-btn { background: #1e293b; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
-
-    /* সবুজ ও নীল গ্র্যাডিয়ান্ট হেডার */
-    .invoice-header { 
-      text-align: center; 
-      background: linear-gradient(135deg, #059669 0%, #1d4ed8 100%);
-      padding: 12px 6px; 
-      border-radius: 8px;
-      margin-bottom: 12px; 
-      color: #ffffff;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-      overflow: hidden;
+    .container {
+        padding: 0 15px 25px 15px;
+        box-shadow: none;
+        min-height: auto;
     }
 
-    .shop-slogan { font-size: 11px; color: #f0fdf4; font-weight: 900; margin-bottom: 2px; }
-    
-    .shop-title-container { text-align: center; margin: 4px 0; }
-    .shop-title-box {
-      display: inline-block;
-      border: 2px solid #ffffff;
-      border-radius: 8px;
-      padding: 4px 10px;
-      background: #ffffff;
-      font-size: 20px;
-      font-weight: 900;
-      color: #1d4ed8;
-      text-transform: uppercase;
-      outline: none;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      max-width: 100%;
-      word-break: break-word;
-    }
-    
-    .shop-details { 
-      font-size: 12px; 
-      color: #ffffff; 
-      font-weight: 900; 
-      margin-top: 6px; 
-      line-height: 1.5;
-      text-align: center;
-    }
-    .shop-details .fixed-label {
-      display: inline;
-      font-weight: 900;
-      color: #fef08a;
-    }
-    .shop-details input { 
-      border: none; 
-      border-bottom: 1px dashed rgba(255,255,255,0.7);
-      text-align: center; 
-      font-size: 12px; 
-      color: #ffffff; 
-      font-weight: 900; 
-      background: transparent; 
-      outline: none;
-      max-width: 100%;
+    .top-bar {
+        padding: 8px 0;
     }
 
-    .meta-table { width: 100%; margin-bottom: 10px; border-collapse: collapse; }
-    .meta-table td { padding: 3px 2px; font-size: 11px; font-weight: 900; vertical-align: middle; }
-    .meta-table input { width: 100%; padding: 4px 4px; border: 2px solid #64748b; border-radius: 6px; font-size: 11px; font-weight: 900; background: #fff; outline: none; color: #000; }
+    .invoice-header {
+        margin-left: -15px;
+        margin-right: -15px;
 
-    .table-responsive { width: 100%; overflow-x: auto; margin-bottom: 10px; }
-    
-    /* টেবিল ও অ্যাকশন (X) বাটন ফিক্স */
-    .invoice-table { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
-    .invoice-table th, .invoice-table td { border: 2px solid #1d4ed8; padding: 4px 2px; text-align: center; vertical-align: middle; font-weight: 900; word-wrap: break-word; }
-    .invoice-table th { background-color: #1d4ed8; color: white; font-size: 11px; font-weight: 900; }
-    .invoice-table input { width: 100%; border: none; background: transparent; text-align: center; font-size: 11px; font-weight: 900; outline: none; color: #000; padding: 0; }
-    
-    /* বাংলা টেক্সট ফিক্স */
-    .invoice-table td textarea { 
-      width: 100%; 
-      border: none; 
-      background: transparent; 
-      text-align: left; 
-      font-size: 11px; 
-      font-weight: 900; 
-      outline: none; 
-      color: #000; 
-      resize: vertical; 
-      min-height: 38px; 
-      line-height: 1.2;
-      padding: 1px;
-      box-sizing: border-box;
+        padding: 35px 20px 80px 20px;
+
+        min-height: 220px;
     }
 
-    .total-section { display: flex; justify-content: flex-end; margin-bottom: 10px; }
-    .total-box { border: 3px solid #1d4ed8; padding: 4px 8px; font-weight: 900; font-size: 12px; background: #eff6ff; display: flex; gap: 6px; align-items: center; border-radius: 6px; color: #000; }
-    .total-box input { border: 2px solid #64748b; padding: 2px 4px; width: 110px; text-align: right; font-weight: 900; font-size: 12px; background: #fff; border-radius: 6px; outline: none; color: #000; }
-
-    .in-words { margin-bottom: 10px; font-size: 11px; font-weight: 900; border-bottom: 2px dashed #64748b; padding-bottom: 6px; color: #000; }
-    .in-words input { border: none; border-bottom: 2px dotted #000; width: 70%; font-weight: 900; background: transparent; padding: 2px; outline: none; font-size: 11px; color: #000; }
-
-    .signature-box { display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 5px; font-size: 11px; font-weight: 900; color: #000; }
-    .sig-line { border-top: 2px solid #000; width: 120px; text-align: center; padding-top: 4px; }
-
-    .btn-container { text-align: center; margin: 15px 0; display: flex; justify-content: center; gap: 10px; }
-    .btn { padding: 10px 18px; font-size: 14px; font-weight: 900; border: none; border-radius: 8px; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-    .btn-add { background-color: #059669; margin-bottom: 10px; padding: 5px 10px; font-size: 11px; }
-    .btn-print { background-color: #2563eb; width: 100%; justify-content: center; font-size: 15px; padding: 12px; }
-    .btn-del { background-color: #dc2626; padding: 2px 4px; font-size: 10px; border-radius: 4px; font-weight: 900; color: #fff; border: none; cursor: pointer; }
-
-    /* প্রিন্ট এবং পিডিএফ তৈরি স্ট্রাকচার */
-    @media print {
-      @page { size: A4 portrait; margin: 5mm; }
-      body { background-color: #ffffff; padding: 0; margin: 0; }
-      .container { border: 4px solid #1d4ed8 !important; padding: 10px; width: 100%; max-width: 100%; box-shadow: none; margin: 0; }
-      .no-print { display: none !important; }
-      
-      .invoice-header { 
-        background: linear-gradient(135deg, #059669 0%, #1d4ed8 100%) !important; 
-        -webkit-print-color-adjust: exact; 
-        print-color-adjust: exact; 
-      }
-
-      input, textarea { border: none !important; background: transparent !important; box-shadow: none !important; padding: 1px !important; color: #000 !important; font-weight: 900 !important; font-size: 12px !important; }
-      .meta-table input { border: none !important; font-size: 12px !important; }
-      .invoice-table th, .invoice-table td { font-size: 11px !important; padding: 4px 2px !important; }
-      .shop-title-box { border: 2px solid #ffffff !important; font-size: 20px !important; }
-      .total-box { background: #eff6ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      th { background-color: #1d4ed8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color: white !important; }
+    .invoice-title {
+        font-size: 34px;
     }
-  </style>
-</head>
-<body>
 
-<div class="container" id="invoiceContainer">
-  
-  <div class="top-bar no-print">
-    <a href="index.html" class="back-btn">⬅️ Back to Dashboard</a>
-    <span style="font-size: 12px; color: #000; font-weight: 900;">Bill & Invoice Management</span>
-  </div>
+    .invoice-number {
+        font-size: 12px;
+        padding-top: 10px;
+    }
 
-  <!-- হেডার সেকশন -->
-  <div class="invoice-header">
-    <div class="shop-slogan">Bismillahir Rahmanir Rahim</div>
-    <div class="shop-title-container">
-      <div class="shop-title-box" contenteditable="true">RM THAI ALUMINIUM</div>
+    .shop-information {
+        gap: 10px;
+    }
+
+    .shop-name {
+        font-size: 15px;
+    }
+
+    .shop-slogan {
+        font-size: 8px;
+    }
+
+    .shop-details {
+        font-size: 8px;
+    }
+
+    .shop-details input {
+        font-size: 8px;
+    }
+
+    .bill-info {
+        gap: 15px;
+    }
+
+    .bill-heading {
+        font-size: 17px;
+    }
+
+    .bill-info input {
+        font-size: 10px;
+    }
+
+    .date-row {
+        font-size: 11px;
+    }
+
+    .date-row input {
+        font-size: 11px;
+    }
+
+    .invoice-table {
+        min-width: 650px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .total-box {
+        width: 70%;
+        font-size: 12px;
+    }
+
+    .total-box input {
+        font-size: 13px;
+        width: 90px;
+    }
+
+    .bottom-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .payment-info,
+    .thank-you {
+        width: 100%;
+    }
+
+    .thank-you {
+        font-size: 30px;
+        text-align: right;
+    }
+
+    .in-words {
+        width: 100%;
+    }
+
+    .signature-box {
+        margin-top: 40px;
+    }
+
+}
+
+
+/* =========================================
+   PRINT / A4 PDF
+========================================= */
+
+@media print {
+
+    @page {
+        size: A4 portrait;
+        margin: 7mm;
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        background: white;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        min-height: auto;
+        box-shadow: none;
+        padding: 0 15px 20px 15px;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .invoice-header {
+        margin-left: -15px;
+        margin-right: -15px;
+
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .invoice-table th {
+        background: #07549b !important;
+
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .total-box {
+        background: #07549b !important;
+
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    input,
+    textarea {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+}
+  <div class="container" id="invoiceContainer">
+
+    <!-- =====================================
+         TOP BAR
+    ====================================== -->
+
+    <div class="top-bar no-print">
+
+        <a href="index.html" class="back-btn">
+            ⬅️ Back to Dashboard
+        </a>
+
+        <span style="font-size:12px;">
+            Bill & Invoice Management
+        </span>
+
     </div>
-    <div class="shop-slogan">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
-    
-    <div class="shop-details">
-      <div>
-        <span class="fixed-label">Proprietor:</span> 
-        <input type="text" value="Rubel Molla" style="width: 95px;"> <span>|</span>
-        <span class="fixed-label">Mobile:</span> 
-        <input type="text" value="01676-474412" style="width: 105px;">
-      </div>
-      <div style="margin-top: 3px;">
-        <span class="fixed-label">Address:</span> 
-        <input type="text" value="47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216" style="width: 90%;">
-      </div>
+
+
+    <!-- =====================================
+         BLUE HEADER
+    ====================================== -->
+
+    <div class="invoice-header">
+
+        <div class="header-main">
+
+            <div class="invoice-title">
+                INVOICE
+            </div>
+
+            <div class="invoice-number">
+                NO:
+                <span id="headerBillNo">
+                    INV-01
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="shop-information">
+
+            <!-- FROM -->
+            <div class="shop-left">
+
+                <div class="shop-name">
+                    RM THAI ALUMINIUM
+                </div>
+
+                <div class="shop-slogan">
+                    Experts in Thai Windows, Doors,
+                    Glass Works & False Ceilings
+                </div>
+
+                <div class="shop-details">
+
+                    <div>
+                        Proprietor:
+                        <input
+                            type="text"
+                            value="Rubel Molla"
+                            style="width:95px;"
+                        >
+                    </div>
+
+                    <div>
+                        Mobile:
+                        <input
+                            type="text"
+                            value="01676-474412"
+                            style="width:105px;"
+                        >
+                    </div>
+
+                    <div>
+                        Address:
+                        <input
+                            type="text"
+                            value="47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216"
+                            style="width:90%;"
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+            <div class="shop-right">
+
+                <div style="font-size:25px;font-weight:900;">
+                    FROM:
+                </div>
+
+                <div style="margin-top:8px;font-size:14px;">
+                    RM THAI ALUMINIUM
+                </div>
+
+                <div style="font-size:11px;margin-top:5px;">
+                    Thai Windows & Aluminium Works
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
 
-  <!-- মেটা ডাটা -->
-  <table class="meta-table">
-    <tr>
-      <td style="width: 65px;"><strong>Customer:</strong></td>
-      <td><input type="text" id="custName" placeholder="নাম"></td>
-      <td style="width: 50px; text-align: right;"><strong>Bill No:</strong></td>
-      <td style="width: 70px;"><input type="text" id="billNo" value="01"></td>
-    </tr>
-    <tr>
-      <td><strong>Mobile/WA:</strong></td>
-      <td><input type="text" id="custMobile" placeholder="017XXXXXXXX"></td>
-      <td style="text-align: right;"><strong>Date:</strong></td>
-      <td><input type="text" id="billDate" placeholder="DD-MM-YYYY"></td>
-    </tr>
-    <tr>
-      <td><strong>Address:</strong></td>
-      <td colspan="3"><input type="text" id="custAddress" placeholder=" ঠিকানা"></td>
-    </tr>
-  </table>
 
-  <!-- মেটেরিয়াল ইনভয়েস টেবিল -->
-  <div class="table-responsive">
-    <table class="invoice-table">
-      <thead>
-        <tr>
-          <th style="width: 8%;">Sl.</th>
-          <th style="width: 40%;">Materials Description</th>
-          <th style="width: 10%;">Qty</th>
-          <th style="width: 10%;">Unit</th>
-          <th style="width: 12%;">Rate</th>
-          <th style="width: 14%;">Amount BDT</th>
-          <th class="no-print" style="width: 6%;">Act</th>
-        </tr>
-      </thead>
-      <tbody id="invoiceTableBody"></tbody>
-    </table>
-  </div>
+    <!-- =====================================
+         BILL TO
+    ====================================== -->
 
-  <button class="btn btn-add no-print" type="button" onclick="addInvoiceRow()">+ Add Item</button>
+    <div class="bill-info">
 
-  <div class="total-section">
-    <div class="total-box">
-      <span>Total =</span>
-      <span>Tk. <input type="text" id="grandTotal" readonly value="0.00"></span>
+        <div class="bill-to">
+
+            <div class="bill-heading">
+                Bill To:
+            </div>
+
+            <input
+                type="text"
+                id="custName"
+                placeholder="Customer Name"
+            >
+
+            <input
+                type="text"
+                id="custMobile"
+                placeholder="Mobile / WhatsApp"
+            >
+
+            <input
+                type="text"
+                id="custAddress"
+                placeholder="Customer Address"
+            >
+
+        </div>
+
+
+        <div class="bill-from">
+
+            <div class="bill-heading">
+                From:
+            </div>
+
+            <input
+                type="text"
+                value="RM THAI ALUMINIUM"
+            >
+
+            <input
+                type="text"
+                value="01676-474412"
+            >
+
+            <input
+                type="text"
+                value="Mirpur-13, Dhaka-1216"
+            >
+
+        </div>
+
     </div>
-  </div>
 
-  <div class="in-words">
-    <strong>In Words:</strong> <input type="text" id="inWords" placeholder="টাকার পরিমাণ কথায় লিখুন">
-  </div>
 
-  <div class="signature-box">
-    <div><div class="sig-line">Customer's Signature</div></div>
-    <div><div class="sig-line">Authorised Signature</div></div>
-  </div>
+    <!-- =====================================
+         DATE + BILL NO
+    ====================================== -->
+
+    <div class="date-row">
+
+        <div>
+
+            <label>
+                Date:
+            </label>
+
+            <input
+                type="text"
+                id="billDate"
+                placeholder="DD-MM-YYYY"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Bill No:
+            </label>
+
+            <input
+                type="text"
+                id="billNo"
+                value="01"
+                oninput="
+                    document.getElementById('headerBillNo').innerText =
+                    this.value || '01';
+                "
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         INVOICE TABLE
+    ====================================== -->
+
+    <div class="table-responsive">
+
+        <table class="invoice-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Sl.
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                    <th>
+                        Qty
+                    </th>
+
+                    <th>
+                        Unit
+                    </th>
+
+                    <th>
+                        Price
+                    </th>
+
+                    <th>
+                        Total
+                    </th>
+
+                    <th class="no-print">
+                        Act
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="invoiceTableBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ADD ITEM -->
+
+    <button
+        class="btn btn-add no-print"
+        type="button"
+        onclick="addInvoiceRow()"
+    >
+        + Add Item
+    </button>
+
+
+    <!-- =====================================
+         TOTAL
+    ====================================== -->
+
+    <div class="total-section">
+
+        <div class="total-box">
+
+            <span>
+                Sub Total
+            </span>
+
+            <span>
+                Tk.
+                <input
+                    type="text"
+                    id="grandTotal"
+                    readonly
+                    value="0.00"
+                >
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         IN WORDS / NOTE
+    ====================================== -->
+
+    <div class="in-words">
+
+        <strong>
+            Note:
+        </strong>
+
+        <input
+            type="text"
+            id="inWords"
+            placeholder="টাকার পরিমাণ / বিশেষ নোট"
+        >
+
+        <br>
+
+        <input type="text">
+
+        <br>
+
+        <input type="text">
+
+    </div>
+
+
+    <!-- =====================================
+         PAYMENT + THANK YOU
+    ====================================== -->
+
+    <div class="bottom-section">
+
+        <div class="payment-info">
+
+            <h3>
+                Payment Information:
+            </h3>
+
+            <div>
+                <strong>Bank:</strong>
+
+                <input
+                    type="text"
+                    value="Name Bank"
+                >
+            </div>
+
+            <div>
+                <strong>No Bank:</strong>
+
+                <input
+                    type="text"
+                    value="123-456-7890"
+                >
+            </div>
+
+            <div>
+                <strong>Email:</strong>
+
+                <input
+                    type="text"
+                    value="reallygreatsite.com"
+                >
+            </div>
+
+        </div>
+
+
+        <div class="thank-you">
+
+            Thank You!
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         SIGNATURE
+    ====================================== -->
+
+    <div class="signature-box">
+
+        <div>
+
+            <div class="sig-line">
+                Customer's Signature
+            </div>
+
+        </div>
+
+        <div>
+
+            <div class="sig-line">
+                Authorised Signature
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-<!-- পিডিএফ প্রিন্ট বাটন -->
+
+<!-- =====================================
+     WHATSAPP BUTTON
+====================================== -->
+
 <div class="btn-container no-print">
-  <button class="btn btn-print" type="button" onclick="window.print()">🖨️ PDF প্রিন্ট বা সেভ করুন</button>
+
+    <button
+        class="btn btn-whatsapp"
+        type="button"
+        onclick="sendBillToWhatsApp()"
+    >
+        📲 Send Bill via WhatsApp
+    </button>
+
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
+let isWaitingForSavePrompt = false;
+
+
+/* =========================================
+   PAGE LOAD
+========================================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+
     let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let yyyy = today.getFullYear();
-    document.getElementById('billDate').value = dd + '-' + mm + '-' + yyyy;
+
+    let dd =
+        String(today.getDate()).padStart(2, '0');
+
+    let mm =
+        String(today.getMonth() + 1).padStart(2, '0');
+
+    let yyyy =
+        today.getFullYear();
+
+
+    document.getElementById('billDate').value =
+        dd + '-' + mm + '-' + yyyy;
+
+
+    /*
+       প্রথম Invoice Row
+    */
 
     addInvoiceRow();
-  });
 
-  function addInvoiceRow() {
-    let tbody = document.getElementById('invoiceTableBody');
-    let rowCount = tbody.rows.length + 1;
-    let tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${rowCount < 10 ? '0' + rowCount : rowCount}</td>
-      <td><textarea placeholder="কাজের বিবরণ..."></textarea></td>
-      <td><input type="number" class="item-qty" value="1" placeholder="0" oninput="calculateRow(this)"></td>
-      <td><input type="text" class="item-unit" value="sft" placeholder="Unit"></td>
-      <td><input type="number" class="item-rate" placeholder="0" oninput="calculateRow(this)"></td>
-      <td><input type="number" class="item-amount" placeholder="0" readonly></td>
-      <td class="no-print"><button class="btn-del" type="button" onclick="removeInvoiceRow(this)">X</button></td>
-    `;
-    tbody.appendChild(tr);
-    updateRowIndices();
-  }
+});
 
-  function removeInvoiceRow(btn) {
-    let tbody = document.getElementById('invoiceTableBody');
-    if (tbody.rows.length > 1) {
-      btn.closest('tr').remove();
-      updateRowIndices();
-      calculateGrandTotal();
-    } else {
-      alert("কমপক্ষে একটি রো থাকতে হবে!");
+
+/* =========================================
+   WHATSAPP RETURN
+========================================= */
+
+window.addEventListener('focus', function() {
+
+    if (isWaitingForSavePrompt) {
+
+        isWaitingForSavePrompt = false;
+
+        setTimeout(function() {
+
+            let saveConfirm = confirm(
+                "হোয়াটসঅ্যাপে বিল পাঠানো সম্পূর্ণ হয়েছে!\n\n" +
+                "আপনি কি এই বিলটিকে PDF হিসেবে সেভ করে রাখতে চান?"
+            );
+
+
+            if (saveConfirm) {
+
+                window.print();
+
+            }
+
+        }, 500);
+
     }
-  }
 
-  function updateRowIndices() {
-    let rows = document.querySelectorAll('#invoiceTableBody tr');
-    rows.forEach((row, index) => {
-      let num = index + 1;
-      row.cells[0].innerText = num < 10 ? '0' + num : num;
+});
+
+
+/* =========================================
+   ADD INVOICE ROW
+========================================= */
+
+function addInvoiceRow() {
+
+    let tbody =
+        document.getElementById(
+            'invoiceTableBody'
+        );
+
+
+    let rowCount =
+        tbody.rows.length + 1;
+
+
+    let tr =
+        document.createElement('tr');
+
+
+    tr.innerHTML = `
+
+        <td>
+            ${
+                rowCount < 10
+                ? '0' + rowCount
+                : rowCount
+            }
+        </td>
+
+
+        <td>
+
+            <textarea
+                placeholder="কাজের বিবরণ..."
+            ></textarea>
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="number"
+                class="item-qty"
+                value="1"
+                placeholder="0"
+                oninput="calculateRow(this)"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="text"
+                class="item-unit"
+                value="sft"
+                placeholder="Unit"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="number"
+                class="item-rate"
+                placeholder="0"
+                oninput="calculateRow(this)"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="number"
+                class="item-amount"
+                placeholder="0"
+                readonly
+            >
+
+        </td>
+
+
+        <td class="no-print">
+
+            <button
+                class="btn-del"
+                type="button"
+                onclick="removeInvoiceRow(this)"
+            >
+                X
+            </button>
+
+        </td>
+
+    `;
+
+
+    tbody.appendChild(tr);
+
+
+    updateRowIndices();
+
+}
+
+
+/* =========================================
+   REMOVE ROW
+========================================= */
+
+function removeInvoiceRow(btn) {
+
+    let tbody =
+        document.getElementById(
+            'invoiceTableBody'
+        );
+
+
+    if (tbody.rows.length > 1) {
+
+        btn.closest('tr').remove();
+
+        updateRowIndices();
+
+        calculateGrandTotal();
+
+    }
+
+    else {
+
+        alert(
+            "কমপক্ষে একটি রো থাকতে হবে!"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   UPDATE SERIAL
+========================================= */
+
+function updateRowIndices() {
+
+    let rows =
+        document.querySelectorAll(
+            '#invoiceTableBody tr'
+        );
+
+
+    rows.forEach(function(row, index) {
+
+        let num = index + 1;
+
+
+        row.cells[0].innerText =
+            num < 10
+            ? '0' + num
+            : num;
+
     });
-  }
 
-  function calculateRow(input) {
-    let row = input.closest('tr');
-    let qty = parseFloat(row.querySelector('.item-qty').value) || 0;
-    let rate = parseFloat(row.querySelector('.item-rate').value) || 0;
-    
-    row.querySelector('.item-amount').value = (qty * rate).toFixed(2);
+}
+
+
+/* =========================================
+   CALCULATE ROW
+========================================= */
+
+function calculateRow(input) {
+
+    let row =
+        input.closest('tr');
+
+
+    let qty =
+        parseFloat(
+            row.querySelector(
+                '.item-qty'
+            ).value
+        ) || 0;
+
+
+    let rate =
+        parseFloat(
+            row.querySelector(
+                '.item-rate'
+            ).value
+        ) || 0;
+
+
+    let amount =
+        qty * rate;
+
+
+    row.querySelector(
+        '.item-amount'
+    ).value =
+        amount.toFixed(2);
+
+
     calculateGrandTotal();
-  }
 
-  function calculateGrandTotal() {
+}
+
+
+/* =========================================
+   GRAND TOTAL
+========================================= */
+
+function calculateGrandTotal() {
+
     let total = 0;
-    document.querySelectorAll('.item-amount').forEach(inp => {
-      total += parseFloat(inp.value) || 0;
-    });
-    document.getElementById('grandTotal').value = total.toFixed(2);
-  }
+
+
+    document
+        .querySelectorAll(
+            '.item-amount'
+        )
+        .forEach(function(inp) {
+
+            total +=
+                parseFloat(
+                    inp.value
+                ) || 0;
+
+        });
+
+
+    document.getElementById(
+        'grandTotal'
+    ).value =
+        total.toFixed(2);
+
+}
+
+
+/* =========================================
+   WHATSAPP BILL
+========================================= */
+
+function sendBillToWhatsApp() {
+
+    let name =
+        document.getElementById(
+            'custName'
+        ).value.trim();
+
+
+    let mobile =
+        document.getElementById(
+            'custMobile'
+        ).value.trim();
+
+
+    let billNo =
+        document.getElementById(
+            'billNo'
+        ).value.trim();
+
+
+    let date =
+        document.getElementById(
+            'billDate'
+        ).value.trim();
+
+
+    let grandTotal =
+        document.getElementById(
+            'grandTotal'
+        ).value;
+
+
+    if (!mobile) {
+
+        alert(
+            "দয়া করে কাস্টমারের WhatsApp / মোবাইল নম্বর লিখুন!"
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================
+       MOBILE FORMAT
+    ====================================== */
+
+    let formattedMobile =
+        mobile.replace(
+            /[^0-9]/g,
+            ''
+        );
+
+
+    if (
+        formattedMobile.startsWith('0')
+    ) {
+
+        formattedMobile =
+            '88' + formattedMobile;
+
+    }
+
+
+    /* =====================================
+       MESSAGE
+    ====================================== */
+
+    let msg =
+        `*--- RM THAI ALUMINIUM ---*\n`;
+
+    msg +=
+        `*Bill / Invoice Summary*\n\n`;
+
+    msg +=
+        `📄 *Bill No:* ${billNo}\n`;
+
+    msg +=
+        `📅 *Date:* ${date}\n`;
+
+    msg +=
+        `👤 *Customer Name:* ${
+            name || 'N/A'
+        }\n\n`;
+
+    msg +=
+        `*Item Breakdown:*\n`;
+
+
+    let rows =
+        document.querySelectorAll(
+            '#invoiceTableBody tr'
+        );
+
+
+    rows.forEach(
+        function(row, idx) {
+
+            let desc =
+                row.querySelector(
+                    'textarea'
+                ).value.trim()
+                ||
+                'Item ' + (idx + 1);
+
+
+            let qty =
+                row.querySelector(
+                    '.item-qty'
+                ).value || 0;
+
+
+            let unit =
+                row.querySelector(
+                    '.item-unit'
+                ).value || '';
+
+
+            let amount =
+                row.querySelector(
+                    '.item-amount'
+                ).value || 0;
+
+
+            msg +=
+                `${idx + 1}. ${desc} ` +
+                `(${qty} ${unit}) ` +
+                `- Tk. ${amount}\n`;
+
+        }
+    );
+
+
+    msg +=
+        `\n💰 *Total Amount: Tk. ${grandTotal}*\n\n`;
+
+
+    msg +=
+        `Thank you for doing business with us!`;
+
+
+    /* =====================================
+       WAIT FOR WHATSAPP RETURN
+    ====================================== */
+
+    isWaitingForSavePrompt = true;
+
+
+    let waUrl =
+        `https://wa.me/${formattedMobile}` +
+        `?text=${encodeURIComponent(msg)}`;
+
+
+    window.open(
+        waUrl,
+        '_blank'
+    );
+
+}
+
+
+/* =========================================
+   CLOSE SCRIPT
+========================================= */
+
 </script>
 
-</body>
-</html>
+
+
+</style>
+
+</head>
+
+<body>
+  

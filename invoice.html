@@ -39,26 +39,24 @@ body {
 }
 
 /* =========================================
-   হেডার ডিজাইন (দোকানের নামসহ হেডারের ভেতরে)
+   কার্ভড হেডার (দোকানের নাম ও ইনভয়েস ভেতরে)
 ========================================= */
 .invoice-header {
     position: relative;
-    background: #0256b1; /* মূল ডিপ নীল রং */
-    height: 155px;
-    padding: 15px 25px;
+    background: linear-gradient(135deg, #024388 0%, #0d5aa7 50%, #032b56 100%);
+    padding: 15px 25px 35px 25px;
     overflow: hidden;
     color: #fff;
-    text-align: center;
 }
 
-/* নিচের কার্ভ বা ঢেউ ডিজাইন */
+/* দ্বিতীয় ছবির মতো নিচের কার্ভ ডিজাইন */
 .invoice-header::after {
     content: '';
     position: absolute;
     bottom: -2px;
-    left: -10%;
-    width: 120%;
-    height: 35px;
+    left: -5%;
+    width: 110%;
+    height: 30px;
     background: #fff;
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     z-index: 2;
@@ -68,13 +66,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    z-index: 10;
     position: relative;
+    z-index: 5;
+    margin-bottom: 12px;
 }
 
 .invoice-main-title {
-    font-size: 22px;
+    font-size: 16px;
     color: #fff;
     letter-spacing: 1px;
     font-weight: 900;
@@ -83,22 +81,28 @@ body {
 .bill-number-box {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
     color: #fff;
-    font-size: 11px;
+    font-size: 10px;
 }
 .bill-number-box input {
-    width: 90px;
+    width: 85px;
     border: none;
     background: transparent;
     color: #fff;
     outline: none;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 900;
     text-align: right;
 }
 
-/* হেডারের ভেতরে থাকা দোকানের নাম ও স্লোগান */
+/* হেডারের ভেতরের দোকানের নাম ও স্লোগান */
+.shop-name-box {
+    text-align: center;
+    position: relative;
+    z-index: 5;
+    margin-top: 5px;
+}
 .shop-name {
     display: inline-block;
     font-size: 22px;
@@ -110,17 +114,11 @@ body {
     text-align: center;
     text-transform: uppercase;
     width: 100%;
-    margin-top: 5px;
-    z-index: 10;
-    position: relative;
 }
-
 .shop-subtitle {
     color: #e2e8f0;
     font-size: 9px;
     margin-top: 2px;
-    z-index: 10;
-    position: relative;
 }
 
 /* বিল ইনফো */
@@ -177,9 +175,9 @@ body {
     border-collapse: collapse;
 }
 .invoice-table th {
-    background: #0256b1;
+    background: #0d5aa7;
     color: #fff;
-    border: 1px solid #0256b1;
+    border: 1px solid #0d5aa7;
     padding: 6px 4px;
     text-align: center;
     font-size: 10px;
@@ -192,7 +190,7 @@ body {
     font-size: 10px;
 }
 
-/* কলামের সঠিক মাপ */
+/* কলাম সাইজ */
 .invoice-table th:nth-child(1), .invoice-table td:nth-child(1) { width: 34%; text-align: left; }
 .invoice-table th:nth-child(2), .invoice-table td:nth-child(2) { width: 10%; }
 .invoice-table th:nth-child(3), .invoice-table td:nth-child(3) { width: 14%; }
@@ -216,9 +214,6 @@ body {
     text-align: left !important;
     padding: 2px;
 }
-.invoice-table td:nth-child(3), .invoice-table td:nth-child(4), .invoice-table td:nth-child(5) {
-    text-align: center;
-}
 
 .btn-del {
     background: #dc2626;
@@ -240,7 +235,7 @@ body {
     cursor: pointer;
 }
 
-/* গ্র্যান্ড টোটাল সেকশন */
+/* গ্র্যান্ড টোটাল */
 .total-section {
     display: flex;
     justify-content: flex-end;
@@ -249,7 +244,7 @@ body {
 }
 .total-box {
     width: 40%;
-    background: #0256b1;
+    background: #0d5aa7;
     color: #fff;
     padding: 6px 10px;
     display: flex;
@@ -322,7 +317,7 @@ body {
     width: 40%;
     text-align: right;
     font-size: 22px;
-    color: #0256b1;
+    color: #0d5aa7;
     font-weight: bold;
 }
 
@@ -363,7 +358,7 @@ body {
         <span>PDF Creator</span>
     </div>
 
-    <!-- হেডার (দোকানের নাম ও ইনভয়েস টাইটেল একসাথে) -->
+    <!-- কার্ভড হেডার (ইনভয়েস, বিল নং ও দোকানের নামসহ) -->
     <div class="invoice-header">
         <div class="invoice-top-row">
             <div class="invoice-main-title">INVOICE</div>
@@ -373,8 +368,10 @@ body {
             </div>
         </div>
 
-        <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
-        <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
+        <div class="shop-name-box">
+            <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
+            <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
+        </div>
     </div>
 
     <div class="bill-info">
@@ -487,7 +484,6 @@ function calculateRow(input) {
     const rate = parseFloat(row.querySelector(".item-rate").value) || 0;
     const sqft = parseFloat(row.querySelector(".item-sqft").value) || 0;
     
-    // হিসাব: (Qty * Rate * Sqft) অথবা শুধু (Qty * Rate) যদি Sqft না থাকে
     let amount = 0;
     if(sqft > 0) {
         amount = qty * rate * sqft;

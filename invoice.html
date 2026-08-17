@@ -121,7 +121,7 @@
     .btn-container { text-align: center; margin: 15px 0; display: flex; justify-content: center; gap: 10px; }
     .btn { padding: 10px 18px; font-size: 14px; font-weight: 900; border: none; border-radius: 8px; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
     .btn-add { background-color: #059669; margin-bottom: 10px; padding: 5px 10px; font-size: 11px; }
-    .btn-whatsapp { background-color: #16a34a; width: 100%; justify-content: center; font-size: 15px; padding: 12px; }
+    .btn-print { background-color: #2563eb; width: 100%; justify-content: center; font-size: 15px; padding: 12px; }
     .btn-del { background-color: #dc2626; padding: 2px 4px; font-size: 10px; border-radius: 4px; font-weight: 900; color: #fff; border: none; cursor: pointer; }
 
     /* প্রিন্ট এবং পিডিএফ তৈরি স্ট্রাকচার */
@@ -235,14 +235,12 @@
 
 </div>
 
-<!-- শুধু WhatsApp বাটন -->
+<!-- পিডিএফ প্রিন্ট বাটন -->
 <div class="btn-container no-print">
-  <button class="btn btn-whatsapp" type="button" onclick="sendBillToWhatsApp()">📲 Send Bill via WhatsApp</button>
+  <button class="btn btn-print" type="button" onclick="window.print()">🖨️ PDF প্রিন্ট বা সেভ করুন</button>
 </div>
 
 <script>
-  let isWaitingForSavePrompt = false;
-
   document.addEventListener("DOMContentLoaded", function() {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
@@ -251,19 +249,6 @@
     document.getElementById('billDate').value = dd + '-' + mm + '-' + yyyy;
 
     addInvoiceRow();
-  });
-
-  /* ইউজার WhatsApp থেকে মেসেজ সেন্ড করে অ্যাপে ফেরত আসলে এই ইভেন্ট রান করবে */
-  window.addEventListener('focus', function() {
-    if (isWaitingForSavePrompt) {
-      isWaitingForSavePrompt = false;
-      setTimeout(function() {
-        let saveConfirm = confirm("হোয়াটসঅ্যাপে বিল পাঠানো সম্পূর্ণ হয়েছে!\n\nআপনি কি এই বিলটিকে PDF হিসেবে আপনার লোকাল স্টোরেজে/ফাইলে সেভ করে রাখতে চান?");
-        if (saveConfirm) {
-          window.print(); // লোকাল ডিভাইস ফোল্ডার সিলেক্ট করে PDF সেভ করার অপশন চালু হবে
-        }
-      }, 500);
-    }
   });
 
   function addInvoiceRow() {
@@ -317,53 +302,6 @@
       total += parseFloat(inp.value) || 0;
     });
     document.getElementById('grandTotal').value = total.toFixed(2);
-  }
-
-  /* WhatsApp এ বিল পাঠানোর ফাংশন */
-  function sendBillToWhatsApp() {
-    let name = document.getElementById('custName').value.trim();
-    let mobile = document.getElementById('custMobile').value.trim();
-    let billNo = document.getElementById('billNo').value.trim();
-    let date = document.getElementById('billDate').value.trim();
-    let grandTotal = document.getElementById('grandTotal').value;
-
-    if (!mobile) {
-      alert("দয়া করে কাস্টমারের WhatsApp / মোবাইল নম্বর লিখুন!");
-      return;
-    }
-
-    // মোবাইল নম্বর ফরম্যাটিং
-    let formattedMobile = mobile.replace(/[^0-9]/g, '');
-    if (formattedMobile.startsWith('0')) {
-      formattedMobile = '88' + formattedMobile;
-    }
-
-    // WhatsApp মেসেজ তৈরি
-    let msg = `*--- RM THAI ALUMINIUM ---*\n`;
-    msg += `*Bill / Invoice Summary*\n\n`;
-    msg += `📄 *Bill No:* ${billNo}\n`;
-    msg += `📅 *Date:* ${date}\n`;
-    msg += `👤 *Customer Name:* ${name || 'N/A'}\n\n`;
-    msg += `*Item Breakdown:*\n`;
-
-    let rows = document.querySelectorAll('#invoiceTableBody tr');
-    rows.forEach((row, idx) => {
-      let desc = row.querySelector('textarea').value.trim() || 'Item ' + (idx + 1);
-      let qty = row.querySelector('.item-qty').value || 0;
-      let unit = row.querySelector('.item-unit').value || '';
-      let amount = row.querySelector('.item-amount').value || 0;
-      msg += `${idx + 1}. ${desc} (${qty} ${unit}) - Tk. ${amount}\n`;
-    });
-
-    msg += `\n💰 *Total Amount: Tk. ${grandTotal}*\n\n`;
-    msg += `Thank you for doing business with us!`;
-
-    // ফ্ল্যাগ অন করা যাতে অ্যাপে ফেরত আসলে পপ-আপ দেখায়
-    isWaitingForSavePrompt = true;
-
-    // WhatsApp ওপেন করা
-    let waUrl = `https://wa.me/${formattedMobile}?text=${encodeURIComponent(msg)}`;
-    window.open(waUrl, '_blank');
   }
 </script>
 

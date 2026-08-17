@@ -39,87 +39,83 @@ body {
 }
 
 /* =========================================
-   হুবহু কাঙ্ক্ষিত কার্ভড হেডার (মাঝখানে দোকানের নাম)
+   হুবহু আপনার ছবির মতো কার্ভড হেডার ডিজাইন
 ========================================= */
 .invoice-header {
     position: relative;
-    background: linear-gradient(135deg, #024388 0%, #0d5aa7 50%, #032b56 100%);
-    padding: 18px 25px 25px 25px;
-    overflow: hidden;
-    color: #fff;
-    /* ছবির মতো ওপর-নিচ ওয়েভ কার্ভ শেপ */
-    border-radius: 0 0 50% 50% / 0% 0% 35px 35px;
-}
-
-/* ওপরের ওয়েভ কার্ভ লাইন */
-.invoice-header::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: -5%;
-    width: 110%;
-    height: 35px;
-    background: #fff;
-    border-radius: 0 0 50% 50% / 0% 0% 100% 100%;
-    z-index: 2;
-}
-
-.invoice-top-row {
-    position: relative;
-    z-index: 5;
+    background: linear-gradient(135deg, #024388 0%, #0c59a4 50%, #032b56 100%);
+    height: 110px;
+    padding: 0 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    overflow: hidden;
+    /* ছবির মতো ওপর ও নিচের ঢেউ খেলানো কার্ভ শেপ */
+    border-radius: 25px 25px 50% 50% / 15px 15px 35px 35px;
+}
+
+/* ভেতরের কার্ভ শ্যাডো ও ওয়েভ ইফেক্ট */
+.invoice-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    border-radius: 0 0 50% 50% / 0% 0% 100% 100%;
+    pointer-events: none;
 }
 
 .invoice-main-title {
-    font-size: 14px;
+    position: relative;
+    z-index: 5;
+    font-size: 24px;
     color: #fff;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     font-weight: 900;
 }
 
 .bill-number-box {
+    position: relative;
+    z-index: 5;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
     color: #fff;
-    font-size: 11px;
+    font-size: 13px;
 }
 .bill-number-box input {
-    width: 90px;
+    width: 110px;
     border: none;
     background: transparent;
     color: #fff;
     outline: none;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 900;
     text-align: right;
 }
 
-/* হেডারের ঠিক মাঝখানে দোকানের নাম ও স্লোগান */
-.shop-name-box {
-    position: relative;
-    z-index: 5;
+/* দোকানের নাম হেডারের নিচে আলাদা অংশে রাখা হয়েছে */
+.shop-info-section {
     text-align: center;
-    margin-top: 5px;
+    margin: 18px 0 5px 0;
+    padding: 0 30px;
 }
 .shop-name {
     display: inline-block;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 900;
-    color: #ffffff !important;
+    color: #0d5aa7;
     background: transparent;
     border: none;
     outline: none;
     text-align: center;
     text-transform: uppercase;
-    width: 100%;
 }
 .shop-subtitle {
-    color: #e2e8f0;
-    font-size: 9px;
+    color: #475569;
+    font-size: 10px;
     margin-top: 2px;
 }
 
@@ -128,7 +124,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 0 30px;
-    margin: 20px 0 12px 0;
+    margin: 15px 0 12px 0;
 }
 .bill-to, .bill-from {
     width: 46%;
@@ -367,20 +363,19 @@ body {
         <span>PDF Creator</span>
     </div>
 
-    <!-- কার্ভড হেডার (উপরে ছোট করে ইনভয়েস ও বিল নং, মাঝে দোকানের নাম) -->
+    <!-- হুবহু কাঙ্ক্ষিত ছবির মতো কার্ভড হেডার ডিজাইন -->
     <div class="invoice-header">
-        <div class="invoice-top-row">
-            <div class="invoice-main-title">INVOICE</div>
-            <div class="bill-number-box">
-                <span>NO:</span>
-                <input type="text" id="billNo" value="INV-12345-1">
-            </div>
+        <div class="invoice-main-title">INVOICE</div>
+        <div class="bill-number-box">
+            <span>NO:</span>
+            <input type="text" id="billNo" value="INV-12345-1">
         </div>
+    </div>
 
-        <div class="shop-name-box">
-            <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
-            <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
-        </div>
+    <!-- দোকানের নাম ও ঠিকানা -->
+    <div class="shop-info-section">
+        <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
+        <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
     </div>
 
     <!-- বিল টু এবং ফ্রম (এডিটেবল) -->

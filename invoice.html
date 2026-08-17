@@ -12,8 +12,8 @@
 }
 body {
     margin: 0;
-    padding: 15px;
-    background: #525252; /* ডার্ক ব্যাকগ্রাউন্ড (আপনার ছবির মত) */
+    padding: 10px;
+    background: #e2e8f0;
     color: #111;
 }
 .container {
@@ -21,8 +21,8 @@ body {
     max-width: 800px;
     margin: 0 auto;
     background: #fff;
-    padding: 0 0 20px 0; /* প্যাডিং কমানো হয়েছে হেডারের জন্য */
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    padding-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 .top-bar {
     display: flex;
@@ -39,37 +39,23 @@ body {
 }
 
 /* =========================================
-   নতুন কার্ভড (Curved) হেডার ডিজাইন
+   হেডার ডিজাইন (দোকানের নামসহ হেডারের ভেতরে)
 ========================================= */
 .invoice-header {
     position: relative;
-    background: #1360a8; /* মূল নীল রং */
-    height: 120px;
-    padding: 20px 30px;
+    background: #0256b1; /* মূল ডিপ নীল রং */
+    height: 155px;
+    padding: 15px 25px;
     overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    color: #fff;
+    text-align: center;
 }
 
-/* হালকা নীল ঢেউ */
-.invoice-header::before {
-    content: '';
-    position: absolute;
-    bottom: 20px;
-    left: -10%;
-    width: 120%;
-    height: 70px;
-    background: #0975d6;
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    z-index: 1;
-}
-
-/* সাদা ঢেউ (যা হেডারের নিচে কার্ভ তৈরি করেছে) */
+/* নিচের কার্ভ বা ঢেউ ডিজাইন */
 .invoice-header::after {
     content: '';
     position: absolute;
-    bottom: -2px; /* প্রিন্টে গ্যাপ এড়াতে */
+    bottom: -2px;
     left: -10%;
     width: 120%;
     height: 35px;
@@ -78,66 +64,71 @@ body {
     z-index: 2;
 }
 
-.invoice-main-title {
-    position: relative;
+.invoice-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
     z-index: 10;
-    font-size: 26px;
+    position: relative;
+}
+
+.invoice-main-title {
+    font-size: 22px;
     color: #fff;
     letter-spacing: 1px;
+    font-weight: 900;
 }
 
 .bill-number-box {
-    position: relative;
-    z-index: 10;
     display: flex;
     align-items: center;
     gap: 4px;
-    color: #000;
+    color: #fff;
     font-size: 11px;
 }
 .bill-number-box input {
     width: 90px;
     border: none;
     background: transparent;
-    color: #000;
+    color: #fff;
     outline: none;
     font-size: 11px;
     font-weight: 900;
+    text-align: right;
 }
 
-/* =========================================
-   দোকানের নাম ও ঠিকানা (হেডারের নিচে)
-========================================= */
-.shop-info-section {
-    text-align: center;
-    padding: 0 20px 10px;
-}
-
+/* হেডারের ভেতরে থাকা দোকানের নাম ও স্লোগান */
 .shop-name {
     display: inline-block;
     font-size: 22px;
     font-weight: 900;
-    color: #1360a8 !important; /* নীল রং */
+    color: #ffffff !important;
     background: transparent;
     border: none;
     outline: none;
     text-align: center;
     text-transform: uppercase;
     width: 100%;
+    margin-top: 5px;
+    z-index: 10;
+    position: relative;
 }
 
 .shop-subtitle {
-    color: #333;
-    font-size: 10px;
-    margin-bottom: 5px;
+    color: #e2e8f0;
+    font-size: 9px;
+    margin-top: 2px;
+    z-index: 10;
+    position: relative;
 }
 
 /* বিল ইনফো */
 .bill-info {
     display: flex;
     justify-content: space-between;
-    padding: 0 30px;
-    margin: 15px 0;
+    padding: 0 25px;
+    margin: 10px 0 15px 0;
 }
 .bill-to, .bill-from {
     width: 45%;
@@ -146,8 +137,8 @@ body {
     text-align: right;
 }
 .bill-info h3 {
-    margin: 0 0 6px;
-    font-size: 13px;
+    margin: 0 0 5px;
+    font-size: 12px;
     color: #000;
 }
 .bill-info input {
@@ -164,8 +155,8 @@ body {
 }
 
 .date-row {
-    padding: 0 30px;
-    margin-bottom: 15px;
+    padding: 0 25px;
+    margin-bottom: 12px;
     font-size: 11px;
 }
 .date-row input {
@@ -178,7 +169,7 @@ body {
 
 /* টেবিল ডিজাইন */
 .table-responsive {
-    padding: 0 30px;
+    padding: 0 25px;
     width: 100%;
 }
 .invoice-table {
@@ -186,24 +177,28 @@ body {
     border-collapse: collapse;
 }
 .invoice-table th {
-    background: transparent;
-    color: #000;
-    border: 1px solid #000;
-    padding: 6px;
+    background: #0256b1;
+    color: #fff;
+    border: 1px solid #0256b1;
+    padding: 6px 4px;
     text-align: center;
-    font-size: 11px;
+    font-size: 10px;
 }
 .invoice-table td {
-    border: 1px solid #000;
+    border: 1px solid #aaa;
     padding: 4px;
     text-align: center;
     vertical-align: middle;
     font-size: 10px;
 }
-.invoice-table th:nth-child(1), .invoice-table td:nth-child(1) { width: 45%; text-align: left; padding-left: 10px;}
-.invoice-table th:nth-child(2), .invoice-table td:nth-child(2) { width: 15%; }
-.invoice-table th:nth-child(3), .invoice-table td:nth-child(3) { width: 20%; }
-.invoice-table th:nth-child(4), .invoice-table td:nth-child(4) { width: 20%; }
+
+/* কলামের সঠিক মাপ */
+.invoice-table th:nth-child(1), .invoice-table td:nth-child(1) { width: 34%; text-align: left; }
+.invoice-table th:nth-child(2), .invoice-table td:nth-child(2) { width: 10%; }
+.invoice-table th:nth-child(3), .invoice-table td:nth-child(3) { width: 14%; }
+.invoice-table th:nth-child(4), .invoice-table td:nth-child(4) { width: 14%; }
+.invoice-table th:nth-child(5), .invoice-table td:nth-child(5) { width: 18%; }
+.invoice-table th:nth-child(6), .invoice-table td:nth-child(6) { width: 10%; }
 
 .invoice-table input, .invoice-table textarea {
     width: 100%;
@@ -216,9 +211,13 @@ body {
     text-align: center;
 }
 .item-description {
-    min-height: 25px;
+    min-height: 28px;
     resize: vertical;
     text-align: left !important;
+    padding: 2px;
+}
+.invoice-table td:nth-child(3), .invoice-table td:nth-child(4), .invoice-table td:nth-child(5) {
+    text-align: center;
 }
 
 .btn-del {
@@ -231,8 +230,8 @@ body {
     cursor: pointer;
 }
 .btn-add {
-    margin: 10px 30px;
-    padding: 6px 12px;
+    margin: 10px 25px;
+    padding: 5px 10px;
     background: #198754;
     color: #fff;
     border: none;
@@ -241,21 +240,22 @@ body {
     cursor: pointer;
 }
 
-/* সাব টোটাল */
+/* গ্র্যান্ড টোটাল সেকশন */
 .total-section {
     display: flex;
     justify-content: flex-end;
-    padding: 0 30px;
+    padding: 0 25px;
+    margin-top: 10px;
 }
 .total-box {
     width: 40%;
-    background: #1360a8;
+    background: #0256b1;
     color: #fff;
     padding: 6px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 12px;
+    font-size: 11px;
 }
 .total-box input {
     width: 90px;
@@ -264,17 +264,18 @@ body {
     color: #fff;
     outline: none;
     text-align: right;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 900;
 }
 
 .note-section {
-    padding: 0 30px;
+    padding: 0 25px;
     margin-top: 15px;
     width: 50%;
 }
 .note-title {
     font-size: 11px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 .note-line {
     width: 100%;
@@ -291,7 +292,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 0 30px;
+    padding: 0 25px;
     margin-top: 20px;
 }
 .payment-info {
@@ -300,7 +301,7 @@ body {
 }
 .payment-title {
     font-size: 11px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 .payment-row {
     display: flex;
@@ -321,7 +322,7 @@ body {
     width: 40%;
     text-align: right;
     font-size: 22px;
-    color: #1360a8;
+    color: #0256b1;
     font-weight: bold;
 }
 
@@ -340,19 +341,14 @@ body {
 }
 
 @media print {
-    @page { size: A4 portrait; margin: 0; }
+    @page { size: A4 portrait; margin: 10mm; }
     body { background: #fff; padding: 0; }
     .container { box-shadow: none; max-width: 100%; padding: 0; margin: 0; }
     .top-bar, .action-buttons, .btn-add, .no-print, .btn-del { display: none !important; }
     
-    /* প্রিন্টে কালার ঠিক রাখার জন্য */
-    .invoice-header, .invoice-header::before, .invoice-header::after, .total-box { 
+    .invoice-header, .invoice-header::after, .invoice-table th, .total-box { 
         -webkit-print-color-adjust: exact !important; 
         print-color-adjust: exact !important; 
-    }
-    
-    .invoice-header {
-        height: 120px !important;
     }
     input, textarea { border: none !important; background: transparent !important; }
 }
@@ -367,17 +363,16 @@ body {
         <span>PDF Creator</span>
     </div>
 
-    <!-- হুবহু কার্ভড (Curved) হেডার -->
+    <!-- হেডার (দোকানের নাম ও ইনভয়েস টাইটেল একসাথে) -->
     <div class="invoice-header">
-        <div class="invoice-main-title">INVOICE</div>
-        <div class="bill-number-box">
-            <span>NO:</span>
-            <input type="text" id="billNo" value="INV-12345-1">
+        <div class="invoice-top-row">
+            <div class="invoice-main-title">INVOICE</div>
+            <div class="bill-number-box">
+                <span>NO:</span>
+                <input type="text" id="billNo" value="INV-12345-1">
+            </div>
         </div>
-    </div>
 
-    <!-- হেডারের নিচে দোকানের নাম ও ঠিকানা -->
-    <div class="shop-info-section">
         <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
         <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
     </div>
@@ -407,8 +402,10 @@ body {
                 <tr>
                     <th>Description</th>
                     <th>Qty</th>
-                    <th>Price</th>
-                    <th>Total <span class="no-print" style="float:right;">Del</span></th>
+                    <th>Rate</th>
+                    <th>Sqft</th>
+                    <th>Amount</th>
+                    <th class="no-print">Act</th>
                 </tr>
             </thead>
             <tbody id="invoiceTableBody"></tbody>
@@ -419,7 +416,7 @@ body {
 
     <div class="total-section">
         <div class="total-box">
-            <span>Sub Total</span>
+            <span>Grand Total</span>
             <span>Tk. <input type="text" id="grandTotal" value="0.00" readonly></span>
         </div>
     </div>
@@ -455,25 +452,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const yyyy = today.getFullYear();
     document.getElementById("billDate").value = dd + "-" + mm + "-" + yyyy;
 
-    addInvoiceRow("Your Description 1", 1, "");
-    addInvoiceRow("Your Description 2", 1, "");
+    addInvoiceRow("", 1, "", "");
+    addInvoiceRow("", 1, "", "");
 });
 
-function addInvoiceRow(description = "", qty = 1, price = "") {
+function addInvoiceRow(description = "", qty = 1, rate = "", sqft = "") {
     const tbody = document.getElementById("invoiceTableBody");
     const tr = document.createElement("tr");
     tr.innerHTML = `
         <td><textarea class="item-description" placeholder="Description...">${description}</textarea></td>
-        <td><input type="number" class="item-qty" value="${qty}" min="0" oninput="calculateRow(this)"></td>
-        <td><input type="number" class="item-rate" value="${price}" min="0" placeholder="Price" oninput="calculateRow(this)"></td>
-        <td>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <input type="text" class="item-amount" value="sft" readonly style="width:70%;">
-                <button type="button" class="btn-del no-print" onclick="removeInvoiceRow(this)">X</button>
-            </div>
-        </td>
+        <td><input type="number" class="item-qty" value="${qty}" min="0" step="0.01" oninput="calculateRow(this)"></td>
+        <td><input type="number" class="item-rate" value="${rate}" min="0" step="0.01" placeholder="Rate" oninput="calculateRow(this)"></td>
+        <td><input type="number" class="item-sqft" value="${sqft}" min="0" step="0.01" placeholder="Sqft" oninput="calculateRow(this)"></td>
+        <td><input type="text" class="item-amount" value="0.00" readonly></td>
+        <td class="no-print"><button type="button" class="btn-del" onclick="removeInvoiceRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
+    calculateRow(tr.querySelector(".item-qty"));
 }
 
 function removeInvoiceRow(btn) {
@@ -490,15 +485,17 @@ function calculateRow(input) {
     const row = input.closest("tr");
     const qty = parseFloat(row.querySelector(".item-qty").value) || 0;
     const rate = parseFloat(row.querySelector(".item-rate").value) || 0;
+    const sqft = parseFloat(row.querySelector(".item-sqft").value) || 0;
     
-    let total = qty * rate;
-    
-    // If rate is provided, show amount. Otherwise show 'sft' placeholder
-    if(rate > 0) {
-        row.querySelector(".item-amount").value = total.toFixed(2);
+    // হিসাব: (Qty * Rate * Sqft) অথবা শুধু (Qty * Rate) যদি Sqft না থাকে
+    let amount = 0;
+    if(sqft > 0) {
+        amount = qty * rate * sqft;
     } else {
-        row.querySelector(".item-amount").value = "sft";
+        amount = qty * rate;
     }
+    
+    row.querySelector(".item-amount").value = amount.toFixed(2);
     calculateGrandTotal();
 }
 

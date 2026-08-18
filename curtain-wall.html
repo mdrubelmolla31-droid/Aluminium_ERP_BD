@@ -3,1112 +3,744 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Curtain Wall Estimator - RM Thai Aluminium</title>
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family:
-        "Noto Sans Bengali",
-        "Noto Sans",
-        Arial,
-        sans-serif;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:"Noto Sans Bengali","Noto Sans",Arial,sans-serif;
+    font-weight:600;
 }
 
-html {
-    scroll-behavior: smooth;
+html{
+    scroll-behavior:smooth;
 }
 
-body {
-    background: #eef3f8;
-    color: #111827;
-    padding: 14px;
-    font-weight: 600;
+body{
+    background:#edf2f7;
+    color:#111827;
+    padding:12px;
 }
 
-/* =========================================================
-   MAIN CONTAINER
-========================================================= */
+/* =====================================================
+   MAIN
+===================================================== */
 
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    background: #ffffff;
-    padding: 18px;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-    box-shadow:
-        0 8px 30px rgba(15, 23, 42, 0.12);
+.container{
+    width:100%;
+    max-width:920px;
+    margin:auto;
+    background:#fff;
+    padding:16px;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    box-shadow:0 8px 28px rgba(15,23,42,.12);
 }
 
-/* =========================================================
+/* =====================================================
    HEADER
-========================================================= */
+===================================================== */
 
-.invoice-header {
-    position: relative;
-
-    min-height: 190px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #123a8c 0%,
-            #1557c0 45%,
-            #2563d9 100%
-        );
-
-    color: #ffffff;
-
-    border-radius: 16px;
-
-    padding: 24px 24px 28px;
-
-    margin-bottom: 22px;
-
-    box-shadow:
-        0 8px 22px rgba(20, 70, 160, 0.30);
-
-    overflow: hidden;
+.invoice-header{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#063b91 0%,#145dcc 50%,#06316f 100%);
+    color:#fff;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 8px 22px rgba(12,73,170,.28);
 }
 
-/* decorative shine */
-
-.invoice-header::before {
-    content: "";
-    position: absolute;
-
-    width: 260px;
-    height: 260px;
-
-    right: -100px;
-    top: -150px;
-
-    background: rgba(255,255,255,0.08);
-
-    border-radius: 50%;
+.invoice-header:before{
+    content:"";
+    position:absolute;
+    width:280px;
+    height:280px;
+    right:-130px;
+    top:-180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
 }
 
-.invoice-header::after {
-    content: "";
-    position: absolute;
-
-    width: 220px;
-    height: 220px;
-
-    left: -130px;
-    bottom: -160px;
-
-    background: rgba(255,255,255,0.06);
-
-    border-radius: 50%;
+.invoice-header:after{
+    content:"";
+    position:absolute;
+    width:230px;
+    height:230px;
+    left:-140px;
+    bottom:-170px;
+    border-radius:50%;
+    background:rgba(255,255,255,.06);
 }
 
-.header-top {
-    position: relative;
-    z-index: 2;
-
-    display: flex;
-    align-items: center;
-
-    gap: 18px;
+.header-top{
+    position:relative;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    gap:16px;
 }
 
-/* =========================================================
-   MENU BUTTON
-========================================================= */
-
-.menu-btn {
-    width: 64px;
-    height: 64px;
-
-    flex-shrink: 0;
-
-    border: 1px solid rgba(255,255,255,0.35);
-
-    border-radius: 12px;
-
-    background: rgba(255,255,255,0.18);
-
-    color: #ffffff;
-
-    font-size: 34px;
-    line-height: 1;
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.05);
+.menu-btn{
+    flex:0 0 58px;
+    width:58px;
+    height:58px;
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:10px;
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    font-size:29px;
+    cursor:pointer;
 }
 
-.menu-btn:active {
-    transform: scale(0.97);
+.menu-btn:active{
+    transform:scale(.97);
 }
 
-/* =========================================================
-   HEADER TITLE
-========================================================= */
-
-.header-title-area {
-    flex: 1;
+.header-title-area{
+    flex:1;
+    min-width:0;
 }
 
-.header-main-title {
-    font-size: clamp(28px, 5vw, 48px);
-
-    line-height: 1.05;
-
-    font-weight: 900;
-
-    letter-spacing: 0.5px;
-
-    white-space: nowrap;
+.header-main-title{
+    font-size:clamp(25px,5vw,44px);
+    line-height:1.05;
+    font-weight:900;
+    letter-spacing:.5px;
 }
 
-.header-sub-title {
-    margin-top: 12px;
-
-    font-size: clamp(17px, 3vw, 28px);
-
-    line-height: 1.15;
-
-    font-weight: 700;
-
-    letter-spacing: 0.7px;
+.header-sub-title{
+    margin-top:8px;
+    font-size:clamp(14px,3vw,23px);
+    line-height:1.2;
+    font-weight:800;
+    letter-spacing:.6px;
 }
 
-/* =========================================================
-   SHOP DETAILS
-========================================================= */
-
-.shop-details {
-    position: relative;
-    z-index: 2;
-
-    margin-top: 20px;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-
-    gap: 12px;
+.shop-details{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:16px;
 }
 
-.shop-details input {
-    width: 100%;
-
-    height: 48px;
-
-    padding: 8px 14px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: rgba(255,255,255,0.96);
-
-    color: #111827;
-
-    font-size: 17px;
-
-    font-weight: 700;
-
-    text-align: center;
-
-    outline: none;
+.shop-details input{
+    width:100%;
+    height:45px;
+    padding:7px 12px;
+    border:none;
+    border-radius:7px;
+    background:#fff;
+    color:#111827;
+    text-align:center;
+    font-size:16px;
+    font-weight:800;
+    outline:none;
 }
 
-/* =========================================================
+/* =====================================================
    SIDEBAR
-========================================================= */
+===================================================== */
 
-.sidebar {
-    position: fixed;
-
-    top: 0;
-    left: -320px;
-
-    width: 320px;
-    max-width: 88vw;
-
-    height: 100vh;
-
-    background: #ffffff;
-
-    box-shadow:
-        8px 0 25px rgba(0,0,0,0.25);
-
-    transition: left 0.28s ease;
-
-    z-index: 5000;
-
-    padding: 20px;
-
-    overflow-y: auto;
+.sidebar{
+    position:fixed;
+    top:0;
+    left:-330px;
+    width:330px;
+    max-width:88vw;
+    height:100vh;
+    background:#fff;
+    z-index:5000;
+    padding:18px;
+    overflow-y:auto;
+    box-shadow:8px 0 25px rgba(0,0,0,.25);
+    transition:left .28s ease;
 }
 
-.sidebar.active {
-    left: 0;
+.sidebar.active{
+    left:0;
 }
 
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 10px;
-
-    margin-bottom: 20px;
-
-    padding-bottom: 12px;
-
-    border-bottom: 2px solid #e2e8f0;
+.sidebar-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding-bottom:12px;
+    margin-bottom:15px;
+    border-bottom:2px solid #e2e8f0;
 }
 
-.sidebar h3 {
-    color: #1557c0;
-
-    font-size: 20px;
-
-    font-weight: 900;
+.sidebar h3{
+    color:#145dcc;
+    font-size:20px;
+    font-weight:900;
 }
 
-.close-sidebar {
-    background: #dc2626;
-
-    color: #ffffff;
-
-    border: none;
-
-    padding: 8px 12px;
-
-    border-radius: 6px;
-
-    cursor: pointer;
-
-    font-size: 13px;
-
-    font-weight: 800;
+.close-sidebar{
+    border:none;
+    background:#dc2626;
+    color:#fff;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:800;
 }
 
-.history-item {
-    background: #f8fafc;
-
-    padding: 13px;
-
-    margin-bottom: 10px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    line-height: 1.6;
-
-    border-left: 5px solid #1557c0;
-
-    border-top: 1px solid #e2e8f0;
-    border-right: 1px solid #e2e8f0;
-    border-bottom: 1px solid #e2e8f0;
+.history-item{
+    background:#f8fafc;
+    border:1px solid #dbe2ea;
+    border-left:5px solid #145dcc;
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:9px;
+    font-size:14px;
+    line-height:1.65;
+    cursor:pointer;
 }
 
-.history-item:hover {
-    background: #eff6ff;
+.history-item:hover{
+    background:#eff6ff;
 }
 
-/* =========================================================
-   INPUT AREA
-========================================================= */
+/* =====================================================
+   SECTION
+===================================================== */
 
-.dimension-section {
-    margin-bottom: 18px;
+.section-heading{
+    background:#145dcc;
+    color:#fff;
+    padding:11px 14px;
+    border-radius:8px 8px 0 0;
+    font-size:18px;
+    font-weight:900;
 }
 
-.section-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    background: #1557c0;
-
-    color: #ffffff;
-
-    padding: 12px 15px;
-
-    border-radius: 8px 8px 0 0;
-
-    font-size: 18px;
-
-    font-weight: 900;
+.dimension-card{
+    position:relative;
+    background:#fff;
+    border:2px solid #d6dee8;
+    border-top:none;
+    border-radius:0 0 10px 10px;
+    padding:15px;
+    margin-bottom:12px;
+    box-shadow:0 3px 12px rgba(15,23,42,.06);
 }
 
-.dimension-card {
-    position: relative;
-
-    background: #ffffff;
-
-    border: 2px solid #d6dee8;
-
-    border-top: none;
-
-    padding: 16px;
-
-    border-radius: 0 0 10px 10px;
-
-    margin-bottom: 12px;
-
-    box-shadow:
-        0 3px 12px rgba(15,23,42,0.07);
+.dimension-card-number{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background:#e8f0ff;
+    color:#145dcc;
+    border-radius:6px;
+    padding:6px 12px;
+    margin-bottom:13px;
+    font-size:15px;
+    font-weight:900;
 }
 
-.dimension-card-number {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    min-width: 42px;
-    height: 32px;
-
-    padding: 0 10px;
-
-    background: #e8f0ff;
-
-    color: #1557c0;
-
-    border-radius: 6px;
-
-    font-size: 15px;
-
-    font-weight: 900;
-
-    margin-bottom: 13px;
+.remove-box-btn{
+    position:absolute;
+    right:11px;
+    top:11px;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:6px;
+    background:#fee2e2;
+    color:#dc2626;
+    font-size:20px;
+    font-weight:900;
+    cursor:pointer;
 }
 
-.input-grid {
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 15px;
+.remove-box-btn:hover{
+    background:#fecaca;
 }
 
-.input-group {
-    display: flex;
+/* =====================================================
+   INPUTS
+===================================================== */
 
-    flex-direction: column;
-
-    gap: 7px;
+.input-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
 
-.input-group label {
-    font-size: 16px;
-
-    color: #334155;
-
-    font-weight: 800;
+.input-group{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
 }
 
-.input-group input {
-    width: 100%;
-
-    height: 54px;
-
-    padding: 8px 12px;
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-    color: #111827;
-
-    background: #ffffff;
-
-    border: 2px solid #cbd5e1;
-
-    border-radius: 8px;
-
-    outline: none;
-
-    text-align: center;
-
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
+.input-group label{
+    color:#334155;
+    font-size:15px;
+    font-weight:900;
 }
 
-.input-group input:focus {
-    border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 3px rgba(37,99,235,0.12);
+.input-group input{
+    width:100%;
+    height:54px;
+    padding:7px 12px;
+    border:2px solid #cbd5e1;
+    border-radius:8px;
+    outline:none;
+    background:#fff;
+    color:#111827;
+    text-align:center;
+    font-size:19px;
+    font-weight:900;
 }
 
-/* remove button */
-
-.remove-box-btn {
-    position: absolute;
-
-    right: 12px;
-    top: 12px;
-
-    width: 34px;
-    height: 34px;
-
-    border: none;
-
-    border-radius: 6px;
-
-    background: #fee2e2;
-
-    color: #dc2626;
-
-    font-size: 18px;
-
-    cursor: pointer;
-
-    font-weight: 900;
+.input-group input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.12);
 }
 
-.remove-box-btn:hover {
-    background: #fecaca;
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.add-box-area{
+    margin:14px 0 12px;
 }
 
-/* =========================================================
-   ADD BUTTON
-========================================================= */
-
-.add-box-area {
-    margin: 15px 0 12px;
+.btn-add-box{
+    width:100%;
+    min-height:57px;
+    border:2px dashed #2563eb;
+    border-radius:9px;
+    background:#eff6ff;
+    color:#145dcc;
+    font-size:17px;
+    font-weight:900;
+    cursor:pointer;
 }
 
-.btn-add-box {
-    width: 100%;
-
-    min-height: 58px;
-
-    border: 2px dashed #2563eb;
-
-    border-radius: 9px;
-
-    background: #eff6ff;
-
-    color: #1557c0;
-
-    font-size: 18px;
-
-    font-weight: 900;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+.btn-add-box:hover{
+    background:#dbeafe;
 }
 
-.btn-add-box:hover {
-    background: #dbeafe;
+.btn-calc{
+    width:100%;
+    min-height:62px;
+    border:none;
+    border-radius:9px;
+    background:#16834f;
+    color:#fff;
+    font-size:23px;
+    font-weight:900;
+    cursor:pointer;
+    margin-bottom:18px;
+    box-shadow:0 5px 14px rgba(22,131,79,.2);
 }
 
-.btn-add-box:active {
-    transform: scale(0.99);
+.btn-calc:hover{
+    background:#116c41;
 }
 
-/* =========================================================
-   CALCULATE BUTTON
-========================================================= */
-
-.btn-calc {
-    width: 100%;
-
-    min-height: 64px;
-
-    padding: 12px;
-
-    background: #147a4b;
-
-    color: #ffffff;
-
-    font-size: 24px;
-
-    font-weight: 900;
-
-    border: none;
-
-    border-radius: 9px;
-
-    cursor: pointer;
-
-    margin-bottom: 20px;
-
-    box-shadow:
-        0 5px 14px rgba(20,122,75,0.20);
+.btn-calc:active,
+.btn-add-box:active,
+.btn-print:active{
+    transform:scale(.99);
 }
 
-.btn-calc:hover {
-    background: #10683f;
+/* =====================================================
+   RESULT
+===================================================== */
+
+.result-section{
+    display:none;
 }
 
-.btn-calc:active {
-    transform: scale(0.99);
+.result-title{
+    background:linear-gradient(90deg,#145dcc,#176edb);
+    color:#fff;
+    padding:10px 13px;
+    margin-top:18px;
+    border-radius:8px 8px 0 0;
+    font-size:17px;
+    font-weight:900;
+    line-height:1.4;
 }
 
-/* =========================================================
-   RESULT AREA
-========================================================= */
-
-.result-section {
-    display: none;
-
-    margin-top: 10px;
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+    border-left:1px solid #cbd5e1;
+    border-right:1px solid #cbd5e1;
+    border-bottom:1px solid #cbd5e1;
+    border-radius:0 0 8px 8px;
 }
 
-.result-title {
-    background:
-        linear-gradient(
-            90deg,
-            #1557c0,
-            #1769d3
-        );
-
-    color: #ffffff;
-
-    padding: 11px 14px;
-
-    font-size: 18px;
-
-    font-weight: 900;
-
-    margin-top: 20px;
-
-    border-radius: 8px 8px 0 0;
-
-    line-height: 1.35;
-}
-
-/* =========================================================
-   TABLE
-========================================================= */
-
-.table-wrap {
-    width: 100%;
-
-    overflow-x: auto;
-
-    border-left: 1px solid #cbd5e1;
-    border-right: 1px solid #cbd5e1;
-    border-bottom: 1px solid #cbd5e1;
-
-    border-radius: 0 0 8px 8px;
-
-    background: #ffffff;
-}
-
-table {
-    width: 100%;
-
-    min-width: 600px;
-
-    border-collapse: collapse;
-
-    background: #ffffff;
-
-    margin: 0;
+table{
+    width:100%;
+    min-width:600px;
+    border-collapse:collapse;
+    background:#fff;
 }
 
 th,
-td {
-    border: 1px solid #cbd5e1;
-
-    padding: 11px 8px;
-
-    text-align: center;
-
-    font-size: 15px;
-
-    line-height: 1.4;
-
-    color: #111827;
+td{
+    border:1px solid #cbd5e1;
+    padding:10px 7px;
+    text-align:center;
+    color:#111827;
+    font-size:14px;
+    line-height:1.4;
 }
 
-th {
-    background: #f1f5f9;
-
-    color: #111827;
-
-    font-weight: 900;
-
-    white-space: nowrap;
+th{
+    background:#f1f5f9;
+    font-weight:900;
+    white-space:nowrap;
 }
 
-td strong {
-    font-weight: 900;
-
-    color: #111827;
+td strong{
+    font-weight:900;
 }
 
-/* alternate rows */
-
-tbody tr:nth-child(even) {
-    background: #f8fafc;
+tbody tr:nth-child(even){
+    background:#f8fafc;
 }
 
-/* =========================================================
-   TOTAL SUMMARY
-========================================================= */
+/* =====================================================
+   SUMMARY
+===================================================== */
 
-.total-summary {
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 12px;
-
-    margin-top: 18px;
+.total-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:16px;
 }
 
-.summary-card {
-    background: #f8fafc;
-
-    border: 1px solid #d7dee8;
-
-    border-radius: 8px;
-
-    padding: 14px;
-
-    text-align: center;
+.summary-card{
+    background:#f8fafc;
+    border:1px solid #d7dee8;
+    border-radius:8px;
+    padding:12px;
+    text-align:center;
 }
 
-.summary-label {
-    display: block;
-
-    color: #475569;
-
-    font-size: 13px;
-
-    margin-bottom: 5px;
+.summary-label{
+    display:block;
+    color:#475569;
+    font-size:12px;
+    margin-bottom:4px;
 }
 
-.summary-value {
-    display: block;
-
-    color: #1557c0;
-
-    font-size: 22px;
-
-    font-weight: 900;
+.summary-value{
+    display:block;
+    color:#145dcc;
+    font-size:20px;
+    font-weight:900;
 }
 
-/* =========================================================
-   PRINT BUTTON
-========================================================= */
+/* =====================================================
+   PRINT
+===================================================== */
 
-.action-buttons {
-    width: 100%;
-
-    max-width: 900px;
-
-    margin: 18px auto 0;
-
-    text-align: center;
+.action-buttons{
+    width:100%;
+    max-width:920px;
+    margin:16px auto 0;
+    text-align:center;
 }
 
-.btn-print {
-    width: 100%;
-
-    max-width: 440px;
-
-    min-height: 60px;
-
-    background: #2456d8;
-
-    color: #ffffff;
-
-    border: none;
-
-    border-radius: 9px;
-
-    padding: 12px 20px;
-
-    font-size: 19px;
-
-    font-weight: 900;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 5px 15px rgba(36,86,216,0.25);
+.btn-print{
+    width:100%;
+    max-width:450px;
+    min-height:58px;
+    border:none;
+    border-radius:9px;
+    background:#2456d8;
+    color:#fff;
+    font-size:18px;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(36,86,216,.25);
 }
 
-.btn-print:hover {
-    background: #1d46b8;
-}
-
-/* =========================================================
+/* =====================================================
    MOBILE
-========================================================= */
+===================================================== */
 
-@media (max-width: 650px) {
+@media(max-width:650px){
 
-    body {
-        padding: 8px;
+    body{
+        padding:7px;
     }
 
-    .container {
-        padding: 10px;
-
-        border-radius: 9px;
+    .container{
+        padding:9px;
+        border-radius:9px;
     }
 
-    .invoice-header {
-        min-height: auto;
-
-        padding: 18px 15px 18px;
-
-        border-radius: 12px;
-
-        margin-bottom: 15px;
+    .invoice-header{
+        padding:16px 13px;
+        border-radius:11px;
+        margin-bottom:13px;
     }
 
-    .header-top {
-        gap: 12px;
+    .header-top{
+        gap:10px;
     }
 
-    .menu-btn {
-        width: 48px;
-        height: 48px;
-
-        font-size: 28px;
-
-        border-radius: 9px;
+    .menu-btn{
+        flex-basis:47px;
+        width:47px;
+        height:47px;
+        font-size:24px;
     }
 
-    .header-main-title {
-        font-size: 25px;
-
-        white-space: normal;
+    .header-main-title{
+        font-size:23px;
+        white-space:normal;
     }
 
-    .header-sub-title {
-        font-size: 14px;
-
-        margin-top: 7px;
-
-        letter-spacing: 0.3px;
+    .header-sub-title{
+        font-size:12px;
+        margin-top:6px;
     }
 
-    .shop-details {
-        grid-template-columns: 1fr;
-
-        gap: 8px;
-
-        margin-top: 14px;
+    .shop-details{
+        grid-template-columns:1fr;
+        gap:7px;
+        margin-top:12px;
     }
 
-    .shop-details input {
-        height: 42px;
-
-        font-size: 15px;
+    .shop-details input{
+        height:40px;
+        font-size:14px;
     }
 
-    .section-heading {
-        font-size: 16px;
-
-        padding: 10px 12px;
+    .section-heading{
+        font-size:15px;
+        padding:10px 11px;
     }
 
-    .dimension-card {
-        padding: 13px;
+    .dimension-card{
+        padding:12px;
     }
 
-    .input-grid {
-        gap: 11px;
+    .input-grid{
+        gap:9px;
     }
 
-    .input-group label {
-        font-size: 14px;
+    .input-group{
+        gap:5px;
     }
 
-    .input-group input {
-        height: 50px;
-
-        font-size: 18px;
+    .input-group label{
+        font-size:13px;
     }
 
-    .btn-add-box {
-        min-height: 54px;
-
-        font-size: 16px;
+    .input-group input{
+        height:49px;
+        font-size:17px;
     }
 
-    .btn-calc {
-        min-height: 58px;
-
-        font-size: 21px;
+    .btn-add-box{
+        min-height:53px;
+        font-size:15px;
     }
 
-    .result-title {
-        font-size: 16px;
+    .btn-calc{
+        min-height:56px;
+        font-size:20px;
+    }
 
-        padding: 10px 11px;
+    .result-title{
+        font-size:15px;
     }
 
     th,
-    td {
-        font-size: 14px;
-
-        padding: 9px 6px;
+    td{
+        font-size:13px;
+        padding:8px 5px;
     }
 
-    .total-summary {
-        grid-template-columns: 1fr;
+    .total-summary{
+        grid-template-columns:1fr;
     }
 
-    .btn-print {
-        font-size: 17px;
-
-        min-height: 55px;
+    .btn-print{
+        min-height:54px;
+        font-size:16px;
     }
 }
 
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
+@media(max-width:390px){
 
-@media (max-width: 420px) {
-
-    .header-main-title {
-        font-size: 21px;
+    .header-main-title{
+        font-size:20px;
     }
 
-    .header-sub-title {
-        font-size: 12px;
+    .header-sub-title{
+        font-size:11px;
     }
 
-    .input-grid {
-        grid-template-columns: 1fr 1fr;
-
-        gap: 8px;
+    .input-group label{
+        font-size:11px;
     }
 
-    .input-group label {
-        font-size: 12px;
-    }
-
-    .input-group input {
-        height: 48px;
-
-        font-size: 17px;
+    .input-group input{
+        font-size:16px;
     }
 
     th,
-    td {
-        font-size: 13px;
+    td{
+        font-size:12px;
     }
 }
 
-/* =========================================================
-   PRINT / PDF
-========================================================= */
+/* =====================================================
+   PRINT A4
+===================================================== */
 
-@media print {
+@media print{
 
-    @page {
-        size: A4 portrait;
-
-        margin: 7mm;
+    @page{
+        size:A4 portrait;
+        margin:7mm;
     }
 
     html,
-    body {
-        background: #ffffff !important;
-
-        margin: 0 !important;
-
-        padding: 0 !important;
-
-        width: 100%;
+    body{
+        background:#fff !important;
+        margin:0 !important;
+        padding:0 !important;
+        width:100%;
     }
 
-    body {
-        font-family:
-            "Noto Sans Bengali",
-            "Noto Sans",
-            Arial,
-            sans-serif;
-    }
-
-    .container {
-        width: 100% !important;
-
-        max-width: none !important;
-
-        margin: 0 !important;
-
-        padding: 0 !important;
-
-        border: none !important;
-
-        box-shadow: none !important;
-
-        border-radius: 0 !important;
+    .container{
+        width:100% !important;
+        max-width:none !important;
+        padding:0 !important;
+        margin:0 !important;
+        border:none !important;
+        border-radius:0 !important;
+        box-shadow:none !important;
     }
 
     .no-print,
     .sidebar,
     .action-buttons,
     .add-box-area,
-    .remove-box-btn {
-        display: none !important;
+    .remove-box-btn{
+        display:none !important;
     }
 
-    .invoice-header {
-        min-height: auto !important;
-
-        margin-bottom: 7px !important;
-
-        padding: 10px 12px !important;
-
-        border-radius: 5px !important;
-
-        box-shadow: none !important;
+    .invoice-header{
+        padding:10px 12px !important;
+        margin-bottom:7px !important;
+        border-radius:5px !important;
+        box-shadow:none !important;
+        min-height:auto !important;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
     }
 
-    .header-top {
-        gap: 8px !important;
+    .menu-btn{
+        display:none !important;
     }
 
-    .menu-btn {
-        display: none !important;
+    .header-main-title{
+        font-size:20px !important;
+        white-space:nowrap !important;
     }
 
-    .header-main-title {
-        font-size: 20px !important;
-
-        white-space: nowrap !important;
+    .header-sub-title{
+        font-size:9px !important;
+        margin-top:3px !important;
     }
 
-    .header-sub-title {
-        font-size: 10px !important;
-
-        margin-top: 4px !important;
+    .shop-details{
+        margin-top:6px !important;
+        gap:5px !important;
     }
 
-    .shop-details {
-        margin-top: 6px !important;
-
-        gap: 5px !important;
+    .shop-details input{
+        height:24px !important;
+        font-size:8px !important;
+        border:none !important;
+        padding:2px 5px !important;
     }
 
-    .shop-details input {
-        height: 25px !important;
-
-        padding: 2px 6px !important;
-
-        font-size: 9px !important;
-
-        border-radius: 3px !important;
-
-        border: none !important;
+    .result-section{
+        display:block !important;
     }
 
-    .result-section {
-        display: block !important;
+    .result-title{
+        margin-top:6px !important;
+        padding:4px 6px !important;
+        font-size:9px !important;
+        border-radius:2px 2px 0 0 !important;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
     }
 
-    .result-title {
-        margin-top: 7px !important;
-
-        padding: 5px 7px !important;
-
-        font-size: 10px !important;
-
-        border-radius: 3px 3px 0 0 !important;
-
-        -webkit-print-color-adjust: exact !important;
-
-        print-color-adjust: exact !important;
+    .table-wrap{
+        overflow:visible !important;
+        border-radius:0 !important;
     }
 
-    .table-wrap {
-        overflow: visible !important;
-
-        border-radius: 0 !important;
-    }
-
-    table {
-        min-width: 0 !important;
-
-        width: 100% !important;
+    table{
+        min-width:0 !important;
+        width:100% !important;
     }
 
     th,
-    td {
-        padding: 4px 3px !important;
-
-        font-size: 8.5px !important;
-
-        line-height: 1.25 !important;
-
-        border: 1px solid #b8c1cc !important;
+    td{
+        padding:3px 2px !important;
+        font-size:7.5px !important;
+        line-height:1.2 !important;
+        border:1px solid #aeb8c5 !important;
     }
 
-    th {
-        background: #f1f5f9 !important;
-
-        -webkit-print-color-adjust: exact !important;
-
-        print-color-adjust: exact !important;
+    th{
+        background:#f1f5f9 !important;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
     }
 
-    .total-summary {
-        margin-top: 7px !important;
-
-        gap: 5px !important;
-
-        grid-template-columns: repeat(3, 1fr) !important;
+    .total-summary{
+        margin-top:6px !important;
+        gap:4px !important;
+        grid-template-columns:repeat(3,1fr) !important;
     }
 
-    .summary-card {
-        padding: 5px !important;
-
-        border-radius: 3px !important;
+    .summary-card{
+        padding:4px !important;
+        border-radius:2px !important;
     }
 
-    .summary-label {
-        font-size: 7px !important;
+    .summary-label{
+        font-size:6px !important;
     }
 
-    .summary-value {
-        font-size: 11px !important;
-    }
-
-    input {
-        border: none !important;
-
-        background: transparent !important;
+    .summary-value{
+        font-size:9px !important;
     }
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- =========================================================
-     SIDEBAR
-========================================================= -->
+<!-- =====================================================
+     HISTORY SIDEBAR
+===================================================== -->
 
 <div class="sidebar" id="historySidebar">
 
@@ -1129,15 +761,13 @@ tbody tr:nth-child(even) {
 </div>
 
 
-<!-- =========================================================
-     MAIN CONTAINER
-========================================================= -->
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <div class="container">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
+    <!-- HEADER -->
 
     <div class="invoice-header">
 
@@ -1145,8 +775,7 @@ tbody tr:nth-child(even) {
 
             <button
                 class="menu-btn no-print"
-                onclick="toggleSidebar()"
-                aria-label="History">
+                onclick="toggleSidebar()">
                 ☰
             </button>
 
@@ -1157,51 +786,42 @@ tbody tr:nth-child(even) {
                 </div>
 
                 <div class="header-sub-title">
-                    CURTAIN WALL &amp; QUOTATION CALCULATOR
+                    COSTING &amp; QUOTATION CALCULATOR
                 </div>
 
             </div>
 
         </div>
 
-
         <div class="shop-details">
 
             <input
                 type="text"
                 id="shopName"
-                value="RM THAI ALUMINIUM"
-                aria-label="Shop Name">
+                value="RM THAI ALUMINIUM">
 
             <input
                 type="text"
                 id="shopPhone"
-                value="Mobile: 01676-474412"
-                aria-label="Mobile">
+                value="Mobile: 01676-474412">
 
         </div>
 
     </div>
 
 
-    <!-- =====================================================
-         DIMENSION INPUT SECTION
-    ====================================================== -->
+    <!-- DIMENSION -->
 
     <div class="dimension-section no-print">
 
         <div class="section-heading">
-            <span>কাজের মাপ ও খোপের সংখ্যা</span>
+            কাজের মাপ ও খোপের সংখ্যা
         </div>
 
-        <div id="dimensionContainer">
-
-            <!-- প্রথম বক্স JavaScript দিয়ে তৈরি হবে -->
-
-        </div>
+        <div id="dimensionContainer"></div>
 
 
-        <!-- ADD NEW BOX -->
+        <!-- ADD -->
 
         <div class="add-box-area">
 
@@ -1231,18 +851,14 @@ tbody tr:nth-child(even) {
     </div>
 
 
-    <!-- =====================================================
-         RESULT AREA
-    ====================================================== -->
+    <!-- RESULTS -->
 
     <div
         id="resultArea"
         class="result-section">
 
 
-        <!-- =================================================
-             ALUMINIUM
-        ================================================== -->
+        <!-- ALUMINIUM -->
 
         <div class="result-title">
             ১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)
@@ -1257,11 +873,8 @@ tbody tr:nth-child(even) {
                     <tr>
 
                         <th>মালের নাম</th>
-
                         <th>বিবরণ</th>
-
                         <th>টোটাল রানিং ফিট</th>
-
                         <th>পিস (২১ ফিট)</th>
 
                     </tr>
@@ -1275,9 +888,7 @@ tbody tr:nth-child(even) {
         </div>
 
 
-        <!-- =================================================
-             GLASS
-        ================================================== -->
+        <!-- GLASS -->
 
         <div class="result-title">
             ২. গ্লাস এরিয়া হিসাব
@@ -1292,7 +903,6 @@ tbody tr:nth-child(even) {
                     <tr>
 
                         <th>বিবরণ</th>
-
                         <th>মোট স্কয়ার ফিট / পরিমাণ</th>
 
                     </tr>
@@ -1306,9 +916,7 @@ tbody tr:nth-child(even) {
         </div>
 
 
-        <!-- =================================================
-             ACCESSORIES
-        ================================================== -->
+        <!-- ACCESSORIES -->
 
         <div class="result-title">
             ৩. এক্সেসরিজ ও ফিটিংস হিসাব
@@ -1323,9 +931,7 @@ tbody tr:nth-child(even) {
                     <tr>
 
                         <th>উপাদানের নাম</th>
-
                         <th>হিসাবের বিবরণ</th>
-
                         <th>মোট পরিমাণ</th>
 
                     </tr>
@@ -1339,9 +945,7 @@ tbody tr:nth-child(even) {
         </div>
 
 
-        <!-- =================================================
-             SUMMARY
-        ================================================== -->
+        <!-- SUMMARY -->
 
         <div class="total-summary">
 
@@ -1396,9 +1000,7 @@ tbody tr:nth-child(even) {
 </div>
 
 
-<!-- =========================================================
-     PRINT BUTTON
-========================================================= -->
+<!-- PRINT -->
 
 <div class="action-buttons no-print">
 
@@ -1416,20 +1018,20 @@ tbody tr:nth-child(even) {
 
 <script>
 
-/* =========================================================
+/* =====================================================
    GLOBAL
-========================================================= */
+===================================================== */
 
 let dimensionCounter = 0;
 
 
-/* =========================================================
-   PAGE LOAD
-========================================================= */
+/* =====================================================
+   LOAD
+===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    function(){
 
         loadShopData();
 
@@ -1441,76 +1043,74 @@ document.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    SHOP DATA
-========================================================= */
+===================================================== */
 
-function loadShopData() {
+function loadShopData(){
 
-    const savedName =
+    const name =
         localStorage.getItem("cw_shopName");
 
-    const savedPhone =
+    const phone =
         localStorage.getItem("cw_shopPhone");
 
 
-    if (savedName) {
+    if(name){
 
-        document.getElementById("shopName").value =
-            savedName;
+        document.getElementById(
+            "shopName"
+        ).value = name;
 
     }
 
 
-    if (savedPhone) {
+    if(phone){
 
-        document.getElementById("shopPhone").value =
-            savedPhone;
+        document.getElementById(
+            "shopPhone"
+        ).value = phone;
 
     }
 
 }
 
 
-/* =========================================================
-   SAVE SHOP DATA
-========================================================= */
-
 document
-    .getElementById("shopName")
-    .addEventListener(
-        "input",
-        function () {
+.getElementById("shopName")
+.addEventListener(
+    "input",
+    function(){
 
-            localStorage.setItem(
-                "cw_shopName",
-                this.value
-            );
+        localStorage.setItem(
+            "cw_shopName",
+            this.value
+        );
 
-        }
-    );
+    }
+);
 
 
 document
-    .getElementById("shopPhone")
-    .addEventListener(
-        "input",
-        function () {
+.getElementById("shopPhone")
+.addEventListener(
+    "input",
+    function(){
 
-            localStorage.setItem(
-                "cw_shopPhone",
-                this.value
-            );
+        localStorage.setItem(
+            "cw_shopPhone",
+            this.value
+        );
 
-        }
-    );
+    }
+);
 
 
-/* =========================================================
+/* =====================================================
    SIDEBAR
-========================================================= */
+===================================================== */
 
-function toggleSidebar() {
+function toggleSidebar(){
 
     document
         .getElementById("historySidebar")
@@ -1520,34 +1120,24 @@ function toggleSidebar() {
 }
 
 
-/* =========================================================
-   ADD DIMENSION BOX
-========================================================= */
+/* =====================================================
+   ADD BOX
+===================================================== */
 
 function addDimensionBox(
-    height = "",
-    width = "",
-    cols = "",
-    rows = ""
-) {
+    height="",
+    width="",
+    cols="",
+    rows=""
+){
 
     dimensionCounter++;
-
-    const container =
-        document.getElementById(
-            "dimensionContainer"
-        );
-
 
     const card =
         document.createElement("div");
 
     card.className =
         "dimension-card";
-
-    card.dataset.id =
-        dimensionCounter;
-
 
     card.innerHTML = `
 
@@ -1562,8 +1152,7 @@ function addDimensionBox(
             <button
                 type="button"
                 class="remove-box-btn"
-                onclick="removeDimensionBox(this)"
-                title="এই বক্স মুছে ফেলুন">
+                onclick="removeDimensionBox(this)">
                 ×
             </button>
             `
@@ -1582,10 +1171,10 @@ function addDimensionBox(
                 <input
                     type="number"
                     class="cw-height"
-                    placeholder="যেমন: 10"
+                    value="${height}"
+                    placeholder="যেমন: 11"
                     step="0.01"
-                    min="0"
-                    value="${height}">
+                    min="0">
 
             </div>
 
@@ -1599,10 +1188,10 @@ function addDimensionBox(
                 <input
                     type="number"
                     class="cw-width"
-                    placeholder="যেমন: 21"
+                    value="${width}"
+                    placeholder="যেমন: 24"
                     step="0.01"
-                    min="0"
-                    value="${width}">
+                    min="0">
 
             </div>
 
@@ -1616,10 +1205,10 @@ function addDimensionBox(
                 <input
                     type="number"
                     class="cw-cols"
-                    placeholder="যেমন: 8"
+                    value="${cols}"
+                    placeholder="যেমন: 6"
                     step="1"
-                    min="1"
-                    value="${cols}">
+                    min="1">
 
             </div>
 
@@ -1633,48 +1222,46 @@ function addDimensionBox(
                 <input
                     type="number"
                     class="cw-rows"
+                    value="${rows}"
                     placeholder="যেমন: 3"
                     step="1"
-                    min="1"
-                    value="${rows}">
+                    min="1">
 
             </div>
 
         </div>
-
     `;
 
-
-    container.appendChild(card);
+    document
+        .getElementById("dimensionContainer")
+        .appendChild(card);
 
 }
 
 
-/* =========================================================
-   REMOVE DIMENSION BOX
-========================================================= */
+/* =====================================================
+   REMOVE BOX
+===================================================== */
 
-function removeDimensionBox(button) {
+function removeDimensionBox(button){
 
     const card =
         button.closest(".dimension-card");
 
-    if (!card) return;
+    if(card){
+        card.remove();
+    }
 
-
-    card.remove();
-
-
-    renumberDimensionBoxes();
+    renumberBoxes();
 
 }
 
 
-/* =========================================================
-   RENUMBER BOXES
-========================================================= */
+/* =====================================================
+   RENUMBER
+===================================================== */
 
-function renumberDimensionBoxes() {
+function renumberBoxes(){
 
     const cards =
         document.querySelectorAll(
@@ -1683,16 +1270,16 @@ function renumberDimensionBoxes() {
 
 
     cards.forEach(
-        function (card, index) {
+        function(card,index){
 
-            const number =
+            const label =
                 card.querySelector(
                     ".dimension-card-number"
                 );
 
-            if (number) {
+            if(label){
 
-                number.textContent =
+                label.textContent =
                     "বক্স " + (index + 1);
 
             }
@@ -1703,11 +1290,11 @@ function renumberDimensionBoxes() {
 }
 
 
-/* =========================================================
-   GET ALL DIMENSION DATA
-========================================================= */
+/* =====================================================
+   GET DATA
+===================================================== */
 
-function getDimensionData() {
+function getDimensionData(){
 
     const cards =
         document.querySelectorAll(
@@ -1719,7 +1306,7 @@ function getDimensionData() {
 
 
     cards.forEach(
-        function (card) {
+        function(card){
 
             const height =
                 parseFloat(
@@ -1753,18 +1340,18 @@ function getDimensionData() {
                 ) || 0;
 
 
-            if (
+            if(
                 height > 0 ||
                 width > 0 ||
                 cols > 0 ||
                 rows > 0
-            ) {
+            ){
 
                 data.push({
-                    height,
-                    width,
-                    cols,
-                    rows
+                    height:height,
+                    width:width,
+                    cols:cols,
+                    rows:rows
                 });
 
             }
@@ -1778,20 +1365,20 @@ function getDimensionData() {
 }
 
 
-/* =========================================================
-   MAIN CALCULATION
-========================================================= */
+/* =====================================================
+   CALCULATE
+===================================================== */
 
-function calculateMaterials() {
+function calculateMaterials(){
 
     const dimensions =
         getDimensionData();
 
 
-    if (dimensions.length === 0) {
+    if(dimensions.length === 0){
 
         alert(
-            "দয়া করে অন্তত একটি মাপের বক্সে তথ্য দিন।"
+            "দয়া করে অন্তত একটি বক্সে সঠিক তথ্য দিন।"
         );
 
         return;
@@ -1799,340 +1386,170 @@ function calculateMaterials() {
     }
 
 
-    /* =====================================================
-       TOTAL VARIABLES
-    ===================================================== */
-
     let totalHalfSectionFeet = 0;
-
-    let totalHalfSectionPipes = 0;
-
     let totalFullSectionFeet = 0;
-
-    let totalFullSectionPipes = 0;
-
     let totalAngleFeet = 0;
 
-    let totalAnglePipes = 0;
-
-
     let totalGlassSqft = 0;
-
     let totalTapeFeet = 0;
-
-    let totalMaskingTapeRolls = 0;
-
-    let totalNotanTapeRolls = 0;
 
     let totalSilicon = 0;
 
-
     let totalClamps = 0;
-
     let totalRoyalBolts = 0;
-
     let totalScrews = 0;
-
     let totalNutBolts = 0;
-
     let totalRivets = 0;
-
 
     let totalKhop = 0;
 
-    let displayHeight = 0;
+    let maxHeight = 0;
+    let totalWidth = 0;
 
-    let displayWidth = 0;
-
-
-    /* =====================================================
-       CALCULATE EACH BOX
-       ORIGINAL FORMULA KEPT
-    ===================================================== */
 
     dimensions.forEach(
-        function (item, index) {
+        function(item){
 
-            const height =
-                item.height;
-
-            const width =
-                item.width;
-
-            const cols =
-                item.cols;
-
-            const rows =
-                item.rows;
+            const h = item.height;
+            const w = item.width;
+            const c = item.cols;
+            const r = item.rows;
 
 
-            if (
-                height <= 0 ||
-                width <= 0 ||
-                cols <= 0 ||
-                rows <= 0
-            ) {
-
+            if(
+                h <= 0 ||
+                w <= 0 ||
+                c <= 0 ||
+                r <= 0
+            ){
                 return;
-
             }
 
 
-            /* =============================================
-               KHOP
-            ============================================= */
+            /* KHOP */
 
             const khop =
-                cols * rows;
+                c * r;
 
             totalKhop += khop;
 
 
-            displayHeight =
+            maxHeight =
                 Math.max(
-                    displayHeight,
-                    height
+                    maxHeight,
+                    h
                 );
 
-            displayWidth += width;
+            totalWidth += w;
 
 
-            /* =============================================
-               1. HALF SECTION
-            ============================================= */
+            /* HALF SECTION */
 
-            const halfSectionFeet =
-                (width * 2) +
-                (height * 2);
-
-
-            const halfSectionPipes =
-                Math.ceil(
-                    halfSectionFeet / 21
-                );
-
+            const halfFeet =
+                (w * 2) +
+                (h * 2);
 
             totalHalfSectionFeet +=
-                halfSectionFeet;
+                halfFeet;
 
 
-            totalHalfSectionPipes +=
-                halfSectionPipes;
+            /* FULL SECTION */
 
+            const verticalCount =
+                c + 1;
 
-            /* =============================================
-               VERTICAL
-            ============================================= */
-
-            const verticalPipesCount =
-                cols + 1;
-
-
-            const middleVerticalsCount =
-                cols - 1;
-
+            const middleVerticalCount =
+                c - 1;
 
             const middleVerticalFeet =
-                middleVerticalsCount *
-                height;
+                middleVerticalCount * h;
 
 
-            /* =============================================
-               HORIZONTAL
-            ============================================= */
-
-            const horizontalRowsCount =
-                rows - 1;
+            const horizontalRows =
+                r - 1;
 
 
-            const deductionPerLine =
-                (
-                    verticalPipesCount * 2
-                ) / 12;
+            const deduction =
+                (verticalCount * 2) / 12;
 
 
-            let horizontalFeetPerLine =
-                width -
-                deductionPerLine;
+            let horizontalFeet =
+                w - deduction;
 
 
-            if (
-                horizontalFeetPerLine < 0
-            ) {
-
-                horizontalFeetPerLine = 0;
-
+            if(horizontalFeet < 0){
+                horizontalFeet = 0;
             }
 
 
             const middleHorizontalFeet =
-                horizontalRowsCount *
-                horizontalFeetPerLine;
+                horizontalRows *
+                horizontalFeet;
 
 
-            const fullSectionFeet =
+            totalFullSectionFeet +=
                 middleVerticalFeet +
                 middleHorizontalFeet;
 
 
-            const fullSectionPipes =
-                Math.ceil(
-                    fullSectionFeet / 21
-                );
+            /* ANGLE */
 
-
-            totalFullSectionFeet +=
-                fullSectionFeet;
-
-
-            totalFullSectionPipes +=
-                fullSectionPipes;
-
-
-            /* =============================================
-               ANGLE
-            ============================================= */
-
-            const angleFeet =
+            totalAngleFeet +=
                 khop * (8 / 12);
 
 
-            const anglePipes =
-                Math.ceil(
-                    angleFeet / 21
-                );
+            /* GLASS */
 
-
-            totalAngleFeet +=
-                angleFeet;
-
-
-            totalAnglePipes +=
-                anglePipes;
-
-
-            /* =============================================
-               GLASS
-            ============================================= */
-
-            const glassSqft =
-                width * height;
-
+            const glass =
+                w * h;
 
             totalGlassSqft +=
-                glassSqft;
+                glass;
 
 
-            /* =============================================
-               TAPE
-            ============================================= */
+            /* TAPE */
 
-            const tapeFeet =
+            const tape =
                 (
-                    (width / cols * 2) +
-                    (height / rows * 2)
+                    (w / c * 2) +
+                    (h / r * 2)
                 ) * khop;
 
-
             totalTapeFeet +=
-                tapeFeet;
+                tape;
 
 
-            const maskingTapeRolls =
-                Math.ceil(
-                    tapeFeet / 80
-                );
-
-
-            const notanTapeRolls =
-                Math.ceil(
-                    tapeFeet / 100
-                );
-
-
-            totalMaskingTapeRolls +=
-                maskingTapeRolls;
-
-
-            totalNotanTapeRolls +=
-                notanTapeRolls;
-
-
-            /* =============================================
-               SILICON
-            ============================================= */
+            /* SILICON */
 
             const baseSilicon =
-                glassSqft / 50;
-
+                glass / 50;
 
             const khopFactor =
                 khop * 0.05;
 
-
-            const silicon =
+            totalSilicon +=
                 Math.ceil(
                     baseSilicon +
                     khopFactor
                 );
 
 
-            totalSilicon +=
-                silicon;
-
-
-            /* =============================================
-               ACCESSORIES
-            ============================================= */
+            /* ACCESSORIES */
 
             const clamps =
-                verticalPipesCount * 4;
+                verticalCount * 4;
 
-
-            const royalBolts =
-                clamps;
-
-
-            const screws =
-                clamps * 2;
-
-
-            const nutBolts =
-                clamps;
-
-
-            const rivets =
-                khop * 20;
-
-
-            totalClamps +=
-                clamps;
-
-
-            totalRoyalBolts +=
-                royalBolts;
-
-
-            totalScrews +=
-                screws;
-
-
-            totalNutBolts +=
-                nutBolts;
-
-
-            totalRivets +=
-                rivets;
+            totalClamps += clamps;
+            totalRoyalBolts += clamps;
+            totalScrews += clamps * 2;
+            totalNutBolts += clamps;
+            totalRivets += khop * 5;
 
         }
     );
 
 
-    /* =====================================================
-       VALIDATION
-    ====================================================== */
-
-    if (totalKhop === 0) {
+    if(totalKhop <= 0){
 
         alert(
             "হাইট, চওড়া এবং খোপের সংখ্যা সঠিকভাবে দিন।"
@@ -2143,9 +1560,43 @@ function calculateMaterials() {
     }
 
 
-    /* =====================================================
+    /* =================================================
+       PIPE PIECES
+    ================================================= */
+
+    const halfPipes =
+        Math.ceil(
+            totalHalfSectionFeet / 21
+        );
+
+
+    const fullPipes =
+        Math.ceil(
+            totalFullSectionFeet / 21
+        );
+
+
+    const anglePipes =
+        Math.ceil(
+            totalAngleFeet / 21
+        );
+
+
+    const maskingRolls =
+        Math.ceil(
+            totalTapeFeet / 80
+        );
+
+
+    const notanRolls =
+        Math.ceil(
+            totalTapeFeet / 100
+        );
+
+
+    /* =================================================
        ALUMINIUM TABLE
-    ====================================================== */
+    ================================================= */
 
     document.getElementById(
         "alumTable"
@@ -2154,7 +1605,8 @@ function calculateMaterials() {
         <tr>
 
             <td>
-                হাফ সেকশন (Top &amp; Side)
+                হাফ সেকশন
+                (Top &amp; Side)
             </td>
 
             <td>
@@ -2168,7 +1620,7 @@ function calculateMaterials() {
 
             <td>
                 <strong>
-                    ${totalHalfSectionPipes} পিস
+                    ${halfPipes} পিস
                 </strong>
             </td>
 
@@ -2178,7 +1630,8 @@ function calculateMaterials() {
         <tr>
 
             <td>
-                ফুল সেকশন (Middle)
+                ফুল সেকশন
+                (Middle)
             </td>
 
             <td>
@@ -2192,7 +1645,7 @@ function calculateMaterials() {
 
             <td>
                 <strong>
-                    ${totalFullSectionPipes} পিস
+                    ${fullPipes} পিস
                 </strong>
             </td>
 
@@ -2202,11 +1655,13 @@ function calculateMaterials() {
         <tr>
 
             <td>
-                অ্যাঙ্গেল (Angle)
+                অ্যাঙ্গেল
+                (Angle)
             </td>
 
             <td>
-                প্রতি খোপের জয়েন্ট (২" করে)
+                প্রতি খোপের জয়েন্ট
+                (২" করে)
             </td>
 
             <td>
@@ -2216,7 +1671,7 @@ function calculateMaterials() {
 
             <td>
                 <strong>
-                    ${totalAnglePipes} পিস
+                    ${anglePipes} পিস
                 </strong>
             </td>
 
@@ -2225,9 +1680,9 @@ function calculateMaterials() {
     `;
 
 
-    /* =====================================================
+    /* =================================================
        GLASS TABLE
-    ====================================================== */
+    ================================================= */
 
     document.getElementById(
         "glassTable"
@@ -2240,13 +1695,17 @@ function calculateMaterials() {
             </td>
 
             <td>
+
                 <strong>
                     ${totalGlassSqft.toFixed(2)}
                     স্কয়ার ফিট
                 </strong>
 
-                (মোট খোপ:
-                ${totalKhop}টি)
+                (
+                ${totalKhop}
+                টি খোপ
+                )
+
             </td>
 
         </tr>
@@ -2255,7 +1714,8 @@ function calculateMaterials() {
         <tr>
 
             <td>
-                মাস্কিং টেপ (Masking Tape)
+                মাস্কিং টেপ
+                (Masking Tape)
             </td>
 
             <td>
@@ -2265,9 +1725,10 @@ function calculateMaterials() {
                     ফিট
                 </strong>
 
-                (আনুমানিক
-                ${totalMaskingTapeRolls}
-                রোল / ৮০ ফিট)
+                — আনুমানিক
+                ${maskingRolls}
+                রোল
+                / ৮০ ফিট
 
             </td>
 
@@ -2277,7 +1738,8 @@ function calculateMaterials() {
         <tr>
 
             <td>
-                নটেন টেপ (Notan Tape)
+                নটেন টেপ
+                (Notan Tape)
             </td>
 
             <td>
@@ -2287,9 +1749,10 @@ function calculateMaterials() {
                     ফিট
                 </strong>
 
-                (আনুমানিক
-                ${totalNotanTapeRolls}
-                কয়েল / ১০০ ফিট)
+                — আনুমানিক
+                ${notanRolls}
+                কয়েল
+                / ১০০ ফিট
 
             </td>
 
@@ -2299,16 +1762,18 @@ function calculateMaterials() {
         <tr>
 
             <td>
-                সিলিকন গাম (Silicon Gum)
+                সিলিকন গাম
+                (Silicon Gum)
             </td>
 
             <td>
 
                 <strong>
-                    ${totalSilicon} পিস
+                    ${totalSilicon}
+                    পিস
                 </strong>
 
-                (স্কয়ার ফিট ও খোপের হিসাব অনুযায়ী)
+                — স্কয়ার ফিট ও খোপ অনুযায়ী
 
             </td>
 
@@ -2317,9 +1782,9 @@ function calculateMaterials() {
     `;
 
 
-    /* =====================================================
-       ACCESSORIES TABLE
-    ====================================================== */
+    /* =================================================
+       ACCESSORIES
+    ================================================= */
 
     document.getElementById(
         "accTable"
@@ -2337,7 +1802,8 @@ function calculateMaterials() {
 
             <td>
                 <strong>
-                    ${totalClamps} পিস
+                    ${totalClamps}
+                    পিস
                 </strong>
             </td>
 
@@ -2356,7 +1822,8 @@ function calculateMaterials() {
 
             <td>
                 <strong>
-                    ${totalRoyalBolts} পিস
+                    ${totalRoyalBolts}
+                    পিস
                 </strong>
             </td>
 
@@ -2375,7 +1842,8 @@ function calculateMaterials() {
 
             <td>
                 <strong>
-                    ${totalScrews} পিস
+                    ${totalScrews}
+                    পিস
                 </strong>
             </td>
 
@@ -2394,7 +1862,8 @@ function calculateMaterials() {
 
             <td>
                 <strong>
-                    ${totalNutBolts} পিস
+                    ${totalNutBolts}
+                    পিস
                 </strong>
             </td>
 
@@ -2413,7 +1882,8 @@ function calculateMaterials() {
 
             <td>
                 <strong>
-                    ${totalRivets} পিস
+                    ${totalRivets}
+                    পিস
                 </strong>
             </td>
 
@@ -2422,21 +1892,21 @@ function calculateMaterials() {
     `;
 
 
-    /* =====================================================
+    /* =================================================
        SUMMARY
-    ====================================================== */
+    ================================================= */
 
     document.getElementById(
         "summaryHeight"
     ).textContent =
-        displayHeight.toFixed(2) +
+        maxHeight.toFixed(2) +
         " ফিট";
 
 
     document.getElementById(
         "summaryWidth"
     ).textContent =
-        displayWidth.toFixed(2) +
+        totalWidth.toFixed(2) +
         " ফিট";
 
 
@@ -2447,9 +1917,7 @@ function calculateMaterials() {
         " টি";
 
 
-    /* =====================================================
-       SHOW RESULT
-    ====================================================== */
+    /* SHOW */
 
     document.getElementById(
         "resultArea"
@@ -2457,25 +1925,21 @@ function calculateMaterials() {
         "block";
 
 
-    /* =====================================================
-       SAVE HISTORY
-    ====================================================== */
+    /* HISTORY */
 
     saveHistory(dimensions);
 
 
-    /* =====================================================
-       SCROLL RESULT
-    ====================================================== */
+    /* SCROLL */
 
     setTimeout(
-        function () {
+        function(){
 
             document
                 .getElementById("resultArea")
                 .scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
+                    behavior:"smooth",
+                    block:"start"
                 });
 
         },
@@ -2485,11 +1949,11 @@ function calculateMaterials() {
 }
 
 
-/* =========================================================
-   SAVE HISTORY
-========================================================= */
+/* =====================================================
+   HISTORY SAVE
+===================================================== */
 
-function saveHistory(dimensions) {
+function saveHistory(dimensions){
 
     let history =
         JSON.parse(
@@ -2499,7 +1963,7 @@ function saveHistory(dimensions) {
         ) || [];
 
 
-    const item = {
+    history.unshift({
 
         dimensions:
             JSON.parse(
@@ -2511,16 +1975,13 @@ function saveHistory(dimensions) {
                 "bn-BD"
             )
 
-    };
+    });
 
 
-    history.unshift(item);
-
-
-    if (history.length > 10) {
+    if(history.length > 10){
 
         history =
-            history.slice(0, 10);
+            history.slice(0,10);
 
     }
 
@@ -2536,11 +1997,17 @@ function saveHistory(dimensions) {
 }
 
 
-/* =========================================================
-   LOAD HISTORY
-========================================================= */
+/* =====================================================
+   HISTORY LOAD
+===================================================== */
 
-function loadHistory() {
+function loadHistory(){
+
+    const list =
+        document.getElementById(
+            "historyList"
+        );
+
 
     const history =
         JSON.parse(
@@ -2550,28 +2017,22 @@ function loadHistory() {
         ) || [];
 
 
-    const listDiv =
-        document.getElementById(
-            "historyList"
-        );
+    list.innerHTML = "";
 
 
-    listDiv.innerHTML = "";
+    if(history.length === 0){
 
-
-    if (history.length === 0) {
-
-        listDiv.innerHTML = `
+        list.innerHTML = `
 
             <div
                 style="
                     text-align:center;
-                    color:#64748b;
                     padding:20px;
+                    color:#64748b;
                     font-size:14px;
                 ">
 
-                এখনো কোনো হিসাব সেভ করা হয়নি।
+                কোনো পূর্ববর্তী হিসাব নেই।
 
             </div>
 
@@ -2583,7 +2044,7 @@ function loadHistory() {
 
 
     history.forEach(
-        function (item, index) {
+        function(item,index){
 
             const div =
                 document.createElement(
@@ -2595,20 +2056,17 @@ function loadHistory() {
                 "history-item";
 
 
-            /* নতুন format */
-
-            if (
-                item.dimensions &&
+            if(
                 Array.isArray(
                     item.dimensions
                 )
-            ) {
+            ){
 
-                const totalKhop =
+                const khop =
                     item.dimensions.reduce(
-                        function (sum, x) {
+                        function(total,x){
 
-                            return sum +
+                            return total +
                                 (
                                     (x.cols || 0) *
                                     (x.rows || 0)
@@ -2633,7 +2091,7 @@ function loadHistory() {
                     <br>
 
                     মোট খোপ:
-                    ${totalKhop}টি
+                    ${khop}টি
 
                     <br>
 
@@ -2645,7 +2103,7 @@ function loadHistory() {
 
 
                 div.onclick =
-                    function () {
+                    function(){
 
                         loadHistoryItem(
                             item.dimensions
@@ -2653,21 +2111,17 @@ function loadHistory() {
 
                     };
 
-
             }
-
-            /* পুরোনো history format */
-
-            else {
+            else{
 
                 const h =
-                    item.h ||
                     item.height ||
+                    item.h ||
                     0;
 
                 const w =
-                    item.w ||
                     item.width ||
+                    item.w ||
                     0;
 
                 const c =
@@ -2687,37 +2141,25 @@ function loadHistory() {
 
                     <br>
 
-                    হাইট:
-                    ${h} ফিট
-
-                    <br>
-
-                    চওড়া:
-                    ${w} ফিট
+                    ${h} ফিট × ${w} ফিট
 
                     <br>
 
                     খোপ:
                     ${c} × ${r}
 
-                    <br>
-
-                    <small>
-                        ${item.date || ""}
-                    </small>
-
                 `;
 
 
                 div.onclick =
-                    function () {
+                    function(){
 
                         loadHistoryItem([
                             {
-                                height: h,
-                                width: w,
-                                cols: c,
-                                rows: r
+                                height:h,
+                                width:w,
+                                cols:c,
+                                rows:r
                             }
                         ]);
 
@@ -2726,7 +2168,7 @@ function loadHistory() {
             }
 
 
-            listDiv.appendChild(div);
+            list.appendChild(div);
 
         }
     );
@@ -2734,11 +2176,11 @@ function loadHistory() {
 }
 
 
-/* =========================================================
+/* =====================================================
    LOAD HISTORY ITEM
-========================================================= */
+===================================================== */
 
-function loadHistoryItem(dimensions) {
+function loadHistoryItem(dimensions){
 
     const container =
         document.getElementById(
@@ -2748,12 +2190,11 @@ function loadHistoryItem(dimensions) {
 
     container.innerHTML = "";
 
-
     dimensionCounter = 0;
 
 
     dimensions.forEach(
-        function (item) {
+        function(item){
 
             addDimensionBox(
                 item.height || "",
@@ -2769,29 +2210,27 @@ function loadHistoryItem(dimensions) {
     toggleSidebar();
 
 
-    /* Calculate */
-
     calculateMaterials();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    PRINT
-========================================================= */
+===================================================== */
 
-function printInvoice() {
+function printInvoice(){
 
-    const resultArea =
+    const result =
         document.getElementById(
             "resultArea"
         );
 
 
-    if (
-        resultArea.style.display !==
+    if(
+        result.style.display !==
         "block"
-    ) {
+    ){
 
         alert(
             "আগে হিসাব বের করুন, তারপর PDF প্রিন্ট করুন।"

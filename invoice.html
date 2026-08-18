@@ -16,13 +16,17 @@ body {
     background: #e2e8f0;
     color: #111;
 }
+/* কন্টেইনারে ফ্লেক্সবক্স যোগ করা হয়েছে যাতে সিগনেচার সবসময় নিচে থাকে এবং আউটলাইন দেওয়া হয়েছে */
 .container {
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    min-height: 1100px; /* স্ক্রিনে A4 পেজের মত সাইজ */
+    margin: 20px auto;
     background: #fff;
-    padding-bottom: 25px;
     box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #94a3b8; /* সাধারণ অবস্থায় চারপাশের আউটলাইন */
 }
 
 /* ব্লু কালারের হেডার একদম চিকন ও ওপরের দিকে */
@@ -47,24 +51,26 @@ body {
     font-weight: 900;
 }
 
+/* ইনভয়েস নাম্বারের স্পেস কমানো হয়েছে */
 .bill-number-box {
     position: relative;
     z-index: 5;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px; /* স্পেস কমিয়ে দেওয়া হলো */
     color: #fff;
-    font-size: 12px;
+    font-size: 13px;
 }
 .bill-number-box input {
-    width: 100px;
+    width: 95px;
     border: none;
     background: transparent;
     color: #fff;
     outline: none;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 900;
-    text-align: right;
+    text-align: left; /* বামে এলাইন করা হলো যাতে NO: এর সাথে লেগে থাকে */
+    padding-left: 2px;
 }
 
 /* দোকানের নাম সুন্দর বড় ফন্টে নীল রঙে */
@@ -75,7 +81,7 @@ body {
 }
 .shop-name {
     display: inline-block;
-    font-size: 24px;
+    font-size: 38px; /* ফন্ট সাইজ আরও বড় করা হয়েছে */
     font-weight: 900;
     color: #0c59a4;
     background: transparent;
@@ -87,7 +93,7 @@ body {
 }
 .shop-subtitle {
     color: #475569;
-    font-size: 10px;
+    font-size: 11px;
     margin-top: 2px;
 }
 
@@ -118,6 +124,9 @@ body {
     background: transparent;
     color: #111;
     font-weight: 700;
+}
+.bill-info textarea {
+    resize: none;
 }
 .bill-from input, .bill-from textarea {
     text-align: right;
@@ -263,7 +272,7 @@ body {
     justify-content: space-between;
     align-items: flex-end;
     padding: 0 25px;
-    margin-top: 25px;
+    margin-top: 15px;
 }
 .payment-info {
     width: 50%;
@@ -289,17 +298,34 @@ body {
     background: transparent;
     font-size: 11px;
 }
-.thank-you {
-    width: 40%;
-    text-align: right;
-    font-size: 24px;
+
+/* নতুন সিগনেচার সেকশন একেবারে নিচে */
+.signature-section {
+    margin-top: auto; /* কন্টেইনারের একেবারে নিচে পুশ করবে */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 30px 25px 40px 25px;
+}
+.sig-box {
+    width: 200px;
+    text-align: center;
+    font-size: 12px;
+}
+.sig-line {
+    border-top: 1px solid #111;
+    margin-bottom: 5px;
+}
+.thank-you-text {
+    font-size: 22px;
     color: #0d5aa7;
     font-weight: 900;
+    margin-bottom: 30px; /* সিগনেচারের লাইনের উপরে জায়গা */
 }
 
 .action-buttons {
     text-align: center;
-    margin-top: 25px;
+    margin-bottom: 40px;
 }
 .btn-print {
     background: #1d4ed8;
@@ -312,10 +338,23 @@ body {
     font-weight: 900;
 }
 
+/* প্রিন্ট মিডিয়া স্টাইল */
 @media print {
-    @page { size: A4 portrait; margin: 8mm; }
+    @page { 
+        size: A4 portrait; 
+        margin: 5mm; /* মার্জিন কমানো হয়েছে যাতে আউটলাইন ঠিকমতো বসে */
+    }
     body { background: #fff; padding: 0; }
-    .container { box-shadow: none; max-width: 100%; padding: 0; margin: 0; }
+    
+    .container { 
+        box-shadow: none; 
+        max-width: 100%; 
+        padding: 0; 
+        margin: 0; 
+        border: 2px solid #000; /* প্রিন্টের সময় পেজের চারপাশে কালো আউটলাইন */
+        height: 286mm; /* A4 পেজের ফিক্সড হাইট, যাতে নিচের সিগনেচার ঠিকমতো বসে */
+    }
+    
     .action-buttons, .btn-add, .no-print, .btn-del { display: none !important; }
     
     .invoice-header, .invoice-table th, .total-box { 
@@ -345,13 +384,13 @@ body {
         <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
     </div>
 
-    <!-- বিল টু এবং ফ্রম (এডিটেবল) -->
+    <!-- বিল টু এবং ফ্রম (ডিফল্ট ঘর ফাঁকা রাখা হয়েছে) -->
     <div class="bill-info">
         <div class="bill-to">
             <h3>Bill To:</h3>
-            <input type="text" id="custName" value="RM COMPUTER">
-            <input type="text" id="custMobile" value="01712345678">
-            <textarea id="custAddress" rows="2">পাবনা</textarea>
+            <input type="text" id="custName" value="" placeholder="Customer Name">
+            <input type="text" id="custMobile" value="" placeholder="Mobile Number">
+            <textarea id="custAddress" rows="2" placeholder="Address"></textarea>
         </div>
         <div class="bill-from">
             <h3>From:</h3>
@@ -403,7 +442,20 @@ body {
             <div class="payment-row"><strong>No Bank:</strong> <input type="text" value="123-456-7890"></div>
             <div class="payment-row"><strong>Email:</strong> <input type="text" value="reallygreatsite.com"></div>
         </div>
-        <div class="thank-you">Thank You!</div>
+    </div>
+
+    <!-- সিগনেচার এবং Thank You সেকশন (একেবারে নিচে) -->
+    <div class="signature-section">
+        <div class="sig-box">
+            <div class="sig-line"></div>
+            <div>Customer Signature</div>
+        </div>
+        
+        <div class="sig-box">
+            <div class="thank-you-text">Thank You!</div>
+            <div class="sig-line"></div>
+            <div>Authorized Signature</div>
+        </div>
     </div>
 
 </div>
@@ -420,7 +472,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const yyyy = today.getFullYear();
     document.getElementById("billDate").value = dd + "-" + mm + "-" + yyyy;
 
-    addInvoiceRow("স্লাইডিং জানালা, ৪.৫*৫", 1, 445, "");
+    // ডিফল্টভাবে একটি ফাঁকা রো যোগ করা হবে
     addInvoiceRow("", 1, "", "");
 });
 
@@ -428,10 +480,10 @@ function addInvoiceRow(description = "", qty = 1, rate = "", sqft = "") {
     const tbody = document.getElementById("invoiceTableBody");
     const tr = document.createElement("tr");
     tr.innerHTML = `
-        <td><textarea class="item-description" placeholder="Description & Size..." oninput="autoExtractSize(this)">${description}</textarea></td>
+        <td><textarea class="item-description" placeholder="Description & Size (e.g. 5.0*4)..." oninput="autoExtractSize(this)">${description}</textarea></td>
         <td><input type="number" class="item-qty" value="${qty}" min="0" step="0.01" oninput="calculateRow(this)"></td>
         <td><input type="number" class="item-rate" value="${rate}" min="0" step="0.01" placeholder="Rate" oninput="calculateRow(this)"></td>
-        <td><input type="number" class="item-sqft" value="${sqft}" min="0" step="0.01" placeholder="Auto" oninput="calculateRow(this)"></td>
+        <td><input type="number" class="item-sqft" value="${sqft}" min="0" step="0.01" placeholder="Auto Sqft" oninput="calculateRow(this)"></td>
         <td><input type="text" class="item-amount" value="0.00" readonly></td>
         <td class="no-print"><button type="button" class="btn-del" onclick="removeInvoiceRow(this)">X</button></td>
     `;
@@ -439,8 +491,16 @@ function addInvoiceRow(description = "", qty = 1, rate = "", sqft = "") {
     autoExtractSize(tr.querySelector(".item-description"));
 }
 
+// বাংলা সংখ্যাকে ইংরেজিতে রূপান্তর করার ফাংশন (যাতে বাংলা সাইজ লিখলেও হিসাব হয়)
+function convertBnToEnNum(str) {
+    return str.replace(/[০-৯]/g, function(d) {
+        return "০১২৩৪৫৬৭৮৯".indexOf(d);
+    });
+}
+
 function autoExtractSize(textarea) {
-    const text = textarea.value;
+    // বাংলা সংখ্যা টাইপ করলেও যাতে কাজ করে তার জন্য কনভার্ট করা হচ্ছে
+    const text = convertBnToEnNum(textarea.value); 
     const regex = /(\d+(?:\.\d+)?)\s*[\*x×]\s*(\d+(?:\.\d+)?)/i;
     const match = text.match(regex);
     

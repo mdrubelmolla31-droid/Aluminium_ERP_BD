@@ -167,21 +167,23 @@ body {
 }
 
 .header-main-title {
-    font-size: clamp(28px, 5vw, 48px);
+    font-size: clamp(22px, 4vw, 38px);
 
-    line-height: 1.05;
+    line-height: 1.1;
 
     font-weight: 900;
 
     letter-spacing: 0.5px;
 
-    white-space: nowrap;
+    white-space: normal;
+    
+    text-transform: uppercase;
 }
 
 .header-sub-title {
-    margin-top: 12px;
+    margin-top: 8px;
 
-    font-size: clamp(17px, 3vw, 28px);
+    font-size: clamp(14px, 2.5vw, 22px);
 
     line-height: 1.15;
 
@@ -598,13 +600,13 @@ body {
 }
 
 /* =========================================================
-   TABLE
+   TABLE (100% FIT - NO HORIZONTAL SCROLL)
 ========================================================= */
 
 .table-wrap {
     width: 100%;
 
-    overflow-x: auto;
+    overflow: hidden;
 
     border-left: 1px solid #cbd5e1;
     border-right: 1px solid #cbd5e1;
@@ -618,7 +620,9 @@ body {
 table {
     width: 100%;
 
-    min-width: 600px;
+    min-width: 0; /* স্ক্রল রোধ করতে min-width ১০০% স্ক্রিনে ফিট করা হলো */
+
+    table-layout: auto;
 
     border-collapse: collapse;
 
@@ -631,15 +635,19 @@ th,
 td {
     border: 1px solid #cbd5e1;
 
-    padding: 11px 8px;
+    padding: 9px 5px;
 
     text-align: center;
 
-    font-size: 15px;
+    font-size: 13.5px;
 
-    line-height: 1.4;
+    line-height: 1.35;
 
     color: #111827;
+
+    word-break: break-word; /* লম্বা শব্দ নিজে থেকেই ভেঙ্গে নিচে চলে আসবে */
+
+    white-space: normal;
 }
 
 th {
@@ -648,8 +656,6 @@ th {
     color: #111827;
 
     font-weight: 900;
-
-    white-space: nowrap;
 }
 
 td strong {
@@ -795,15 +801,15 @@ tbody tr:nth-child(even) {
     }
 
     .header-main-title {
-        font-size: 25px;
+        font-size: 20px;
 
         white-space: normal;
     }
 
     .header-sub-title {
-        font-size: 14px;
+        font-size: 13px;
 
-        margin-top: 7px;
+        margin-top: 5px;
 
         letter-spacing: 0.3px;
     }
@@ -859,16 +865,16 @@ tbody tr:nth-child(even) {
     }
 
     .result-title {
-        font-size: 16px;
+        font-size: 15px;
 
         padding: 10px 11px;
     }
 
     th,
     td {
-        font-size: 14px;
+        font-size: 12px;
 
-        padding: 9px 6px;
+        padding: 7px 4px;
     }
 
     .total-summary {
@@ -889,7 +895,7 @@ tbody tr:nth-child(even) {
 @media (max-width: 420px) {
 
     .header-main-title {
-        font-size: 21px;
+        font-size: 18px;
     }
 
     .header-sub-title {
@@ -914,12 +920,13 @@ tbody tr:nth-child(even) {
 
     th,
     td {
-        font-size: 13px;
+        font-size: 11px;
+        padding: 6px 3px;
     }
 }
 
 /* =========================================================
-   PRINT / PDF
+   PRINT / PDF (HD CLEAR PRINT)
 ========================================================= */
 
 @media print {
@@ -927,7 +934,7 @@ tbody tr:nth-child(even) {
     @page {
         size: A4 portrait;
 
-        margin: 7mm;
+        margin: 6mm;
     }
 
     html,
@@ -969,20 +976,27 @@ tbody tr:nth-child(even) {
     .sidebar,
     .action-buttons,
     .add-box-area,
-    .remove-box-btn {
+    .remove-box-btn,
+    .total-summary {
         display: none !important;
     }
 
     .invoice-header {
         min-height: auto !important;
 
-        margin-bottom: 7px !important;
+        margin-bottom: 8px !important;
 
-        padding: 10px 12px !important;
+        padding: 12px 15px !important;
 
-        border-radius: 5px !important;
+        border-radius: 6px !important;
 
         box-shadow: none !important;
+
+        background: #123a8c !important;
+
+        -webkit-print-color-adjust: exact !important;
+
+        print-color-adjust: exact !important;
     }
 
     .header-top {
@@ -994,33 +1008,51 @@ tbody tr:nth-child(even) {
     }
 
     .header-main-title {
-        font-size: 20px !important;
+        font-size: 16pt !important;
 
-        white-space: nowrap !important;
+        white-space: normal !important;
+
+        color: #ffffff !important;
     }
 
     .header-sub-title {
-        font-size: 10px !important;
+        font-size: 9pt !important;
 
         margin-top: 4px !important;
+
+        color: #ffffff !important;
     }
 
     .shop-details {
-        margin-top: 6px !important;
+        margin-top: 8px !important;
 
-        gap: 5px !important;
+        gap: 8px !important;
+
+        grid-template-columns: 1fr 1fr !important;
     }
 
     .shop-details input {
-        height: 25px !important;
+        height: auto !important;
 
-        padding: 2px 6px !important;
+        padding: 4px 8px !important;
 
-        font-size: 9px !important;
+        font-size: 10.5pt !important;
+
+        font-weight: bold !important;
 
         border-radius: 3px !important;
 
         border: none !important;
+
+        background: rgba(255, 255, 255, 0.2) !important;
+
+        color: #ffffff !important;
+
+        text-align: center !important;
+
+        -webkit-print-color-adjust: exact !important;
+
+        print-color-adjust: exact !important;
     }
 
     .result-section {
@@ -1028,11 +1060,15 @@ tbody tr:nth-child(even) {
     }
 
     .result-title {
-        margin-top: 7px !important;
+        margin-top: 8px !important;
 
-        padding: 5px 7px !important;
+        padding: 5px 8px !important;
 
-        font-size: 10px !important;
+        font-size: 10.5pt !important;
+
+        background: #1557c0 !important;
+
+        color: #ffffff !important;
 
         border-radius: 3px 3px 0 0 !important;
 
@@ -1045,6 +1081,8 @@ tbody tr:nth-child(even) {
         overflow: visible !important;
 
         border-radius: 0 !important;
+
+        border: none !important;
     }
 
     table {
@@ -1055,49 +1093,25 @@ tbody tr:nth-child(even) {
 
     th,
     td {
-        padding: 4px 3px !important;
+        padding: 5px 4px !important;
 
-        font-size: 8.5px !important;
+        font-size: 9.5pt !important;
 
-        line-height: 1.25 !important;
+        line-height: 1.3 !important;
 
-        border: 1px solid #b8c1cc !important;
+        border: 1px solid #000000 !important;
+
+        color: #000000 !important;
+
+        word-break: break-word !important;
     }
 
     th {
-        background: #f1f5f9 !important;
+        background: #e2e8f0 !important;
 
         -webkit-print-color-adjust: exact !important;
 
         print-color-adjust: exact !important;
-    }
-
-    .total-summary {
-        margin-top: 7px !important;
-
-        gap: 5px !important;
-
-        grid-template-columns: repeat(3, 1fr) !important;
-    }
-
-    .summary-card {
-        padding: 5px !important;
-
-        border-radius: 3px !important;
-    }
-
-    .summary-label {
-        font-size: 7px !important;
-    }
-
-    .summary-value {
-        font-size: 11px !important;
-    }
-
-    input {
-        border: none !important;
-
-        background: transparent !important;
     }
 }
 
@@ -1153,7 +1167,7 @@ tbody tr:nth-child(even) {
             <div class="header-title-area">
 
                 <div class="header-main-title">
-                    RM THAI ALUMINIUM
+                    CURTAIN WALL CALCULATION CALCULATOR
                 </div>
 
                 <div class="header-sub-title">
@@ -1256,13 +1270,13 @@ tbody tr:nth-child(even) {
 
                     <tr>
 
-                        <th>মালের নাম</th>
+                        <th style="width: 25%;">মালের নাম</th>
 
-                        <th>বিবরণ</th>
+                        <th style="width: 35%;">বিবরণ</th>
 
-                        <th>টোটাল রানিং ফিট</th>
+                        <th style="width: 20%;">টোটাল রানিং ফিট</th>
 
-                        <th>পিস (২১ ফিট)</th>
+                        <th style="width: 20%;">পিস (২১ ফিট)</th>
 
                     </tr>
 
@@ -1291,9 +1305,9 @@ tbody tr:nth-child(even) {
 
                     <tr>
 
-                        <th>বিবরণ</th>
+                        <th style="width: 45%;">বিবরণ</th>
 
-                        <th>মোট স্কয়ার ফিট / পরিমাণ</th>
+                        <th style="width: 55%;">মোট স্কয়ার ফিট / পরিমাণ</th>
 
                     </tr>
 
@@ -1322,11 +1336,11 @@ tbody tr:nth-child(even) {
 
                     <tr>
 
-                        <th>উপাদানের নাম</th>
+                        <th style="width: 30%;">উপাদানের নাম</th>
 
-                        <th>হিসাবের বিবরণ</th>
+                        <th style="width: 45%;">হিসাবের বিবরণ</th>
 
-                        <th>মোট পরিমাণ</th>
+                        <th style="width: 25%;">মোট পরিমাণ</th>
 
                     </tr>
 
@@ -1340,10 +1354,10 @@ tbody tr:nth-child(even) {
 
 
         <!-- =================================================
-             SUMMARY
+             SUMMARY (প্রিন্ট থেকে বাদ দেওয়ার জন্য no-print ক্লাস)
         ================================================== -->
 
-        <div class="total-summary">
+        <div class="total-summary no-print">
 
             <div class="summary-card">
 
@@ -1847,7 +1861,6 @@ function calculateMaterials() {
 
     /* =====================================================
        CALCULATE EACH BOX
-       ORIGINAL FORMULA KEPT
     ===================================================== */
 
     dimensions.forEach(
@@ -2595,8 +2608,6 @@ function loadHistory() {
                 "history-item";
 
 
-            /* নতুন format */
-
             if (
                 item.dimensions &&
                 Array.isArray(
@@ -2655,8 +2666,6 @@ function loadHistory() {
 
 
             }
-
-            /* পুরোনো history format */
 
             else {
 
@@ -2768,8 +2777,6 @@ function loadHistoryItem(dimensions) {
 
     toggleSidebar();
 
-
-    /* Calculate */
 
     calculateMaterials();
 

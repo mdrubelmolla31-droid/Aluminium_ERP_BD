@@ -98,7 +98,7 @@ body {
     margin-top: 2px;
 }
 
-/* বিল টু এবং ফ্রম - এখন আর নিচে যাবে না, পাশাপাশি থাকবে */
+/* বিল টু এবং ফ্রম - পাশাপাশি থাকবে */
 .bill-info {
     display: flex;
     justify-content: space-between;
@@ -106,7 +106,7 @@ body {
     margin: 10px 0 10px 0;
 }
 .bill-to, .bill-from {
-    width: 48%; /* জায়গা একটু বাড়িয়ে দেওয়া হয়েছে */
+    width: 48%; 
 }
 .bill-from {
     text-align: right;
@@ -339,29 +339,35 @@ body {
     font-weight: 900;
 }
 
-/* প্রিন্ট মিডিয়া স্টাইল - ১০০% ফিক্সড এক পেজ (Single Page Issue Fixed Completely) */
+/* প্রিন্ট মিডিয়া স্টাইল - ১০০% ফিক্সড এক পেজ */
 @media print {
     @page { 
         size: A4 portrait; 
-        margin: 5mm; 
+        margin: 0; /* ব্রাউজারের অটোমেটিক মার্জিন পুরোপুরি জিরো করে দিলাম */
     }
     body { 
         background: #fff; 
         padding: 0; 
         margin: 0;
+        height: 100vh; /* বডি ১০০% হাইটে লক */
     }
     
     .container { 
         box-shadow: none; 
         max-width: 100%; 
-        padding: 0; 
+        width: 100%;
         margin: 0; 
+        padding: 15px; /* ভেতরের লেখা যাতে পেজের একদম কোণায় না যায় তাই সামান্য প্যাডিং */
         border: 2px solid #000; 
-        height: 275mm; /* A4 পেজের মাপ অনুযায়ী হাইট কমানো হয়েছে যাতে কোনোভাবেই পরের পেজে না যায় */
-        max-height: 275mm;
+        
+        /* কন্টেইনারকে ঠিক একটি পেজের মাপে (100vh) আটকে রাখা হলো */
+        height: 100vh !important; 
+        min-height: 100vh !important; 
+        max-height: 100vh !important; 
+        
+        overflow: hidden; /* কোনো লেখা পেজের বাইরে গেলে তা ডাবল পেজ না করে লুকিয়ে ফেলবে */
+        page-break-after: avoid; 
         page-break-inside: avoid;
-        page-break-after: avoid;
-        overflow: hidden; 
     }
     
     .action-buttons, .btn-add, .no-print, .btn-del { display: none !important; }

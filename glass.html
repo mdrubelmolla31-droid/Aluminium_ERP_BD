@@ -9,29 +9,23 @@
       --bg-color: #f1f5f9;
       --card-bg: #ffffff;
       --accent: #2563eb;
-      --accent-hover: #1d4ed8;
+      --header-bg: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
       --text: #0f172a;
       --border: #cbd5e1;
-      --input-bg: #ffffff;
-      --header-bg: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
     }
     *, *::before, *::after {
       box-sizing: border-box;
     }
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
+      padding: 12px;
       background-color: var(--bg-color);
       color: var(--text);
       font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
     }
-    body {
-      padding: 12px;
-    }
     .main-container {
-      max-width: 950px;
+      max-width: 900px;
       margin: 0 auto;
-      width: 100%;
     }
 
     /* ================= HEADER STYLE ================= */
@@ -40,7 +34,7 @@
       padding: 16px;
       border-radius: 12px;
       margin-bottom: 15px;
-      box-shadow: 0 4px 15px rgba(20, 70, 160, 0.2);
+      box-shadow: 0 4px 15px rgba(30, 58, 138, 0.25);
       color: #ffffff;
     }
     
@@ -48,15 +42,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       border-bottom: 1px solid rgba(255,255,255,0.2);
       padding-bottom: 10px;
     }
     
     .menu-btn {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
       border: 1px solid rgba(255,255,255,0.35);
       border-radius: 8px;
       background: rgba(255,255,255,0.18);
@@ -66,6 +59,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .header-title {
@@ -73,18 +67,18 @@
       text-align: center;
       font-weight: 900;
       font-size: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 0 10px;
+      letter-spacing: 0.5px;
+      color: #ffffff;
     }
 
     .date-display {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       background: rgba(255,255,255,0.2);
-      padding: 4px 10px;
+      padding: 5px 10px;
       border-radius: 6px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .shop-details {
@@ -96,24 +90,21 @@
 
     .editable-input {
       width: 100%;
-      height: 40px;
+      height: 42px;
       padding: 6px 12px;
       border: none;
       border-radius: 6px;
       background: rgba(255,255,255,0.95);
-      color: #111827;
-      font-size: 16px;
-      font-weight: 800;
+      color: #0f172a;
+      font-size: 18px;
+      font-weight: 900;
       text-align: center;
       outline: none;
-      transition: all 0.3s ease;
     }
-    .editable-input:focus {
-      background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    #shopPhone {
+      font-size: 16px;
     }
 
-    /* Floor & Unit Section */
     .floor-unit-box {
       display: flex;
       gap: 8px;
@@ -124,7 +115,7 @@
       padding: 10px;
       background: rgba(255,255,255,0.95);
       border: none;
-      color: #111827;
+      color: #0f172a;
       border-radius: 6px;
       font-size: 14px;
       font-weight: 800;
@@ -140,7 +131,7 @@
       width: 320px; height: 100%;
       background: #ffffff;
       border-right: 1px solid var(--border);
-      box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+      box-shadow: 4px 0 15px rgba(0,0,0,0.15);
       transition: 0.3s;
       padding: 15px;
       z-index: 1000;
@@ -151,9 +142,8 @@
       background: #ef4444; 
       color: #fff; 
       border: none; 
-      padding: 5px 10px; 
+      padding: 6px 12px; 
       border-radius: 6px; 
-      float: right; 
       font-size: 12px; 
       cursor: pointer; 
       font-weight: bold; 
@@ -170,11 +160,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
     }
     .history-date {
       color: var(--accent);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
     }
     .history-actions {
@@ -185,25 +174,12 @@
       background: transparent;
       border: none;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
       padding: 2px 6px;
       border-radius: 4px;
     }
     .btn-reopen { color: #2563eb; border: 1px solid #2563eb; }
     .btn-delete-item { color: #ef4444; border: 1px solid #ef4444; }
-    
-    .clear-all-btn {
-      background: #ef4444;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      border-radius: 6px;
-      width: 100%;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 10px;
-      font-weight: bold;
-    }
 
     /* ================= INPUT SECTION ================= */
     .window-row {
@@ -215,37 +191,28 @@
       gap: 10px;
       align-items: center;
       border: 1px solid var(--border);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
     .window-row input {
       flex: 1;
-      min-width: 0;
       padding: 12px 8px;
       border-radius: 8px;
       border: 2px solid var(--border);
-      background: var(--input-bg);
-      color: var(--text);
       font-size: 18px;
       font-weight: bold;
       text-align: center;
       outline: none;
     }
-    .window-row input:focus {
-      border-color: var(--accent);
-    }
+    .window-row input:focus { border-color: var(--accent); }
     .delete-row-btn {
       background: #ef4444;
       color: #fff;
       border: none;
       border-radius: 8px;
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       font-size: 20px;
       font-weight: bold;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       flex-shrink: 0;
     }
 
@@ -261,26 +228,23 @@
       width: 100%;
       margin-top: 10px;
       font-size: 16px;
-      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
     }
-    .btn-add { background: #10b981; color: #fff; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2); }
-    .btn-pdf { background: #ef4444; color: #fff; margin-top: 10px; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); }
+    .btn-add { background: #10b981; }
+    .btn-pdf { background: #dc2626; margin-top: 15px; }
 
-    /* ================= RESULTS CARDS (Replaced Table) ================= */
+    /* ================= SCREEN UI CARDS ================= */
     .results-container {
       margin-top: 20px;
       background: var(--card-bg);
       border-radius: 10px;
       border: 1px solid var(--border);
       padding: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
     .result-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 15px;
     }
 
     .result-card {
@@ -301,8 +265,8 @@
     .sn-badge {
       background: var(--accent);
       color: #fff;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -310,21 +274,19 @@
       font-weight: bold;
       margin-right: 12px;
       flex-shrink: 0;
-      font-size: 14px;
     }
 
     .glass-size-text {
       font-size: 18px;
       font-weight: 900;
       color: #1d4ed8;
-      line-height: 1.3;
     }
 
     .result-options {
       display: grid;
       grid-template-columns: 1fr 1.5fr 1fr;
       gap: 8px;
-      padding: 10px 12px;
+      padding: 10px;
       background: #f1f5f9;
     }
 
@@ -336,82 +298,160 @@
       font-size: 14px;
       font-weight: bold;
       text-align: center;
-      text-align-last: center;
       outline: none;
       background: #fff;
-      color: #0f172a;
-      cursor: pointer;
+    }
+
+    /* Hidden element for print table in normal screen view */
+    .print-only-container {
+      display: none;
     }
 
     /* ========================================================= */
-    /* PRINT DESIGN WITH CURRENT DATE */
+    /* PERFECT PRINT & PDF STYLING */
     /* ========================================================= */
     @media print {
-      @page { size: A4 portrait; margin: 0; }
+      @page {
+        size: A4 portrait;
+        margin: 12mm 10mm;
+      }
+
       html, body {
-        width: 210mm; height: 297mm; margin: 0 !important; padding: 0 !important;
-        background: #ffffff !important; color: #000000 !important; overflow: hidden !important;
-      }
-      body {
-        border: 8px double #002366 !important; box-sizing: border-box !important; padding: 8mm !important;
-      }
-      .main-container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
-      .print-wrapper {
-        border: 3px double #0088cc !important; border-radius: 8px !important; padding: 16px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-family: Arial, sans-serif !important;
       }
 
-      .header-card {
-        background: transparent !important; border: none !important; box-shadow: none !important;
-        padding: 0 0 10px 0 !important; margin-bottom: 10px !important; color: #000 !important;
-      }
-      .menu-btn, .header-title { display: none !important; }
-      
-      .editable-input {
-        background: transparent !important; color: #0088cc !important; font-size: 24px !important;
-        font-weight: 900 !important; padding: 0 !important; height: auto !important;
-      }
-      #shopPhone { font-size: 20px !important; color: #000000 !important; }
-      
-      .date-display {
-        font-size: 16px !important; color: #000000 !important; font-weight: 900 !important;
-        background: transparent !important; text-align: right; padding: 0 !important;
-      }
-
-      .floor-unit-box {
-        border-top: 1.5px dotted #0088cc !important; padding-top: 8px !important; margin-top: 8px !important;
-      }
-      .floor-unit-box select {
-        background: transparent !important; border: none !important; color: #000000 !important;
-        font-size: 18px !important; font-weight: 900 !important; padding: 0 !important;
-        appearance: none; -webkit-appearance: none;
-      }
-
-      #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn, .btn-pdf {
+      /* Hide screen-only controls */
+      .menu-btn, 
+      #windowsContainer, 
+      .btn-add, 
+      .btn, 
+      .sidebar, 
+      .delete-row-btn, 
+      .btn-pdf,
+      .screen-cards-view {
         display: none !important;
       }
 
-      .results-container {
-        display: block !important; background: transparent !important; border: none !important;
-        box-shadow: none !important; margin-top: 0 !important; padding: 0 !important; width: 100% !important;
+      .main-container {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
 
-      .result-list { gap: 8px !important; }
-      .result-card { 
-        border: 2px solid #0088cc !important; background: transparent !important; page-break-inside: avoid;
+      .results-container {
+        border: none !important;
+        padding: 0 !important;
+        margin-top: 0 !important;
       }
-      .result-card-header {
-        background: #ffffff !important; border-bottom: 1.5px dotted #0088cc !important; padding: 8px 12px !important;
+
+      /* Prominent Blue Print Header */
+      .header-card {
+        background: #1e3a8a !important; /* Dark Blue */
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        padding: 18px !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
-      .sn-badge {
-        background: #0088cc !important; color: #fff !important;
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+
+      .header-top {
+        border-bottom: 1px solid rgba(255,255,255,0.3) !important;
+        padding-bottom: 8px !important;
+        margin-bottom: 12px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
       }
-      .glass-size-text { color: #000000 !important; font-size: 20px !important; }
-      
-      .result-options { background: transparent !important; padding: 8px 12px !important; }
-      .card-select {
-        border: 1px solid #0088cc !important; background: transparent !important; color: #000000 !important;
-        font-size: 16px !important; appearance: none; -webkit-appearance: none; padding: 4px !important;
+
+      .header-title {
+        color: #ffffff !important;
+        font-size: 22px !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+      }
+
+      .date-display {
+        color: #ffffff !important;
+        background: rgba(255,255,255,0.2) !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        padding: 4px 10px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .editable-input {
+        background: transparent !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-size: 26px !important; /* Big shop name */
+        font-weight: 900 !important;
+        height: auto !important;
+        padding: 2px 0 !important;
+      }
+
+      #shopPhone {
+        font-size: 20px !important; /* Big phone number */
+        font-weight: 800 !important;
+      }
+
+      .print-floor-unit {
+        margin-top: 10px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        color: #ffffff !important;
+        border-top: 1px dashed rgba(255,255,255,0.3) !important;
+        padding-top: 6px !important;
+      }
+
+      .floor-unit-box {
+        display: none !important; /* Screen dropdowns hidden in print */
+      }
+
+      /* Show Print Table */
+      .print-only-container {
+        display: block !important;
+        width: 100% !important;
+      }
+
+      .print-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-top: 5px !important;
+      }
+
+      .print-table th {
+        background: #1e3a8a !important;
+        color: #ffffff !important;
+        padding: 10px 6px !important;
+        font-size: 15px !important;
+        font-weight: bold !important;
+        border: 1px solid #1e3a8a !important;
+        text-align: center !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .print-table td {
+        padding: 10px 6px !important;
+        font-size: 15px !important;
+        font-weight: bold !important;
+        border: 1px solid #cbd5e1 !important;
+        text-align: center !important;
+        color: #000000 !important;
+      }
+
+      .print-table tr:nth-child(even) td {
+        background: #f8fafc !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
     }
   </style>
@@ -419,69 +459,89 @@
 <body>
 
   <div class="main-container">
-    <div class="print-wrapper">
-      <!-- History Sidebar -->
-      <div id="sidebar" class="sidebar">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="color: var(--accent); margin: 0; font-weight: 900;">সম্পূর্ণ হিস্টরি</h3>
-            <button class="close-btn" onclick="toggleHistory()">✕ বন্ধ</button>
-        </div>
-        <hr style="border-color: var(--border); margin-bottom: 15px;">
-        <div id="historyContent">কোনো হিস্টরি পাওয়া যায়নি।</div>
+    <!-- History Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h3 style="color: var(--accent); margin: 0; font-weight: 900;">সম্পূর্ণ হিস্টরি</h3>
+        <button class="close-btn" onclick="toggleHistory()">✕ বন্ধ</button>
       </div>
+      <hr style="border-color: var(--border); margin-bottom: 15px;">
+      <div id="historyContent">কোনো হিস্টরি পাওয়া যায়নি।</div>
+    </div>
 
-      <!-- Header Section -->
-      <div class="header-card">
-        <div class="header-top">
-          <button class="menu-btn" onclick="toggleHistory()">☰</button>
-          <span class="header-title">গ্লাস কাটিং সাইজ</span>
-          <div id="currentDate" class="date-display"></div>
-        </div>
+    <!-- Header Section -->
+    <div class="header-card">
+      <div class="header-top">
+        <button class="menu-btn" onclick="toggleHistory()">☰</button>
+        <div class="header-title">গ্লাস কাটিং সাইজ</div>
+        <div id="currentDate" class="date-display"></div>
+      </div>
+      
+      <div class="shop-details">
+        <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveCurrentFormState()">
+        <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveCurrentFormState()">
+      </div>
+      
+      <!-- Floor and Unit Dropdowns -->
+      <div class="floor-unit-box">
+        <select id="floorSelect" onchange="saveCurrentFormState(); updatePrintFloorText();">
+          <option value="">তলা সিলেক্ট করুন</option>
+          <option value="নিচ তলা">নিচ তলা</option>
+          <option value="১ম তলা">১ম তলা</option>
+          <option value="২য় তলা">২য় তলা</option>
+          <option value="৩য় তলা">৩য় তলা</option>
+          <option value="৪র্থ তলা">৪র্থ তলা</option>
+          <option value="৫ম তলা">৫ম তলা</option>
+          <option value="৬ষ্ঠ তলা">৬ষ্ঠ তলা</option>
+          <option value="৭ম তলা">৭ম তলা</option>
+          <option value="৮ম তলা">৮ম তলা</option>
+          <option value="৯ম তলা">৯ম তলা</option>
+          <option value="১০ম তলা">১০ম তলা</option>
+        </select>
         
-        <div class="shop-details">
-          <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveCurrentFormState()">
-          <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveCurrentFormState()">
-        </div>
-        
-        <!-- Floor and Unit Dropdowns -->
-        <div class="floor-unit-box">
-          <select id="floorSelect" onchange="saveCurrentFormState()">
-            <option value="">তলা সিলেক্ট করুন</option>
-            <option value="নিচ তলা">নিচ তলা</option>
-            <option value="১ম তলা">১ম তলা</option>
-            <option value="২য় তলা">২য় তলা</option>
-            <option value="৩য় তলা">৩য় তলা</option>
-            <option value="৪র্থ তলা">৪র্থ তলা</option>
-            <option value="৫ম তলা">৫ম তলা</option>
-            <option value="৬ষ্ঠ তলা">৬ষ্ঠ তলা</option>
-            <option value="৭ম তলা">৭ম তলা</option>
-            <option value="৮ম তলা">৮ম তলা</option>
-            <option value="৯ম তলা">৯ম তলা</option>
-            <option value="১০ম তলা">১০ম তলা</option>
-          </select>
-          
-          <select id="unitSelect" onchange="saveCurrentFormState()">
-            <option value="">ইউনিট</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
-            <option value="E">E</option>
-          </select>
-        </div>
+        <select id="unitSelect" onchange="saveCurrentFormState(); updatePrintFloorText();">
+          <option value="">ইউনিট</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+          <option value="E">E</option>
+        </select>
       </div>
 
-      <!-- Dynamic Input Windows -->
-      <div id="windowsContainer"></div>
+      <!-- Text version for Print Header -->
+      <div id="printFloorText" class="print-floor-unit" style="display:none;"></div>
+    </div>
 
-      <button class="btn btn-add" onclick="addWindow()">+ আরও উইন্ডো যোগ করুন</button>
-      <button class="btn" onclick="calculateGlass()">গ্লাস কাটিং সাইজ বের করুন</button>
+    <!-- Window Input Rows -->
+    <div id="windowsContainer"></div>
 
-      <!-- New Results Container (Card Style) -->
-      <div class="results-container" id="resultContainer" style="display:none;">
-        <div class="result-list" id="glassResultCards"></div>
-        <button class="btn btn-pdf" onclick="downloadPDF()">PDF ডাউনলোড / প্রিন্ট</button>
+    <button class="btn btn-add" onclick="addWindow()">+ আরও উইন্ডো যোগ করুন</button>
+    <button class="btn" onclick="calculateGlass()">গ্লাস কাটিং সাইজ বের করুন</button>
+
+    <!-- Results Section -->
+    <div class="results-container" id="resultContainer" style="display:none;">
+      
+      <!-- Screen Card Layout -->
+      <div class="screen-cards-view result-list" id="glassResultCards"></div>
+
+      <!-- Printable Clean Horizontal Table (Only visible in Print/PDF) -->
+      <div class="print-only-container">
+        <table class="print-table">
+          <thead>
+            <tr>
+              <th style="width: 8%;">নং</th>
+              <th style="width: 40%;">গ্লাসের সাইজ (ইঞ্চি)</th>
+              <th style="width: 17%;">মিলিমিটার</th>
+              <th style="width: 23%;">কালার</th>
+              <th style="width: 12%;">কোয়ান্টিটি</th>
+            </tr>
+          </thead>
+          <tbody id="printTableBody"></tbody>
+        </table>
       </div>
+
+      <button class="btn btn-pdf" onclick="downloadPDF()">PDF ডাউনলোড / প্রিন্ট</button>
     </div>
   </div>
 
@@ -496,6 +556,20 @@
       const month = String(today.getMonth() + 1).padStart(2, '0');
       const year = today.getFullYear();
       document.getElementById("currentDate").innerText = `তারিখ: ${day}/${month}/${year}`;
+    }
+
+    function updatePrintFloorText() {
+      const floor = document.getElementById("floorSelect").value;
+      const unit = document.getElementById("unitSelect").value;
+      const el = document.getElementById("printFloorText");
+      
+      if (floor || unit) {
+        el.innerText = `${floor ? 'তলা: ' + floor : ''} ${unit ? ' | ইউনিট: ' + unit : ''}`.trim();
+        el.style.display = "block";
+      } else {
+        el.innerText = "";
+        el.style.display = "none";
+      }
     }
 
     function addWindow(hVal = "", wVal = "") {
@@ -562,6 +636,7 @@
       } else {
         addWindow();
       }
+      updatePrintFloorText();
     }
 
     function mmToInchSuta(mm) {
@@ -602,15 +677,15 @@
 
     function generateCardHTML(sn, sizeText, mm, color, qty) {
       return `
-        <div class="result-card">
+        <div class="result-card" data-sn="${sn}" data-size="${sizeText}">
           <div class="result-card-header">
             <div class="sn-badge">${sn}</div>
             <div class="glass-size-text">${sizeText}</div>
           </div>
           <div class="result-options">
-            <select class="card-select">${getMmOptions(mm)}</select>
-            <select class="card-select">${getColorOptions(color)}</select>
-            <select class="card-select">${getQtyOptions(qty)}</select>
+            <select class="card-select select-mm" onchange="syncPrintTable()">${getMmOptions(mm)}</select>
+            <select class="card-select select-color" onchange="syncPrintTable()">${getColorOptions(color)}</select>
+            <select class="card-select select-qty" onchange="syncPrintTable()">${getQtyOptions(qty)}</select>
           </div>
         </div>
       `;
@@ -653,8 +728,34 @@
 
       if (cardContainer.children.length > 0) {
         document.getElementById("resultContainer").style.display = "block";
+        syncPrintTable();
         saveHistory(historyItems);
       }
+    }
+
+    /* Synchronizes Screen Cards to standard horizontal print table */
+    function syncPrintTable() {
+      const cards = document.querySelectorAll(".result-card");
+      const printBody = document.getElementById("printTableBody");
+      printBody.innerHTML = "";
+
+      cards.forEach(card => {
+        const sn = card.getAttribute("data-sn");
+        const size = card.getAttribute("data-size");
+        const mm = card.querySelector(".select-mm").value;
+        const color = card.querySelector(".select-color").value;
+        const qty = card.querySelector(".select-qty").value;
+
+        printBody.innerHTML += `
+          <tr>
+            <td>${sn}</td>
+            <td style="color:#1d4ed8;">${size}</td>
+            <td>${mm}</td>
+            <td>${color}</td>
+            <td>${qty} পিস</td>
+          </tr>
+        `;
+      });
     }
 
     function saveHistory(items) {
@@ -682,7 +783,7 @@
         return;
       }
       
-      let html = `<button class="clear-all-btn" onclick="clearAllHistory()">সব হিস্টরি মুছুন</button>`;
+      let html = `<button class="close-btn" style="width:100%; margin-bottom:10px; background:#ef4444;" onclick="clearAllHistory()">সব হিস্টরি মুছুন</button>`;
       
       existing.forEach((entry) => {
         let itemListHtml = entry.items.map(item => 
@@ -736,11 +837,14 @@
         });
 
         document.getElementById("resultContainer").style.display = "block";
+        syncPrintTable();
         toggleHistory();
       }
     }
 
     function downloadPDF() {
+      syncPrintTable();
+      updatePrintFloorText();
       window.print();
     }
 

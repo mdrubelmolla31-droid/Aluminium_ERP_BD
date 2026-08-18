@@ -17,18 +17,18 @@ body {
     color: #111;
 }
 
-/* কন্টেইনার সেটআপ - ডাবল পেজ রোধ করা হয়েছে */
+/* কন্টেইনার সেটআপ */
 .container {
     width: 100%;
     max-width: 800px;
-    min-height: 100vh;
+    min-height: 1100px;
     margin: 20px auto;
     background: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.15);
     display: flex;
     flex-direction: column;
     border: 1px solid #94a3b8; 
-    overflow-x: hidden; /* ডানে-বামে যেন না কাটে */
+    overflow-x: hidden; 
 }
 
 /* ব্লু কালারের হেডার */
@@ -74,7 +74,7 @@ body {
     padding-left: 2px;
 }
 
-/* দোকানের নাম - রেসপন্সিভ করা হয়েছে যাতে মোবাইলে না কাটে */
+/* দোকানের নাম */
 .shop-title-section {
     text-align: center;
     margin: 10px 0 15px 0;
@@ -82,7 +82,7 @@ body {
 }
 .shop-name {
     display: block;
-    font-size: clamp(22px, 5vw, 34px); /* স্ক্রিনের সাইজ অনুযায়ী ফন্ট অটোমেটিক ছোট-বড় হবে */
+    font-size: clamp(22px, 5vw, 34px); 
     font-weight: 900;
     color: #0c59a4;
     background: transparent;
@@ -98,7 +98,7 @@ body {
     margin-top: 2px;
 }
 
-/* বিল ইনফো (এডিটেবল) */
+/* বিল টু এবং ফ্রম - এখন আর নিচে যাবে না, পাশাপাশি থাকবে */
 .bill-info {
     display: flex;
     justify-content: space-between;
@@ -106,7 +106,7 @@ body {
     margin: 10px 0 10px 0;
 }
 .bill-to, .bill-from {
-    width: 46%;
+    width: 48%; /* জায়গা একটু বাড়িয়ে দেওয়া হয়েছে */
 }
 .bill-from {
     text-align: right;
@@ -151,7 +151,7 @@ body {
 .table-responsive {
     padding: 0 25px;
     width: 100%;
-    overflow-x: auto; /* মোবাইলের জন্য */
+    overflow-x: auto;
 }
 .invoice-table {
     width: 100%;
@@ -218,7 +218,7 @@ body {
     font-weight: 700;
 }
 
-/* গ্র্যান্ড টোটাল - যেন না কাটে */
+/* গ্র্যান্ড টোটাল */
 .total-section {
     display: flex;
     justify-content: flex-end;
@@ -227,7 +227,7 @@ body {
 }
 .total-box {
     width: auto;
-    min-width: 250px; /* ফিক্সড সাইজ দেওয়া হয়েছে যেন অ্যামাউন্ট না কাটে */
+    min-width: 250px; 
     background: #0d5aa7;
     color: #fff;
     padding: 8px 12px;
@@ -303,29 +303,30 @@ body {
     font-size: 11px;
 }
 
-/* নতুন সিগনেচার সেকশন - দুই ভাগে আলাদা লাইন */
+/* সিগনেচার সেকশন */
 .signature-section {
     margin-top: auto; 
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 30px 25px 40px 25px;
+    padding: 30px 25px 30px 25px;
 }
 .sig-box {
-    width: 160px; /* বক্সের সাইজ অনুযায়ী লাইন হবে */
+    width: 150px; 
     text-align: center;
     font-size: 12px;
     font-weight: 900;
 }
 .sig-line {
     width: 100%;
-    border-top: 1px solid #111; /* আলাদা করে কাটা লাইন */
+    border-top: 1px solid #111; 
     margin-bottom: 8px;
 }
 
 .action-buttons {
     text-align: center;
     margin-bottom: 40px;
+    margin-top: 20px;
 }
 .btn-print {
     background: #1d4ed8;
@@ -338,24 +339,17 @@ body {
     font-weight: 900;
 }
 
-/* মোবাইল রেসপন্সিভ (ছোট স্ক্রিনে যাতে সব ঠিকঠাক বসে) */
-@media (max-width: 600px) {
-    .bill-info { flex-direction: column; gap: 15px; }
-    .bill-to, .bill-from { width: 100%; text-align: left; }
-    .bill-from input, .bill-from textarea { text-align: left; }
-    .total-section { padding: 0 10px; justify-content: center; }
-    .total-box { width: 100%; }
-    .signature-section { padding: 20px 15px 30px 15px; }
-    .sig-box { width: 40%; }
-}
-
-/* প্রিন্ট মিডিয়া স্টাইল - ফিক্সড এক পেজ (Single Page Issue Fixed) */
+/* প্রিন্ট মিডিয়া স্টাইল - ১০০% ফিক্সড এক পেজ (Single Page Issue Fixed Completely) */
 @media print {
     @page { 
         size: A4 portrait; 
         margin: 5mm; 
     }
-    body { background: #fff; padding: 0; }
+    body { 
+        background: #fff; 
+        padding: 0; 
+        margin: 0;
+    }
     
     .container { 
         box-shadow: none; 
@@ -363,8 +357,10 @@ body {
         padding: 0; 
         margin: 0; 
         border: 2px solid #000; 
-        height: 280mm; /* A4 পেজে ফিক্সড হাইট, কোনোভাবেই ডাবল পেজ হবে না */
-        max-height: 280mm;
+        height: 275mm; /* A4 পেজের মাপ অনুযায়ী হাইট কমানো হয়েছে যাতে কোনোভাবেই পরের পেজে না যায় */
+        max-height: 275mm;
+        page-break-inside: avoid;
+        page-break-after: avoid;
         overflow: hidden; 
     }
     
@@ -382,7 +378,6 @@ body {
 
 <div class="container" id="invoiceContainer">
 
-    <!-- চিকন ও ওপরের দিকে থাকা কার্ভড হেডার -->
     <div class="invoice-header">
         <div class="invoice-main-title">INVOICE</div>
         <div class="bill-number-box">
@@ -391,13 +386,11 @@ body {
         </div>
     </div>
 
-    <!-- সুন্দর রেসপন্সিভ ফন্টে নীল রঙে দোকানের নাম -->
     <div class="shop-title-section">
         <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
         <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
     </div>
 
-    <!-- বিল টু এবং ফ্রম -->
     <div class="bill-info">
         <div class="bill-to">
             <h3>Bill To:</h3>
@@ -435,7 +428,6 @@ body {
 
     <button type="button" class="btn-add no-print" onclick="addInvoiceRow()">+ Add Item</button>
 
-    <!-- গ্র্যান্ড টোটাল সেকশন -->
     <div class="total-section">
         <div class="total-box">
             <span>Grand Total Tk.</span>
@@ -458,7 +450,6 @@ body {
         </div>
     </div>
 
-    <!-- সিগনেচার সেকশন (দুইটি আলাদা লাইন) -->
     <div class="signature-section">
         <div class="sig-box">
             <div class="sig-line"></div>

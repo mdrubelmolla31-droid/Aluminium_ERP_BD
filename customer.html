@@ -6,18 +6,31 @@
   <title>Customer Management - Aluminium ERP BD</title>
   <style>
     :root {
-      --bg-color: #0b0f19;
-      --card-bg: #111827;
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
-      --text: #f3f4f6;
-      --border: #1e293b;
-      --input-bg: #1e293b;
+      --text: #0f172a;
+      --border: #cbd5e1;
+      --input-bg: #ffffff;
       --header-bg: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
     }
 
-    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif; margin: 0; padding: 0; }
-    body { background-color: var(--bg-color); color: var(--text); padding: 12px; min-height: 100vh; display: flex; justify-content: center; }
+    *, *::before, *::after { box-sizing: border-box; }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    }
+    
+    body {
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+    }
 
     .main-container { width: 100%; max-width: 500px; }
 
@@ -39,37 +52,21 @@
       border-bottom: 1px solid rgba(255,255,255,0.2);
       padding-bottom: 10px;
     }
-    
-    .back-btn {
-      padding: 6px 12px;
-      border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 8px;
-      background: rgba(255,255,255,0.18);
-      color: #ffffff;
-      font-size: 13px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-weight: bold;
-    }
 
     .header-title {
       flex: 1;
-      text-align: center;
+      text-align: left;
       font-weight: 900;
       font-size: 18px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      padding: 0 5px;
     }
 
     .date-display {
       font-size: 13px;
       font-weight: 700;
       background: rgba(255,255,255,0.2);
-      padding: 4px 8px;
+      padding: 4px 10px;
       border-radius: 6px;
       white-space: nowrap;
     }
@@ -100,36 +97,74 @@
     }
 
     /* ================= FORM & LIST SECTION ================= */
-    .form-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    .form-card { 
+      background: var(--card-bg); 
+      border: 1px solid var(--border); 
+      border-radius: 12px; 
+      padding: 16px; 
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
     .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 4px; font-weight: 600; }
-    .form-control { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid #334155; color: white; border-radius: 8px; font-size: 13px; outline: none; }
+    .form-group label { display: block; font-size: 13px; color: #475569; margin-bottom: 5px; font-weight: 700; }
+    .form-control { 
+      width: 100%; 
+      padding: 10px; 
+      background: var(--input-bg); 
+      border: 1.5px solid var(--border); 
+      color: var(--text); 
+      border-radius: 8px; 
+      font-size: 14px; 
+      font-weight: 600;
+      outline: none; 
+    }
     .form-control:focus { border-color: var(--accent); }
 
-    .btn-submit { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 5px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+    .btn-submit { 
+      width: 100%; 
+      padding: 12px; 
+      background: var(--accent); 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      font-weight: 900; 
+      cursor: pointer; 
+      font-size: 15px; 
+      margin-top: 5px; 
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); 
+    }
     .btn-submit:active { background: var(--accent-hover); }
 
     .search-box { margin-bottom: 15px; }
 
     .customer-list { display: flex; flex-direction: column; gap: 12px; }
-    .customer-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .customer-card { 
+      background: var(--card-bg); 
+      border: 1px solid var(--border); 
+      border-radius: 10px; 
+      padding: 14px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
     
     .cust-top-row { display: flex; justify-content: space-between; align-items: flex-start; }
-    .cust-info h4 { font-size: 15px; color: #fbbf24; margin-bottom: 3px; }
-    .cust-info p { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+    .cust-info h4 { font-size: 16px; color: #1e3a8a; font-weight: 900; margin-bottom: 4px; }
+    .cust-info p { font-size: 13px; color: #475569; font-weight: 600; margin-top: 2px; }
 
     .action-btns { display: flex; gap: 6px; }
-    .btn-action { background: #1e293b; border: none; color: white; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; }
-    .btn-delete { background: #7f1d1d; color: #fca5a5; }
+    .btn-action { background: #e2e8f0; border: none; color: #0f172a; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
+    .btn-delete { background: #fee2e2; color: #dc2626; }
 
     /* যোগাযোগের দ্রুত বাটনসমূহ */
     .contact-actions { display: flex; gap: 8px; border-top: 1px solid var(--border); padding-top: 10px; flex-wrap: wrap; }
-    .btn-contact { text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; color: white; flex: 1; justify-content: center; text-align: center; min-width: 90px; }
-    .btn-call { background: #059669; } /* ডাইরেক্ট কল */
-    .btn-wa { background: #25d366; color: #000; } /* হোয়াটসঅ্যাপ */
-    .btn-imo { background: #3b82f6; } /* ইমু */
+    .btn-contact { text-decoration: none; padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; color: white; flex: 1; justify-content: center; text-align: center; min-width: 90px; }
+    .btn-call { background: #10b981; } /* ডাইরেক্ট কল */
+    .btn-wa { background: #25d366; color: #ffffff; } /* হোয়াটসঅ্যাপ */
+    .btn-imo { background: #2563eb; } /* ইমু */
 
-    .empty-msg { text-align: center; color: #6b7280; font-size: 13px; margin-top: 30px; }
+    .empty-msg { text-align: center; color: #64748b; font-size: 14px; font-weight: bold; margin-top: 30px; }
   </style>
 </head>
 <body>
@@ -139,7 +174,6 @@
   <!-- হেডার সেকশন (ব্লু গ্রাডিয়েন্ট) -->
   <div class="header-card">
     <div class="header-top">
-      <a href="index.html" class="back-btn">⬅️ Back</a>
       <span class="header-title">কাস্টমার ম্যানেজমেন্ট</span>
       <div id="currentDate" class="date-display"></div>
     </div>
@@ -152,7 +186,7 @@
 
   <!-- কাস্টমার যোগ করার ফর্ম -->
   <div class="form-card">
-    <h3 id="formTitle" style="font-size: 15px; margin-bottom: 12px; color: #60a5fa;">➕ Add New Customer</h3>
+    <h3 id="formTitle" style="font-size: 15px; margin-bottom: 12px; color: #1e3a8a; font-weight: 900;">➕ Add New Customer</h3>
     <input type="hidden" id="editIndex" value="">
     
     <div class="form-group">
@@ -282,7 +316,7 @@
             <p>📍 ${cust.address || 'ঠিকানা দেওয়া নেই'}</p>
           </div>
           <div class="action-btns">
-            <button class="btn-action" onclick="editCustomer(${originalIndex})" title="Edit">✏️</button>
+            <button class="btn-action" onclick="editCustomer(${originalIndex})" title="Edit">✏️ Edit</button>
             <button class="btn-action btn-delete" onclick="deleteCustomer(${originalIndex})" title="Delete">🗑️</button>
           </div>
         </div>

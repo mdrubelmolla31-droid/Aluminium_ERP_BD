@@ -3,517 +3,1703 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Curtain Wall Estimator - RM Thai Aluminium</title>
+
     <style>
+
+        /* =====================================================
+           GLOBAL RESET
+        ===================================================== */
+
         * {
             box-sizing: border-box;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            font-weight: bold;
         }
+
         body {
             background-color: #e2e8f0;
             color: #111;
             padding: 10px;
         }
-        
-        /* মেইন কন্টেইনার */
+
+        input,
+        button,
+        select,
+        textarea {
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+        ===================================================== */
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             background: #fff;
             padding: 15px;
             border: 1px solid #94a3b8;
-            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
         }
 
-        /* হেডার ডিজাইন */
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
         .invoice-header {
             position: relative;
-            background: linear-gradient(135deg, #023871 0%, #0c59a4 55%, #022a52 100%);
+            background: linear-gradient(
+                135deg,
+                #023871 0%,
+                #0c59a4 55%,
+                #022a52 100%
+            );
+
             padding: 12px 15px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             color: #fff;
+
             margin-bottom: 15px;
+
             border-radius: 4px;
+
+            min-height: 64px;
         }
+
         .header-left {
             display: flex;
             align-items: center;
             gap: 10px;
+            min-width: 0;
         }
+
         .menu-btn {
             background: transparent;
             border: none;
             color: #fff;
             font-size: 22px;
             cursor: pointer;
+            padding: 3px 6px;
+            line-height: 1;
+            flex-shrink: 0;
         }
+
+        .shop-editable {
+            min-width: 0;
+        }
+
         .shop-editable input {
             background: transparent;
             border: none;
             color: #fff;
             outline: none;
             font-weight: 900;
+            padding: 0;
+            margin: 0;
         }
+
         .shop-name-input {
             font-size: 18px;
             width: 250px;
+            max-width: 100%;
             text-transform: uppercase;
         }
+
         .shop-sub-input {
             font-size: 12px;
             width: 220px;
+            max-width: 100%;
             color: #e2e8f0;
         }
+
         .invoice-main-title {
             font-size: 18px;
             letter-spacing: 1px;
+            text-align: right;
+            white-space: nowrap;
         }
 
-        /* সাইডবার হিস্টরি ড্রয়ার */
+
+        /* =====================================================
+           SIDEBAR / HISTORY DRAWER
+        ===================================================== */
+
         .sidebar {
             position: fixed;
+
             top: 0;
             left: -280px;
+
             width: 280px;
-            height: 100%;
+            height: 100vh;
+
             background: #fff;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
-            transition: 0.3s;
+
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+
+            transition: left 0.3s ease;
+
             z-index: 1000;
+
             padding: 20px;
+
             overflow-y: auto;
+        }
+
+        /* IMPORTANT:
+           এই closing brace-টাই আগের কোডে missing ছিল।
+        */
+
         .sidebar.active {
             left: 0;
         }
+
         .sidebar h3 {
             color: #0c59a4;
             margin-bottom: 15px;
+
             border-bottom: 2px solid #cbd5e1;
+
             padding-bottom: 8px;
+
+            font-size: 17px;
         }
+
         .history-item {
             background: #f1f5f9;
+
             padding: 10px;
+
             margin-bottom: 8px;
+
             border-radius: 4px;
+
             cursor: pointer;
+
             font-size: 12px;
+
             border-left: 4px solid #0c59a4;
+
+            line-height: 1.5;
+
+            transition: background 0.2s ease;
         }
+
         .history-item:hover {
             background: #e2e8f0;
         }
+
         .close-sidebar {
             background: #dc2626;
+
             color: #fff;
+
             border: none;
+
             padding: 5px 10px;
+
             border-radius: 4px;
+
             cursor: pointer;
+
             float: right;
+
             font-size: 11px;
         }
 
-        /* ইনপুট সেকশন */
+
+        /* =====================================================
+           INPUT SECTION
+        ===================================================== */
+
         .input-grid {
             display: grid;
+
             grid-template-columns: repeat(4, 1fr);
+
             gap: 10px;
+
             margin-bottom: 15px;
         }
+
         .input-group {
             display: flex;
+
             flex-direction: column;
+
+            min-width: 0;
         }
+
         .input-group label {
             font-size: 12px;
+
             margin-bottom: 4px;
+
             color: #475569;
+
+            line-height: 1.3;
         }
+
         .input-group input {
+            width: 100%;
+
             padding: 8px;
+
             font-size: 14px;
+
             border: 1px solid #cbd5e1;
+
             border-radius: 4px;
+
             outline: none;
+
             text-align: center;
+
+            background: #fff;
+
+            color: #111;
+
+            font-weight: bold;
         }
+
+        .input-group input:focus {
+            border-color: #0c59a4;
+
+            box-shadow: 0 0 0 2px rgba(12, 89, 164, 0.12);
+        }
+
+
+        /* =====================================================
+           CALCULATE BUTTON
+        ===================================================== */
+
         .btn-calc {
             width: 100%;
+
             padding: 10px;
+
             background-color: #198754;
+
             color: white;
+
             font-size: 14px;
+
             border: none;
+
             border-radius: 4px;
+
             cursor: pointer;
+
             margin-bottom: 15px;
+
+            font-weight: bold;
         }
+
         .btn-calc:hover {
             background-color: #146c43;
         }
 
-        /* টেবিল ডিজাইন */
+        .btn-calc:active {
+            transform: translateY(1px);
+        }
+
+
+        /* =====================================================
+           RESULT SECTION
+        ===================================================== */
+
         .result-section {
             display: none;
+
+            width: 100%;
         }
+
         .result-title {
             background: #0d5aa7;
+
             color: #fff;
+
             padding: 6px 10px;
+
             font-size: 13px;
+
             margin-top: 15px;
+
             border-radius: 3px 3px 0 0;
+
+            line-height: 1.4;
         }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
         table {
             width: 100%;
+
             border-collapse: collapse;
+
             margin-bottom: 10px;
+
             background: #fff;
+
+            table-layout: auto;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #cbd5e1;
+
             padding: 6px;
+
             text-align: center;
+
             font-size: 11px;
+
+            vertical-align: middle;
+
+            line-height: 1.35;
         }
+
         th {
             background: #f8fafc;
+
             color: #111;
+
+            font-weight: bold;
         }
 
-        /* প্রিন্ট বাটন এরিয়া */
-        .action-buttons {
-            text-align: center;
-            margin-top: 20px;
+        td strong {
+            font-weight: 900;
         }
+
+
+        /* =====================================================
+           ACTION BUTTON AREA
+        ===================================================== */
+
+        .action-buttons {
+            max-width: 800px;
+
+            margin: 20px auto 0;
+
+            text-align: center;
+        }
+
         .btn-print {
             background: #1d4ed8;
+
             color: #ffffff;
+
             border: none;
+
             border-radius: 6px;
+
             padding: 10px 20px;
+
             font-size: 14px;
+
             cursor: pointer;
+
+            font-weight: bold;
         }
 
-        /* প্রিন্ট মিডিয়া স্টাইল - ১০০% ফিক্সড এক পেজ A4 */
-        @media print {
-            @page { 
-                size: A4 portrait; 
-                margin: 0; 
-            }
-            body { 
-                background: #fff; 
-                padding: 0; 
-                margin: 0;
-                height: 100vh;
-            }
-            .container { 
-                box-shadow: none; 
-                max-width: 100%; 
-                width: 100%;
-                margin: 0; 
-                padding: 10px; 
-                border: none;
-                height: 100vh !important;
-                overflow: hidden;
-            }
-            .no-print, .menu-btn, .btn-calc, .action-buttons { 
-                display: none !important; 
-            }
-            .invoice-header, th, .result-title { 
-                -webkit-print-color-adjust: exact !important; 
-                print-color-adjust: exact !important; 
-            }
-            input { border: none !important; background: transparent !important; }
+        .btn-print:hover {
+            background: #1e40af;
         }
+
+        .btn-print:active {
+            transform: translateY(1px);
+        }
+
+
+        /* =====================================================
+           MOBILE RESPONSIVE
+        ===================================================== */
+
+        @media screen and (max-width: 700px) {
+
+            body {
+                padding: 6px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .invoice-header {
+                padding: 10px;
+
+                gap: 8px;
+
+                align-items: center;
+            }
+
+            .header-left {
+                gap: 7px;
+            }
+
+            .shop-name-input {
+                font-size: 15px;
+                width: 190px;
+            }
+
+            .shop-sub-input {
+                font-size: 10px;
+                width: 180px;
+            }
+
+            .invoice-main-title {
+                font-size: 13px;
+                letter-spacing: 0.5px;
+            }
+
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .input-group label {
+                font-size: 11px;
+            }
+
+            .input-group input {
+                font-size: 13px;
+                padding: 8px 5px;
+            }
+
+            th,
+            td {
+                font-size: 10px;
+                padding: 5px 3px;
+            }
+
+            .result-title {
+                font-size: 12px;
+            }
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media screen and (max-width: 450px) {
+
+            body {
+                padding: 4px;
+            }
+
+            .container {
+                padding: 8px;
+            }
+
+            .invoice-header {
+                padding: 9px;
+
+                min-height: auto;
+            }
+
+            .menu-btn {
+                font-size: 20px;
+            }
+
+            .shop-name-input {
+                font-size: 13px;
+                width: 145px;
+            }
+
+            .shop-sub-input {
+                font-size: 9px;
+                width: 145px;
+            }
+
+            .invoice-main-title {
+                font-size: 10px;
+
+                max-width: 100px;
+
+                white-space: normal;
+
+                line-height: 1.2;
+            }
+
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .input-group label {
+                font-size: 10px;
+            }
+
+            .input-group input {
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                font-size: 9px;
+
+                padding: 4px 2px;
+            }
+
+            .result-title {
+                font-size: 11px;
+
+                padding: 5px 7px;
+            }
+
+            .sidebar {
+                width: 270px;
+                left: -270px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+        }
+
+
+        /* =====================================================
+           PRINT / A4
+        ===================================================== */
+
+        @media print {
+
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            html,
+            body {
+                width: 100%;
+                min-height: 100%;
+                background: #fff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            body {
+                color: #111 !important;
+            }
+
+            .container {
+                width: 100% !important;
+                max-width: 100% !important;
+
+                margin: 0 !important;
+
+                padding: 10mm !important;
+
+                border: none !important;
+
+                box-shadow: none !important;
+
+                border-radius: 0 !important;
+
+                background: #fff !important;
+
+                height: auto !important;
+
+                min-height: 0 !important;
+
+                overflow: visible !important;
+            }
+
+            .no-print,
+            .menu-btn,
+            .btn-calc,
+            .action-buttons,
+            .sidebar {
+                display: none !important;
+            }
+
+            .invoice-header {
+                margin-bottom: 10px !important;
+
+                page-break-inside: avoid !important;
+
+                -webkit-print-color-adjust: exact !important;
+
+                print-color-adjust: exact !important;
+            }
+
+            .result-section {
+                display: block !important;
+            }
+
+            .result-title {
+                page-break-after: avoid !important;
+
+                -webkit-print-color-adjust: exact !important;
+
+                print-color-adjust: exact !important;
+            }
+
+            table {
+                width: 100% !important;
+
+                page-break-inside: avoid !important;
+
+                margin-bottom: 6px !important;
+            }
+
+            tr {
+                page-break-inside: avoid !important;
+            }
+
+            th,
+            td {
+                padding: 4px !important;
+
+                font-size: 9px !important;
+
+                -webkit-print-color-adjust: exact !important;
+
+                print-color-adjust: exact !important;
+            }
+
+            th {
+                background: #f8fafc !important;
+            }
+
+            input {
+                border: none !important;
+
+                background: transparent !important;
+
+                box-shadow: none !important;
+            }
+
+            .shop-name-input,
+            .shop-sub-input {
+                color: #fff !important;
+            }
+        }
+
     </style>
 </head>
+
+
 <body>
 
-<!-- সাইডবার হিস্টরি -->
+
+<!-- =========================================================
+     SIDEBAR HISTORY
+========================================================= -->
+
 <div class="sidebar" id="historySidebar">
-    <button class="close-sidebar" onclick="toggleSidebar()">বন্ধ করুন</button>
+
+    <button
+        class="close-sidebar"
+        onclick="toggleSidebar()"
+    >
+        বন্ধ করুন
+    </button>
+
     <h3>পূর্ববর্তী হিসাবসমূহ</h3>
+
     <div id="historyList"></div>
+
 </div>
+
+
+<!-- =========================================================
+     MAIN CONTAINER
+========================================================= -->
 
 <div class="container">
 
-    <!-- হেডার -->
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
     <div class="invoice-header">
+
         <div class="header-left">
-            <button class="menu-btn no-print" onclick="toggleSidebar()">⋮</button>
+
+            <button
+                class="menu-btn no-print"
+                onclick="toggleSidebar()"
+            >
+                ⋮
+            </button>
+
             <div class="shop-editable">
-                <input type="text" id="shopName" class="shop-name-input" value="RM THAI ALUMINIUM">
+
+                <input
+                    type="text"
+                    id="shopName"
+                    class="shop-name-input"
+                    value="RM THAI ALUMINIUM"
+                >
+
                 <br>
-                <input type="text" id="shopPhone" class="shop-sub-input" value="Mobile: 01676-474412">
+
+                <input
+                    type="text"
+                    id="shopPhone"
+                    class="shop-sub-input"
+                    value="Mobile: 01676-474412"
+                >
+
             </div>
+
         </div>
-        <div class="invoice-main-title">CURTAIN WALL ESTIMATE</div>
+
+
+        <div class="invoice-main-title">
+            CURTAIN WALL ESTIMATE
+        </div>
+
     </div>
 
-    <!-- ইনপুট সেকশন: হাইট আগে, তারপর লেন্থ/চওড়া -->
+
+    <!-- =====================================================
+         INPUT SECTION
+    ====================================================== -->
+
     <div class="input-grid no-print">
+
         <div class="input-group">
-            <label>মোট হাইট (ফিট)</label>
-            <input type="number" id="totalHeight" placeholder="যেমন: 11" step="0.01">
+
+            <label>
+                মোট হাইট (ফিট)
+            </label>
+
+            <input
+                type="number"
+                id="totalHeight"
+                placeholder="যেমন: 11"
+                step="0.01"
+            >
+
         </div>
+
+
         <div class="input-group">
-            <label>মোট চওড়া/লেন্থ (ফিট)</label>
-            <input type="number" id="totalWidth" placeholder="যেমন: 24" step="0.01">
+
+            <label>
+                মোট চওড়া/লেন্থ (ফিট)
+            </label>
+
+            <input
+                type="number"
+                id="totalWidth"
+                placeholder="যেমন: 24"
+                step="0.01"
+            >
+
         </div>
+
+
         <div class="input-group">
-            <label>খাড়া কলাম (খোপ)</label>
-            <input type="number" id="cols" placeholder="যেমন: 6">
+
+            <label>
+                খাড়া কলাম (খোপ)
+            </label>
+
+            <input
+                type="number"
+                id="cols"
+                placeholder="যেমন: 6"
+            >
+
         </div>
+
+
         <div class="input-group">
-            <label>আড়াআড়ি সারি (খোপ)</label>
-            <input type="number" id="rows" placeholder="যেমন: 3">
+
+            <label>
+                আড়াআড়ি সারি (খোপ)
+            </label>
+
+            <input
+                type="number"
+                id="rows"
+                placeholder="যেমন: 3"
+            >
+
         </div>
+
     </div>
 
-    <button class="btn-calc no-print" onclick="calculateMaterials()">হিসাব বের করুন</button>
 
-    <!-- ফলাফল সেকশন -->
-    <div id="resultArea" class="result-section">
-        
-        <!-- অ্যালুমিনিয়াম হিসাব -->
-        <div class="result-title">১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)</div>
+    <!-- =====================================================
+         CALCULATE BUTTON
+    ====================================================== -->
+
+    <button
+        class="btn-calc no-print"
+        onclick="calculateMaterials()"
+    >
+        হিসাব বের করুন
+    </button>
+
+
+    <!-- =====================================================
+         RESULT AREA
+    ====================================================== -->
+
+    <div
+        id="resultArea"
+        class="result-section"
+    >
+
+
+        <!-- =================================================
+             ALUMINIUM
+        ================================================== -->
+
+        <div class="result-title">
+            ১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)
+        </div>
+
         <table>
+
             <thead>
+
                 <tr>
-                    <th>মালের নাম</th>
-                    <th>বিবরণ</th>
-                    <th>টোটাল রানিং ফিট</th>
-                    <th>পিস (২১ ফিট)</th>
+
+                    <th>
+                        মালের নাম
+                    </th>
+
+                    <th>
+                        বিবরণ
+                    </th>
+
+                    <th>
+                        টোটাল রানিং ফিট
+                    </th>
+
+                    <th>
+                        পিস (২১ ফিট)
+                    </th>
+
                 </tr>
+
             </thead>
+
             <tbody id="alumTable"></tbody>
+
         </table>
 
-        <!-- গ্লাস হিসাব -->
-        <div class="result-title">২. গ্লাস এরিয়া হিসাব</div>
+
+        <!-- =================================================
+             GLASS
+        ================================================== -->
+
+        <div class="result-title">
+            ২. গ্লাস এরিয়া হিসাব
+        </div>
+
         <table>
+
             <thead>
+
                 <tr>
-                    <th>বিবরণ</th>
-                    <th>মোট স্কয়ার ফিট / পরিমাণ</th>
+
+                    <th>
+                        বিবরণ
+                    </th>
+
+                    <th>
+                        মোট স্কয়ার ফিট / পরিমাণ
+                    </th>
+
                 </tr>
+
             </thead>
+
             <tbody id="glassTable"></tbody>
+
         </table>
 
-        <!-- এক্সেসরিজ হিসাব -->
-        <div class="result-title">৩. এক্সেসরিজ ও ফিটিংস হিসাব</div>
+
+        <!-- =================================================
+             ACCESSORIES
+        ================================================== -->
+
+        <div class="result-title">
+            ৩. এক্সেসরিজ ও ফিটিংস হিসাব
+        </div>
+
         <table>
+
             <thead>
+
                 <tr>
-                    <th>উপাদানের নাম</th>
-                    <th>হিসাবের বিবরণ</th>
-                    <th>মোট পরিমাণ</th>
+
+                    <th>
+                        উপাদানের নাম
+                    </th>
+
+                    <th>
+                        হিসাবের বিবরণ
+                    </th>
+
+                    <th>
+                        মোট পরিমাণ
+                    </th>
+
                 </tr>
+
             </thead>
+
             <tbody id="accTable"></tbody>
+
         </table>
+
 
     </div>
+
 </div>
+
+
+<!-- =========================================================
+     PRINT BUTTON
+========================================================= -->
 
 <div class="action-buttons no-print">
-    <button type="button" class="btn-print" onclick="printInvoice()">🖨️ পিডিএফ প্রিন্ট (A4 ওয়ান পেজ)</button>
+
+    <button
+        type="button"
+        class="btn-print"
+        onclick="printInvoice()"
+    >
+        🖨️ পিডিএফ প্রিন্ট (A4 ওয়ান পেজ)
+    </button>
+
 </div>
 
+
+<!-- =========================================================
+     JAVASCRIPT
+     CALCULATION LOGIC UNCHANGED
+========================================================= -->
+
 <script>
+
+
+    // ========================================================
     // পেজ লোড হলে সেভ করা হেডার ডাটা লোড করা
+    // ========================================================
+
     document.addEventListener("DOMContentLoaded", function() {
+
         if(localStorage.getItem("cw_shopName")) {
-            document.getElementById("shopName").value = localStorage.getItem("cw_shopName");
+
+            document.getElementById("shopName").value =
+                localStorage.getItem("cw_shopName");
+
         }
+
         if(localStorage.getItem("cw_shopPhone")) {
-            document.getElementById("shopPhone").value = localStorage.getItem("cw_shopPhone");
+
+            document.getElementById("shopPhone").value =
+                localStorage.getItem("cw_shopPhone");
+
         }
+
         loadHistory();
+
     });
 
+
+    // ========================================================
     // ইনপুট পরিবর্তন হলে লোকাল স্টোরেজে সেভ রাখা
-    document.getElementById("shopName").addEventListener("input", function() {
-        localStorage.setItem("cw_shopName", this.value);
-    });
-    document.getElementById("shopPhone").addEventListener("input", function() {
-        localStorage.setItem("cw_shopPhone", this.value);
-    });
+    // ========================================================
+
+    document.getElementById("shopName")
+        .addEventListener("input", function() {
+
+            localStorage.setItem(
+                "cw_shopName",
+                this.value
+            );
+
+        });
+
+
+    document.getElementById("shopPhone")
+        .addEventListener("input", function() {
+
+            localStorage.setItem(
+                "cw_shopPhone",
+                this.value
+            );
+
+        });
+
+
+    // ========================================================
+    // SIDEBAR TOGGLE
+    // ========================================================
 
     function toggleSidebar() {
-        document.getElementById("historySidebar").classList.toggle("active");
+
+        document
+            .getElementById("historySidebar")
+            .classList
+            .toggle("active");
+
     }
 
-    function calculateMaterials() {
-        let height = parseFloat(document.getElementById('totalHeight').value) || 0;
-        let width = parseFloat(document.getElementById('totalWidth').value) || 0;
-        let cols = parseInt(document.getElementById('cols').value) || 0;
-        let rows = parseInt(document.getElementById('rows').value) || 0;
 
-        if(height === 0 || width === 0 || cols === 0 || rows === 0) {
-            alert("দয়া করে হাইট, চওড়া এবং খোপের সংখ্যা সঠিকভাবে দিন!");
+    // ========================================================
+    // CALCULATION
+    // ========================================================
+
+    function calculateMaterials() {
+
+        let height =
+            parseFloat(
+                document.getElementById('totalHeight').value
+            ) || 0;
+
+        let width =
+            parseFloat(
+                document.getElementById('totalWidth').value
+            ) || 0;
+
+        let cols =
+            parseInt(
+                document.getElementById('cols').value
+            ) || 0;
+
+        let rows =
+            parseInt(
+                document.getElementById('rows').value
+            ) || 0;
+
+
+        if(
+            height === 0 ||
+            width === 0 ||
+            cols === 0 ||
+            rows === 0
+        ) {
+
+            alert(
+                "দয়া করে হাইট, চওড়া এবং খোপের সংখ্যা সঠিকভাবে দিন!"
+            );
+
             return;
+
         }
+
 
         let totalKhop = cols * rows;
 
+
+        // ====================================================
         // ১. অ্যালুমিনিয়াম হিসাব
-        let halfSectionFeet = (width * 2) + (height * 2);
-        let halfSectionPipes = Math.ceil(halfSectionFeet / 21);
+        // ====================================================
 
-        let verticalPipesCount = cols + 1; 
-        let middleVerticalsCount = cols - 1; 
-        let middleVerticalFeet = middleVerticalsCount * height; 
+        let halfSectionFeet =
+            (width * 2) + (height * 2);
 
-        let horizontalRowsCount = rows - 1; 
-        let deductionPerLine = (verticalPipesCount * 2) / 12; 
-        let horizontalFeetPerLine = width - deductionPerLine; 
-        if (horizontalFeetPerLine < 0) horizontalFeetPerLine = 0;
-        let middleHorizontalFeet = horizontalRowsCount * horizontalFeetPerLine;
+        let halfSectionPipes =
+            Math.ceil(
+                halfSectionFeet / 21
+            );
 
-        let totalFullSectionFeet = middleVerticalFeet + middleHorizontalFeet;
-        let fullSectionPipes = Math.ceil(totalFullSectionFeet / 21);
 
+        let verticalPipesCount =
+            cols + 1;
+
+
+        let middleVerticalsCount =
+            cols - 1;
+
+
+        let middleVerticalFeet =
+            middleVerticalsCount * height;
+
+
+        let horizontalRowsCount =
+            rows - 1;
+
+
+        let deductionPerLine =
+            (verticalPipesCount * 2) / 12;
+
+
+        let horizontalFeetPerLine =
+            width - deductionPerLine;
+
+
+        if(horizontalFeetPerLine < 0) {
+
+            horizontalFeetPerLine = 0;
+
+        }
+
+
+        let middleHorizontalFeet =
+            horizontalRowsCount *
+            horizontalFeetPerLine;
+
+
+        let totalFullSectionFeet =
+            middleVerticalFeet +
+            middleHorizontalFeet;
+
+
+        let fullSectionPipes =
+            Math.ceil(
+                totalFullSectionFeet / 21
+            );
+
+
+        // ====================================================
         // এঙ্গেল হিসাব
-        let totalAngleFeet = totalKhop * (8 / 12);
-        let anglePipes = Math.ceil(totalAngleFeet / 21);
+        // ====================================================
 
+        let totalAngleFeet =
+            totalKhop * (8 / 12);
+
+
+        let anglePipes =
+            Math.ceil(
+                totalAngleFeet / 21
+            );
+
+
+        // ====================================================
         // ২. গ্লাস ও টেপ
-        let totalGlassSqft = width * height; 
-        let totalTapeFeet = ((width / cols * 2) + (height / rows * 2)) * totalKhop;
-        let maskingTapeRolls = Math.ceil(totalTapeFeet / 80); // ৮০ ফিট হিসেবে ১ রোল
-        let notanTapeRolls = Math.ceil(totalTapeFeet / 100); // ১০০ ফিট হিসেবে নটেন টেপ
+        // ====================================================
 
-        // সিলিকন গাম: প্রতি ৫০ স্কয়ার ফিটে ১টি, খোপ বাড়লে অনুপাত অনুযায়ী সামঞ্জস্য
-        let baseSilicon = totalGlassSqft / 50;
-        let khopFactor = totalKhop * 0.05; // খোপ বেশি হলে সিলিকন বেশি লাগে
-        let totalSilicon = Math.ceil(baseSilicon + khopFactor);
+        let totalGlassSqft =
+            width * height;
 
+
+        let totalTapeFeet =
+            (
+                (width / cols * 2) +
+                (height / rows * 2)
+            ) * totalKhop;
+
+
+        let maskingTapeRolls =
+            Math.ceil(
+                totalTapeFeet / 80
+            );
+
+
+        let notanTapeRolls =
+            Math.ceil(
+                totalTapeFeet / 100
+            );
+
+
+        // ====================================================
+        // সিলিকন গাম
+        // ====================================================
+
+        let baseSilicon =
+            totalGlassSqft / 50;
+
+
+        let khopFactor =
+            totalKhop * 0.05;
+
+
+        let totalSilicon =
+            Math.ceil(
+                baseSilicon + khopFactor
+            );
+
+
+        // ====================================================
         // ৩. এক্সেসরিজ
-        let totalClamps = verticalPipesCount * 4; 
-        let royalBolts = totalClamps; 
-        let screws = totalClamps * 2; 
-        let nutBolts = totalClamps; 
-        let rivets = totalKhop * 5; // প্রতি খোপে ৫টি করে রিপিট
+        // ====================================================
 
-        // টেবিল ডাটা রেন্ডার
+        let totalClamps =
+            verticalPipesCount * 4;
+
+
+        let royalBolts =
+            totalClamps;
+
+
+        let screws =
+            totalClamps * 2;
+
+
+        let nutBolts =
+            totalClamps;
+
+
+        let rivets =
+            totalKhop * 5;
+
+
+        // ====================================================
+        // অ্যালুমিনিয়াম টেবিল
+        // ====================================================
+
         document.getElementById('alumTable').innerHTML = `
+
             <tr>
-                <td>হাফ সেকশন (Top & Side)</td>
-                <td>চারিপাশের ফ্রেম</td>
-                <td>${halfSectionFeet.toFixed(2)} ফিট</td>
-                <td><strong>${halfSectionPipes} পিস</strong></td>
+
+                <td>
+                    হাফ সেকশন (Top & Side)
+                </td>
+
+                <td>
+                    চারিপাশের ফ্রেম
+                </td>
+
+                <td>
+                    ${halfSectionFeet.toFixed(2)} ফিট
+                </td>
+
+                <td>
+                    <strong>
+                        ${halfSectionPipes} পিস
+                    </strong>
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>ফুল সেকশন (Middle)</td>
-                <td>মাঝখানের খাড়া ও আড়াআড়ি</td>
-                <td>${totalFullSectionFeet.toFixed(2)} ফিট</td>
-                <td><strong>${fullSectionPipes} পিস</strong></td>
+
+                <td>
+                    ফুল সেকশন (Middle)
+                </td>
+
+                <td>
+                    মাঝখানের খাড়া ও আড়াআড়ি
+                </td>
+
+                <td>
+                    ${totalFullSectionFeet.toFixed(2)} ফিট
+                </td>
+
+                <td>
+                    <strong>
+                        ${fullSectionPipes} পিস
+                    </strong>
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>অ্যাঙ্গেল (Angle)</td>
-                <td>প্রতি খোপের জয়েন্ট (২" করে)</td>
-                <td>${totalAngleFeet.toFixed(2)} ফিট</td>
-                <td><strong>${anglePipes} পিস</strong></td>
+
+                <td>
+                    অ্যাঙ্গেল (Angle)
+                </td>
+
+                <td>
+                    প্রতি খোপের জয়েন্ট (২" করে)
+                </td>
+
+                <td>
+                    ${totalAngleFeet.toFixed(2)} ফিট
+                </td>
+
+                <td>
+                    <strong>
+                        ${anglePipes} পিস
+                    </strong>
+                </td>
+
             </tr>
+
         `;
+
+
+        // ====================================================
+        // গ্লাস টেবিল
+        // ====================================================
 
         document.getElementById('glassTable').innerHTML = `
+
             <tr>
-                <td>মোট গ্লাস এরিয়া</td>
-                <td><strong>${totalGlassSqft.toFixed(2)} স্কয়ার ফিট</strong> (খোপ: ${totalKhop}টি)</td>
+
+                <td>
+                    মোট গ্লাস এরিয়া
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${totalGlassSqft.toFixed(2)}
+                        স্কয়ার ফিট
+                    </strong>
+
+                    (খোপ: ${totalKhop}টি)
+
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>মাস্কিং টেপ (Masking Tape)</td>
-                <td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${maskingTapeRolls} রোল / ৮০ ফিট)</td>
+
+                <td>
+                    মাস্কিং টেপ (Masking Tape)
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${totalTapeFeet.toFixed(2)} ফিট
+                    </strong>
+
+                    (আনুমানিক
+                    ${maskingTapeRolls}
+                    রোল / ৮০ ফিট)
+
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>নটেন টেপ (Notan Tape)</td>
-                <td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${notanTapeRolls} কয়েল / ১০০ ফিট)</td>
+
+                <td>
+                    নটেন টেপ (Notan Tape)
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${totalTapeFeet.toFixed(2)} ফিট
+                    </strong>
+
+                    (আনুমানিক
+                    ${notanTapeRolls}
+                    কয়েল / ১০০ ফিট)
+
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>সিলিকন গাম (Silicon Gum)</td>
-                <td><strong>${totalSilicon} পিস</strong> (স্কয়ার ফিট ও খোপের হিসাব অনুযায়ী)</td>
+
+                <td>
+                    সিলিকন গাম (Silicon Gum)
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${totalSilicon} পিস
+                    </strong>
+
+                    (স্কয়ার ফিট ও খোপের হিসাব অনুযায়ী)
+
+                </td>
+
             </tr>
+
         `;
+
+
+        // ====================================================
+        // ACCESSORIES TABLE
+        // ====================================================
 
         document.getElementById('accTable').innerHTML = `
+
             <tr>
-                <td>ক্ল্যাম (Clamps)</td>
-                <td>প্রতি খাড়া মালে ৪টি (${verticalPipesCount}টি খাড়া মাল)</td>
-                <td><strong>${totalClamps} পিস</strong></td>
+
+                <td>
+                    ক্ল্যাম (Clamps)
+                </td>
+
+                <td>
+                    প্রতি খাড়া মালে ৪টি
+                    (${verticalPipesCount}টি খাড়া মাল)
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${totalClamps} পিস
+                    </strong>
+
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>রয়্যাল বোল্ট</td>
-                <td>প্রতি ক্ল্যামে ১টি</td>
-                <td><strong>${royalBolts} পিস</strong></td>
+
+                <td>
+                    রয়্যাল বোল্ট
+                </td>
+
+                <td>
+                    প্রতি ক্ল্যামে ১টি
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${royalBolts} পিস
+                    </strong>
+
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>১ ইঞ্চি স্ক্রু</td>
-                <td>প্রতি ক্ল্যামে ২টি</td>
-                <td><strong>${screws} পিস</strong></td>
+
+                <td>
+                    ১ ইঞ্চি স্ক্রু
+                </td>
+
+                <td>
+                    প্রতি ক্ল্যামে ২টি
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${screws} পিস
+                    </strong>
+
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>২" নাট-বোল্ট</td>
-                <td>প্রতি ক্ল্যামে ১টি</td>
-                <td><strong>${nutBolts} পিস</strong></td>
+
+                <td>
+                    ২" নাট-বোল্ট
+                </td>
+
+                <td>
+                    প্রতি ক্ল্যামে ১টি
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${nutBolts} পিস
+                    </strong>
+
+                </td>
+
             </tr>
+
+
             <tr>
-                <td>রিপিট (Rivets)</td>
-                <td>প্রতি খোপে ৫টি করে</td>
-                <td><strong>${rivets} পিস</strong></td>
+
+                <td>
+                    রিপিট (Rivets)
+                </td>
+
+                <td>
+                    প্রতি খোপে ৫টি করে
+                </td>
+
+                <td>
+
+                    <strong>
+                        ${rivets} পিস
+                    </strong>
+
+                </td>
+
             </tr>
+
         `;
 
-        document.getElementById('resultArea').style.display = 'block';
 
-        // হিস্টরি সেভ করা
-        saveHistory(height, width, cols, rows);
+        // ====================================================
+        // RESULT SHOW
+        // ====================================================
+
+        document.getElementById('resultArea').style.display =
+            'block';
+
+
+        // ====================================================
+        // HISTORY SAVE
+        // ====================================================
+
+        saveHistory(
+            height,
+            width,
+            cols,
+            rows
+        );
+
     }
+
+
+    // ========================================================
+    // SAVE HISTORY
+    // ========================================================
 
     function saveHistory(h, w, c, r) {
-        let history = JSON.parse(localStorage.getItem("cw_history")) || [];
-        let item = { height: h, width: w, cols: c, rows: r, date: new Date().toLocaleDateString() };
-        // ডুপ্লিকেট এড়াতে বা নতুন উপরে রাখতে
+
+        let history =
+            JSON.parse(
+                localStorage.getItem("cw_history")
+            ) || [];
+
+
+        let item = {
+
+            height: h,
+
+            width: w,
+
+            cols: c,
+
+            rows: r,
+
+            date: new Date().toLocaleDateString()
+
+        };
+
+
         history.unshift(item);
-        if(history.length > 10) history.pop(); // সর্বোচ্চ ১০টি সেভ থাকবে
-        localStorage.setItem("cw_history", JSON.stringify(history));
+
+
+        if(history.length > 10) {
+
+            history.pop();
+
+        }
+
+
+        localStorage.setItem(
+            "cw_history",
+            JSON.stringify(history)
+        );
+
+
         loadHistory();
+
     }
+
+
+    // ========================================================
+    // LOAD HISTORY
+    // ========================================================
 
     function loadHistory() {
-        let history = JSON.parse(localStorage.getItem("cw_history")) || [];
-        let listDiv = document.getElementById("historyList");
+
+        let history =
+            JSON.parse(
+                localStorage.getItem("cw_history")
+            ) || [];
+
+
+        let listDiv =
+            document.getElementById("historyList");
+
+
         listDiv.innerHTML = "";
-        history.forEach((item, index) => {
-            let div = document.createElement("div");
-            div.className = "history-item";
-            div.innerHTML = `হাইট: ${item.h || item.height} ফিট, চওড়া: ${item.w || item.width} ফিট<br>খোপ: ${item.cols}×${item.rows} (${item.date})`;
+
+
+        history.forEach(function(item, index) {
+
+            let div =
+                document.createElement("div");
+
+
+            div.className =
+                "history-item";
+
+
+            div.innerHTML = `
+
+                হাইট:
+                ${item.h || item.height}
+                ফিট,
+
+                চওড়া:
+                ${item.w || item.width}
+                ফিট
+
+                <br>
+
+                খোপ:
+                ${item.cols}×${item.rows}
+
+                (${item.date})
+
+            `;
+
+
             div.onclick = function() {
-                document.getElementById("totalHeight").value = item.h || item.height;
-                document.getElementById("totalWidth").value = item.w || item.width;
-                document.getElementById("cols").value = item.cols;
-                document.getElementById("rows").value = item.rows;
+
+                document.getElementById(
+                    "totalHeight"
+                ).value =
+                    item.h || item.height;
+
+
+                document.getElementById(
+                    "totalWidth"
+                ).value =
+                    item.w || item.width;
+
+
+                document.getElementById(
+                    "cols"
+                ).value =
+                    item.cols;
+
+
+                document.getElementById(
+                    "rows"
+                ).value =
+                    item.rows;
+
+
                 calculateMaterials();
+
+
                 toggleSidebar();
+
             };
+
+
             listDiv.appendChild(div);
+
         });
+
     }
 
+
+    // ========================================================
+    // PRINT
+    // ========================================================
+
     function printInvoice() {
+
         window.print();
+
     }
+
+
 </script>
 
 </body>

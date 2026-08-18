@@ -3,138 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluminium Cost Calculator</title>
+    <title>প্রোফাইল ডিসকাউন্ট ক্যালকুলেটর - Aluminium ERP BD</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { margin: 10px; background-color: #f4f4f9; color: #333; }
-        .container { max-width: 1050px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h2, h3 { text-align: center; color: #111; margin-bottom: 15px; }
+        :root {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --text: #0f172a;
+            --border: #cbd5e1;
+            --input-bg: #ffffff;
+            --header-bg: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
         
-        .header-section { background: #eef2f5; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between; }
-        .header-section div { display: flex; align-items: center; gap: 8px; }
-        .header-section select, .header-section input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+        }
+        
+        body {
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+        }
 
-        .table-responsive { overflow-x: auto; margin-bottom: 20px; width: 100%; }
-        table { width: 100%; border-collapse: collapse; }
-        table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 10px 8px; text-align: left; font-size: 13px; }
-        th { background: #007bff; color: white; white-space: nowrap; }
-        td input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
-        .category-header { background: #6c757d; color: white; font-weight: bold; text-align: center; }
+        .main-container { width: 100%; max-width: 1000px; }
 
-        .window-box { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; border-radius: 6px; background: #fafafa; }
-        .window-header { font-weight: bold; font-size: 15px; margin-bottom: 10px; color: #28a745; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        /* ================= HEADER STYLE ================= */
+        .header-card {
+            background: var(--header-bg);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(20, 70, 160, 0.2);
+            color: #ffffff;
+            position: relative;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: left;
+            font-weight: 900;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-display {
+            font-size: 13px;
+            font-weight: 700;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .history-menu-btn {
+            background: rgba(255,255,255,0.25);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .history-menu-btn:hover { background: rgba(255,255,255,0.4); }
+
+        .shop-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .editable-input {
+            width: 100%;
+            height: 40px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.95);
+            color: #0f172a;
+            font-size: 18px;
+            font-weight: 900;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        #shopPhone { font-size: 15px; font-weight: 800; }
+
+        /* ================= CARDS & FORMS ================= */
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 16px; 
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: #1e3a8a;
+            font-weight: 900;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+
+        .header-section { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 15px; 
+            align-items: center; 
+            justify-content: space-between; 
+        }
+        .header-section div { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px; }
+        .header-section label { font-weight: 700; font-size: 13px; color: #334155; }
+        .header-section select, .header-section input { 
+            width: 100%;
+            padding: 8px 12px; 
+            border: 1.5px solid var(--border); 
+            border-radius: 6px; 
+            font-weight: bold; 
+            color: var(--text);
+            outline: none;
+        }
+        .header-section select:focus, .header-section input:focus { border-color: var(--accent); }
+
+        .table-responsive { overflow-x: auto; margin-bottom: 15px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; background: #fff; }
+        table, th, td { border: 1px solid var(--border); }
+        th, td { padding: 10px 12px; text-align: left; font-size: 13px; }
+        th { background: #1e3a8a; color: white; white-space: nowrap; font-weight: 800; }
+        td input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-weight: 700; outline: none; }
+        td input:focus { border-color: var(--accent); }
+        .category-header { background: #e2e8f0; color: #1e3a8a; font-weight: 900; text-align: center; }
+
+        .window-box { border: 1px solid var(--border); padding: 14px; margin-bottom: 12px; border-radius: 8px; background: #f8fafc; }
+        .window-header { font-weight: 900; font-size: 15px; margin-bottom: 10px; color: #2563eb; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
 
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
         .input-group { display: flex; flex-direction: column; }
-        .input-group label { font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #555; }
-        .input-group input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .input-group label { font-size: 11px; font-weight: 800; margin-bottom: 4px; color: #475569; }
+        .input-group input { padding: 8px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 14px; font-weight: 700; outline: none; }
+        .input-group input:focus { border-color: var(--accent); }
 
-        .btn-remove { background: #dc3545; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; margin-top: 10px; width: 100%; font-weight: bold; }
-        .btn-add { background: #28a745; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-bottom: 10px; }
-        .btn-calc { background: #007bff; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
+        .btn-remove { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 10px; width: 100%; font-weight: 800; }
+        .btn-add { background: #059669; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 900; width: 100%; margin-bottom: 10px; font-size: 14px; box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2); }
+        .btn-calc { background: var(--accent); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 900; width: 100%; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+        .btn-calc:hover { background: var(--accent-hover); }
 
-        .result-box { margin-top: 20px; padding: 15px; background: #fff; border: 2px solid #28a745; border-radius: 6px; }
-        .breakdown-table th { background: #28a745; }
-        .grand-total-box { margin-top: 15px; background: #e6f4ea; padding: 15px; border-radius: 6px; text-align: center; }
-        .grand-total-box h3 { margin: 0; color: #155724; font-size: 20px; }
-        .per-sqft-box { margin-top: 8px; color: #0d5302; font-size: 16px; font-weight: bold; }
+        .result-box { margin-top: 20px; padding: 16px; background: #fff; border: 2px solid #2563eb; border-radius: 10px; }
+        .breakdown-table th { background: #2563eb; }
+        .grand-total-box { margin-top: 15px; background: #eff6ff; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #bfdbfe; }
+        .grand-total-box h3 { margin: 0; color: #1e3a8a; font-size: 19px; font-weight: 900; }
+        .per-sqft-box { margin-top: 8px; color: #1d4ed8; font-size: 15px; font-weight: 800; }
+
+        /* ================= HISTORY DRAWER / MODAL ================= */
+        .history-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+        }
+        .history-content {
+            background: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+        .history-header h3 { color: #1e3a8a; font-size: 16px; font-weight: 900; margin: 0; }
+        .close-btn { background: none; border: none; font-size: 20px; font-weight: bold; color: #64748b; cursor: pointer; }
+        .history-list { overflow-y: auto; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+        .history-card { background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-size: 13px; }
+        .history-card-header { display: flex; justify-content: space-between; font-weight: 800; color: #1e3a8a; margin-bottom: 5px; }
+        .btn-clear-history { background: #dc2626; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: 800; cursor: pointer; margin-top: 10px; width: 100%; }
+        .empty-history { text-align: center; color: #64748b; padding: 20px 0; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>অ্যালুমিনিয়াম ক্যালকুলেটর ও মেটেরিয়াল এস্টিমেশন</h2>
-
-    <div class="header-section">
-        <div>
-            <label>কোম্পানি:</label>
-            <select id="companySelect">
-                <option value="KAI">KAI Aluminium</option>
-                <option value="Altec">Altec Aluminium</option>
-                <option value="ChungHua">ChungHua Aluminium</option>
-                <option value="BTA">BTA Aluminium</option>
-                <option value="Max">Max Aluminium</option>
-                <option value="Alpha">Alpha Aluminium</option>
-            </select>
+<div class="main-container">
+    
+    <!-- হেডার সেকশন -->
+    <div class="header-card">
+        <div class="header-top">
+            <span class="header-title">প্রোফাইল ডিসকাউন্ট ক্যালকুলেটর</span>
+            <div class="header-right">
+                <div id="currentDate" class="date-display"></div>
+                <button class="history-menu-btn" onclick="openHistory()" title="হিস্ট্রি দেখুন">☰</button>
+            </div>
         </div>
-
-        <div>
-            <label>থিকনেস:</label>
-            <select id="thicknessSelect">
-                <option value="1.0mm">1.0 mm</option>
-                <option value="1.2mm" selected>1.2 mm</option>
-                <option value="1.5mm">1.5 mm</option>
-                <option value="2.0mm">2.0 mm</option>
-            </select>
+        
+        <div class="shop-details">
+            <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveShopDetails()">
+            <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveShopDetails()">
         </div>
+    </div>
 
-        <div>
-            <label>ডিসকাউন্ট (%):</label>
-            <input type="number" id="globalDiscount" value="" placeholder="0" style="width: 70px;"> %
+    <!-- গ্লোবাল কনফিগারেশন -->
+    <div class="card">
+        <div class="header-section">
+            <div>
+                <label>কোম্পানি:</label>
+                <select id="companySelect">
+                    <option value="KAI">KAI Aluminium</option>
+                    <option value="Altec">Altec Aluminium</option>
+                    <option value="ChungHua">ChungHua Aluminium</option>
+                    <option value="BTA">BTA Aluminium</option>
+                    <option value="Max">Max Aluminium</option>
+                    <option value="Alpha">Alpha Aluminium</option>
+                </select>
+            </div>
+
+            <div>
+                <label>থিকনেস:</label>
+                <select id="thicknessSelect">
+                    <option value="1.0mm">1.0 mm</option>
+                    <option value="1.2mm" selected>1.2 mm</option>
+                    <option value="1.5mm">1.5 mm</option>
+                    <option value="2.0mm">2.0 mm</option>
+                </select>
+            </div>
+
+            <div>
+                <label>ডিসকাউন্ট (%):</label>
+                <input type="number" id="globalDiscount" value="" placeholder="0">
+            </div>
         </div>
     </div>
 
     <!-- সেকশন ২১ ফিট বারের ফিক্সড দাম টেবিল -->
-    <h3>সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>সেকশনের নাম</th>
-                    <th>২১ ফিট বারের দাম (টাকা/বার)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
-                <tr>
-                    <td>Outer Top (2121B)</td>
-                    <td><input type="number" id="rate_2121B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
-                </tr>
-                <tr>
-                    <td>Outer Bottom (2122B)</td>
-                    <td><input type="number" id="rate_2122B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
-                </tr>
-                <tr>
-                    <td>Shutter Top (2126B)</td>
-                    <td><input type="number" id="rate_2126B_top" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
-                </tr>
-                <tr>
-                    <td>Shutter Bottom (2126B)</td>
-                    <td><input type="number" id="rate_2126B_bot" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
-                </tr>
-                <tr>
-                    <td>Outer Side (2123B)</td>
-                    <td><input type="number" id="rate_2123B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
-                </tr>
-                <tr>
-                    <td>Lock Style (2124B)</td>
-                    <td><input type="number" id="rate_2124B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
-                </tr>
-                <tr>
-                    <td>Interlock (2125B)</td>
-                    <td><input type="number" id="rate_2125B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
-                </tr>
+    <div class="card">
+        <div class="section-title">সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>সেকশনের নাম</th>
+                        <th>২১ ফিট বারের দাম (টাকা/বার)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
+                    <tr>
+                        <td>Outer Top (2121B)</td>
+                        <td><input type="number" id="rate_2121B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>Outer Bottom (2122B)</td>
+                        <td><input type="number" id="rate_2122B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>Shutter Top (2126B)</td>
+                        <td><input type="number" id="rate_2126B_top" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>Shutter Bottom (2126B)</td>
+                        <td><input type="number" id="rate_2126B_bot" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>Outer Side (2123B)</td>
+                        <td><input type="number" id="rate_2123B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>Lock Style (2124B)</td>
+                        <td><input type="number" id="rate_2124B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>Interlock (2125B)</td>
+                        <td><input type="number" id="rate_2125B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                    </tr>
 
-                <tr class="category-header"><td colspan="2">নেট সেকশন (Net Section)</td></tr>
-                <tr>
-                    <td>Net Section</td>
-                    <td><input type="number" id="rate_net_section" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
-                </tr>
-            </tbody>
-        </table>
+                    <tr class="category-header"><td colspan="2">নেট সেকশন (Net Section)</td></tr>
+                    <tr>
+                        <td>Net Section</td>
+                        <td><input type="number" id="rate_net_section" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <h3>উইন্ডোর তালিকা</h3>
-    <div id="windowsList"></div>
+    <!-- উইন্ডোর তালিকা -->
+    <div class="card">
+        <div class="section-title">উইন্ডোর তালিকা</div>
+        <div id="windowsList"></div>
 
-    <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
-    <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
+        <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
+        <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
+    </div>
 
+    <!-- ফলাফল বক্স -->
     <div class="result-box" id="resultBox" style="display:none;">
-        <h3>বিস্তারিত মেটেরিয়াল হিসাব</h3>
-        <p><b>কোম্পানি:</b> <span id="resCompany"></span> | <b>থিকনেস:</b> <span id="resThickness"></span></p>
-        <p><b>মোট কাজ:</b> <span id="resTotalSqft">০</span> SFT</p>
+        <div class="section-title" style="margin-bottom:8px;">বিস্তারিত মেটেরিয়াল হিসাব</div>
+        <p style="font-size:13px; font-weight:700; color:#475569; margin-bottom:12px;">
+            <b>কোম্পানি:</b> <span id="resCompany" style="color:#1e3a8a;"></span> | 
+            <b>থিকনেস:</b> <span id="resThickness" style="color:#1e3a8a;"></span> | 
+            <b>মোট কাজ:</b> <span id="resTotalSqft" style="color:#1e3a8a;">০</span> SFT
+        </p>
         
         <div class="table-responsive">
             <table class="breakdown-table">
@@ -157,8 +366,48 @@
     </div>
 </div>
 
+<!-- হিস্ট্রি মোডাল -->
+<div class="history-modal" id="historyModal">
+    <div class="history-content">
+        <div class="history-header">
+            <h3>📜 পূর্বের এস্টিমেশন হিস্ট্রি</h3>
+            <button class="close-btn" onclick="closeHistory()">✕</button>
+        </div>
+        <div class="history-list" id="historyListContainer">
+            <!-- হিস্ট্রি ডাটা লোড হবে -->
+        </div>
+        <button class="btn-clear-history" onclick="clearAllHistory()">সব হিস্ট্রি মুছে ফেলুন</button>
+    </div>
+</div>
+
 <script>
 let windowCount = 0;
+
+document.addEventListener("DOMContentLoaded", function() {
+    setCurrentDate();
+    loadShopDetails();
+    addWindow();
+});
+
+function setCurrentDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    document.getElementById("currentDate").innerText = `${day}/${month}/${year}`;
+}
+
+function saveShopDetails() {
+    localStorage.setItem("erp_shopName", document.getElementById("shopName").value);
+    localStorage.setItem("erp_shopPhone", document.getElementById("shopPhone").value);
+}
+
+function loadShopDetails() {
+    const savedName = localStorage.getItem("erp_shopName");
+    const savedPhone = localStorage.getItem("erp_shopPhone");
+    if (savedName !== null) document.getElementById("shopName").value = savedName;
+    if (savedPhone !== null) document.getElementById("shopPhone").value = savedPhone;
+}
 
 function addWindow() {
     windowCount++;
@@ -173,20 +422,20 @@ function addWindow() {
         <div class="grid-container">
             <div class="input-group">
                 <label>উচ্চতা (ইঞ্চি):</label>
-                <input type="number" class="height" placeholder="উচ্চতা (ইঞ্চি)" value="">
+                <input type="number" class="height" placeholder="উচ্চতা" value="">
             </div>
 
             <div class="input-group">
                 <label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label>
-                <input type="number" class="length" placeholder="দৈর্ঘ্য (ইঞ্চি)" value="">
+                <input type="number" class="length" placeholder="দৈর্ঘ্য" value="">
             </div>
 
             <div class="input-group">
                 <label>পরিমাণ (Qty):</label>
-                <input type="number" class="qty" placeholder="পরিমাণ (Qty)" value="">
+                <input type="number" class="qty" placeholder="পরিমাণ" value="">
             </div>
         </div>
-        <button class="btn-remove" onclick="removeWindow('window_${windowCount}')">মুছে ফেলুন</button>
+        <button class="btn-remove" onclick="removeWindow('window_${windowCount}')">🗑️ মুছে ফেলুন</button>
     `;
     
     container.appendChild(windowDiv);
@@ -268,10 +517,7 @@ function calculateTotal() {
                         secName.includes("2124B") ? "2124B" :
                         secName.includes("2125B") ? "2125B" : "net_section";
 
-            // ২১ ফিট বারের পুরো ইনপুট দাম
             let fullBarRate = parseFloat(document.getElementById(`rate_${idKey}`)?.value) || 0;
-
-            // ২১ দিয়ে ভাগ করে প্রতি ফিটের রেট অটোমেটিক বের করা
             let perFtRate = fullBarRate / 21;
 
             let rawCost = totalFt * perFtRate;
@@ -289,7 +535,6 @@ function calculateTotal() {
         }
     });
 
-    // প্রতি স্কয়ার ফিট গড়ের হিসাব (মোট দাম ÷ মোট স্কয়ার ফিট)
     let perSqftRate = totalSqft > 0 ? (grandTotalCost / totalSqft) : 0;
 
     document.getElementById('resultBox').style.display = 'block';
@@ -298,9 +543,66 @@ function calculateTotal() {
     document.getElementById('resTotalSqft').innerText = totalSqft.toFixed(2);
     document.getElementById('resFinalPrice').innerText = formatMoney(grandTotalCost);
     document.getElementById('resPerSqftRate').innerText = perSqftRate.toFixed(2);
+
+    // সেভ টু হিস্ট্রি
+    saveToHistory({
+        date: new Date().toLocaleDateString('bn-BD'),
+        time: new Date().toLocaleTimeString('bn-BD', {hour: '2-digit', minute:'2-digit'}),
+        company: company,
+        thickness: thickness,
+        totalSqft: totalSqft.toFixed(2),
+        totalCost: Math.round(grandTotalCost),
+        perSqftRate: perSqftRate.toFixed(2)
+    });
 }
 
-addWindow();
+/* ================= HISTROY FUNCTIONS ================= */
+function saveToHistory(record) {
+    let history = JSON.parse(localStorage.getItem('erp_profile_calc_history')) || [];
+    history.unshift(record); // নতুন হিসাব সবসময় উপরে থাকবে
+    localStorage.setItem('erp_profile_calc_history', JSON.stringify(history));
+}
+
+function openHistory() {
+    let history = JSON.parse(localStorage.getItem('erp_profile_calc_history')) || [];
+    let container = document.getElementById('historyListContainer');
+    container.innerHTML = '';
+
+    if (history.length === 0) {
+        container.innerHTML = `<div class="empty-history">কোনো পূর্বের হিস্ট্রি পাওয়া যায়নি</div>`;
+    } else {
+        history.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="history-card">
+                    <div class="history-card-header">
+                        <span>${item.company} (${item.thickness})</span>
+                        <span style="font-size:11px; color:#64748b;">${item.date} ${item.time}</span>
+                    </div>
+                    <div style="color:#334155;">
+                        <b>মোট কাজ:</b> ${item.totalSqft} SFT | 
+                        <b>গড় হার:</b> ${item.perSqftRate} ৳/SFT
+                    </div>
+                    <div style="font-size:14px; font-weight:900; color:#2563eb; margin-top:4px;">
+                        মোট মূল্য: ${item.totalCost.toLocaleString('bn-BD')} টাকা
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    document.getElementById('historyModal').style.display = 'flex';
+}
+
+function closeHistory() {
+    document.getElementById('historyModal').style.display = 'none';
+}
+
+function clearAllHistory() {
+    if(confirm("আপনি কি সমস্ত হিস্ট্রি মুছে ফেলতে চান?")) {
+        localStorage.removeItem('erp_profile_calc_history');
+        openHistory();
+    }
+}
 </script>
 
 </body>

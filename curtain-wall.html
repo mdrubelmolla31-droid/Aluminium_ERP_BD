@@ -46,8 +46,7 @@ body {
     padding: 18px;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
-    box-shadow:
-        0 8px 30px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
 }
 
 /* =========================================================
@@ -56,70 +55,43 @@ body {
 
 .invoice-header {
     position: relative;
-
     min-height: 190px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #123a8c 0%,
-            #1557c0 45%,
-            #2563d9 100%
-        );
-
+    background: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
     color: #ffffff;
-
     border-radius: 16px;
-
     padding: 24px 24px 28px;
-
     margin-bottom: 22px;
-
-    box-shadow:
-        0 8px 22px rgba(20, 70, 160, 0.30);
-
+    box-shadow: 0 8px 22px rgba(20, 70, 160, 0.30);
     overflow: hidden;
 }
-
-/* decorative shine */
 
 .invoice-header::before {
     content: "";
     position: absolute;
-
     width: 260px;
     height: 260px;
-
     right: -100px;
     top: -150px;
-
     background: rgba(255,255,255,0.08);
-
     border-radius: 50%;
 }
 
 .invoice-header::after {
     content: "";
     position: absolute;
-
     width: 220px;
     height: 220px;
-
     left: -130px;
     bottom: -160px;
-
     background: rgba(255,255,255,0.06);
-
     border-radius: 50%;
 }
 
 .header-top {
     position: relative;
     z-index: 2;
-
     display: flex;
     align-items: center;
-
     gap: 18px;
 }
 
@@ -130,28 +102,17 @@ body {
 .menu-btn {
     width: 64px;
     height: 64px;
-
     flex-shrink: 0;
-
     border: 1px solid rgba(255,255,255,0.35);
-
     border-radius: 12px;
-
     background: rgba(255,255,255,0.18);
-
     color: #ffffff;
-
     font-size: 34px;
     line-height: 1;
-
     cursor: pointer;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.05);
 }
 
 .menu-btn:active {
@@ -167,68 +128,46 @@ body {
 }
 
 .header-main-title {
-    font-size: clamp(22px, 4vw, 38px);
-
+    font-size: clamp(22px, 4vw, 36px);
     line-height: 1.1;
-
     font-weight: 900;
-
     letter-spacing: 0.5px;
-
     white-space: normal;
-    
     text-transform: uppercase;
 }
 
 .header-sub-title {
     margin-top: 8px;
-
-    font-size: clamp(14px, 2.5vw, 22px);
-
-    line-height: 1.15;
-
+    font-size: clamp(13px, 2.5vw, 18px);
+    line-height: 1.25;
     font-weight: 700;
-
-    letter-spacing: 0.7px;
+    letter-spacing: 0.5px;
 }
 
 /* =========================================================
-   SHOP DETAILS
+   SHOP DETAILS (INPUTS)
 ========================================================= */
 
 .shop-details {
     position: relative;
     z-index: 2;
-
     margin-top: 20px;
-
     display: grid;
     grid-template-columns: 1fr 1fr;
-
     gap: 12px;
 }
 
 .shop-details input {
     width: 100%;
-
     height: 48px;
-
     padding: 8px 14px;
-
     border: none;
-
     border-radius: 8px;
-
     background: rgba(255,255,255,0.96);
-
     color: #111827;
-
     font-size: 17px;
-
     font-weight: 700;
-
     text-align: center;
-
     outline: none;
 }
 
@@ -238,26 +177,16 @@ body {
 
 .sidebar {
     position: fixed;
-
     top: 0;
     left: -320px;
-
     width: 320px;
     max-width: 88vw;
-
     height: 100vh;
-
     background: #ffffff;
-
-    box-shadow:
-        8px 0 25px rgba(0,0,0,0.25);
-
+    box-shadow: 8px 0 25px rgba(0,0,0,0.25);
     transition: left 0.28s ease;
-
     z-index: 5000;
-
     padding: 20px;
-
     overflow-y: auto;
 }
 
@@ -269,66 +198,39 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    gap: 10px;
-
     margin-bottom: 20px;
-
     padding-bottom: 12px;
-
     border-bottom: 2px solid #e2e8f0;
 }
 
 .sidebar h3 {
     color: #1557c0;
-
     font-size: 20px;
-
     font-weight: 900;
 }
 
 .close-sidebar {
     background: #dc2626;
-
     color: #ffffff;
-
     border: none;
-
     padding: 8px 12px;
-
     border-radius: 6px;
-
     cursor: pointer;
-
-    font-size: 13px;
-
     font-weight: 800;
 }
 
 .history-item {
     background: #f8fafc;
-
     padding: 13px;
-
     margin-bottom: 10px;
-
     border-radius: 8px;
-
     cursor: pointer;
-
     font-size: 14px;
-
     line-height: 1.6;
-
     border-left: 5px solid #1557c0;
-
     border-top: 1px solid #e2e8f0;
     border-right: 1px solid #e2e8f0;
     border-bottom: 1px solid #e2e8f0;
-}
-
-.history-item:hover {
-    background: #eff6ff;
 }
 
 /* =========================================================
@@ -343,155 +245,91 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     background: #1557c0;
-
     color: #ffffff;
-
     padding: 12px 15px;
-
     border-radius: 8px 8px 0 0;
-
     font-size: 18px;
-
     font-weight: 900;
 }
 
 .dimension-card {
     position: relative;
-
     background: #ffffff;
-
     border: 2px solid #d6dee8;
-
     border-top: none;
-
     padding: 16px;
-
     border-radius: 0 0 10px 10px;
-
     margin-bottom: 12px;
-
-    box-shadow:
-        0 3px 12px rgba(15,23,42,0.07);
+    box-shadow: 0 3px 12px rgba(15,23,42,0.07);
 }
 
 .dimension-card-number {
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
-
     min-width: 42px;
     height: 32px;
-
     padding: 0 10px;
-
     background: #e8f0ff;
-
     color: #1557c0;
-
     border-radius: 6px;
-
     font-size: 15px;
-
     font-weight: 900;
-
     margin-bottom: 13px;
 }
 
 .input-grid {
     display: grid;
-
     grid-template-columns: repeat(2, 1fr);
-
     gap: 15px;
 }
 
 .input-group {
     display: flex;
-
     flex-direction: column;
-
     gap: 7px;
 }
 
 .input-group label {
     font-size: 16px;
-
     color: #334155;
-
     font-weight: 800;
 }
 
 .input-group input {
     width: 100%;
-
     height: 54px;
-
     padding: 8px 12px;
-
     font-size: 20px;
-
     font-weight: 800;
-
     color: #111827;
-
     background: #ffffff;
-
     border: 2px solid #cbd5e1;
-
     border-radius: 8px;
-
-    outline: none;
-
     text-align: center;
-
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
+    outline: none;
 }
 
 .input-group input:focus {
     border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 3px rgba(37,99,235,0.12);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
 }
-
-/* remove button */
 
 .remove-box-btn {
     position: absolute;
-
     right: 12px;
     top: 12px;
-
     width: 34px;
     height: 34px;
-
     border: none;
-
     border-radius: 6px;
-
     background: #fee2e2;
-
     color: #dc2626;
-
     font-size: 18px;
-
     cursor: pointer;
-
     font-weight: 900;
 }
-
-.remove-box-btn:hover {
-    background: #fecaca;
-}
-
-/* =========================================================
-   ADD BUTTON
-========================================================= */
 
 .add-box-area {
     margin: 15px 0 12px;
@@ -499,172 +337,83 @@ body {
 
 .btn-add-box {
     width: 100%;
-
     min-height: 58px;
-
     border: 2px dashed #2563eb;
-
     border-radius: 9px;
-
     background: #eff6ff;
-
     color: #1557c0;
-
     font-size: 18px;
-
     font-weight: 900;
-
     cursor: pointer;
-
-    transition: 0.2s;
 }
-
-.btn-add-box:hover {
-    background: #dbeafe;
-}
-
-.btn-add-box:active {
-    transform: scale(0.99);
-}
-
-/* =========================================================
-   CALCULATE BUTTON
-========================================================= */
 
 .btn-calc {
     width: 100%;
-
     min-height: 64px;
-
-    padding: 12px;
-
     background: #147a4b;
-
     color: #ffffff;
-
     font-size: 24px;
-
     font-weight: 900;
-
     border: none;
-
     border-radius: 9px;
-
     cursor: pointer;
-
     margin-bottom: 20px;
-
-    box-shadow:
-        0 5px 14px rgba(20,122,75,0.20);
-}
-
-.btn-calc:hover {
-    background: #10683f;
-}
-
-.btn-calc:active {
-    transform: scale(0.99);
+    box-shadow: 0 5px 14px rgba(20,122,75,0.20);
 }
 
 /* =========================================================
-   RESULT AREA
+   RESULT AREA & TABLES
 ========================================================= */
 
 .result-section {
     display: none;
-
     margin-top: 10px;
 }
 
 .result-title {
-    background:
-        linear-gradient(
-            90deg,
-            #1557c0,
-            #1769d3
-        );
-
+    background: linear-gradient(90deg, #1557c0, #1769d3);
     color: #ffffff;
-
     padding: 11px 14px;
-
     font-size: 18px;
-
     font-weight: 900;
-
     margin-top: 20px;
-
     border-radius: 8px 8px 0 0;
-
-    line-height: 1.35;
 }
-
-/* =========================================================
-   TABLE (100% FIT - NO HORIZONTAL SCROLL)
-========================================================= */
 
 .table-wrap {
     width: 100%;
-
     overflow: hidden;
-
     border-left: 1px solid #cbd5e1;
     border-right: 1px solid #cbd5e1;
     border-bottom: 1px solid #cbd5e1;
-
     border-radius: 0 0 8px 8px;
-
     background: #ffffff;
 }
 
 table {
     width: 100%;
-
-    min-width: 0; /* স্ক্রল রোধ করতে min-width ১০০% স্ক্রিনে ফিট করা হলো */
-
     table-layout: auto;
-
     border-collapse: collapse;
-
-    background: #ffffff;
-
-    margin: 0;
 }
 
-th,
-td {
+th, td {
     border: 1px solid #cbd5e1;
-
     padding: 9px 5px;
-
     text-align: center;
-
     font-size: 13.5px;
-
     line-height: 1.35;
-
     color: #111827;
-
-    word-break: break-word; /* লম্বা শব্দ নিজে থেকেই ভেঙ্গে নিচে চলে আসবে */
-
-    white-space: normal;
+    word-break: break-word;
 }
 
 th {
     background: #f1f5f9;
-
-    color: #111827;
-
     font-weight: 900;
 }
 
 td strong {
     font-weight: 900;
-
-    color: #111827;
 }
-
-/* alternate rows */
 
 tbody tr:nth-child(even) {
     background: #f8fafc;
@@ -676,43 +425,30 @@ tbody tr:nth-child(even) {
 
 .total-summary {
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 12px;
-
     margin-top: 18px;
 }
 
 .summary-card {
     background: #f8fafc;
-
     border: 1px solid #d7dee8;
-
     border-radius: 8px;
-
     padding: 14px;
-
     text-align: center;
 }
 
 .summary-label {
     display: block;
-
     color: #475569;
-
     font-size: 13px;
-
     margin-bottom: 5px;
 }
 
 .summary-value {
     display: block;
-
     color: #1557c0;
-
     font-size: 22px;
-
     font-weight: 900;
 }
 
@@ -722,395 +458,163 @@ tbody tr:nth-child(even) {
 
 .action-buttons {
     width: 100%;
-
     max-width: 900px;
-
     margin: 18px auto 0;
-
     text-align: center;
 }
 
 .btn-print {
     width: 100%;
-
     max-width: 440px;
-
     min-height: 60px;
-
     background: #2456d8;
-
     color: #ffffff;
-
     border: none;
-
     border-radius: 9px;
-
-    padding: 12px 20px;
-
     font-size: 19px;
-
     font-weight: 900;
-
     cursor: pointer;
-
-    box-shadow:
-        0 5px 15px rgba(36,86,216,0.25);
-}
-
-.btn-print:hover {
-    background: #1d46b8;
+    box-shadow: 0 5px 15px rgba(36,86,216,0.25);
 }
 
 /* =========================================================
-   MOBILE
+   MOBILE SCREENS
 ========================================================= */
 
 @media (max-width: 650px) {
-
-    body {
-        padding: 8px;
-    }
-
-    .container {
-        padding: 10px;
-
-        border-radius: 9px;
-    }
-
-    .invoice-header {
-        min-height: auto;
-
-        padding: 18px 15px 18px;
-
-        border-radius: 12px;
-
-        margin-bottom: 15px;
-    }
-
-    .header-top {
-        gap: 12px;
-    }
-
-    .menu-btn {
-        width: 48px;
-        height: 48px;
-
-        font-size: 28px;
-
-        border-radius: 9px;
-    }
-
-    .header-main-title {
-        font-size: 20px;
-
-        white-space: normal;
-    }
-
-    .header-sub-title {
-        font-size: 13px;
-
-        margin-top: 5px;
-
-        letter-spacing: 0.3px;
-    }
-
-    .shop-details {
-        grid-template-columns: 1fr;
-
-        gap: 8px;
-
-        margin-top: 14px;
-    }
-
-    .shop-details input {
-        height: 42px;
-
-        font-size: 15px;
-    }
-
-    .section-heading {
-        font-size: 16px;
-
-        padding: 10px 12px;
-    }
-
-    .dimension-card {
-        padding: 13px;
-    }
-
-    .input-grid {
-        gap: 11px;
-    }
-
-    .input-group label {
-        font-size: 14px;
-    }
-
-    .input-group input {
-        height: 50px;
-
-        font-size: 18px;
-    }
-
-    .btn-add-box {
-        min-height: 54px;
-
-        font-size: 16px;
-    }
-
-    .btn-calc {
-        min-height: 58px;
-
-        font-size: 21px;
-    }
-
-    .result-title {
-        font-size: 15px;
-
-        padding: 10px 11px;
-    }
-
-    th,
-    td {
-        font-size: 12px;
-
-        padding: 7px 4px;
-    }
-
-    .total-summary {
-        grid-template-columns: 1fr;
-    }
-
-    .btn-print {
-        font-size: 17px;
-
-        min-height: 55px;
-    }
+    body { padding: 8px; }
+    .container { padding: 10px; }
+    .invoice-header { padding: 18px 15px; margin-bottom: 15px; }
+    .header-main-title { font-size: 22px; }
+    .header-sub-title { font-size: 12px; }
+    .shop-details { grid-template-columns: 1fr; gap: 8px; }
+    .shop-details input { height: 42px; font-size: 15px; }
+    .input-grid { gap: 11px; }
+    .input-group input { height: 50px; font-size: 18px; }
+    th, td { font-size: 12px; padding: 7px 4px; }
+    .total-summary { grid-template-columns: 1fr; }
 }
 
 /* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 420px) {
-
-    .header-main-title {
-        font-size: 18px;
-    }
-
-    .header-sub-title {
-        font-size: 12px;
-    }
-
-    .input-grid {
-        grid-template-columns: 1fr 1fr;
-
-        gap: 8px;
-    }
-
-    .input-group label {
-        font-size: 12px;
-    }
-
-    .input-group input {
-        height: 48px;
-
-        font-size: 17px;
-    }
-
-    th,
-    td {
-        font-size: 11px;
-        padding: 6px 3px;
-    }
-}
-
-/* =========================================================
-   PRINT / PDF (HD CLEAR PRINT)
+   PRINT / PDF (A4 FULL PAGE & CLEAR)
 ========================================================= */
 
 @media print {
-
     @page {
         size: A4 portrait;
-
-        margin: 6mm;
+        margin: 10mm; /* পারফেক্ট ফুল পেজ মার্জিন */
     }
 
-    html,
-    body {
+    html, body {
         background: #ffffff !important;
-
         margin: 0 !important;
-
         padding: 0 !important;
-
-        width: 100%;
-    }
-
-    body {
-        font-family:
-            "Noto Sans Bengali",
-            "Noto Sans",
-            Arial,
-            sans-serif;
+        width: 100% !important;
     }
 
     .container {
         width: 100% !important;
-
-        max-width: none !important;
-
+        max-width: 100% !important;
         margin: 0 !important;
-
         padding: 0 !important;
-
         border: none !important;
-
         box-shadow: none !important;
-
-        border-radius: 0 !important;
     }
 
+    /* যে অংশগুলো প্রিন্ট হবে না */
     .no-print,
     .sidebar,
     .action-buttons,
     .add-box-area,
     .remove-box-btn,
-    .total-summary {
-        display: none !important;
-    }
-
-    .invoice-header {
-        min-height: auto !important;
-
-        margin-bottom: 8px !important;
-
-        padding: 12px 15px !important;
-
-        border-radius: 6px !important;
-
-        box-shadow: none !important;
-
-        background: #123a8c !important;
-
-        -webkit-print-color-adjust: exact !important;
-
-        print-color-adjust: exact !important;
-    }
-
-    .header-top {
-        gap: 8px !important;
-    }
-
+    .total-summary,
+    .header-title-area, /* <--- আপনার নির্দেশ অনুযায়ী মূল টাইটেল প্রিন্ট থেকে বাদ দেওয়া হলো */
     .menu-btn {
         display: none !important;
     }
 
-    .header-main-title {
-        font-size: 16pt !important;
-
-        white-space: normal !important;
-
-        color: #ffffff !important;
+    /* প্রিন্ট হেডার ডিজাইন */
+    .invoice-header {
+        min-height: auto !important;
+        margin-bottom: 15px !important;
+        padding: 15px !important;
+        border-radius: 6px !important;
+        box-shadow: none !important;
+        background: #123a8c !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        display: block !important;
     }
 
-    .header-sub-title {
-        font-size: 9pt !important;
-
-        margin-top: 4px !important;
-
-        color: #ffffff !important;
-    }
-
+    /* ইনপুট দেওয়া নাম ও নাম্বার প্রিন্টে বড় দেখাবে */
     .shop-details {
-        margin-top: 8px !important;
-
-        gap: 8px !important;
-
-        grid-template-columns: 1fr 1fr !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-top: 0 !important;
+        gap: 5px !important;
     }
 
     .shop-details input {
-        height: auto !important;
-
-        padding: 4px 8px !important;
-
-        font-size: 10.5pt !important;
-
-        font-weight: bold !important;
-
-        border-radius: 3px !important;
-
-        border: none !important;
-
-        background: rgba(255, 255, 255, 0.2) !important;
-
+        width: 100% !important;
+        background: transparent !important;
         color: #ffffff !important;
-
+        border: none !important;
         text-align: center !important;
+        padding: 0 !important;
+        height: auto !important;
+    }
 
-        -webkit-print-color-adjust: exact !important;
+    #shopName {
+        font-size: 22pt !important; /* নাম বড় করে প্রিন্ট হবে */
+        font-weight: 900 !important;
+    }
 
-        print-color-adjust: exact !important;
+    #shopPhone {
+        font-size: 14pt !important; /* নাম্বার বড় করে প্রিন্ট হবে */
+        font-weight: 700 !important;
     }
 
     .result-section {
         display: block !important;
+        width: 100% !important;
     }
 
     .result-title {
-        margin-top: 8px !important;
-
-        padding: 5px 8px !important;
-
-        font-size: 10.5pt !important;
-
+        margin-top: 15px !important;
+        padding: 8px !important;
+        font-size: 13pt !important;
         background: #1557c0 !important;
-
         color: #ffffff !important;
-
-        border-radius: 3px 3px 0 0 !important;
-
+        border-radius: 4px 4px 0 0 !important;
         -webkit-print-color-adjust: exact !important;
-
         print-color-adjust: exact !important;
     }
 
     .table-wrap {
-        overflow: visible !important;
-
         border-radius: 0 !important;
-
         border: none !important;
-    }
-
-    table {
-        min-width: 0 !important;
-
         width: 100% !important;
     }
 
-    th,
-    td {
-        padding: 5px 4px !important;
+    /* টেবিল ফুল পেজ ও ঝকঝকে করার জন্য */
+    table {
+        width: 100% !important;
+        table-layout: fixed !important;
+    }
 
-        font-size: 9.5pt !important;
-
-        line-height: 1.3 !important;
-
+    th, td {
+        padding: 8px 5px !important;
+        font-size: 11pt !important; /* লেখা বড় ও ক্লিয়ার করা হলো */
         border: 1px solid #000000 !important;
-
         color: #000000 !important;
-
         word-break: break-word !important;
     }
 
     th {
         background: #e2e8f0 !important;
-
         -webkit-print-color-adjust: exact !important;
-
         print-color-adjust: exact !important;
     }
 }
@@ -1120,1700 +624,373 @@ tbody tr:nth-child(even) {
 
 <body>
 
-<!-- =========================================================
-     SIDEBAR
-========================================================= -->
-
+<!-- SIDEBAR -->
 <div class="sidebar" id="historySidebar">
-
     <div class="sidebar-header">
-
         <h3>পূর্ববর্তী হিসাব</h3>
-
-        <button
-            class="close-sidebar"
-            onclick="toggleSidebar()">
-            বন্ধ
-        </button>
-
+        <button class="close-sidebar" onclick="toggleSidebar()">বন্ধ</button>
     </div>
-
     <div id="historyList"></div>
-
 </div>
 
-
-<!-- =========================================================
-     MAIN CONTAINER
-========================================================= -->
-
+<!-- MAIN CONTAINER -->
 <div class="container">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-
+    <!-- HEADER -->
     <div class="invoice-header">
-
         <div class="header-top">
-
-            <button
-                class="menu-btn no-print"
-                onclick="toggleSidebar()"
-                aria-label="History">
-                ☰
-            </button>
-
+            <button class="menu-btn no-print" onclick="toggleSidebar()">☰</button>
+            
+            <!-- এই লেখাটি ওয়েব পেজে দেখাবে, কিন্তু প্রিন্টে আসবে না -->
             <div class="header-title-area">
-
-                <div class="header-main-title">
-                    CURTAIN WALL CALCULATION CALCULATOR
-                </div>
-
-                <div class="header-sub-title">
-                    CURTAIN WALL &amp; QUOTATION CALCULATOR
-                </div>
-
+                <div class="header-main-title">RM THAI ALUMINIUM</div>
+                <div class="header-sub-title">CURTAIN WALL MATERIAL &amp; QUOTATION CALCULATOR</div>
             </div>
-
         </div>
 
-
+        <!-- এই ইনপুটগুলো প্রিন্টে বিশাল বড় টাইটেল হিসেবে আসবে -->
         <div class="shop-details">
-
-            <input
-                type="text"
-                id="shopName"
-                value="RM THAI ALUMINIUM"
-                aria-label="Shop Name">
-
-            <input
-                type="text"
-                id="shopPhone"
-                value="Mobile: 01676-474412"
-                aria-label="Mobile">
-
+            <input type="text" id="shopName" value="RM THAI ALUMINIUM" aria-label="Shop Name">
+            <input type="text" id="shopPhone" value="Mobile: 01676-474412" aria-label="Mobile">
         </div>
-
     </div>
 
-
-    <!-- =====================================================
-         DIMENSION INPUT SECTION
-    ====================================================== -->
-
+    <!-- DIMENSION INPUT SECTION -->
     <div class="dimension-section no-print">
-
         <div class="section-heading">
             <span>কাজের মাপ ও খোপের সংখ্যা</span>
         </div>
 
-        <div id="dimensionContainer">
-
-            <!-- প্রথম বক্স JavaScript দিয়ে তৈরি হবে -->
-
-        </div>
-
-
-        <!-- ADD NEW BOX -->
+        <div id="dimensionContainer"></div>
 
         <div class="add-box-area">
-
-            <button
-                type="button"
-                class="btn-add-box"
-                onclick="addDimensionBox()">
-
+            <button type="button" class="btn-add-box" onclick="addDimensionBox()">
                 ＋ আরও একটি মাপের বক্স যোগ করুন
-
             </button>
-
         </div>
 
-
-        <!-- CALCULATE -->
-
-        <button
-            type="button"
-            class="btn-calc"
-            onclick="calculateMaterials()">
-
+        <button type="button" class="btn-calc" onclick="calculateMaterials()">
             হিসাব বের করুন
-
         </button>
-
     </div>
 
+    <!-- RESULT AREA -->
+    <div id="resultArea" class="result-section">
 
-    <!-- =====================================================
-         RESULT AREA
-    ====================================================== -->
-
-    <div
-        id="resultArea"
-        class="result-section">
-
-
-        <!-- =================================================
-             ALUMINIUM
-        ================================================== -->
-
-        <div class="result-title">
-            ১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)
-        </div>
-
+        <!-- ALUMINIUM -->
+        <div class="result-title">১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)</div>
         <div class="table-wrap">
-
             <table>
-
                 <thead>
-
                     <tr>
-
                         <th style="width: 25%;">মালের নাম</th>
-
                         <th style="width: 35%;">বিবরণ</th>
-
                         <th style="width: 20%;">টোটাল রানিং ফিট</th>
-
                         <th style="width: 20%;">পিস (২১ ফিট)</th>
-
                     </tr>
-
                 </thead>
-
                 <tbody id="alumTable"></tbody>
-
             </table>
-
         </div>
 
-
-        <!-- =================================================
-             GLASS
-        ================================================== -->
-
-        <div class="result-title">
-            ২. গ্লাস এরিয়া হিসাব
-        </div>
-
+        <!-- GLASS -->
+        <div class="result-title">২. গ্লাস এরিয়া হিসাব</div>
         <div class="table-wrap">
-
             <table>
-
                 <thead>
-
                     <tr>
-
                         <th style="width: 45%;">বিবরণ</th>
-
                         <th style="width: 55%;">মোট স্কয়ার ফিট / পরিমাণ</th>
-
                     </tr>
-
                 </thead>
-
                 <tbody id="glassTable"></tbody>
-
             </table>
-
         </div>
 
-
-        <!-- =================================================
-             ACCESSORIES
-        ================================================== -->
-
-        <div class="result-title">
-            ৩. এক্সেসরিজ ও ফিটিংস হিসাব
-        </div>
-
+        <!-- ACCESSORIES -->
+        <div class="result-title">৩. এক্সেসরিজ ও ফিটিংস হিসাব</div>
         <div class="table-wrap">
-
             <table>
-
                 <thead>
-
                     <tr>
-
                         <th style="width: 30%;">উপাদানের নাম</th>
-
                         <th style="width: 45%;">হিসাবের বিবরণ</th>
-
                         <th style="width: 25%;">মোট পরিমাণ</th>
-
                     </tr>
-
                 </thead>
-
                 <tbody id="accTable"></tbody>
-
             </table>
-
         </div>
 
-
-        <!-- =================================================
-             SUMMARY (প্রিন্ট থেকে বাদ দেওয়ার জন্য no-print ক্লাস)
-        ================================================== -->
-
+        <!-- SUMMARY -->
         <div class="total-summary no-print">
-
             <div class="summary-card">
-
-                <span class="summary-label">
-                    মোট হাইট
-                </span>
-
-                <span
-                    class="summary-value"
-                    id="summaryHeight">
-                    0
-                </span>
-
+                <span class="summary-label">মোট হাইট</span>
+                <span class="summary-value" id="summaryHeight">0</span>
             </div>
-
-
             <div class="summary-card">
-
-                <span class="summary-label">
-                    মোট চওড়া / লেন্থ
-                </span>
-
-                <span
-                    class="summary-value"
-                    id="summaryWidth">
-                    0
-                </span>
-
+                <span class="summary-label">মোট চওড়া / লেন্থ</span>
+                <span class="summary-value" id="summaryWidth">0</span>
             </div>
-
-
             <div class="summary-card">
-
-                <span class="summary-label">
-                    মোট খোপ
-                </span>
-
-                <span
-                    class="summary-value"
-                    id="summaryKhop">
-                    0
-                </span>
-
+                <span class="summary-label">মোট খোপ</span>
+                <span class="summary-value" id="summaryKhop">0</span>
             </div>
-
         </div>
 
     </div>
-
 </div>
 
-
-<!-- =========================================================
-     PRINT BUTTON
-========================================================= -->
-
+<!-- PRINT BUTTON -->
 <div class="action-buttons no-print">
-
-    <button
-        type="button"
-        class="btn-print"
-        onclick="printInvoice()">
-
+    <button type="button" class="btn-print" onclick="printInvoice()">
         🖨️ পিডিএফ প্রিন্ট (A4 ওয়ান পেজ)
-
     </button>
-
 </div>
-
 
 <script>
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
 let dimensionCounter = 0;
 
-
-/* =========================================================
-   PAGE LOAD
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        loadShopData();
-
-        addDimensionBox();
-
-        loadHistory();
-
-    }
-);
-
-
-/* =========================================================
-   SHOP DATA
-========================================================= */
+document.addEventListener("DOMContentLoaded", function () {
+    loadShopData();
+    addDimensionBox();
+    loadHistory();
+});
 
 function loadShopData() {
-
-    const savedName =
-        localStorage.getItem("cw_shopName");
-
-    const savedPhone =
-        localStorage.getItem("cw_shopPhone");
-
-
-    if (savedName) {
-
-        document.getElementById("shopName").value =
-            savedName;
-
-    }
-
-
-    if (savedPhone) {
-
-        document.getElementById("shopPhone").value =
-            savedPhone;
-
-    }
-
+    const savedName = localStorage.getItem("cw_shopName");
+    const savedPhone = localStorage.getItem("cw_shopPhone");
+    if (savedName) document.getElementById("shopName").value = savedName;
+    if (savedPhone) document.getElementById("shopPhone").value = savedPhone;
 }
 
-
-/* =========================================================
-   SAVE SHOP DATA
-========================================================= */
-
-document
-    .getElementById("shopName")
-    .addEventListener(
-        "input",
-        function () {
-
-            localStorage.setItem(
-                "cw_shopName",
-                this.value
-            );
-
-        }
-    );
-
-
-document
-    .getElementById("shopPhone")
-    .addEventListener(
-        "input",
-        function () {
-
-            localStorage.setItem(
-                "cw_shopPhone",
-                this.value
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
+document.getElementById("shopName").addEventListener("input", function () {
+    localStorage.setItem("cw_shopName", this.value);
+});
+document.getElementById("shopPhone").addEventListener("input", function () {
+    localStorage.setItem("cw_shopPhone", this.value);
+});
 
 function toggleSidebar() {
-
-    document
-        .getElementById("historySidebar")
-        .classList
-        .toggle("active");
-
+    document.getElementById("historySidebar").classList.toggle("active");
 }
 
-
-/* =========================================================
-   ADD DIMENSION BOX
-========================================================= */
-
-function addDimensionBox(
-    height = "",
-    width = "",
-    cols = "",
-    rows = ""
-) {
-
+function addDimensionBox(height = "", width = "", cols = "", rows = "") {
     dimensionCounter++;
-
-    const container =
-        document.getElementById(
-            "dimensionContainer"
-        );
-
-
-    const card =
-        document.createElement("div");
-
-    card.className =
-        "dimension-card";
-
-    card.dataset.id =
-        dimensionCounter;
-
+    const container = document.getElementById("dimensionContainer");
+    const card = document.createElement("div");
+    card.className = "dimension-card";
+    card.dataset.id = dimensionCounter;
 
     card.innerHTML = `
-
-        <div class="dimension-card-number">
-            বক্স ${dimensionCounter}
-        </div>
-
-        ${
-            dimensionCounter > 1
-            ?
-            `
-            <button
-                type="button"
-                class="remove-box-btn"
-                onclick="removeDimensionBox(this)"
-                title="এই বক্স মুছে ফেলুন">
-                ×
-            </button>
-            `
-            :
-            ""
-        }
-
+        <div class="dimension-card-number">বক্স ${dimensionCounter}</div>
+        ${dimensionCounter > 1 ? `<button type="button" class="remove-box-btn" onclick="removeDimensionBox(this)">×</button>` : ""}
         <div class="input-grid">
-
             <div class="input-group">
-
-                <label>
-                    মোট হাইট (ফিট)
-                </label>
-
-                <input
-                    type="number"
-                    class="cw-height"
-                    placeholder="যেমন: 10"
-                    step="0.01"
-                    min="0"
-                    value="${height}">
-
+                <label>মোট হাইট (ফিট)</label>
+                <input type="number" class="cw-height" placeholder="যেমন: 10" step="0.01" min="0" value="${height}">
             </div>
-
-
             <div class="input-group">
-
-                <label>
-                    মোট চওড়া / লেন্থ (ফিট)
-                </label>
-
-                <input
-                    type="number"
-                    class="cw-width"
-                    placeholder="যেমন: 21"
-                    step="0.01"
-                    min="0"
-                    value="${width}">
-
+                <label>মোট চওড়া / লেন্থ (ফিট)</label>
+                <input type="number" class="cw-width" placeholder="যেমন: 21" step="0.01" min="0" value="${width}">
             </div>
-
-
             <div class="input-group">
-
-                <label>
-                    খাড়া কলাম (খোপ)
-                </label>
-
-                <input
-                    type="number"
-                    class="cw-cols"
-                    placeholder="যেমন: 8"
-                    step="1"
-                    min="1"
-                    value="${cols}">
-
+                <label>খাড়া কলাম (খোপ)</label>
+                <input type="number" class="cw-cols" placeholder="যেমন: 8" step="1" min="1" value="${cols}">
             </div>
-
-
             <div class="input-group">
-
-                <label>
-                    আড়াআড়ি সারি / তলা (খোপ)
-                </label>
-
-                <input
-                    type="number"
-                    class="cw-rows"
-                    placeholder="যেমন: 3"
-                    step="1"
-                    min="1"
-                    value="${rows}">
-
+                <label>আড়াআড়ি সারি / তলা (খোপ)</label>
+                <input type="number" class="cw-rows" placeholder="যেমন: 3" step="1" min="1" value="${rows}">
             </div>
-
         </div>
-
     `;
-
-
     container.appendChild(card);
-
 }
-
-
-/* =========================================================
-   REMOVE DIMENSION BOX
-========================================================= */
 
 function removeDimensionBox(button) {
-
-    const card =
-        button.closest(".dimension-card");
-
+    const card = button.closest(".dimension-card");
     if (!card) return;
-
-
     card.remove();
-
-
     renumberDimensionBoxes();
-
 }
-
-
-/* =========================================================
-   RENUMBER BOXES
-========================================================= */
 
 function renumberDimensionBoxes() {
-
-    const cards =
-        document.querySelectorAll(
-            ".dimension-card"
-        );
-
-
-    cards.forEach(
-        function (card, index) {
-
-            const number =
-                card.querySelector(
-                    ".dimension-card-number"
-                );
-
-            if (number) {
-
-                number.textContent =
-                    "বক্স " + (index + 1);
-
-            }
-
-        }
-    );
-
+    const cards = document.querySelectorAll(".dimension-card");
+    cards.forEach(function (card, index) {
+        const number = card.querySelector(".dimension-card-number");
+        if (number) number.textContent = "বক্স " + (index + 1);
+    });
 }
-
-
-/* =========================================================
-   GET ALL DIMENSION DATA
-========================================================= */
 
 function getDimensionData() {
-
-    const cards =
-        document.querySelectorAll(
-            ".dimension-card"
-        );
-
-
+    const cards = document.querySelectorAll(".dimension-card");
     const data = [];
-
-
-    cards.forEach(
-        function (card) {
-
-            const height =
-                parseFloat(
-                    card.querySelector(
-                        ".cw-height"
-                    ).value
-                ) || 0;
-
-
-            const width =
-                parseFloat(
-                    card.querySelector(
-                        ".cw-width"
-                    ).value
-                ) || 0;
-
-
-            const cols =
-                parseInt(
-                    card.querySelector(
-                        ".cw-cols"
-                    ).value
-                ) || 0;
-
-
-            const rows =
-                parseInt(
-                    card.querySelector(
-                        ".cw-rows"
-                    ).value
-                ) || 0;
-
-
-            if (
-                height > 0 ||
-                width > 0 ||
-                cols > 0 ||
-                rows > 0
-            ) {
-
-                data.push({
-                    height,
-                    width,
-                    cols,
-                    rows
-                });
-
-            }
-
+    cards.forEach(function (card) {
+        const height = parseFloat(card.querySelector(".cw-height").value) || 0;
+        const width = parseFloat(card.querySelector(".cw-width").value) || 0;
+        const cols = parseInt(card.querySelector(".cw-cols").value) || 0;
+        const rows = parseInt(card.querySelector(".cw-rows").value) || 0;
+        if (height > 0 || width > 0 || cols > 0 || rows > 0) {
+            data.push({ height, width, cols, rows });
         }
-    );
-
-
+    });
     return data;
-
 }
-
-
-/* =========================================================
-   MAIN CALCULATION
-========================================================= */
 
 function calculateMaterials() {
-
-    const dimensions =
-        getDimensionData();
-
-
+    const dimensions = getDimensionData();
     if (dimensions.length === 0) {
-
-        alert(
-            "দয়া করে অন্তত একটি মাপের বক্সে তথ্য দিন।"
-        );
-
+        alert("দয়া করে অন্তত একটি মাপের বক্সে তথ্য দিন।");
         return;
-
     }
 
-
-    /* =====================================================
-       TOTAL VARIABLES
-    ===================================================== */
-
-    let totalHalfSectionFeet = 0;
-
-    let totalHalfSectionPipes = 0;
-
-    let totalFullSectionFeet = 0;
-
-    let totalFullSectionPipes = 0;
-
-    let totalAngleFeet = 0;
-
-    let totalAnglePipes = 0;
-
-
-    let totalGlassSqft = 0;
-
-    let totalTapeFeet = 0;
-
-    let totalMaskingTapeRolls = 0;
-
-    let totalNotanTapeRolls = 0;
-
-    let totalSilicon = 0;
-
-
-    let totalClamps = 0;
-
-    let totalRoyalBolts = 0;
-
-    let totalScrews = 0;
-
-    let totalNutBolts = 0;
-
-    let totalRivets = 0;
-
-
-    let totalKhop = 0;
-
-    let displayHeight = 0;
-
-    let displayWidth = 0;
-
-
-    /* =====================================================
-       CALCULATE EACH BOX
-    ===================================================== */
-
-    dimensions.forEach(
-        function (item, index) {
-
-            const height =
-                item.height;
-
-            const width =
-                item.width;
-
-            const cols =
-                item.cols;
-
-            const rows =
-                item.rows;
-
-
-            if (
-                height <= 0 ||
-                width <= 0 ||
-                cols <= 0 ||
-                rows <= 0
-            ) {
-
-                return;
-
-            }
-
-
-            /* =============================================
-               KHOP
-            ============================================= */
-
-            const khop =
-                cols * rows;
-
-            totalKhop += khop;
-
-
-            displayHeight =
-                Math.max(
-                    displayHeight,
-                    height
-                );
-
-            displayWidth += width;
-
-
-            /* =============================================
-               1. HALF SECTION
-            ============================================= */
-
-            const halfSectionFeet =
-                (width * 2) +
-                (height * 2);
-
-
-            const halfSectionPipes =
-                Math.ceil(
-                    halfSectionFeet / 21
-                );
-
-
-            totalHalfSectionFeet +=
-                halfSectionFeet;
-
-
-            totalHalfSectionPipes +=
-                halfSectionPipes;
-
-
-            /* =============================================
-               VERTICAL
-            ============================================= */
-
-            const verticalPipesCount =
-                cols + 1;
-
-
-            const middleVerticalsCount =
-                cols - 1;
-
-
-            const middleVerticalFeet =
-                middleVerticalsCount *
-                height;
-
-
-            /* =============================================
-               HORIZONTAL
-            ============================================= */
-
-            const horizontalRowsCount =
-                rows - 1;
-
-
-            const deductionPerLine =
-                (
-                    verticalPipesCount * 2
-                ) / 12;
-
-
-            let horizontalFeetPerLine =
-                width -
-                deductionPerLine;
-
-
-            if (
-                horizontalFeetPerLine < 0
-            ) {
-
-                horizontalFeetPerLine = 0;
-
-            }
-
-
-            const middleHorizontalFeet =
-                horizontalRowsCount *
-                horizontalFeetPerLine;
-
-
-            const fullSectionFeet =
-                middleVerticalFeet +
-                middleHorizontalFeet;
-
-
-            const fullSectionPipes =
-                Math.ceil(
-                    fullSectionFeet / 21
-                );
-
-
-            totalFullSectionFeet +=
-                fullSectionFeet;
-
-
-            totalFullSectionPipes +=
-                fullSectionPipes;
-
-
-            /* =============================================
-               ANGLE
-            ============================================= */
-
-            const angleFeet =
-                khop * (8 / 12);
-
-
-            const anglePipes =
-                Math.ceil(
-                    angleFeet / 21
-                );
-
-
-            totalAngleFeet +=
-                angleFeet;
-
-
-            totalAnglePipes +=
-                anglePipes;
-
-
-            /* =============================================
-               GLASS
-            ============================================= */
-
-            const glassSqft =
-                width * height;
-
-
-            totalGlassSqft +=
-                glassSqft;
-
-
-            /* =============================================
-               TAPE
-            ============================================= */
-
-            const tapeFeet =
-                (
-                    (width / cols * 2) +
-                    (height / rows * 2)
-                ) * khop;
-
-
-            totalTapeFeet +=
-                tapeFeet;
-
-
-            const maskingTapeRolls =
-                Math.ceil(
-                    tapeFeet / 80
-                );
-
-
-            const notanTapeRolls =
-                Math.ceil(
-                    tapeFeet / 100
-                );
-
-
-            totalMaskingTapeRolls +=
-                maskingTapeRolls;
-
-
-            totalNotanTapeRolls +=
-                notanTapeRolls;
-
-
-            /* =============================================
-               SILICON
-            ============================================= */
-
-            const baseSilicon =
-                glassSqft / 50;
-
-
-            const khopFactor =
-                khop * 0.05;
-
-
-            const silicon =
-                Math.ceil(
-                    baseSilicon +
-                    khopFactor
-                );
-
-
-            totalSilicon +=
-                silicon;
-
-
-            /* =============================================
-               ACCESSORIES
-            ============================================= */
-
-            const clamps =
-                verticalPipesCount * 4;
-
-
-            const royalBolts =
-                clamps;
-
-
-            const screws =
-                clamps * 2;
-
-
-            const nutBolts =
-                clamps;
-
-
-            const rivets =
-                khop * 20;
-
-
-            totalClamps +=
-                clamps;
-
-
-            totalRoyalBolts +=
-                royalBolts;
-
-
-            totalScrews +=
-                screws;
-
-
-            totalNutBolts +=
-                nutBolts;
-
-
-            totalRivets +=
-                rivets;
-
-        }
-    );
-
-
-    /* =====================================================
-       VALIDATION
-    ====================================================== */
+    let totalHalfSectionFeet = 0, totalHalfSectionPipes = 0;
+    let totalFullSectionFeet = 0, totalFullSectionPipes = 0;
+    let totalAngleFeet = 0, totalAnglePipes = 0;
+    let totalGlassSqft = 0, totalTapeFeet = 0;
+    let totalMaskingTapeRolls = 0, totalNotanTapeRolls = 0, totalSilicon = 0;
+    let totalClamps = 0, totalRoyalBolts = 0, totalScrews = 0;
+    let totalNutBolts = 0, totalRivets = 0;
+    let totalKhop = 0, displayHeight = 0, displayWidth = 0;
+
+    dimensions.forEach(function (item) {
+        const { height, width, cols, rows } = item;
+        if (height <= 0 || width <= 0 || cols <= 0 || rows <= 0) return;
+
+        const khop = cols * rows;
+        totalKhop += khop;
+        displayHeight = Math.max(displayHeight, height);
+        displayWidth += width;
+
+        const halfSectionFeet = (width * 2) + (height * 2);
+        totalHalfSectionFeet += halfSectionFeet;
+        totalHalfSectionPipes += Math.ceil(halfSectionFeet / 21);
+
+        const verticalPipesCount = cols + 1;
+        const middleVerticalFeet = (cols - 1) * height;
+        let horizontalFeetPerLine = width - ((verticalPipesCount * 2) / 12);
+        if (horizontalFeetPerLine < 0) horizontalFeetPerLine = 0;
+        const middleHorizontalFeet = (rows - 1) * horizontalFeetPerLine;
+        
+        const fullSectionFeet = middleVerticalFeet + middleHorizontalFeet;
+        totalFullSectionFeet += fullSectionFeet;
+        totalFullSectionPipes += Math.ceil(fullSectionFeet / 21);
+
+        const angleFeet = khop * (8 / 12);
+        totalAngleFeet += angleFeet;
+        totalAnglePipes += Math.ceil(angleFeet / 21);
+
+        const glassSqft = width * height;
+        totalGlassSqft += glassSqft;
+
+        const tapeFeet = ((width / cols * 2) + (height / rows * 2)) * khop;
+        totalTapeFeet += tapeFeet;
+        totalMaskingTapeRolls += Math.ceil(tapeFeet / 80);
+        totalNotanTapeRolls += Math.ceil(tapeFeet / 100);
+
+        totalSilicon += Math.ceil((glassSqft / 50) + (khop * 0.05));
+
+        const clamps = verticalPipesCount * 4;
+        totalClamps += clamps;
+        totalRoyalBolts += clamps;
+        totalScrews += clamps * 2;
+        totalNutBolts += clamps;
+        totalRivets += khop * 20;
+    });
 
     if (totalKhop === 0) {
-
-        alert(
-            "হাইট, চওড়া এবং খোপের সংখ্যা সঠিকভাবে দিন।"
-        );
-
+        alert("হাইট, চওড়া এবং খোপের সংখ্যা সঠিকভাবে দিন।");
         return;
-
     }
 
-
-    /* =====================================================
-       ALUMINIUM TABLE
-    ====================================================== */
-
-    document.getElementById(
-        "alumTable"
-    ).innerHTML = `
-
-        <tr>
-
-            <td>
-                হাফ সেকশন (Top &amp; Side)
-            </td>
-
-            <td>
-                চারিপাশের ফ্রেম
-            </td>
-
-            <td>
-                ${totalHalfSectionFeet.toFixed(2)}
-                ফিট
-            </td>
-
-            <td>
-                <strong>
-                    ${totalHalfSectionPipes} পিস
-                </strong>
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                ফুল সেকশন (Middle)
-            </td>
-
-            <td>
-                মাঝখানের খাড়া ও আড়াআড়ি
-            </td>
-
-            <td>
-                ${totalFullSectionFeet.toFixed(2)}
-                ফিট
-            </td>
-
-            <td>
-                <strong>
-                    ${totalFullSectionPipes} পিস
-                </strong>
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                অ্যাঙ্গেল (Angle)
-            </td>
-
-            <td>
-                প্রতি খোপের জয়েন্ট (২" করে)
-            </td>
-
-            <td>
-                ${totalAngleFeet.toFixed(2)}
-                ফিট
-            </td>
-
-            <td>
-                <strong>
-                    ${totalAnglePipes} পিস
-                </strong>
-            </td>
-
-        </tr>
-
+    document.getElementById("alumTable").innerHTML = `
+        <tr><td>হাফ সেকশন (Top & Side)</td><td>চারিপাশের ফ্রেম</td><td>${totalHalfSectionFeet.toFixed(2)} ফিট</td><td><strong>${totalHalfSectionPipes} পিস</strong></td></tr>
+        <tr><td>ফুল সেকশন (Middle)</td><td>মাঝখানের খাড়া ও আড়াআড়ি</td><td>${totalFullSectionFeet.toFixed(2)} ফিট</td><td><strong>${totalFullSectionPipes} পিস</strong></td></tr>
+        <tr><td>অ্যাঙ্গেল (Angle)</td><td>প্রতি খোপের জয়েন্ট (২" করে)</td><td>${totalAngleFeet.toFixed(2)} ফিট</td><td><strong>${totalAnglePipes} পিস</strong></td></tr>
     `;
 
-
-    /* =====================================================
-       GLASS TABLE
-    ====================================================== */
-
-    document.getElementById(
-        "glassTable"
-    ).innerHTML = `
-
-        <tr>
-
-            <td>
-                মোট গ্লাস এরিয়া
-            </td>
-
-            <td>
-                <strong>
-                    ${totalGlassSqft.toFixed(2)}
-                    স্কয়ার ফিট
-                </strong>
-
-                (মোট খোপ:
-                ${totalKhop}টি)
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                মাস্কিং টেপ (Masking Tape)
-            </td>
-
-            <td>
-
-                <strong>
-                    ${totalTapeFeet.toFixed(2)}
-                    ফিট
-                </strong>
-
-                (আনুমানিক
-                ${totalMaskingTapeRolls}
-                রোল / ৮০ ফিট)
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                নটেন টেপ (Notan Tape)
-            </td>
-
-            <td>
-
-                <strong>
-                    ${totalTapeFeet.toFixed(2)}
-                    ফিট
-                </strong>
-
-                (আনুমানিক
-                ${totalNotanTapeRolls}
-                কয়েল / ১০০ ফিট)
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                সিলিকন গাম (Silicon Gum)
-            </td>
-
-            <td>
-
-                <strong>
-                    ${totalSilicon} পিস
-                </strong>
-
-                (স্কয়ার ফিট ও খোপের হিসাব অনুযায়ী)
-
-            </td>
-
-        </tr>
-
+    document.getElementById("glassTable").innerHTML = `
+        <tr><td>মোট গ্লাস এরিয়া</td><td><strong>${totalGlassSqft.toFixed(2)} স্কয়ার ফিট</strong> (মোট খোপ: ${totalKhop}টি)</td></tr>
+        <tr><td>মাস্কিং টেপ (Masking Tape)</td><td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalMaskingTapeRolls} রোল / ৮০ ফিট)</td></tr>
+        <tr><td>নটেন টেপ (Notan Tape)</td><td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalNotanTapeRolls} কয়েল / ১০০ ফিট)</td></tr>
+        <tr><td>সিলিকন গাম (Silicon Gum)</td><td><strong>${totalSilicon} পিস</strong> (স্কয়ার ফিট ও খোপের হিসাব অনুযায়ী)</td></tr>
     `;
 
-
-    /* =====================================================
-       ACCESSORIES TABLE
-    ====================================================== */
-
-    document.getElementById(
-        "accTable"
-    ).innerHTML = `
-
-        <tr>
-
-            <td>
-                ক্ল্যাম (Clamps)
-            </td>
-
-            <td>
-                প্রতি খাড়া মালে ৪টি
-            </td>
-
-            <td>
-                <strong>
-                    ${totalClamps} পিস
-                </strong>
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                রয়্যাল বোল্ট
-            </td>
-
-            <td>
-                প্রতি ক্ল্যামে ১টি
-            </td>
-
-            <td>
-                <strong>
-                    ${totalRoyalBolts} পিস
-                </strong>
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                ১ ইঞ্চি স্ক্রু
-            </td>
-
-            <td>
-                প্রতি ক্ল্যামে ২টি
-            </td>
-
-            <td>
-                <strong>
-                    ${totalScrews} পিস
-                </strong>
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                ২" নাট-বোল্ট
-            </td>
-
-            <td>
-                প্রতি ক্ল্যামে ১টি
-            </td>
-
-            <td>
-                <strong>
-                    ${totalNutBolts} পিস
-                </strong>
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                রিপিট (Rivets)
-            </td>
-
-            <td>
-                প্রতি খোপে ৫টি করে
-            </td>
-
-            <td>
-                <strong>
-                    ${totalRivets} পিস
-                </strong>
-            </td>
-
-        </tr>
-
+    document.getElementById("accTable").innerHTML = `
+        <tr><td>ক্ল্যাম (Clamps)</td><td>প্রতি খাড়া মালে ৪টি</td><td><strong>${totalClamps} পিস</strong></td></tr>
+        <tr><td>রয়্যাল বোল্ট</td><td>প্রতি ক্ল্যামে ১টি</td><td><strong>${totalRoyalBolts} পিস</strong></td></tr>
+        <tr><td>১ ইঞ্চি স্ক্রু</td><td>প্রতি ক্ল্যামে ২টি</td><td><strong>${totalScrews} পিস</strong></td></tr>
+        <tr><td>২" নাট-বোল্ট</td><td>প্রতি ক্ল্যামে ১টি</td><td><strong>${totalNutBolts} পিস</strong></td></tr>
+        <tr><td>রিপিট (Rivets)</td><td>প্রতি খোপে ৫টি করে</td><td><strong>${totalRivets} পিস</strong></td></tr>
     `;
 
+    document.getElementById("summaryHeight").textContent = displayHeight.toFixed(2) + " ফিট";
+    document.getElementById("summaryWidth").textContent = displayWidth.toFixed(2) + " ফিট";
+    document.getElementById("summaryKhop").textContent = totalKhop + " টি";
 
-    /* =====================================================
-       SUMMARY
-    ====================================================== */
-
-    document.getElementById(
-        "summaryHeight"
-    ).textContent =
-        displayHeight.toFixed(2) +
-        " ফিট";
-
-
-    document.getElementById(
-        "summaryWidth"
-    ).textContent =
-        displayWidth.toFixed(2) +
-        " ফিট";
-
-
-    document.getElementById(
-        "summaryKhop"
-    ).textContent =
-        totalKhop +
-        " টি";
-
-
-    /* =====================================================
-       SHOW RESULT
-    ====================================================== */
-
-    document.getElementById(
-        "resultArea"
-    ).style.display =
-        "block";
-
-
-    /* =====================================================
-       SAVE HISTORY
-    ====================================================== */
-
+    document.getElementById("resultArea").style.display = "block";
     saveHistory(dimensions);
-
-
-    /* =====================================================
-       SCROLL RESULT
-    ====================================================== */
-
-    setTimeout(
-        function () {
-
-            document
-                .getElementById("resultArea")
-                .scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-        },
-        100
-    );
-
+    
+    setTimeout(() => {
+        document.getElementById("resultArea").scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
 }
-
-
-/* =========================================================
-   SAVE HISTORY
-========================================================= */
 
 function saveHistory(dimensions) {
-
-    let history =
-        JSON.parse(
-            localStorage.getItem(
-                "cw_history"
-            )
-        ) || [];
-
-
-    const item = {
-
-        dimensions:
-            JSON.parse(
-                JSON.stringify(dimensions)
-            ),
-
-        date:
-            new Date().toLocaleString(
-                "bn-BD"
-            )
-
-    };
-
-
+    let history = JSON.parse(localStorage.getItem("cw_history")) || [];
+    const item = { dimensions: JSON.parse(JSON.stringify(dimensions)), date: new Date().toLocaleString("bn-BD") };
     history.unshift(item);
-
-
-    if (history.length > 10) {
-
-        history =
-            history.slice(0, 10);
-
-    }
-
-
-    localStorage.setItem(
-        "cw_history",
-        JSON.stringify(history)
-    );
-
-
+    if (history.length > 10) history = history.slice(0, 10);
+    localStorage.setItem("cw_history", JSON.stringify(history));
     loadHistory();
-
 }
-
-
-/* =========================================================
-   LOAD HISTORY
-========================================================= */
 
 function loadHistory() {
-
-    const history =
-        JSON.parse(
-            localStorage.getItem(
-                "cw_history"
-            )
-        ) || [];
-
-
-    const listDiv =
-        document.getElementById(
-            "historyList"
-        );
-
-
+    const history = JSON.parse(localStorage.getItem("cw_history")) || [];
+    const listDiv = document.getElementById("historyList");
     listDiv.innerHTML = "";
-
-
     if (history.length === 0) {
-
-        listDiv.innerHTML = `
-
-            <div
-                style="
-                    text-align:center;
-                    color:#64748b;
-                    padding:20px;
-                    font-size:14px;
-                ">
-
-                এখনো কোনো হিসাব সেভ করা হয়নি।
-
-            </div>
-
-        `;
-
+        listDiv.innerHTML = `<div style="text-align:center;color:#64748b;padding:20px;font-size:14px;">এখনো কোনো হিসাব সেভ করা হয়নি।</div>`;
         return;
-
     }
-
-
-    history.forEach(
-        function (item, index) {
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "history-item";
-
-
-            if (
-                item.dimensions &&
-                Array.isArray(
-                    item.dimensions
-                )
-            ) {
-
-                const totalKhop =
-                    item.dimensions.reduce(
-                        function (sum, x) {
-
-                            return sum +
-                                (
-                                    (x.cols || 0) *
-                                    (x.rows || 0)
-                                );
-
-                        },
-                        0
-                    );
-
-
-                div.innerHTML = `
-
-                    <strong>
-                        হিসাব #${index + 1}
-                    </strong>
-
-                    <br>
-
-                    বক্স:
-                    ${item.dimensions.length}টি
-
-                    <br>
-
-                    মোট খোপ:
-                    ${totalKhop}টি
-
-                    <br>
-
-                    <small>
-                        ${item.date || ""}
-                    </small>
-
-                `;
-
-
-                div.onclick =
-                    function () {
-
-                        loadHistoryItem(
-                            item.dimensions
-                        );
-
-                    };
-
-
-            }
-
-            else {
-
-                const h =
-                    item.h ||
-                    item.height ||
-                    0;
-
-                const w =
-                    item.w ||
-                    item.width ||
-                    0;
-
-                const c =
-                    item.cols ||
-                    0;
-
-                const r =
-                    item.rows ||
-                    0;
-
-
-                div.innerHTML = `
-
-                    <strong>
-                        পুরোনো হিসাব
-                    </strong>
-
-                    <br>
-
-                    হাইট:
-                    ${h} ফিট
-
-                    <br>
-
-                    চওড়া:
-                    ${w} ফিট
-
-                    <br>
-
-                    খোপ:
-                    ${c} × ${r}
-
-                    <br>
-
-                    <small>
-                        ${item.date || ""}
-                    </small>
-
-                `;
-
-
-                div.onclick =
-                    function () {
-
-                        loadHistoryItem([
-                            {
-                                height: h,
-                                width: w,
-                                cols: c,
-                                rows: r
-                            }
-                        ]);
-
-                    };
-
-            }
-
-
-            listDiv.appendChild(div);
-
+    history.forEach(function (item, index) {
+        const div = document.createElement("div");
+        div.className = "history-item";
+        if (item.dimensions && Array.isArray(item.dimensions)) {
+            const totalKhop = item.dimensions.reduce((sum, x) => sum + ((x.cols || 0) * (x.rows || 0)), 0);
+            div.innerHTML = `<strong>হিসাব #${index + 1}</strong><br>বক্স: ${item.dimensions.length}টি<br>মোট খোপ: ${totalKhop}টি<br><small>${item.date || ""}</small>`;
+            div.onclick = function () { loadHistoryItem(item.dimensions); };
+        } else {
+            const h = item.h || item.height || 0;
+            const w = item.w || item.width || 0;
+            const c = item.cols || 0;
+            const r = item.rows || 0;
+            div.innerHTML = `<strong>পুরোনো হিসাব</strong><br>হাইট: ${h} ফিট<br>চওড়া: ${w} ফিট<br>খোপ: ${c} × ${r}<br><small>${item.date || ""}</small>`;
+            div.onclick = function () { loadHistoryItem([{ height: h, width: w, cols: c, rows: r }]); };
         }
-    );
-
+        listDiv.appendChild(div);
+    });
 }
-
-
-/* =========================================================
-   LOAD HISTORY ITEM
-========================================================= */
 
 function loadHistoryItem(dimensions) {
-
-    const container =
-        document.getElementById(
-            "dimensionContainer"
-        );
-
-
+    const container = document.getElementById("dimensionContainer");
     container.innerHTML = "";
-
-
     dimensionCounter = 0;
-
-
-    dimensions.forEach(
-        function (item) {
-
-            addDimensionBox(
-                item.height || "",
-                item.width || "",
-                item.cols || "",
-                item.rows || ""
-            );
-
-        }
-    );
-
-
+    dimensions.forEach(function (item) {
+        addDimensionBox(item.height || "", item.width || "", item.cols || "", item.rows || "");
+    });
     toggleSidebar();
-
-
     calculateMaterials();
-
 }
-
-
-/* =========================================================
-   PRINT
-========================================================= */
 
 function printInvoice() {
-
-    const resultArea =
-        document.getElementById(
-            "resultArea"
-        );
-
-
-    if (
-        resultArea.style.display !==
-        "block"
-    ) {
-
-        alert(
-            "আগে হিসাব বের করুন, তারপর PDF প্রিন্ট করুন।"
-        );
-
+    const resultArea = document.getElementById("resultArea");
+    if (resultArea.style.display !== "block") {
+        alert("আগে হিসাব বের করুন, তারপর PDF প্রিন্ট করুন।");
         return;
-
     }
-
-
     window.print();
-
 }
-
 </script>
-
 </body>
 </html>

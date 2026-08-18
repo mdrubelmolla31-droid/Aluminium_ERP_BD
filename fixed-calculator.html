@@ -77,19 +77,29 @@
         .header-titles p {
             font-size: 11px;
             font-weight: 600;
-            opacity: 0.9;
+            opacity: 0.95;
             letter-spacing: 0.5px;
         }
 
-        .header-pill {
+        /* এডিটেবল হেডার ফিল্ড */
+        .header-input {
+            width: 100%;
             background: white;
             color: #0f172a;
+            border: 2px solid transparent;
             border-radius: 10px;
             padding: 10px;
             font-size: 16px;
             font-weight: bold;
+            text-align: center;
             margin-top: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .header-input:focus {
+            border-color: #38bdf8;
         }
 
         /* কার্ড এবং ফরম সেকশন */
@@ -178,11 +188,6 @@
             font-weight: bold;
             cursor: pointer;
             margin-bottom: 15px;
-            transition: all 0.2s;
-        }
-
-        .btn-add-box:hover {
-            background: #e0f2fe;
         }
 
         .btn-calculate {
@@ -196,11 +201,6 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(21, 128, 61, 0.2);
-            transition: background 0.2s;
-        }
-
-        .btn-calculate:hover {
-            background: #166534;
         }
 
         .btn-print {
@@ -269,7 +269,7 @@
             color: white;
         }
 
-        /* হিস্ট্রি মোডাল (Drawer) */
+        /* হিস্ট্রি মোডাল */
         .modal {
             display: none;
             position: fixed;
@@ -299,10 +299,6 @@
             margin-bottom: 15px;
         }
 
-        .modal-header h3 {
-            color: #1d4ed8;
-        }
-
         .close-btn {
             background: none;
             border: none;
@@ -318,13 +314,14 @@
             border-radius: 10px;
             padding: 12px;
             margin-bottom: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .history-item:hover {
-            background: #e0f2fe;
-            border-color: #38bdf8;
+        .history-info {
+            cursor: pointer;
+            flex-grow: 1;
         }
 
         .history-date {
@@ -339,10 +336,104 @@
             color: #1e293b;
         }
 
+        .delete-single-btn {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .delete-single-btn:hover {
+            background: #fca5a5;
+            color: #991b1b;
+        }
+
+        /* এইচডি প্রিন্ট সিএসএস (পিডিএফ স্পেশাল) */
         @media print {
-            body { background: white; padding: 0; }
-            .header-card, .btn-add-box, .btn-calculate, .btn-print, .menu-btn { display: none; }
-            .result-box { display: block !important; box-shadow: none; }
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+            }
+
+            .app-container {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            .header-card {
+                background: none !important;
+                color: black !important;
+                box-shadow: none !important;
+                border-bottom: 2px solid #000 !important;
+                padding: 10px 0 !important;
+                margin-bottom: 15px !important;
+            }
+
+            .header-titles h1 {
+                color: black !important;
+                font-size: 22px !important;
+            }
+
+            .header-titles p {
+                color: #333 !important;
+                font-size: 12px !important;
+            }
+
+            .header-input {
+                border: none !important;
+                background: transparent !important;
+                font-size: 16px !important;
+                font-weight: bold !important;
+                color: black !important;
+                padding: 2px !important;
+                margin-top: 2px !important;
+                box-shadow: none !important;
+            }
+
+            .menu-btn, .btn-add-box, .btn-calculate, .btn-print, .modal, button {
+                display: none !important;
+            }
+
+            .main-card, .result-box, .box-container {
+                box-shadow: none !important;
+                border: 1px solid #000 !important;
+                background: white !important;
+                border-radius: 4px !important;
+            }
+
+            .card-header {
+                background: #f0f0f0 !important;
+                color: black !important;
+                border-bottom: 1px solid #000 !important;
+            }
+
+            input {
+                border: none !important;
+                background: transparent !important;
+                color: black !important;
+                font-weight: bold !important;
+            }
+
+            table, th, td {
+                border: 1px solid #000 !important;
+                color: black !important;
+            }
+
+            th {
+                background-color: #e5e7eb !important;
+                color: black !important;
+                font-weight: bold !important;
+            }
+
+            .result-box {
+                display: block !important;
+            }
         }
     </style>
 </head>
@@ -356,12 +447,13 @@
                 <span>☰</span> হিস্ট্রি
             </button>
             <div class="header-titles">
-                <h1>RM THAI ALUMINIUM</h1>
-                <p>CURTAIN WALL & QUOTATION CALCULATOR</p>
+                <h1 id="headerMainTitle">RM THAI ALUMINIUM</h1>
+                <p>FIXED DOOR & QUOTATION CALCULATOR</p>
             </div>
         </div>
-        <div class="header-pill">RM THAI ALUMINIUM</div>
-        <div class="header-pill">Mobile: 01676-474412</div>
+        <!-- এডিটেবল শপ নেম ও মোবাইল -->
+        <input type="text" id="shopNameInput" class="header-input" value="RM THAI ALUMINIUM" oninput="saveHeaderDetails()">
+        <input type="text" id="shopMobileInput" class="header-input" value="Mobile: 01676-474412" oninput="saveHeaderDetails()">
     </div>
 
     <!-- কাজের মাপ ও খোপের সংখ্যা কার্ড -->
@@ -427,19 +519,41 @@
 <div class="modal" id="historyModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>📜 হিসাবের হিস্ট্রি</h3>
+            <h3 style="color: #1d4ed8;">📜 হিসাবের হিস্ট্রি</h3>
             <button class="close-btn" onclick="closeHistory()">&times;</button>
         </div>
-        <div id="historyList">
-            <!-- হিস্ট্রি আইটেম লোড হবে -->
-        </div>
+        <div id="historyList"></div>
     </div>
 </div>
 
 <script>
     let boxCount = 1;
 
-    // নতুন বক্স যোগ করার ফাংশন
+    // পেজ লোড হলে সংরক্ষিত দোকানের নাম ও নাম্বার লোড করা
+    window.onload = function() {
+        const savedName = localStorage.getItem('rm_shop_name');
+        const savedMobile = localStorage.getItem('rm_shop_mobile');
+
+        if (savedName) {
+            document.getElementById('shopNameInput').value = savedName;
+            document.getElementById('headerMainTitle').innerText = savedName;
+        }
+        if (savedMobile) {
+            document.getElementById('shopMobileInput').value = savedMobile;
+        }
+    };
+
+    // দোকানের নাম ও ফোন নম্বর লোকাল স্টোরেজে অটো-সেভ
+    function saveHeaderDetails() {
+        const nameVal = document.getElementById('shopNameInput').value;
+        const mobileVal = document.getElementById('shopMobileInput').value;
+
+        localStorage.setItem('rm_shop_name', nameVal);
+        localStorage.setItem('rm_shop_mobile', mobileVal);
+        document.getElementById('headerMainTitle').innerText = nameVal || 'RM THAI ALUMINIUM';
+    }
+
+    // নতুন বক্স যোগ করা
     function addNewBox() {
         boxCount++;
         const container = document.getElementById('boxesContainer');
@@ -479,7 +593,6 @@
         if(box) box.remove();
     }
 
-    // কাটিং ডিটেইলস ফাংশন
     function getCuttingDetails(pieceLength, totalPiecesNeeded) {
         const standardLen = 21;
         let piecesPerStandard = Math.floor(standardLen / pieceLength);
@@ -496,7 +609,7 @@
         };
     }
 
-    // মূল হিসাব পরিচালনা
+    // মূল হিসাব পরিচালনা ও সেভ
     function calculateAndSave() {
         const boxes = document.querySelectorAll('.box-container');
         let totalGlassSqft = 0;
@@ -509,7 +622,6 @@
         let aggregatedBottomWaste = 0;
 
         let boxDataArr = [];
-
         let isValid = false;
 
         boxes.forEach((box) => {
@@ -550,7 +662,6 @@
             return;
         }
 
-        // ফলাফল ডিসপ্লে
         document.getElementById('summaryText').innerHTML = `
             নেট গ্লাস এরিয়া: <strong>${totalGlassSqft.toFixed(2)}</strong> বর্গফুট<br>
             মোট অ্যালুমিনিয়াম সেকশন: <strong>${(totalTopSideFeet + totalBottomFeet).toFixed(2)}</strong> রানিং ফিট
@@ -578,12 +689,10 @@
         `;
 
         document.getElementById('resultBox').style.display = 'block';
-
-        // হিস্ট্রি লোকাল স্টোরেজে সেভ করা
         saveToHistory(boxDataArr, totalGlassSqft);
     }
 
-    // হিস্ট্রি সেভ
+    // হিস্ট্রি লোকাল স্টোরেজে যুক্ত করা
     function saveToHistory(boxData, totalSqft) {
         let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
         const newItem = {
@@ -593,11 +702,11 @@
             sqft: totalSqft.toFixed(2)
         };
         history.unshift(newItem);
-        if(history.length > 20) history.pop(); // সর্বোচ্চ ২০ টি হিস্ট্রি রাখা
+        if(history.length > 30) history.pop();
         localStorage.setItem('rm_calc_history', JSON.stringify(history));
     }
 
-    // হিস্ট্রি মোডাল ওপেন
+    // হিস্ট্রি ওপেন
     function openHistory() {
         const modal = document.getElementById('historyModal');
         const list = document.getElementById('historyList');
@@ -607,11 +716,14 @@
             list.innerHTML = '<p style="text-align:center; color:#64748b; padding:15px;">কোনো হিস্ট্রি পাওয়া যায়নি।</p>';
         } else {
             list.innerHTML = history.map(item => `
-                <div class="history-item" onclick="reopenHistory(${item.id})">
-                    <div class="history-date">📅 ${item.date}</div>
-                    <div class="history-details">
-                        ${item.boxes.length} টি বক্স | গ্লাস: ${item.sqft} স্কয়ার ফিট
+                <div class="history-item">
+                    <div class="history-info" onclick="reopenHistory(${item.id})">
+                        <div class="history-date">📅 ${item.date}</div>
+                        <div class="history-details">
+                            ${item.boxes.length} টি বক্স | গ্লাস: ${item.sqft} স্কয়ার ফিট
+                        </div>
                     </div>
+                    <button class="delete-single-btn" onclick="deleteHistoryItem(${item.id})">মুছুন</button>
                 </div>
             `).join('');
         }
@@ -622,7 +734,15 @@
         document.getElementById('historyModal').style.display = 'none';
     }
 
-    // হিস্ট্রি ট্র্যাপ/ক্লিক করলে রি-ওপেন করা
+    // এক এক করে হিস্ট্রি আইটেম ডিলিট
+    function deleteHistoryItem(id) {
+        let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
+        history = history.filter(item => item.id !== id);
+        localStorage.setItem('rm_calc_history', JSON.stringify(history));
+        openHistory(); // লিস্ট আপডেট
+    }
+
+    // হিস্ট্রি আইটেমে ট্যাপ করলে রি-ওপেন করা
     function reopenHistory(id) {
         let history = JSON.parse(localStorage.getItem('rm_calc_history')) || [];
         const item = history.find(h => h.id === id);

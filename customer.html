@@ -5,28 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customer Management - Aluminium ERP BD</title>
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-    body { background-color: #0b0f19; color: #f3f4f6; padding: 16px; min-height: 100vh; display: flex; justify-content: center; }
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #111827;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --text: #f3f4f6;
+      --border: #1e293b;
+      --input-bg: #1e293b;
+      --header-bg: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
+    }
 
-    .container { width: 100%; max-width: 500px; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif; margin: 0; padding: 0; }
+    body { background-color: var(--bg-color); color: var(--text); padding: 12px; min-height: 100vh; display: flex; justify-content: center; }
 
-    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #1e293b; }
-    .back-btn { background: #1e293b; color: #fff; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
-    .page-title { font-size: 18px; font-weight: bold; color: #ffffff; }
+    .main-container { width: 100%; max-width: 500px; }
 
-    .form-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    /* ================= HEADER STYLE ================= */
+    .header-card {
+      background: var(--header-bg);
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(20, 70, 160, 0.2);
+      color: #ffffff;
+    }
+    
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 10px;
+    }
+    
+    .back-btn {
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.18);
+      color: #ffffff;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: bold;
+    }
+
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-weight: 900;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0 5px;
+    }
+
+    .date-display {
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .shop-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .editable-input {
+      width: 100%;
+      height: 40px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.95);
+      color: #0f172a;
+      font-size: 18px;
+      font-weight: 900;
+      text-align: center;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    #shopPhone {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    /* ================= FORM & LIST SECTION ================= */
+    .form-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 20px; }
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 4px; font-weight: 600; }
-    .form-control { width: 100%; padding: 10px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 13px; outline: none; }
-    .form-control:focus { border-color: #3b82f6; }
+    .form-control { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid #334155; color: white; border-radius: 8px; font-size: 13px; outline: none; }
+    .form-control:focus { border-color: var(--accent); }
 
-    .btn-submit { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 5px; }
-    .btn-submit:active { background: #1d4ed8; }
+    .btn-submit { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 5px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+    .btn-submit:active { background: var(--accent-hover); }
 
     .search-box { margin-bottom: 15px; }
 
     .customer-list { display: flex; flex-direction: column; gap: 12px; }
-    .customer-card { background: #111827; border: 1px solid #1e293b; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .customer-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
     
     .cust-top-row { display: flex; justify-content: space-between; align-items: flex-start; }
     .cust-info h4 { font-size: 15px; color: #fbbf24; margin-bottom: 3px; }
@@ -37,7 +123,7 @@
     .btn-delete { background: #7f1d1d; color: #fca5a5; }
 
     /* যোগাযোগের দ্রুত বাটনসমূহ */
-    .contact-actions { display: flex; gap: 8px; border-top: 1px solid #1e293b; padding-top: 10px; flex-wrap: wrap; }
+    .contact-actions { display: flex; gap: 8px; border-top: 1px solid var(--border); padding-top: 10px; flex-wrap: wrap; }
     .btn-contact { text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; color: white; flex: 1; justify-content: center; text-align: center; min-width: 90px; }
     .btn-call { background: #059669; } /* ডাইরেক্ট কল */
     .btn-wa { background: #25d366; color: #000; } /* হোয়াটসঅ্যাপ */
@@ -48,13 +134,20 @@
 </head>
 <body>
 
-<div class="container">
+<div class="main-container">
   
-  <!-- টপ বার -->
-  <div class="header-bar">
-    <a href="index.html" class="back-btn">⬅️ Back</a>
-    <div class="page-title">Customer Management</div>
-    <div style="width: 50px;"></div>
+  <!-- হেডার সেকশন (ব্লু গ্রাডিয়েন্ট) -->
+  <div class="header-card">
+    <div class="header-top">
+      <a href="index.html" class="back-btn">⬅️ Back</a>
+      <span class="header-title">কাস্টমার ম্যানেজমেন্ট</span>
+      <div id="currentDate" class="date-display"></div>
+    </div>
+    
+    <div class="shop-details">
+      <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveShopDetails()">
+      <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveShopDetails()">
+    </div>
   </div>
 
   <!-- কাস্টমার যোগ করার ফর্ম -->
@@ -94,8 +187,32 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    setCurrentDate();
+    loadShopDetails();
     renderCustomers();
   });
+
+  function setCurrentDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    document.getElementById("currentDate").innerText = `তারিখ: ${day}/${month}/${year}`;
+  }
+
+  function saveShopDetails() {
+    const shopName = document.getElementById("shopName").value;
+    const shopPhone = document.getElementById("shopPhone").value;
+    localStorage.setItem("erp_shopName", shopName);
+    localStorage.setItem("erp_shopPhone", shopPhone);
+  }
+
+  function loadShopDetails() {
+    const savedName = localStorage.getItem("erp_shopName");
+    const savedPhone = localStorage.getItem("erp_shopPhone");
+    if (savedName !== null) document.getElementById("shopName").value = savedName;
+    if (savedPhone !== null) document.getElementById("shopPhone").value = savedPhone;
+  }
 
   function saveCustomer() {
     let name = document.getElementById('custName').value.trim();
@@ -146,15 +263,14 @@
       return;
     }
 
-    filteredCustomers.forEach((cust, index) => {
+    filteredCustomers.forEach((cust) => {
       let originalIndex = customers.indexOf(cust);
       
-      // ফোন নম্বরের ফরম্যাট ঠিক করা (হোয়াটসঅ্যাপ ও কলের জন্য কান্ট্রি কোড যুক্ত করা)
       let rawPhone = cust.phone.replace(/\s+/g, '');
       let formattedPhone = rawPhone.startsWith('+') ? rawPhone : (rawPhone.startsWith('88') ? '+' + rawPhone : '+88' + rawPhone);
       let waLink = `https://wa.me/${formattedPhone}`;
       let callLink = `tel:${rawPhone}`;
-      let imoLink = `imo://call?phone=${rawPhone}`; // ইমু ডাইরেক্ট কল প্রটোকল
+      let imoLink = `imo://call?phone=${rawPhone}`;
 
       let card = document.createElement('div');
       card.className = 'customer-card';
@@ -171,7 +287,6 @@
           </div>
         </div>
 
-        <!-- ডাইরেক্ট কল ও চ্যাট অপশন -->
         <div class="contact-actions">
           <a href="${callLink}" class="btn-contact btn-call">📞 Call</a>
           <a href="${waLink}" target="_blank" class="btn-contact btn-wa">💬 WhatsApp</a>

@@ -69,10 +69,13 @@
     }
 
     .header-title {
+      flex: 1;
+      text-align: center;
       font-weight: 900;
       font-size: 20px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      padding: 0 10px;
     }
 
     .date-display {
@@ -261,233 +264,154 @@
       box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
     }
     .btn-add { background: #10b981; color: #fff; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2); }
-    .btn-whatsapp { background: #25D366; color: #fff; margin-top: 15px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2); }
     .btn-pdf { background: #ef4444; color: #fff; margin-top: 10px; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); }
 
-    /* ================= TABLE ================= */
-    .table-container {
-      width: 100%;
+    /* ================= RESULTS CARDS (Replaced Table) ================= */
+    .results-container {
       margin-top: 20px;
       background: var(--card-bg);
       border-radius: 10px;
       border: 1px solid var(--border);
-      overflow-x: auto;
+      padding: 15px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      min-width: 600px;
-    }
-    th, td {
-      padding: 12px 4px;
-      border: 1px solid var(--border);
-      text-align: center;
-      vertical-align: middle;
-      word-break: break-word;
-    }
-    th { 
-      background: #f1f5f9; 
-      color: var(--accent); 
-      font-size: 15px; 
-      font-weight: 900; 
-    }
-    tbody tr:nth-child(even) {
-      background-color: #f8fafc;
+
+    .result-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 15px;
     }
 
-    th:nth-child(1), td:nth-child(1) { width: 8% !important; }
-    th:nth-child(2), td:nth-child(2) { width: 40% !important; }
-    th:nth-child(3), td:nth-child(3) { width: 14% !important; }
-    th:nth-child(4), td:nth-child(4) { width: 28% !important; }
-    th:nth-child(5), td:nth-child(5) { width: 10% !important; }
+    .result-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .result-card-header {
+      display: flex;
+      align-items: center;
+      background: #ffffff;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sn-badge {
+      background: var(--accent);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: bold;
+      margin-right: 12px;
+      flex-shrink: 0;
+      font-size: 14px;
+    }
 
     .glass-size-text {
-      font-size: 18px !important;
-      font-weight: 900 !important;
-      color: #1d4ed8 !important;
+      font-size: 18px;
+      font-weight: 900;
+      color: #1d4ed8;
       line-height: 1.3;
     }
 
-    .sn-text {
-      font-size: 16px !important;
-      font-weight: 900 !important;
-      color: #0f172a;
+    .result-options {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr 1fr;
+      gap: 8px;
+      padding: 10px 12px;
+      background: #f1f5f9;
     }
 
-    .table-select {
+    .card-select {
       width: 100%;
-      padding: 8px 2px;
-      background: var(--input-bg);
+      padding: 8px 4px;
       border: 1px solid var(--border);
-      color: #0f172a;
       border-radius: 6px;
       font-size: 14px;
       font-weight: bold;
-      cursor: pointer;
-      outline: none;
       text-align: center;
       text-align-last: center;
+      outline: none;
+      background: #fff;
+      color: #0f172a;
+      cursor: pointer;
     }
 
     /* ========================================================= */
     /* PRINT DESIGN WITH CURRENT DATE */
     /* ========================================================= */
     @media print {
-      @page {
-        size: A4 portrait;
-        margin: 0;
-      }
-      
+      @page { size: A4 portrait; margin: 0; }
       html, body {
-        width: 210mm;
-        height: 297mm;
-        margin: 0 !important;
-        padding: 0 !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        overflow: hidden !important;
+        width: 210mm; height: 297mm; margin: 0 !important; padding: 0 !important;
+        background: #ffffff !important; color: #000000 !important; overflow: hidden !important;
       }
-      
       body {
-        border: 8px double #002366 !important;
-        box-sizing: border-box !important;
-        padding: 8mm !important;
+        border: 8px double #002366 !important; box-sizing: border-box !important; padding: 8mm !important;
       }
-
-      .main-container {
-        max-width: 100% !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-
+      .main-container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
       .print-wrapper {
-        border: 3px double #0088cc !important;
-        border-radius: 8px !important;
-        padding: 16px !important;
-        margin: 0 !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
+        border: 3px double #0088cc !important; border-radius: 8px !important; padding: 16px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box !important;
       }
 
       .header-card {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 0 10px 0 !important;
-        margin-bottom: 10px !important;
-        color: #000 !important;
+        background: transparent !important; border: none !important; box-shadow: none !important;
+        padding: 0 0 10px 0 !important; margin-bottom: 10px !important; color: #000 !important;
       }
-      .menu-btn, .header-title {
-        display: none !important;
-      }
+      .menu-btn, .header-title { display: none !important; }
       
       .editable-input {
-        background: transparent !important;
-        color: #0088cc !important;
-        font-size: 24px !important;
-        font-weight: 900 !important;
-        padding: 0 !important;
-        height: auto !important;
+        background: transparent !important; color: #0088cc !important; font-size: 24px !important;
+        font-weight: 900 !important; padding: 0 !important; height: auto !important;
       }
-      #shopPhone {
-        font-size: 20px !important;
-        color: #000000 !important;
-      }
+      #shopPhone { font-size: 20px !important; color: #000000 !important; }
       
       .date-display {
-        font-size: 16px !important;
-        color: #000000 !important;
-        font-weight: 900 !important;
-        background: transparent !important;
-        text-align: right;
-        padding: 0 !important;
+        font-size: 16px !important; color: #000000 !important; font-weight: 900 !important;
+        background: transparent !important; text-align: right; padding: 0 !important;
       }
 
       .floor-unit-box {
-        border-top: 1.5px dotted #0088cc !important;
-        padding-top: 8px !important;
-        margin-top: 8px !important;
+        border-top: 1.5px dotted #0088cc !important; padding-top: 8px !important; margin-top: 8px !important;
       }
       .floor-unit-box select {
-        background: transparent !important;
-        border: none !important;
-        color: #000000 !important;
-        font-size: 18px !important;
-        font-weight: 900 !important;
-        padding: 0 !important;
-        appearance: none;
-        -webkit-appearance: none;
+        background: transparent !important; border: none !important; color: #000000 !important;
+        font-size: 18px !important; font-weight: 900 !important; padding: 0 !important;
+        appearance: none; -webkit-appearance: none;
       }
 
-      #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn {
+      #windowsContainer, .btn-add, .btn, .sidebar, .delete-row-btn, .btn-pdf {
         display: none !important;
       }
 
-      #resultContainer {
-        display: block !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        margin-top: 0 !important;
-        padding: 0 !important;
-        width: 100% !important;
-      }
-      .table-container {
-        border: none !important;
-        margin: 0 !important;
-        width: 100% !important;
-      }
-      
-      table {
-        border: 2px solid #0088cc !important;
-        border-collapse: collapse !important;
-        width: 100% !important;
-        table-layout: fixed !important;
+      .results-container {
+        display: block !important; background: transparent !important; border: none !important;
+        box-shadow: none !important; margin-top: 0 !important; padding: 0 !important; width: 100% !important;
       }
 
-      th {
-        background: #ffffff !important;
-        color: #0088cc !important;
-        border: 2px solid #0088cc !important;
-        font-weight: 900 !important;
-        font-size: 18px !important;
-        padding: 10px 4px !important;
+      .result-list { gap: 8px !important; }
+      .result-card { 
+        border: 2px solid #0088cc !important; background: transparent !important; page-break-inside: avoid;
       }
+      .result-card-header {
+        background: #ffffff !important; border-bottom: 1.5px dotted #0088cc !important; padding: 8px 12px !important;
+      }
+      .sn-badge {
+        background: #0088cc !important; color: #fff !important;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+      .glass-size-text { color: #000000 !important; font-size: 20px !important; }
       
-      td {
-        border: 2px solid #0088cc !important;
-        color: #000000 !important;
-        font-weight: 900 !important;
-        font-size: 18px !important;
-        padding: 12px 4px !important;
-      }
-      .glass-size-text {
-        color: #000000 !important;
-        font-size: 20px !important;
-        font-weight: 900 !important;
-      }
-      .sn-text {
-        color: #0088cc !important;
-        font-size: 18px !important;
-      }
-      .table-select {
-        background: transparent !important;
-        border: none !important;
-        color: #000000 !important;
-        font-size: 18px !important;
-        font-weight: 900 !important;
-        appearance: none;
-        -webkit-appearance: none;
-        text-align-last: center;
-        padding: 0 !important;
-        width: 100% !important;
-      }
-
-      .btn-whatsapp, .btn-pdf {
-        display: none !important;
+      .result-options { background: transparent !important; padding: 8px 12px !important; }
+      .card-select {
+        border: 1px solid #0088cc !important; background: transparent !important; color: #000000 !important;
+        font-size: 16px !important; appearance: none; -webkit-appearance: none; padding: 4px !important;
       }
     }
   </style>
@@ -506,7 +430,7 @@
         <div id="historyContent">কোনো হিস্টরি পাওয়া যায়নি।</div>
       </div>
 
-      <!-- Header Section with Blue Gradient -->
+      <!-- Header Section -->
       <div class="header-card">
         <div class="header-top">
           <button class="menu-btn" onclick="toggleHistory()">☰</button>
@@ -553,25 +477,10 @@
       <button class="btn btn-add" onclick="addWindow()">+ আরও উইন্ডো যোগ করুন</button>
       <button class="btn" onclick="calculateGlass()">গ্লাস কাটিং সাইজ বের করুন</button>
 
-      <!-- Results Table -->
-      <div class="table-container" id="resultContainer" style="display:none;">
-        <table>
-          <thead>
-            <tr>
-              <th>নং</th>
-              <th>গ্লাসের সাইজ (ইঞ্চি)</th>
-              <th>মিলি</th>
-              <th>কালার</th>
-              <th>পিস</th>
-            </tr>
-          </thead>
-          <tbody id="glassTableBody"></tbody>
-        </table>
-
-        <div style="padding: 15px;">
-          <button class="btn btn-whatsapp" onclick="sendWhatsApp()">WhatsApp-এ পাঠান</button>
-          <button class="btn btn-pdf" onclick="downloadPDF()">PDF ডাউনলোড / প্রিন্ট</button>
-        </div>
+      <!-- New Results Container (Card Style) -->
+      <div class="results-container" id="resultContainer" style="display:none;">
+        <div class="result-list" id="glassResultCards"></div>
+        <button class="btn btn-pdf" onclick="downloadPDF()">PDF ডাউনলোড / প্রিন্ট</button>
       </div>
     </div>
   </div>
@@ -581,7 +490,6 @@
       document.getElementById("sidebar").classList.toggle("active");
     }
 
-    /* তারিখ দেখানোর ফাংশন (DD/MM/YYYY) */
     function setCurrentDate() {
       const today = new Date();
       const day = String(today.getDate()).padStart(2, '0');
@@ -628,14 +536,7 @@
         windowsData.push({ h, w });
       });
 
-      const formState = {
-        shopName,
-        shopPhone,
-        floorSelect,
-        unitSelect,
-        windowsData
-      };
-
+      const formState = { shopName, shopPhone, floorSelect, unitSelect, windowsData };
       localStorage.setItem("glassFormData", JSON.stringify(formState));
     }
 
@@ -657,9 +558,7 @@
       container.innerHTML = "";
 
       if (formState.windowsData && formState.windowsData.length > 0) {
-        formState.windowsData.forEach(win => {
-          addWindow(win.h, win.w);
-        });
+        formState.windowsData.forEach(win => addWindow(win.h, win.w));
       } else {
         addWindow();
       }
@@ -701,11 +600,27 @@
       return colors.map(c => `<option value="${c}" ${c === selectedColor ? 'selected' : ''}>${c}</option>`).join('');
     }
 
+    function generateCardHTML(sn, sizeText, mm, color, qty) {
+      return `
+        <div class="result-card">
+          <div class="result-card-header">
+            <div class="sn-badge">${sn}</div>
+            <div class="glass-size-text">${sizeText}</div>
+          </div>
+          <div class="result-options">
+            <select class="card-select">${getMmOptions(mm)}</select>
+            <select class="card-select">${getColorOptions(color)}</select>
+            <select class="card-select">${getQtyOptions(qty)}</select>
+          </div>
+        </div>
+      `;
+    }
+
     function calculateGlass() {
       const heights = document.querySelectorAll(".mm-h");
       const widths = document.querySelectorAll(".mm-w");
-      const tbody = document.getElementById("glassTableBody");
-      tbody.innerHTML = "";
+      const cardContainer = document.getElementById("glassResultCards");
+      cardContainer.innerHTML = "";
 
       let historyItems = [];
       let serialNumber = 1;
@@ -720,24 +635,9 @@
 
           let hFormatted = mmToInchSuta(finalH_mm);
           let wFormatted = mmToInchSuta(finalW_mm);
-
           let finalSizeText = `${hFormatted} × ${wFormatted}`;
 
-          let tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td class="sn-text">${serialNumber}</td>
-            <td class="glass-size-text">${finalSizeText}</td>
-            <td>
-              <select class="table-select">${getMmOptions("5.5mm")}</select>
-            </td>
-            <td>
-              <select class="table-select">${getColorOptions("Dark Grey Normal")}</select>
-            </td>
-            <td>
-              <select class="table-select">${getQtyOptions(2)}</select>
-            </td>
-          `;
-          tbody.appendChild(tr);
+          cardContainer.innerHTML += generateCardHTML(serialNumber, finalSizeText, "5.5mm", "Dark Grey Normal", 2);
 
           historyItems.push({
             sn: serialNumber,
@@ -751,7 +651,7 @@
         }
       });
 
-      if (tbody.children.length > 0) {
+      if (cardContainer.children.length > 0) {
         document.getElementById("resultContainer").style.display = "block";
         saveHistory(historyItems);
       }
@@ -786,7 +686,7 @@
       
       existing.forEach((entry) => {
         let itemListHtml = entry.items.map(item => 
-          `<li>#${item.sn || 1}: ${item.size} (${item.mm}, ${item.qty} পিস)</li>`
+          `<li>#${item.sn || 1}: ${item.size}</li>`
         ).join('');
 
         html += `
@@ -827,50 +727,17 @@
       let selectedEntry = existing.find(item => item.id === id);
 
       if (selectedEntry) {
-        const tbody = document.getElementById("glassTableBody");
-        tbody.innerHTML = "";
+        const cardContainer = document.getElementById("glassResultCards");
+        cardContainer.innerHTML = "";
 
         selectedEntry.items.forEach((item, index) => {
-          let tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td class="sn-text">${item.sn || (index + 1)}</td>
-            <td class="glass-size-text">${item.size}</td>
-            <td><select class="table-select">${getMmOptions(item.mm)}</select></td>
-            <td><select class="table-select">${getColorOptions(item.color)}</select></td>
-            <td><select class="table-select">${getQtyOptions(item.qty)}</select></td>
-          `;
-          tbody.appendChild(tr);
+          let sn = item.sn || (index + 1);
+          cardContainer.innerHTML += generateCardHTML(sn, item.size, item.mm, item.color, item.qty);
         });
 
         document.getElementById("resultContainer").style.display = "block";
         toggleHistory();
       }
-    }
-
-    function sendWhatsApp() {
-      let shopName = document.getElementById("shopName").value;
-      let shopPhone = document.getElementById("shopPhone").value;
-      let floor = document.getElementById("floorSelect").value;
-      let unit = document.getElementById("unitSelect").value;
-      let dateText = document.getElementById("currentDate").innerText;
-      
-      let locationInfo = (floor || unit) ? `\n*অবস্থান:* ${floor} ${unit ? 'ইউনিট ' + unit : ''}` : "";
-      
-      let message = `*${shopName}*\n${shopPhone}\n${dateText}${locationInfo}\n---------------------------\n*গ্লাস কাটিং লিস্ট:*\n\n`;
-      
-      let rows = document.querySelectorAll("#glassTableBody tr");
-      rows.forEach((row) => {
-        let sn = row.cells[0].innerText;
-        let size = row.cells[1].innerText;
-        let mm = row.cells[2].querySelector("select").value;
-        let color = row.cells[3].querySelector("select").value;
-        let qty = row.cells[4].querySelector("select").value;
-        
-        message += `${sn}. সাইজ: ${size}\n   মিলি: ${mm} | কালার: ${color} | পিস: ${qty}\n\n`;
-      });
-
-      let encodedMsg = encodeURIComponent(message);
-      window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
     }
 
     function downloadPDF() {

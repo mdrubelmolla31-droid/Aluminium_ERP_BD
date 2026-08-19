@@ -3,34 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aluminium Calculator & Quotation System</title>
+  <title>Aluminium Quotation System</title>
 
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
     .container { max-width: 700px; margin: 0 auto; }
     
+    /* আপডেট করা নীল হেডার */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #ffffff;
-      padding: 10px 16px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .menu-btn {
       background: #1e3a8a;
       color: white;
-      border: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #1e3a8a;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .top-bar h3 { margin: 0; font-size: 16px; font-weight: bold; }
+    
+    .menu-btn {
+      background: #3b82f6;
+      color: white;
+      border: 1px solid #60a5fa;
       padding: 8px 12px;
-      font-size: 16px;
+      font-size: 14px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
+      transition: background 0.3s;
     }
+    .menu-btn:hover { background: #2563eb; }
 
     .drawer {
       position: fixed;
@@ -64,8 +70,21 @@
       border-radius: 6px;
       margin-bottom: 10px;
       font-size: 12px;
+      position: relative; /* ডিলিট বাটনের জন্য */
     }
     .history-item b { color: #1e40af; }
+    .del-history-btn {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 10px;
+      padding: 3px 6px;
+    }
 
     .card {
       background: #ffffff;
@@ -114,50 +133,32 @@
 
     .btn-add { background-color: #10b981; color: white; width: 100%; margin-top: 8px; }
     .btn-win-pdf { background-color: #2563eb; color: white; }
-    .btn-mat-pdf { background-color: #0d9488; color: white; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
 
     table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
     th { background-color: #1e3a8a; color: white; font-weight: 600; }
 
-    .section-header {
-      background-color: #e2e8f0;
-      color: #1e3a8a;
-      font-weight: bold;
-      text-align: center;
-      padding: 8px;
-      margin-top: 15px;
-      margin-bottom: 5px;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-
-    #printWinSection, #printMatSection { display: none; }
+    #printWinSection { display: none; }
 
     @media print {
-      @page { size: A4 portrait; margin: 4mm; }
+      @page { size: A4 portrait; margin: 10mm; }
       body * { visibility: hidden; }
       body.print-window #printWinSection, body.print-window #printWinSection * { visibility: visible; }
       body.print-window #printWinSection {
         position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff !important; 
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
-      body.print-material #printMatSection, body.print-material #printMatSection * { visibility: visible; }
-      body.print-material #printMatSection {
-        position: absolute; left: 0; top: 0; width: 100%; display: block !important; padding: 10px; background: #fff !important; 
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
-      }
     }
 
-    #printWinSection, #printMatSection {
+    #printWinSection {
       font-size: 16px !important; color: #000000 !important; font-weight: 900 !important;
       font-family: 'Impact', 'Arial Black', sans-serif !important;
       border: 4px solid #1e3a8a !important; padding: 15px !important; background: #ffffff !important;
       position: relative; -webkit-print-color-adjust: exact; print-color-adjust: exact;
     }
 
-    #printWinSection::before, #printMatSection::before {
+    #printWinSection::before {
       content: "ALUMINIUM SECTION";
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%) rotate(-30deg);
@@ -166,20 +167,20 @@
       z-index: 0; pointer-events: none; white-space: nowrap;
     }
 
-    #printWinSection *, #printMatSection * { font-weight: 900 !important; position: relative; z-index: 1; }
+    #printWinSection * { font-weight: 900 !important; position: relative; z-index: 1; }
 
     .pdf-header { 
       text-align: center; border-bottom: 3px solid #1e3a8a !important; 
       padding-bottom: 12px; margin-bottom: 12px; background: #e0e7ff !important;
       padding-top: 10px; border-radius: 4px 4px 0 0;
     }
-    .pdf-title { font-size: 45px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; letter-spacing: 1.5px; }
-    .pdf-subtitle-sub { font-size: 20px !important; font-weight: 900 !important; color: #0f172a !important; margin-top: 6px; }
+    .pdf-title { font-size: 40px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; letter-spacing: 1.5px; }
+    .pdf-subtitle-sub { font-size: 18px !important; font-weight: 900 !important; color: #0f172a !important; margin-top: 6px; }
 
     .pdf-info-box {
-      display: flex; justify-content: space-between; font-size: 15px !important;
+      display: flex; justify-content: space-between; font-size: 14px !important;
       background: #f1f5f9 !important; padding: 10px 12px !important; border-radius: 4px;
-      margin-bottom: 12px; border: 2.5px solid #1e3a8a !important; color: #000000 !important;
+      margin-bottom: 12px; border: 2px solid #1e3a8a !important; color: #000000 !important;
     }
 
     .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -192,17 +193,23 @@
       color: #1e3a8a !important; margin-top: 12px; border-top: 3px solid #1e3a8a !important; padding-top: 8px;
     }
 
+    /* আপডেট করা ধূসর লাল টার্মস বক্স */
     .terms-box {
-      margin-top: 15px; background: #fef2f2 !important; border: 2.5px solid #ef4444 !important;
-      border-left: 7px solid #dc2626 !important; padding: 10px 12px; font-size: 14px !important;
-      color: #b91c1c !important; border-radius: 4px;
+      margin-top: 15px; 
+      background: #fdf8f8 !important; 
+      border: 1px solid #d1b3b3 !important;
+      border-left: 6px solid #c88a8a !important; 
+      padding: 10px 12px; 
+      font-size: 13px !important;
+      color: #6b4c4c !important; 
+      border-radius: 4px;
     }
-    .terms-box b { color: #dc2626 !important; }
+    .terms-box b { color: #ad5c5c !important; }
 
     .signature-container { display: flex; justify-content: space-between; margin-top: 45px; padding: 0 10px; }
     .sig-line {
-      border-top: 3px solid #1e3a8a !important; width: 170px; text-align: center;
-      padding-top: 6px; font-weight: 900 !important; font-size: 14px !important; color: #1e3a8a !important;
+      border-top: 2px solid #1e3a8a !important; width: 170px; text-align: center;
+      padding-top: 6px; font-weight: 900 !important; font-size: 13px !important; color: #1e3a8a !important;
     }
   </style>
 </head>
@@ -222,7 +229,7 @@
 
   <div class="top-bar">
     <button class="menu-btn" onclick="toggleDrawer()">☰ History</button>
-    <h3 style="margin: 0; color: #1e3a8a; font-size: 16px;">Aluminium Quotation & Cutting System</h3>
+    <h3>Aluminium Quotation System</h3>
   </div>
 
   <div class="card">
@@ -314,7 +321,7 @@
           <option value="Golden Marker">গোল্ডেন মার্কার (Golden Marker)</option>
           <option value="Lake Blue">লেক ব্লু (Lake Blue)</option>
           <option value="winer">উইনার (winer)</option>
-          <option value="ambos">এ্যামবোস (ambos )</option>
+          <option value="ambos">এ্যামবোস (ambos)</option>
         </select>
       </div>
     </div>
@@ -352,30 +359,9 @@
   </div>
 
   <div class="card">
-    <div class="card-title">✂️ Cutting List / কাটিং মাপ টেবিল</div>
-
-    <div class="section-header">18.5 ft Bar Section (For Height &le; 6 ft)</div>
-    <table>
-      <thead>
-        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
-      </thead>
-      <tbody id="table18Body"></tbody>
-    </table>
-
-    <div class="section-header">21 ft Bar Section (For Height > 6 ft)</div>
-    <table>
-      <thead>
-        <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
-      </thead>
-      <tbody id="table21Body"></tbody>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Download Options</div>
+    <div class="card-title">Download Option</div>
     <div class="btn-group">
-      <button class="btn btn-win-pdf" onclick="printWindowQuotation()">📄 1. Window Quotation PDF</button>
-      <button class="btn btn-mat-pdf" onclick="printMaterialDetails()">📦 2. Material Details PDF</button>
+      <button class="btn btn-win-pdf" onclick="printWindowQuotation()">📄 Download / Print Quotation PDF</button>
     </div>
   </div>
 
@@ -423,45 +409,6 @@
   </div>
 </div>
 
-<!-- মেটেরিয়াল ও কাটিং রিপোর্ট প্রিন্ট টেমপ্লেট -->
-<div id="printMatSection">
-  <div class="pdf-header">
-    <p class="pdf-title" id="mShop"></p>
-    <p class="pdf-subtitle-sub">Accurate Material Cutting Report & Estimation</p>
-  </div>
-
-  <div class="pdf-info-box">
-    <div>
-      <div><b>Customer:</b> <span id="mCust"></span></div>
-      <div><b>Spec:</b> <span id="mSpec"></span></div>
-    </div>
-    <div style="text-align: right;">
-      <div><b>Date:</b> <span id="mDate"></span></div>
-    </div>
-  </div>
-
-  <div class="section-header" style="text-align: left; padding: 4px;">18.5 ft Bar Section (For Height &le; 6 ft)</div>
-  <table class="pdf-table">
-    <thead>
-      <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
-    </thead>
-    <tbody id="pdfTable18Body"></tbody>
-  </table>
-
-  <div class="section-header" style="text-align: left; padding: 4px; margin-top: 10px;">21 ft Bar Section (For Height > 6 ft)</div>
-  <table class="pdf-table">
-    <thead>
-      <tr><th>Item</th><th>Total Length (ft)</th><th>Bar / Breakdown Needed</th></tr>
-    </thead>
-    <tbody id="pdfTable21Body"></tbody>
-  </table>
-
-  <div class="signature-container" style="margin-top: 60px;">
-    <div class="sig-line">Prepared By</div>
-    <div class="sig-line">Approved By</div>
-  </div>
-</div>
-
 <script>
   window.onload = function() {
     addRow();
@@ -500,20 +447,6 @@
     rows.forEach((row, i) => row.querySelector('.row-index').innerText = i + 1);
   }
 
-  function formatBreakdown(totalFt, barSize) {
-    if (totalFt <= 0) return "০ টি বার";
-    let fullBars = Math.floor(totalFt / barSize);
-    let remainder = totalFt % barSize;
-
-    if (fullBars === 0) {
-      return `${remainder.toFixed(2)} ফুটের ১ টি পিস`;
-    } else if (remainder === 0) {
-      return `${barSize} ফুটের ${fullBars} টি ফুল পিস`;
-    } else {
-      return `${barSize} ফুটের ${fullBars} টি ফুল পিস + ${remainder.toFixed(2)} ফুটের ১ টি পিস`;
-    }
-  }
-
   // বিভিন্ন LocalStorage Key চেক করে ম্যাচিং রেট ফেচ করার আপগ্রেডেড ফাংশন
   function getMatchingRate() {
     let company = document.getElementById('aluCompany').value;
@@ -524,7 +457,6 @@
     let gColor = document.getElementById('glassColor').value;
     let gThickness = document.getElementById('glassThickness').value;
 
-    // সব সম্ভব্য LocalStorage Keys চেক করা
     let savedRatesList = JSON.parse(localStorage.getItem('all_saved_rates')) || 
                          JSON.parse(localStorage.getItem('rateList')) || 
                          JSON.parse(localStorage.getItem('rateSettingsData')) || [];
@@ -544,7 +476,6 @@
     if (found) {
       if (found.rate) return parseFloat(found.rate);
       
-      // ব্রেকডাউন হিসাব (Alu + Glass + Hardware + Fitting + Labour + Profit)
       let base = (parseFloat(found.aluRate) || 0) + 
                  (parseFloat(found.glassRate) || 0) + 
                  (parseFloat(found.hwRate) || 0) + 
@@ -568,16 +499,13 @@
     let addr = document.getElementById('custAddress').value || 'N/A';
 
     document.getElementById('pShop').innerText = shop;
-    document.getElementById('mShop').innerText = shop;
     document.getElementById('pPhone').innerText = phone;
     document.getElementById('pCust').innerText = cust;
-    document.getElementById('mCust').innerText = cust;
     document.getElementById('pCustMob').innerText = custMob;
     document.getElementById('pAddr').innerText = addr;
 
     let spec = `Spec: ${document.getElementById('aluCompany').value} (${document.getElementById('aluColor').value}, ${document.getElementById('aluThickness').value}, ${document.getElementById('aluSeries').value}) | ${document.getElementById('glassCompany').value} (${document.getElementById('glassThickness').value}, ${document.getElementById('glassColor').value})`;
     document.getElementById('pSpec').innerText = spec;
-    document.getElementById('mSpec').innerText = spec;
 
     let matchedRate = getMatchingRate();
     let rateInput = document.getElementById('sellingRate');
@@ -596,9 +524,6 @@
     let winTbody = document.getElementById('pdfWinTableBody');
     winTbody.innerHTML = '';
     let grandTotal = 0;
-
-    let len18_outerSide = 0, len18_shutterLock = 0, len18_shutterInterlock = 0;
-    let len21_outerSide = 0, len21_outerTop = 0, len21_outerBot = 0, len21_shutterTop = 0, len21_shutterBot = 0, len21_shutterLock = 0, len21_shutterInterlock = 0;
 
     for (let i = 0; i < heights.length; i++) {
       let h = parseFloat(heights[i].value) || 0;
@@ -620,26 +545,6 @@
             <td>৳${rowTotal.toFixed(2)}</td>
           </tr>
         `;
-
-        if (h <= 72) { 
-          len18_outerSide += (h / 12) * 2 * q;
-          len18_shutterLock += (h / 12) * 2 * q;
-          len18_shutterInterlock += (h / 12) * 2 * q;
-        } else { 
-          len21_outerSide += (h / 12) * 2 * q;
-          len21_shutterLock += (h / 12) * 2 * q;
-          len21_shutterInterlock += (h / 12) * 2 * q;
-        }
-
-        let outerTopVal = (w / 12) * q;
-        let outerBotVal = outerTopVal; 
-        let shutterTopVal = (w / 12) * 2 * q; 
-        let shutterBotVal = shutterTopVal; 
-
-        len21_outerTop += outerTopVal;
-        len21_outerBot += outerBotVal;
-        len21_shutterTop += shutterTopVal;
-        len21_shutterBot += shutterBotVal;
       }
     }
 
@@ -648,28 +553,6 @@
 
     let today = new Date().toLocaleDateString('en-GB');
     document.getElementById('pDate').innerText = today;
-    document.getElementById('mDate').innerText = today;
-
-    let html18 = `
-      <tr><td>Outer Side (&le; 6ft)</td><td>${len18_outerSide.toFixed(2)} ft</td><td>${formatBreakdown(len18_outerSide, 18.5)}</td></tr>
-      <tr><td>Shutter Lock (&le; 6ft)</td><td>${len18_shutterLock.toFixed(2)} ft</td><td>${formatBreakdown(len18_shutterLock, 18.5)}</td></tr>
-      <tr><td>Shutter Interlock (&le; 6ft)</td><td>${len18_shutterInterlock.toFixed(2)} ft</td><td>${formatBreakdown(len18_shutterInterlock, 18.5)}</td></tr>
-    `;
-
-    let html21 = `
-      <tr><td>Outer Side (> 6ft)</td><td>${len21_outerSide.toFixed(2)} ft</td><td>${formatBreakdown(len21_outerSide, 21)}</td></tr>
-      <tr><td>Outer Top</td><td>${len21_outerTop.toFixed(2)} ft</td><td>${formatBreakdown(len21_outerTop, 21)}</td></tr>
-      <tr><td>Outer Bottom (Equal to Top)</td><td>${len21_outerBot.toFixed(2)} ft</td><td>${formatBreakdown(len21_outerBot, 21)}</td></tr>
-      <tr><td>Shutter Top</td><td>${len21_shutterTop.toFixed(2)} ft</td><td>${formatBreakdown(len21_shutterTop, 21)}</td></tr>
-      <tr><td>Shutter Bottom (Equal to Shutter Top)</td><td>${len21_shutterBot.toFixed(2)} ft</td><td>${formatBreakdown(len21_shutterBot, 21)}</td></tr>
-      <tr><td>Shutter Lock (> 6ft)</td><td>${len21_shutterLock.toFixed(2)} ft</td><td>${formatBreakdown(len21_shutterLock, 21)}</td></tr>
-      <tr><td>Shutter Interlock (> 6ft)</td><td>${len21_shutterInterlock.toFixed(2)} ft</td><td>${formatBreakdown(len21_shutterInterlock, 21)}</td></tr>
-    `;
-
-    document.getElementById('table18Body').innerHTML = html18;
-    document.getElementById('table21Body').innerHTML = html21;
-    document.getElementById('pdfTable18Body').innerHTML = html18;
-    document.getElementById('pdfTable21Body').innerHTML = html21;
   }
 
   function saveToHistory() {
@@ -701,6 +584,7 @@
     historyData.forEach((item, index) => {
       container.innerHTML += `
         <div class="history-item">
+          <button class="del-history-btn" onclick="deleteHistoryItem(${index})">X</button>
           <div><b>#${index + 1} - ${item.name}</b></div>
           <div>Mobile: ${item.phone}</div>
           <div>Amount: ৳${item.total}</div>
@@ -708,6 +592,14 @@
         </div>
       `;
     });
+  }
+
+  // হিস্ট্রি ডিলিট করার ফাংশন
+  function deleteHistoryItem(index) {
+    let historyData = JSON.parse(localStorage.getItem('quotation_history')) || [];
+    historyData.splice(index, 1);
+    localStorage.setItem('quotation_history', JSON.stringify(historyData));
+    loadHistory();
   }
 
   function printWindowQuotation() {
@@ -719,13 +611,6 @@
     runCalculation();
     saveToHistory();
     document.body.className = "print-window";
-    window.print();
-  }
-
-  function printMaterialDetails() {
-    runCalculation();
-    saveToHistory();
-    document.body.className = "print-material";
     window.print();
   }
 </script>

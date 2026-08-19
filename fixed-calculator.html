@@ -39,7 +39,7 @@
 
         .header-top {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
             margin-bottom: 12px;
         }
@@ -47,26 +47,39 @@
         .menu-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            padding: 8px 12px;
+            border-radius: 8px;
+            padding: 6px 12px;
             color: white;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 18px; /* আইকন বড় করা হয়েছে */
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-date {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 12px;
             font-weight: bold;
         }
 
         .header-titles {
             flex-grow: 1;
-            padding-right: 10px;
+            padding: 0 10px;
         }
 
         .header-titles h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
+            white-space: nowrap;
         }
 
         .header-titles p {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
         }
 
@@ -268,14 +281,15 @@
                 margin: 10mm;
             }
             body, html {
-                background: #fff !important; margin: 0 !important; padding: 0 !important; height: 100% !important;
+                background: #fff !important; margin: 0 !important; padding: 0 !important; height: 100% !important; overflow: hidden; /* Prevent extra blank page */
             }
             .app-container, .modal { display: none !important; }
 
             #printTemplate {
-                display: block !important;
+                display: flex !important;
+                flex-direction: column;
                 width: 100% !important;
-                height: 275mm !important;
+                height: 96vh !important; /* Forces it to fit in exactly one page */
                 position: absolute; top: 0; left: 0;
                 background: #fff !important;
                 padding: 15px !important;
@@ -304,11 +318,15 @@
                 display: flex; justify-content: space-between; font-size: 13px !important; background: #f1f5f9 !important; padding: 10px !important; border: 2px solid #1e3a8a !important; border-radius: 4px; margin-bottom: 15px; font-weight: bold;
             }
 
-            .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-            .print-table th, .print-table td { border: 2px solid #1e3a8a !important; padding: 8px !important; font-size: 14px !important; text-align: center; color: #000 !important; font-weight: bold !important; }
-            .print-table th { background-color: #1e3a8a !important; color: #fff !important; }
+            .section-heading {
+                background: #1e3a8a !important; color: #fff !important; text-align: center; padding: 6px; font-size: 15px !important; font-weight: bold !important; margin-top: 10px; border-radius: 4px 4px 0 0;
+            }
 
-            .signature-area { display: flex; justify-content: space-between; margin-top: 45px; padding: 0 20px; }
+            .print-table { width: 100%; border-collapse: collapse; }
+            .print-table th, .print-table td { border: 2px solid #1e3a8a !important; padding: 8px !important; font-size: 14px !important; text-align: center; color: #000 !important; font-weight: bold !important; }
+            .print-table th { background-color: #e0e7ff !important; color: #1e3a8a !important; }
+
+            .signature-area { display: flex; justify-content: space-between; margin-top: auto; padding: 0 20px 20px 20px; }
             .sig-line { border-top: 2px solid #1e3a8a !important; width: 180px; text-align: center; padding-top: 5px; font-weight: bold !important; font-size: 13px !important; color: #1e3a8a !important; }
         }
     </style>
@@ -319,11 +337,12 @@
     <!-- হেডার -->
     <div class="header-card">
         <div class="header-top">
-            <button class="menu-btn" onclick="openHistory()">☰ হিস্ট্রি</button>
+            <button class="menu-btn" onclick="openHistory()" title="হিস্ট্রি">☰</button>
             <div class="header-titles">
                 <h1 id="headerMainTitle">RM THAI ALUMINIUM</h1>
-                <p>FIXED GLASS & ACCESSORIES CALCULATOR</p>
+                <p>FIXED GLASS & ACCESSORIES</p>
             </div>
+            <div id="currentDateDisplay" class="header-date"></div>
         </div>
         <input type="text" id="shopNameInput" class="header-input" value="RM THAI ALUMINIUM" oninput="saveHeaderDetails()">
         <input type="text" id="shopMobileInput" class="header-input" value="Mobile: 01676-474412" oninput="saveHeaderDetails()">
@@ -352,7 +371,7 @@
                             <input type="number" class="input-cols" placeholder="যেমন: 8">
                         </div>
                         <div class="form-group">
-                            <label>আড়াআড়ি সারি / তলা (খোপ)</label>
+                            <label>আড়াআড়ি (খোপ)</label>
                             <input type="number" class="input-rows" placeholder="যেমন: 3">
                         </div>
                     </div>
@@ -411,20 +430,25 @@
 <div class="modal" id="printPreviewModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 style="color: #1e3a8a;">🔍 প্রিন্ট প্রিভিউ ও মালামাল এডিট</h3>
+            <h3 style="color: #1e3a8a;">🔍 প্রিন্ট প্রিভিউ ও এডিট</h3>
             <button class="close-btn" onclick="closePrintPreview()">X</button>
         </div>
-        <p style="font-size: 11px; color: #64748b; margin-bottom: 10px;">প্রিন্ট করার আগে মালামাল কম-বেশি করতে পারেন। প্রিন্টে কোন টাকা-পয়সার হিসাব যাবে না।</p>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 10px;">প্রিন্ট করার আগে মালামাল কম-বেশি করতে পারেন।</p>
         
         <table class="preview-table">
             <thead>
-                <tr><th>মালামাল / সেকশন</th><th style="text-align: center;">পরিমাণ</th></tr>
+                <tr><th>অ্যালুমিনিয়াম সেকশন</th><th style="text-align: center;">পরিমাণ</th></tr>
             </thead>
             <tbody>
                 <tr><td>টপ এন্ড সাইড (২১')</td><td align="center"><input type="number" id="prevTopSide"> টি</td></tr>
                 <tr><td>ফিক্সড বটম (২১')</td><td align="center"><input type="number" id="prevBottom"> টি</td></tr>
                 <tr><td>বটম বিট (২১')</td><td align="center"><input type="number" id="prevBead"> টি</td></tr>
-                <tr><td>এঙ্গেল (২১' স্টিক / ফিট)</td><td align="center"><input type="text" id="prevAngle"></td></tr>
+                <tr><td>এঙ্গেল (১ ইঞ্চি)</td><td align="center"><input type="text" id="prevAngle"></td></tr>
+            </tbody>
+            <thead>
+                <tr><th>এক্সেসরিজ</th><th style="text-align: center;">পরিমাণ</th></tr>
+            </thead>
+            <tbody>
                 <tr><td>রিবিট (Pcs)</td><td align="center"><input type="number" id="prevRivet"> টি</td></tr>
                 <tr><td>ফিক্সড রাবার (রানিং ফিট)</td><td align="center"><input type="number" id="prevRubber"> ফিট</td></tr>
                 <tr><td>স্ক্রু ও রয়াল প্লাগ</td><td align="center"><input type="number" id="prevScrew"> সেট</td></tr>
@@ -448,8 +472,8 @@
         <div>Date: <span id="ptDate"></span></div>
     </div>
 
-    <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 10px;">FIXED GLASS MATERIAL & ACCESSORIES REQ.</h3>
-
+    <!-- Table 1: Aluminium -->
+    <div class="section-heading">1. ALUMINIUM SECTIONS</div>
     <table class="print-table">
         <thead>
             <tr>
@@ -463,10 +487,24 @@
             <tr><td>2</td><td>Fixed Bottom Section (21 ft)</td><td id="ptBottom"></td></tr>
             <tr><td>3</td><td>Bottom Bead Section (21 ft)</td><td id="ptBead"></td></tr>
             <tr><td>4</td><td>Angle (1 inch)</td><td id="ptAngle"></td></tr>
-            <tr><td>5</td><td>Rivet</td><td id="ptRivet"></td></tr>
-            <tr><td>6</td><td>Fixed Glass Rubber</td><td id="ptRubber"></td></tr>
-            <tr><td>7</td><td>Screw & Royal Plug (2"/3")</td><td id="ptScrew"></td></tr>
-            <tr><td>8</td><td>Silicon Gum</td><td id="ptGum"></td></tr>
+        </tbody>
+    </table>
+
+    <!-- Table 2: Accessories -->
+    <div class="section-heading">2. REQUIRED ACCESSORIES</div>
+    <table class="print-table">
+        <thead>
+            <tr>
+                <th>SL No.</th>
+                <th>Item Description</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>Rivet</td><td id="ptRivet"></td></tr>
+            <tr><td>2</td><td>Fixed Glass Rubber</td><td id="ptRubber"></td></tr>
+            <tr><td>3</td><td>Screw & Royal Plug (2"/3")</td><td id="ptScrew"></td></tr>
+            <tr><td>4</td><td>Silicon Gum</td><td id="ptGum"></td></tr>
         </tbody>
     </table>
 
@@ -488,6 +526,11 @@
             document.getElementById('headerMainTitle').innerText = savedName;
         }
         if (savedMobile) document.getElementById('shopMobileInput').value = savedMobile;
+
+        // Current Date Load
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const currentDate = new Date().toLocaleDateString('en-GB', options);
+        document.getElementById('currentDateDisplay').innerText = currentDate;
     };
 
     function saveHeaderDetails() {
@@ -523,7 +566,7 @@
                         <input type="number" class="input-cols" placeholder="যেমন: 8">
                     </div>
                     <div class="form-group">
-                        <label>আড়াআড়ি সারি / তলা (খোপ)</label>
+                        <label>আড়াআড়ি (খোপ)</label>
                         <input type="number" class="input-rows" placeholder="যেমন: 3">
                     </div>
                 </div>
@@ -661,10 +704,10 @@
             <tr><td>টপ এন্ড সাইড</td><td><strong>${aggregatedTopSideSections} টি</strong></td><td style="color:#dc2626;">${aggregatedTopSideWaste.toFixed(2)} ফিট</td></tr>
             <tr><td>ফিক্সড বটম</td><td><strong>${aggregatedBottomSections} টি</strong></td><td style="color:#dc2626;">${aggregatedBottomWaste.toFixed(2)} ফিট</td></tr>
             <tr><td>বটম বিট</td><td><strong>${aggregatedBottomSections} টি</strong></td><td style="color:#dc2626;">${aggregatedBottomWaste.toFixed(2)} ফিট</td></tr>
+            <tr><td>এঙ্গেল (১ ইঞ্চি)</td><td><strong>${angleText}</strong></td><td>-</td></tr>
         `;
 
         document.getElementById('tableBodyAcc').innerHTML = `
-            <tr><td>এঙ্গেল (১ ইঞ্চি)</td><td><strong>${angleText}</strong></td></tr>
             <tr><td>রিবিট</td><td><strong>${totalRivets} টি</strong></td></tr>
             <tr><td>ফিক্সড রাবার</td><td><strong>${totalRubberFt} রানিং ফিট</strong></td></tr>
             <tr><td>স্ক্রু ও রয়াল প্লাগ (২"/৩")</td><td><strong>${totalScrews} সেট</strong></td></tr>
@@ -696,12 +739,13 @@
         document.getElementById('ptShopName').innerText = document.getElementById('shopNameInput').value || 'RM THAI ALUMINIUM';
         document.getElementById('ptShopMobile').innerText = document.getElementById('shopMobileInput').value || '';
         document.getElementById('ptGlassSqft').innerText = globalCalcData.sqft;
-        document.getElementById('ptDate').innerText = new Date().toLocaleDateString('en-GB');
+        document.getElementById('ptDate').innerText = document.getElementById('currentDateDisplay').innerText;
 
         document.getElementById('ptTopSide').innerText = document.getElementById('prevTopSide').value + ' Pcs';
         document.getElementById('ptBottom').innerText = document.getElementById('prevBottom').value + ' Pcs';
         document.getElementById('ptBead').innerText = document.getElementById('prevBead').value + ' Pcs';
         document.getElementById('ptAngle').innerText = document.getElementById('prevAngle').value;
+        
         document.getElementById('ptRivet').innerText = document.getElementById('prevRivet').value + ' Pcs';
         document.getElementById('ptRubber').innerText = document.getElementById('prevRubber').value + ' Rft';
         document.getElementById('ptScrew').innerText = document.getElementById('prevScrew').value + ' Sets';
@@ -713,7 +757,7 @@
 
     function saveToHistory(boxData, totalSqft) {
         let history = JSON.parse(localStorage.getItem('rm_fixed_history')) || [];
-        history.unshift({ id: Date.now(), date: new Date().toLocaleString('en-GB'), boxes: boxData, sqft: totalSqft.toFixed(2) });
+        history.unshift({ id: Date.now(), date: document.getElementById('currentDateDisplay').innerText, boxes: boxData, sqft: totalSqft.toFixed(2) });
         if(history.length > 30) history.pop();
         localStorage.setItem('rm_fixed_history', JSON.stringify(history));
     }
@@ -769,7 +813,7 @@
                     </div>
                     <div class="grid-2">
                         <div class="form-group"><label>খাড়া কলাম (খোপ)</label><input type="number" class="input-cols" value="${b.cols}"></div>
-                        <div class="form-group"><label>আড়াআড়ি সারি / তলা (খোপ)</label><input type="number" class="input-rows" value="${b.rows}"></div>
+                        <div class="form-group"><label>আড়াআড়ি (খোপ)</label><input type="number" class="input-rows" value="${b.rows}"></div>
                     </div>
                 </div>
             `;

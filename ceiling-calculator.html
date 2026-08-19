@@ -24,19 +24,18 @@
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
         }
 
         /* হেডার সেকশন */
         .header-card {
-            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
             border-radius: 16px;
             padding: 20px 15px;
             color: white;
             text-align: center;
             box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
             margin-bottom: 20px;
-            position: relative;
         }
 
         .header-top {
@@ -53,15 +52,8 @@
             padding: 8px 12px;
             color: white;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
             font-size: 13px;
             font-weight: bold;
-        }
-
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
         }
 
         .header-titles {
@@ -72,34 +64,25 @@
         .header-titles h1 {
             font-size: 20px;
             font-weight: 800;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
         }
 
         .header-titles p {
             font-size: 11px;
             font-weight: 600;
-            opacity: 0.95;
-            letter-spacing: 0.5px;
         }
 
         .header-input {
             width: 100%;
             background: white;
             color: #0f172a;
-            border: 2px solid transparent;
+            border: none;
             border-radius: 10px;
             padding: 10px;
             font-size: 15px;
             font-weight: bold;
             text-align: center;
             margin-top: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             outline: none;
-        }
-
-        .header-input:focus {
-            border-color: #38bdf8;
         }
 
         /* কার্ড লেআউট */
@@ -115,7 +98,7 @@
         .card-header-title {
             font-size: 16px;
             font-weight: bold;
-            color: #1d4ed8;
+            color: #1e3a8a;
             margin-bottom: 15px;
             padding-bottom: 8px;
             border-bottom: 2px solid #f1f5f9;
@@ -138,37 +121,26 @@
             padding: 12px;
             background: #f8fafc;
             border: 1.5px solid #cbd5e1;
-            color: #0f172a;
             border-radius: 10px;
             font-size: 15px;
             font-weight: bold;
             outline: none;
         }
 
-        .input-group input:focus {
-            border-color: #2563eb;
-            background: #ffffff;
-        }
-
         .btn-calc {
             width: 100%;
             padding: 14px;
-            background: #15803d;
+            background: #10b981;
             color: #ffffff;
             border: none;
             border-radius: 10px;
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(21, 128, 61, 0.2);
-        }
-
-        .btn-calc:hover {
-            background: #166534;
         }
 
         /* মালামাল ফলাফল বাক্স */
-        .result-box {
+        .result-box, .costing-box {
             display: none;
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -181,7 +153,7 @@
         .result-title {
             font-size: 16px;
             font-weight: bold;
-            color: #1d4ed8;
+            color: #1e3a8a;
             margin-bottom: 14px;
             text-align: center;
             border-bottom: 2px dashed #cbd5e1;
@@ -196,37 +168,14 @@
             font-size: 14px;
         }
 
-        .result-item:last-child {
-            border-bottom: none;
-        }
-
-        .result-label {
-            color: #475569;
-            font-weight: bold;
-        }
-
-        .result-val {
-            color: #1d4ed8;
-            font-weight: bold;
-        }
-
-        /* কস্টিং বাক্স */
-        .costing-box {
-            display: none;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            margin-bottom: 15px;
-        }
+        .result-label { font-weight: bold; color: #475569; }
+        .result-val { font-weight: bold; color: #1e3a8a; }
 
         .cost-row {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
-            align-items: center;
         }
 
         .cost-row label {
@@ -236,11 +185,10 @@
             font-weight: bold;
         }
 
-        .cost-row input {
+        .cost-row input, .extra-charge-row input {
             padding: 10px;
             background: #f8fafc;
             border: 1.5px solid #cbd5e1;
-            color: #0f172a;
             border-radius: 8px;
             font-size: 14px;
             font-weight: bold;
@@ -249,246 +197,95 @@
         }
 
         .extra-charge-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #cbd5e1;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1;
         }
 
-        .extra-charge-row label {
-            font-size: 13px;
-            color: #1e293b;
-            font-weight: bold;
-        }
-
-        .extra-charge-row input {
-            padding: 10px;
-            background: #f8fafc;
-            border: 1.5px solid #cbd5e1;
-            color: #0f172a;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            width: 45%;
-            text-align: right;
-        }
-
-        .subtotal-text {
-            font-size: 14px;
-            color: #16a34a;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
+        .subtotal-text { font-size: 14px; color: #16a34a; font-weight: bold; text-align: right; margin-top: 8px; }
 
         .grand-total-card {
-            margin-top: 16px;
-            padding: 14px;
-            background: #f0fdf4;
-            border: 1.5px solid #16a34a;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-top: 16px; padding: 14px; background: #f0fdf4; border: 1.5px solid #16a34a; border-radius: 10px; display: flex; justify-content: space-between;
         }
-
-        .grand-total-label {
-            font-size: 15px;
-            font-weight: bold;
-            color: #14532d;
-        }
-
-        .grand-total-val {
-            font-size: 18px;
-            font-weight: bold;
-            color: #15803d;
-        }
+        .grand-total-label { font-size: 15px; font-weight: bold; color: #14532d; }
+        .grand-total-val { font-size: 18px; font-weight: bold; color: #15803d; }
 
         .pdf-print-btn {
-            width: 100%;
-            padding: 14px;
-            background: #2563eb;
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            width: 100%; padding: 14px; background: #2563eb; color: #ffffff; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 15px;
         }
 
-        /* হিস্ট্রি মোডাল */
+        /* মোডাল ডিজাইন (হিস্ট্রি ও প্রিন্ট প্রিভিউ) */
         .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px;
         }
-
         .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 420px;
-            border-radius: 16px;
-            padding: 20px;
-            max-height: 80vh;
-            overflow-y: auto;
+            background: white; width: 100%; max-width: 450px; border-radius: 16px; padding: 20px; max-height: 85vh; overflow-y: auto;
         }
-
         .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px;
         }
+        .close-btn { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; }
 
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #64748b;
-        }
+        /* প্রিভিউ টেবিল */
+        .preview-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        .preview-table th { background: #1e3a8a; color: white; padding: 10px; text-align: left; font-size: 13px; }
+        .preview-table td { padding: 8px; border-bottom: 1px solid #cbd5e1; }
+        .preview-table input { width: 80px; padding: 6px; border: 1px solid #94a3b8; border-radius: 4px; font-weight: bold; text-align: center; }
 
-        .history-item {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        /* স্ক্রিন হাইড করার জন্য */
+        #printTemplate { display: none; }
 
-        .history-info {
-            cursor: pointer;
-            flex-grow: 1;
-        }
-
-        .history-date {
-            font-size: 11px;
-            color: #64748b;
-            margin-bottom: 4px;
-        }
-
-        .history-details {
-            font-size: 13px;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        .delete-single-btn {
-            background: #fee2e2;
-            color: #dc2626;
-            border: 1px solid #fca5a5;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        /* এইচডি প্রিন্ট সিএসএস */
+        /* ================= 1-PAGE A4 PRINT STYLES ================= */
         @media print {
             @page {
-                size: portrait;
+                size: A4 portrait;
                 margin: 10mm;
             }
-
-            body {
-                background: #ffffff !important;
-                color: #000000 !important;
-                padding: 0;
+            body, html {
+                background: #fff !important; margin: 0 !important; padding: 0 !important; height: 100% !important;
             }
+            /* স্ক্রিনের সবকিছু লুকানো */
+            .container, .modal { display: none !important; }
 
-            .container {
-                max-width: 100% !important;
-                width: 100% !important;
-            }
-
-            .header-card {
-                background: none !important;
-                color: black !important;
-                box-shadow: none !important;
-                border-bottom: 2px solid #000 !important;
-                padding: 10px 0 !important;
-                margin-bottom: 15px !important;
-            }
-
-            .header-titles h1 {
-                color: black !important;
-                font-size: 22px !important;
-            }
-
-            .header-titles p {
-                color: #333 !important;
-                font-size: 12px !important;
-            }
-
-            .header-input {
-                border: none !important;
-                background: transparent !important;
-                font-size: 16px !important;
-                font-weight: bold !important;
-                color: black !important;
-                padding: 2px !important;
-                margin-top: 2px !important;
-                box-shadow: none !important;
-            }
-
-            .menu-btn, .card, .pdf-print-btn, .modal, button {
-                display: none !important;
-            }
-
-            .result-box, .costing-box {
+            /* শুধুমাত্র প্রিন্ট টেমপ্লেট শো করবে */
+            #printTemplate {
                 display: block !important;
-                background: #ffffff !important;
-                color: #000000 !important;
-                border: 1px solid #000000 !important;
-                border-radius: 4px !important;
-                box-shadow: none !important;
-                margin-bottom: 15px !important;
+                width: 100% !important;
+                height: 275mm !important; /* One Page Force */
+                position: absolute; top: 0; left: 0;
+                background: #fff !important;
+                padding: 15px !important;
+                border: 3px solid #1e3a8a !important;
+                box-sizing: border-box !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
-            .result-title {
-                color: #000000 !important;
-                border-bottom: 1px solid #000000 !important;
-                font-size: 16px;
-                font-weight: bold;
+            /* Watermark */
+            #printTemplate::before {
+                content: "CEILING MATERIAL";
+                position: absolute; top: 50%; left: 50%;
+                transform: translate(-50%, -50%) rotate(-30deg);
+                font-size: 60px; font-weight: 900;
+                color: rgba(37, 99, 235, 0.08) !important;
+                z-index: 0; pointer-events: none; white-space: nowrap;
             }
 
-            .result-item {
-                border-bottom: 1px solid #ddd !important;
+            #printTemplate * { position: relative; z-index: 1; }
+
+            .print-header { text-align: center; border-bottom: 3px solid #1e3a8a !important; padding-bottom: 10px; margin-bottom: 15px; background: #e0e7ff !important; padding-top: 15px; border-radius: 4px 4px 0 0; }
+            .print-title { font-size: 32px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
+            .print-subtitle { font-size: 16px !important; font-weight: 900 !important; margin-top: 5px; color: #000 !important; }
+
+            .print-info-box {
+                display: flex; justify-content: space-between; font-size: 14px !important; background: #f1f5f9 !important; padding: 10px !important; border: 2px solid #1e3a8a !important; border-radius: 4px; margin-bottom: 15px; font-weight: bold;
             }
 
-            .result-label, .result-val, .cost-row label, .subtotal-text, .grand-total-label, .grand-total-val {
-                color: #000000 !important;
-                font-weight: bold !important;
-            }
+            .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            .print-table th, .print-table td { border: 2px solid #1e3a8a !important; padding: 10px !important; font-size: 16px !important; text-align: center; color: #000 !important; font-weight: bold !important; }
+            .print-table th { background-color: #1e3a8a !important; color: #fff !important; }
 
-            .cost-row input, .extra-charge-row input {
-                border: none !important;
-                background: transparent !important;
-                color: black !important;
-                font-weight: bold !important;
-            }
-
-            .grand-total-card {
-                background: #f0f0f0 !important;
-                border: 1px solid #000 !important;
-            }
+            .signature-area { display: flex; justify-content: space-between; margin-top: 50px; padding: 0 20px; }
+            .sig-line { border-top: 2px solid #1e3a8a !important; width: 180px; text-align: center; padding-top: 5px; font-weight: bold !important; font-size: 14px !important; color: #1e3a8a !important; }
         }
     </style>
 </head>
@@ -496,21 +293,17 @@
 <body>
 
     <div class="container">
-
         <!-- হেডার -->
         <div class="header-card">
             <div class="header-top">
-                <button class="menu-btn" onclick="openHistory()">
-                    <span>☰</span> হিস্ট্রি
-                </button>
+                <button class="menu-btn" onclick="openHistory()">☰ হিস্ট্রি</button>
                 <div class="header-titles">
                     <h1 id="headerMainTitle">RM THAI ALUMINIUM</h1>
-                    <p>CEILING MATERIAL QUOTATION CALCULATOR</p>
+                    <p>CEILING MATERIAL CALCULATOR</p>
                 </div>
             </div>
-            <!-- এডিটেবল শপ নেম ও মোবাইল -->
             <input type="text" id="shopNameInput" class="header-input" value="RM THAI ALUMINIUM" oninput="saveHeaderDetails()">
-            <input type="text" id="shopMobileInput" class="header-input" value="Mobile: 01676-474412" oninput="saveHeaderDetails()">
+            <input type="text" id="shopMobileInput" class="header-input" value="01676-474412" oninput="saveHeaderDetails()">
         </div>
 
         <!-- পরিমাপ ইনপুট -->
@@ -520,91 +313,57 @@
                 <label>রুমের দৈর্ঘ্য (ফিট):</label>
                 <input type="number" id="length" placeholder="যেমন: ২৫" step="any">
             </div>
-
             <div class="input-group">
                 <label>রুমের প্রস্থ (ফিট):</label>
                 <input type="number" id="width" placeholder="যেমন: ১৪" step="any">
             </div>
-
-            <button class="btn-calc" id="calcBtn">
-                মালামালের হিসাব করুন
-            </button>
+            <button class="btn-calc" id="calcBtn">মালামালের হিসাব করুন</button>
         </div>
 
         <!-- মালামালের তালিকা -->
         <div class="result-box" id="resultBox">
-            <div class="result-title">
-                📊 প্রয়োজনীয় মালামালের তালিকা
-            </div>
-
-            <div class="result-item">
-                <span class="result-label">মোট ক্ষেত্রফল:</span>
-                <span class="result-val" id="totalArea">০ বর্গফুট</span>
-            </div>
-
-            <div class="result-item">
-                <span class="result-label">ওয়াল এঙ্গেল (১০ ফিট):</span>
-                <span class="result-val" id="wallAngleText">০ টি</span>
-            </div>
-
-            <div class="result-item">
-                <span class="result-label">মেইন টি (১২ ফিট):</span>
-                <span class="result-val" id="mainTeeText">০ টি</span>
-            </div>
-
-            <div class="result-item">
-                <span class="result-label">ক্রস টি (২ ফিট):</span>
-                <span class="result-val" id="crossTeeText">০ টি</span>
-            </div>
-
-            <div class="result-item">
-                <span class="result-label">সিলিং বোর্ড (২' × ২'):</span>
-                <span class="result-val" id="ceilingBoardText">০ টি</span>
-            </div>
+            <div class="result-title">📊 প্রয়োজনীয় মালামালের তালিকা</div>
+            <div class="result-item"><span class="result-label">মোট ক্ষেত্রফল:</span><span class="result-val" id="totalArea">০ বর্গফুট</span></div>
+            <div class="result-item"><span class="result-label">ওয়াল এঙ্গেল (১০ ফিট):</span><span class="result-val" id="wallAngleText">০ টি</span></div>
+            <div class="result-item"><span class="result-label">মেইন টি (১২ ফিট):</span><span class="result-val" id="mainTeeText">০ টি</span></div>
+            <div class="result-item"><span class="result-label">ক্রস টি (২ ফিট):</span><span class="result-val" id="crossTeeText">০ টি</span></div>
+            <div class="result-item"><span class="result-label">সিলিং বোর্ড (২' × ২'):</span><span class="result-val" id="ceilingBoardText">০ টি</span></div>
         </div>
 
         <!-- কস্টিং ও মূল্য হিসাব -->
         <div class="costing-box" id="costingBox">
-            <div class="result-title">
-                💰 মালামালের দর ও মোট খরচের হিসাব
-            </div>
-
+            <div class="result-title">💰 দর ও খরচের হিসাব (প্রিন্টে যাবে না)</div>
+            
             <div class="cost-row">
                 <label>১. ওয়াল এঙ্গেল (১০ ফিট)</label>
-                <input type="number" id="wallAngleQty" placeholder="পরিমাণ (টি)">
-                <input type="number" id="wallAnglePrice" placeholder="দর (টাকা)">
+                <input type="number" id="wallAngleQty" placeholder="পরিমাণ">
+                <input type="number" id="wallAnglePrice" placeholder="দর">
                 <div class="subtotal-text" id="wallAngleSubtotal">৳ ০.০০</div>
             </div>
-
             <div class="cost-row">
                 <label>২. মেইন টি (১২ ফিট)</label>
-                <input type="number" id="mainTeeQty" placeholder="পরিমাণ (টি)">
-                <input type="number" id="mainTeePrice" placeholder="দর (টাকা)">
+                <input type="number" id="mainTeeQty" placeholder="পরিমাণ">
+                <input type="number" id="mainTeePrice" placeholder="দর">
                 <div class="subtotal-text" id="mainTeeSubtotal">৳ ০.০০</div>
             </div>
-
             <div class="cost-row">
                 <label>৩. ক্রস টি (২ ফিট)</label>
-                <input type="number" id="crossTeeQty" placeholder="পরিমাণ (টি)">
-                <input type="number" id="crossTeePrice" placeholder="দর (টাকা)">
+                <input type="number" id="crossTeeQty" placeholder="পরিমাণ">
+                <input type="number" id="crossTeePrice" placeholder="দর">
                 <div class="subtotal-text" id="crossTeeSubtotal">৳ ০.০০</div>
             </div>
-
             <div class="cost-row">
                 <label>৪. সিলিং বোর্ড (২' × ২')</label>
-                <input type="number" id="boardQty" placeholder="পরিমাণ (টি)">
-                <input type="number" id="boardPrice" placeholder="দর (টাকা)">
+                <input type="number" id="boardQty" placeholder="পরিমাণ">
+                <input type="number" id="boardPrice" placeholder="দর">
                 <div class="subtotal-text" id="boardSubtotal">৳ ০.০০</div>
             </div>
 
             <div class="extra-charge-row">
-                <label>৫. ক্যারিয়িং চার্জ (টাকা):</label>
-                <input type="number" id="carryingCharge" placeholder="যেমন: ৫০০">
+                <label>ক্যারিয়িং চার্জ:</label><input type="number" id="carryingCharge" placeholder="টাকা">
             </div>
-
             <div class="extra-charge-row">
-                <label>৬. ফিটিং চার্জ (পার স্কয়ার ফিট):</label>
-                <input type="number" id="fittingChargePerSqft" placeholder="যেমন: ১০">
+                <label>ফিটিং চার্জ (পার স্কয়ার ফিট):</label><input type="number" id="fittingChargePerSqft" placeholder="টাকা">
             </div>
 
             <div class="grand-total-card">
@@ -612,60 +371,109 @@
                 <span class="grand-total-val" id="grandTotal">৳ ০.০০</span>
             </div>
 
-            <!-- PDF PRINT BUTTON -->
-            <button class="pdf-print-btn" id="printBtn">
-                🖨️ PDF প্রিন্ট করুন
-            </button>
+            <button class="pdf-print-btn" onclick="openPrintPreview()">🖨️ প্রিন্ট প্রিভিউ (Print Preview)</button>
         </div>
-
     </div>
 
     <!-- হিস্ট্রি মোডাল -->
     <div class="modal" id="historyModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 style="color: #1d4ed8;">📜 হিসাবের হিস্ট্রি</h3>
-                <button class="close-btn" onclick="closeHistory()">&times;</button>
+                <h3 style="color: #1e3a8a;">📜 হিসাবের হিস্ট্রি</h3>
+                <button class="close-btn" onclick="closeHistory()">X</button>
             </div>
             <div id="historyList"></div>
+        </div>
+    </div>
+
+    <!-- প্রিন্ট প্রিভিউ মোডাল -->
+    <div class="modal" id="printPreviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="color: #1e3a8a;">🔍 প্রিন্ট প্রিভিউ ও এডিট</h3>
+                <button class="close-btn" onclick="closePrintPreview()">X</button>
+            </div>
+            <p style="font-size: 12px; color: #64748b; margin-bottom: 10px;">ফাইনাল প্রিন্ট করার আগে মালামাল কম-বেশি করতে পারেন। প্রিন্টে কোনো টাকার হিসাব যাবে না।</p>
+            
+            <table class="preview-table">
+                <thead>
+                    <tr><th>মালামালের নাম</th><th style="text-align: center;">পরিমাণ (টি)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>ওয়াল এঙ্গেল (১০ ফিট)</td><td align="center"><input type="number" id="prevWallAngle" value="0"></td></tr>
+                    <tr><td>মেইন টি (১২ ফিট)</td><td align="center"><input type="number" id="prevMainTee" value="0"></td></tr>
+                    <tr><td>ক্রস টি (২ ফিট)</td><td align="center"><input type="number" id="prevCrossTee" value="0"></td></tr>
+                    <tr><td>সিলিং বোর্ড (২' × ২')</td><td align="center"><input type="number" id="prevBoard" value="0"></td></tr>
+                </tbody>
+            </table>
+            
+            <button class="btn-calc" onclick="executeFinalPrint()">✅ কনফার্ম এবং প্রিন্ট করুন</button>
+        </div>
+    </div>
+
+    <!-- A4 প্রিন্ট টেমপ্লেট (স্ক্রিনে লুকানো থাকবে) -->
+    <div id="printTemplate">
+        <div class="print-header">
+            <h1 class="print-title" id="ptShopName"></h1>
+            <p class="print-subtitle">Mobile: <span id="ptShopMobile"></span></p>
+        </div>
+
+        <div class="print-info-box">
+            <div>Project/Area: <span id="ptArea"></span> Sqft</div>
+            <div>Date: <span id="ptDate"></span></div>
+        </div>
+
+        <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 10px;">MATERIAL REQUIREMENT LIST</h3>
+
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>SL No.</th>
+                    <th>Material Description</th>
+                    <th>Quantity (Pcs)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Wall Angle (10 ft)</td><td id="ptWallAngle"></td></tr>
+                <tr><td>2</td><td>Main Tee (12 ft)</td><td id="ptMainTee"></td></tr>
+                <tr><td>3</td><td>Cross Tee (2 ft)</td><td id="ptCrossTee"></td></tr>
+                <tr><td>4</td><td>Ceiling Board (2' × 2')</td><td id="ptBoard"></td></tr>
+            </tbody>
+        </table>
+
+        <div class="signature-area">
+            <div class="sig-line">Prepared By</div>
+            <div class="sig-line">Authorized Signature</div>
         </div>
     </div>
 
     <script>
         let calculatedTotalSqft = 0;
 
-        // পেজ লোড হলে দোকানের সংরক্ষিত তথ্য পপুল করা
         window.onload = function() {
             const savedName = localStorage.getItem('rm_ceiling_shop_name');
             const savedMobile = localStorage.getItem('rm_ceiling_shop_mobile');
-
             if (savedName) {
                 document.getElementById('shopNameInput').value = savedName;
                 document.getElementById('headerMainTitle').innerText = savedName;
             }
-            if (savedMobile) {
-                document.getElementById('shopMobileInput').value = savedMobile;
-            }
+            if (savedMobile) document.getElementById('shopMobileInput').value = savedMobile;
         };
 
-        // হেডার অটো-সেভ
         function saveHeaderDetails() {
             const nameVal = document.getElementById('shopNameInput').value;
             const mobileVal = document.getElementById('shopMobileInput').value;
-
             localStorage.setItem('rm_ceiling_shop_name', nameVal);
             localStorage.setItem('rm_ceiling_shop_mobile', mobileVal);
             document.getElementById('headerMainTitle').innerText = nameVal || 'RM THAI ALUMINIUM';
         }
 
-        // মূল ক্যালকুলেশন
-        function calculateCeiling() {
+        document.getElementById('calcBtn').addEventListener('click', function() {
             const length = parseFloat(document.getElementById('length').value);
             const width = parseFloat(document.getElementById('width').value);
 
             if (!length || !width || length <= 0 || width <= 0) {
-                alert('অনুগ্রহ করে সঠিক দৈর্ঘ্য ও প্রস্থ লিখুন!');
-                return;
+                alert('অনুগ্রহ করে সঠিক দৈর্ঘ্য ও প্রস্থ লিখুন!'); return;
             }
 
             calculatedTotalSqft = length * width;
@@ -695,83 +503,95 @@
 
             calculateCost();
             saveToHistory(length, width, calculatedTotalSqft);
-        }
+        });
 
         function calculateCost() {
-            const wallAngleQty = parseFloat(document.getElementById('wallAngleQty').value) || 0;
-            const mainTeeQty = parseFloat(document.getElementById('mainTeeQty').value) || 0;
-            const crossTeeQty = parseFloat(document.getElementById('crossTeeQty').value) || 0;
-            const boardQty = parseFloat(document.getElementById('boardQty').value) || 0;
+            const getVal = id => parseFloat(document.getElementById(id).value) || 0;
+            const waSub = getVal('wallAngleQty') * getVal('wallAnglePrice');
+            const mtSub = getVal('mainTeeQty') * getVal('mainTeePrice');
+            const ctSub = getVal('crossTeeQty') * getVal('crossTeePrice');
+            const bdSub = getVal('boardQty') * getVal('boardPrice');
 
-            const wallAnglePrice = parseFloat(document.getElementById('wallAnglePrice').value) || 0;
-            const mainTeePrice = parseFloat(document.getElementById('mainTeePrice').value) || 0;
-            const crossTeePrice = parseFloat(document.getElementById('crossTeePrice').value) || 0;
-            const boardPrice = parseFloat(document.getElementById('boardPrice').value) || 0;
+            document.getElementById('wallAngleSubtotal').innerText = '৳ ' + waSub.toFixed(2);
+            document.getElementById('mainTeeSubtotal').innerText = '৳ ' + mtSub.toFixed(2);
+            document.getElementById('crossTeeSubtotal').innerText = '৳ ' + ctSub.toFixed(2);
+            document.getElementById('boardSubtotal').innerText = '৳ ' + bdSub.toFixed(2);
 
-            const carryingCharge = parseFloat(document.getElementById('carryingCharge').value) || 0;
-            const fittingChargePerSqft = parseFloat(document.getElementById('fittingChargePerSqft').value) || 0;
-
-            const wallAngleSubtotal = wallAngleQty * wallAnglePrice;
-            const mainTeeSubtotal = mainTeeQty * mainTeePrice;
-            const crossTeeSubtotal = crossTeeQty * crossTeePrice;
-            const boardSubtotal = boardQty * boardPrice;
-
-            document.getElementById('wallAngleSubtotal').innerText = '৳ ' + wallAngleSubtotal.toFixed(2);
-            document.getElementById('mainTeeSubtotal').innerText = '৳ ' + mainTeeSubtotal.toFixed(2);
-            document.getElementById('crossTeeSubtotal').innerText = '৳ ' + crossTeeSubtotal.toFixed(2);
-            document.getElementById('boardSubtotal').innerText = '৳ ' + boardSubtotal.toFixed(2);
-
-            const materialTotal = wallAngleSubtotal + mainTeeSubtotal + crossTeeSubtotal + boardSubtotal;
-            const totalFittingCost = calculatedTotalSqft * fittingChargePerSqft;
-            const grandTotal = materialTotal + carryingCharge + totalFittingCost;
-
+            const matTotal = waSub + mtSub + ctSub + bdSub;
+            const fitTotal = calculatedTotalSqft * getVal('fittingChargePerSqft');
+            const grandTotal = matTotal + getVal('carryingCharge') + fitTotal;
             document.getElementById('grandTotal').innerText = '৳ ' + grandTotal.toFixed(2);
         }
 
-        // হিস্ট্রি সেভ করা
+        const allInputs = document.querySelectorAll('.costing-box input');
+        allInputs.forEach(input => input.addEventListener('input', calculateCost));
+
+        /* --- Print Preview Logic --- */
+        function openPrintPreview() {
+            if (calculatedTotalSqft <= 0) {
+                alert('প্রথমে রুমের দৈর্ঘ্য ও প্রস্থ দিয়ে হিসাব করুন!'); return;
+            }
+            // প্রিভিউ মোডালে ডাটা ট্রান্সফার
+            document.getElementById('prevWallAngle').value = document.getElementById('wallAngleQty').value;
+            document.getElementById('prevMainTee').value = document.getElementById('mainTeeQty').value;
+            document.getElementById('prevCrossTee').value = document.getElementById('crossTeeQty').value;
+            document.getElementById('prevBoard').value = document.getElementById('boardQty').value;
+            
+            document.getElementById('printPreviewModal').style.display = 'flex';
+        }
+
+        function closePrintPreview() {
+            document.getElementById('printPreviewModal').style.display = 'none';
+        }
+
+        function executeFinalPrint() {
+            // টেমপ্লেটে শপ ডিটেইলস পাঠানো
+            document.getElementById('ptShopName').innerText = document.getElementById('shopNameInput').value || 'RM THAI ALUMINIUM';
+            document.getElementById('ptShopMobile').innerText = document.getElementById('shopMobileInput').value || 'N/A';
+            document.getElementById('ptArea').innerText = calculatedTotalSqft.toFixed(2);
+            
+            const today = new Date();
+            document.getElementById('ptDate').innerText = today.toLocaleDateString('en-GB');
+
+            // এডিট করা ভ্যালুগুলো টেমপ্লেটে পাঠানো
+            document.getElementById('ptWallAngle').innerText = document.getElementById('prevWallAngle').value;
+            document.getElementById('ptMainTee').innerText = document.getElementById('prevMainTee').value;
+            document.getElementById('ptCrossTee').innerText = document.getElementById('prevCrossTee').value;
+            document.getElementById('ptBoard').innerText = document.getElementById('prevBoard').value;
+
+            closePrintPreview();
+            window.print();
+        }
+
+        /* --- History Logic --- */
         function saveToHistory(length, width, sqft) {
             let history = JSON.parse(localStorage.getItem('rm_ceiling_history')) || [];
-            const newItem = {
-                id: Date.now(),
-                date: new Date().toLocaleString('bn-BD'),
-                length: length,
-                width: width,
-                sqft: sqft.toFixed(2)
-            };
-            history.unshift(newItem);
+            history.unshift({ id: Date.now(), date: new Date().toLocaleString('en-GB'), length, width, sqft: sqft.toFixed(2) });
             if(history.length > 30) history.pop();
             localStorage.setItem('rm_ceiling_history', JSON.stringify(history));
         }
 
-        // হিস্ট্রি ওপেন
         function openHistory() {
-            const modal = document.getElementById('historyModal');
             const list = document.getElementById('historyList');
             let history = JSON.parse(localStorage.getItem('rm_ceiling_history')) || [];
-
             if (history.length === 0) {
-                list.innerHTML = '<p style="text-align:center; color:#64748b; padding:15px;">কোনো হিস্ট্রি পাওয়া যায়নি।</p>';
+                list.innerHTML = '<p style="text-align:center; color:#64748b; padding:15px;">কোনো হিস্ট্রি নেই।</p>';
             } else {
                 list.innerHTML = history.map(item => `
-                    <div class="history-item">
-                        <div class="history-info" onclick="reopenHistory(${item.id})">
-                            <div class="history-date">📅 ${item.date}</div>
-                            <div class="history-details">
-                                মাপ: ${item.length}' × ${item.width}' | এরিয়া: ${item.sqft} স্কয়ার ফিট
-                            </div>
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px; margin-bottom:10px; border-radius:8px; display:flex; justify-content:space-between;">
+                        <div style="cursor:pointer;" onclick="reopenHistory(${item.id})">
+                            <div style="font-size:11px; color:#64748b;">📅 ${item.date}</div>
+                            <div style="font-size:13px; font-weight:bold;">মাপ: ${item.length}' × ${item.width}' | ${item.sqft} sqft</div>
                         </div>
-                        <button class="delete-single-btn" onclick="deleteHistoryItem(${item.id})">মুছুন</button>
+                        <button style="background:#fee2e2; color:#dc2626; border:none; padding:5px; border-radius:4px; cursor:pointer;" onclick="deleteHistoryItem(${item.id})">Delete</button>
                     </div>
                 `).join('');
             }
-            modal.style.display = 'flex';
+            document.getElementById('historyModal').style.display = 'flex';
         }
 
-        function closeHistory() {
-            document.getElementById('historyModal').style.display = 'none';
-        }
+        function closeHistory() { document.getElementById('historyModal').style.display = 'none'; }
 
-        // এক এক করে হিস্ট্রি মোছা
         function deleteHistoryItem(id) {
             let history = JSON.parse(localStorage.getItem('rm_ceiling_history')) || [];
             history = history.filter(item => item.id !== id);
@@ -779,34 +599,15 @@
             openHistory();
         }
 
-        // হিস্ট্রিতে ক্লিক করে পুরানো হিসাব স্ক্রিনে ফেরত আনা
         function reopenHistory(id) {
             let history = JSON.parse(localStorage.getItem('rm_ceiling_history')) || [];
             const item = history.find(h => h.id === id);
             if (!item) return;
-
             document.getElementById('length').value = item.length;
             document.getElementById('width').value = item.width;
-
             closeHistory();
-            calculateCeiling();
+            document.getElementById('calcBtn').click();
         }
-
-        // ইভেন্ট লিসেনার
-        document.getElementById('calcBtn').addEventListener('click', calculateCeiling);
-
-        document.getElementById('printBtn').addEventListener('click', function() {
-            if (calculatedTotalSqft <= 0) {
-                alert('প্রথমে রুমের দৈর্ঘ্য ও প্রস্থ দিয়ে মালামালের হিসাব করুন!');
-                return;
-            }
-            window.print();
-        });
-
-        const allInputs = document.querySelectorAll('.costing-box input');
-        allInputs.forEach(input => {
-            input.addEventListener('input', calculateCost);
-        });
     </script>
 </body>
 </html>

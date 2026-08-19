@@ -428,6 +428,17 @@
 </div>
 
 <script>
+  // Hardcoded Default Options
+  const defaultMasterData = {
+    companyList: ["Kai", "Altech", "Alpha", "Alumax", "Fresh", "Nukki", "Nasir", "Max", "Max Pro", "BTA", "Chunghua", "Alco", "EDF"],
+    seriesList: ['Sliding 3"', 'Sliding 4"'],
+    thickList: ["1.0 mm", "1.2 mm", "1.5 mm"],
+    aluColourList: ["Silver", "Black", "Bronze", "Wooden", "Golden", "Circle Grey"],
+    glassCoList: ["Nasir", "Akij", "PSP", "Belgium"],
+    glassThickList: ["4 mm", "5 mm", "5.5 mm", "6 mm"],
+    glassColourList: ["Clear", "Frosted", "Green Marker", "Blue Marker", "Golden Marker", "Lake Blue", "winer", "ambos"]
+  };
+
   document.addEventListener("DOMContentLoaded", function() {
     initDropdowns();
     loadRateList();
@@ -450,7 +461,14 @@
   }
 
   function populateDropdown(storageKey, selectId) {
-    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let list = JSON.parse(localStorage.getItem(storageKey));
+    
+    // If empty or null, set default hardcoded list
+    if (!list || list.length === 0) {
+      list = defaultMasterData[storageKey] || [];
+      localStorage.setItem(storageKey, JSON.stringify(list));
+    }
+
     let select = document.getElementById(selectId);
     let currentVal = select.value;
     select.innerHTML = '';
@@ -537,7 +555,7 @@
   function saveRate() {
     let companyVal = document.getElementById('company').value;
     if (!companyVal) {
-      alert("দয়া করে প্রথমে Master Data থেকে নাম যোগ করে সিলেক্ট করুন!");
+      alert("দয়া করে প্রথমে কোম্পানি সিলেক্ট করুন!");
       return;
     }
 

@@ -51,7 +51,7 @@
             padding: 6px 12px;
             color: white;
             cursor: pointer;
-            font-size: 18px; /* আইকন বড় করা হয়েছে */
+            font-size: 18px;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -274,60 +274,76 @@
 
         #printTemplate { display: none; }
 
-        /* ================= 1-PAGE A4 PRINT STYLES ================= */
+        /* ================= STRICT 1-PAGE A4 PRINT STYLES ================= */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 10mm;
+                margin: 5mm; /* কম মার্জিন নিশ্চিত করার জন্য */
             }
             body, html {
-                background: #fff !important; margin: 0 !important; padding: 0 !important; height: 100% !important; overflow: hidden; /* Prevent extra blank page */
+                background: #fff !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                height: 100% !important; 
+                width: 100% !important;
+                overflow: hidden !important; /* অতিরিক্ত পেজ তৈরি হওয়া বন্ধ করবে */
             }
             .app-container, .modal { display: none !important; }
 
             #printTemplate {
                 display: flex !important;
                 flex-direction: column;
+                justify-content: space-between;
                 width: 100% !important;
-                height: 96vh !important; /* Forces it to fit in exactly one page */
-                position: absolute; top: 0; left: 0;
-                background: #fff !important;
-                padding: 15px !important;
-                border: 3px solid #1e3a8a !important;
+                max-height: 280mm !important; /* A4 পাতার একদম ১ পেজ পরিমাপ */
                 box-sizing: border-box !important;
+                position: absolute; top: 0; left: 0; right: 0;
+                background: #fff !important;
+                padding: 10mm !important;
+                border: 2px solid #1e3a8a !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
 
             #printTemplate::before {
                 content: "FIXED GLASS REQ.";
-                position: absolute; top: 50%; left: 50%;
+                position: absolute; top: 45%; left: 50%;
                 transform: translate(-50%, -50%) rotate(-30deg);
-                font-size: 55px; font-weight: 900;
-                color: rgba(37, 99, 235, 0.06) !important;
+                font-size: 45px; font-weight: 900;
+                color: rgba(37, 99, 235, 0.05) !important;
                 z-index: 0; pointer-events: none; white-space: nowrap;
             }
 
             #printTemplate * { position: relative; z-index: 1; }
 
-            .print-header { text-align: center; border-bottom: 3px solid #1e3a8a !important; padding-bottom: 10px; margin-bottom: 15px; background: #e0e7ff !important; padding-top: 15px; border-radius: 4px 4px 0 0; }
-            .print-title { font-size: 30px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
-            .print-subtitle { font-size: 15px !important; font-weight: 900 !important; margin-top: 5px; color: #000 !important; }
+            .print-header { 
+                text-align: center; 
+                border-bottom: 2px solid #1e3a8a !important; 
+                padding-bottom: 6px; 
+                margin-bottom: 8px; 
+                background: #e0e7ff !important; 
+                padding-top: 8px; 
+                border-radius: 4px; 
+            }
+            .print-title { font-size: 22px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
+            .print-subtitle { font-size: 13px !important; font-weight: 900 !important; margin-top: 3px; color: #000 !important; }
 
             .print-info-box {
-                display: flex; justify-content: space-between; font-size: 13px !important; background: #f1f5f9 !important; padding: 10px !important; border: 2px solid #1e3a8a !important; border-radius: 4px; margin-bottom: 15px; font-weight: bold;
+                display: flex; justify-content: space-between; font-size: 12px !important; background: #f1f5f9 !important; padding: 6px 10px !important; border: 1.5px solid #1e3a8a !important; border-radius: 4px; margin-bottom: 8px; font-weight: bold;
             }
 
             .section-heading {
-                background: #1e3a8a !important; color: #fff !important; text-align: center; padding: 6px; font-size: 15px !important; font-weight: bold !important; margin-top: 10px; border-radius: 4px 4px 0 0;
+                background: #1e3a8a !important; color: #fff !important; text-align: center; padding: 4px; font-size: 13px !important; font-weight: bold !important; margin-top: 6px; margin-bottom: 0; border-radius: 4px 4px 0 0;
             }
 
-            .print-table { width: 100%; border-collapse: collapse; }
-            .print-table th, .print-table td { border: 2px solid #1e3a8a !important; padding: 8px !important; font-size: 14px !important; text-align: center; color: #000 !important; font-weight: bold !important; }
+            .print-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+            .print-table th, .print-table td { border: 1.5px solid #1e3a8a !important; padding: 5px 8px !important; font-size: 12px !important; text-align: center; color: #000 !important; font-weight: bold !important; }
             .print-table th { background-color: #e0e7ff !important; color: #1e3a8a !important; }
 
-            .signature-area { display: flex; justify-content: space-between; margin-top: auto; padding: 0 20px 20px 20px; }
-            .sig-line { border-top: 2px solid #1e3a8a !important; width: 180px; text-align: center; padding-top: 5px; font-weight: bold !important; font-size: 13px !important; color: #1e3a8a !important; }
+            .signature-area { display: flex; justify-content: space-between; margin-top: 35px; padding: 0 15px 10px 15px; }
+            .sig-line { border-top: 1.5px solid #1e3a8a !important; width: 160px; text-align: center; padding-top: 4px; font-weight: bold !important; font-size: 12px !important; color: #1e3a8a !important; }
         }
     </style>
 </head>
@@ -462,51 +478,53 @@
 
 <!-- A4 প্রিন্ট টেমপ্লেট -->
 <div id="printTemplate">
-    <div class="print-header">
-        <h1 class="print-title" id="ptShopName"></h1>
-        <p class="print-subtitle"><span id="ptShopMobile"></span></p>
+    <div>
+        <div class="print-header">
+            <h1 class="print-title" id="ptShopName"></h1>
+            <p class="print-subtitle"><span id="ptShopMobile"></span></p>
+        </div>
+
+        <div class="print-info-box">
+            <div>Total Net Glass: <span id="ptGlassSqft"></span> Sqft</div>
+            <div>Date: <span id="ptDate"></span></div>
+        </div>
+
+        <!-- Table 1: Aluminium -->
+        <div class="section-heading">1. ALUMINIUM SECTIONS</div>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>SL No.</th>
+                    <th>Item Description</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Top & Side Section (21 ft)</td><td id="ptTopSide"></td></tr>
+                <tr><td>2</td><td>Fixed Bottom Section (21 ft)</td><td id="ptBottom"></td></tr>
+                <tr><td>3</td><td>Bottom Bead Section (21 ft)</td><td id="ptBead"></td></tr>
+                <tr><td>4</td><td>Angle (1 inch)</td><td id="ptAngle"></td></tr>
+            </tbody>
+        </table>
+
+        <!-- Table 2: Accessories -->
+        <div class="section-heading">2. REQUIRED ACCESSORIES</div>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>SL No.</th>
+                    <th>Item Description</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Rivet</td><td id="ptRivet"></td></tr>
+                <tr><td>2</td><td>Fixed Glass Rubber</td><td id="ptRubber"></td></tr>
+                <tr><td>3</td><td>Screw & Royal Plug (2"/3")</td><td id="ptScrew"></td></tr>
+                <tr><td>4</td><td>Silicon Gum</td><td id="ptGum"></td></tr>
+            </tbody>
+        </table>
     </div>
-
-    <div class="print-info-box">
-        <div>Total Net Glass: <span id="ptGlassSqft"></span> Sqft</div>
-        <div>Date: <span id="ptDate"></span></div>
-    </div>
-
-    <!-- Table 1: Aluminium -->
-    <div class="section-heading">1. ALUMINIUM SECTIONS</div>
-    <table class="print-table">
-        <thead>
-            <tr>
-                <th>SL No.</th>
-                <th>Item Description</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>1</td><td>Top & Side Section (21 ft)</td><td id="ptTopSide"></td></tr>
-            <tr><td>2</td><td>Fixed Bottom Section (21 ft)</td><td id="ptBottom"></td></tr>
-            <tr><td>3</td><td>Bottom Bead Section (21 ft)</td><td id="ptBead"></td></tr>
-            <tr><td>4</td><td>Angle (1 inch)</td><td id="ptAngle"></td></tr>
-        </tbody>
-    </table>
-
-    <!-- Table 2: Accessories -->
-    <div class="section-heading">2. REQUIRED ACCESSORIES</div>
-    <table class="print-table">
-        <thead>
-            <tr>
-                <th>SL No.</th>
-                <th>Item Description</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>1</td><td>Rivet</td><td id="ptRivet"></td></tr>
-            <tr><td>2</td><td>Fixed Glass Rubber</td><td id="ptRubber"></td></tr>
-            <tr><td>3</td><td>Screw & Royal Plug (2"/3")</td><td id="ptScrew"></td></tr>
-            <tr><td>4</td><td>Silicon Gum</td><td id="ptGum"></td></tr>
-        </tbody>
-    </table>
 
     <div class="signature-area">
         <div class="sig-line">Prepared By</div>

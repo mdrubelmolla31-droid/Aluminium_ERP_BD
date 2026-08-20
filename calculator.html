@@ -786,13 +786,16 @@
 
         let locks = totalWinQty * 2; let wheels = totalWinQty * 4; let cordScrews = totalWinQty * 8; let screws15 = totalScrews;
         let mohair = (totalPerimeterFt * 1.1).toFixed(2); let rubber = (totalPerimeterFt * 1.1).toFixed(2); let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
+      let royalPlugPieces = Math.ceil(totalScrews * 0.8); let royalPlugPackets = Math.ceil(royalPlugPieces / 50);
+
 
         let rowsHTML = `
             <tr><td>লক (Lock)</td><td><b>${toBnNum(locks)}</b></td><td>পিস</td></tr>
             <tr><td>চাকা (Wheel)</td><td><b>${toBnNum(wheels)}</b></td><td>পিস</td></tr>
             <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${toBnNum(cordScrews)}</b></td><td>পিস</td></tr>
             <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${toBnNum(screws15)}</b></td><td>পিস</td></tr>
-            <tr><td>মহিয়ার (Mohair)</td><td><b>${toBnNum(mohair)}</b></td><td>ফিট</td></tr>
+            <tr><td>রয়াল প্লাগ (Royal Plug)</td><td><b>${toBnNum(royalPlugPackets)}</b></td><td>প্যাকেট</td></tr>
+          <tr><td>মহিয়ার (Mohair)</td><td><b>${toBnNum(mohair)}</b></td><td>ফিট</td></tr>
             <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${toBnNum(rubber)}</b></td><td>ফিট</td></tr>
             <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${toBnNum(silicone)}</b></td><td>টিউব</td></tr>
         `;

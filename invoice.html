@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bill & Invoice - RM Thai Aluminium</title>
-<!-- Image Download করার জন্য html2canvas লাইব্রেরি যুক্ত করা হলো -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <style>
 * {
     box-sizing: border-box;
@@ -20,7 +17,7 @@ body {
     color: #000;
 }
 
-/* কন্টেইনার সেটআপ */
+/* কন্টেইনার সেটআপ - চারিপাশে ব্লু কালারের বর্ডার */
 .container {
     width: 100%;
     max-width: 800px;
@@ -30,7 +27,7 @@ body {
     box-shadow: 0 0 15px rgba(0,0,0,0.15);
     display: flex;
     flex-direction: column;
-    border: 1px solid #e2e8f0; 
+    border: 3px solid #0d5aa7; /* ব্লু কালারের চারিপাশের বর্ডার */
     overflow-x: hidden; 
     padding-bottom: 15px;
     box-sizing: border-box;
@@ -344,9 +341,6 @@ body {
     text-align: center;
     margin-bottom: 40px;
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
 }
 .btn-print {
     background: #1d4ed8;
@@ -359,19 +353,7 @@ body {
     font-weight: 900;
 }
 
-/* নতুন ইমেজ ডাউনলোড বাটন স্টাইল */
-.btn-image {
-    background: #059669; /* সুন্দর সবুজ রঙ */
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 25px;
-    font-size: 15px;
-    cursor: pointer;
-    font-weight: 900;
-}
-
-/* প্রিন্ট মিডিয়া স্টাইল - স্ট্রিক্টলি ১ পেজ A4 এবং আউটলাইন ছাড়া (বর্ডার নেই) */
+/* প্রিন্ট মিডিয়া স্টাইল - স্ট্রিক্টলি ১ পেজ A4 এবং চারিপাশে ব্লু বর্ডার */
 @media print {
     @page { 
         size: A4 portrait; 
@@ -383,19 +365,18 @@ body {
         margin: 0; 
         padding: 0;
         background: #fff; 
-        overflow: hidden !important; 
+        overflow: hidden !important; /* অতিরিক্ত কোনো পেজ যাতে তৈরি না হয় */
         -webkit-print-color-adjust: exact !important; 
         print-color-adjust: exact !important; 
     }
     
     .container { 
         box-shadow: none !important; 
-        width: 100% !important;
-        height: 297mm !important; 
-        max-height: 297mm !important;
-        margin: 0 !important; 
-        padding: 10mm 15mm 10mm 15mm !important; 
-        border: none !important; 
+        width: 198mm !important;
+        height: 285mm !important; /* A4 সাইজে ১ পেজ লকিং */
+        margin: 6mm auto !important; 
+        padding: 6mm 8mm 6mm 8mm !important; 
+        border: 3px solid #0d5aa7 !important; /* প্রিন্টেও চারপাশে সুন্দর ব্লু বর্ডার */
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
@@ -406,7 +387,7 @@ body {
     
     .signature-section {
         margin-top: auto !important;
-        padding-bottom: 5mm !important;
+        padding-bottom: 2mm !important;
     }
 
     .action-buttons, .btn-add, .no-print, .btn-del { display: none !important; }
@@ -528,10 +509,8 @@ body {
 
 </div>
 
-<!-- দুটি বাটন দেওয়া হয়েছে (PDF এবং Image) -->
 <div class="action-buttons no-print">
     <button type="button" class="btn-print" onclick="printInvoice()">🖨️ Save as PDF</button>
-    <button type="button" class="btn-image" onclick="downloadImage()">🖼️ Download Image</button>
 </div>
 
 <script>
@@ -675,33 +654,6 @@ function calculateGrandTotal() {
 function printInvoice() {
     calculateGrandTotal();
     window.print();
-}
-
-/* --- নতুন যুক্ত করা ইমেজ ডাউনলোড ফাংশন --- */
-function downloadImage() {
-    calculateGrandTotal(); 
-    
-    // যে বিষয়গুলো ইমেজে দেখাতে চাই না, সেগুলো সাময়িক হাইড করা
-    const hideElements = document.querySelectorAll('.no-print');
-    hideElements.forEach(el => el.style.display = 'none');
-
-    const container = document.getElementById("invoiceContainer");
-
-    // scale: 3 দিয়ে হাই কোয়ালিটি ইমেজ জেনারেট করা হচ্ছে
-    html2canvas(container, { scale: 3, useCORS: true }).then(canvas => {
-        const link = document.createElement('a');
-        const invoiceNo = document.getElementById('billNo').value || "Invoice";
-        link.download = invoiceNo + '.png'; // ফাইলের নাম
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-
-        // ইমেজ তৈরি হয়ে গেলে আবার বাটনগুলো ফিরিয়ে আনা
-        hideElements.forEach(el => el.style.display = '');
-    }).catch(err => {
-        console.error("Image capture error: ", err);
-        alert("ইমেজ তৈরি করতে সমস্যা হয়েছে!");
-        hideElements.forEach(el => el.style.display = '');
-    });
 }
 </script>
 

@@ -131,6 +131,16 @@
       cursor: pointer;
       text-align: center;
     }
+
+    /* তলা এবং ইউনিটের লেখার ডিজাইন (স্ক্রিনে) */
+    .print-floor-unit {
+      margin-top: 10px;
+      margin-bottom: 4px;
+      padding-bottom: 4px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #ffffff;
+    }
     
     /* ================= HISTORY SIDEBAR ================= */
     .sidebar {
@@ -389,10 +399,11 @@
         box-shadow: none !important;
       }
 
-      /* Prominent Dark Blue Print Header */
+      /* নতুন হালকা ব্লু এবং সাদার মিশ্রণ প্রিন্ট হেডার */
       .header-card {
-        background: #1e3a8a !important; /* Deep Blue */
-        color: #ffffff !important;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%) !important; 
+        color: #0f172a !important;
+        border: 1px solid #bae6fd !important;
         border-radius: 8px !important;
         padding: 18px !important;
         margin-bottom: 15px !important;
@@ -403,7 +414,7 @@
       }
 
       .header-top {
-        border-bottom: 1px solid rgba(255,255,255,0.3) !important;
+        border-bottom: 1px solid #cbd5e1 !important;
         padding-bottom: 8px !important;
         margin-bottom: 12px !important;
         display: flex !important;
@@ -413,15 +424,16 @@
 
       .header-title {
         display: block !important;
-        color: #ffffff !important;
+        color: #1e40af !important;
         font-size: 22px !important;
         font-weight: 900 !important;
         text-transform: uppercase !important;
       }
 
       .date-display {
-        color: #ffffff !important;
-        background: rgba(255,255,255,0.2) !important;
+        color: #0f172a !important;
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
         font-size: 15px !important;
         font-weight: bold !important;
         padding: 4px 12px !important;
@@ -430,37 +442,38 @@
         print-color-adjust: exact !important;
       }
 
-      /* Bigger & Bold Header Text in Print */
+      /* Bigger & Bold Header Text in Print - সাইজ 34px করা হয়েছে */
       .editable-input {
         background: transparent !important;
-        color: #ffffff !important;
+        color: #0f172a !important;
         border: none !important;
-        font-size: 28px !important; /* Larger Shop Name */
+        font-size: 34px !important; 
         font-weight: 900 !important;
         height: auto !important;
         padding: 2px 0 !important;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        text-shadow: none !important;
       }
 
       #shopPhone {
-        font-size: 22px !important; /* Larger Phone Number */
+        font-size: 20px !important; 
         font-weight: 800 !important;
+        color: #334155 !important;
       }
 
       .print-floor-unit {
         margin-top: 10px !important;
         font-size: 17px !important;
         font-weight: bold !important;
-        color: #ffffff !important;
-        border-top: 1px dashed rgba(255,255,255,0.3) !important;
+        color: #1d4ed8 !important;
+        border-top: 1px dashed #94a3b8 !important;
         padding-top: 8px !important;
       }
 
       .floor-unit-box {
-        display: none !important; /* Screen dropdowns hidden in print */
+        display: none !important;
       }
 
-      /* Print Table View (Full width, single column per row) */
+      /* Print Table View */
       .print-only-container {
         display: block !important;
         width: 100% !important;
@@ -473,7 +486,7 @@
       }
 
       .print-table th {
-        background: #1e3a8a !important;
+        background: #2563eb !important; /* স্ট্যান্ডার্ড ব্লু হেডার */
         color: #ffffff !important;
         padding: 10px 6px !important;
         font-size: 15px !important;
@@ -723,8 +736,10 @@
     }
 
     function generateCardHTML(sn, sizeText, mm, color, qty) {
+      // এখানে গ্লাসের সাইজ থেকে ডাবল কোটেশন (") রিমুভ করে প্রিন্টের জন্য সেফ করা হলো
+      let safeSizeText = sizeText.replace(/"/g, '&quot;');
       return `
-        <div class="result-card" data-sn="${sn}" data-size="${sizeText}">
+        <div class="result-card" data-sn="${sn}" data-size="${safeSizeText}">
           <div class="result-card-header">
             <div class="sn-badge">${sn}</div>
             <div class="glass-size-text">${sizeText}</div>
@@ -780,7 +795,6 @@
       }
     }
 
-    /* Dynamically syncs screen cards to print table */
     function syncPrintTable() {
       const cards = document.querySelectorAll(".result-card");
       const printBody = document.getElementById("printTableBody");

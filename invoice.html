@@ -14,13 +14,14 @@ body {
     margin: 0;
     padding: 0;
     background: #e2e8f0;
-    color: #111;
+    color: #000;
 }
 
 /* কন্টেইনার সেটআপ */
 .container {
     width: 100%;
     max-width: 800px;
+    min-height: 1080px;
     margin: 20px auto;
     background: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.15);
@@ -28,6 +29,7 @@ body {
     flex-direction: column;
     border: 1px solid #94a3b8; 
     overflow-x: hidden; 
+    padding-bottom: 20px;
 }
 
 /* ব্লু কালারের হেডার */
@@ -92,9 +94,16 @@ body {
     width: 100%;
 }
 .shop-subtitle {
-    color: #475569;
-    font-size: 11px;
+    display: block;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #334155;
+    font-size: 12px;
     margin-top: 2px;
+    text-align: center;
+    font-weight: 700;
 }
 
 /* বিল টু এবং ফ্রম - পাশাপাশি থাকবে */
@@ -122,7 +131,7 @@ body {
     padding: 2px 0;
     font-size: 12px;
     background: transparent;
-    color: #111;
+    color: #000;
     font-weight: 700;
 }
 .bill-info textarea {
@@ -143,7 +152,7 @@ body {
     font-size: 12px;
     background: transparent;
     font-weight: 900;
-    color: #111;
+    color: #000;
 }
 
 /* টেবিল ডিজাইন */
@@ -162,14 +171,14 @@ body {
     border: 1px solid #0d5aa7;
     padding: 7px 4px;
     text-align: center;
-    font-size: 11px;
+    font-size: 12px;
 }
 .invoice-table td {
-    border: 1px solid #cbd5e1;
+    border: 1px solid #94a3b8;
     padding: 5px;
     text-align: center;
     vertical-align: middle;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .invoice-table th:nth-child(1), .invoice-table td:nth-child(1) { width: 32%; text-align: left; }
@@ -184,8 +193,8 @@ body {
     border: none;
     outline: none;
     background: transparent;
-    color: #111;
-    font-size: 11px;
+    color: #000;
+    font-size: 12px;
     font-weight: 700;
     text-align: center;
 }
@@ -267,6 +276,7 @@ body {
     margin: 4px 0;
     padding: 2px 0;
     font-size: 11px;
+    color: #000;
 }
 
 .bottom-area {
@@ -274,25 +284,26 @@ body {
     justify-content: space-between;
     align-items: flex-end;
     padding: 0 25px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 .payment-info {
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     font-size: 11px;
 }
 .payment-title {
     font-size: 12px;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
     color: #0d5aa7;
 }
 .payment-row {
     display: flex;
     gap: 8px;
-    margin: 2px 0;
+    margin: 3px 0;
 }
 .payment-row strong {
-    min-width: 55px;
+    min-width: 60px;
+    color: #000;
 }
 .payment-row input {
     flex: 1;
@@ -300,25 +311,28 @@ body {
     outline: none;
     background: transparent;
     font-size: 11px;
+    color: #000;
+    font-weight: 700;
 }
 
-/* সিগনেচার সেকশন */
+/* সিগনেচার সেকশন - মার্জিন টপ অটো দিয়ে একদম নিচে ঠেলে দেওয়া হয়েছে */
 .signature-section {
-    margin-top: 20px; 
+    margin-top: auto; 
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 0 25px 15px 25px;
+    padding: 20px 25px 10px 25px;
 }
 .sig-box {
-    width: 150px; 
+    width: 160px; 
     text-align: center;
     font-size: 12px;
     font-weight: 900;
+    color: #000;
 }
 .sig-line {
     width: 100%;
-    border-top: 1px solid #111; 
+    border-top: 1.5px solid #000; 
     margin-bottom: 6px;
 }
 
@@ -338,37 +352,68 @@ body {
     font-weight: 900;
 }
 
-/* প্রিন্ট মিডিয়া স্টাইল - ১০০% ফিক্সড এক পেজ (A4) */
+/* প্রিন্ট মিডিয়া স্টাইল - ১০০% শার্প এবং ১ পেজ এ৪ সাইজ */
 @media print {
     @page { 
         size: A4 portrait; 
-        margin: 6mm; 
+        margin: 0; 
     }
-    body { 
+    html, body { 
+        height: 100vh;
         background: #fff; 
         padding: 0; 
         margin: 0;
+        -webkit-print-color-adjust: exact !important; 
+        print-color-adjust: exact !important; 
     }
     
     .container { 
         box-shadow: none; 
         max-width: 100%; 
         width: 100%;
+        height: 100vh !important; 
+        min-height: 100vh !important;
+        max-height: 100vh !important;
         margin: 0; 
-        padding: 0; 
+        padding: 8mm 10mm 10mm 10mm; 
         border: none; 
-        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+        overflow: hidden;
         page-break-after: avoid; 
         page-break-inside: avoid;
     }
     
+    .signature-section {
+        margin-top: auto !important;
+        padding-bottom: 5mm;
+    }
+
     .action-buttons, .btn-add, .no-print, .btn-del { display: none !important; }
     
-    .invoice-header, .invoice-table th, .total-box { 
-        -webkit-print-color-adjust: exact !important; 
-        print-color-adjust: exact !important; 
+    * {
+        color: #000 !important;
+        font-weight: 700 !important;
     }
-    input, textarea { border: none !important; background: transparent !important; }
+
+    .invoice-header {
+        background: linear-gradient(135deg, #023871 0%, #0c59a4 55%, #022a52 100%) !important;
+    }
+    .invoice-header *, .total-box, .total-box input { 
+        color: #fff !important; 
+    }
+    .invoice-table th { 
+        background: #0d5aa7 !important; 
+        color: #fff !important;
+    }
+
+    input, textarea { 
+        border: none !important; 
+        background: transparent !important; 
+        color: #000 !important;
+    }
 }
 </style>
 </head>
@@ -376,78 +421,81 @@ body {
 
 <div class="container" id="invoiceContainer">
 
-    <div class="invoice-header">
-        <div class="invoice-main-title">INVOICE</div>
-        <div class="bill-number-box">
-            <span>NO:</span>
-            <input type="text" id="billNo" value="INV-12345-1">
+    <div>
+        <div class="invoice-header">
+            <div class="invoice-main-title">INVOICE</div>
+            <div class="bill-number-box">
+                <span>NO:</span>
+                <input type="text" id="billNo" value="INV-12345-1">
+            </div>
+        </div>
+
+        <div class="shop-title-section">
+            <input type="text" class="shop-name" id="shopName" value="RM THAI ALUMINIUM" oninput="savePersistentData()">
+            <input type="text" class="shop-subtitle" id="shopSubtitle" value="Experts in Thai Windows, Doors, Glass Works & False Ceilings" oninput="savePersistentData()">
+        </div>
+
+        <div class="bill-info">
+            <div class="bill-to">
+                <h3>Bill To:</h3>
+                <input type="text" id="custName" value="" placeholder="Customer Name">
+                <input type="text" id="custMobile" value="" placeholder="Mobile Number">
+                <textarea id="custAddress" rows="2" placeholder="Address"></textarea>
+            </div>
+            <div class="bill-from">
+                <h3>From:</h3>
+                <input type="text" id="fromName" value="Rubel Molla" oninput="savePersistentData()">
+                <input type="text" id="fromPhone" value="01676-474412" oninput="savePersistentData()">
+                <textarea id="fromAddress" rows="2" oninput="savePersistentData()">47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216</textarea>
+            </div>
+        </div>
+
+        <div class="date-row">
+            <strong>Date:</strong> <input type="text" id="billDate">
+        </div>
+
+        <div class="table-responsive">
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>Sqft</th>
+                        <th>Amount</th>
+                        <th class="no-print">Act</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceTableBody"></tbody>
+            </table>
+        </div>
+
+        <button type="button" class="btn-add no-print" onclick="addInvoiceRow()">+ Add Item</button>
+
+        <div class="total-section">
+            <div class="total-box">
+                <span>Grand Total Tk.</span>
+                <input type="text" id="grandTotal" value="0.00" readonly>
+            </div>
+        </div>
+
+        <div class="note-section">
+            <div class="note-title">Note:</div>
+            <input type="text" class="note-line" id="note1" value="Special discount applied." oninput="savePersistentData()">
+            <input type="text" class="note-line" id="note2" oninput="savePersistentData()">
+        </div>
+
+        <div class="bottom-area">
+            <div class="payment-info">
+                <div class="payment-title">Payment Information:</div>
+                <div class="payment-row"><strong>Bank:</strong> <input type="text" id="paymentBank" value="Name Bank" oninput="savePersistentData()"></div>
+                <div class="payment-row"><strong>No Bank:</strong> <input type="text" id="paymentBankNo" value="123-456-7890" oninput="savePersistentData()"></div>
+                <div class="payment-row"><strong>Email:</strong> <input type="text" id="paymentEmail" value="reallygreatsite.com" oninput="savePersistentData()"></div>
+            </div>
         </div>
     </div>
 
-    <div class="shop-title-section">
-        <input type="text" class="shop-name" value="RM THAI ALUMINIUM">
-        <div class="shop-subtitle">Experts in Thai Windows, Doors, Glass Works & False Ceilings</div>
-    </div>
-
-    <div class="bill-info">
-        <div class="bill-to">
-            <h3>Bill To:</h3>
-            <input type="text" id="custName" value="" placeholder="Customer Name">
-            <input type="text" id="custMobile" value="" placeholder="Mobile Number">
-            <textarea id="custAddress" rows="2" placeholder="Address"></textarea>
-        </div>
-        <div class="bill-from">
-            <h3>From:</h3>
-            <input type="text" value="Rubel Molla">
-            <input type="text" value="01676-474412">
-            <textarea rows="2">47/4, Haji Ali Hossain Road, Mirpur-13, Dhaka-1216</textarea>
-        </div>
-    </div>
-
-    <div class="date-row">
-        <strong>Date:</strong> <input type="text" id="billDate">
-    </div>
-
-    <div class="table-responsive">
-        <table class="invoice-table">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>Qty</th>
-                    <th>Rate</th>
-                    <th>Sqft</th>
-                    <th>Amount</th>
-                    <th class="no-print">Act</th>
-                </tr>
-            </thead>
-            <tbody id="invoiceTableBody"></tbody>
-        </table>
-    </div>
-
-    <button type="button" class="btn-add no-print" onclick="addInvoiceRow()">+ Add Item</button>
-
-    <div class="total-section">
-        <div class="total-box">
-            <span>Grand Total Tk.</span>
-            <input type="text" id="grandTotal" value="0.00" readonly>
-        </div>
-    </div>
-
-    <div class="note-section">
-        <div class="note-title">Note:</div>
-        <input type="text" class="note-line" value="Special discount applied.">
-        <input type="text" class="note-line">
-    </div>
-
-    <div class="bottom-area">
-        <div class="payment-info">
-            <div class="payment-title">Payment Information:</div>
-            <div class="payment-row"><strong>Bank:</strong> <input type="text" value="Name Bank"></div>
-            <div class="payment-row"><strong>No Bank:</strong> <input type="text" value="123-456-7890"></div>
-            <div class="payment-row"><strong>Email:</strong> <input type="text" value="reallygreatsite.com"></div>
-        </div>
-    </div>
-
+    <!-- সিগনেচার সেকশন যা পেজের একদম নিচে ফিট থাকবে -->
     <div class="signature-section">
         <div class="sig-box">
             <div class="sig-line"></div>
@@ -474,8 +522,48 @@ document.addEventListener("DOMContentLoaded", function () {
     const yyyy = today.getFullYear();
     document.getElementById("billDate").value = dd + "-" + mm + "-" + yyyy;
 
+    loadPersistentData();
     addInvoiceRow("", 1, "", "");
 });
+
+// ডাটা ব্রাউজারে সেভ করে রাখার ফাংশন
+function savePersistentData() {
+    const data = {
+        shopName: document.getElementById("shopName").value,
+        shopSubtitle: document.getElementById("shopSubtitle").value,
+        fromName: document.getElementById("fromName").value,
+        fromPhone: document.getElementById("fromPhone").value,
+        fromAddress: document.getElementById("fromAddress").value,
+        paymentBank: document.getElementById("paymentBank").value,
+        paymentBankNo: document.getElementById("paymentBankNo").value,
+        paymentEmail: document.getElementById("paymentEmail").value,
+        note1: document.getElementById("note1").value,
+        note2: document.getElementById("note2").value
+    };
+    localStorage.setItem("rm_invoice_saved_info", JSON.stringify(data));
+}
+
+// সেভ থাকা ডাটা লোড করার ফাংশন
+function loadPersistentData() {
+    const saved = localStorage.getItem("rm_invoice_saved_info");
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.shopName !== undefined) document.getElementById("shopName").value = data.shopName;
+            if (data.shopSubtitle !== undefined) document.getElementById("shopSubtitle").value = data.shopSubtitle;
+            if (data.fromName !== undefined) document.getElementById("fromName").value = data.fromName;
+            if (data.fromPhone !== undefined) document.getElementById("fromPhone").value = data.fromPhone;
+            if (data.fromAddress !== undefined) document.getElementById("fromAddress").value = data.fromAddress;
+            if (data.paymentBank !== undefined) document.getElementById("paymentBank").value = data.paymentBank;
+            if (data.paymentBankNo !== undefined) document.getElementById("paymentBankNo").value = data.paymentBankNo;
+            if (data.paymentEmail !== undefined) document.getElementById("paymentEmail").value = data.paymentEmail;
+            if (data.note1 !== undefined) document.getElementById("note1").value = data.note1;
+            if (data.note2 !== undefined) document.getElementById("note2").value = data.note2;
+        } catch(e) {
+            console.error("Error loading saved data", e);
+        }
+    }
+}
 
 function addInvoiceRow(description = "", qty = 1, rate = "", sqft = "") {
     const tbody = document.getElementById("invoiceTableBody");
@@ -504,13 +592,14 @@ function autoExtractSize(textarea) {
     const match = text.match(regex);
     
     const row = textarea.closest("tr");
-    const sqftInput = row.querySelector(".item-sqft");
     
     if (match) {
         const num1 = parseFloat(match[1]);
         const num2 = parseFloat(match[2]);
-        const calculatedSqft = num1 * num2;
-        sqftInput.value = calculatedSqft.toFixed(2);
+        const unitSqft = num1 * num2;
+        row.dataset.unitSqft = unitSqft; // প্রতি পিসের স্কয়ার ফিট মেমোরিতে রাখা হলো
+    } else {
+        delete row.dataset.unitSqft;
     }
     calculateRow(textarea);
 }
@@ -529,14 +618,26 @@ function calculateRow(element) {
     const row = element.closest("tr");
     const qty = parseFloat(row.querySelector(".item-qty").value) || 0;
     const rate = parseFloat(row.querySelector(".item-rate").value) || 0;
-    const sqft = parseFloat(row.querySelector(".item-sqft").value) || 0;
+    const sqftInput = row.querySelector(".item-sqft");
     
+    // ম্যানুয়ালি স্কয়ার ফিট চেঞ্জ করলে বা অটো সাইজ হিসাব হলে
+    if (element === sqftInput) {
+        if (qty > 0 && sqftInput.value !== "") {
+            row.dataset.unitSqft = (parseFloat(sqftInput.value) / qty);
+        }
+    } else if (row.dataset.unitSqft) {
+        const unitSqft = parseFloat(row.dataset.unitSqft);
+        const totalSqft = qty * unitSqft; // মোট স্কয়ার ফিট = পিস × ১ পিসের স্কয়ার ফিট
+        sqftInput.value = totalSqft > 0 ? totalSqft.toFixed(2) : "";
+    }
+    
+    const sqft = parseFloat(sqftInput.value) || 0;
     let amount = 0;
+    
     if (sqft > 0) {
-        // সঠিক হিসাব: কোয়ান্টিটি × রেট × স্কয়ার ফিট
-        amount = qty * rate * sqft;
+        amount = rate * sqft; // মোট স্কয়ার ফিট × রেট
     } else {
-        amount = qty * rate;
+        amount = qty * rate; // স্কয়ার ফিট না থাকলে পিস × রেট
     }
     
     row.querySelector(".item-amount").value = amount.toFixed(2);

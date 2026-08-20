@@ -21,7 +21,6 @@ body {
 .container {
     width: 100%;
     max-width: 800px;
-    min-height: 1100px;
     margin: 20px auto;
     background: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.15);
@@ -77,7 +76,7 @@ body {
 /* দোকানের নাম */
 .shop-title-section {
     text-align: center;
-    margin: 10px 0 15px 0;
+    margin: 10px 0 12px 0;
     padding: 0 25px;
 }
 .shop-name {
@@ -103,7 +102,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 0 25px;
-    margin: 10px 0 10px 0;
+    margin: 8px 0 8px 0;
 }
 .bill-to, .bill-from {
     width: 48%; 
@@ -112,7 +111,7 @@ body {
     text-align: right;
 }
 .bill-info h3 {
-    margin: 0 0 5px;
+    margin: 0 0 4px;
     font-size: 13px;
     color: #0d5aa7;
 }
@@ -120,7 +119,7 @@ body {
     width: 100%;
     border: none;
     outline: none;
-    padding: 3px 0;
+    padding: 2px 0;
     font-size: 12px;
     background: transparent;
     color: #111;
@@ -135,7 +134,7 @@ body {
 
 .date-row {
     padding: 0 25px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     font-size: 12px;
 }
 .date-row input {
@@ -161,13 +160,13 @@ body {
     background: #0d5aa7;
     color: #fff;
     border: 1px solid #0d5aa7;
-    padding: 8px 4px;
+    padding: 7px 4px;
     text-align: center;
     font-size: 11px;
 }
 .invoice-table td {
     border: 1px solid #cbd5e1;
-    padding: 6px;
+    padding: 5px;
     text-align: center;
     vertical-align: middle;
     font-size: 11px;
@@ -191,7 +190,7 @@ body {
     text-align: center;
 }
 .item-description {
-    min-height: 32px;
+    min-height: 28px;
     resize: vertical;
     text-align: left !important;
     padding: 2px;
@@ -202,12 +201,12 @@ body {
     color: #fff;
     border: none;
     border-radius: 4px;
-    padding: 4px 6px;
+    padding: 3px 5px;
     font-size: 10px;
     cursor: pointer;
 }
 .btn-add {
-    margin: 12px 25px;
+    margin: 10px 25px;
     padding: 6px 12px;
     background: #198754;
     color: #fff;
@@ -223,14 +222,14 @@ body {
     display: flex;
     justify-content: flex-end;
     padding: 0 25px;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 .total-box {
     width: auto;
     min-width: 250px; 
     background: #0d5aa7;
     color: #fff;
-    padding: 8px 12px;
+    padding: 7px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -250,13 +249,13 @@ body {
 
 .note-section {
     padding: 0 25px;
-    margin-top: 15px;
+    margin-top: 10px;
     width: 100%;
     max-width: 400px;
 }
 .note-title {
     font-size: 12px;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     color: #0d5aa7;
 }
 .note-line {
@@ -265,8 +264,8 @@ body {
     border-bottom: 1px solid #94a3b8;
     outline: none;
     background: transparent;
-    margin: 6px 0;
-    padding: 3px 0;
+    margin: 4px 0;
+    padding: 2px 0;
     font-size: 11px;
 }
 
@@ -275,7 +274,7 @@ body {
     justify-content: space-between;
     align-items: flex-end;
     padding: 0 25px;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 .payment-info {
     width: 100%;
@@ -284,13 +283,13 @@ body {
 }
 .payment-title {
     font-size: 12px;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     color: #0d5aa7;
 }
 .payment-row {
     display: flex;
     gap: 8px;
-    margin: 3px 0;
+    margin: 2px 0;
 }
 .payment-row strong {
     min-width: 55px;
@@ -305,11 +304,11 @@ body {
 
 /* সিগনেচার সেকশন */
 .signature-section {
-    margin-top: auto; 
+    margin-top: 20px; 
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 30px 25px 30px 25px;
+    padding: 0 25px 15px 25px;
 }
 .sig-box {
     width: 150px; 
@@ -320,7 +319,7 @@ body {
 .sig-line {
     width: 100%;
     border-top: 1px solid #111; 
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .action-buttons {
@@ -339,17 +338,16 @@ body {
     font-weight: 900;
 }
 
-/* প্রিন্ট মিডিয়া স্টাইল - ১০০% ফিক্সড এক পেজ */
+/* প্রিন্ট মিডিয়া স্টাইল - ১০০% ফিক্সড এক পেজ (A4) */
 @media print {
     @page { 
         size: A4 portrait; 
-        margin: 0; /* ব্রাউজারের অটোমেটিক মার্জিন পুরোপুরি জিরো করে দিলাম */
+        margin: 6mm; 
     }
     body { 
         background: #fff; 
         padding: 0; 
         margin: 0;
-        height: 100vh; /* বডি ১০০% হাইটে লক */
     }
     
     .container { 
@@ -357,15 +355,9 @@ body {
         max-width: 100%; 
         width: 100%;
         margin: 0; 
-        padding: 15px; /* ভেতরের লেখা যাতে পেজের একদম কোণায় না যায় তাই সামান্য প্যাডিং */
-        border: 2px solid #000; 
-        
-        /* কন্টেইনারকে ঠিক একটি পেজের মাপে (100vh) আটকে রাখা হলো */
-        height: 100vh !important; 
-        min-height: 100vh !important; 
-        max-height: 100vh !important; 
-        
-        overflow: hidden; /* কোনো লেখা পেজের বাইরে গেলে তা ডাবল পেজ না করে লুকিয়ে ফেলবে */
+        padding: 0; 
+        border: none; 
+        height: auto;
         page-break-after: avoid; 
         page-break-inside: avoid;
     }
@@ -541,6 +533,7 @@ function calculateRow(element) {
     
     let amount = 0;
     if (sqft > 0) {
+        // সঠিক হিসাব: কোয়ান্টিটি × রেট × স্কয়ার ফিট
         amount = qty * rate * sqft;
     } else {
         amount = qty * rate;

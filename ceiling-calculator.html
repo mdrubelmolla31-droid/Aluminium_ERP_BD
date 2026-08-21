@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>সিলিং ক্যালকুলেটর - RM THAI ALUMINIUM</title>
 
     <style>
@@ -20,6 +20,7 @@
             justify-content: center;
             padding: 15px;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
@@ -48,12 +49,14 @@
         .menu-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            padding: 8px 12px;
+            border-radius: 8px;
+            padding: 6px 14px;
             color: white;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
+            font-size: 22px; /* আইকন বড় করা হয়েছে */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .header-titles {
@@ -62,7 +65,7 @@
         }
 
         .header-titles h1 {
-            font-size: 20px;
+            font-size: clamp(18px, 5vw, 22px);
             font-weight: 800;
         }
 
@@ -199,12 +202,18 @@
         .extra-charge-row {
             display: flex; justify-content: space-between; align-items: center;
             margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1;
+            gap: 10px;
         }
+        
+        .extra-charge-row label {
+            font-size: 13px; font-weight: bold; color: #334155; flex-grow: 1;
+        }
+        .extra-charge-row input { width: 100px; }
 
-        .subtotal-text { font-size: 14px; color: #16a34a; font-weight: bold; text-align: right; margin-top: 8px; }
+        .subtotal-text { font-size: 14px; color: #16a34a; font-weight: bold; text-align: right; margin-top: 8px; grid-column: span 3;}
 
         .grand-total-card {
-            margin-top: 16px; padding: 14px; background: #f0fdf4; border: 1.5px solid #16a34a; border-radius: 10px; display: flex; justify-content: space-between;
+            margin-top: 16px; padding: 14px; background: #f0fdf4; border: 1.5px solid #16a34a; border-radius: 10px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px;
         }
         .grand-total-label { font-size: 15px; font-weight: bold; color: #14532d; }
         .grand-total-val { font-size: 18px; font-weight: bold; color: #15803d; }
@@ -213,7 +222,7 @@
             width: 100%; padding: 14px; background: #2563eb; color: #ffffff; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 15px;
         }
 
-        /* মোডাল ডিজাইন (হিস্ট্রি ও প্রিন্ট প্রিভিউ) */
+        /* মোডাল ডিজাইন */
         .modal {
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px;
         }
@@ -223,13 +232,13 @@
         .modal-header {
             display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px;
         }
-        .close-btn { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .close-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
 
         /* প্রিভিউ টেবিল */
         .preview-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
         .preview-table th { background: #1e3a8a; color: white; padding: 10px; text-align: left; font-size: 13px; }
-        .preview-table td { padding: 8px; border-bottom: 1px solid #cbd5e1; }
-        .preview-table input { width: 80px; padding: 6px; border: 1px solid #94a3b8; border-radius: 4px; font-weight: bold; text-align: center; }
+        .preview-table td { padding: 8px; border-bottom: 1px solid #cbd5e1; font-size: 13px; font-weight: bold;}
+        .preview-table input { width: 60px; padding: 6px; border: 1px solid #94a3b8; border-radius: 4px; font-weight: bold; text-align: center; }
 
         /* স্ক্রিন হাইড করার জন্য */
         #printTemplate { display: none; }
@@ -238,22 +247,23 @@
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 10mm;
+                margin: 0; /* পেজ মার্জিন 0 করে দেওয়া হলো ডাবল পেজ এড়ানোর জন্য */
             }
             body, html {
-                background: #fff !important; margin: 0 !important; padding: 0 !important; height: 100% !important;
+                background: #fff !important; margin: 0 !important; padding: 0 !important; height: 100vh !important; overflow: hidden !important;
             }
             /* স্ক্রিনের সবকিছু লুকানো */
             .container, .modal { display: none !important; }
 
             /* শুধুমাত্র প্রিন্ট টেমপ্লেট শো করবে */
             #printTemplate {
-                display: block !important;
+                display: flex !important;
+                flex-direction: column !important; /* ফ্লেক্স কলাম সিগনেচার নিচে নামাতে সাহায্য করবে */
                 width: 100% !important;
-                height: 275mm !important; /* One Page Force */
+                height: 100vh !important; /* পেজের সম্পূর্ণ হাইট */
                 position: absolute; top: 0; left: 0;
                 background: #fff !important;
-                padding: 15px !important;
+                padding: 15mm 15mm 10mm 15mm !important; /* ভেতরের প্যাডিং */
                 border: 3px solid #1e3a8a !important;
                 box-sizing: border-box !important;
                 -webkit-print-color-adjust: exact !important;
@@ -277,15 +287,21 @@
             .print-subtitle { font-size: 16px !important; font-weight: 900 !important; margin-top: 5px; color: #000 !important; }
 
             .print-info-box {
-                display: flex; justify-content: space-between; font-size: 14px !important; background: #f1f5f9 !important; padding: 10px !important; border: 2px solid #1e3a8a !important; border-radius: 4px; margin-bottom: 15px; font-weight: bold;
+                display: flex; justify-content: space-between; font-size: 14px !important; background: #f1f5f9 !important; padding: 10px !important; border: 2px solid #1e3a8a !important; border-radius: 4px; margin-bottom: 15px; font-weight: bold; color: #000 !important;
             }
 
             .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
             .print-table th, .print-table td { border: 2px solid #1e3a8a !important; padding: 10px !important; font-size: 16px !important; text-align: center; color: #000 !important; font-weight: bold !important; }
             .print-table th { background-color: #1e3a8a !important; color: #fff !important; }
 
-            .signature-area { display: flex; justify-content: space-between; margin-top: 50px; padding: 0 20px; }
-            .sig-line { border-top: 2px solid #1e3a8a !important; width: 180px; text-align: center; padding-top: 5px; font-weight: bold !important; font-size: 14px !important; color: #1e3a8a !important; }
+            /* সিগনেচার সেকশনকে একদম নিচে ফিক্স করা হয়েছে */
+            .signature-area { 
+                display: flex; 
+                justify-content: space-between; 
+                margin-top: auto !important; /* পেজের একদম নিচে ঠেলে দেবে */
+                padding: 0 20px; 
+            }
+            .sig-line { border-top: 2px solid #1e3a8a !important; width: 180px; text-align: center; padding-top: 5px; font-weight: bold !important; font-size: 15px !important; color: #1e3a8a !important; }
         }
     </style>
 </head>
@@ -296,7 +312,7 @@
         <!-- হেডার -->
         <div class="header-card">
             <div class="header-top">
-                <button class="menu-btn" onclick="openHistory()">☰ হিস্ট্রি</button>
+                <button class="menu-btn" onclick="openHistory()">☰</button>
                 <div class="header-titles">
                     <h1 id="headerMainTitle">RM THAI ALUMINIUM</h1>
                     <p>CEILING MATERIAL CALCULATOR</p>
@@ -411,44 +427,51 @@
         </div>
     </div>
 
-    <!-- A4 প্রিন্ট টেমপ্লেট (স্ক্রিনে লুকানো থাকবে) -->
+    <!-- A4 প্রিন্ট টেমপ্লেট (স্ক্রিনে লুকানো থাকবে, সম্পূর্ণ বাংলায়) -->
     <div id="printTemplate">
         <div class="print-header">
             <h1 class="print-title" id="ptShopName"></h1>
-            <p class="print-subtitle">Mobile: <span id="ptShopMobile"></span></p>
+            <p class="print-subtitle">মোবাইল: <span id="ptShopMobile"></span></p>
         </div>
 
         <div class="print-info-box">
-            <div>Project/Area: <span id="ptArea"></span> Sqft</div>
-            <div>Date: <span id="ptDate"></span></div>
+            <div>প্রজেক্ট/এরিয়া: <span id="ptArea"></span> বর্গফুট</div>
+            <div>তারিখ: <span id="ptDate"></span></div>
         </div>
 
-        <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 10px;">MATERIAL REQUIREMENT LIST</h3>
+        <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 10px;">প্রয়োজনীয় মালামালের তালিকা</h3>
 
         <table class="print-table">
             <thead>
                 <tr>
-                    <th>SL No.</th>
-                    <th>Material Description</th>
-                    <th>Quantity (Pcs)</th>
+                    <th>ক্রমিক নং</th>
+                    <th>মালামালের বিবরণ</th>
+                    <th>পরিমাণ (টি)</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>1</td><td>Wall Angle (10 ft)</td><td id="ptWallAngle"></td></tr>
-                <tr><td>2</td><td>Main Tee (12 ft)</td><td id="ptMainTee"></td></tr>
-                <tr><td>3</td><td>Cross Tee (2 ft)</td><td id="ptCrossTee"></td></tr>
-                <tr><td>4</td><td>Ceiling Board (2' × 2')</td><td id="ptBoard"></td></tr>
+                <tr><td>১</td><td>ওয়াল এঙ্গেল (১০ ফিট)</td><td id="ptWallAngle"></td></tr>
+                <tr><td>২</td><td>মেইন টি (১২ ফিট)</td><td id="ptMainTee"></td></tr>
+                <tr><td>৩</td><td>ক্রস টি (২ ফিট)</td><td id="ptCrossTee"></td></tr>
+                <tr><td>৪</td><td>সিলিং বোর্ড (২' × ২')</td><td id="ptBoard"></td></tr>
             </tbody>
         </table>
 
+        <!-- সিগনেচার সেকশন একদম নিচে -->
         <div class="signature-area">
-            <div class="sig-line">Prepared By</div>
-            <div class="sig-line">Authorized Signature</div>
+            <div class="sig-line">কাস্টমারের স্বাক্ষর</div>
+            <div class="sig-line">কর্তৃপক্ষের স্বাক্ষর</div>
         </div>
     </div>
 
     <script>
         let calculatedTotalSqft = 0;
+
+        // ইংরেজি সংখ্যাকে বাংলায় কনভার্ট করার ফাংশন
+        function toBng(numStr) {
+            const bngDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            return String(numStr).replace(/\d/g, x => bngDigits[x]);
+        }
 
         window.onload = function() {
             const savedName = localStorage.getItem('rm_ceiling_shop_name');
@@ -487,11 +510,11 @@
             const crossTeeCount = Math.ceil((length * width) / 2);
             const boardCount = Math.ceil(calculatedTotalSqft / 4);
 
-            document.getElementById('totalArea').innerText = calculatedTotalSqft.toFixed(2) + ' বর্গফুট';
-            document.getElementById('wallAngleText').innerText = wallAngleCount + ' টি';
-            document.getElementById('mainTeeText').innerText = mainTeeCount + ' টি';
-            document.getElementById('crossTeeText').innerText = crossTeeCount + ' টি';
-            document.getElementById('ceilingBoardText').innerText = boardCount + ' টি';
+            document.getElementById('totalArea').innerText = toBng(calculatedTotalSqft.toFixed(2)) + ' বর্গফুট';
+            document.getElementById('wallAngleText').innerText = toBng(wallAngleCount) + ' টি';
+            document.getElementById('mainTeeText').innerText = toBng(mainTeeCount) + ' টি';
+            document.getElementById('crossTeeText').innerText = toBng(crossTeeCount) + ' টি';
+            document.getElementById('ceilingBoardText').innerText = toBng(boardCount) + ' টি';
 
             document.getElementById('wallAngleQty').value = wallAngleCount;
             document.getElementById('mainTeeQty').value = mainTeeCount;
@@ -512,15 +535,15 @@
             const ctSub = getVal('crossTeeQty') * getVal('crossTeePrice');
             const bdSub = getVal('boardQty') * getVal('boardPrice');
 
-            document.getElementById('wallAngleSubtotal').innerText = '৳ ' + waSub.toFixed(2);
-            document.getElementById('mainTeeSubtotal').innerText = '৳ ' + mtSub.toFixed(2);
-            document.getElementById('crossTeeSubtotal').innerText = '৳ ' + ctSub.toFixed(2);
-            document.getElementById('boardSubtotal').innerText = '৳ ' + bdSub.toFixed(2);
+            document.getElementById('wallAngleSubtotal').innerText = '৳ ' + toBng(waSub.toFixed(2));
+            document.getElementById('mainTeeSubtotal').innerText = '৳ ' + toBng(mtSub.toFixed(2));
+            document.getElementById('crossTeeSubtotal').innerText = '৳ ' + toBng(ctSub.toFixed(2));
+            document.getElementById('boardSubtotal').innerText = '৳ ' + toBng(bdSub.toFixed(2));
 
             const matTotal = waSub + mtSub + ctSub + bdSub;
             const fitTotal = calculatedTotalSqft * getVal('fittingChargePerSqft');
             const grandTotal = matTotal + getVal('carryingCharge') + fitTotal;
-            document.getElementById('grandTotal').innerText = '৳ ' + grandTotal.toFixed(2);
+            document.getElementById('grandTotal').innerText = '৳ ' + toBng(grandTotal.toFixed(2));
         }
 
         const allInputs = document.querySelectorAll('.costing-box input');
@@ -531,7 +554,7 @@
             if (calculatedTotalSqft <= 0) {
                 alert('প্রথমে রুমের দৈর্ঘ্য ও প্রস্থ দিয়ে হিসাব করুন!'); return;
             }
-            // প্রিভিউ মোডালে ডাটা ট্রান্সফার
+            
             document.getElementById('prevWallAngle').value = document.getElementById('wallAngleQty').value;
             document.getElementById('prevMainTee').value = document.getElementById('mainTeeQty').value;
             document.getElementById('prevCrossTee').value = document.getElementById('crossTeeQty').value;
@@ -545,19 +568,19 @@
         }
 
         function executeFinalPrint() {
-            // টেমপ্লেটে শপ ডিটেইলস পাঠানো
+            // প্রিন্টে সব কিছু বাংলায় পাঠানোর জন্য toBng() ফাংশন ব্যবহার করা হলো
             document.getElementById('ptShopName').innerText = document.getElementById('shopNameInput').value || 'RM THAI ALUMINIUM';
-            document.getElementById('ptShopMobile').innerText = document.getElementById('shopMobileInput').value || 'N/A';
-            document.getElementById('ptArea').innerText = calculatedTotalSqft.toFixed(2);
+            document.getElementById('ptShopMobile').innerText = toBng(document.getElementById('shopMobileInput').value) || 'N/A';
+            document.getElementById('ptArea').innerText = toBng(calculatedTotalSqft.toFixed(2));
             
             const today = new Date();
-            document.getElementById('ptDate').innerText = today.toLocaleDateString('en-GB');
+            const dateString = String(today.getDate()).padStart(2, '0') + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + today.getFullYear();
+            document.getElementById('ptDate').innerText = toBng(dateString);
 
-            // এডিট করা ভ্যালুগুলো টেমপ্লেটে পাঠানো
-            document.getElementById('ptWallAngle').innerText = document.getElementById('prevWallAngle').value;
-            document.getElementById('ptMainTee').innerText = document.getElementById('prevMainTee').value;
-            document.getElementById('ptCrossTee').innerText = document.getElementById('prevCrossTee').value;
-            document.getElementById('ptBoard').innerText = document.getElementById('prevBoard').value;
+            document.getElementById('ptWallAngle').innerText = toBng(document.getElementById('prevWallAngle').value);
+            document.getElementById('ptMainTee').innerText = toBng(document.getElementById('prevMainTee').value);
+            document.getElementById('ptCrossTee').innerText = toBng(document.getElementById('prevCrossTee').value);
+            document.getElementById('ptBoard').innerText = toBng(document.getElementById('prevBoard').value);
 
             closePrintPreview();
             window.print();
@@ -566,7 +589,8 @@
         /* --- History Logic --- */
         function saveToHistory(length, width, sqft) {
             let history = JSON.parse(localStorage.getItem('rm_ceiling_history')) || [];
-            history.unshift({ id: Date.now(), date: new Date().toLocaleString('en-GB'), length, width, sqft: sqft.toFixed(2) });
+            const dateStr = new Date().toLocaleString('en-GB');
+            history.unshift({ id: Date.now(), date: dateStr, length, width, sqft: sqft.toFixed(2) });
             if(history.length > 30) history.pop();
             localStorage.setItem('rm_ceiling_history', JSON.stringify(history));
         }
@@ -578,12 +602,12 @@
                 list.innerHTML = '<p style="text-align:center; color:#64748b; padding:15px;">কোনো হিস্ট্রি নেই।</p>';
             } else {
                 list.innerHTML = history.map(item => `
-                    <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px; margin-bottom:10px; border-radius:8px; display:flex; justify-content:space-between;">
-                        <div style="cursor:pointer;" onclick="reopenHistory(${item.id})">
-                            <div style="font-size:11px; color:#64748b;">📅 ${item.date}</div>
-                            <div style="font-size:13px; font-weight:bold;">মাপ: ${item.length}' × ${item.width}' | ${item.sqft} sqft</div>
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px; margin-bottom:10px; border-radius:8px; display:flex; justify-content:space-between; align-items: center;">
+                        <div style="cursor:pointer; flex-grow: 1;" onclick="reopenHistory(${item.id})">
+                            <div style="font-size:12px; color:#64748b; font-weight:bold;">📅 ${toBng(item.date.split(',')[0])}</div>
+                            <div style="font-size:14px; font-weight:bold; color:#1e3a8a; margin-top:3px;">মাপ: ${toBng(item.length)}' × ${toBng(item.width)}' | ${toBng(item.sqft)} sqft</div>
                         </div>
-                        <button style="background:#fee2e2; color:#dc2626; border:none; padding:5px; border-radius:4px; cursor:pointer;" onclick="deleteHistoryItem(${item.id})">Delete</button>
+                        <button style="background:#ef4444; color:#ffffff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:12px; margin-left:10px;" onclick="deleteHistoryItem(${item.id})">ডিলিট</button>
                     </div>
                 `).join('');
             }
@@ -596,7 +620,7 @@
             let history = JSON.parse(localStorage.getItem('rm_ceiling_history')) || [];
             history = history.filter(item => item.id !== id);
             localStorage.setItem('rm_ceiling_history', JSON.stringify(history));
-            openHistory();
+            openHistory(); // লিস্ট রিফ্রেশ করার জন্য
         }
 
         function reopenHistory(id) {

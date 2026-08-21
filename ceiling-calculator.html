@@ -107,38 +107,29 @@
             border-bottom: 2px solid #f1f5f9;
         }
 
-        /* পরিচ্ছন্ন ও ফিট ইনপুট লেআউট */
-        .input-labels {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-            padding: 0 2px;
+        /* গ্রিড লেআউট - ইনপুট বক্স ও লেবেল পারফেক্ট সমান করার জন্য */
+        .input-group-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 32px; /* দোনো বক্স সমান, ক্রস বাটনের জন্য ৩২ পিক্সেল ফিক্সড */
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
         }
         
         .label-text {
-            flex: 1;
             font-size: 13px;
             font-weight: bold;
             color: #1e3a8a;
             text-align: center;
         }
-
-        .room-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
         
         .room-row input {
-            flex: 1;
-            min-width: 0;
             width: 100%;
             padding: 12px;
             background: #f8fafc;
             border: 1.5px solid #cbd5e1;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 16px;
             text-align: center;
             font-weight: bold;
             outline: none;
@@ -149,22 +140,22 @@
             background: #ffffff;
         }
 
-        /* ছোট ও সুন্দর ক্রস/মুছে ফেলার বাটন */
+        /* ছোট ও সুন্দর ক্রস বাটন */
         .remove-btn {
             background: #fee2e2;
             color: #ef4444;
             border: 1px solid #fca5a5;
-            border-radius: 8px;
-            width: 38px;
-            height: 42px;
-            font-size: 16px;
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
             transition: 0.2s;
+            padding: 0;
         }
 
         .remove-btn:hover {
@@ -255,20 +246,19 @@
 
         #printTemplate { display: none; }
 
-        /* ================= গ্যারান্টেড ১-পেজ A4 প্রিন্ট স্টাইল ================= */
+        /* ================= গ্যারান্টেড ১-পেজ প্রিন্ট স্টাইল ================= */
         @media print {
             @page {
-                size: A4 portrait;
-                margin: 0 !important; /* মার্জিন জিরো করায় অতিরিক্ত পেজ তৈরি হবে না */
+                size: auto; /* Letter বা A4 যা সিলেক্ট করবেন তাতেই ফিট হবে */
+                margin: 8mm; /* মার্জিন ছোট করে দেওয়া হয়েছে */
             }
 
             html, body {
-                width: 210mm !important;
-                height: 297mm !important;
+                width: 100% !important;
+                height: auto !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 background: #ffffff !important;
-                overflow: hidden !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -278,24 +268,19 @@
             #printTemplate {
                 display: block !important;
                 width: 100% !important;
-                height: 100% !important;
-                padding: 12mm 15mm !important;
-                box-sizing: border-box !important;
+                padding: 0 !important;
                 background: #ffffff !important;
-                position: relative !important;
-                page-break-after: avoid !important;
-                page-break-inside: avoid !important;
             }
 
             #printTemplate::before {
                 content: "CEILING MATERIAL"; 
                 position: absolute; 
-                top: 40%; 
+                top: 50%; 
                 left: 50%;
                 transform: translate(-50%, -50%) rotate(-30deg); 
-                font-size: 40px; 
+                font-size: 35px; 
                 font-weight: 900;
-                color: rgba(30, 58, 138, 0.04) !important; 
+                color: rgba(30, 58, 138, 0.05) !important; 
                 z-index: 0; 
                 pointer-events: none; 
                 white-space: nowrap;
@@ -303,26 +288,27 @@
             
             #printTemplate * { position: relative; z-index: 1; }
 
+            /* হেডার এবং টেবিলের প্যাডিং কমানো হয়েছে যাতে জায়গা কম খায় */
             .print-header { 
                 text-align: center; 
                 border-bottom: 2px solid #1e3a8a !important; 
-                padding: 10px; 
-                margin-bottom: 15px; 
+                padding: 8px; 
+                margin-bottom: 12px; 
                 background: #e0e7ff !important; 
                 border-radius: 6px; 
             }
-            .print-title { font-size: 20px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
+            .print-title { font-size: 18px !important; font-weight: 900 !important; color: #1e3a8a !important; margin: 0; }
             .print-subtitle { font-size: 12px !important; font-weight: 700 !important; margin-top: 3px; color: #0f172a !important; }
 
             .print-info-box { 
                 display: flex; 
                 justify-content: space-between; 
-                font-size: 13px !important; 
+                font-size: 12px !important; 
                 background: #f8fafc !important; 
-                padding: 8px 12px !important; 
+                padding: 8px 10px !important; 
                 border: 1.5px solid #1e3a8a !important; 
                 border-radius: 6px; 
-                margin-bottom: 15px; 
+                margin-bottom: 12px; 
                 font-weight: bold; 
                 color: #000000 !important; 
             }
@@ -330,31 +316,29 @@
             .print-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
             .print-table th, .print-table td { 
                 border: 1.5px solid #1e3a8a !important; 
-                padding: 10px !important; 
-                font-size: 14px !important; 
+                padding: 8px !important; 
+                font-size: 13px !important; 
                 text-align: center; 
                 color: #000000 !important; 
                 font-weight: bold !important; 
             }
-            .print-table th { background-color: #1e3a8a !important; color: #ffffff !important; font-size: 14px !important; }
+            .print-table th { background-color: #1e3a8a !important; color: #ffffff !important; font-size: 13px !important; }
 
-            /* সিগনেচার সেকশন একদম নিচে ফিক্সড */
+            /* সিগনেচার সেকশন এখন নরমাল ফ্লো তে থাকবে, তাই ২য় পেজে যাবে না */
             .signature-area { 
-                position: absolute !important;
-                bottom: 20mm !important;
-                left: 15mm !important;
-                right: 15mm !important;
                 display: flex !important; 
                 justify-content: space-between !important; 
+                margin-top: 40px !important; /* উপরে পর্যাপ্ত গ্যাপ */
+                padding: 0 10px !important;
                 page-break-inside: avoid !important;
             }
             .sig-line { 
                 border-top: 1.5px solid #1e3a8a !important; 
-                width: 170px; 
+                width: 150px; 
                 text-align: center; 
                 padding-top: 5px; 
                 font-weight: bold !important; 
-                font-size: 13px !important; 
+                font-size: 12px !important; 
                 color: #1e3a8a !important; 
             }
         }
@@ -381,18 +365,19 @@
         <div class="card">
             <div class="card-header-title">🛖 সিলিং এর মাপ প্রদান করুন</div>
             
-            <!-- নতুন ও স্পষ্ট লেবেল হেডার -->
-            <div class="input-labels">
+            <!-- গ্রিড লেবেল হেডার -->
+            <div class="input-group-grid">
                 <div class="label-text">রুমের দৈর্ঘ্য (ফিট)</div>
                 <div class="label-text">রুমের প্রস্থ (ফিট)</div>
-                <div style="width: 38px; flex-shrink: 0;"></div>
+                <div></div> <!-- ডানপাশের এলাইনমেন্ট ঠিক রাখার জন্য ফাঁকা জায়গা -->
             </div>
 
             <div id="roomsContainer">
-                <div class="room-row">
+                <!-- প্রথম রুমের ইনপুট (এখানে ডিলিট বাটন থাকবে না, শুধু জায়গা থাকবে) -->
+                <div class="room-row input-group-grid">
                     <input type="number" class="r-length" placeholder="0.00" step="any">
                     <input type="number" class="r-width" placeholder="0.00" step="any">
-                    <div style="width: 38px; flex-shrink: 0;"></div>
+                    <div></div> <!-- ডানপাশের এলাইনমেন্ট ঠিক রাখার জন্য ফাঁকা জায়গা -->
                 </div>
             </div>
             
@@ -460,7 +445,7 @@
         </div>
     </div>
 
-    <!-- A4 প্রিন্ট টেমপ্লেট -->
+    <!-- 1 Page প্রিন্ট টেমপ্লেট -->
     <div id="printTemplate">
         <div>
             <div class="print-header">
@@ -473,7 +458,7 @@
                 <div>তারিখ: <span id="ptDate"></span></div>
             </div>
 
-            <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 12px; font-size: 16px; font-weight: bold;">প্রয়োজনীয় মালামালের তালিকা</h3>
+            <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 12px; font-size: 15px; font-weight: bold;">প্রয়োজনীয় মালামালের তালিকা</h3>
 
             <table class="print-table">
                 <thead>
@@ -524,7 +509,8 @@
         function addRoom() {
             const container = document.getElementById('roomsContainer');
             const div = document.createElement('div');
-            div.className = 'room-row';
+            // গ্রিড ক্লাস অ্যাড করা হয়েছে
+            div.className = 'room-row input-group-grid';
             div.innerHTML = `
                 <input type="number" class="r-length" placeholder="0.00" step="any">
                 <input type="number" class="r-width" placeholder="0.00" step="any">

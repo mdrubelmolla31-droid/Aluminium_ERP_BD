@@ -243,44 +243,46 @@
         /* স্ক্রিন হাইড করার জন্য */
         #printTemplate { display: none; }
 
-        /* ================= STRICT 1-PAGE A4 PRINT STYLES ================= */
+        /* ================= 100% 1-PAGE PDF PRINT STYLES ================= */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 0 !important;
+                margin: 0mm !important; /* ব্রাউজারের ডিফল্ট মার্জিন জিরো */
             }
 
             html, body {
-                width: 210mm !important;
-                height: 297mm !important;
+                width: 100% !important;
+                height: 100% !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                overflow: hidden !important;
+                overflow: hidden !important; /* অতিরিক্ত অংশ কেটে দিবে, ২য় পেজে যাবে না */
                 background: #ffffff !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
 
+            /* মূল স্ক্রিন ও মোডাল হাইড করা */
             .container, .modal { 
                 display: none !important; 
             }
 
+            /* প্রিন্ট টেমপ্লেট একদম ১ পেজে ফিক্সড */
             #printTemplate {
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: space-between !important;
-                width: 210mm !important;
-                max-height: 297mm !important;
-                height: 100vh !important;
-                padding: 10mm 12mm !important;
+                width: 100% !important;
+                height: 95vh !important; /* 100vh এর জায়গায় 95vh দেওয়া হলো যাতে ২য় পেজ না আসে */
+                max-height: 285mm !important; /* A4 সাইজ (297mm) থেকে একটু ছোট রাখা হলো */
+                padding: 10mm !important;
                 box-sizing: border-box !important;
-                position: absolute !important;
-                top: 0 !important;
-                left: 0 !important;
+                position: relative !important;
                 background: #ffffff !important;
-                border: 3px solid #1e3a8a !important;
-                page-break-after: avoid !important;
+                border: 2px solid #1e3a8a !important; /* বর্ডার সাইজ কমানো হলো */
+                margin: 0 auto !important;
                 page-break-inside: avoid !important;
+                page-break-after: avoid !important;
+                page-break-before: avoid !important;
             }
 
             /* ওয়াটারমার্ক */
@@ -290,7 +292,7 @@
                 top: 50%; 
                 left: 50%;
                 transform: translate(-50%, -50%) rotate(-30deg);
-                font-size: 45px; 
+                font-size: 40px; 
                 font-weight: 900;
                 color: rgba(30, 58, 138, 0.05) !important;
                 z-index: 0; 
@@ -341,7 +343,7 @@
             }
             .print-table th, .print-table td { 
                 border: 1.5px solid #1e3a8a !important; 
-                padding: 8px 8px !important; 
+                padding: 8px !important; 
                 font-size: 14px !important; 
                 text-align: center; 
                 color: #000000 !important; 
@@ -353,12 +355,12 @@
                 font-size: 15px !important;
             }
 
-            /* স্বাক্ষর অংশ */
+            /* স্বাক্ষর অংশ একদম নিচে ফিক্স করা */
             .signature-area { 
                 display: flex !important; 
                 justify-content: space-between !important; 
                 margin-top: auto !important; 
-                padding: 0 15px 5px 15px; 
+                padding: 10px 15px 5px 15px; 
             }
             .sig-line { 
                 border-top: 1.5px solid #1e3a8a !important; 

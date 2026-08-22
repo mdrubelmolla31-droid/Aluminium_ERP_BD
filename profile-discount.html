@@ -54,14 +54,13 @@
             padding-bottom: 10px;
         }
 
-        /* থ্রি লাইন বাটন বামে এবং একটু বড় */
         .history-menu-btn {
             background: rgba(255,255,255,0.25);
             border: 1px solid rgba(255,255,255,0.4);
             color: white;
             padding: 6px 14px;
             border-radius: 6px;
-            font-size: 20px; /* সাইজ ২ পিক্সেল বাড়ানো হয়েছে */
+            font-size: 20px;
             cursor: pointer;
             font-weight: bold;
             display: flex;
@@ -71,7 +70,6 @@
         }
         .history-menu-btn:hover { background: rgba(255,255,255,0.4); }
 
-        /* টাইটেল মাঝখানে */
         .header-title {
             flex: 1;
             text-align: center;
@@ -82,7 +80,6 @@
             padding: 0 8px;
         }
 
-        /* তারিখ ডানে */
         .date-display {
             font-size: 13px;
             font-weight: 700;
@@ -131,6 +128,21 @@
             margin-bottom: 12px;
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .size-select {
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #7dd3fc;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 900;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
         }
 
         .header-section { 
@@ -156,8 +168,21 @@
         .table-responsive { overflow-x: auto; margin-bottom: 15px; width: 100%; }
         table { width: 100%; border-collapse: collapse; background: #fff; }
         table, th, td { border: 1px solid var(--border); }
-        th, td { padding: 10px 12px; text-align: left; font-size: 13px; }
+        th, td { padding: 8px 10px; text-align: left; font-size: 13px; }
         th { background: #1e3a8a; color: white; white-space: nowrap; font-weight: 800; }
+        
+        td select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-weight: 700;
+            background-color: #f8fafc;
+            color: #1e3a8a;
+            outline: none;
+            cursor: pointer;
+        }
+        td select:focus { border-color: var(--accent); }
         td input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-weight: 700; outline: none; }
         td input:focus { border-color: var(--accent); }
         .category-header { background: #e2e8f0; color: #1e3a8a; font-weight: 900; text-align: center; }
@@ -273,50 +298,60 @@
 
     <!-- সেকশন ২১ ফিট বারের ফিক্সড দাম টেবিল -->
     <div class="card">
-        <div class="section-title">সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</div>
+        <div class="section-title">
+            <span>সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</span>
+            <select id="profileSizeSelect" class="size-select" onchange="toggleNetHandle()">
+                <option value="3">৩ ইঞ্চি (3")</option>
+                <option value="4">৪ ইঞ্চি (4")</option>
+            </select>
+        </div>
         <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
-                        <th>সেকশনের নাম</th>
+                        <th>সেকশনের নাম (ড্রপডাউন)</th>
                         <th>২১ ফিট বারের দাম (টাকা/বার)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
                     <tr>
-                        <td>Outer Top (2121B)</td>
-                        <td><input type="number" id="rate_2121B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                        <td><select class="dyn-select" id="sel_outer_top" data-default="Outer Top (2121B)" onchange="loadRate(this.id, 'rate_outer_top')"></select></td>
+                        <td><input type="number" id="rate_outer_top" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_outer_top', this.value)"></td>
                     </tr>
                     <tr>
-                        <td>Outer Bottom (2122B)</td>
-                        <td><input type="number" id="rate_2122B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                        <td><select class="dyn-select" id="sel_outer_bottom" data-default="Outer Bottom (2122B)" onchange="loadRate(this.id, 'rate_outer_bottom')"></select></td>
+                        <td><input type="number" id="rate_outer_bottom" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_outer_bottom', this.value)"></td>
                     </tr>
                     <tr>
-                        <td>Shutter Top (2126B)</td>
-                        <td><input type="number" id="rate_2126B_top" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                        <td><select class="dyn-select" id="sel_shutter_top" data-default="Shutter Top (2126B)" onchange="loadRate(this.id, 'rate_shutter_top')"></select></td>
+                        <td><input type="number" id="rate_shutter_top" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_shutter_top', this.value)"></td>
                     </tr>
                     <tr>
-                        <td>Shutter Bottom (2126B)</td>
-                        <td><input type="number" id="rate_2126B_bot" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                        <td><select class="dyn-select" id="sel_shutter_bottom" data-default="Shutter Bottom (2126B)" onchange="loadRate(this.id, 'rate_shutter_bottom')"></select></td>
+                        <td><input type="number" id="rate_shutter_bottom" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_shutter_bottom', this.value)"></td>
                     </tr>
                     <tr>
-                        <td>Outer Side (2123B)</td>
-                        <td><input type="number" id="rate_2123B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                        <td><select class="dyn-select" id="sel_outer_side" data-default="Outer Side (2123B)" onchange="loadRate(this.id, 'rate_outer_side')"></select></td>
+                        <td><input type="number" id="rate_outer_side" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_outer_side', this.value)"></td>
                     </tr>
                     <tr>
-                        <td>Lock Style (2124B)</td>
-                        <td><input type="number" id="rate_2124B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                        <td><select class="dyn-select" id="sel_lock_style" data-default="Lock Style (2124B)" onchange="loadRate(this.id, 'rate_lock_style')"></select></td>
+                        <td><input type="number" id="rate_lock_style" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_lock_style', this.value)"></td>
                     </tr>
                     <tr>
-                        <td>Interlock (2125B)</td>
-                        <td><input type="number" id="rate_2125B" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                        <td><select class="dyn-select" id="sel_interlock" data-default="Interlock (2125B)" onchange="loadRate(this.id, 'rate_interlock')"></select></td>
+                        <td><input type="number" id="rate_interlock" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_interlock', this.value)"></td>
                     </tr>
 
                     <tr class="category-header"><td colspan="2">নেট সেকশন (Net Section)</td></tr>
                     <tr>
-                        <td>Net Section</td>
-                        <td><input type="number" id="rate_net_section" placeholder="২১ ফিট বারের দাম" step="0.01"></td>
+                        <td><select class="dyn-select" id="sel_net_section" data-default="Net Section" onchange="loadRate(this.id, 'rate_net_section')"></select></td>
+                        <td><input type="number" id="rate_net_section" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_net_section', this.value)"></td>
+                    </tr>
+                    <tr id="row_net_handle" style="display:none;">
+                        <td><select class="dyn-select" id="sel_net_handle" data-default="Net Handle" onchange="loadRate(this.id, 'rate_net_handle')"></select></td>
+                        <td><input type="number" id="rate_net_handle" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_net_handle', this.value)"></td>
                     </tr>
                 </tbody>
             </table>
@@ -379,11 +414,86 @@
 <script>
 let windowCount = 0;
 
+// সকল প্রোফাইলের নাম (আপনার ছবি এবং পূর্বের ডিফল্ট ডাটা মিলিয়ে)
+const allProfileNames = [
+    "Outer Top (2121B)", "Outer Bottom (2122B)", "Shutter Top (2126B)", "Shutter Bottom (2126B)", 
+    "Outer Side (2123B)", "Lock Style (2124B)", "Interlock (2125B)", "Net Section", "Net Handle",
+    "3\" Sliding Outer Top", "3\" Sliding Outer Low Bottom", "3\" Sliding Outer High Bottom", "3\" Sliding Outer Side",
+    "3\" Sliding Single Outer Bottom", "3\" Sliding Single Outer Top", "3\" Sliding Single Outer Side",
+    "4\" Sliding Outer Top", "4\" Sliding Outer Low Bottom", "4\" Sliding Outer High Bottom", "4\" Sliding Outer Side",
+    "Sliding Shutter Top", "Sliding Shutter Bottom", "Sliding Shutter Lock", "Sliding Shutter Inter Lock", 
+    "Sliding Shutter Divider", "Sliding Fixed Side", "Net Divider",
+    "Fixed Top and Side", "Fixed Bottom", "Fixed Bottom Cover", "Group Cover", "Plane Cover", "Wall Frame"
+];
+
 document.addEventListener("DOMContentLoaded", function() {
+    populateSelects();
+    initRates();
+    toggleNetHandle();
     setCurrentDate();
     loadShopDetails();
     addWindow();
 });
+
+// ড্রপডাউনে নামগুলো যুক্ত করা
+function populateSelects() {
+    const selects = document.querySelectorAll('.dyn-select');
+    selects.forEach(select => {
+        const defaultVal = select.getAttribute('data-default');
+        select.innerHTML = '';
+        
+        // ডিফল্ট নামটা প্রথমে রাখা
+        let defOpt = document.createElement('option');
+        defOpt.value = defaultVal;
+        defOpt.text = defaultVal;
+        select.appendChild(defOpt);
+        
+        // বাকি নামগুলো যোগ করা
+        allProfileNames.forEach(profile => {
+            if(profile !== defaultVal) {
+                let o = document.createElement('option');
+                o.value = profile;
+                o.text = profile;
+                select.appendChild(o);
+            }
+        });
+    });
+}
+
+// লোকাল স্টোরেজ থেকে রেট লোড করা (রেট সেটিংস এর মত কাজ করবে)
+function loadRate(selectId, inputId) {
+    const selectedProfile = document.getElementById(selectId).value;
+    const savedRate = localStorage.getItem('erp_rate_' + selectedProfile);
+    if(savedRate) {
+        document.getElementById(inputId).value = savedRate;
+    } else {
+        document.getElementById(inputId).value = ''; // রেট না থাকলে ফাঁকা
+    }
+}
+
+// ইনপুট দিলে অটোমেটিক রেট সেভ হয়ে যাওয়া
+function saveRate(selectId, value) {
+    const selectedProfile = document.getElementById(selectId).value;
+    localStorage.setItem('erp_rate_' + selectedProfile, value);
+}
+
+function initRates() {
+    document.querySelectorAll('.dyn-select').forEach(select => {
+        const inputId = select.id.replace('sel_', 'rate_');
+        loadRate(select.id, inputId);
+    });
+}
+
+// ৪ ইঞ্চি সিলেক্ট করলে নেট হ্যান্ডেল শো করানো
+function toggleNetHandle() {
+    const size = document.getElementById('profileSizeSelect').value;
+    const netHandleRow = document.getElementById('row_net_handle');
+    if(size === '4') {
+        netHandleRow.style.display = 'table-row';
+    } else {
+        netHandleRow.style.display = 'none';
+    }
+}
 
 function setCurrentDate() {
     const today = new Date();
@@ -445,21 +555,34 @@ function calculateTotal() {
     const company = document.getElementById('companySelect').options[document.getElementById('companySelect').selectedIndex].text;
     const thickness = document.getElementById('thicknessSelect').value;
     const discount = parseFloat(document.getElementById('globalDiscount').value) || 0;
+    const is4Inch = document.getElementById('profileSizeSelect').value === '4';
 
     const windows = document.querySelectorAll('.window-box');
-
     let totalSqft = 0;
 
-    let sectionTotals = {
-        "Outer Top (2121B)": 0,
-        "Outer Bottom (2122B)": 0,
-        "Shutter Top (2126B)": 0,
-        "Shutter Bottom (2126B)": 0,
-        "Outer Side (2123B)": 0,
-        "Lock Style (2124B)": 0,
-        "Interlock (2125B)": 0,
-        "Net Section": 0
-    };
+    // ডায়নামিক নাম ও হিসাবের লজিক ম্যাপিং
+    const sectionConfig = [
+        { key: 'outer_top', name: document.getElementById('sel_outer_top').value, inputId: 'rate_outer_top', ftCalc: (l, h, q) => l * q },
+        { key: 'outer_bottom', name: document.getElementById('sel_outer_bottom').value, inputId: 'rate_outer_bottom', ftCalc: (l, h, q) => l * q },
+        { key: 'shutter_top', name: document.getElementById('sel_shutter_top').value, inputId: 'rate_shutter_top', ftCalc: (l, h, q) => l * q },
+        { key: 'shutter_bottom', name: document.getElementById('sel_shutter_bottom').value, inputId: 'rate_shutter_bottom', ftCalc: (l, h, q) => l * q },
+        { key: 'outer_side', name: document.getElementById('sel_outer_side').value, inputId: 'rate_outer_side', ftCalc: (l, h, q) => h * 2 * q },
+        { key: 'lock_style', name: document.getElementById('sel_lock_style').value, inputId: 'rate_lock_style', ftCalc: (l, h, q) => h * 2 * q },
+        { key: 'interlock', name: document.getElementById('sel_interlock').value, inputId: 'rate_interlock', ftCalc: (l, h, q) => h * 2 * q },
+        { key: 'net_section', name: document.getElementById('sel_net_section').value, inputId: 'rate_net_section', ftCalc: (l, h, q) => ((l * 2) + (h * 2)) * q }
+    ];
+
+    if(is4Inch) {
+        sectionConfig.push({ 
+            key: 'net_handle', 
+            name: document.getElementById('sel_net_handle').value, 
+            inputId: 'rate_net_handle', 
+            ftCalc: (l, h, q) => h * 2 * q // নেট হ্যান্ডেলের হিসাব
+        });
+    }
+
+    let sectionTotals = {};
+    sectionConfig.forEach(s => sectionTotals[s.key] = 0);
 
     windows.forEach(win => {
         const hInch = parseFloat(win.querySelector('.height').value) || 0;
@@ -472,16 +595,9 @@ function calculateTotal() {
             const hFeet = hInch / 12;
             const lFeet = lInch / 12;
 
-            sectionTotals["Outer Top (2121B)"] += (lFeet * qty);
-            sectionTotals["Outer Bottom (2122B)"] += (lFeet * qty);
-            sectionTotals["Shutter Top (2126B)"] += (lFeet * qty);
-            sectionTotals["Shutter Bottom (2126B)"] += (lFeet * qty);
-
-            sectionTotals["Outer Side (2123B)"] += (hFeet * 2 * qty);
-            sectionTotals["Lock Style (2124B)"] += (hFeet * 2 * qty);
-            sectionTotals["Interlock (2125B)"] += (hFeet * 2 * qty);
-
-            sectionTotals["Net Section"] += ((lFeet * 2) + (hFeet * 2)) * qty;
+            sectionConfig.forEach(s => {
+                sectionTotals[s.key] += s.ftCalc(lFeet, hFeet, qty);
+            });
         }
     });
 
@@ -491,29 +607,10 @@ function calculateTotal() {
 
     const formatMoney = (amount) => Math.round(amount).toLocaleString('bn-BD');
 
-    const displayOrder = [
-        "Outer Top (2121B)",
-        "Outer Bottom (2122B)",
-        "Shutter Top (2126B)",
-        "Shutter Bottom (2126B)",
-        "Outer Side (2123B)",
-        "Lock Style (2124B)",
-        "Interlock (2125B)",
-        "Net Section"
-    ];
-
-    displayOrder.forEach(secName => {
-        const totalFt = sectionTotals[secName];
+    sectionConfig.forEach(s => {
+        const totalFt = sectionTotals[s.key];
         if (totalFt > 0) {
-            let idKey = secName.includes("2121B") ? "2121B" :
-                        secName.includes("2122B") ? "2122B" :
-                        secName.includes("Shutter Top") ? "2126B_top" :
-                        secName.includes("Shutter Bottom") ? "2126B_bot" :
-                        secName.includes("2123B") ? "2123B" :
-                        secName.includes("2124B") ? "2124B" :
-                        secName.includes("2125B") ? "2125B" : "net_section";
-
-            let fullBarRate = parseFloat(document.getElementById(`rate_${idKey}`)?.value) || 0;
+            let fullBarRate = parseFloat(document.getElementById(s.inputId)?.value) || 0;
             let perFtRate = fullBarRate / 21;
 
             let rawCost = totalFt * perFtRate;
@@ -522,7 +619,7 @@ function calculateTotal() {
 
             breakdownBody.innerHTML += `
                 <tr>
-                    <td><b>${secName}</b></td>
+                    <td><b>${s.name}</b></td>
                     <td><b>${totalFt.toFixed(2)} Rft</b></td>
                     <td>${formatMoney(rawCost)} টাকা</td>
                     <td><b>${formatMoney(discountedCost)} টাকা</b></td>
@@ -567,7 +664,7 @@ function openHistory() {
     if (history.length === 0) {
         container.innerHTML = `<div class="empty-history">কোনো পূর্বের হিস্ট্রি পাওয়া যায়নি</div>`;
     } else {
-        history.forEach((item, index) => {
+        history.forEach((item) => {
             container.innerHTML += `
                 <div class="history-card">
                     <div class="history-card-header">

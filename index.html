@@ -137,12 +137,10 @@
             background: #1e293b;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-        }
-
-        .header-logo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
 
         /* User Card */
@@ -168,14 +166,6 @@
             margin-bottom: 4px;
         }
 
-        .edit-name-btn {
-            background: none;
-            border: none;
-            color: #9ca3af;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
         .user-sub {
             color: #9ca3af;
             font-size: 13px;
@@ -199,7 +189,6 @@
             transform: translateY(-50%);
             width: 52px;
             height: 52px;
-            cursor: pointer;
         }
 
         .avatar-img {
@@ -252,11 +241,11 @@
         }
         .menu-title { font-size: 14px; font-weight: 600; color: #e5e7eb; }
 
-        /* Lock Screen Overlay */
+        /* Overlays & Modals */
         .lock-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #0b0f19;
+            background: rgba(11, 15, 25, 0.95);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -322,7 +311,6 @@
             border: 1px solid #334155;
             color: white;
             border-radius: 8px;
-            text-align: center;
             font-size: 13px;
         }
 
@@ -335,6 +323,7 @@
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
+            flex: 1;
         }
 
         .dev-branding-footer {
@@ -358,8 +347,10 @@
         }
 
         .sidebar-content {
-            background: #111827; width: 260px; height: 100%;
+            background: #111827; width: 280px; height: 100%;
             padding: 20px; border-right: 1px solid #1e293b;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
         }
 
         .sidebar-header {
@@ -368,8 +359,17 @@
         }
 
         .sidebar-menu-item {
-            padding: 12px; color: #e5e7eb; text-decoration: none;
-            border-radius: 8px; margin-bottom: 8px; background: #1e293b; display: block; font-size: 14px;
+            padding: 14px; color: #e5e7eb; text-decoration: none;
+            border-radius: 8px; margin-bottom: 8px; background: #1e293b; display: block; font-size: 14px; font-weight: bold;
+        }
+
+        .sidebar-menu-item:active {
+            background: #334155;
+        }
+
+        .support-btn {
+            background: #059669; /* WhatsApp Color */
+            color: white;
         }
     </style>
 </head>
@@ -391,10 +391,40 @@
             <h3 id="lockTitle" style="color: #ffffff; font-size: 15px;">Device License Activation</h3>
             <p id="lockSub" style="color: #9ca3af; font-size: 11px; margin-top: 4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
-            <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">📲 Send Device ID to WhatsApp</a>
-            <input type="text" id="keyInput" class="lock-input" placeholder="পেমেন্ট করুন">
+            <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp" style="text-align: center;">📲 Send Device ID to WhatsApp</a>
+            <input type="text" id="keyInput" class="lock-input" placeholder="পেমেন্ট করুন" style="text-align: center;">
             <button class="btn-unlock" onclick="validateKey()">Activate License</button>
             <div class="dev-branding-footer">RM, THAI ALUMINUM, BY, RUBEL</div>
+        </div>
+    </div>
+
+    <!-- ⚙️ মাই প্রোফাইল সেটিংস মোডাল -->
+    <div class="lock-overlay" id="profileSettingsModal" style="display: none; z-index: 10000;">
+        <div class="lock-box" style="text-align: left; padding: 20px;">
+            <h3 style="color: #fff; margin-bottom: 15px; text-align: center; font-size: 18px;">⚙️ Profile Settings</h3>
+            
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div class="avatar-img" id="modalAvatarPreview" style="width: 75px; height: 75px; margin: 0 auto; cursor: pointer; border-color: #3b82f6;" onclick="document.getElementById('modalProfilePicker').click()">👤</div>
+                <input type="file" id="modalProfilePicker" accept="image/*" style="display: none;" onchange="previewModalProfile(this)">
+                <p style="color: #9ca3af; font-size: 11px; margin-top: 6px;">ছবি পরিবর্তন করতে ক্লিক করুন</p>
+            </div>
+
+            <label style="color: #9ca3af; font-size: 12px; font-weight: bold;">আপনার নাম:</label>
+            <input type="text" id="profName" class="lock-input" placeholder="আপনার নাম">
+
+            <label style="color: #9ca3af; font-size: 12px; font-weight: bold;">কোম্পানির নাম:</label>
+            <input type="text" id="profCompany" class="lock-input" placeholder="যেমন: RM THAI ALUMINIUM">
+
+            <label style="color: #9ca3af; font-size: 12px; font-weight: bold;">মোবাইল নাম্বার:</label>
+            <input type="tel" id="profMobile" class="lock-input" placeholder="মোবাইল নাম্বার">
+
+            <label style="color: #9ca3af; font-size: 12px; font-weight: bold;">জিমেইল (ইমেইল):</label>
+            <input type="email" id="profEmail" class="lock-input" placeholder="example@gmail.com">
+
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn-unlock" style="background: #ef4444;" onclick="closeProfileSettings()">বাতিল</button>
+                <button class="btn-unlock" style="background: #10b981;" onclick="saveProfileSettings()">সেভ করুন</button>
+            </div>
         </div>
     </div>
 
@@ -403,28 +433,24 @@
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
-            <div class="header-logo-box">
-                <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
-            </div>
+            <div class="header-logo-box" id="headerLogoDisplay">👤</div>
         </div>
 
         <div class="user-card">
             <div class="user-name-container">
                 <div class="user-title" id="userNameDisplay">Welcome, User</div>
-                <button class="edit-name-btn" onclick="changeUserName()">✏️</button>
             </div>
-            <div class="user-sub">Aluminium ERP BD v2</div>
+            <div class="user-sub" id="userCompanyDisplay">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
             
-            <div class="avatar-container" onclick="document.getElementById('profilePicker').click()">
+            <div class="avatar-container">
                 <div id="avatarDisplay" class="avatar-img">👤</div>
             </div>
-            <input type="file" id="profilePicker" accept="image/*" style="display: none;" onchange="updateProfilePicture(this)">
         </div>
 
         <!-- 🔗 মেনু লিংকসমূহ -->
         <div class="grid-menu">
-            <!-- 🏗️ কার্টেন ওয়াল (curtain wall) -->
+            <!-- 🏗️ কার্টেন ওয়াল -->
             <a href="curtain-wall.html" class="menu-card">
                 <div class="menu-icon">
                     <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -456,6 +482,7 @@
                 <div class="menu-icon">🧮</div>
                 <div class="menu-title">Material Calculator</div>
             </a>
+            
             <!-- 🛖 সিলিং ক্যালকুলেটর -->
             <a href="ceiling-calculator.html" class="menu-card">
                 <div class="menu-icon">🛖</div>
@@ -497,23 +524,23 @@
                 <div class="menu-icon">🧾</div>
                 <div class="menu-title">Bill & Invoice</div>
             </a>
-
         </div>
     </div>
                 
-
-
-    <!-- সাইডবার -->
+    <!-- সাইডবার (Clean & Updated) -->
     <div class="sidebar-overlay" id="sidebar">
-        <div class="sidebar-content">
+        <div class="sidebar-content" id="sidebarContent">
             <div class="sidebar-header">
-                <h3>Menu</h3>
+                <h3 style="color: #fff;">Menu</h3>
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding: 2px 8px;">✕</button>
             </div>
-            <a href="user-profile.html" class="sidebar-menu-item">👤 My Profile & Details</a>
-            <a href="#" class="sidebar-menu-item">⚙️ Admin Panel</a>
-            <a href="master.html" class="sidebar-menu-item">📦 Master Data</a>
-            <a href="profile-discount.html" class="sidebar-menu-item">🏷️ Company Profile Discount</a>
+            <!-- প্রোফাইল সেটিংস মোডাল ওপেন হবে -->
+            <a href="#" class="sidebar-menu-item" onclick="openProfileSettings(); return false;">👤 My Profile Settings</a>
+            
+            <a href="admin.html" class="sidebar-menu-item">⚙️ Admin Panel</a>
+            
+            <!-- ফিডব্যাক ও সাপোর্ট (অটো হোয়াটসঅ্যাপ মেসেজ) -->
+            <a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="sidebar-menu-item support-btn">🎧 Feedback & Support</a>
         </div>
     </div>
 
@@ -522,9 +549,16 @@
         let isMasterMode = false;
         let generatedDeviceId = "";
         let expectedProductKey = "";
+        let tempProfileImgData = ""; // ছবি সেভ করার আগে এখানে জমা থাকবে
 
         const MASTER_KEY = "mdrubelmolla1989";
-        const ADMIN_PHONE = "8801676474412";
+        const ADMIN_PHONE = "8801676474412"; // আপনার নাম্বার
+
+        // হোয়াটসঅ্যাপ সাপোর্ট ফাংশন
+        function openWhatsAppSupport() {
+            const supportMessage = encodeURIComponent("হ্যালো ভাই, অ্যালুমিনিয়াম ইআরপি অ্যাপ নিয়ে আমার একটু সাপোর্ট দরকার...");
+            window.open("https://wa.me/" + ADMIN_PHONE + "?text=" + supportMessage, "_blank");
+        }
 
         function getDeviceId() {
             let savedId = localStorage.getItem("app_device_id");
@@ -581,41 +615,81 @@
             }
         });
 
+        // প্রোফাইল ডেটা লোড করার ফাংশন (ড্যাশবোর্ডের জন্য)
         function loadUserData() {
             const savedName = localStorage.getItem("app_user_fullname");
+            const savedCompany = localStorage.getItem("app_user_company");
+            const savedPic = localStorage.getItem("app_user_profile_img");
+
             if (savedName) {
                 document.getElementById("userNameDisplay").innerText = "Welcome, " + savedName;
             } else {
                 document.getElementById("userNameDisplay").innerText = "Welcome, User";
             }
 
-            const savedPic = localStorage.getItem("app_user_profile_img");
+            if (savedCompany) {
+                document.getElementById("userCompanyDisplay").innerText = savedCompany;
+            } else {
+                document.getElementById("userCompanyDisplay").innerText = "Aluminium ERP BD v2";
+            }
+
             if (savedPic) {
-                document.getElementById("avatarDisplay").innerHTML = `<img src="${savedPic}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                const imgTag = `<img src="${savedPic}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                document.getElementById("avatarDisplay").innerHTML = imgTag;
+                document.getElementById("headerLogoDisplay").innerHTML = imgTag;
+                tempProfileImgData = savedPic;
             }
         }
 
-        function changeUserName() {
-            const currentName = localStorage.getItem("app_user_fullname") || "User";
-            const newName = prompt("আপনার নাম লিখুন:", currentName);
-            if (newName && newName.trim() !== "") {
-                localStorage.setItem("app_user_fullname", newName.trim());
-                document.getElementById("userNameDisplay").innerText = "Welcome, " + newName.trim();
+        /* ======= প্রোফাইল সেটিংস মোডাল কন্ট্রোল ======= */
+        function openProfileSettings() {
+            toggleSidebar(); // সাইডবার বন্ধ করবে
+            
+            // ইনপুট ফিল্ডে আগের সেভ করা ডেটা বসাবে
+            document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
+            document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
+            document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
+            document.getElementById("profEmail").value = localStorage.getItem("app_user_email") || "";
+            
+            if (tempProfileImgData) {
+                document.getElementById("modalAvatarPreview").innerHTML = `<img src="${tempProfileImgData}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
             }
+
+            document.getElementById("profileSettingsModal").style.display = "flex";
         }
 
-        function updateProfilePicture(input) {
+        function closeProfileSettings() {
+            document.getElementById("profileSettingsModal").style.display = "none";
+        }
+
+        function previewModalProfile(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const imgData = e.target.result;
-                    localStorage.setItem("app_user_profile_img", imgData);
-                    document.getElementById("avatarDisplay").innerHTML = `<img src="${imgData}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                    tempProfileImgData = e.target.result;
+                    document.getElementById("modalAvatarPreview").innerHTML = `<img src="${tempProfileImgData}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
+        function saveProfileSettings() {
+            const name = document.getElementById("profName").value.trim();
+            const company = document.getElementById("profCompany").value.trim();
+            const mobile = document.getElementById("profMobile").value.trim();
+            const email = document.getElementById("profEmail").value.trim();
+
+            if(name) localStorage.setItem("app_user_fullname", name);
+            if(company) localStorage.setItem("app_user_company", company);
+            if(mobile) localStorage.setItem("app_user_mobile", mobile);
+            if(email) localStorage.setItem("app_user_email", email);
+            if(tempProfileImgData) localStorage.setItem("app_user_profile_img", tempProfileImgData);
+
+            loadUserData(); // ড্যাশবোর্ড আপডেট হবে সাথে সাথে
+            closeProfileSettings();
+        }
+
+        /* ======= লাইসেন্স ও লকিং কন্ট্রোল ======= */
         function handleLockIconClick() {
             lockClickCount++;
             if (lockClickCount >= 10 && !isMasterMode) {
@@ -654,9 +728,17 @@
             alert("সফটওয়্যার স্থায়ীভাবে আনলক হয়েছে!");
         }
 
+        /* ======= সাইডবার কন্ট্রোল ======= */
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
-            sidebar.style.display = (sidebar.style.display === 'flex') ? 'none' : 'flex';
+            const sidebarContent = document.getElementById('sidebarContent');
+            if (sidebar.style.display === 'flex') {
+                sidebarContent.style.transform = 'translateX(-100%)';
+                setTimeout(() => { sidebar.style.display = 'none'; }, 250);
+            } else {
+                sidebar.style.display = 'flex';
+                setTimeout(() => { sidebarContent.style.transform = 'translateX(0)'; }, 10);
+            }
         }
     </script>
 </body>

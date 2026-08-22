@@ -30,10 +30,10 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 45vh; /* শুধু উপরের দিকে তারা পড়বে */
+            height: 45vh;
             z-index: 0;
             overflow: hidden;
-            pointer-events: none; /* ক্লিকের সমস্যা করবে না */
+            pointer-events: none;
         }
 
         .shooting-star {
@@ -67,22 +67,18 @@
             100% { opacity: 0; }
         }
 
-        /* 🖼️ স্প্ল্যাশ স্ক্রিন (অফলাইন লোকাল ছবির ব্যাকগ্রাউন্ড) */
+        /* 🖼️ স্প্ল্যাশ স্ক্রিন */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            
             background-color: #0b0f19;
-            
-            /* এখানে url('splash-bg.jpg') দেওয়া হয়েছে। আপনার ছবি গিটহাবে splash-bg.jpg নামে আপলোড করুন */
             background-image: linear-gradient(rgba(11, 15, 25, 0.65), rgba(11, 15, 25, 0.9)), url('splash-bg.jpg');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -141,7 +137,6 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* ⏳ স্প্ল্যাশ লোডিং বার (গোল্ডেন কালার) */
         .splash-loader-container {
             width: 180px;
             height: 4px;
@@ -169,7 +164,7 @@
         .dashboard-container {
             width: 100%;
             max-width: 450px;
-            position: relative; /* গ্যালাক্সির উপরে রাখার জন্য */
+            position: relative; 
             z-index: 1;
         }
 
@@ -180,12 +175,70 @@
             justify-content: space-between;
             margin-bottom: 20px;
             padding: 8px 0;
+            position: relative;
+        }
+
+        /* 🌀 হেডার টাইটেল র‍্যাপার ও স্পেশাল গ্যালাক্সি ইফেক্ট */
+        .header-title-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
         }
 
         .header-title {
             font-size: 18px;
             font-weight: bold;
             color: #ffffff;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 5px rgba(0,0,0,1); /* লেখার স্পষ্টতার জন্য শ্যাডো */
+        }
+
+        /* ঘুরতে থাকা গ্যালাক্সি */
+        .galaxy-spin {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(56, 189, 248, 0.4) 25%, transparent 50%, rgba(139, 92, 246, 0.4) 75%, transparent 100%);
+            filter: blur(10px);
+            z-index: 0;
+            pointer-events: none;
+            animation: spinGalaxy 6s linear infinite;
+        }
+
+        @keyframes spinGalaxy {
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* সুপারনোভা বিস্ফোরণ */
+        .supernova-burst {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+            z-index: 1;
+            pointer-events: none;
+            animation: explodeSupernova 12s infinite; /* ১২ সেকেন্ড পর পর বিস্ফোরণ */
+        }
+
+        @keyframes explodeSupernova {
+            0%, 75% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            78% { 
+                transform: translate(-50%, -50%) scale(1.5); 
+                opacity: 1; 
+                background: radial-gradient(circle, #ffffff 10%, #60a5fa 40%, transparent 70%);
+                box-shadow: 0 0 30px #ffffff, 0 0 60px #38bdf8, 0 0 100px #8b5cf6;
+            }
+            85%, 100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
         }
 
         .icon-btn {
@@ -196,6 +249,7 @@
             border-radius: 12px;
             cursor: pointer;
             font-size: 20px;
+            z-index: 2;
         }
 
         .header-logo-box {
@@ -206,6 +260,7 @@
             background: #1e293b;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            z-index: 2;
         }
 
         .header-logo-box img {
@@ -462,7 +517,6 @@
         </div>
         <div class="splash-title">Aluminium ERP BD</div>
         <div class="splash-sub">Glass & Section Manager</div>
-        <!-- ⏳ লোডিং বার (গোল্ডেন) -->
         <div class="splash-loader-container">
             <div class="splash-loader-bar"></div>
         </div>
@@ -514,10 +568,17 @@
 
     <!-- 🏠 মূল ড্যাশবোর্ড -->
     <div class="dashboard-container">
+        
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
-            <div class="header-title">Aluminium ERP BD</div>
-            <!-- পারমানেন্ট আপনার ছবি (কখনো চেঞ্জ হবে না) -->
+            
+            <!-- 🌀 নতুন: টাইটেলের পিছনে গ্যালাক্সি ও সুপারনোভা র‍্যাপার -->
+            <div class="header-title-wrapper">
+                <div class="galaxy-spin"></div>
+                <div class="supernova-burst"></div>
+                <div class="header-title">Aluminium ERP BD</div>
+            </div>
+            
             <div class="header-logo-box">
                 <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
             </div>
@@ -527,12 +588,10 @@
             <div class="user-name-container">
                 <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
             </div>
-            <!-- পারমানেন্ট অ্যাপের নাম (কখনো চেঞ্জ হবে পঞ্চাশ) -->
             <div class="user-sub">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
             
             <div class="avatar-container">
-                <!-- ইউজারের নিজস্ব কোম্পানি/প্রোফাইল ছবি (সেটিংস থেকে চেঞ্জ হবে) -->
                 <div id="avatarDisplay" class="avatar-img">👤</div>
             </div>
         </div>

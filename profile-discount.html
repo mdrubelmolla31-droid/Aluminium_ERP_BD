@@ -210,44 +210,47 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 12px;
+            padding: 15px;
         }
         .modal-content {
             background: #ffffff;
-            width: 100%;
-            max-width: 500px;
-            max-height: 85vh;
+            width: 98%;
+            max-width: 650px; /* পপআপ বড় করা হয়েছে */
+            max-height: 90vh;
             border-radius: 12px;
-            padding: 16px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
+        .menu-small { max-width: 450px; } /* মেনু পপআপের সাইজ */
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
         }
-        .modal-header h3 { color: #1e3a8a; font-size: 16px; font-weight: 900; margin: 0; }
-        .close-btn { background: none; border: none; font-size: 20px; font-weight: bold; color: #64748b; cursor: pointer; }
+        .modal-header h3 { color: #1e3a8a; font-size: 18px; font-weight: 900; margin: 0; }
+        .close-btn { background: none; border: none; font-size: 24px; font-weight: bold; color: #64748b; cursor: pointer; }
         .modal-body { overflow-y: auto; display: flex; flex-direction: column; gap: 10px; flex: 1; padding-right: 5px; }
         
         /* Menu Specific */
-        .menu-btn { background: #f1f5f9; color: #1e3a8a; border: 1px solid #cbd5e1; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 900; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 10px; }
+        .menu-btn { background: #f1f5f9; color: #1e3a8a; border: 1px solid #cbd5e1; padding: 16px; border-radius: 8px; font-size: 17px; font-weight: 900; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 12px; }
         .menu-btn:hover { background: #e2e8f0; }
 
         /* History Specific */
-        .history-card { background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-size: 13px; }
-        .btn-danger { background: #dc2626; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: 800; cursor: pointer; margin-top: 10px; width: 100%; }
+        .history-card { background: #f8fafc; border: 1px solid var(--border); padding: 14px; border-radius: 8px; font-size: 14px; }
+        .btn-danger { background: #dc2626; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 900; font-size:15px; cursor: pointer; margin-top: 15px; width: 100%; }
 
         /* Rate Settings Specific */
-        .rate-setting-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding: 8px 0; }
-        .rate-setting-item span { font-size: 13px; font-weight: 700; color: #334155; flex: 1; }
-        .rate-setting-item input { width: 100px; padding: 8px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-weight: 800; text-align: center; }
-        .btn-save-rates { background: #059669; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 900; width: 100%; margin-top: 12px; }
+        .rate-section-header { background: #1e3a8a; color: white; padding: 10px 15px; font-size: 15px; font-weight: 900; margin-top: 15px; border-radius: 6px; }
+        .rate-setting-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding: 10px 5px; }
+        .rate-setting-item span { font-size: 14px; font-weight: 800; color: #334155; flex: 1; }
+        .rate-setting-item input { width: 120px; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-weight: 900; font-size: 15px; text-align: center; }
+        .btn-save-rates { background: #059669; color: white; border: none; padding: 15px; border-radius: 8px; font-size:16px; cursor: pointer; font-weight: 900; width: 100%; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -304,9 +307,12 @@
     <div class="card">
         <div class="section-title">
             <span>সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</span>
-            <select id="profileSizeSelect" class="size-select" onchange="toggleNetHandle()">
-                <option value="3">৩ ইঞ্চি (3")</option>
+            <!-- সাইজ ড্রপডাউন -->
+            <select id="profileSizeSelect" class="size-select" onchange="toggleCategorySections()">
                 <option value="4">৪ ইঞ্চি (4")</option>
+                <option value="3">৩ ইঞ্চি (3")</option>
+                <option value="single">সিঙ্গেল শাটার (Single)</option>
+                <option value="fixed">ফিক্সড (Fixed)</option>
             </select>
         </div>
         <div class="table-responsive">
@@ -320,36 +326,36 @@
                 <tbody>
                     <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
                     <tr>
-                        <td><select class="dyn-select" id="sel_outer_top" data-default="Outer Top (2121B)" onchange="loadRate(this.id, 'rate_outer_top')"></select></td>
+                        <td><select class="dyn-select" id="sel_outer_top" data-default="4&quot; Sliding Outer Top" onchange="loadRate(this.id, 'rate_outer_top')"></select></td>
                         <td><input type="number" id="rate_outer_top" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
-                        <td><select class="dyn-select" id="sel_outer_bottom" data-default="Outer Bottom (2122B)" onchange="loadRate(this.id, 'rate_outer_bottom')"></select></td>
+                        <td><select class="dyn-select" id="sel_outer_bottom" data-default="4&quot; Sliding Outer Bottom" onchange="loadRate(this.id, 'rate_outer_bottom')"></select></td>
                         <td><input type="number" id="rate_outer_bottom" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
-                        <td><select class="dyn-select" id="sel_shutter_top" data-default="Shutter Top (2126B)" onchange="loadRate(this.id, 'rate_shutter_top')"></select></td>
+                        <td><select class="dyn-select" id="sel_shutter_top" data-default="4&quot; Sliding Shutter Top" onchange="loadRate(this.id, 'rate_shutter_top')"></select></td>
                         <td><input type="number" id="rate_shutter_top" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
-                        <td><select class="dyn-select" id="sel_shutter_bottom" data-default="Shutter Bottom (2126B)" onchange="loadRate(this.id, 'rate_shutter_bottom')"></select></td>
+                        <td><select class="dyn-select" id="sel_shutter_bottom" data-default="4&quot; Sliding Shutter Bottom" onchange="loadRate(this.id, 'rate_shutter_bottom')"></select></td>
                         <td><input type="number" id="rate_shutter_bottom" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
-                        <td><select class="dyn-select" id="sel_outer_side" data-default="Outer Side (2123B)" onchange="loadRate(this.id, 'rate_outer_side')"></select></td>
+                        <td><select class="dyn-select" id="sel_outer_side" data-default="4&quot; Sliding Outer Side" onchange="loadRate(this.id, 'rate_outer_side')"></select></td>
                         <td><input type="number" id="rate_outer_side" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
-                        <td><select class="dyn-select" id="sel_lock_style" data-default="Lock Style (2124B)" onchange="loadRate(this.id, 'rate_lock_style')"></select></td>
+                        <td><select class="dyn-select" id="sel_lock_style" data-default="4&quot; Sliding Shutter Lock" onchange="loadRate(this.id, 'rate_lock_style')"></select></td>
                         <td><input type="number" id="rate_lock_style" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
-                        <td><select class="dyn-select" id="sel_interlock" data-default="Interlock (2125B)" onchange="loadRate(this.id, 'rate_interlock')"></select></td>
+                        <td><select class="dyn-select" id="sel_interlock" data-default="4&quot; Sliding Shutter Interlock" onchange="loadRate(this.id, 'rate_interlock')"></select></td>
                         <td><input type="number" id="rate_interlock" placeholder="রেট" step="0.01"></td>
                     </tr>
 
-                    <tr class="category-header"><td colspan="2">নেট সেকশন (Net Section)</td></tr>
-                    <tr>
+                    <!-- নেট সেকশন (শুধুমাত্র ৪ ইঞ্চিতে শো করবে) -->
+                    <tr id="row_net_section" style="display:none;">
                         <td><select class="dyn-select" id="sel_net_section" data-default="Net Section" onchange="loadRate(this.id, 'rate_net_section')"></select></td>
                         <td><input type="number" id="rate_net_section" placeholder="রেট" step="0.01"></td>
                     </tr>
@@ -399,9 +405,9 @@
     </div>
 </div>
 
-<!-- মেইন মেনু মোডাল -->
+<!-- মেইন মেনু মোডাল (বড় করা হয়েছে) -->
 <div class="modal-overlay" id="mainMenuModal">
-    <div class="modal-content" style="max-width: 320px;">
+    <div class="modal-content menu-small">
         <div class="modal-header">
             <h3>মেনু</h3>
             <button class="close-btn" onclick="closeModal('mainMenuModal')">✕</button>
@@ -413,7 +419,7 @@
     </div>
 </div>
 
-<!-- রেট সেটিংস মোডাল -->
+<!-- রেট সেটিংস মোডাল (বড় ও ক্যাটাগরি করা হয়েছে) -->
 <div class="modal-overlay" id="rateSettingsModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -421,13 +427,13 @@
             <button class="close-btn" onclick="closeModal('rateSettingsModal')">✕</button>
         </div>
         <div class="modal-body" id="rateSettingsList">
-            <!-- JS দিয়ে প্রোফাইল রেট ইনপুট তৈরি হবে -->
+            <!-- JS দিয়ে ক্যাটাগরি অনুযায়ী রেট ইনপুট তৈরি হবে -->
         </div>
         <button class="btn-save-rates" onclick="saveAllSettingsRates()">সব রেট সেভ করুন</button>
     </div>
 </div>
 
-<!-- হিস্ট্রি মোডাল -->
+<!-- হিস্ট্রি মোডাল (বড় করা হয়েছে) -->
 <div class="modal-overlay" id="historyModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -444,22 +450,50 @@
 <script>
 let windowCount = 0;
 
-// সকল প্রোফাইলের নাম
+// রেট সেটিংসের জন্য ক্যাটাগরি করা প্রোফাইল লিস্ট
+const categorizedProfiles = {
+    "৪ ইঞ্চি (4\") সেকশন": [
+        "4\" Sliding Outer Top", "4\" Sliding Outer Bottom", "4\" Sliding Outer Side",
+        "4\" Sliding Shutter Top", "4\" Sliding Shutter Bottom", "4\" Sliding Shutter Lock", "4\" Sliding Shutter Interlock",
+        "4\" Fixed Top and Side", "4\" Fixed Bottom", "Net Section", "Net Handle"
+    ],
+    "৩ ইঞ্চি (3\") সেকশন": [
+        "3\" Sliding Outer Top", "3\" Sliding Outer Bottom", "3\" Sliding Outer Side",
+        "3\" Sliding Shutter Top", "3\" Sliding Shutter Bottom", "3\" Sliding Shutter Lock", "3\" Sliding Shutter Interlock",
+        "3\" Fixed Top and Side", "3\" Fixed Bottom"
+    ],
+    "সিঙ্গেল শাটার (Single Shutter)": [
+        "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side"
+    ],
+    "অন্যান্য (Others)": [
+        "Sliding Fixed Side", "Sliding Shutter Divider", "Net Divider",
+        "Fixed Bottom Cover", "Group Cover", "Plane Cover", "Wall Frame"
+    ]
+};
+
+// ড্রপডাউনের জন্য সকল প্রোফাইলের নাম (স্লাইডিংয়ের মাল সবসময় টপে)
 const allProfileNames = [
-    "Outer Top (2121B)", "Outer Bottom (2122B)", "Shutter Top (2126B)", "Shutter Bottom (2126B)", 
-    "Outer Side (2123B)", "Lock Style (2124B)", "Interlock (2125B)", "Net Section", "Net Handle",
-    "3\" Sliding Outer Top", "3\" Sliding Outer Low Bottom", "3\" Sliding Outer High Bottom", "3\" Sliding Outer Side",
-    "3\" Sliding Single Outer Bottom", "3\" Sliding Single Outer Top", "3\" Sliding Single Outer Side",
-    "4\" Sliding Outer Top", "4\" Sliding Outer Low Bottom", "4\" Sliding Outer High Bottom", "4\" Sliding Outer Side",
-    "Sliding Shutter Top", "Sliding Shutter Bottom", "Sliding Shutter Lock", "Sliding Shutter Inter Lock", 
-    "Sliding Shutter Divider", "Sliding Fixed Side", "Net Divider",
-    "Fixed Top and Side", "Fixed Bottom", "Fixed Bottom Cover", "Group Cover", "Plane Cover", "Wall Frame"
+    // 4" Sliding
+    "4\" Sliding Outer Top", "4\" Sliding Outer Bottom", "4\" Sliding Outer Side",
+    "4\" Sliding Shutter Top", "4\" Sliding Shutter Bottom", "4\" Sliding Shutter Lock", "4\" Sliding Shutter Interlock",
+    // 3" Sliding
+    "3\" Sliding Outer Top", "3\" Sliding Outer Bottom", "3\" Sliding Outer Side",
+    "3\" Sliding Shutter Top", "3\" Sliding Shutter Bottom", "3\" Sliding Shutter Lock", "3\" Sliding Shutter Interlock",
+    // Single Shutter (Also Sliding)
+    "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side",
+    // Other Sliding
+    "Sliding Fixed Side", "Sliding Shutter Divider",
+    // Fixed & Others
+    "4\" Fixed Top and Side", "4\" Fixed Bottom",
+    "3\" Fixed Top and Side", "3\" Fixed Bottom",
+    "Fixed Bottom Cover", "Group Cover", "Plane Cover", "Wall Frame",
+    "Net Section", "Net Handle", "Net Divider"
 ];
 
 document.addEventListener("DOMContentLoaded", function() {
     populateSelects();
     initRates();
-    toggleNetHandle();
+    toggleCategorySections();
     setCurrentDate();
     loadShopDetails();
     addWindow();
@@ -469,28 +503,35 @@ document.addEventListener("DOMContentLoaded", function() {
 function openMenuModal() { document.getElementById('mainMenuModal').style.display = 'flex'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-// রেট সেটিংস ওপেন ও ডাটা জেনারেট
+// রেট সেটিংস ওপেন ও ক্যাটাগরি অনুযায়ী ডাটা জেনারেট
 function openRateSettingsModal() {
     closeModal('mainMenuModal');
     const container = document.getElementById('rateSettingsList');
     container.innerHTML = '';
     
-    allProfileNames.forEach((profile, index) => {
-        let savedRate = localStorage.getItem('erp_setting_rate_' + profile) || '';
-        container.innerHTML += `
-            <div class="rate-setting-item">
-                <span>${profile}</span>
-                <input type="number" id="setting_input_${index}" value="${savedRate}" placeholder="রেট">
-            </div>
-        `;
-    });
+    for (const [category, profiles] of Object.entries(categorizedProfiles)) {
+        let sectionHTML = `<div class="rate-section-header">${category}</div>`;
+        profiles.forEach((profile) => {
+            let savedRate = localStorage.getItem('erp_setting_rate_' + profile) || '';
+            let safeId = 'setting_input_' + profile.replace(/[^a-zA-Z0-9]/g, '_');
+            sectionHTML += `
+                <div class="rate-setting-item">
+                    <span>${profile}</span>
+                    <input type="number" id="${safeId}" value="${savedRate}" placeholder="রেট" data-profile="${profile}">
+                </div>
+            `;
+        });
+        container.innerHTML += sectionHTML;
+    }
     document.getElementById('rateSettingsModal').style.display = 'flex';
 }
 
 // রেট সেটিংস সেভ করা
 function saveAllSettingsRates() {
-    allProfileNames.forEach((profile, index) => {
-        let val = document.getElementById(`setting_input_${index}`).value;
+    const inputs = document.querySelectorAll('#rateSettingsList input');
+    inputs.forEach(input => {
+        let val = input.value;
+        let profile = input.getAttribute('data-profile');
         if(val) {
             localStorage.setItem('erp_setting_rate_' + profile, val);
         } else {
@@ -502,7 +543,7 @@ function saveAllSettingsRates() {
     initRates(); // মেইন পেজের রেট রিফ্রেশ করা
 }
 
-// ড্রপডাউনে নামগুলো যুক্ত করা
+// ড্রপডাউনে নামগুলো যুক্ত করা (স্লাইডিং টপে)
 function populateSelects() {
     const selects = document.querySelectorAll('.dyn-select');
     selects.forEach(select => {
@@ -539,12 +580,23 @@ function initRates() {
     });
 }
 
-// অন্যান্য সাধারণ ফাংশনগুলো
-function toggleNetHandle() {
-    const size = document.getElementById('profileSizeSelect').value;
-    document.getElementById('row_net_handle').style.display = (size === '4') ? 'table-row' : 'none';
+// সাইজ সিলেক্ট অনুযায়ী নেট সেকশন হাইড/শো করা
+function toggleCategorySections() {
+    const type = document.getElementById('profileSizeSelect').value;
+    const netRow1 = document.getElementById('row_net_section');
+    const netRow2 = document.getElementById('row_net_handle');
+    
+    // শুধুমাত্র ৪ ইঞ্চি সিলেক্ট করলে নেটের অপশন আসবে
+    if (type === '4') {
+        netRow1.style.display = 'table-row';
+        netRow2.style.display = 'table-row';
+    } else {
+        netRow1.style.display = 'none';
+        netRow2.style.display = 'none';
+    }
 }
 
+// অন্যান্য সাধারণ ফাংশনগুলো
 function setCurrentDate() {
     const today = new Date();
     document.getElementById("currentDate").innerText = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
@@ -590,11 +642,14 @@ function calculateTotal() {
         { key: 'shutter_bottom', name: document.getElementById('sel_shutter_bottom').value, inputId: 'rate_shutter_bottom', ftCalc: (l, h, q) => l * q },
         { key: 'outer_side', name: document.getElementById('sel_outer_side').value, inputId: 'rate_outer_side', ftCalc: (l, h, q) => h * 2 * q },
         { key: 'lock_style', name: document.getElementById('sel_lock_style').value, inputId: 'rate_lock_style', ftCalc: (l, h, q) => h * 2 * q },
-        { key: 'interlock', name: document.getElementById('sel_interlock').value, inputId: 'rate_interlock', ftCalc: (l, h, q) => h * 2 * q },
-        { key: 'net_section', name: document.getElementById('sel_net_section').value, inputId: 'rate_net_section', ftCalc: (l, h, q) => ((l * 2) + (h * 2)) * q }
+        { key: 'interlock', name: document.getElementById('sel_interlock').value, inputId: 'rate_interlock', ftCalc: (l, h, q) => h * 2 * q }
     ];
 
-    if(is4Inch) { sectionConfig.push({ key: 'net_handle', name: document.getElementById('sel_net_handle').value, inputId: 'rate_net_handle', ftCalc: (l, h, q) => h * 2 * q }); }
+    // যদি ৪ ইঞ্চি হয় তবেই নেটের হিসাব এড হবে
+    if(is4Inch) { 
+        sectionConfig.push({ key: 'net_section', name: document.getElementById('sel_net_section').value, inputId: 'rate_net_section', ftCalc: (l, h, q) => ((l * 2) + (h * 2)) * q });
+        sectionConfig.push({ key: 'net_handle', name: document.getElementById('sel_net_handle').value, inputId: 'rate_net_handle', ftCalc: (l, h, q) => h * 2 * q }); 
+    }
 
     let sectionTotals = {};
     sectionConfig.forEach(s => sectionTotals[s.key] = 0);

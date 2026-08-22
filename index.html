@@ -30,11 +30,15 @@
             left: 0;
             width: 100%;
             height: 100%;
+            
             background-color: #0b0f19;
+            
+            /* এখানে url('splash-bg.jpg') দেওয়া হয়েছে। আপনার ছবি গিটহাবে splash-bg.jpg নামে আপলোড করুন */
             background-image: linear-gradient(rgba(11, 15, 25, 0.65), rgba(11, 15, 25, 0.9)), url('splash-bg.jpg');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -130,7 +134,12 @@
             justify-content: space-between;
             margin-bottom: 20px;
             padding: 8px 0;
-            gap: 10px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
         }
 
         .icon-btn {
@@ -141,26 +150,6 @@
             border-radius: 12px;
             cursor: pointer;
             font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        /* 🌟 আপনার চাওয়া রাউন্ড ও ঝলমলে ব্লু বক্স হেডার টাইটেল */
-        .header-title-box {
-            flex-grow: 1;
-            background: linear-gradient(135deg, #1d4ed8, #2563eb);
-            border: 1px solid #60a5fa;
-            padding: 10px 14px;
-            border-radius: 14px;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(37, 99, 235, 0.6), inset 0 0 10px rgba(96, 165, 250, 0.4);
-        }
-
-        .header-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         .header-logo-box {
@@ -171,7 +160,6 @@
             background: #1e293b;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-            flex-shrink: 0;
         }
 
         .header-logo-box img {
@@ -419,6 +407,7 @@
         </div>
         <div class="splash-title">Aluminium ERP BD</div>
         <div class="splash-sub">Glass & Section Manager</div>
+        <!-- ⏳ লোডিং বার (গোল্ডেন) -->
         <div class="splash-loader-container">
             <div class="splash-loader-bar"></div>
         </div>
@@ -472,12 +461,8 @@
     <div class="dashboard-container">
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
-            
-            <!-- ✨ আপনার চাওয়া রাউন্ড ও ঝলমলে ব্লু বক্স হেডার -->
-            <div class="header-title-box">
-                <div class="header-title">Aluminium ERP BD</div>
-            </div>
-
+            <div class="header-title">Aluminium ERP BD</div>
+            <!-- পারমানেন্ট আপনার ছবি (কখনো চেঞ্জ হবে না) -->
             <div class="header-logo-box">
                 <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
             </div>
@@ -487,10 +472,12 @@
             <div class="user-name-container">
                 <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
             </div>
+            <!-- পারমানেন্ট অ্যাপের নাম (কখনো চেঞ্জ হবে না) -->
             <div class="user-sub">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
             
             <div class="avatar-container">
+                <!-- ইউজারের নিজস্ব কোম্পানি/প্রোফাইল ছবি (সেটিংস থেকে চেঞ্জ হবে) -->
                 <div id="avatarDisplay" class="avatar-img">👤</div>
             </div>
         </div>
@@ -573,6 +560,8 @@
             </div>
             
             <a href="#" class="sidebar-menu-item" onclick="openProfileSettings(); return false;">👤 My Profile Settings</a>
+            
+            <!-- ফিডব্যাক ও সাপোর্ট -->
             <a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="sidebar-menu-item support-btn">🎧 Feedback & Support</a>
         </div>
     </div>
@@ -607,6 +596,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
+            // ⏳ স্প্ল্যাশ স্ক্রিন ১.৫ সেকেন্ড পর চলে যাবে
             setTimeout(function() {
                 const splash = document.getElementById("splash-screen");
                 if (splash) {

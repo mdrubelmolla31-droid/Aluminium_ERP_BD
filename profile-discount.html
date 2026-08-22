@@ -215,7 +215,7 @@
         .modal-content {
             background: #ffffff;
             width: 95%;
-            max-width: 750px; /* পপআপ পর্যাপ্ত বড় করা হয়েছে */
+            max-width: 750px;
             max-height: 92vh;
             border-radius: 12px;
             padding: 20px;
@@ -421,8 +421,8 @@ const categorizedProfiles = {
     ],
     "সিঙ্গেল শাটার (Single Shutter)": [
         "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side",
-         "Single Shutter Top", "Single Shutter Bottom", "Single Shutter Lock", "Single Shutter Interlock"
-      ], 
+        "Single Shutter Top", "Single Shutter Bottom", "Single Shutter Lock", "Single Shutter Interlock"
+    ], 
     
     "ফিক্সড আইটেম (Fixed)": [
         "Fixed Top and Side", "Fixed Bottom", "Fixed Glass Beading"
@@ -444,10 +444,12 @@ const allProfileNames = [
     "Net Section", "Net Handle",
     "4\" Fixed Top and Side", "4\" Fixed Bottom", "Fixed Bottom Cover", "Group Cover", "Plane Cover",
     // Single Shutter
-    "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side","Single Shutter Top", 
-     "Single Shutter Bottom","Single Shutter Lock", "Single Shutter"
-    "Sliding Fixed Side", "Sliding Shutter Divider", "Net Divider", "Wall Frame", "Door Section",
+    "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side", "Single Shutter Top", 
+    "Single Shutter Bottom", "Single Shutter Lock", "Single Shutter Interlock", // এখানে Interlock যোগ করা হয়েছে এবং কমা দেওয়া হয়েছে
+    // Others
+    "Sliding Fixed Side", "Sliding Shutter Divider", "Net Divider", "Wall Frame", "Door Section"
 ];
+
 document.addEventListener("DOMContentLoaded", function() {
     onSizeCategoryChange();
     setCurrentDate();
@@ -535,7 +537,7 @@ function onSizeCategoryChange() {
         itemsToDisplay = [
             { id: 'outer_top', def: 'Single Shutter Outer Top' },
             { id: 'outer_bottom', def: 'Single Shutter Outer Bottom' },
-            { id: 'outer_side', def: 'Single Shutter Outer Side' }
+            { id: 'outer_side', def: 'Single Shutter Outer Side' }, // এখানে কমা মিসিং ছিল
             { id: 'shutter_top', def: 'Single Shutter Top' },
             { id: 'shutter_bottom', def: 'Single Shutter Bottom' },
             { id: 'lock_style', def: 'Single Shutter Lock' },

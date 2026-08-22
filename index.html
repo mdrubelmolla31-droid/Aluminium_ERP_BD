@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0f19">
     <title>Aluminium ERP BD v2</title>
     <style>
         * {
@@ -10,6 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent; /* মোবাইলে ক্লিক করলে সাদা হয়ে থাকার সমস্যা সমাধান */
         }
 
         body {
@@ -21,70 +23,63 @@
             min-height: 100vh;
         }
 
-        /* 🖼️ স্প্ল্যাশ স্ক্রিন */
+        /* 🖼️ স্প্ল্যাশ স্ক্রিন (আপনার ডিজাইন অনুযায়ী) */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0b0f19 0%, #111827 100%);
+            /* ব্যাকগ্রাউন্ডে আপনার অ্যালুমিনিয়াম ছবি এবং একটি ডার্ক লেয়ার */
+            background: linear-gradient(rgba(11, 15, 25, 0.88), rgba(11, 15, 25, 0.95)), url('1000061990.webp') no-repeat center center;
+            background-size: cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 99999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
         .splash-profile-box {
-            width: 110px;
-            height: 110px;
-            background: rgba(30, 41, 59, 0.6);
+            width: 90px;
+            height: 90px;
+            background: transparent;
             border: 2px solid #3b82f6;
-            border-radius: 20px;
+            border-radius: 22px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
             margin-bottom: 20px;
-            animation: pulseProfile 2s infinite alternate;
         }
 
         .alu-window-icon {
-            width: 60px;
-            height: 60px;
-            border: 3px solid #60a5fa;
+            width: 44px;
+            height: 44px;
+            border: 2px solid #60a5fa;
             border-radius: 6px;
             position: relative;
-            box-shadow: inset 0 0 10px rgba(96, 165, 250, 0.4);
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
         }
 
         .alu-window-icon::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 50%;
-            width: 3px;
-            background: #60a5fa;
-            transform: translateX(-50%);
+            content: ''; position: absolute;
+            top: 0; bottom: 0; left: 50%; width: 2px;
+            background: #60a5fa; transform: translateX(-50%);
         }
 
         .alu-window-icon::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 0; right: 0;
-            height: 3px;
-            background: #60a5fa;
-            transform: translateY(-50%);
+            content: ''; position: absolute;
+            top: 50%; left: 0; right: 0; height: 2px;
+            background: #60a5fa; transform: translateY(-50%);
         }
 
         .splash-title {
             color: #ffffff;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             margin-bottom: 6px;
         }
 
@@ -94,11 +89,31 @@
             font-weight: 600;
         }
 
-        @keyframes pulseProfile {
-            0% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); transform: scale(0.98); }
-            100% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); transform: scale(1.02); }
+        /* ⏳ স্প্ল্যাশ লোডিং বার */
+        .splash-loader-container {
+            width: 180px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            margin-top: 30px;
+            overflow: hidden;
         }
 
+        .splash-loader-bar {
+            width: 0%;
+            height: 100%;
+            background: #3b82f6;
+            box-shadow: 0 0 10px #3b82f6;
+            animation: loadBar 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes loadBar {
+            0% { width: 0%; }
+            60% { width: 80%; }
+            100% { width: 100%; }
+        }
+
+        /* Dashboard Container */
         .dashboard-container {
             width: 100%;
             max-width: 450px;
@@ -222,7 +237,7 @@
             text-align: center;
             text-decoration: none;
             color: #ffffff;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.1s, border-color 0.1s; /* ফাস্ট রেসপন্সের জন্য ট্রানজিশন কমানো হয়েছে */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -230,7 +245,7 @@
         }
 
         .menu-card:active {
-            transform: scale(0.96);
+            transform: scale(0.97);
             border-color: #3b82f6;
         }
 
@@ -377,13 +392,17 @@
 </head>
 <body>
 
-    <!-- 🌟 স্প্ল্যাশ স্ক্রিন -->
+    <!-- 🌟 স্প্ল্যাশ স্ক্রিন (নতুন ডিজাইন) -->
     <div id="splash-screen">
         <div class="splash-profile-box">
             <div class="alu-window-icon"></div>
         </div>
         <div class="splash-title">Aluminium ERP BD</div>
         <div class="splash-sub">Glass & Section Manager</div>
+        <!-- ⏳ লোডিং বার -->
+        <div class="splash-loader-container">
+            <div class="splash-loader-bar"></div>
+        </div>
     </div>
 
     <!-- 🔒 লকিং স্ক্রিন -->
@@ -458,7 +477,6 @@
 
         <!-- 🔗 মেনু লিংকসমূহ -->
         <div class="grid-menu">
-            <!-- 🏗️ কার্টেন ওয়াল -->
             <a href="curtain-wall.html" class="menu-card">
                 <div class="menu-icon">
                     <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -479,55 +497,46 @@
                 <div class="menu-title">Curtain Wall</div>
             </a>
 
-            <!-- 🏢 কোম্পানি প্রোফাইল ডিসকাউন্ট -->
             <a href="profile-discount.html" class="menu-card">
                 <div class="menu-icon">🏢</div>
                 <div class="menu-title">Company Profile Discount</div>
             </a>
 
-            <!-- 🧮 মেটেরিয়াল ক্যালকুলেটর -->
             <a href="calculator.html" class="menu-card">
                 <div class="menu-icon">🧮</div>
                 <div class="menu-title">Material Calculator</div>
             </a>
             
-            <!-- 🛖 সিলিং ক্যালকুলেটর -->
             <a href="ceiling-calculator.html" class="menu-card">
                 <div class="menu-icon">🛖</div>
                 <div class="menu-title">Ceiling Calculator</div>
             </a>
 
-            <!-- 🪟 ফিক্সড ক্যালকুলেটর -->
             <a href="fixed-calculator.html" class="menu-card">
                 <div class="menu-icon">🪟</div>
                 <div class="menu-title">Fixed Calculator</div>
             </a>
 
-            <!-- 👥 কাস্টমার -->
             <a href="customer.html" class="menu-card">
                 <div class="menu-icon">👥</div>
                 <div class="menu-title">Customer</div>
             </a>
 
-            <!-- 📄 কোটেশন -->
             <a href="quotation.html" class="menu-card">
                 <div class="menu-icon">📄</div>
                 <div class="menu-title">Quotation</div>
             </a>
 
-            <!-- ⚙️ রেট সেটিং -->
             <a href="rate-settings.html" class="menu-card">
                 <div class="menu-icon">⚙️</div>
                 <div class="menu-title">Rate Settings</div>
             </a>
 
-            <!-- 🪟 গ্লাস -->
             <a href="glass.html" class="menu-card">
                 <div class="menu-icon">🪟</div>
                 <div class="menu-title">Glass</div>
             </a>
 
-            <!-- 🧾 বিল ও ইনভয়েস -->
             <a href="invoice.html" class="menu-card">
                 <div class="menu-icon">🧾</div>
                 <div class="menu-title">Bill & Invoice</div>
@@ -535,19 +544,17 @@
         </div>
     </div>
                 
-    <!-- সাইডবার (Clean & Updated) -->
+    <!-- সাইডবার (অ্যাডমিন প্যানেল মুছে দেওয়া হয়েছে) -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content" id="sidebarContent">
             <div class="sidebar-header">
                 <h3 style="color: #fff;">Menu</h3>
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding: 2px 8px;">✕</button>
             </div>
-            <!-- প্রোফাইল সেটিংস মোডাল ওপেন হবে -->
+            
             <a href="#" class="sidebar-menu-item" onclick="openProfileSettings(); return false;">👤 My Profile Settings</a>
             
-            <a href="admin.html" class="sidebar-menu-item">⚙️ Admin Panel</a>
-            
-            <!-- ফিডব্যাক ও সাপোর্ট (অটো হোয়াটসঅ্যাপ মেসেজ) -->
+            <!-- ফিডব্যাক ও সাপোর্ট -->
             <a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="sidebar-menu-item support-btn">🎧 Feedback & Support</a>
         </div>
     </div>
@@ -562,7 +569,6 @@
         const MASTER_KEY = "mdrubelmolla1989";
         const ADMIN_PHONE = "8801676474412"; 
 
-        // হোয়াটসঅ্যাপ সাপোর্ট ফাংশন
         function openWhatsAppSupport() {
             const supportMessage = encodeURIComponent("হ্যালো ভাই, অ্যালুমিনিয়াম ইআরপি অ্যাপ নিয়ে আমার একটু সাপোর্ট দরকার...");
             window.open("https://wa.me/" + ADMIN_PHONE + "?text=" + supportMessage, "_blank");
@@ -583,17 +589,17 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
+            // ⏳ স্প্ল্যাশ স্ক্রিন ১.৫ সেকেন্ড পর চলে যাবে
             setTimeout(function() {
                 const splash = document.getElementById("splash-screen");
                 if (splash) {
                     splash.style.opacity = "0";
-                    splash.style.visibility = "hidden";
+                    setTimeout(() => { splash.style.display = "none"; }, 400); // UI থেকে পুরোপুরি সরিয়ে ফেলা হলো
                 }
-            }, 1200);
+            }, 1500); 
 
             loadUserData();
 
-            // 7 Days Trial & Lock Logic
             if (localStorage.getItem("app_permanently_unlocked") === "true") {
                 document.getElementById("lockScreen").style.display = "none";
             } else {
@@ -623,19 +629,16 @@
             }
         });
 
-        // প্রোফাইল ডেটা লোড করার ফাংশন 
         function loadUserData() {
             const savedName = localStorage.getItem("app_user_fullname");
             const savedPic = localStorage.getItem("app_user_profile_img");
 
-            // শুধু ইউজারের নাম পাল্টাবে
             if (savedName) {
                 document.getElementById("userNameDisplay").innerText = "Welcome, " + savedName;
             } else {
                 document.getElementById("userNameDisplay").innerText = "Welcome, User";
             }
 
-            // শুধু ইউজারের নিজের আপলোড করা ছবিটা (ডানপাশের ছোট গোলটা) পাল্টাবে
             if (savedPic) {
                 const imgTag = `<img src="${savedPic}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
                 document.getElementById("avatarDisplay").innerHTML = imgTag;
@@ -643,7 +646,6 @@
             }
         }
 
-        /* ======= প্রোফাইল সেটিংস মোডাল কন্ট্রোল ======= */
         function openProfileSettings() {
             toggleSidebar(); 
             
@@ -690,7 +692,6 @@
             closeProfileSettings();
         }
 
-        /* ======= লাইসেন্স ও লকিং কন্ট্রোল ======= */
         function handleLockIconClick() {
             lockClickCount++;
             if (lockClickCount >= 10 && !isMasterMode) {
@@ -729,7 +730,6 @@
             alert("সফটওয়্যার স্থায়ীভাবে আনলক হয়েছে!");
         }
 
-        /* ======= সাইডবার কন্ট্রোল ======= */
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const sidebarContent = document.getElementById('sidebarContent');

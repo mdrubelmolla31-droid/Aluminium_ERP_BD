@@ -137,10 +137,12 @@
             background: #1e293b;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
+        }
+
+        .header-logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* User Card */
@@ -433,17 +435,23 @@
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
-            <div class="header-logo-box" id="headerLogoDisplay">👤</div>
+            <!-- পারমানেন্ট আপনার ছবি (কখনো চেঞ্জ হবে না) -->
+            <div class="header-logo-box">
+                <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
+            </div>
         </div>
 
         <div class="user-card">
             <div class="user-name-container">
+                <!-- ইউজারের নাম (সেটিংস থেকে চেঞ্জ হবে) -->
                 <div class="user-title" id="userNameDisplay">Welcome, User</div>
             </div>
-            <div class="user-sub" id="userCompanyDisplay">Aluminium ERP BD v2</div>
+            <!-- পারমানেন্ট অ্যাপের নাম (কখনো চেঞ্জ হবে না) -->
+            <div class="user-sub">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
             
             <div class="avatar-container">
+                <!-- ইউজারের নিজস্ব কোম্পানি/প্রোফাইল ছবি (সেটিংস থেকে চেঞ্জ হবে) -->
                 <div id="avatarDisplay" class="avatar-img">👤</div>
             </div>
         </div>
@@ -549,10 +557,10 @@
         let isMasterMode = false;
         let generatedDeviceId = "";
         let expectedProductKey = "";
-        let tempProfileImgData = ""; // ছবি সেভ করার আগে এখানে জমা থাকবে
+        let tempProfileImgData = ""; 
 
         const MASTER_KEY = "mdrubelmolla1989";
-        const ADMIN_PHONE = "8801676474412"; // আপনার নাম্বার
+        const ADMIN_PHONE = "8801676474412"; 
 
         // হোয়াটসঅ্যাপ সাপোর্ট ফাংশন
         function openWhatsAppSupport() {
@@ -615,37 +623,30 @@
             }
         });
 
-        // প্রোফাইল ডেটা লোড করার ফাংশন (ড্যাশবোর্ডের জন্য)
+        // প্রোফাইল ডেটা লোড করার ফাংশন 
         function loadUserData() {
             const savedName = localStorage.getItem("app_user_fullname");
-            const savedCompany = localStorage.getItem("app_user_company");
             const savedPic = localStorage.getItem("app_user_profile_img");
 
+            // শুধু ইউজারের নাম পাল্টাবে
             if (savedName) {
                 document.getElementById("userNameDisplay").innerText = "Welcome, " + savedName;
             } else {
                 document.getElementById("userNameDisplay").innerText = "Welcome, User";
             }
 
-            if (savedCompany) {
-                document.getElementById("userCompanyDisplay").innerText = savedCompany;
-            } else {
-                document.getElementById("userCompanyDisplay").innerText = "Aluminium ERP BD v2";
-            }
-
+            // শুধু ইউজারের নিজের আপলোড করা ছবিটা (ডানপাশের ছোট গোলটা) পাল্টাবে
             if (savedPic) {
                 const imgTag = `<img src="${savedPic}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
                 document.getElementById("avatarDisplay").innerHTML = imgTag;
-                document.getElementById("headerLogoDisplay").innerHTML = imgTag;
                 tempProfileImgData = savedPic;
             }
         }
 
         /* ======= প্রোফাইল সেটিংস মোডাল কন্ট্রোল ======= */
         function openProfileSettings() {
-            toggleSidebar(); // সাইডবার বন্ধ করবে
+            toggleSidebar(); 
             
-            // ইনপুট ফিল্ডে আগের সেভ করা ডেটা বসাবে
             document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
             document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
             document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
@@ -685,7 +686,7 @@
             if(email) localStorage.setItem("app_user_email", email);
             if(tempProfileImgData) localStorage.setItem("app_user_profile_img", tempProfileImgData);
 
-            loadUserData(); // ড্যাশবোর্ড আপডেট হবে সাথে সাথে
+            loadUserData(); 
             closeProfileSettings();
         }
 

@@ -21,6 +21,50 @@
             justify-content: center;
             padding: 16px;
             min-height: 100vh;
+            position: relative;
+        }
+
+        /* 🌌 গ্যালাক্সি ব্যাকগ্রাউন্ড (তারা খসে পড়া) */
+        #galaxy-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 45vh; /* শুধু উপরের দিকে তারা পড়বে */
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none; /* ক্লিকের সমস্যা করবে না */
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            border-radius: 50%;
+            filter: drop-shadow(0 0 6px #60a5fa);
+            opacity: 0;
+            animation: shooting 4s linear infinite;
+        }
+
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6;
+        }
+
+        @keyframes shooting {
+            0% { transform: translateY(-50px) translateX(50px) rotate(45deg); opacity: 0; }
+            10% { opacity: 1; }
+            35% { transform: translateY(300px) translateX(-300px) rotate(45deg); opacity: 0; }
+            100% { opacity: 0; }
         }
 
         /* 🖼️ স্প্ল্যাশ স্ক্রিন (অফলাইন লোকাল ছবির ব্যাকগ্রাউন্ড) */
@@ -125,6 +169,8 @@
         .dashboard-container {
             width: 100%;
             max-width: 450px;
+            position: relative; /* গ্যালাক্সির উপরে রাখার জন্য */
+            z-index: 1;
         }
 
         /* Header Layout */
@@ -400,6 +446,15 @@
 </head>
 <body>
 
+    <!-- 🌌 গ্যালাক্সি ব্যাকগ্রাউন্ড (তারা খসে পড়া) -->
+    <div id="galaxy-bg">
+        <div class="shooting-star" style="top: -5%; left: 70%; animation-delay: 0s; animation-duration: 4s;"></div>
+        <div class="shooting-star" style="top: 10%; left: 95%; animation-delay: 1.5s; animation-duration: 5s;"></div>
+        <div class="shooting-star" style="top: -10%; left: 45%; animation-delay: 2.8s; animation-duration: 3.5s;"></div>
+        <div class="shooting-star" style="top: 25%; left: 110%; animation-delay: 4.2s; animation-duration: 4.5s;"></div>
+        <div class="shooting-star" style="top: 5%; left: 80%; animation-delay: 0.8s; animation-duration: 6s;"></div>
+    </div>
+
     <!-- 🌟 স্প্ল্যাশ স্ক্রিন -->
     <div id="splash-screen">
         <div class="splash-profile-box">
@@ -472,7 +527,7 @@
             <div class="user-name-container">
                 <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
             </div>
-            <!-- পারমানেন্ট অ্যাপের নাম (কখনো চেঞ্জ হবে না) -->
+            <!-- পারমানেন্ট অ্যাপের নাম (কখনো চেঞ্জ হবে পঞ্চাশ) -->
             <div class="user-sub">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
             

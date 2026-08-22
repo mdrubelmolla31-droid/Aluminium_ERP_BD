@@ -23,7 +23,7 @@
             min-height: 100vh;
         }
 
-        /* 🖼️ স্প্ল্যাশ স্ক্রিন (নতুন আপডেট) */
+        /* 🖼️ স্প্ল্যাশ স্ক্রিন (অ্যালুমিনিয়াম কাটার ব্যাকগ্রাউন্ডসহ) */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -31,11 +31,10 @@
             width: 100%;
             height: 100%;
             
-            /* ড্যাশবোর্ড যেন কোনোভাবেই দেখা না যায়, তাই সলিড ব্যাকগ্রাউন্ড কালার দেওয়া হলো */
             background-color: #0b0f19;
             
-            /* ব্যাকগ্রাউন্ডে আপনার অ্যালুমিনিয়াম ছবি এবং টেক্সট যেন পড়া যায় তার জন্য হালকা ডার্ক টোন */
-            background-image: linear-gradient(rgba(11, 15, 25, 0.5), rgba(11, 15, 25, 0.8)), url('1000061990_2.webp');
+            /* ব্যাকগ্রাউন্ডে মেটাল/অ্যালুমিনিয়াম কাটার একটি ছবি এবং তার ওপর হালকা ডার্ক টোন */
+            background-image: linear-gradient(rgba(11, 15, 25, 0.65), rgba(11, 15, 25, 0.9)), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -44,7 +43,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 999999; /* সবার উপরে রাখার জন্য */
+            z-index: 999999;
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
@@ -88,7 +87,7 @@
             font-weight: bold;
             letter-spacing: 0.5px;
             margin-bottom: 6px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* ছবির উপরে লেখা ভাসানোর জন্য */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         .splash-sub {
@@ -98,7 +97,7 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* ⏳ স্প্ল্যাশ লোডিং বার */
+        /* ⏳ স্প্ল্যাশ লোডিং বার (গোল্ডেন কালার) */
         .splash-loader-container {
             width: 180px;
             height: 4px;
@@ -111,8 +110,8 @@
         .splash-loader-bar {
             width: 0%;
             height: 100%;
-            background: #3b82f6;
-            box-shadow: 0 0 10px #3b82f6;
+            background: #fbbf24; /* গোল্ডেন/সোনালী কালার */
+            box-shadow: 0 0 12px #fbbf24; /* গোল্ডেন গ্লো */
             animation: loadBar 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
@@ -401,14 +400,14 @@
 </head>
 <body>
 
-    <!-- 🌟 স্প্ল্যাশ স্ক্রিন (নতুন ডিজাইন) -->
+    <!-- 🌟 স্প্ল্যাশ স্ক্রিন -->
     <div id="splash-screen">
         <div class="splash-profile-box">
             <div class="alu-window-icon"></div>
         </div>
         <div class="splash-title">Aluminium ERP BD</div>
         <div class="splash-sub">Glass & Section Manager</div>
-        <!-- ⏳ লোডিং বার -->
+        <!-- ⏳ লোডিং বার (গোল্ডেন) -->
         <div class="splash-loader-container">
             <div class="splash-loader-bar"></div>
         </div>
@@ -471,8 +470,8 @@
 
         <div class="user-card">
             <div class="user-name-container">
-                <!-- ইউজারের নাম (সেটিংস থেকে চেঞ্জ হবে) -->
-                <div class="user-title" id="userNameDisplay">Welcome, User</div>
+                <!-- ইউজারের নাম (ওয়েলকাম লেখাটি বাদ দেওয়া হয়েছে) -->
+                <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
             </div>
             <!-- পারমানেন্ট অ্যাপের নাম (কখনো চেঞ্জ হবে না) -->
             <div class="user-sub">Aluminium ERP BD v2</div>
@@ -642,10 +641,11 @@
             const savedName = localStorage.getItem("app_user_fullname");
             const savedPic = localStorage.getItem("app_user_profile_img");
 
+            // ✅ "Welcome" লেখাটি বাদ দেওয়া হয়েছে
             if (savedName) {
-                document.getElementById("userNameDisplay").innerText = "Welcome, " + savedName;
+                document.getElementById("userNameDisplay").innerText = savedName; 
             } else {
-                document.getElementById("userNameDisplay").innerText = "Welcome, User";
+                document.getElementById("userNameDisplay").innerText = "ইউজারের নাম";
             }
 
             if (savedPic) {

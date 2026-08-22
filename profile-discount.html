@@ -420,8 +420,10 @@ const categorizedProfiles = {
         "4\" Fixed Top and Side", "4\" Fixed Bottom", "Fixed Bottom Cover", "Group Cover", "Plane Cover"
     ],
     "সিঙ্গেল শাটার (Single Shutter)": [
-        "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side"
-    ],
+        "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side",
+         "Single Shutter Top", "Single Shutter Bottom", "Single Shutter Lock", "Single Shutter Interlock"
+      ], 
+    
     "ফিক্সড আইটেম (Fixed)": [
         "Fixed Top and Side", "Fixed Bottom", "Fixed Glass Beading"
     ],
@@ -442,11 +444,10 @@ const allProfileNames = [
     "Net Section", "Net Handle",
     "4\" Fixed Top and Side", "4\" Fixed Bottom", "Fixed Bottom Cover", "Group Cover", "Plane Cover",
     // Single Shutter
-    "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side",
-    // Others
-    "Sliding Fixed Side", "Sliding Shutter Divider", "Net Divider", "Wall Frame", "Door Section"
+    "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side","Single Shutter Top", 
+     "Single Shutter Bottom","Single Shutter Lock", "Single Shutter"
+    "Sliding Fixed Side", "Sliding Shutter Divider", "Net Divider", "Wall Frame", "Door Section",
 ];
-
 document.addEventListener("DOMContentLoaded", function() {
     onSizeCategoryChange();
     setCurrentDate();
@@ -535,6 +536,10 @@ function onSizeCategoryChange() {
             { id: 'outer_top', def: 'Single Shutter Outer Top' },
             { id: 'outer_bottom', def: 'Single Shutter Outer Bottom' },
             { id: 'outer_side', def: 'Single Shutter Outer Side' }
+            { id: 'shutter_top', def: 'Single Shutter Top' },
+            { id: 'shutter_bottom', def: 'Single Shutter Bottom' },
+            { id: 'lock_style', def: 'Single Shutter Lock' },
+            { id: 'interlock', def: 'Single Shutter Interlock' }
         ];
     } else if (sizeType === 'fixed') {
         headerTitle = "ফিক্সড আইটেম";

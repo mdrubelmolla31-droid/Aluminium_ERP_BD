@@ -163,7 +163,6 @@
             color: var(--text);
             outline: none;
         }
-        .header-section select:focus, .header-section input:focus { border-color: var(--accent); }
 
         .table-responsive { overflow-x: auto; margin-bottom: 15px; width: 100%; }
         table { width: 100%; border-collapse: collapse; background: #fff; }
@@ -182,9 +181,7 @@
             outline: none;
             cursor: pointer;
         }
-        td select:focus { border-color: var(--accent); }
         td input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-weight: 700; outline: none; }
-        td input:focus { border-color: var(--accent); }
         .category-header { background: #e2e8f0; color: #1e3a8a; font-weight: 900; text-align: center; }
 
         .window-box { border: 1px solid var(--border); padding: 14px; margin-bottom: 12px; border-radius: 8px; background: #f8fafc; }
@@ -194,21 +191,18 @@
         .input-group { display: flex; flex-direction: column; }
         .input-group label { font-size: 11px; font-weight: 800; margin-bottom: 4px; color: #475569; }
         .input-group input { padding: 8px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 14px; font-weight: 700; outline: none; }
-        .input-group input:focus { border-color: var(--accent); }
 
         .btn-remove { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 10px; width: 100%; font-weight: 800; }
-        .btn-add { background: #059669; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 900; width: 100%; margin-bottom: 10px; font-size: 14px; box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2); }
+        .btn-add { background: #059669; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 900; width: 100%; margin-bottom: 10px; font-size: 14px; }
         .btn-calc { background: var(--accent); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 900; width: 100%; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
-        .btn-calc:hover { background: var(--accent-hover); }
-
+        
         .result-box { margin-top: 20px; padding: 16px; background: #fff; border: 2px solid #2563eb; border-radius: 10px; }
         .breakdown-table th { background: #2563eb; }
         .grand-total-box { margin-top: 15px; background: #eff6ff; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #bfdbfe; }
         .grand-total-box h3 { margin: 0; color: #1e3a8a; font-size: 19px; font-weight: 900; }
-        .per-sqft-box { margin-top: 8px; color: #1d4ed8; font-size: 15px; font-weight: 800; }
 
-        /* ================= HISTORY DRAWER / MODAL ================= */
-        .history-modal {
+        /* ================= MODALS & MENUS ================= */
+        .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -218,7 +212,7 @@
             align-items: center;
             padding: 12px;
         }
-        .history-content {
+        .modal-content {
             background: #ffffff;
             width: 100%;
             max-width: 500px;
@@ -229,7 +223,7 @@
             flex-direction: column;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-        .history-header {
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -237,13 +231,23 @@
             padding-bottom: 10px;
             margin-bottom: 12px;
         }
-        .history-header h3 { color: #1e3a8a; font-size: 16px; font-weight: 900; margin: 0; }
+        .modal-header h3 { color: #1e3a8a; font-size: 16px; font-weight: 900; margin: 0; }
         .close-btn { background: none; border: none; font-size: 20px; font-weight: bold; color: #64748b; cursor: pointer; }
-        .history-list { overflow-y: auto; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+        .modal-body { overflow-y: auto; display: flex; flex-direction: column; gap: 10px; flex: 1; padding-right: 5px; }
+        
+        /* Menu Specific */
+        .menu-btn { background: #f1f5f9; color: #1e3a8a; border: 1px solid #cbd5e1; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 900; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 10px; }
+        .menu-btn:hover { background: #e2e8f0; }
+
+        /* History Specific */
         .history-card { background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-size: 13px; }
-        .history-card-header { display: flex; justify-content: space-between; font-weight: 800; color: #1e3a8a; margin-bottom: 5px; }
-        .btn-clear-history { background: #dc2626; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: 800; cursor: pointer; margin-top: 10px; width: 100%; }
-        .empty-history { text-align: center; color: #64748b; padding: 20px 0; font-weight: bold; }
+        .btn-danger { background: #dc2626; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: 800; cursor: pointer; margin-top: 10px; width: 100%; }
+
+        /* Rate Settings Specific */
+        .rate-setting-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding: 8px 0; }
+        .rate-setting-item span { font-size: 13px; font-weight: 700; color: #334155; flex: 1; }
+        .rate-setting-item input { width: 100px; padding: 8px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-weight: 800; text-align: center; }
+        .btn-save-rates { background: #059669; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 900; width: 100%; margin-top: 12px; }
     </style>
 </head>
 <body>
@@ -253,7 +257,7 @@
     <!-- হেডার সেকশন -->
     <div class="header-card">
         <div class="header-top">
-            <button class="history-menu-btn" onclick="openHistory()" title="হিস্ট্রি দেখুন">☰</button>
+            <button class="history-menu-btn" onclick="openMenuModal()" title="মেনু">☰</button>
             <span class="header-title">প্রোফাইল ডিসকাউন্ট ক্যালকুলেটর</span>
             <div id="currentDate" class="date-display"></div>
         </div>
@@ -310,59 +314,57 @@
                 <thead>
                     <tr>
                         <th>সেকশনের নাম (ড্রপডাউন)</th>
-                        <th>২১ ফিট বারের দাম (টাকা/বার)</th>
+                        <th>২১ ফিট বারের দাম (টাকা)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="category-header"><td colspan="2">স্লাইডিং সেকশন (Sliding Sections)</td></tr>
                     <tr>
                         <td><select class="dyn-select" id="sel_outer_top" data-default="Outer Top (2121B)" onchange="loadRate(this.id, 'rate_outer_top')"></select></td>
-                        <td><input type="number" id="rate_outer_top" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_outer_top', this.value)"></td>
+                        <td><input type="number" id="rate_outer_top" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
                         <td><select class="dyn-select" id="sel_outer_bottom" data-default="Outer Bottom (2122B)" onchange="loadRate(this.id, 'rate_outer_bottom')"></select></td>
-                        <td><input type="number" id="rate_outer_bottom" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_outer_bottom', this.value)"></td>
+                        <td><input type="number" id="rate_outer_bottom" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
                         <td><select class="dyn-select" id="sel_shutter_top" data-default="Shutter Top (2126B)" onchange="loadRate(this.id, 'rate_shutter_top')"></select></td>
-                        <td><input type="number" id="rate_shutter_top" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_shutter_top', this.value)"></td>
+                        <td><input type="number" id="rate_shutter_top" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
                         <td><select class="dyn-select" id="sel_shutter_bottom" data-default="Shutter Bottom (2126B)" onchange="loadRate(this.id, 'rate_shutter_bottom')"></select></td>
-                        <td><input type="number" id="rate_shutter_bottom" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_shutter_bottom', this.value)"></td>
+                        <td><input type="number" id="rate_shutter_bottom" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
                         <td><select class="dyn-select" id="sel_outer_side" data-default="Outer Side (2123B)" onchange="loadRate(this.id, 'rate_outer_side')"></select></td>
-                        <td><input type="number" id="rate_outer_side" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_outer_side', this.value)"></td>
+                        <td><input type="number" id="rate_outer_side" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
                         <td><select class="dyn-select" id="sel_lock_style" data-default="Lock Style (2124B)" onchange="loadRate(this.id, 'rate_lock_style')"></select></td>
-                        <td><input type="number" id="rate_lock_style" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_lock_style', this.value)"></td>
+                        <td><input type="number" id="rate_lock_style" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr>
                         <td><select class="dyn-select" id="sel_interlock" data-default="Interlock (2125B)" onchange="loadRate(this.id, 'rate_interlock')"></select></td>
-                        <td><input type="number" id="rate_interlock" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_interlock', this.value)"></td>
+                        <td><input type="number" id="rate_interlock" placeholder="রেট" step="0.01"></td>
                     </tr>
 
                     <tr class="category-header"><td colspan="2">নেট সেকশন (Net Section)</td></tr>
                     <tr>
                         <td><select class="dyn-select" id="sel_net_section" data-default="Net Section" onchange="loadRate(this.id, 'rate_net_section')"></select></td>
-                        <td><input type="number" id="rate_net_section" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_net_section', this.value)"></td>
+                        <td><input type="number" id="rate_net_section" placeholder="রেট" step="0.01"></td>
                     </tr>
                     <tr id="row_net_handle" style="display:none;">
                         <td><select class="dyn-select" id="sel_net_handle" data-default="Net Handle" onchange="loadRate(this.id, 'rate_net_handle')"></select></td>
-                        <td><input type="number" id="rate_net_handle" placeholder="২১ ফিট বারের দাম" step="0.01" oninput="saveRate('sel_net_handle', this.value)"></td>
+                        <td><input type="number" id="rate_net_handle" placeholder="রেট" step="0.01"></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- উইন্ডোর তালিকা -->
     <div class="card">
         <div class="section-title">উইন্ডোর তালিকা</div>
         <div id="windowsList"></div>
-
         <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
         <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
     </div>
@@ -391,30 +393,58 @@
         </div>
 
         <div class="grand-total-box">
-            <h3>সর্বমোট মেটেরিয়াল মূল্য (ডিসকাউন্ট সহ): <span id="resFinalPrice">০</span> টাকা</h3>
-            <div class="per-sqft-box">প্রতি স্কয়ার ফিটে গড়ে মূল্য পড়ল: <span id="resPerSqftRate">০</span> টাকা / SFT</div>
+            <h3>সর্বমোট মেটেরিয়াল মূল্য: <span id="resFinalPrice">০</span> টাকা</h3>
+            <div style="margin-top: 8px; color: #1d4ed8; font-size: 15px; font-weight: 800;">প্রতি স্কয়ার ফিটে মূল্য: <span id="resPerSqftRate">০</span> ৳ / SFT</div>
         </div>
     </div>
 </div>
 
-<!-- হিস্ট্রি মোডাল -->
-<div class="history-modal" id="historyModal">
-    <div class="history-content">
-        <div class="history-header">
-            <h3>📜 পূর্বের এস্টিমেশন হিস্ট্রি</h3>
-            <button class="close-btn" onclick="closeHistory()">✕</button>
+<!-- মেইন মেনু মোডাল -->
+<div class="modal-overlay" id="mainMenuModal">
+    <div class="modal-content" style="max-width: 320px;">
+        <div class="modal-header">
+            <h3>মেনু</h3>
+            <button class="close-btn" onclick="closeModal('mainMenuModal')">✕</button>
         </div>
-        <div class="history-list" id="historyListContainer">
+        <div class="modal-body">
+            <button class="menu-btn" onclick="openRateSettingsModal()">⚙️ রেট সেটিংস</button>
+            <button class="menu-btn" onclick="openHistoryModal()">📜 পূর্বের হিস্ট্রি</button>
+        </div>
+    </div>
+</div>
+
+<!-- রেট সেটিংস মোডাল -->
+<div class="modal-overlay" id="rateSettingsModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>⚙️ রেট সেটিংস (Rate Settings)</h3>
+            <button class="close-btn" onclick="closeModal('rateSettingsModal')">✕</button>
+        </div>
+        <div class="modal-body" id="rateSettingsList">
+            <!-- JS দিয়ে প্রোফাইল রেট ইনপুট তৈরি হবে -->
+        </div>
+        <button class="btn-save-rates" onclick="saveAllSettingsRates()">সব রেট সেভ করুন</button>
+    </div>
+</div>
+
+<!-- হিস্ট্রি মোডাল -->
+<div class="modal-overlay" id="historyModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>📜 পূর্বের এস্টিমেশন হিস্ট্রি</h3>
+            <button class="close-btn" onclick="closeModal('historyModal')">✕</button>
+        </div>
+        <div class="modal-body" id="historyListContainer">
             <!-- হিস্ট্রি ডাটা লোড হবে -->
         </div>
-        <button class="btn-clear-history" onclick="clearAllHistory()">সব হিস্ট্রি মুছে ফেলুন</button>
+        <button class="btn-danger" onclick="clearAllHistory()">সব হিস্ট্রি মুছে ফেলুন</button>
     </div>
 </div>
 
 <script>
 let windowCount = 0;
 
-// সকল প্রোফাইলের নাম (আপনার ছবি এবং পূর্বের ডিফল্ট ডাটা মিলিয়ে)
+// সকল প্রোফাইলের নাম
 const allProfileNames = [
     "Outer Top (2121B)", "Outer Bottom (2122B)", "Shutter Top (2126B)", "Shutter Bottom (2126B)", 
     "Outer Side (2123B)", "Lock Style (2124B)", "Interlock (2125B)", "Net Section", "Net Handle",
@@ -435,6 +465,43 @@ document.addEventListener("DOMContentLoaded", function() {
     addWindow();
 });
 
+// মেনু এবং মোডাল কন্ট্রোল
+function openMenuModal() { document.getElementById('mainMenuModal').style.display = 'flex'; }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+// রেট সেটিংস ওপেন ও ডাটা জেনারেট
+function openRateSettingsModal() {
+    closeModal('mainMenuModal');
+    const container = document.getElementById('rateSettingsList');
+    container.innerHTML = '';
+    
+    allProfileNames.forEach((profile, index) => {
+        let savedRate = localStorage.getItem('erp_setting_rate_' + profile) || '';
+        container.innerHTML += `
+            <div class="rate-setting-item">
+                <span>${profile}</span>
+                <input type="number" id="setting_input_${index}" value="${savedRate}" placeholder="রেট">
+            </div>
+        `;
+    });
+    document.getElementById('rateSettingsModal').style.display = 'flex';
+}
+
+// রেট সেটিংস সেভ করা
+function saveAllSettingsRates() {
+    allProfileNames.forEach((profile, index) => {
+        let val = document.getElementById(`setting_input_${index}`).value;
+        if(val) {
+            localStorage.setItem('erp_setting_rate_' + profile, val);
+        } else {
+            localStorage.removeItem('erp_setting_rate_' + profile);
+        }
+    });
+    alert("সব রেট সফলভাবে সেভ হয়েছে!");
+    closeModal('rateSettingsModal');
+    initRates(); // মেইন পেজের রেট রিফ্রেশ করা
+}
+
 // ড্রপডাউনে নামগুলো যুক্ত করা
 function populateSelects() {
     const selects = document.querySelectorAll('.dyn-select');
@@ -442,13 +509,11 @@ function populateSelects() {
         const defaultVal = select.getAttribute('data-default');
         select.innerHTML = '';
         
-        // ডিফল্ট নামটা প্রথমে রাখা
         let defOpt = document.createElement('option');
         defOpt.value = defaultVal;
         defOpt.text = defaultVal;
         select.appendChild(defOpt);
         
-        // বাকি নামগুলো যোগ করা
         allProfileNames.forEach(profile => {
             if(profile !== defaultVal) {
                 let o = document.createElement('option');
@@ -460,21 +525,11 @@ function populateSelects() {
     });
 }
 
-// লোকাল স্টোরেজ থেকে রেট লোড করা (রেট সেটিংস এর মত কাজ করবে)
+// মেইন পেজে ড্রপডাউন পরিবর্তন করলে রেট লোড হওয়া
 function loadRate(selectId, inputId) {
     const selectedProfile = document.getElementById(selectId).value;
-    const savedRate = localStorage.getItem('erp_rate_' + selectedProfile);
-    if(savedRate) {
-        document.getElementById(inputId).value = savedRate;
-    } else {
-        document.getElementById(inputId).value = ''; // রেট না থাকলে ফাঁকা
-    }
-}
-
-// ইনপুট দিলে অটোমেটিক রেট সেভ হয়ে যাওয়া
-function saveRate(selectId, value) {
-    const selectedProfile = document.getElementById(selectId).value;
-    localStorage.setItem('erp_rate_' + selectedProfile, value);
+    const savedRate = localStorage.getItem('erp_setting_rate_' + selectedProfile);
+    document.getElementById(inputId).value = savedRate ? savedRate : '';
 }
 
 function initRates() {
@@ -484,23 +539,15 @@ function initRates() {
     });
 }
 
-// ৪ ইঞ্চি সিলেক্ট করলে নেট হ্যান্ডেল শো করানো
+// অন্যান্য সাধারণ ফাংশনগুলো
 function toggleNetHandle() {
     const size = document.getElementById('profileSizeSelect').value;
-    const netHandleRow = document.getElementById('row_net_handle');
-    if(size === '4') {
-        netHandleRow.style.display = 'table-row';
-    } else {
-        netHandleRow.style.display = 'none';
-    }
+    document.getElementById('row_net_handle').style.display = (size === '4') ? 'table-row' : 'none';
 }
 
 function setCurrentDate() {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
-    document.getElementById("currentDate").innerText = `${day}/${month}/${year}`;
+    document.getElementById("currentDate").innerText = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
 }
 
 function saveShopDetails() {
@@ -509,58 +556,33 @@ function saveShopDetails() {
 }
 
 function loadShopDetails() {
-    const savedName = localStorage.getItem("erp_shopName");
-    const savedPhone = localStorage.getItem("erp_shopPhone");
-    if (savedName !== null) document.getElementById("shopName").value = savedName;
-    if (savedPhone !== null) document.getElementById("shopPhone").value = savedPhone;
+    document.getElementById("shopName").value = localStorage.getItem("erp_shopName") || "আর এম থাই অ্যালুমিনিয়াম";
+    document.getElementById("shopPhone").value = localStorage.getItem("erp_shopPhone") || "মোবাইল: 01676474412";
 }
 
 function addWindow() {
     windowCount++;
     const container = document.getElementById('windowsList');
-    
     const windowDiv = document.createElement('div');
     windowDiv.className = 'window-box';
     windowDiv.id = `window_${windowCount}`;
-    
     windowDiv.innerHTML = `
         <div class="window-header">উইন্ডো #${windowCount}</div>
         <div class="grid-container">
-            <div class="input-group">
-                <label>উচ্চতা (ইঞ্চি):</label>
-                <input type="number" class="height" placeholder="উচ্চতা" value="">
-            </div>
-
-            <div class="input-group">
-                <label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label>
-                <input type="number" class="length" placeholder="দৈর্ঘ্য" value="">
-            </div>
-
-            <div class="input-group">
-                <label>পরিমাণ (Qty):</label>
-                <input type="number" class="qty" placeholder="পরিমাণ" value="">
-            </div>
+            <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value=""></div>
+            <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
+            <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value=""></div>
         </div>
-        <button class="btn-remove" onclick="removeWindow('window_${windowCount}')">🗑️ মুছে ফেলুন</button>
+        <button class="btn-remove" onclick="document.getElementById('window_${windowCount}').remove()">🗑️ মুছে ফেলুন</button>
     `;
-    
     container.appendChild(windowDiv);
 }
 
-function removeWindow(id) {
-    document.getElementById(id).remove();
-}
-
 function calculateTotal() {
-    const company = document.getElementById('companySelect').options[document.getElementById('companySelect').selectedIndex].text;
-    const thickness = document.getElementById('thicknessSelect').value;
     const discount = parseFloat(document.getElementById('globalDiscount').value) || 0;
     const is4Inch = document.getElementById('profileSizeSelect').value === '4';
-
-    const windows = document.querySelectorAll('.window-box');
     let totalSqft = 0;
 
-    // ডায়নামিক নাম ও হিসাবের লজিক ম্যাপিং
     const sectionConfig = [
         { key: 'outer_top', name: document.getElementById('sel_outer_top').value, inputId: 'rate_outer_top', ftCalc: (l, h, q) => l * q },
         { key: 'outer_bottom', name: document.getElementById('sel_outer_bottom').value, inputId: 'rate_outer_bottom', ftCalc: (l, h, q) => l * q },
@@ -572,32 +594,19 @@ function calculateTotal() {
         { key: 'net_section', name: document.getElementById('sel_net_section').value, inputId: 'rate_net_section', ftCalc: (l, h, q) => ((l * 2) + (h * 2)) * q }
     ];
 
-    if(is4Inch) {
-        sectionConfig.push({ 
-            key: 'net_handle', 
-            name: document.getElementById('sel_net_handle').value, 
-            inputId: 'rate_net_handle', 
-            ftCalc: (l, h, q) => h * 2 * q // নেট হ্যান্ডেলের হিসাব
-        });
-    }
+    if(is4Inch) { sectionConfig.push({ key: 'net_handle', name: document.getElementById('sel_net_handle').value, inputId: 'rate_net_handle', ftCalc: (l, h, q) => h * 2 * q }); }
 
     let sectionTotals = {};
     sectionConfig.forEach(s => sectionTotals[s.key] = 0);
 
-    windows.forEach(win => {
+    document.querySelectorAll('.window-box').forEach(win => {
         const hInch = parseFloat(win.querySelector('.height').value) || 0;
         const lInch = parseFloat(win.querySelector('.length').value) || 0;
         const qty = parseInt(win.querySelector('.qty').value) || 0;
 
         if (hInch > 0 && lInch > 0 && qty > 0) {
             totalSqft += ((hInch * lInch) / 144) * qty;
-
-            const hFeet = hInch / 12;
-            const lFeet = lInch / 12;
-
-            sectionConfig.forEach(s => {
-                sectionTotals[s.key] += s.ftCalc(lFeet, hFeet, qty);
-            });
+            sectionConfig.forEach(s => sectionTotals[s.key] += s.ftCalc(lInch / 12, hInch / 12, qty));
         }
     });
 
@@ -605,96 +614,50 @@ function calculateTotal() {
     breakdownBody.innerHTML = '';
     let grandTotalCost = 0;
 
-    const formatMoney = (amount) => Math.round(amount).toLocaleString('bn-BD');
-
     sectionConfig.forEach(s => {
         const totalFt = sectionTotals[s.key];
         if (totalFt > 0) {
-            let fullBarRate = parseFloat(document.getElementById(s.inputId)?.value) || 0;
-            let perFtRate = fullBarRate / 21;
-
+            let perFtRate = (parseFloat(document.getElementById(s.inputId)?.value) || 0) / 21;
             let rawCost = totalFt * perFtRate;
             let discountedCost = rawCost - (rawCost * (discount / 100));
             grandTotalCost += discountedCost;
 
-            breakdownBody.innerHTML += `
-                <tr>
-                    <td><b>${s.name}</b></td>
-                    <td><b>${totalFt.toFixed(2)} Rft</b></td>
-                    <td>${formatMoney(rawCost)} টাকা</td>
-                    <td><b>${formatMoney(discountedCost)} টাকা</b></td>
-                </tr>
-            `;
+            breakdownBody.innerHTML += `<tr><td><b>${s.name}</b></td><td><b>${totalFt.toFixed(2)} Rft</b></td><td>${Math.round(rawCost).toLocaleString('bn-BD')} টাকা</td><td><b>${Math.round(discountedCost).toLocaleString('bn-BD')} টাকা</b></td></tr>`;
         }
     });
 
-    let perSqftRate = totalSqft > 0 ? (grandTotalCost / totalSqft) : 0;
-
     document.getElementById('resultBox').style.display = 'block';
-    document.getElementById('resCompany').innerText = company;
-    document.getElementById('resThickness').innerText = thickness;
+    document.getElementById('resCompany').innerText = document.getElementById('companySelect').options[document.getElementById('companySelect').selectedIndex].text;
+    document.getElementById('resThickness').innerText = document.getElementById('thicknessSelect').value;
     document.getElementById('resTotalSqft').innerText = totalSqft.toFixed(2);
-    document.getElementById('resFinalPrice').innerText = formatMoney(grandTotalCost);
-    document.getElementById('resPerSqftRate').innerText = perSqftRate.toFixed(2);
+    document.getElementById('resFinalPrice').innerText = Math.round(grandTotalCost).toLocaleString('bn-BD');
+    document.getElementById('resPerSqftRate').innerText = (totalSqft > 0 ? (grandTotalCost / totalSqft) : 0).toFixed(2);
 
-    // সেভ টু হিস্ট্রি
     saveToHistory({
-        date: new Date().toLocaleDateString('bn-BD'),
-        time: new Date().toLocaleTimeString('bn-BD', {hour: '2-digit', minute:'2-digit'}),
-        company: company,
-        thickness: thickness,
-        totalSqft: totalSqft.toFixed(2),
-        totalCost: Math.round(grandTotalCost),
-        perSqftRate: perSqftRate.toFixed(2)
+        date: new Date().toLocaleDateString('bn-BD'), time: new Date().toLocaleTimeString('bn-BD', {hour: '2-digit', minute:'2-digit'}),
+        company: document.getElementById('resCompany').innerText, thickness: document.getElementById('resThickness').innerText,
+        totalSqft: totalSqft.toFixed(2), totalCost: Math.round(grandTotalCost), perSqftRate: (totalSqft > 0 ? (grandTotalCost / totalSqft) : 0).toFixed(2)
     });
 }
 
-/* ================= HISTROY FUNCTIONS ================= */
-function saveToHistory(record) {
-    let history = JSON.parse(localStorage.getItem('erp_profile_calc_history')) || [];
-    history.unshift(record); // নতুন হিসাব সবসময় উপরে থাকবে
-    localStorage.setItem('erp_profile_calc_history', JSON.stringify(history));
-}
-
-function openHistory() {
+// হিস্ট্রি ফাংশন
+function openHistoryModal() {
+    closeModal('mainMenuModal');
     let history = JSON.parse(localStorage.getItem('erp_profile_calc_history')) || [];
     let container = document.getElementById('historyListContainer');
-    container.innerHTML = '';
-
-    if (history.length === 0) {
-        container.innerHTML = `<div class="empty-history">কোনো পূর্বের হিস্ট্রি পাওয়া যায়নি</div>`;
-    } else {
-        history.forEach((item) => {
-            container.innerHTML += `
-                <div class="history-card">
-                    <div class="history-card-header">
-                        <span>${item.company} (${item.thickness})</span>
-                        <span style="font-size:11px; color:#64748b;">${item.date} ${item.time}</span>
-                    </div>
-                    <div style="color:#334155;">
-                        <b>মোট কাজ:</b> ${item.totalSqft} SFT | 
-                        <b>গড় হার:</b> ${item.perSqftRate} ৳/SFT
-                    </div>
-                    <div style="font-size:14px; font-weight:900; color:#2563eb; margin-top:4px;">
-                        মোট মূল্য: ${item.totalCost.toLocaleString('bn-BD')} টাকা
-                    </div>
-                </div>
-            `;
-        });
-    }
-
+    container.innerHTML = history.length === 0 ? `<div style="text-align:center; color:#64748b; padding:20px 0; font-weight:bold;">কোনো হিস্ট্রি পাওয়া যায়নি</div>` : '';
+    history.forEach((item) => {
+        container.innerHTML += `<div class="history-card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-weight:800;color:#1e3a8a;"><span>${item.company} (${item.thickness})</span><span style="font-size:11px;color:#64748b;">${item.date}</span></div><div style="color:#334155;margin-top:4px;"><b>কাজ:</b> ${item.totalSqft} SFT | <b>হার:</b> ${item.perSqftRate} ৳/SFT</div><div style="font-size:14px;font-weight:900;color:#2563eb;margin-top:4px;">মূল্য: ${item.totalCost.toLocaleString('bn-BD')} টাকা</div></div>`;
+    });
     document.getElementById('historyModal').style.display = 'flex';
 }
-
-function closeHistory() {
-    document.getElementById('historyModal').style.display = 'none';
+function saveToHistory(record) {
+    let history = JSON.parse(localStorage.getItem('erp_profile_calc_history')) || [];
+    history.unshift(record);
+    localStorage.setItem('erp_profile_calc_history', JSON.stringify(history));
 }
-
 function clearAllHistory() {
-    if(confirm("আপনি কি সমস্ত হিস্ট্রি মুছে ফেলতে চান?")) {
-        localStorage.removeItem('erp_profile_calc_history');
-        openHistory();
-    }
+    if(confirm("সব হিস্ট্রি মুছে ফেলতে চান?")) { localStorage.removeItem('erp_profile_calc_history'); openHistoryModal(); }
 }
 </script>
 

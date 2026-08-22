@@ -11,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent; /* মোবাইলে ক্লিক করলে সাদা হয়ে থাকার সমস্যা সমাধান */
+            -webkit-tap-highlight-color: transparent; 
         }
 
         body {
@@ -23,21 +23,28 @@
             min-height: 100vh;
         }
 
-        /* 🖼️ স্প্ল্যাশ স্ক্রিন (আপনার ডিজাইন অনুযায়ী) */
+        /* 🖼️ স্প্ল্যাশ স্ক্রিন (নতুন আপডেট) */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* ব্যাকগ্রাউন্ডে আপনার অ্যালুমিনিয়াম ছবি এবং একটি ডার্ক লেয়ার */
-            background: linear-gradient(rgba(11, 15, 25, 0.88), rgba(11, 15, 25, 0.95)), url('1000061990.webp') no-repeat center center;
+            
+            /* ড্যাশবোর্ড যেন কোনোভাবেই দেখা না যায়, তাই সলিড ব্যাকগ্রাউন্ড কালার দেওয়া হলো */
+            background-color: #0b0f19;
+            
+            /* ব্যাকগ্রাউন্ডে আপনার অ্যালুমিনিয়াম ছবি এবং টেক্সট যেন পড়া যায় তার জন্য হালকা ডার্ক টোন */
+            background-image: linear-gradient(rgba(11, 15, 25, 0.5), rgba(11, 15, 25, 0.8)), url('1000061990_2.webp');
+            background-position: center;
+            background-repeat: no-repeat;
             background-size: cover;
+            
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 99999;
+            z-index: 999999; /* সবার উপরে রাখার জন্য */
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
@@ -81,19 +88,21 @@
             font-weight: bold;
             letter-spacing: 0.5px;
             margin-bottom: 6px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* ছবির উপরে লেখা ভাসানোর জন্য */
         }
 
         .splash-sub {
-            color: #3b82f6;
+            color: #60a5fa;
             font-size: 13px;
             font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
         /* ⏳ স্প্ল্যাশ লোডিং বার */
         .splash-loader-container {
             width: 180px;
             height: 4px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 2px;
             margin-top: 30px;
             overflow: hidden;
@@ -237,7 +246,7 @@
             text-align: center;
             text-decoration: none;
             color: #ffffff;
-            transition: transform 0.1s, border-color 0.1s; /* ফাস্ট রেসপন্সের জন্য ট্রানজিশন কমানো হয়েছে */
+            transition: transform 0.1s, border-color 0.1s; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -385,7 +394,7 @@
         }
 
         .support-btn {
-            background: #059669; /* WhatsApp Color */
+            background: #059669; 
             color: white;
         }
     </style>
@@ -544,7 +553,7 @@
         </div>
     </div>
                 
-    <!-- সাইডবার (অ্যাডমিন প্যানেল মুছে দেওয়া হয়েছে) -->
+    <!-- সাইডবার -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content" id="sidebarContent">
             <div class="sidebar-header">
@@ -594,7 +603,7 @@
                 const splash = document.getElementById("splash-screen");
                 if (splash) {
                     splash.style.opacity = "0";
-                    setTimeout(() => { splash.style.display = "none"; }, 400); // UI থেকে পুরোপুরি সরিয়ে ফেলা হলো
+                    setTimeout(() => { splash.style.display = "none"; }, 400); 
                 }
             }, 1500); 
 

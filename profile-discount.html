@@ -184,7 +184,7 @@
         td input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-weight: 700; outline: none; }
         .category-header { background: #e2e8f0; color: #1e3a8a; font-weight: 900; text-align: center; }
 
-        /* ================= WINDOW BOX (New Grid Style) ================= */
+        /* ================= WINDOW BOX STYLE (Exact Match) ================= */
         .window-box { 
             border: 1px solid var(--border); 
             padding: 15px; 
@@ -205,7 +205,7 @@
             border-radius: 6px;
         }
 
-        /* Perfectly balanced 2-column grid */
+        /* 2-Column Grid for Inputs */
         .grid-layout-2col { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
@@ -229,21 +229,12 @@
             font-weight: 700; 
             outline: none; 
             text-align: center;
+            color: #475569;
         }
-        .input-group input:focus { border-color: #2563eb; }
+        .input-group input:focus { border-color: #2563eb; color: #0f172a; }
 
-        /* Dynamic Khop Section styling */
-        .grid-inputs-container {
-            background: #e0f2fe; 
-            padding: 12px; 
-            border-radius: 8px; 
-            border: 1px dashed #7dd3fc;
-            margin-bottom: 12px;
-        }
-
-        .btn-remove { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 800; font-size: 14px; }
+        .btn-remove { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 800; font-size: 14px; margin-top: 5px; }
         
-        /* Updated Add Button like Image 2 */
         .btn-add { background: #f8fafc; color: #0284c7; border: 2px dashed #38bdf8; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 900; width: 100%; margin-bottom: 10px; font-size: 15px; transition: 0.3s;}
         .btn-add:hover { background: #e0f2fe; }
 
@@ -276,23 +267,23 @@
 </head>
 <body>
 
-<div class="main-container">
+<main class="main-container">
     
     <!-- হেডার সেকশন -->
-    <div class="header-card">
+    <header class="header-card">
         <div class="header-top">
             <button class="history-menu-btn" onclick="openMenuModal()" title="মেনু">☰</button>
-            <span class="header-title">প্রোফাইল ডিসকাউন্ট ক্যালকুলেটর</span>
+            <h1 class="header-title" style="margin:0; font-size:17px;">প্রোফাইল ডিসকাউন্ট ক্যালকুলেটর</h1>
             <div id="currentDate" class="date-display"></div>
         </div>
         <div class="shop-details">
             <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveShopDetails()">
             <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveShopDetails()">
         </div>
-    </div>
+    </header>
 
     <!-- গ্লোবাল কনফিগারেশন -->
-    <div class="card">
+    <section class="card">
         <div class="header-section">
             <div>
                 <label>কোম্পানি:</label>
@@ -318,10 +309,10 @@
                 <input type="number" id="globalDiscount" value="" placeholder="0">
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- সেকশন ২১ ফিট বারের ফিক্সড দাম টেবিল -->
-    <div class="card">
+    <section class="card">
         <div class="section-title">
             <span>সেকশন কারেন্ট রেট (২১ ফিট)</span>
             <select id="profileSizeSelect" class="size-select" onchange="onSizeCategoryChange()">
@@ -336,21 +327,21 @@
         </div>
         <div class="table-responsive">
             <table>
-                <thead><tr><th>সেকশনের নাম</th><th>বর্তমান রেট (টাকা)</th></tr></thead>
+                <thead><tr><th>সেকশনের নাম</th><th>বর্তমান রেট (টাকাইন)</th></tr></thead>
                 <tbody id="rateTableBody"></tbody>
             </table>
         </div>
-    </div>
+    </section>
 
-    <div class="card">
+    <section class="card">
         <div class="section-title">কাজের মাপ ও খোপের সংখ্যা</div>
         <div id="windowsList"></div>
         <button class="btn-add" onclick="addWindow()">+ আরও একটি মাপের বক্স যোগ করুন</button>
         <button class="btn-calc" onclick="calculateTotal()">হিসাব বের করুন</button>
-    </div>
+    </section>
 
     <!-- ফলাফল বক্স -->
-    <div class="result-box" id="resultBox" style="display:none;">
+    <section class="result-box" id="resultBox" style="display:none;">
         <div class="section-title" style="margin-bottom:8px;">বিস্তারিত মেটেরিয়াল হিসাব</div>
         <p style="font-size:13px; font-weight:700; color:#475569; margin-bottom:12px;">
             <b>কোম্পানি:</b> <span id="resCompany" style="color:#1e3a8a;"></span> | 
@@ -367,13 +358,13 @@
             <h3>সর্বমোট মেটেরিয়াল মূল্য: <span id="resFinalPrice">০</span> টাকা</h3>
             <div style="margin-top: 8px; color: #1d4ed8; font-size: 15px; font-weight: 800;">প্রতি স্কয়ার ফিটে মূল্য: <span id="resPerSqftRate">০</span> ৳ / SFT</div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 
 <!-- মেইন মেনু মোডাল -->
 <div class="modal-overlay" id="mainMenuModal">
     <div class="modal-content menu-small">
-        <div class="modal-header"><h3>মেনু</h3><button class="close-btn" onclick="closeModal('mainMenuModal')">✕</button></div>
+        <div class="modal-header"><h3 style="margin:0;">মেনু</h3><button class="close-btn" onclick="closeModal('mainMenuModal')">✕</button></div>
         <div class="modal-body">
             <button class="menu-btn" onclick="openRateSettingsModal()">⚙️ রেট সেটিংস</button>
             <button class="menu-btn" onclick="openHistoryModal()">📜 পূর্বের হিস্ট্রি</button>
@@ -384,7 +375,7 @@
 <!-- রেট সেটিংস মোডাল -->
 <div class="modal-overlay" id="rateSettingsModal">
     <div class="modal-content">
-        <div class="modal-header"><h3>⚙️ রেট সেটিংস (Rate Settings)</h3><button class="close-btn" onclick="closeModal('rateSettingsModal')">✕</button></div>
+        <div class="modal-header"><h3 style="margin:0;">⚙️ রেট সেটিংস</h3><button class="close-btn" onclick="closeModal('rateSettingsModal')">✕</button></div>
         <div class="modal-body" id="rateSettingsList"></div>
         <button class="btn-save-rates" onclick="saveAllSettingsRates()">সব রেট সেভ করুন</button>
     </div>
@@ -393,7 +384,7 @@
 <!-- হিস্ট্রি মোডাল -->
 <div class="modal-overlay" id="historyModal">
     <div class="modal-content">
-        <div class="modal-header"><h3>📜 পূর্বের এস্টিমেশন হিস্ট্রি</h3><button class="close-btn" onclick="closeModal('historyModal')">✕</button></div>
+        <div class="modal-header"><h3 style="margin:0;">📜 পূর্বের এস্টিমেশন হিস্ট্রি</h3><button class="close-btn" onclick="closeModal('historyModal')">✕</button></div>
         <div class="modal-body" id="historyListContainer"></div>
         <button class="btn-danger" onclick="clearAllHistory()">সব হিস্ট্রি মুছে ফেলুন</button>
     </div>
@@ -407,7 +398,7 @@ const categorizedProfiles = {
     "৪ ইঞ্চি (4\") সেকশন": ["4\" Sliding Outer Top", "4\" Sliding Outer Bottom (L)", "4\" Sliding Outer Bottom (H)", "4\" Sliding Outer Side", "4\" Sliding Shutter Top", "4\" Sliding Shutter Bottom", "4\" Sliding Shutter Lock", "4\" Sliding Shutter Interlock", "Net Section", "Net Handle"],
     "সিঙ্গেল শাটার (Single Shutter)": ["Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side", "3\" Sliding Shutter Top", "3\" Sliding Shutter Bottom", "3\" Sliding Shutter Lock", "1.75\" x 1.75\" Box"],
     "ফিক্সড আইটেম (Fixed)": ["3\" Fixed Top and Side", "3\" Fixed Bottom", "3\" Fixed Bottom Cover", "4\" Fixed Top and Side", "4\" Fixed Bottom", "4\" Fixed Bottom Cover", "3\" Wall Frame", "4\" Wall Frame"],
-    "কার্টেন ওয়াল (Curtain Wall)": ["Curtain Wall Box", "Curtain Wall Cover", "Curtain Wall Pressure Plate"],
+    "কার্টেন ওয়াল (Curtain Wall)": ["Curtain Wall Box", "Curtain Wall Cover", "Curtain Wall Pressure Plate", "Curtain Wall Half Section (Top and Side)", "Curtain Wall Full Section (Middle)", "Angle"],
     "লুভার (Louver)": ["Louver Frame (Box)", "Z Louver Blade"],
     "অন্যান্য (Others)": ["3\" Group Cover", "4\" Group Cover", "Plane Cover", "Sliding Shutter Divider", "Net Divider"]
 };
@@ -422,10 +413,11 @@ const defaultRates = {
         "4\" Fixed Top and Side": 5438, "4\" Fixed Bottom": 4036, "4\" Fixed Bottom Cover": 1581, "4\" Wall Frame": 4339, "4\" Group Cover": 2450,
         "Plane Cover": 1076, "Single Shutter Outer Top": 2100, "Single Shutter Outer Bottom": 1800, "Single Shutter Outer Side": 1950, "1.75\" x 1.75\" Box": 1800,
         "Curtain Wall Box": 4500, "Curtain Wall Cover": 1800, "Curtain Wall Pressure Plate": 2000,
+        "Curtain Wall Half Section (Top and Side)": 3200, "Curtain Wall Full Section (Middle)": 4100, "Angle": 1500,
         "Louver Frame (Box)": 2500, "Z Louver Blade": 1200
     },
-    "1.2mm": { "Curtain Wall Box": 5200, "Curtain Wall Cover": 2000, "Curtain Wall Pressure Plate": 2300, "Louver Frame (Box)": 2900, "Z Louver Blade": 1400 },
-    "1.5mm": { "Curtain Wall Box": 6000, "Curtain Wall Cover": 2400, "Curtain Wall Pressure Plate": 2700, "Louver Frame (Box)": 3500, "Z Louver Blade": 1600 }
+    "1.2mm": { "Curtain Wall Box": 5200, "Curtain Wall Cover": 2000, "Curtain Wall Pressure Plate": 2300, "Curtain Wall Half Section (Top and Side)": 3600, "Curtain Wall Full Section (Middle)": 4600, "Angle": 1700, "Louver Frame (Box)": 2900, "Z Louver Blade": 1400 },
+    "1.5mm": { "Curtain Wall Box": 6000, "Curtain Wall Cover": 2400, "Curtain Wall Pressure Plate": 2700, "Curtain Wall Half Section (Top and Side)": 4100, "Curtain Wall Full Section (Middle)": 5300, "Angle": 2000, "Louver Frame (Box)": 3500, "Z Louver Blade": 1600 }
 };
 
 const allProfileNames = [];
@@ -494,7 +486,14 @@ function onSizeCategoryChange() {
         itemsToDisplay = [{ id: 'fixed_top_side_3', def: '3\" Fixed Top and Side' }, { id: 'fixed_bottom_3', def: '3\" Fixed Bottom' }, { id: 'fixed_cover_3', def: '3\" Fixed Bottom Cover' }, { id: 'fixed_top_side_4', def: '4\" Fixed Top and Side' }, { id: 'fixed_bottom_4', def: '4\" Fixed Bottom' }, { id: 'fixed_cover_4', def: '4\" Fixed Bottom Cover' }, { id: 'wall_frame_3', def: '3\" Wall Frame' }, { id: 'wall_frame_4', def: '4\" Wall Frame' }];
     } else if (sizeType === 'curtain_wall') {
         headerTitle = "কার্টেন ওয়াল সেকশন";
-        itemsToDisplay = [{ id: 'cw_box', def: 'Curtain Wall Box' }, { id: 'cw_cover', def: 'Curtain Wall Cover' }, { id: 'cw_plate', def: 'Curtain Wall Pressure Plate' }];
+        itemsToDisplay = [
+            { id: 'cw_box', def: 'Curtain Wall Box' }, 
+            { id: 'cw_cover', def: 'Curtain Wall Cover' }, 
+            { id: 'cw_plate', def: 'Curtain Wall Pressure Plate' },
+            { id: 'cw_half', def: 'Curtain Wall Half Section (Top and Side)' },
+            { id: 'cw_full', def: 'Curtain Wall Full Section (Middle)' },
+            { id: 'angle', def: 'Angle' }
+        ];
     } else if (sizeType === 'louver') {
         headerTitle = "লুভার সেকশন";
         itemsToDisplay = [{ id: 'louver_frame', def: 'Louver Frame (Box)' }, { id: 'z_louver', def: 'Z Louver Blade' }];
@@ -514,16 +513,6 @@ function onSizeCategoryChange() {
         let savedRate = localStorage.getItem(`erp_setting_rate_${currentThickness}_${item.def}`);
         tbody.innerHTML += `<tr><td><select class="dyn-select" id="sel_${item.id}" onchange="loadRate(this.id, 'rate_${item.id}')">${selectOptions}</select></td><td><input type="number" id="rate_${item.id}" value="${savedRate !== null ? savedRate : defRate}" placeholder="রেট" step="0.01"></td></tr>`;
     });
-
-    updateWindowInputs();
-}
-
-function updateWindowInputs() {
-    const isGridNeeded = (document.getElementById('profileSizeSelect').value === 'fixed' || document.getElementById('profileSizeSelect').value === 'curtain_wall');
-    document.querySelectorAll('.grid-inputs-container').forEach(el => {
-        el.style.display = isGridNeeded ? 'block' : 'none';
-        if(!isGridNeeded) el.querySelectorAll('input').forEach(input => input.value = "0");
-    });
 }
 
 function loadRate(selectId, inputId) {
@@ -537,12 +526,9 @@ function setCurrentDate() { const d = new Date(); document.getElementById("curre
 function saveShopDetails() { localStorage.setItem("erp_shopName", document.getElementById("shopName").value); localStorage.setItem("erp_shopPhone", document.getElementById("shopPhone").value); }
 function loadShopDetails() { document.getElementById("shopName").value = localStorage.getItem("erp_shopName") || "আর এম থাই অ্যালুমিনিয়াম"; document.getElementById("shopPhone").value = localStorage.getItem("erp_shopPhone") || "মোবাইল: 01676474412"; }
 
-// ================= নতুন ডিজাইন করা উইন্ডো যোগ করার ফাংশন ================= //
+// ================= উইন্ডো বক্স যোগ করার ফাংশন (সব সময় ৪টি ইনপুট সহ) ================= //
 function addWindow() {
     windowCount++;
-    const isGridNeeded = (document.getElementById('profileSizeSelect').value === 'fixed' || document.getElementById('profileSizeSelect').value === 'curtain_wall');
-    const displayStyle = isGridNeeded ? 'block' : 'none';
-
     const container = document.getElementById('windowsList');
     const windowDiv = document.createElement('div');
     windowDiv.className = 'window-box';
@@ -550,33 +536,27 @@ function addWindow() {
     windowDiv.innerHTML = `
         <div class="window-header">বক্স ${windowCount}</div>
         
-        <!-- মূল মাপের গ্রিড (২ কলাম) -->
+        <!-- ৪টি ইনপুট ফিল্ড সবসময় দৃশ্যমান (২ কলাম গ্রিড) -->
         <div class="grid-layout-2col">
             <div class="input-group">
-                <label>মোট হাইট (ফিট/ইঞ্চি):</label>
-                <input type="number" class="height" placeholder="যেমন: ৪৮" value="">
+                <label>মোট হাইট (ফিট)</label>
+                <input type="number" class="height" placeholder="যেমন: 10" value="">
             </div>
             <div class="input-group">
-                <label>মোট চওড়া / লেন্থ:</label>
-                <input type="number" class="length" placeholder="যেমন: ৬০" value="">
+                <label>মোট চওড়া / লেন্থ (ফিট)</label>
+                <input type="number" class="length" placeholder="যেমন: 21" value="">
+            </div>
+            <div class="input-group">
+                <label>খাড়া কলাম (খোপ)</label>
+                <input type="number" class="ver-grid" placeholder="যেমন: 4" value="0">
+            </div>
+            <div class="input-group">
+                <label>আড়াআড়ি (খোপ)</label>
+                <input type="number" class="hor-grid" placeholder="যেমন: 2" value="0">
             </div>
             <div class="input-group" style="grid-column: span 2;">
-                <label>পরিমাণ (বক্সের সংখ্যা):</label>
-                <input type="number" class="qty" placeholder="যেমন: ২" value="1">
-            </div>
-        </div>
-        
-        <!-- ডাইনামিক খোপের গ্রিড (২ কলাম) -->
-        <div class="grid-inputs-container" style="display: ${displayStyle};">
-            <div class="grid-layout-2col" style="margin-bottom: 0;">
-                <div class="input-group">
-                    <label style="color:#0284c7;">খাড়া কলাম (খোপ):</label>
-                    <input type="number" class="ver-grid" placeholder="যেমন: ৪" value="0">
-                </div>
-                <div class="input-group">
-                    <label style="color:#0284c7;">আড়াআড়ি (খোপ):</label>
-                    <input type="number" class="hor-grid" placeholder="যেমন: ২" value="0">
-                </div>
+                <label>পরিমাণ (Qty)</label>
+                <input type="number" class="qty" placeholder="যেমন: 1" value="1">
             </div>
         </div>
 
@@ -605,7 +585,12 @@ function calculateTotal() {
                         if (key.includes('box')) return (h + l) * q; 
                         return l * q;
                     }
-                    if (currentSize === 'curtain_wall') return ((h * 2) + (l * 2) + (horG * l) + (verG * h)) * q;
+                    if (currentSize === 'curtain_wall') {
+                        if (key.includes('half section')) return ((h * 2) + (l * 2)) * q;
+                        if (key.includes('full section')) return ((horG * l) + (verG * h)) * q;
+                        if (key.includes('angle')) return ((horG * l) + (verG * h)) * q;
+                        return ((h * 2) + (l * 2) + (horG * l) + (verG * h)) * q;
+                    }
                     if (currentSize === 'louver') {
                         if (key.includes('frame')) return ((h * 2) + (l * 2)) * q;
                         if (key.includes('z louver')) return (h * 4) * l * q;
@@ -628,11 +613,11 @@ function calculateTotal() {
     let sectionTotals = {}; activeConfigs.forEach(s => sectionTotals[s.key] = 0);
 
     document.querySelectorAll('.window-box').forEach(win => {
-        const hInch = parseFloat(win.querySelector('.height').value) || 0, lInch = parseFloat(win.querySelector('.length').value) || 0, qty = parseInt(win.querySelector('.qty').value) || 0;
+        const hFt = parseFloat(win.querySelector('.height').value) || 0, lFt = parseFloat(win.querySelector('.length').value) || 0, qty = parseInt(win.querySelector('.qty').value) || 0;
         const horG = parseFloat(win.querySelector('.hor-grid')?.value) || 0, verG = parseFloat(win.querySelector('.ver-grid')?.value) || 0;
-        if (hInch > 0 && lInch > 0 && qty > 0) {
-            totalSqft += ((hInch * lInch) / 144) * qty;
-            activeConfigs.forEach(s => sectionTotals[s.key] += s.ftCalc(lInch / 12, hInch / 12, qty, horG, verG));
+        if (hFt > 0 && lFt > 0 && qty > 0) {
+            totalSqft += (hFt * lFt) * qty; // সরাসরি ফিটে হিসাব
+            activeConfigs.forEach(s => sectionTotals[s.key] += s.ftCalc(lFt, hFt, qty, horG, verG));
         }
     });
 

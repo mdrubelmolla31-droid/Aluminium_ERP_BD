@@ -192,7 +192,6 @@
         .input-group label { font-size: 11px; font-weight: 800; margin-bottom: 4px; color: #475569; }
         .input-group input { padding: 8px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 14px; font-weight: 700; outline: none; }
 
-        .btn-remove { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 10px; width: 100%; font-weight: 800; }
         .btn-add { background: #059669; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 900; width: 100%; margin-bottom: 10px; font-size: 14px; }
         .btn-calc { background: var(--accent); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 900; width: 100%; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
         
@@ -201,27 +200,102 @@
         .grand-total-box { margin-top: 15px; background: #eff6ff; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #bfdbfe; }
         .grand-total-box h3 { margin: 0; color: #1e3a8a; font-size: 19px; font-weight: 900; }
 
-        /* ================= MODALS & MENUS ================= */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); z-index: 1000; justify-content: center; align-items: center; padding: 10px; }
-        .modal-content { background: #ffffff; width: 95%; max-width: 750px; max-height: 92vh; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 35px rgba(0,0,0,0.35); }
-        .menu-small { max-width: 500px; }
-
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 15px; }
-        .modal-header h3 { color: #1e3a8a; font-size: 18px; font-weight: 900; margin: 0; }
-        .close-btn { background: none; border: none; font-size: 26px; font-weight: bold; color: #64748b; cursor: pointer; }
-        .modal-body { overflow-y: auto; display: flex; flex-direction: column; gap: 10px; flex: 1; padding-right: 5px; }
+        /* ================= MODALS & MENUS (UPDATED: BIGGER & BLUE THEME) ================= */
+        .modal-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(15, 23, 42, 0.85); 
+            z-index: 1000; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 10px; 
+        }
         
-        .menu-btn { background: #f1f5f9; color: #1e3a8a; border: 1px solid #cbd5e1; padding: 16px; border-radius: 8px; font-size: 17px; font-weight: 900; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 12px; }
-        .menu-btn:hover { background: #e2e8f0; }
+        .modal-content { 
+            background: #f8fafc; 
+            width: 98%; /* আরও বড় করা হয়েছে */
+            height: 96vh; /* আরও বড় করা হয়েছে */
+            max-width: 900px; 
+            border-radius: 12px; 
+            padding: 0; /* প্যাডিং সরানো হয়েছে যেন ব্লু হেডার পুরোটা জুড়ে থাকে */
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+            overflow: hidden;
+        }
+        
+        .menu-small { 
+            height: auto; 
+            max-height: 70vh; 
+        }
 
-        .history-card { background: #f8fafc; border: 1px solid var(--border); padding: 14px; border-radius: 8px; font-size: 14px; }
-        .btn-danger { background: #dc2626; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 900; font-size:15px; cursor: pointer; margin-top: 15px; width: 100%; }
+        .modal-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: var(--header-bg); /* হোম পেজের মতো ব্লু গ্রেডিয়েন্ট */
+            padding: 18px 20px; 
+        }
+        
+        .modal-header h3 { 
+            color: #ffffff; /* সাদা লেখা */
+            font-size: 20px; 
+            font-weight: 900; 
+            margin: 0; 
+        }
+        
+        .close-btn { 
+            background: rgba(255,255,255,0.2); 
+            border: 1px solid rgba(255,255,255,0.4); 
+            border-radius: 8px;
+            font-size: 22px; 
+            font-weight: bold; 
+            color: #ffffff; 
+            cursor: pointer; 
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        .rate-section-header { background: #1e3a8a; color: white; padding: 10px 15px; font-size: 15px; font-weight: 900; margin-top: 15px; border-radius: 6px; }
-        .rate-setting-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding: 10px 5px; }
-        .rate-setting-item span { font-size: 14px; font-weight: 800; color: #334155; flex: 1; }
-        .rate-setting-item input { width: 120px; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-weight: 900; font-size: 15px; text-align: center; }
-        .btn-save-rates { background: #059669; color: white; border: none; padding: 15px; border-radius: 8px; font-size:16px; cursor: pointer; font-weight: 900; width: 100%; margin-top: 15px; }
+        .modal-body { 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            flex: 1; 
+            padding: 20px; 
+        }
+        
+        /* মেনু বাটনগুলো আরও বড় ও কালারফুল করা হয়েছে */
+        .menu-btn { 
+            background: #eff6ff; 
+            color: #1e3a8a; 
+            border: 2px solid #3b82f6; 
+            padding: 22px; 
+            border-radius: 12px; 
+            font-size: 20px; 
+            font-weight: 900; 
+            cursor: pointer; 
+            text-align: center; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 12px; 
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+        }
+        .menu-btn:hover { background: #dbeafe; }
+
+        .history-card { background: #ffffff; border: 1px solid #bfdbfe; padding: 18px; border-radius: 10px; font-size: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .btn-danger { background: #dc2626; color: white; border: none; padding: 16px; border-radius: 8px; font-weight: 900; font-size:16px; cursor: pointer; margin: 15px 20px; width: calc(100% - 40px); }
+
+        .rate-section-header { background: #1e3a8a; color: white; padding: 12px 15px; font-size: 16px; font-weight: 900; margin-top: 15px; border-radius: 8px; box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2); }
+        .rate-setting-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding: 12px 5px; }
+        .rate-setting-item span { font-size: 15px; font-weight: 800; color: #1e293b; flex: 1; }
+        .rate-setting-item input { width: 130px; padding: 12px; border: 2px solid #94a3b8; border-radius: 8px; font-weight: 900; font-size: 16px; text-align: center; color: #0f172a; }
+        .btn-save-rates { background: #059669; color: white; border: none; padding: 16px; border-radius: 8px; font-size:18px; cursor: pointer; font-weight: 900; margin: 15px 20px; width: calc(100% - 40px); box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3); }
     </style>
 </head>
 <body>
@@ -380,7 +454,6 @@
 <script>
 let windowCount = 0;
 
-// ছবি থেকে নেওয়া Silver ED Coating এর ২১ ফিটের ডিফল্ট রেট
 const defaultRates = {
     "3\" Sliding Outer Side": 3019,
     "Sliding Shutter Lock": 3256,
@@ -436,7 +509,6 @@ const defaultRates = {
     "Bathroom Door Outer": 4704
 };
 
-// ছবি অনুযায়ী ক্যাটাগরি ও প্রোফাইলের নতুন তালিকা
 const categorizedProfiles = {
     "৩ ইঞ্চি (3\") সেকশন": [
         "3\" Sliding Outer Top", "3\" Sliding Outer High Bottom", "3\" Sliding Outer Low Bottom", "3\" Sliding Outer Side",
@@ -465,7 +537,6 @@ const categorizedProfiles = {
     ]
 };
 
-// ক্যাটাগরি থেকে স্বয়ংক্রিয়ভাবে সব প্রোফাইলের নাম বের করা
 const allProfileNames = [];
 for (const category in categorizedProfiles) {
     categorizedProfiles[category].forEach(profile => allProfileNames.push(profile));
@@ -632,6 +703,7 @@ function loadShopDetails() {
     document.getElementById("shopPhone").value = localStorage.getItem("erp_shopPhone") || "মোবাইল: 01676474412";
 }
 
+// আপডেট: মুছে ফেলুন বাটনটি বাদ দেওয়া হয়েছে
 function addWindow() {
     windowCount++;
     const container = document.getElementById('windowsList');
@@ -645,7 +717,6 @@ function addWindow() {
             <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
             <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value=""></div>
         </div>
-        <button class="btn-remove" onclick="document.getElementById('window_${windowCount}').remove()">🗑️ মুছে ফেলুন</button>
     `;
     container.appendChild(windowDiv);
 }
@@ -721,9 +792,9 @@ function openHistoryModal() {
     closeModal('mainMenuModal');
     let history = JSON.parse(localStorage.getItem('erp_profile_calc_history')) || [];
     let container = document.getElementById('historyListContainer');
-    container.innerHTML = history.length === 0 ? `<div style="text-align:center; color:#64748b; padding:20px 0; font-weight:bold;">কোনো হিস্ট্রি পাওয়া যায়নি</div>` : '';
+    container.innerHTML = history.length === 0 ? `<div style="text-align:center; color:#64748b; padding:20px 0; font-weight:bold; font-size:16px;">কোনো হিস্ট্রি পাওয়া যায়নি</div>` : '';
     history.forEach((item) => {
-        container.innerHTML += `<div class="history-card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-weight:800;color:#1e3a8a;"><span>${item.company} (${item.thickness})</span><span style="font-size:11px;color:#64748b;">${item.date}</span></div><div style="color:#334155;margin-top:4px;"><b>কাজ:</b> ${item.totalSqft} SFT | <b>হার:</b> ${item.perSqftRate} ৳/SFT</div><div style="font-size:14px;font-weight:900;color:#2563eb;margin-top:4px;">মূল্য: ${item.totalCost.toLocaleString('bn-BD')} টাকা</div></div>`;
+        container.innerHTML += `<div class="history-card" style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-weight:900;color:#1e3a8a;font-size:16px;"><span>${item.company} (${item.thickness})</span><span style="font-size:13px;color:#64748b;">${item.date}</span></div><div style="color:#334155;margin-top:6px;font-size:14px;"><b>কাজ:</b> ${item.totalSqft} SFT | <b>হার:</b> ${item.perSqftRate} ৳/SFT</div><div style="font-size:16px;font-weight:900;color:#2563eb;margin-top:6px;">মূল্য: ${item.totalCost.toLocaleString('bn-BD')} টাকা</div></div>`;
     });
     document.getElementById('historyModal').style.display = 'flex';
 }

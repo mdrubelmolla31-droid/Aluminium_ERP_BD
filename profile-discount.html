@@ -201,38 +201,12 @@
         .grand-total-box { margin-top: 15px; background: #eff6ff; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #bfdbfe; }
         .grand-total-box h3 { margin: 0; color: #1e3a8a; font-size: 19px; font-weight: 900; }
 
-        /* ================= MODALS & MENUS (বড় সাইজ) ================= */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
-        .modal-content {
-            background: #ffffff;
-            width: 95%;
-            max-width: 750px;
-            max-height: 92vh;
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.35);
-        }
+        /* ================= MODALS & MENUS ================= */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); z-index: 1000; justify-content: center; align-items: center; padding: 10px; }
+        .modal-content { background: #ffffff; width: 95%; max-width: 750px; max-height: 92vh; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 35px rgba(0,0,0,0.35); }
         .menu-small { max-width: 500px; }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 12px;
-            margin-bottom: 15px;
-        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 15px; }
         .modal-header h3 { color: #1e3a8a; font-size: 18px; font-weight: 900; margin: 0; }
         .close-btn { background: none; border: none; font-size: 26px; font-weight: bold; color: #64748b; cursor: pointer; }
         .modal-body { overflow-y: auto; display: flex; flex-direction: column; gap: 10px; flex: 1; padding-right: 5px; }
@@ -304,12 +278,12 @@
     <div class="card">
         <div class="section-title">
             <span>সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</span>
-            <!-- সাইজ ড্রপডাউন (৩ ইঞ্চি প্রথমে) -->
             <select id="profileSizeSelect" class="size-select" onchange="onSizeCategoryChange()">
                 <option value="3">৩ ইঞ্চি (3")</option>
                 <option value="4">৪ ইঞ্চি (4")</option>
                 <option value="single">সিঙ্গেল শাটার (Single)</option>
                 <option value="fixed">ফিক্সড (Fixed)</option>
+                <option value="curtain_wall">কার্টেন ওয়াল ও বক্স (CW & Box)</option>
                 <option value="others">অন্যান্য (Others)</option>
             </select>
         </div>
@@ -406,49 +380,96 @@
 <script>
 let windowCount = 0;
 
-// ক্যাটাগরি অনুযায়ী প্রোফাইল তালিকা (৩ ইঞ্চি প্রথমে, এরপর ৪ ইঞ্চি, সিঙ্গেল শাটার, ফিক্সড ও অন্যান্য)
+// ছবি থেকে নেওয়া Silver ED Coating এর ২১ ফিটের ডিফল্ট রেট
+const defaultRates = {
+    "3\" Sliding Outer Side": 3019,
+    "Sliding Shutter Lock": 3256,
+    "Sliding Shutter Inter Lock": 3430,
+    "3\" Sliding Outer Top": 3854,
+    "3\" Sliding Outer High Bottom": 3292,
+    "3\" Sliding Outer Low Bottom": 2579,
+    "Sliding Shutter Top": 2478,
+    "Sliding Shutter Bottom": 3533,
+    "Sliding Shutter Divider": 2703,
+    "Muck Cover": 1541,
+    "Net Section": 2270,
+    "Net Handle": 1779,
+    "Cross Tee": 949,
+    "1\" x 1\" Angle": 925,
+    "Fixed Glass Protector (D)": 1102,
+    "Fixed Glass Protector Bit (S)": 754,
+    "3\" Fixed Top and Side": 4303,
+    "3\" Fixed Bottom": 3550,
+    "3\" Fixed Bottom Cover": 1530,
+    "3\" Group Cover": 2111,
+    "3\" Plane Cover": 1237,
+    "3\" Wall Frame": 3188,
+    "3\" Louver \"Z\"": 1336,
+    "3\" Louver Outer \"U\"": 1566,
+    "1.75\" x 1.75\" Box": 3074,
+    "1.25\" x 1.25\" Box": 2340,
+    "6\" Sprandle": 3028,
+    "1\" x 1.25\" Fitting Angel (2.5 mm)": 2661,
+    "10mm Glass Door \"U\" Channel": 2979,
+    "Single Outer Side": 1715,
+    "Single Outer Low Bottom": 1649,
+    "Single Outer Top": 2123,
+    "4\" Sliding Outer Side": 3521,
+    "4\" Sliding Outer Top": 4857,
+    "4\" Sliding Outer(H) Bottom": 4244,
+    "4\" Fixed Top and Side": 6254,
+    "4\" Fixed Bottom": 4841,
+    "4\" Fixed Bottom Cover": 1818,
+    "4\" Group Cover": 2818,
+    "4\" Plane Cover": 1818,
+    "4\" Wall Frame": 4900,
+    "1\" x 1\" Fitting Angel (2 mm)": 1956,
+    "3\" Corner Box (136)": 7906,
+    "Top Hang (32 x 30 mm ) 2mm": 3601,
+    "Casement Shutter": 7148,
+    "Casement Outer": 1495,
+    "Carting Wall Middle": 8872,
+    "Carting Wall Side": 5244,
+    "2\" x 1\" Box (0.95 mm)": 2639,
+    "3\" x 1\" Box (1 mm)": 3935,
+    "Bathroom Door Shutter": 4125,
+    "Bathroom Door Outer": 4704
+};
+
+// ছবি অনুযায়ী ক্যাটাগরি ও প্রোফাইলের নতুন তালিকা
 const categorizedProfiles = {
     "৩ ইঞ্চি (3\") সেকশন": [
-        "3\" Sliding Outer Top", "3\" Sliding Outer Bottom", "3\" Sliding Outer Side",
-        "3\" Sliding Shutter Top", "3\" Sliding Shutter Bottom", "3\" Sliding Shutter Lock", "3\" Sliding Shutter Interlock",
-        "3\" Fixed Top and Side", "3\" Fixed Bottom"
+        "3\" Sliding Outer Top", "3\" Sliding Outer High Bottom", "3\" Sliding Outer Low Bottom", "3\" Sliding Outer Side",
+        "Sliding Shutter Top", "Sliding Shutter Bottom", "Sliding Shutter Lock", "Sliding Shutter Inter Lock", "Sliding Shutter Divider",
+        "3\" Fixed Top and Side", "3\" Fixed Bottom", "3\" Fixed Bottom Cover",
+        "3\" Group Cover", "3\" Plane Cover", "3\" Wall Frame"
     ],
     "৪ ইঞ্চি (4\") সেকশন": [
-        "4\" Sliding Outer Top", "4\" Sliding Outer Bottom", "4\" Sliding Outer Side",
-        "4\" Sliding Shutter Top", "4\" Sliding Shutter Bottom", "4\" Sliding Shutter Lock", "4\" Sliding Shutter Interlock",
-        "Net Section", "Net Handle",
-        "4\" Fixed Top and Side", "4\" Fixed Bottom", "Fixed Bottom Cover", "Group Cover", "Plane Cover"
+        "4\" Sliding Outer Top", "4\" Sliding Outer(H) Bottom", "4\" Sliding Outer Side",
+        "4\" Fixed Top and Side", "4\" Fixed Bottom", "4\" Fixed Bottom Cover",
+        "4\" Group Cover", "4\" Plane Cover", "4\" Wall Frame"
     ],
-    "সিঙ্গেল শাটার (Single Shutter)": [
-        "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side",
-        "Single Shutter Top", "Single Shutter Bottom", "Single Shutter Lock", "Single Shutter Interlock"
-    ], 
-    
-    "ফিক্সড আইটেম (Fixed)": [
-        "Fixed Top and Side", "Fixed Bottom", "Fixed Glass Beading"
+    "সিঙ্গেল শাটার (Single)": [
+        "Single Outer Top", "Single Outer Low Bottom", "Single Outer Side"
     ],
-    "অন্যান্য (Others)": [
-        "Sliding Fixed Side", "Sliding Shutter Divider", "Net Divider", "Wall Frame", "Door Section"
+    "কার্টেন ওয়াল ও বক্স": [
+        "Carting Wall Middle", "Carting Wall Side", "1.75\" x 1.75\" Box", "1.25\" x 1.25\" Box", 
+        "2\" x 1\" Box (0.95 mm)", "3\" x 1\" Box (1 mm)", "3\" Corner Box (136)"
+    ],
+    "নেট, লুভার ও অন্যান্য": [
+        "Net Section", "Net Handle", "3\" Louver \"Z\"", "3\" Louver Outer \"U\"", 
+        "Fixed Glass Protector (D)", "Fixed Glass Protector Bit (S)", "Muck Cover", 
+        "Cross Tee", "1\" x 1\" Angle", "6\" Sprandle", "1\" x 1.25\" Fitting Angel (2.5 mm)", 
+        "10mm Glass Door \"U\" Channel", "1\" x 1\" Fitting Angel (2 mm)", "Top Hang (32 x 30 mm ) 2mm", 
+        "Casement Shutter", "Casement Outer", "Bathroom Door Shutter", "Bathroom Door Outer"
     ]
 };
 
-// ড্রপডাউনের জন্য সকল প্রোফাইল (স্লাইডিং ও ৩ ইঞ্চি সবার আগে)
-const allProfileNames = [
-    // 3" Sliding & Fixed
-    "3\" Sliding Outer Top", "3\" Sliding Outer Bottom", "3\" Sliding Outer Side",
-    "3\" Sliding Shutter Top", "3\" Sliding Shutter Bottom", "3\" Sliding Shutter Lock", "3\" Sliding Shutter Interlock",
-    "3\" Fixed Top and Side", "3\" Fixed Bottom",
-    // 4" Sliding & Fixed
-    "4\" Sliding Outer Top", "4\" Sliding Outer Bottom", "4\" Sliding Outer Side",
-    "4\" Sliding Shutter Top", "4\" Sliding Shutter Bottom", "4\" Sliding Shutter Lock", "4\" Sliding Shutter Interlock",
-    "Net Section", "Net Handle",
-    "4\" Fixed Top and Side", "4\" Fixed Bottom", "Fixed Bottom Cover", "Group Cover", "Plane Cover",
-    // Single Shutter
-    "Single Shutter Outer Top", "Single Shutter Outer Bottom", "Single Shutter Outer Side", "Single Shutter Top", 
-    "Single Shutter Bottom", "Single Shutter Lock", "Single Shutter Interlock", // এখানে Interlock যোগ করা হয়েছে এবং কমা দেওয়া হয়েছে
-    // Others
-    "Sliding Fixed Side", "Sliding Shutter Divider", "Net Divider", "Wall Frame", "Door Section"
-];
+// ক্যাটাগরি থেকে স্বয়ংক্রিয়ভাবে সব প্রোফাইলের নাম বের করা
+const allProfileNames = [];
+for (const category in categorizedProfiles) {
+    categorizedProfiles[category].forEach(profile => allProfileNames.push(profile));
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     onSizeCategoryChange();
@@ -460,7 +481,6 @@ document.addEventListener("DOMContentLoaded", function() {
 function openMenuModal() { document.getElementById('mainMenuModal').style.display = 'flex'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-// রেট সেটিংস পপআপ খোলা
 function openRateSettingsModal() {
     closeModal('mainMenuModal');
     const container = document.getElementById('rateSettingsList');
@@ -469,12 +489,15 @@ function openRateSettingsModal() {
     for (const [category, profiles] of Object.entries(categorizedProfiles)) {
         let sectionHTML = `<div class="rate-section-header">${category}</div>`;
         profiles.forEach((profile) => {
-            let savedRate = localStorage.getItem('erp_setting_rate_' + profile) || '';
+            let defRate = defaultRates[profile] || '';
+            let savedRate = localStorage.getItem('erp_setting_rate_' + profile);
+            let displayRate = savedRate !== null ? savedRate : defRate;
             let safeId = 'setting_input_' + profile.replace(/[^a-zA-Z0-9]/g, '_');
+            
             sectionHTML += `
                 <div class="rate-setting-item">
                     <span>${profile}</span>
-                    <input type="number" id="${safeId}" value="${savedRate}" placeholder="রেট" data-profile="${profile}">
+                    <input type="number" id="${safeId}" value="${displayRate}" placeholder="রেট" data-profile="${profile}">
                 </div>
             `;
         });
@@ -499,7 +522,6 @@ function saveAllSettingsRates() {
     onSizeCategoryChange();
 }
 
-// সাইজ ড্রপডাউন চেঞ্জ করলে মেইন পেজের টেবিল ও ডিফল্ট রেট পরিবর্তন হবে
 function onSizeCategoryChange() {
     const sizeType = document.getElementById('profileSizeSelect').value;
     const tbody = document.getElementById('rateTableBody');
@@ -511,49 +533,58 @@ function onSizeCategoryChange() {
     if (sizeType === '3') {
         headerTitle = "৩ ইঞ্চি স্লাইডিং ও ফিক্সড সেকশন";
         itemsToDisplay = [
-            { id: 'outer_top', def: '3\" Sliding Outer Top' },
-            { id: 'outer_bottom', def: '3\" Sliding Outer Bottom' },
-            { id: 'shutter_top', def: '3\" Sliding Shutter Top' },
-            { id: 'shutter_bottom', def: '3\" Sliding Shutter Bottom' },
-            { id: 'outer_side', def: '3\" Sliding Outer Side' },
-            { id: 'lock_style', def: '3\" Sliding Shutter Lock' },
-            { id: 'interlock', def: '3\" Sliding Shutter Interlock' }
+            { id: 'outer_top', def: '3" Sliding Outer Top' },
+            { id: 'outer_bottom', def: '3" Sliding Outer Low Bottom' },
+            { id: 'shutter_top', def: 'Sliding Shutter Top' },
+            { id: 'shutter_bottom', def: 'Sliding Shutter Bottom' },
+            { id: 'outer_side', def: '3" Sliding Outer Side' },
+            { id: 'lock_style', def: 'Sliding Shutter Lock' },
+            { id: 'interlock', def: 'Sliding Shutter Inter Lock' }
         ];
     } else if (sizeType === '4') {
         headerTitle = "৪ ইঞ্চি স্লাইডিং ও নেট সেকশন";
         itemsToDisplay = [
-            { id: 'outer_top', def: '4\" Sliding Outer Top' },
-            { id: 'outer_bottom', def: '4\" Sliding Outer Bottom' },
-            { id: 'shutter_top', def: '4\" Sliding Shutter Top' },
-            { id: 'shutter_bottom', def: '4\" Sliding Shutter Bottom' },
-            { id: 'outer_side', def: '4\" Sliding Outer Side' },
-            { id: 'lock_style', def: '4\" Sliding Shutter Lock' },
-            { id: 'interlock', def: '4\" Sliding Shutter Interlock' },
+            { id: 'outer_top', def: '4" Sliding Outer Top' },
+            { id: 'outer_bottom', def: '4" Sliding Outer(H) Bottom' },
+            { id: 'shutter_top', def: 'Sliding Shutter Top' },
+            { id: 'shutter_bottom', def: 'Sliding Shutter Bottom' },
+            { id: 'outer_side', def: '4" Sliding Outer Side' },
+            { id: 'lock_style', def: 'Sliding Shutter Lock' },
+            { id: 'interlock', def: 'Sliding Shutter Inter Lock' },
             { id: 'net_section', def: 'Net Section' },
             { id: 'net_handle', def: 'Net Handle' }
         ];
     } else if (sizeType === 'single') {
         headerTitle = "সিঙ্গেল শাটার সেকশন";
         itemsToDisplay = [
-            { id: 'outer_top', def: 'Single Shutter Outer Top' },
-            { id: 'outer_bottom', def: 'Single Shutter Outer Bottom' },
-            { id: 'outer_side', def: 'Single Shutter Outer Side' }, // এখানে কমা মিসিং ছিল
-            { id: 'shutter_top', def: 'Single Shutter Top' },
-            { id: 'shutter_bottom', def: 'Single Shutter Bottom' },
-            { id: 'lock_style', def: 'Single Shutter Lock' },
-            { id: 'interlock', def: 'Single Shutter Interlock' }
+            { id: 'outer_top', def: 'Single Outer Top' },
+            { id: 'outer_bottom', def: 'Single Outer Low Bottom' },
+            { id: 'outer_side', def: 'Single Outer Side' },
+            { id: 'shutter_top', def: 'Sliding Shutter Top' },
+            { id: 'shutter_bottom', def: 'Sliding Shutter Bottom' },
+            { id: 'lock_style', def: 'Sliding Shutter Lock' },
+            { id: 'interlock', def: 'Sliding Shutter Inter Lock' }
         ];
     } else if (sizeType === 'fixed') {
         headerTitle = "ফিক্সড আইটেম";
         itemsToDisplay = [
-            { id: 'outer_top', def: 'Fixed Top and Side' },
-            { id: 'outer_bottom', def: 'Fixed Bottom' }
+            { id: 'outer_top', def: '3" Fixed Top and Side' },
+            { id: 'outer_bottom', def: '3" Fixed Bottom' },
+            { id: 'outer_top_4', def: '4" Fixed Top and Side' },
+            { id: 'outer_bottom_4', def: '4" Fixed Bottom' }
+        ];
+    } else if (sizeType === 'curtain_wall') {
+        headerTitle = "কার্টেন ওয়াল ও বক্স";
+        itemsToDisplay = [
+            { id: 'outer_top', def: 'Carting Wall Middle' },
+            { id: 'outer_bottom', def: 'Carting Wall Side' },
+            { id: 'outer_side', def: '3" Corner Box (136)' }
         ];
     } else {
         headerTitle = "অন্যান্য আইটেম";
         itemsToDisplay = [
-            { id: 'outer_top', def: 'Sliding Fixed Side' },
-            { id: 'outer_bottom', def: 'Sliding Shutter Divider' }
+            { id: 'outer_top', def: 'Net Section' },
+            { id: 'outer_bottom', def: 'Net Handle' }
         ];
     }
 
@@ -566,12 +597,14 @@ function onSizeCategoryChange() {
             selectOptions += `<option value="${profile}" ${selected}>${profile}</option>`;
         });
 
-        let savedRate = localStorage.getItem('erp_setting_rate_' + item.def) || '';
+        let defRate = defaultRates[item.def] || '';
+        let savedRate = localStorage.getItem('erp_setting_rate_' + item.def);
+        let displayRate = savedRate !== null ? savedRate : defRate;
 
         tbody.innerHTML += `
             <tr>
                 <td><select class="dyn-select" id="sel_${item.id}" onchange="loadRate(this.id, 'rate_${item.id}')">${selectOptions}</select></td>
-                <td><input type="number" id="rate_${item.id}" value="${savedRate}" placeholder="রেট" step="0.01"></td>
+                <td><input type="number" id="rate_${item.id}" value="${displayRate}" placeholder="রেট" step="0.01"></td>
             </tr>
         `;
     });
@@ -579,8 +612,9 @@ function onSizeCategoryChange() {
 
 function loadRate(selectId, inputId) {
     const selectedProfile = document.getElementById(selectId).value;
+    let defRate = defaultRates[selectedProfile] || '';
     const savedRate = localStorage.getItem('erp_setting_rate_' + selectedProfile);
-    document.getElementById(inputId).value = savedRate ? savedRate : '';
+    document.getElementById(inputId).value = savedRate !== null ? savedRate : defRate;
 }
 
 function setCurrentDate() {

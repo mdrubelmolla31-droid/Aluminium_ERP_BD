@@ -183,7 +183,31 @@
         .category-header { background: #e2e8f0; color: #1e3a8a; font-weight: 900; text-align: center; }
 
         .window-box { border: 1px solid var(--border); padding: 14px; margin-bottom: 12px; border-radius: 8px; background: #f8fafc; }
-        .window-header { font-weight: 900; font-size: 15px; margin-bottom: 10px; color: #2563eb; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+        
+        .window-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-weight: 900; 
+            font-size: 15px; 
+            margin-bottom: 10px; 
+            color: #2563eb; 
+            border-bottom: 1px solid #e2e8f0; 
+            padding-bottom: 5px; 
+        }
+
+        .btn-remove-win {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-remove-win:hover { background: #dc2626; }
 
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
         .input-group { display: flex; flex-direction: column; }
@@ -588,8 +612,7 @@ function onSizeCategoryChange() {
             { id: 'net_handle', def: 'Net Handle' }
         ];
     } else if (sizeType === 'single') {
-        headerTitle = "সিঙ্গেল শাটার (দোনো পাশে লক, 1.75\"x1.75\" বক্স)";
-        // আপনার নতুন ইনস্ট্রাকশন অনুযায়ী ইন্টারলক বাদ দেওয়া হয়েছে এবং বক্স যোগ করা হয়েছে
+        headerTitle = "সিঙ্গেল শাটার (টপ/বটম ডাবল, সাইড সিঙ্গেল, দোনো পাশে লক)";
         itemsToDisplay = [
             { id: 'outer_top', def: 'Single Outer Top' },
             { id: 'outer_bottom', def: 'Single Outer Low Bottom' },
@@ -673,7 +696,10 @@ function addWindow() {
     windowDiv.className = 'window-box';
     windowDiv.id = `window_${windowCount}`;
     windowDiv.innerHTML = `
-        <div class="window-header">উইন্ডো #${windowCount}</div>
+        <div class="window-header">
+            <span>উইন্ডো #${windowCount}</span>
+            <button class="btn-remove-win" onclick="removeWindow(${windowCount})" title="মুছে ফেলুন">✕ মুছে ফেলুন</button>
+        </div>
         <div class="grid-container">
             <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value=""></div>
             <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
@@ -683,8 +709,16 @@ function addWindow() {
     container.appendChild(windowDiv);
 }
 
+function removeWindow(id) {
+    const windowEl = document.getElementById(`window_${id}`);
+    if (windowEl) {
+        windowEl.remove();
+    }
+}
+
 function calculateTotal() {
     const discount = parseFloat(document.getElementById('globalDiscount').value) || 0;
+    const sizeType = document.getElementById('profileSizeSelect').value;
     let totalSqft = 0;
 
     let activeConfigs = [];
@@ -698,16 +732,20 @@ function calculateTotal() {
                 name: sel.value,
                 inputId: inp.id,
                 ftCalc: (l, h, q) => {
-                    // লকের জন্য হাইটের ২ গুণ (সিঙ্গেল শাটারে দোনো পাশে লক হবে), আউটার সাইডের জন্যও ২ গুণ
-                    if (key.includes('outer_side') || key.includes('lock_style') || key.includes('interlock') || key.includes('net_handle')) return h * 2 * q;
-                    
-                    // সিঙ্গেল শাটারের ১.৭৫x১.৭৫ বক্স (হাইট + লেন্থ = বক্সের মোট সাইজ)
-                    if (key.includes('box_section')) return (l + h) * q;
-                    
-                    if (key.includes('net_section')) return ((l * 2) + (h * 2)) * q;
-                    
-                    // টপ, বটম ইত্যাদির জন্য শুধু লেন্থ
-                    return l * q;
+                    if (sizeType === 'single') {
+                        // সিঙ্গেল শাটারের জন্য আপনার সুনির্দিষ্ট নিয়ম:
+                        if (key === 'outer_top' || key === 'outer_bottom') return (l * 2) * q; // আউটার টপ ও বটম লেন্থের ডাবল (L * 2)
+                        if (key === 'outer_side') return h * 1 * q;                          // আউটার সাইড সিঙ্গেল (H * 1)
+                        if (key === 'lock_style') return h * 2 * q;                          // লকের হিসাব দোনো পাশে (H * 2)
+                        if (key === 'box_section') return (l + h) * q;                       // বক্সের হিসাব (H + L)
+                        return l * q;                                                       // শাটার টপ/বটম
+                    } else {
+                        // অন্যান্য সেকশন (৩" ও ৪")
+                        if (key.includes('outer_side') || key.includes('lock_style') || key.includes('interlock') || key.includes('net_handle')) return h * 2 * q;
+                        if (key.includes('net_section')) return ((l * 2) + (h * 2)) * q;
+                        if (key.includes('box_section')) return (l + h) * q;
+                        return l * q;
+                    }
                 }
             });
         }

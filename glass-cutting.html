@@ -1,608 +1,2070 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>গ্লাস কাটিং অপটিমাইজার</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Segoe UI', 'Arial', sans-serif;
-            background: #f0f4f8;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            padding: 25px 30px;
-        }
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #0b3b6b, #1a5a9b);
-            color: white;
-            padding: 20px 25px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header-left {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .header-left .title {
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        .header-left .sub {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        .header-right {
-            text-align: right;
-            font-size: 14px;
-            background: rgba(255,255,255,0.15);
-            padding: 8px 16px;
-            border-radius: 30px;
-        }
-        .header-right .date {
-            font-weight: 600;
-        }
-        /* Shop Info */
-        .shop-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            background: #f8fafc;
-            padding: 18px 20px;
-            border-radius: 12px;
-            border: 1px solid #dce7f2;
-            margin-bottom: 25px;
-            align-items: center;
-        }
-        .shop-info label {
-            font-weight: 600;
-            color: #1e3a6f;
-            margin-right: 6px;
-        }
-        .shop-info input {
-            border: 1px solid #bcccdb;
-            border-radius: 6px;
-            padding: 8px 14px;
-            font-size: 15px;
-            background: white;
-            width: 200px;
-            transition: 0.2s;
-        }
-        .shop-info input:focus {
-            border-color: #1a5a9b;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(26,90,155,0.2);
-        }
-        .shop-info .flex-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        /* Input Section */
-        .input-section {
-            margin-bottom: 25px;
-        }
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #0b3b6b;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-title span {
-            background: #0b3b6b;
-            color: white;
-            padding: 2px 12px;
-            border-radius: 30px;
-            font-size: 14px;
-        }
-        .table-wrap {
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        th {
-            background: #e5edf5;
-            color: #1e3a6f;
-            font-weight: 700;
-            padding: 14px 10px;
-            text-align: center;
-            font-size: 15px;
-        }
-        td {
-            padding: 10px 8px;
-            text-align: center;
-            border-bottom: 1px solid #eef3f7;
-            vertical-align: middle;
-        }
-        td input {
-            width: 80px;
-            padding: 8px 6px;
-            border: 1px solid #cbdae8;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-        td input:focus {
-            border-color: #1a5a9b;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(26,90,155,0.15);
-        }
-        td input[type="number"] {
-            -moz-appearance: textfield;
-        }
-        td input[type="number"]::-webkit-outer-spin-button,
-        td input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .delete-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: 0.2s;
-        }
-        .delete-btn:hover {
-            background: #c0392b;
-            transform: scale(1.02);
-        }
-        .add-row-btn {
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 15px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(39,174,96,0.3);
-        }
-        .add-row-btn:hover {
-            background: #1e8449;
-            transform: translateY(-2px);
-        }
-        .calc-btn {
-            background: #1a5a9b;
-            color: white;
-            border: none;
-            padding: 14px 40px;
-            border-radius: 40px;
-            font-size: 20px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 6px 18px rgba(26,90,155,0.35);
-            margin-top: 10px;
-            width: 100%;
-        }
-        .calc-btn:hover {
-            background: #0b3b6b;
-            transform: scale(1.01);
-        }
-        /* Result */
-        .result-area {
-            margin-top: 30px;
-            padding: 20px;
-            background: #fafcff;
-            border-radius: 14px;
-            border: 2px solid #b8d0e6;
-            display: none;
-        }
-        .result-area.active {
-            display: block;
-        }
-        .result-summary {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            background: #e3edf7;
-            padding: 18px 22px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .result-summary div {
-            font-size: 17px;
-            font-weight: 600;
-            color: #0b3b6b;
-        }
-        .result-summary div span {
-            background: #0b3b6b;
-            color: white;
-            padding: 2px 14px;
-            border-radius: 30px;
-            margin-left: 8px;
-        }
-        .result-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .result-table th {
-            background: #0b3b6b;
-            color: white;
-            padding: 12px 8px;
-        }
-        .result-table td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #dee9f2;
-        }
-        .result-table tr:last-child td {
-            border-bottom: none;
-        }
-        .waste-highlight {
-            background: #fef9e7;
-            font-weight: 600;
-        }
-        .footer-text {
-            margin-top: 18px;
-            color: #3b5e7a;
-            font-size: 14px;
-            text-align: center;
-        }
-        @media (max-width: 700px) {
-            .container { padding: 15px; }
-            .header { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .header-right { align-self: flex-start; }
-            .shop-info { flex-direction: column; align-items: stretch; }
-            .shop-info input { width: 100%; }
-            td input { width: 60px; }
-            .result-summary { flex-direction: column; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>গ্লাস কাটিং অপটিমাইজার</title>
+
+<style>
+
+:root{
+    --bg-color:#f1f5f9;
+    --card-bg:#ffffff;
+    --accent:#2563eb;
+    --accent-hover:#1d4ed8;
+    --green:#10b981;
+    --green-hover:#059669;
+    --red:#ef4444;
+    --red-hover:#dc2626;
+    --text:#0f172a;
+    --muted:#64748b;
+    --border:#cbd5e1;
+    --input-bg:#ffffff;
+
+    --header-bg:linear-gradient(
+        135deg,
+        #123a8c 0%,
+        #1557c0 45%,
+        #2563d9 100%
+    );
+}
+
+*,
+*::before,
+*::after{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    padding:0;
+    background-color:var(--bg-color);
+    color:var(--text);
+    font-family:
+        'Segoe UI',
+        system-ui,
+        -apple-system,
+        Roboto,
+        Arial,
+        sans-serif;
+}
+
+body{
+    padding:12px;
+}
+
+.main-container{
+    max-width:950px;
+    width:100%;
+    margin:0 auto;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header-card{
+    background:var(--header-bg);
+    padding:16px;
+    border-radius:12px;
+    margin-bottom:15px;
+    box-shadow:0 4px 15px rgba(20,70,160,0.20);
+    color:#ffffff;
+}
+
+.header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    border-bottom:1px solid rgba(255,255,255,0.20);
+    padding-bottom:10px;
+}
+
+.menu-btn{
+    width:40px;
+    height:40px;
+    flex-shrink:0;
+    border:1px solid rgba(255,255,255,0.35);
+    border-radius:8px;
+    background:rgba(255,255,255,0.18);
+    color:#ffffff;
+    font-size:20px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.header-title{
+    flex:1;
+    text-align:center;
+    font-weight:900;
+    font-size:20px;
+    letter-spacing:1px;
+    padding:0 10px;
+}
+
+.date-display{
+    font-size:14px;
+    font-weight:700;
+    background:rgba(255,255,255,0.20);
+    padding:4px 10px;
+    border-radius:6px;
+    white-space:nowrap;
+}
+
+/* =====================================================
+   SHOP INFO
+===================================================== */
+
+.shop-details{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.editable-input{
+    width:100%;
+    height:42px;
+    padding:6px 12px;
+    border:none;
+    border-radius:6px;
+    background:rgba(255,255,255,0.95);
+    color:#0f172a;
+    font-size:18px;
+    font-weight:900;
+    text-align:center;
+    outline:none;
+}
+
+#shopPhone{
+    font-size:16px;
+}
+
+/* Sheet size */
+
+.sheet-size-box{
+    display:flex;
+    gap:8px;
+    width:100%;
+    align-items:center;
+}
+
+.sheet-size-title{
+    color:#ffffff;
+    font-size:14px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.sheet-input{
+    flex:1;
+    min-width:0;
+    height:40px;
+    padding:6px 8px;
+    border:none;
+    border-radius:6px;
+    background:rgba(255,255,255,0.95);
+    color:#111827;
+    font-size:17px;
+    font-weight:900;
+    text-align:center;
+    outline:none;
+}
+
+.sheet-x{
+    color:#ffffff;
+    font-size:18px;
+    font-weight:900;
+}
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-card{
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:18px;
+    font-weight:900;
+    color:#1e3a8a;
+    margin-bottom:12px;
+}
+
+.section-badge{
+    margin-left:auto;
+    background:#dbeafe;
+    color:#1d4ed8;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:800;
+}
+
+/* =====================================================
+   INPUT ROW
+===================================================== */
+
+.glass-row{
+    background:#f8fafc;
+    padding:10px;
+    border-radius:9px;
+    margin-bottom:9px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+    border:1px solid var(--border);
+    box-shadow:0 2px 5px rgba(0,0,0,0.04);
+}
+
+.serial{
+    width:32px;
+    height:32px;
+    flex-shrink:0;
+    border-radius:50%;
+    background:var(--accent);
+    color:#ffffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    font-size:13px;
+}
+
+.glass-row input{
+    flex:1;
+    min-width:0;
+    padding:11px 7px;
+    border-radius:7px;
+    border:2px solid var(--border);
+    background:var(--input-bg);
+    color:var(--text);
+    font-size:16px;
+    font-weight:800;
+    text-align:center;
+    outline:none;
+}
+
+.glass-row input:focus{
+    border-color:var(--accent);
+}
+
+.delete-row-btn{
+    background:var(--red);
+    color:#ffffff;
+    border:none;
+    border-radius:8px;
+    width:44px;
+    height:44px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.delete-row-btn:hover{
+    background:var(--red-hover);
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn{
+    background:var(--accent);
+    color:#ffffff;
+    border:none;
+    padding:15px;
+    font-weight:900;
+    border-radius:8px;
+    cursor:pointer;
+    width:100%;
+    margin-top:10px;
+    font-size:16px;
+    box-shadow:0 4px 10px rgba(37,99,235,0.20);
+    transition:0.2s;
+}
+
+.btn:hover{
+    background:var(--accent-hover);
+    transform:translateY(-1px);
+}
+
+.btn-add{
+    background:var(--green);
+    box-shadow:0 4px 10px rgba(16,185,129,0.20);
+}
+
+.btn-add:hover{
+    background:var(--green-hover);
+}
+
+.btn-calculate{
+    font-size:17px;
+}
+
+/* =====================================================
+   RESULT CONTAINER
+===================================================== */
+
+.results-container{
+    margin-top:20px;
+    background:var(--card-bg);
+    border-radius:10px;
+    border:1px solid var(--border);
+    padding:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+}
+
+.result-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.result-heading h3{
+    margin:0;
+    color:#1e3a8a;
+    font-size:18px;
+    font-weight:900;
+}
+
+.result-badge{
+    background:#dbeafe;
+    color:#1d4ed8;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:900;
+}
+
+/* =====================================================
+   SUMMARY CARDS
+===================================================== */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.summary-card{
+    background:#f8fafc;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px 8px;
+    text-align:center;
+}
+
+.summary-label{
+    color:var(--muted);
+    font-size:12px;
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.summary-value{
+    color:#1d4ed8;
+    font-size:19px;
+    font-weight:900;
+}
+
+/* =====================================================
+   SHEET RESULT CARDS
+===================================================== */
+
+.sheet-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.sheet-card{
+    background:#f8fafc;
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+}
+
+.sheet-card-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#ffffff;
+    padding:11px 12px;
+    border-bottom:1px solid var(--border);
+}
+
+.sheet-number{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.sheet-badge{
+    background:var(--accent);
+    color:#ffffff;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:900;
+}
+
+.sheet-title{
+    color:#1d4ed8;
+    font-size:17px;
+    font-weight:900;
+}
+
+.sheet-waste{
+    background:#fef3c7;
+    color:#92400e;
+    border:1px solid #fde68a;
+    padding:5px 8px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:900;
+}
+
+/* =====================================================
+   PIECE LIST
+===================================================== */
+
+.piece-list{
+    padding:10px;
+}
+
+.piece-item{
+    background:#ffffff;
+    border:1px solid #e2e8f0;
+    border-radius:7px;
+    padding:9px;
+    margin-bottom:7px;
+    display:grid;
+    grid-template-columns:30px 1fr 1fr;
+    gap:6px;
+    align-items:center;
+}
+
+.piece-item:last-child{
+    margin-bottom:0;
+}
+
+.piece-number{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:#dbeafe;
+    color:#1d4ed8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:11px;
+    font-weight:900;
+}
+
+.piece-size{
+    font-size:14px;
+    color:#0f172a;
+    font-weight:900;
+}
+
+.piece-position{
+    text-align:right;
+    font-size:12px;
+    color:#64748b;
+    font-weight:700;
+}
+
+/* =====================================================
+   SHEET FOOTER
+===================================================== */
+
+.sheet-footer{
+    background:#f1f5f9;
+    border-top:1px solid var(--border);
+    padding:9px 12px;
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.used-area{
+    color:#059669;
+}
+
+.waste-area{
+    color:#dc2626;
+}
+
+/* =====================================================
+   INFO
+===================================================== */
+
+.info-box{
+    margin-top:15px;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    color:#1e40af;
+    border-radius:8px;
+    padding:11px;
+    text-align:center;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+    body{
+        padding:8px;
+    }
+
+    .header-card{
+        padding:13px;
+    }
+
+    .header-top{
+        margin-bottom:10px;
+    }
+
+    .header-title{
+        font-size:17px;
+        padding:0 5px;
+    }
+
+    .date-display{
+        font-size:11px;
+        padding:4px 6px;
+    }
+
+    .menu-btn{
+        width:36px;
+        height:36px;
+        font-size:17px;
+    }
+
+    .editable-input{
+        height:40px;
+        font-size:16px;
+    }
+
+    #shopPhone{
+        font-size:14px;
+    }
+
+    .sheet-size-title{
+        font-size:12px;
+    }
+
+    .sheet-input{
+        height:38px;
+        font-size:15px;
+    }
+
+    .glass-row{
+        gap:6px;
+        padding:8px;
+    }
+
+    .serial{
+        width:28px;
+        height:28px;
+        font-size:11px;
+    }
+
+    .glass-row input{
+        font-size:14px;
+        padding:10px 4px;
+    }
+
+    .delete-row-btn{
+        width:40px;
+        height:40px;
+        font-size:16px;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .summary-card{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:10px 12px;
+    }
+
+    .summary-label{
+        margin:0;
+    }
+
+    .summary-value{
+        font-size:17px;
+    }
+
+    .sheet-card-header{
+        align-items:flex-start;
+    }
+
+    .sheet-title{
+        font-size:15px;
+    }
+
+    .sheet-waste{
+        font-size:10px;
+    }
+
+    .piece-item{
+        grid-template-columns:28px 1fr;
+    }
+
+    .piece-position{
+        grid-column:2;
+        text-align:left;
+    }
+
+    .section-title{
+        font-size:16px;
+    }
+}
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+@media print{
+
+    @page{
+        size:A4 portrait;
+        margin:10mm;
+    }
+
+    html,
+    body{
+        background:#ffffff !important;
+        padding:0 !important;
+        margin:0 !important;
+        color:#000000 !important;
+        font-family:Arial,sans-serif !important;
+    }
+
+    .main-container{
+        max-width:100% !important;
+        width:100% !important;
+        margin:0 !important;
+    }
+
+    .header-card{
+        background:linear-gradient(
+            135deg,
+            #f0f9ff 0%,
+            #e0f2fe 50%,
+            #f8fafc 100%
+        ) !important;
+        color:#0f172a !important;
+        border:1px solid #bae6fd !important;
+        box-shadow:none !important;
+        border-radius:8px !important;
+        padding:15px !important;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
+
+    .menu-btn{
+        display:none !important;
+    }
+
+    .header-title{
+        color:#1e40af !important;
+        font-size:22px !important;
+    }
+
+    .date-display{
+        color:#0f172a !important;
+        background:#ffffff !important;
+        border:1px solid #cbd5e1 !important;
+    }
+
+    .editable-input{
+        background:transparent !important;
+        color:#0f172a !important;
+        font-size:30px !important;
+        height:auto !important;
+        padding:2px !important;
+    }
+
+    #shopPhone{
+        font-size:18px !important;
+    }
+
+    .sheet-size-box{
+        color:#1d4ed8 !important;
+        border-top:1px dashed #94a3b8;
+        padding-top:8px;
+        justify-content:center;
+    }
+
+    .sheet-size-title,
+    .sheet-x{
+        color:#1d4ed8 !important;
+    }
+
+    .sheet-input{
+        background:transparent !important;
+        color:#000000 !important;
+        border:none !important;
+        max-width:80px !important;
+    }
+
+    .section-card{
+        border:none !important;
+        box-shadow:none !important;
+        padding:0 !important;
+    }
+
+    #inputSection,
+    .btn,
+    .no-print{
+        display:none !important;
+    }
+
+    .results-container{
+        border:none !important;
+        box-shadow:none !important;
+        padding:0 !important;
+        margin-top:10px !important;
+    }
+
+    .summary-grid{
+        display:flex !important;
+        border:1px solid #cbd5e1 !important;
+        margin-bottom:10px !important;
+    }
+
+    .summary-card{
+        flex:1 !important;
+        border:none !important;
+        border-right:1px solid #cbd5e1 !important;
+        border-radius:0 !important;
+        background:#f8fafc !important;
+    }
+
+    .summary-card:last-child{
+        border-right:none !important;
+    }
+
+    .sheet-list{
+        display:block !important;
+    }
+
+    .sheet-card{
+        border:1px solid #94a3b8 !important;
+        border-radius:6px !important;
+        margin-bottom:10px !important;
+        page-break-inside:avoid !important;
+    }
+
+    .sheet-card-header{
+        background:#2563eb !important;
+        color:#ffffff !important;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
+
+    .sheet-title{
+        color:#ffffff !important;
+    }
+
+    .sheet-badge{
+        background:#ffffff !important;
+        color:#2563eb !important;
+    }
+
+    .sheet-waste{
+        background:#ffffff !important;
+        color:#92400e !important;
+    }
+
+    .piece-list{
+        background:#ffffff !important;
+    }
+
+    .piece-item{
+        border:1px solid #cbd5e1 !important;
+        border-radius:0 !important;
+        margin-bottom:0 !important;
+        border-bottom:none !important;
+    }
+
+    .piece-item:last-child{
+        border-bottom:1px solid #cbd5e1 !important;
+    }
+
+    .info-box{
+        border:1px solid #bfdbfe !important;
+        background:#eff6ff !important;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
+
+}
+
+/* =====================================================
+   EMPTY RESULT
+===================================================== */
+
+.empty-result{
+    text-align:center;
+    padding:30px 10px;
+    color:#64748b;
+    font-size:14px;
+    font-weight:700;
+}
+
+</style>
 </head>
+
 <body>
-<div class="container" id="app">
 
-    <!-- HEADER -->
-    <div class="header">
-        <div class="header-left">
-            <div class="title">🪟 গ্লাস কাটিং অপটিমাইজার</div>
-            <div class="sub">সর্বনিম্ন অপচয়ে শীট কাটার হিসাব</div>
+<div class="main-container">
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="header-card">
+
+        <div class="header-top">
+
+            <button
+                class="menu-btn no-print"
+                onclick="scrollToInput()"
+                title="ইনপুট"
+            >
+                ☰
+            </button>
+
+            <span class="header-title">
+                🪟 গ্লাস কাটিং অপটিমাইজার
+            </span>
+
+            <div
+                id="currentDate"
+                class="date-display"
+            ></div>
+
         </div>
-        <div class="header-right">
-            <div class="date">📅 <span id="currentDate"></span></div>
+
+        <div class="shop-details">
+
+            <input
+                type="text"
+                id="shopName"
+                class="editable-input"
+                value="আর এম থাই অ্যালুমিনিয়াম"
+                placeholder="দোকানের নাম"
+            >
+
+            <input
+                type="text"
+                id="shopPhone"
+                class="editable-input"
+                value="মোবাইল: 01676474412"
+                placeholder="মোবাইল নম্বর"
+            >
+
         </div>
+
+        <!-- SHEET SIZE -->
+
+        <div class="sheet-size-box">
+
+            <span class="sheet-size-title">
+                📐 শীট সাইজ
+            </span>
+
+            <input
+                type="number"
+                id="sheetWidth"
+                class="sheet-input"
+                value="84"
+                min="1"
+                step="0.01"
+                aria-label="শীট প্রস্থ"
+            >
+
+            <span class="sheet-x">×</span>
+
+            <input
+                type="number"
+                id="sheetHeight"
+                class="sheet-input"
+                value="51"
+                min="1"
+                step="0.01"
+                aria-label="শীট উচ্চতা"
+            >
+
+            <span class="sheet-size-title">
+                ইঞ্চি
+            </span>
+
+        </div>
+
     </div>
 
-    <!-- SHOP INFO -->
-    <div class="shop-info">
-        <div class="flex-item">
-            <label>🏢 দোকানের নাম:</label>
-            <input type="text" id="shopName" value="আর এম থাই অ্যালুমিনিয়াম">
-        </div>
-        <div class="flex-item">
-            <label>📞 মোবাইল:</label>
-            <input type="text" id="shopPhone" value="০১৬৭৬৪৭৪৪১২">
-        </div>
-        <div class="flex-item">
-            <label>📐 শীট সাইজ:</label>
-            <input type="number" id="sheetWidth" value="84" style="width:70px;"> x
-            <input type="number" id="sheetHeight" value="51" style="width:70px;"> ইঞ্চি
-        </div>
-    </div>
 
-    <!-- INPUT TABLE -->
-    <div class="input-section">
+    <!-- =================================================
+         INPUT SECTION
+    ================================================== -->
+
+    <div
+        class="section-card"
+        id="inputSection"
+    >
+
         <div class="section-title">
-            📋 গ্লাসের তালিকা (উচ্চতা × প্রস্থ)
-            <span>সিরিয়াল অনুযায়ী দিন</span>
+
+            📋 গ্লাসের তালিকা
+
+            <span class="section-badge">
+                উচ্চতা × প্রস্থ
+            </span>
+
         </div>
-        <div class="table-wrap">
-            <table id="inputTable">
-                <thead>
-                    <tr>
-                        <th style="width:40px;">#</th>
-                        <th>উচ্চতা (ইঞ্চি)</th>
-                        <th>প্রস্থ (ইঞ্চি)</th>
-                        <th>পরিমাণ (পিস)</th>
-                        <th style="width:80px;">অ্যাকশন</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- সারি JS দিয়ে যোগ হবে -->
-                </tbody>
-            </table>
-        </div>
-        <button class="add-row-btn" id="addRowBtn">➕ আরও যোগ করুন</button>
+
+        <div id="glassInputContainer"></div>
+
+        <button
+            class="btn btn-add"
+            onclick="addGlassRow()"
+        >
+            ➕ আরও গ্লাস যোগ করুন
+        </button>
+
+        <button
+            class="btn btn-calculate"
+            onclick="calculate()"
+        >
+            📊 কাটিং হিসাব বের করুন
+        </button>
+
     </div>
 
-    <!-- CALCULATE BUTTON -->
-    <button class="calc-btn" id="calculateBtn">📊 হিসাব বের করুন</button>
 
-    <!-- RESULT AREA -->
-    <div class="result-area" id="resultArea">
-        <div class="result-summary" id="resultSummary">
-            <!-- ডায়নামিক -->
+    <!-- =================================================
+         RESULT
+    ================================================== -->
+
+    <div
+        class="results-container"
+        id="resultArea"
+        style="display:none;"
+    >
+
+        <div class="result-heading">
+
+            <h3>
+                📊 কাটিং রেজাল্ট
+            </h3>
+
+            <span
+                class="result-badge"
+                id="resultBadge"
+            >
+                সম্পন্ন
+            </span>
+
         </div>
-        <div id="resultDetail">
-            <!-- টেবিল -->
+
+
+        <!-- SUMMARY -->
+
+        <div
+            class="summary-grid"
+            id="resultSummary"
+        ></div>
+
+
+        <!-- SHEET DETAILS -->
+
+        <div
+            class="sheet-list"
+            id="resultDetail"
+        ></div>
+
+
+        <div class="info-box">
+            ✅ হিসাব সম্পন্ন। প্রতিটি শীটে কোন গ্লাস কোথায় বসানো হয়েছে এবং কতটুকু অপচয় হয়েছে তা উপরে দেখানো হয়েছে।
         </div>
-        <div class="footer-text">✅ হিসাব সম্পন্ন। প্রতিটি শীটে টুকরাগুলো কীভাবে বসেছে তার বিস্তারিত নিচে দেওয়া হলো।</div>
+
+        <button
+            class="btn no-print"
+            onclick="window.print()"
+        >
+            🖨️ প্রিন্ট / PDF
+        </button>
+
     </div>
 
 </div>
 
+
 <script>
-    // ================== DOM REFS ==================
-    const tbody = document.getElementById('tableBody');
-    const addBtn = document.getElementById('addRowBtn');
-    const calcBtn = document.getElementById('calculateBtn');
-    const resultArea = document.getElementById('resultArea');
-    const resultSummary = document.getElementById('resultSummary');
-    const resultDetail = document.getElementById('resultDetail');
 
-    // তারিখ দেখানো
-    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('bn-BD', { day:'numeric', month:'numeric', year:'numeric' });
+/* =====================================================
+   DOM REFERENCES
+===================================================== */
 
-    // ================== ROW MANAGEMENT ==================
-    let rowCount = 0;
+const glassInputContainer =
+    document.getElementById("glassInputContainer");
 
-    function addRow(height = '', width = '', qty = '') {
-        rowCount++;
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><strong>${rowCount}</strong></td>
-            <td><input type="number" class="inp-height" value="${height}" placeholder="উচ্চতা"></td>
-            <td><input type="number" class="inp-width" value="${width}" placeholder="প্রস্থ"></td>
-            <td><input type="number" class="inp-qty" value="${qty}" placeholder="পরিমাণ"></td>
-            <td><button class="delete-btn" onclick="deleteRow(this)">🗑️</button></td>
-        `;
-        tbody.appendChild(tr);
-    }
+const resultArea =
+    document.getElementById("resultArea");
 
-    // ডিফল্ট ৩টি সারি (উদাহরণ)
-    addRow('84', '51', '6');
-    addRow('51', '87', '4');
-    addRow('16', '9', '8');
+const resultSummary =
+    document.getElementById("resultSummary");
 
-    // আরও যোগ
-    addBtn.addEventListener('click', () => addRow());
+const resultDetail =
+    document.getElementById("resultDetail");
 
-    // ডিলিট ফাংশন
-    window.deleteRow = function(btn) {
-        const tr = btn.closest('tr');
-        if (tbody.children.length <= 1) {
-            alert('কমপক্ষে একটি সারি রাখতে হবে।');
-            return;
-        }
-        tr.remove();
-        renumberRows();
-    };
 
-    function renumberRows() {
-        const rows = tbody.querySelectorAll('tr');
-        rows.forEach((tr, idx) => {
-            tr.querySelector('td:first-child strong').textContent = idx + 1;
-        });
-        rowCount = rows.length;
-    }
+/* =====================================================
+   DATE
+===================================================== */
 
-    // ================== CORE ALGORITHM ==================
-    // শীটের সাইজ
-    function getSheetSize() {
-        const w = parseFloat(document.getElementById('sheetWidth').value) || 84;
-        const h = parseFloat(document.getElementById('sheetHeight').value) || 51;
-        return { width: w, height: h };
-    }
+function setCurrentDate(){
 
-    // ইনপুট থেকে ডেটা সংগ্রহ
-    function getPieces() {
-        const rows = tbody.querySelectorAll('tr');
-        const pieces = [];
-        for (let tr of rows) {
-            const h = parseFloat(tr.querySelector('.inp-height').value);
-            const w = parseFloat(tr.querySelector('.inp-width').value);
-            const qty = parseInt(tr.querySelector('.inp-qty').value) || 0;
-            if (h > 0 && w > 0 && qty > 0) {
-                pieces.push({ height: h, width: w, quantity: qty });
-            }
-        }
-        return pieces;
-    }
+    const today = new Date();
 
-    // ====== অপটিমাইজেশন (২D বিন প্যাকিং - গার্ডি অ্যালগরিদম) ======
-    function optimizeCutting(pieces, sheetW, sheetH) {
-        // ১. প্রতিটি পিসকে আলাদা আইটেমে রূপান্তর (কোয়ান্টিটি অনুযায়ী)
-        let items = [];
-        for (let p of pieces) {
-            for (let i = 0; i < p.quantity; i++) {
-                items.push({ w: p.width, h: p.height });
-            }
-        }
+    const day =
+        String(today.getDate()).padStart(2,"0");
 
-        // বড় থেকে ছোট সাজানো (ক্ষেত্রফল অনুযায়ী)
-        items.sort((a, b) => (b.w * b.h) - (a.w * a.h));
+    const month =
+        String(today.getMonth()+1).padStart(2,"0");
 
-        const sheets = []; // প্রতিটি শীটে [{w, h, x, y}]
-        const sheetWaste = [];
+    const year =
+        today.getFullYear();
 
-        for (let item of items) {
-            let placed = false;
-            // চেষ্টা করি প্রতিটি শীটে ফিট করার
-            for (let s = 0; s < sheets.length; s++) {
-                const layout = sheets[s];
-                // সরল 'গার্ডি' – বর্তমান শীটে সবচেয়ে ফাঁকা জায়গায় বসানোর চেষ্টা
-                // আমরা এখানে সহজ পদ্ধতি: প্রতিটি শীটে প্রথম ফিট পজিশন খুঁজি
-                const pos = findPosition(layout, item.w, item.h, sheetW, sheetH);
-                if (pos) {
-                    layout.push({ w: item.w, h: item.h, x: pos.x, y: pos.y });
-                    placed = true;
-                    break;
-                }
-                // যদি না ফিটায়, ঘোরানোর চেষ্টা
-                const rotated = findPosition(layout, item.h, item.w, sheetW, sheetH);
-                if (rotated) {
-                    layout.push({ w: item.h, h: item.w, x: rotated.x, y: rotated.y });
-                    placed = true;
-                    break;
-                }
-            }
-            // কোনো শীটে ফিটায়নি – নতুন শীট
-            if (!placed) {
-                const newSheet = [];
-                // প্রথমে ফিট করার চেষ্টা (আসল বা ঘোরানো)
-                let pos = findPosition(newSheet, item.w, item.h, sheetW, sheetH);
-                if (pos) {
-                    newSheet.push({ w: item.w, h: item.h, x: pos.x, y: pos.y });
-                } else {
-                    // ঘোরানো
-                    pos = findPosition(newSheet, item.h, item.w, sheetW, sheetH);
-                    if (pos) {
-                        newSheet.push({ w: item.h, h: item.w, x: pos.x, y: pos.y });
-                    } else {
-                        // যদি একেবারেই না ফিটায় (তাত্ত্বিকভাবে সম্ভব নয়, কারণ শীট বড়)
-                        // তবু হ্যান্ডেল
-                        newSheet.push({ w: item.w, h: item.h, x: 0, y: 0 });
-                    }
-                }
-                sheets.push(newSheet);
-            }
-        }
+    document.getElementById("currentDate").innerText =
+        `তারিখ: ${day}/${month}/${year}`;
+}
 
-        // প্রতিটি শীটের অপচয় ক্যালকুলেট
-        const results = sheets.map((layout, idx) => {
-            let usedArea = 0;
-            for (let p of layout) {
-                usedArea += p.w * p.h;
-            }
-            const sheetArea = sheetW * sheetH;
-            const waste = sheetArea - usedArea;
-            return {
-                sheetIndex: idx + 1,
-                pieces: layout,
-                usedArea: usedArea,
-                waste: waste,
-                wastePercent: (waste / sheetArea) * 100
-            };
+
+/* =====================================================
+   SCROLL TO INPUT
+===================================================== */
+
+function scrollToInput(){
+
+    document.getElementById("inputSection")
+        .scrollIntoView({
+            behavior:"smooth",
+            block:"start"
         });
 
-        const totalSheets = sheets.length;
-        const totalWaste = results.reduce((sum, r) => sum + r.waste, 0);
-        const totalUsed = results.reduce((sum, r) => sum + r.usedArea, 0);
-        const totalArea = totalSheets * sheetW * sheetH;
+}
 
-        return {
-            totalSheets,
-            totalWaste,
-            totalUsed,
-            totalArea,
-            wastePercent: (totalWaste / totalArea) * 100,
-            sheetDetails: results
-        };
+
+/* =====================================================
+   ROW MANAGEMENT
+===================================================== */
+
+let rowCount = 0;
+
+
+/*
+    একটি নতুন গ্লাস ইনপুট Row
+*/
+
+function addGlassRow(
+    height = "",
+    width = "",
+    quantity = ""
+){
+
+    rowCount++;
+
+    const div =
+        document.createElement("div");
+
+    div.className = "glass-row";
+
+    div.innerHTML = `
+
+        <div class="serial">
+            ${rowCount}
+        </div>
+
+        <input
+            type="number"
+            class="glass-height"
+            placeholder="উচ্চতা"
+            value="${height}"
+            min="0"
+            step="0.01"
+        >
+
+        <input
+            type="number"
+            class="glass-width"
+            placeholder="প্রস্থ"
+            value="${width}"
+            min="0"
+            step="0.01"
+        >
+
+        <input
+            type="number"
+            class="glass-quantity"
+            placeholder="পিস"
+            value="${quantity}"
+            min="1"
+            step="1"
+        >
+
+        <button
+            class="delete-row-btn"
+            onclick="deleteGlassRow(this)"
+            title="মুছে ফেলুন"
+        >
+            ✕
+        </button>
+
+    `;
+
+    glassInputContainer.appendChild(div);
+
+}
+
+
+/*
+    Row Delete
+*/
+
+function deleteGlassRow(button){
+
+    const rows =
+        document.querySelectorAll(
+            "#glassInputContainer .glass-row"
+        );
+
+    if(rows.length <= 1){
+
+        alert(
+            "কমপক্ষে একটি গ্লাসের সারি রাখতে হবে।"
+        );
+
+        return;
     }
 
-    // পজিশন খোঁজার ফাংশন (সহজ নীচে-বামে ফিট)
-    function findPosition(layout, itemW, itemH, sheetW, sheetH) {
-        // সমস্ত সম্ভাব্য স্থান পরীক্ষা (grid approach – রেজোলিউশন ১ ইঞ্চি)
-        // এখানে আমরা সাধারণ 'bottom-left' অ্যালগরিদম ব্যবহার করছি
-        // বাস্তবে আরও উন্নত অ্যালগরিদম দরকার, কিন্তু ডেমোর জন্য যথেষ্ট
-        // আমরা ১ ইঞ্চি গ্রিডে চেক করছি (যদিও অপটিমাল নয়, কিন্তু ছোট ডেটার জন্য কাজ করে)
-        for (let y = 0; y <= sheetH - itemH; y++) {
-            for (let x = 0; x <= sheetW - itemW; x++) {
-                let overlap = false;
-                for (let placed of layout) {
-                    if (x < placed.x + placed.w && x + itemW > placed.x &&
-                        y < placed.y + placed.h && y + itemH > placed.y) {
-                        overlap = true;
-                        break;
-                    }
-                }
-                if (!overlap) {
-                    return { x, y };
-                }
-            }
-        }
-        return null;
-    }
+    button.closest(".glass-row").remove();
 
-    // ================== CALCULATE & DISPLAY ==================
-    function calculate() {
-        const sheet = getSheetSize();
-        const pieces = getPieces();
+    renumberRows();
 
-        if (pieces.length === 0) {
-            alert('দয়া করে কমপক্ষে একটি বৈধ গ্লাস সাইজ দিন।');
-            return;
-        }
+}
 
-        const result = optimizeCutting(pieces, sheet.width, sheet.height);
 
-        // show result
-        resultArea.classList.add('active');
+/*
+    Serial Number ঠিক করা
+*/
 
-        // Summary
-        resultSummary.innerHTML = `
-            <div>📦 মোট শীট প্রয়োজন: <span>${result.totalSheets} টি</span></div>
-            <div>📐 মোট ব্যবহার্য ক্ষেত্রফল: <span>${result.totalUsed.toFixed(2)} বর্গ ইঞ্চি</span></div>
-            <div>🗑️ মোট অপচয়: <span>${result.totalWaste.toFixed(2)} বর্গ ইঞ্চি (${result.wastePercent.toFixed(2)}%)</span></div>
-        `;
+function renumberRows(){
 
-        // Detail Table
-        let html = `<table class="result-table">
-            <thead><tr><th>শীট নং</th><th>টুকরার সাইজ (উচ্চতা × প্রস্থ)</th><th>অবস্থান (x, y)</th><th>ব্যবহৃত ক্ষেত্র</th><th>অপচয়</th></tr></thead><tbody>`;
-        for (let sh of result.sheetDetails) {
-            const piecesStr = sh.pieces.map(p => `${p.h}×${p.w}`).join(', ');
-            const posStr = sh.pieces.map(p => `(${p.x},${p.y})`).join(', ');
-            html += `<tr>
-                <td><strong>#${sh.sheetIndex}</strong></td>
-                <td>${piecesStr}</td>
-                <td>${posStr}</td>
-                <td>${sh.usedArea.toFixed(2)}</td>
-                <td class="waste-highlight">${sh.waste.toFixed(2)} (${sh.wastePercent.toFixed(1)}%)</td>
-            </tr>`;
-        }
-        html += `</tbody></table>`;
-        resultDetail.innerHTML = html;
-    }
+    const rows =
+        document.querySelectorAll(
+            "#glassInputContainer .glass-row"
+        );
 
-    calcBtn.addEventListener('click', calculate);
+    rows.forEach((row,index)=>{
 
-    // ================== AUTO CALCULATE ON ENTER (optional) ==================
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
-            calculate();
-        }
+        row.querySelector(".serial")
+            .textContent = index + 1;
+
     });
 
+    rowCount = rows.length;
+
+}
+
+
+/* =====================================================
+   GET SHEET SIZE
+===================================================== */
+
+function getSheetSize(){
+
+    const width =
+        parseFloat(
+            document.getElementById("sheetWidth").value
+        ) || 84;
+
+    const height =
+        parseFloat(
+            document.getElementById("sheetHeight").value
+        ) || 51;
+
+    return {
+        width: width,
+        height: height
+    };
+
+}
+
+
+/* =====================================================
+   GET INPUT PIECES
+===================================================== */
+
+function getPieces(){
+
+    const rows =
+        document.querySelectorAll(
+            "#glassInputContainer .glass-row"
+        );
+
+    const pieces = [];
+
+    rows.forEach(row=>{
+
+        const height =
+            parseFloat(
+                row.querySelector(".glass-height").value
+            );
+
+        const width =
+            parseFloat(
+                row.querySelector(".glass-width").value
+            );
+
+        const quantity =
+            parseInt(
+                row.querySelector(".glass-quantity").value
+            ) || 0;
+
+        if(
+            height > 0 &&
+            width > 0 &&
+            quantity > 0
+        ){
+
+            pieces.push({
+                height:height,
+                width:width,
+                quantity:quantity
+            });
+
+        }
+
+    });
+
+    return pieces;
+
+}
+
+
+/* =====================================================
+   CORE 2D CUTTING OPTIMIZATION
+===================================================== */
+
+/*
+    প্রথম কোডের মূল Algorithm
+    এখানে মূল হিসাবের Logic রাখা হয়েছে।
+*/
+
+function optimizeCutting(
+    pieces,
+    sheetW,
+    sheetH
+){
+
+    /*
+        Quantity অনুযায়ী প্রতিটি Piece
+        আলাদা Item হিসেবে তৈরি
+    */
+
+    let items = [];
+
+    for(const p of pieces){
+
+        for(
+            let i = 0;
+            i < p.quantity;
+            i++
+        ){
+
+            items.push({
+                w:p.width,
+                h:p.height
+            });
+
+        }
+
+    }
+
+
+    /*
+        বড় Area থেকে ছোট Area
+    */
+
+    items.sort(
+        (a,b)=>
+            (b.w * b.h) -
+            (a.w * a.h)
+    );
+
+
+    const sheets = [];
+
+
+    /*
+        প্রতিটি Item বসানো
+    */
+
+    for(const item of items){
+
+        let placed = false;
+
+
+        /*
+            আগের Sheet-গুলোতে বসানোর চেষ্টা
+        */
+
+        for(
+            let s = 0;
+            s < sheets.length;
+            s++
+        ){
+
+            const layout =
+                sheets[s];
+
+
+            /*
+                Normal orientation
+            */
+
+            const pos =
+                findPosition(
+                    layout,
+                    item.w,
+                    item.h,
+                    sheetW,
+                    sheetH
+                );
+
+
+            if(pos){
+
+                layout.push({
+
+                    w:item.w,
+                    h:item.h,
+                    x:pos.x,
+                    y:pos.y
+
+                });
+
+                placed = true;
+
+                break;
+            }
+
+
+            /*
+                Rotation
+            */
+
+            const rotated =
+                findPosition(
+                    layout,
+                    item.h,
+                    item.w,
+                    sheetW,
+                    sheetH
+                );
+
+
+            if(rotated){
+
+                layout.push({
+
+                    w:item.h,
+                    h:item.w,
+                    x:rotated.x,
+                    y:rotated.y
+
+                });
+
+                placed = true;
+
+                break;
+            }
+
+        }
+
+
+        /*
+            কোনো Sheet-এ না বসলে
+            নতুন Sheet
+        */
+
+        if(!placed){
+
+            const newSheet = [];
+
+
+            /*
+                Normal
+            */
+
+            let pos =
+                findPosition(
+                    newSheet,
+                    item.w,
+                    item.h,
+                    sheetW,
+                    sheetH
+                );
+
+
+            if(pos){
+
+                newSheet.push({
+
+                    w:item.w,
+                    h:item.h,
+                    x:pos.x,
+                    y:pos.y
+
+                });
+
+            }
+            else{
+
+                /*
+                    Rotated
+                */
+
+                pos =
+                    findPosition(
+                        newSheet,
+                        item.h,
+                        item.w,
+                        sheetW,
+                        sheetH
+                    );
+
+
+                if(pos){
+
+                    newSheet.push({
+
+                        w:item.h,
+                        h:item.w,
+                        x:pos.x,
+                        y:pos.y
+
+                    });
+
+                }
+                else{
+
+                    /*
+                        কোনোভাবেই না ফিট করলে
+                    */
+
+                    newSheet.push({
+
+                        w:item.w,
+                        h:item.h,
+                        x:0,
+                        y:0
+
+                    });
+
+                }
+
+            }
+
+            sheets.push(newSheet);
+
+        }
+
+    }
+
+
+    /*
+        প্রতিটি Sheet-এর Area হিসাব
+    */
+
+    const results =
+        sheets.map(
+            (layout,index)=>{
+
+                let usedArea = 0;
+
+                for(const p of layout){
+
+                    usedArea +=
+                        p.w * p.h;
+
+                }
+
+                const sheetArea =
+                    sheetW * sheetH;
+
+                const waste =
+                    sheetArea - usedArea;
+
+                return {
+
+                    sheetIndex:index+1,
+
+                    pieces:layout,
+
+                    usedArea:usedArea,
+
+                    waste:waste,
+
+                    wastePercent:
+                        (waste / sheetArea) * 100
+
+                };
+
+            }
+        );
+
+
+    const totalSheets =
+        sheets.length;
+
+
+    const totalWaste =
+        results.reduce(
+            (sum,r)=>
+                sum + r.waste,
+            0
+        );
+
+
+    const totalUsed =
+        results.reduce(
+            (sum,r)=>
+                sum + r.usedArea,
+            0
+        );
+
+
+    const totalArea =
+        totalSheets *
+        sheetW *
+        sheetH;
+
+
+    return {
+
+        totalSheets:totalSheets,
+
+        totalWaste:totalWaste,
+
+        totalUsed:totalUsed,
+
+        totalArea:totalArea,
+
+        wastePercent:
+            totalArea > 0
+            ? (totalWaste / totalArea) * 100
+            : 0,
+
+        sheetDetails:results
+
+    };
+
+}
+
+
+/* =====================================================
+   FIND POSITION
+===================================================== */
+
+function findPosition(
+    layout,
+    itemW,
+    itemH,
+    sheetW,
+    sheetH
+){
+
+    /*
+        Sheet-এর বাইরে গেলে
+        সরাসরি বাদ
+    */
+
+    if(
+        itemW > sheetW ||
+        itemH > sheetH
+    ){
+
+        return null;
+
+    }
+
+
+    /*
+        Bottom-left grid search
+    */
+
+    for(
+        let y = 0;
+        y <= sheetH - itemH;
+        y++
+    ){
+
+        for(
+            let x = 0;
+            x <= sheetW - itemW;
+            x++
+        ){
+
+            let overlap = false;
+
+
+            for(
+                const placed of layout
+            ){
+
+                if(
+
+                    x < placed.x + placed.w &&
+
+                    x + itemW >
+                        placed.x &&
+
+                    y < placed.y + placed.h &&
+
+                    y + itemH >
+                        placed.y
+
+                ){
+
+                    overlap = true;
+
+                    break;
+
+                }
+
+            }
+
+
+            if(!overlap){
+
+                return {
+                    x:x,
+                    y:y
+                };
+
+            }
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =====================================================
+   FORMAT NUMBER
+===================================================== */
+
+function formatNumber(value){
+
+    return Number(value).toFixed(2);
+
+}
+
+
+/* =====================================================
+   CALCULATE
+===================================================== */
+
+function calculate(){
+
+    const sheet =
+        getSheetSize();
+
+    const pieces =
+        getPieces();
+
+
+    if(pieces.length === 0){
+
+        alert(
+            "দয়া করে কমপক্ষে একটি বৈধ গ্লাস সাইজ দিন।"
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Check whether any glass
+        is larger than the sheet
+    */
+
+    const invalidPieces = [];
+
+    pieces.forEach((p,index)=>{
+
+        const normalFit =
+            p.width <= sheet.width &&
+            p.height <= sheet.height;
+
+        const rotatedFit =
+            p.height <= sheet.width &&
+            p.width <= sheet.height;
+
+        if(
+            !normalFit &&
+            !rotatedFit
+        ){
+
+            invalidPieces.push(
+                `সারি ${index+1}: ${p.height} × ${p.width} ইঞ্চি`
+            );
+
+        }
+
+    });
+
+
+    if(invalidPieces.length > 0){
+
+        alert(
+            "নিচের গ্লাসগুলো শীটের মধ্যে ফিট হবে না:\n\n" +
+            invalidPieces.join("\n")
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Optimization
+    */
+
+    const result =
+        optimizeCutting(
+            pieces,
+            sheet.width,
+            sheet.height
+        );
+
+
+    /*
+        Show Result
+    */
+
+    resultArea.style.display =
+        "block";
+
+
+    /*
+        Summary
+    */
+
+    resultSummary.innerHTML = `
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                📦 মোট শীট
+            </div>
+
+            <div class="summary-value">
+                ${result.totalSheets} টি
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                📐 ব্যবহার
+            </div>
+
+            <div class="summary-value">
+                ${formatNumber(result.totalUsed)}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                🗑️ অপচয়
+            </div>
+
+            <div class="summary-value">
+                ${formatNumber(result.totalWaste)}
+                (${result.wastePercent.toFixed(2)}%)
+            </div>
+
+        </div>
+
+    `;
+
+
+    /*
+        Sheet Details
+    */
+
+    resultDetail.innerHTML = "";
+
+
+    result.sheetDetails.forEach(
+        sheet=>{
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "sheet-card";
+
+
+            /*
+                Header
+            */
+
+            let header = `
+
+                <div class="sheet-card-header">
+
+                    <div class="sheet-number">
+
+                        <div class="sheet-badge">
+                            ${sheet.sheetIndex}
+                        </div>
+
+                        <div class="sheet-title">
+                            শীট #${sheet.sheetIndex}
+                        </div>
+
+                    </div>
+
+                    <div class="sheet-waste">
+                        অপচয়:
+                        ${formatNumber(sheet.waste)}
+                        (${sheet.wastePercent.toFixed(1)}%)
+                    </div>
+
+                </div>
+
+            `;
+
+
+            /*
+                Piece List
+            */
+
+            let pieceHTML =
+                `<div class="piece-list">`;
+
+
+            sheet.pieces.forEach(
+                (piece,index)=>{
+
+                    pieceHTML += `
+
+                        <div class="piece-item">
+
+                            <div class="piece-number">
+                                ${index+1}
+                            </div>
+
+                            <div class="piece-size">
+                                ${formatNumber(piece.h)}
+                                ×
+                                ${formatNumber(piece.w)}
+                                ইঞ্চি
+                            </div>
+
+                            <div class="piece-position">
+                                অবস্থান:
+                                (${piece.x},
+                                ${piece.y})
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            pieceHTML +=
+                `</div>`;
+
+
+            /*
+                Footer
+            */
+
+            const footer = `
+
+                <div class="sheet-footer">
+
+                    <span class="used-area">
+                        ব্যবহার:
+                        ${formatNumber(sheet.usedArea)}
+                        বর্গ ইঞ্চি
+                    </span>
+
+                    <span class="waste-area">
+                        অপচয়:
+                        ${formatNumber(sheet.waste)}
+                        বর্গ ইঞ্চি
+                    </span>
+
+                </div>
+
+            `;
+
+
+            card.innerHTML =
+                header +
+                pieceHTML +
+                footer;
+
+
+            resultDetail.appendChild(card);
+
+        }
+    );
+
+
+    /*
+        Result-এ Scroll
+    */
+
+    setTimeout(()=>{
+
+        resultArea.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    },100);
+
+}
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter" &&
+            event.target.tagName === "INPUT"
+        ){
+
+            calculate();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   DEFAULT DATA
+===================================================== */
+
+function loadDefaultRows(){
+
+    /*
+        প্রথম কোডের ডিফল্ট ডেটা
+    */
+
+    addGlassRow(
+        "84",
+        "51",
+        "6"
+    );
+
+    addGlassRow(
+        "51",
+        "87",
+        "4"
+    );
+
+    addGlassRow(
+        "16",
+        "9",
+        "8"
+    );
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        setCurrentDate();
+
+        loadDefaultRows();
+
+    }
+);
+
 </script>
+
 </body>
 </html>

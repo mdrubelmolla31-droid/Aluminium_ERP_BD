@@ -315,20 +315,33 @@
             <div>
                 <label>কোম্পানি:</label>
                 <select id="companySelect">
-                    <option value="KAI">KAI Aluminium</option>
-                    <option value="Altec">Altec Aluminium</option>
-                    <option value="ChungHua">ChungHua Aluminium</option>
-                    <option value="BTA">BTA Aluminium</option>
-                    <option value="Max">Max Aluminium</option>
-                    <option value="Alpha">Alpha Aluminium</option>
+                    <option value="KAI">KAI (কাই)</option>
+                    <option value="Altec">Altec (অ্যালটেক)</option>
+                    <option value="ChungHua">ChungHua (চুংহুয়া)</option>
+                    <option value="BTA">BTA (বিটিএ)</option>
+                    <option value="Max">Max (ম্যাক্স)</option>
+                    <option value="MaxPro">Max Pro (ম্যাক্স প্রো)</option>
+                    <option value="Alpha">Alpha (আলফা)</option>
+                    <option value="Alco">Alco (অ্যালকো)</option>
+                    <option value="Fresh">Fresh (ফ্রেশ)</option>
+                    <option value="Nasir">Nasir (নাসির)</option>
+                    <option value="Falcon">Falcon (ফ্যালকন)</option>
+                    <option value="Nikki">Nikki (নিক্কি থাই)</option>
+                    <option value="DhakaThai">Dhaka Thai (ঢাকা থাই)</option>
+                    <option value="PHP">PHP (পিএইচপি)</option>
+                    <option value="Elite">Elite (এলিট)</option>
+                    <option value="Aramit">Aramit (আরাম্যিট)</option>
+                    <option value="Jamuna">Jamuna (যমুনা)</option>
+                    <option value="Walton">Walton (ওয়ালটন)</option>
+                    <option value="Golden">Golden (গোল্ডেন)</option>
                 </select>
             </div>
 
             <div>
                 <label>থিকনেস:</label>
                 <select id="thicknessSelect">
-                    <option value="1.0mm">1.0 mm</option>
-                    <option value="1.2mm" selected>1.2 mm</option>
+                    <option value="1.0mm" selected>1.0 mm</option>
+                    <option value="1.2mm">1.2 mm</option>
                     <option value="1.5mm">1.5 mm</option>
                     <option value="2.0mm">2.0 mm</option>
                 </select>
@@ -367,9 +380,9 @@
     </div>
 
     <div class="card">
-        <div class="section-title">উইন্ডোর তালিকা</div>
+        <div class="section-title">আইটেমের তালিকা</div>
         <div id="windowsList"></div>
-        <button class="btn-add" onclick="addWindow()">+ নতুন উইন্ডো যোগ করুন</button>
+        <button class="btn-add" onclick="addWindow()">+ নতুন আইটেম যোগ করুন</button>
         <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
     </div>
 
@@ -612,7 +625,7 @@ function onSizeCategoryChange() {
             { id: 'net_handle', def: 'Net Handle' }
         ];
     } else if (sizeType === 'single') {
-        headerTitle = "সিঙ্গেল শাটার (টপ/বটম ডাবল, সাইড সিঙ্গেল, দোনো পাশে লক)";
+        headerTitle = "সিঙ্গেল শাটার (টপ/বটম ডাবল, সাইড সিঙ্গেল)";
         itemsToDisplay = [
             { id: 'outer_top', def: 'Single Outer Top' },
             { id: 'outer_bottom', def: 'Single Outer Low Bottom' },
@@ -623,7 +636,7 @@ function onSizeCategoryChange() {
             { id: 'box_section', def: '1.75\" x 1.75\" Box' }
         ];
     } else if (sizeType === 'fixed') {
-        headerTitle = "ফিক্সড আইটেম";
+        headerTitle = "ফিক্সড আইটেম (খোপ ভিত্তিক)";
         itemsToDisplay = [
             { id: 'outer_top', def: '3" Fixed Top and Side' },
             { id: 'outer_bottom', def: '3" Fixed Bottom' },
@@ -631,7 +644,7 @@ function onSizeCategoryChange() {
             { id: 'outer_bottom_4', def: '4" Fixed Bottom' }
         ];
     } else if (sizeType === 'curtain_wall') {
-        headerTitle = "কার্টেন ওয়াল ও বক্স";
+        headerTitle = "কার্টেন ওয়াল ও বক্স (খোপ ভিত্তিক)";
         itemsToDisplay = [
             { id: 'outer_top', def: 'Carting Wall Middle' },
             { id: 'outer_bottom', def: 'Carting Wall Side' },
@@ -665,6 +678,8 @@ function onSizeCategoryChange() {
             </tr>
         `;
     });
+
+    updateAllWindowInputs();
 }
 
 function loadRate(selectId, inputId) {
@@ -692,21 +707,99 @@ function loadShopDetails() {
 function addWindow() {
     windowCount++;
     const container = document.getElementById('windowsList');
+    const sizeType = document.getElementById('profileSizeSelect').value;
     const windowDiv = document.createElement('div');
     windowDiv.className = 'window-box';
     windowDiv.id = `window_${windowCount}`;
-    windowDiv.innerHTML = `
-        <div class="window-header">
-            <span>উইন্ডো #${windowCount}</span>
-            <button class="btn-remove-win" onclick="removeWindow(${windowCount})" title="মুছে ফেলুন">✕ মুছে ফেলুন</button>
-        </div>
-        <div class="grid-container">
-            <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value=""></div>
-            <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
-            <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value=""></div>
-        </div>
-    `;
+    
+    if (sizeType === 'fixed' || sizeType === 'curtain_wall') {
+        windowDiv.innerHTML = `
+            <div class="window-header">
+                <span>আইটেম #${windowCount} (খোপ সিস্টেম)</span>
+                <button class="btn-remove-win" onclick="removeWindow(${windowCount})" title="মুছে ফেলুন">✕ মুছে ফেলুন</button>
+            </div>
+            <div class="grid-container">
+                <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value=""></div>
+                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
+                <div class="input-group"><label>খাড়া খোপ (Vert):</label><input type="number" class="v_div" placeholder="যেমন: 1" value="1"></div>
+                <div class="input-group"><label>আড়াআড়ি খোপ (Horiz):</label><input type="number" class="h_div" placeholder="যেমন: 1" value="1"></div>
+                <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="1"></div>
+            </div>
+        `;
+    } else {
+        windowDiv.innerHTML = `
+            <div class="window-header">
+                <span>আইটেম #${windowCount}</span>
+                <button class="btn-remove-win" onclick="removeWindow(${windowCount})" title="মুছে ফেলুন">✕ মুছে ফেলুন</button>
+            </div>
+            <div class="grid-container">
+                <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value=""></div>
+                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
+                <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="1"></div>
+            </div>
+        `;
+    }
     container.appendChild(windowDiv);
+}
+
+function updateAllWindowInputs() {
+    const container = document.getElementById('windowsList');
+    const existingWindows = container.querySelectorAll('.window-box');
+    
+    let savedData = [];
+    existingWindows.forEach(win => {
+        savedData.push({
+            h: win.querySelector('.height')?.value || '',
+            l: win.querySelector('.length')?.value || '',
+            v: win.querySelector('.v_div')?.value || '1',
+            hd: win.querySelector('.h_div')?.value || '1',
+            q: win.querySelector('.qty')?.value || '1'
+        });
+    });
+
+    container.innerHTML = '';
+    windowCount = 0;
+
+    if(savedData.length > 0) {
+        savedData.forEach(data => {
+            windowCount++;
+            const sizeType = document.getElementById('profileSizeSelect').value;
+            const windowDiv = document.createElement('div');
+            windowDiv.className = 'window-box';
+            windowDiv.id = `window_${windowCount}`;
+            
+            if (sizeType === 'fixed' || sizeType === 'curtain_wall') {
+                windowDiv.innerHTML = `
+                    <div class="window-header">
+                        <span>আইটেম #${windowCount} (খোপ সিস্টেম)</span>
+                        <button class="btn-remove-win" onclick="removeWindow(${windowCount})" title="মুছে ফেলুন">✕ মুছে ফেলুন</button>
+                    </div>
+                    <div class="grid-container">
+                        <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value="${data.h}"></div>
+                        <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value="${data.l}"></div>
+                        <div class="input-group"><label>খাড়া খোপ (Vert):</label><input type="number" class="v_div" placeholder="যেমন: 1" value="${data.v}"></div>
+                        <div class="input-group"><label>আড়াআড়ি খোপ (Horiz):</label><input type="number" class="h_div" placeholder="যেমন: 1" value="${data.hd}"></div>
+                        <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="${data.q}"></div>
+                    </div>
+                `;
+            } else {
+                windowDiv.innerHTML = `
+                    <div class="window-header">
+                        <span>আইটেম #${windowCount}</span>
+                        <button class="btn-remove-win" onclick="removeWindow(${windowCount})" title="মুছে ফেলুন">✕ মুছে ফেলুন</button>
+                    </div>
+                    <div class="grid-container">
+                        <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value="${data.h}"></div>
+                        <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value="${data.l}"></div>
+                        <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="${data.q}"></div>
+                    </div>
+                `;
+            }
+            container.appendChild(windowDiv);
+        });
+    } else {
+        addWindow();
+    }
 }
 
 function removeWindow(id) {
@@ -731,16 +824,23 @@ function calculateTotal() {
                 key: key,
                 name: sel.value,
                 inputId: inp.id,
-                ftCalc: (l, h, q) => {
+                ftCalc: (l, h, q, vDiv, hDiv) => {
                     if (sizeType === 'single') {
-                        // সিঙ্গেল শাটারের জন্য আপনার সুনির্দিষ্ট নিয়ম:
-                        if (key === 'outer_top' || key === 'outer_bottom') return (l * 2) * q; // আউটার টপ ও বটম লেন্থের ডাবল (L * 2)
-                        if (key === 'outer_side') return h * 1 * q;                          // আউটার সাইড সিঙ্গেল (H * 1)
-                        if (key === 'lock_style') return h * 2 * q;                          // লকের হিসাব দোনো পাশে (H * 2)
-                        if (key === 'box_section') return (l + h) * q;                       // বক্সের হিসাব (H + L)
-                        return l * q;                                                       // শাটার টপ/বটম
+                        if (key === 'outer_top' || key === 'outer_bottom') return (l * 2) * q;
+                        if (key === 'outer_side') return h * 1 * q;
+                        if (key === 'lock_style') return h * 2 * q;
+                        if (key === 'box_section') return (l + h) * q;
+                        return l * q;
+                    } else if (sizeType === 'fixed' || sizeType === 'curtain_wall') {
+                        let outerTopBottom = (l * 2) * q;
+                        let outerSide = (h * 2) * q;
+                        let verticalMullion = ((vDiv - 1) > 0 ? (vDiv - 1) * h * q : 0);
+                        let horizontalTransom = ((hDiv - 1) > 0 ? (hDiv - 1) * l * q : 0);
+
+                        if (key.includes('Top') || key.includes('Middle')) return outerTopBottom + horizontalTransom;
+                        if (key.includes('Bottom') || key.includes('Side')) return outerSide + verticalMullion;
+                        return (l + h) * q;
                     } else {
-                        // অন্যান্য সেকশন (৩" ও ৪")
                         if (key.includes('outer_side') || key.includes('lock_style') || key.includes('interlock') || key.includes('net_handle')) return h * 2 * q;
                         if (key.includes('net_section')) return ((l * 2) + (h * 2)) * q;
                         if (key.includes('box_section')) return (l + h) * q;
@@ -758,10 +858,12 @@ function calculateTotal() {
         const hInch = parseFloat(win.querySelector('.height').value) || 0;
         const lInch = parseFloat(win.querySelector('.length').value) || 0;
         const qty = parseInt(win.querySelector('.qty').value) || 0;
+        const vDiv = parseInt(win.querySelector('.v_div')?.value) || 1;
+        const hDiv = parseInt(win.querySelector('.h_div')?.value) || 1;
 
         if (hInch > 0 && lInch > 0 && qty > 0) {
             totalSqft += ((hInch * lInch) / 144) * qty;
-            activeConfigs.forEach(s => sectionTotals[s.key] += s.ftCalc(lInch / 12, hInch / 12, qty));
+            activeConfigs.forEach(s => sectionTotals[s.key] += s.ftCalc(lInch / 12, hInch / 12, qty, vDiv, hDiv));
         }
     });
 

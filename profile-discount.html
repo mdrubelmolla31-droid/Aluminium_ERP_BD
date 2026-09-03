@@ -34,7 +34,6 @@
 
         .main-container { width: 100%; max-width: 1000px; }
 
-        /* ================= HEADER STYLE ================= */
         .header-card {
             background: var(--header-bg);
             padding: 16px;
@@ -111,7 +110,6 @@
         }
         #shopPhone { font-size: 15px; font-weight: 800; }
 
-        /* ================= CARDS & FORMS ================= */
         .card { 
             background: var(--card-bg); 
             border: 1px solid var(--border); 
@@ -200,7 +198,6 @@
         .grand-total-box { margin-top: 15px; background: #eff6ff; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #bfdbfe; }
         .grand-total-box h3 { margin: 0; color: #1e3a8a; font-size: 19px; font-weight: 900; }
 
-        /* ================= MODALS & MENUS (UPDATED: BIGGER & BLUE THEME) ================= */
         .modal-overlay { 
             display: none; 
             position: fixed; 
@@ -214,36 +211,28 @@
         
         .modal-content { 
             background: #f8fafc; 
-            width: 98%; /* আরও বড় করা হয়েছে */
-            height: 96vh; /* আরও বড় করা হয়েছে */
+            width: 98%; 
+            height: 96vh; 
             max-width: 900px; 
             border-radius: 12px; 
-            padding: 0; /* প্যাডিং সরানো হয়েছে যেন ব্লু হেডার পুরোটা জুড়ে থাকে */
+            padding: 0; 
             display: flex; 
             flex-direction: column; 
             box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
             overflow: hidden;
         }
         
-        .menu-small { 
-            height: auto; 
-            max-height: 70vh; 
-        }
+        .menu-small { height: auto; max-height: 70vh; }
 
         .modal-header { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            background: var(--header-bg); /* হোম পেজের মতো ব্লু গ্রেডিয়েন্ট */
+            background: var(--header-bg); 
             padding: 18px 20px; 
         }
         
-        .modal-header h3 { 
-            color: #ffffff; /* সাদা লেখা */
-            font-size: 20px; 
-            font-weight: 900; 
-            margin: 0; 
-        }
+        .modal-header h3 { color: #ffffff; font-size: 20px; font-weight: 900; margin: 0; }
         
         .close-btn { 
             background: rgba(255,255,255,0.2); 
@@ -260,31 +249,13 @@
             justify-content: center;
         }
 
-        .modal-body { 
-            overflow-y: auto; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-            flex: 1; 
-            padding: 20px; 
-        }
+        .modal-body { overflow-y: auto; display: flex; flex-direction: column; gap: 15px; flex: 1; padding: 20px; }
         
-        /* মেনু বাটনগুলো আরও বড় ও কালারফুল করা হয়েছে */
         .menu-btn { 
-            background: #eff6ff; 
-            color: #1e3a8a; 
-            border: 2px solid #3b82f6; 
-            padding: 22px; 
-            border-radius: 12px; 
-            font-size: 20px; 
-            font-weight: 900; 
-            cursor: pointer; 
-            text-align: center; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            gap: 12px; 
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+            background: #eff6ff; color: #1e3a8a; border: 2px solid #3b82f6; 
+            padding: 22px; border-radius: 12px; font-size: 20px; font-weight: 900; 
+            cursor: pointer; text-align: center; display: flex; align-items: center; 
+            justify-content: center; gap: 12px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
         }
         .menu-btn:hover { background: #dbeafe; }
 
@@ -302,7 +273,6 @@
 
 <div class="main-container">
     
-    <!-- হেডার সেকশন -->
     <div class="header-card">
         <div class="header-top">
             <button class="history-menu-btn" onclick="openMenuModal()" title="মেনু">☰</button>
@@ -316,7 +286,6 @@
         </div>
     </div>
 
-    <!-- গ্লোবাল কনফিগারেশন -->
     <div class="card">
         <div class="header-section">
             <div>
@@ -348,7 +317,6 @@
         </div>
     </div>
 
-    <!-- সেকশন ২১ ফিট বারের ফিক্সড দাম টেবিল -->
     <div class="card">
         <div class="section-title">
             <span>সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</span>
@@ -369,9 +337,7 @@
                         <th>২১ ফিট বারের দাম (টাকা)</th>
                     </tr>
                 </thead>
-                <tbody id="rateTableBody">
-                    <!-- JS দিয়ে ডায়নামিক্যালি আপডেট হবে -->
-                </tbody>
+                <tbody id="rateTableBody"></tbody>
             </table>
         </div>
     </div>
@@ -383,7 +349,6 @@
         <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
     </div>
 
-    <!-- ফলাফল বক্স -->
     <div class="result-box" id="resultBox" style="display:none;">
         <div class="section-title" style="margin-bottom:8px;">বিস্তারিত মেটেরিয়াল হিসাব</div>
         <p style="font-size:13px; font-weight:700; color:#475569; margin-bottom:12px;">
@@ -413,7 +378,6 @@
     </div>
 </div>
 
-<!-- মেইন মেনু মোডাল -->
 <div class="modal-overlay" id="mainMenuModal">
     <div class="modal-content menu-small">
         <div class="modal-header">
@@ -427,7 +391,6 @@
     </div>
 </div>
 
-<!-- রেট সেটিংস মোডাল -->
 <div class="modal-overlay" id="rateSettingsModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -439,7 +402,6 @@
     </div>
 </div>
 
-<!-- হিস্ট্রি মোডাল -->
 <div class="modal-overlay" id="historyModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -522,7 +484,7 @@ const categorizedProfiles = {
         "4\" Group Cover", "4\" Plane Cover", "4\" Wall Frame"
     ],
     "সিঙ্গেল শাটার (Single)": [
-        "Single Outer Top", "Single Outer Low Bottom", "Single Outer Side"
+        "Single Outer Top", "Single Outer Low Bottom", "Single Outer Side", "1.75\" x 1.75\" Box"
     ],
     "কার্টেন ওয়াল ও বক্স": [
         "Carting Wall Middle", "Carting Wall Side", "1.75\" x 1.75\" Box", "1.25\" x 1.25\" Box", 
@@ -626,7 +588,8 @@ function onSizeCategoryChange() {
             { id: 'net_handle', def: 'Net Handle' }
         ];
     } else if (sizeType === 'single') {
-        headerTitle = "সিঙ্গেল শাটার সেকশন";
+        headerTitle = "সিঙ্গেল শাটার (দোনো পাশে লক, 1.75\"x1.75\" বক্স)";
+        // আপনার নতুন ইনস্ট্রাকশন অনুযায়ী ইন্টারলক বাদ দেওয়া হয়েছে এবং বক্স যোগ করা হয়েছে
         itemsToDisplay = [
             { id: 'outer_top', def: 'Single Outer Top' },
             { id: 'outer_bottom', def: 'Single Outer Low Bottom' },
@@ -634,7 +597,7 @@ function onSizeCategoryChange() {
             { id: 'shutter_top', def: 'Sliding Shutter Top' },
             { id: 'shutter_bottom', def: 'Sliding Shutter Bottom' },
             { id: 'lock_style', def: 'Sliding Shutter Lock' },
-            { id: 'interlock', def: 'Sliding Shutter Inter Lock' }
+            { id: 'box_section', def: '1.75\" x 1.75\" Box' }
         ];
     } else if (sizeType === 'fixed') {
         headerTitle = "ফিক্সড আইটেম";
@@ -703,7 +666,6 @@ function loadShopDetails() {
     document.getElementById("shopPhone").value = localStorage.getItem("erp_shopPhone") || "মোবাইল: 01676474412";
 }
 
-// আপডেট: মুছে ফেলুন বাটনটি বাদ দেওয়া হয়েছে
 function addWindow() {
     windowCount++;
     const container = document.getElementById('windowsList');
@@ -736,8 +698,15 @@ function calculateTotal() {
                 name: sel.value,
                 inputId: inp.id,
                 ftCalc: (l, h, q) => {
+                    // লকের জন্য হাইটের ২ গুণ (সিঙ্গেল শাটারে দোনো পাশে লক হবে), আউটার সাইডের জন্যও ২ গুণ
                     if (key.includes('outer_side') || key.includes('lock_style') || key.includes('interlock') || key.includes('net_handle')) return h * 2 * q;
+                    
+                    // সিঙ্গেল শাটারের ১.৭৫x১.৭৫ বক্স (হাইট + লেন্থ = বক্সের মোট সাইজ)
+                    if (key.includes('box_section')) return (l + h) * q;
+                    
                     if (key.includes('net_section')) return ((l * 2) + (h * 2)) * q;
+                    
+                    // টপ, বটম ইত্যাদির জন্য শুধু লেন্থ
                     return l * q;
                 }
             });

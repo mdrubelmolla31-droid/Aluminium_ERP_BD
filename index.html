@@ -30,10 +30,10 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 45vh; /* শুধু উপরের দিকে তারা পড়বে */
+            height: 45vh;
             z-index: 0;
             overflow: hidden;
-            pointer-events: none; /* ক্লিকের সমস্যা করবে না */
+            pointer-events: none;
         }
 
         .shooting-star {
@@ -67,22 +67,18 @@
             100% { opacity: 0; }
         }
 
-        /* 🖼️ স্প্ল্যাশ স্ক্রিন (অফলাইন লোকাল ছবির ব্যাকগ্রাউন্ড) */
+        /* 🖼️ স্প্ল্যাশ স্ক্রিন */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            
             background-color: #0b0f19;
-            
-            /* এখানে url('splash-bg.jpg') দেওয়া হয়েছে। আপনার ছবি গিটহাবে splash-bg.jpg নামে আপলোড করুন */
             background-image: linear-gradient(rgba(11, 15, 25, 0.65), rgba(11, 15, 25, 0.9)), url('splash-bg.jpg');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -141,7 +137,7 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* ⏳ স্প্ল্যাশ লোডিং বার (গোল্ডেন কালার) */
+        /* ⏳ স্প্ল্যাশ লোডিং বার */
         .splash-loader-container {
             width: 180px;
             height: 4px;
@@ -169,7 +165,7 @@
         .dashboard-container {
             width: 100%;
             max-width: 450px;
-            position: relative; /* গ্যালাক্সির উপরে রাখার জন্য */
+            position: relative;
             z-index: 1;
         }
 
@@ -446,7 +442,7 @@
 </head>
 <body>
 
-    <!-- 🌌 গ্যালাক্সি ব্যাকগ্রাউন্ড (তারা খসে পড়া) -->
+    <!-- 🌌 গ্যালাক্সি ব্যাকগ্রাউন্ড -->
     <div id="galaxy-bg">
         <div class="shooting-star" style="top: -5%; left: 70%; animation-delay: 0s; animation-duration: 4s;"></div>
         <div class="shooting-star" style="top: 10%; left: 95%; animation-delay: 1.5s; animation-duration: 5s;"></div>
@@ -462,7 +458,6 @@
         </div>
         <div class="splash-title">Aluminium ERP BD</div>
         <div class="splash-sub">Glass & Section Manager</div>
-        <!-- ⏳ লোডিং বার (গোল্ডেন) -->
         <div class="splash-loader-container">
             <div class="splash-loader-bar"></div>
         </div>
@@ -517,7 +512,6 @@
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
-            <!-- পারমানেন্ট আপনার ছবি (কখনো চেঞ্জ হবে না) -->
             <div class="header-logo-box">
                 <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
             </div>
@@ -527,17 +521,15 @@
             <div class="user-name-container">
                 <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
             </div>
-            <!-- পারমানেন্ট অ্যাপের নাম (কখনো চেঞ্জ হবে পঞ্চাশ) -->
             <div class="user-sub">Aluminium ERP BD v2</div>
             <span class="status-badge">✓ System Active</span>
             
             <div class="avatar-container">
-                <!-- ইউজারের নিজস্ব কোম্পানি/প্রোফাইল ছবি (সেটিংস থেকে চেঞ্জ হবে) -->
                 <div id="avatarDisplay" class="avatar-img">👤</div>
             </div>
         </div>
 
-        <!-- 🔗 মেনু লিংকসমূহ -->
+        <!-- 🔗 মেনু লিংকসমূহ (আপডেটেড আইকনসহ) -->
         <div class="grid-menu">
             <a href="curtain-wall.html" class="menu-card">
                 <div class="menu-icon">
@@ -575,7 +567,7 @@
             </a>
 
             <a href="fixed-calculator.html" class="menu-card">
-                <div class="menu-icon">🪟</div>
+                <div class="menu-icon">🖼️</div>
                 <div class="menu-title">Fixed Calculator</div>
             </a>
 
@@ -585,7 +577,7 @@
             </a>
 
             <a href="quotation.html" class="menu-card">
-                <div class="menu-icon">📄</div>
+                <div class="menu-icon">📝</div>
                 <div class="menu-title">Quotation</div>
             </a>
 
@@ -595,7 +587,7 @@
             </a>
 
             <a href="glass.html" class="menu-card">
-                <div class="menu-icon">🪟</div>
+                <div class="menu-icon">🧊</div>
                 <div class="menu-title">Glass</div>
             </a>
 
@@ -604,14 +596,13 @@
                 <div class="menu-title">Bill & Invoice</div>
             </a>
             
-<a href="glass-cutting.html" class="menu-card">
-                <div class="menu-icon">🪟</div>
+            <a href="glass-cutting.html" class="menu-card">
+                <div class="menu-icon">✂️</div>
                 <div class="menu-title">Glass Shit Cutting</div>
             </a>
-
             
             <a href="Lowver.html" class="menu-card">
-                <div class="menu-icon">🧾</div>
+                <div class="menu-icon">🪜</div>
                 <div class="menu-title">Lowver Calculater</div>
             </a>
         </div>
@@ -627,7 +618,6 @@
             
             <a href="#" class="sidebar-menu-item" onclick="openProfileSettings(); return false;">👤 My Profile Settings</a>
             
-            <!-- ফিডব্যাক ও সাপোর্ট -->
             <a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="sidebar-menu-item support-btn">🎧 Feedback & Support</a>
         </div>
     </div>
@@ -636,7 +626,6 @@
         let lockClickCount = 0;
         let isMasterMode = false;
         let generatedDeviceId = "";
-        let expectedProductKey = "";
         let tempProfileImgData = ""; 
 
         const MASTER_KEY = "mdrubelmolla1989";
@@ -662,7 +651,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            // ⏳ স্প্ল্যাশ স্ক্রিন ২.৫ সেকেন্ড পর চলে যাবে
             setTimeout(function() {
                 const splash = document.getElementById("splash-screen");
                 if (splash) {
@@ -696,9 +684,6 @@
                 
                 const waMessage = encodeURIComponent("Hello Rubel Bhai, please give me the product key for my Device ID: " + generatedDeviceId);
                 document.getElementById("whatsappLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMessage;
-
-                const codePart = generatedDeviceId.replace("ALU-", "");
-                expectedProductKey = "KEY-" + codePart + "-PRO";
             }
         });
 
@@ -779,6 +764,7 @@
             }
         }
 
+        // নতুন লাইসেন্স লজিক যুক্ত করা হলো
         function validateKey() {
             const inputVal = document.getElementById("keyInput").value.trim();
 
@@ -789,10 +775,21 @@
                     alert("ভুল মাস্টার কী (Master Key)!");
                 }
             } else {
-                if (inputVal.toUpperCase() === expectedProductKey) {
+                // ডিভাইসের আইডি থেকে কোড অংশটি আলাদা করা
+                const codePart = generatedDeviceId.replace("ALU-", "");
+                // কোডটি উল্টে দেওয়া (Reverse)
+                const reversedCode = codePart.split("").reverse().join("");
+                // বর্তমান দিনের তারিখ বের করা (যেমন: ৫, ৬ ইত্যাদি)
+                const todayDate = new Date().getDate(); 
+                
+                // আজকের জন্য সঠিক লাইসেন্স কি তৈরি করা (RM-উল্টানো কোড-আজকের তারিখ)
+                const expectedProductKey = "RM-" + reversedCode + "-" + todayDate;
+
+                // ইউজারের ইনপুট যাচাই করা
+                if (inputVal.toUpperCase() === expectedProductKey.toUpperCase()) {
                     unlockAppPermanently();
                 } else {
-                    alert("ভুল প্রোডাক্ট কী (Product Key)!");
+                    alert("ভুল প্রোডাক্ট কী (Product Key)! নিশ্চিত করুন আজকেই কোডটি তৈরি করা হয়েছে।");
                 }
             }
         }

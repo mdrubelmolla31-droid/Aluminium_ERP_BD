@@ -363,8 +363,8 @@ body{
 
 .summary-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
     margin-bottom:15px;
 }
 
@@ -378,14 +378,14 @@ body{
 
 .summary-label{
     color:var(--muted);
-    font-size:12px;
+    font-size:13px;
     font-weight:800;
     margin-bottom:5px;
 }
 
 .summary-value{
     color:#1d4ed8;
-    font-size:19px;
+    font-size:20px;
     font-weight:900;
 }
 
@@ -440,16 +440,6 @@ body{
     font-weight:900;
 }
 
-.sheet-waste{
-    background:#fef3c7;
-    color:#92400e;
-    border:1px solid #fde68a;
-    padding:5px 8px;
-    border-radius:6px;
-    font-size:12px;
-    font-weight:900;
-}
-
 /* =====================================================
    PIECE LIST
 ===================================================== */
@@ -488,39 +478,46 @@ body{
 }
 
 .piece-size{
-    font-size:14px;
+    font-size:15px;
     color:#0f172a;
     font-weight:900;
 }
 
 .piece-position{
     text-align:right;
-    font-size:13px;
+    font-size:14px;
     color:#059669;
     font-weight:800;
 }
 
 /* =====================================================
-   SHEET FOOTER
+   WASTE LIST
 ===================================================== */
 
-.sheet-footer{
-    background:#f1f5f9;
-    border-top:1px solid var(--border);
-    padding:9px 12px;
-    display:flex;
-    justify-content:space-between;
-    gap:8px;
-    font-size:13px;
-    font-weight:800;
+.waste-list {
+    padding: 10px 12px;
+    background: #fff1f2;
+    border-top: 1px dashed #fecdd3;
 }
 
-.used-area{
-    color:#059669;
+.waste-title {
+    font-weight: 800;
+    color: #e11d48;
+    margin-bottom: 8px;
+    font-size: 14px;
 }
 
-.waste-area{
-    color:#dc2626;
+.waste-item {
+    font-size: 14px;
+    color: #9f1239;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+}
+.waste-item::before {
+    content: "•";
+    margin-right: 6px;
 }
 
 /* =====================================================
@@ -613,35 +610,20 @@ body{
         font-size:16px;
     }
 
-    .summary-grid{
-        grid-template-columns:1fr;
-    }
-
     .summary-card{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
         padding:10px 12px;
     }
 
-    .summary-label{
-        margin:0;
-    }
-
     .summary-value{
-        font-size:17px;
+        font-size:18px;
     }
 
     .sheet-card-header{
-        align-items:flex-start;
+        align-items:center;
     }
 
     .sheet-title{
         font-size:15px;
-    }
-
-    .sheet-waste{
-        font-size:10px;
     }
 
     .piece-item{
@@ -663,788 +645,331 @@ body{
 ===================================================== */
 
 @media print{
-
     @page{
         size:A4 portrait;
         margin:10mm;
     }
-
-    html,
-    body{
+    html, body{
         background:#ffffff !important;
         padding:0 !important;
         margin:0 !important;
         color:#000000 !important;
-        font-family:Arial,sans-serif !important;
     }
-
-    .main-container{
-        max-width:100% !important;
-        width:100% !important;
-        margin:0 !important;
+    #inputSection, .btn, .no-print{
+        display:none !important;
     }
-
     .header-card{
-        background:linear-gradient(
-            135deg,
-            #f0f9ff 0%,
-            #e0f2fe 50%,
-            #f8fafc 100%
-        ) !important;
+        background:#f8fafc !important;
         color:#0f172a !important;
         border:1px solid #bae6fd !important;
         box-shadow:none !important;
-        border-radius:8px !important;
-        padding:15px !important;
-        -webkit-print-color-adjust:exact !important;
-        print-color-adjust:exact !important;
     }
-
-    .menu-btn{
-        display:none !important;
-    }
-
-    .header-title{
-        color:#1e40af !important;
-        font-size:22px !important;
-    }
-
-    .date-display{
-        color:#0f172a !important;
-        background:#ffffff !important;
-        border:1px solid #cbd5e1 !important;
-    }
-
     .editable-input{
         background:transparent !important;
-        color:#0f172a !important;
-        font-size:30px !important;
-        height:auto !important;
-        padding:2px !important;
+        border:none !important;
     }
-
-    #shopPhone{
-        font-size:18px !important;
-    }
-
     .sheet-size-box{
         color:#1d4ed8 !important;
         border-top:1px dashed #94a3b8;
         padding-top:8px;
         justify-content:center;
     }
-
-    .sheet-size-title,
-    .sheet-x{
-        color:#1d4ed8 !important;
-    }
-
+    .sheet-size-title, .sheet-x{ color:#1d4ed8 !important; }
     .sheet-input{
         background:transparent !important;
-        color:#000000 !important;
         border:none !important;
-        max-width:80px !important;
     }
-
-    .section-card{
-        border:none !important;
-        box-shadow:none !important;
-        padding:0 !important;
-    }
-
-    #inputSection,
-    .btn,
-    .no-print{
-        display:none !important;
-    }
-
-    .results-container{
-        border:none !important;
-        box-shadow:none !important;
-        padding:0 !important;
-        margin-top:10px !important;
-    }
-
     .summary-grid{
         display:flex !important;
         border:1px solid #cbd5e1 !important;
-        margin-bottom:10px !important;
     }
-
     .summary-card{
         flex:1 !important;
         border:none !important;
         border-right:1px solid #cbd5e1 !important;
-        border-radius:0 !important;
         background:#f8fafc !important;
     }
-
-    .summary-card:last-child{
-        border-right:none !important;
-    }
-
-    .sheet-list{
-        display:block !important;
-    }
-
+    .summary-card:last-child{ border-right:none !important; }
     .sheet-card{
         border:1px solid #94a3b8 !important;
-        border-radius:6px !important;
-        margin-bottom:10px !important;
         page-break-inside:avoid !important;
     }
-
     .sheet-card-header{
         background:#2563eb !important;
         color:#ffffff !important;
         -webkit-print-color-adjust:exact !important;
         print-color-adjust:exact !important;
     }
-
-    .sheet-title{
-        color:#ffffff !important;
+    .waste-list {
+        background: #ffffff !important;
+        border-top: 1px dashed #94a3b8 !important;
     }
-
-    .sheet-badge{
-        background:#ffffff !important;
-        color:#2563eb !important;
+    .waste-title, .waste-item {
+        color: #000000 !important;
     }
-
-    .sheet-waste{
-        background:#ffffff !important;
-        color:#92400e !important;
-    }
-
-    .piece-list{
-        background:#ffffff !important;
-    }
-
-    .piece-item{
-        border:1px solid #cbd5e1 !important;
-        border-radius:0 !important;
-        margin-bottom:0 !important;
-        border-bottom:none !important;
-    }
-
-    .piece-item:last-child{
-        border-bottom:1px solid #cbd5e1 !important;
-    }
-
-    .info-box{
-        border:1px solid #bfdbfe !important;
-        background:#eff6ff !important;
-        -webkit-print-color-adjust:exact !important;
-        print-color-adjust:exact !important;
-    }
-
 }
-
-/* =====================================================
-   EMPTY RESULT
-===================================================== */
-
-.empty-result{
-    text-align:center;
-    padding:30px 10px;
-    color:#64748b;
-    font-size:14px;
-    font-weight:700;
-}
-
 </style>
 </head>
 
 <body>
 
 <div class="main-container">
-
-    <!-- =================================================
-         HEADER
-    ================================================== -->
-
     <div class="header-card">
-
         <div class="header-top">
-
-            <button
-                class="menu-btn no-print"
-                onclick="scrollToInput()"
-                title="ইনপুট"
-            >
-                ☰
-            </button>
-
-            <span class="header-title">
-                🪟 গ্লাস কাটিং অপটিমাইজার
-            </span>
-
-            <div
-                id="currentDate"
-                class="date-display"
-            ></div>
-
+            <button class="menu-btn no-print" onclick="scrollToInput()" title="ইনপুট">☰</button>
+            <span class="header-title">🪟 গ্লাস কাটিং অপটিমাইজার</span>
+            <div id="currentDate" class="date-display"></div>
         </div>
-
         <div class="shop-details">
-
-            <input
-                type="text"
-                id="shopName"
-                class="editable-input"
-                value="আর এম থাই অ্যালুমিনিয়াম"
-                placeholder="দোকানের নাম"
-            >
-
-            <input
-                type="text"
-                id="shopPhone"
-                class="editable-input"
-                value="মোবাইল: 01676474412"
-                placeholder="মোবাইল নম্বর"
-            >
-
+            <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম">
+            <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর">
         </div>
-
-        <!-- SHEET SIZE -->
-
         <div class="sheet-size-box">
-
-            <span class="sheet-size-title">
-                📐 শীট সাইজ
-            </span>
-
-            <input
-                type="number"
-                id="sheetWidth"
-                class="sheet-input"
-                value="84"
-                min="1"
-                step="0.01"
-                aria-label="শীট প্রস্থ"
-            >
-
+            <span class="sheet-size-title">📐 শীট সাইজ</span>
+            <input type="number" id="sheetWidth" class="sheet-input" value="84" min="1" step="0.01">
             <span class="sheet-x">×</span>
-
-            <input
-                type="number"
-                id="sheetHeight"
-                class="sheet-input"
-                value="51"
-                min="1"
-                step="0.01"
-                aria-label="শীট উচ্চতা"
-            >
-
-            <span class="sheet-size-title">
-                ইঞ্চি
-            </span>
-
+            <input type="number" id="sheetHeight" class="sheet-input" value="51" min="1" step="0.01">
+            <span class="sheet-size-title">ইঞ্চি</span>
         </div>
-
     </div>
 
-
-    <!-- =================================================
-         INPUT SECTION
-    ================================================== -->
-
-    <div
-        class="section-card"
-        id="inputSection"
-    >
-
+    <div class="section-card" id="inputSection">
         <div class="section-title">
-
             📋 গ্লাসের তালিকা
-
-            <span class="section-badge">
-                উচ্চতা × প্রস্থ
-            </span>
-
+            <span class="section-badge">উচ্চতা × প্রস্থ</span>
         </div>
-
         <div id="glassInputContainer"></div>
-
-        <button
-            class="btn btn-add"
-            onclick="addGlassRow()"
-        >
-            ➕ আরও গ্লাস যোগ করুন
-        </button>
-
-        <button
-            class="btn btn-calculate"
-            onclick="calculate()"
-        >
-            📊 কাটিং হিসাব বের করুন
-        </button>
-
+        <button class="btn btn-add" onclick="addGlassRow()">➕ আরও গ্লাস যোগ করুন</button>
+        <button class="btn btn-calculate" onclick="calculate()">📊 কাটিং হিসাব বের করুন</button>
     </div>
 
-
-    <!-- =================================================
-         RESULT
-    ================================================== -->
-
-    <div
-        class="results-container"
-        id="resultArea"
-        style="display:none;"
-    >
-
+    <div class="results-container" id="resultArea" style="display:none;">
         <div class="result-heading">
-
-            <h3>
-                📊 কাটিং রেজাল্ট
-            </h3>
-
-            <span
-                class="result-badge"
-                id="resultBadge"
-            >
-                সম্পন্ন
-            </span>
-
+            <h3>📊 কাটিং রেজাল্ট</h3>
+            <span class="result-badge" id="resultBadge">সম্পন্ন</span>
         </div>
-
-
-        <!-- SUMMARY -->
-
-        <div
-            class="summary-grid"
-            id="resultSummary"
-        ></div>
-
-
-        <!-- SHEET DETAILS -->
-
-        <div
-            class="sheet-list"
-            id="resultDetail"
-        ></div>
-
-
+        <div class="summary-grid" id="resultSummary"></div>
+        <div class="sheet-list" id="resultDetail"></div>
         <div class="info-box">
-            ✅ হিসাব সম্পন্ন। প্রতিটি শীটে কোন গ্লাস কত পিস কাটা হয়েছে তা উপরে দেখানো হয়েছে।
+            ✅ হিসাব সম্পন্ন। প্রতিটি শীটে কত পিস গ্লাস কাটা হয়েছে এবং কোন সাইজের কতটুকু গ্লাস অবশিষ্ট (ওয়েস্টেজ) আছে তা দেখানো হয়েছে।
         </div>
-
-        <button
-            class="btn no-print"
-            onclick="window.print()"
-        >
-            🖨️ প্রিন্ট / PDF
-        </button>
-
+        <button class="btn no-print" onclick="window.print()">🖨️ প্রিন্ট / PDF</button>
     </div>
-
 </div>
 
-
 <script>
-
-/* =====================================================
-   DOM REFERENCES
-===================================================== */
-
-const glassInputContainer =
-    document.getElementById("glassInputContainer");
-
-const resultArea =
-    document.getElementById("resultArea");
-
-const resultSummary =
-    document.getElementById("resultSummary");
-
-const resultDetail =
-    document.getElementById("resultDetail");
-
-
-/* =====================================================
-   DATE
-===================================================== */
+const glassInputContainer = document.getElementById("glassInputContainer");
+const resultArea = document.getElementById("resultArea");
+const resultSummary = document.getElementById("resultSummary");
+const resultDetail = document.getElementById("resultDetail");
 
 function setCurrentDate(){
-
     const today = new Date();
-
-    const day =
-        String(today.getDate()).padStart(2,"0");
-
-    const month =
-        String(today.getMonth()+1).padStart(2,"0");
-
-    const year =
-        today.getFullYear();
-
-    document.getElementById("currentDate").innerText =
-        `তারিখ: ${day}/${month}/${year}`;
+    const day = String(today.getDate()).padStart(2,"0");
+    const month = String(today.getMonth()+1).padStart(2,"0");
+    const year = today.getFullYear();
+    document.getElementById("currentDate").innerText = `তারিখ: ${day}/${month}/${year}`;
 }
-
-
-/* =====================================================
-   SCROLL TO INPUT
-===================================================== */
 
 function scrollToInput(){
-
-    document.getElementById("inputSection")
-        .scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
+    document.getElementById("inputSection").scrollIntoView({ behavior:"smooth", block:"start" });
 }
-
-
-/* =====================================================
-   ROW MANAGEMENT
-===================================================== */
 
 let rowCount = 0;
-
-/*
-    একটি নতুন গ্লাস ইনপুট Row
-*/
-
-function addGlassRow(
-    height = "",
-    width = "",
-    quantity = ""
-){
-
+function addGlassRow(height = "", width = "", quantity = ""){
     rowCount++;
-
-    const div =
-        document.createElement("div");
-
+    const div = document.createElement("div");
     div.className = "glass-row";
-
     div.innerHTML = `
-
-        <div class="serial">
-            ${rowCount}
-        </div>
-
-        <input
-            type="number"
-            class="glass-height"
-            placeholder="উচ্চতা"
-            value="${height}"
-            min="0"
-            step="0.01"
-        >
-
-        <input
-            type="number"
-            class="glass-width"
-            placeholder="প্রস্থ"
-            value="${width}"
-            min="0"
-            step="0.01"
-        >
-
-        <input
-            type="number"
-            class="glass-quantity"
-            placeholder="পিস"
-            value="${quantity}"
-            min="1"
-            step="1"
-        >
-
-        <button
-            class="delete-row-btn"
-            onclick="deleteGlassRow(this)"
-            title="মুছে ফেলুন"
-        >
-            ✕
-        </button>
-
+        <div class="serial">${rowCount}</div>
+        <input type="number" class="glass-height" placeholder="উচ্চতা" value="${height}" min="0" step="0.01">
+        <input type="number" class="glass-width" placeholder="প্রস্থ" value="${width}" min="0" step="0.01">
+        <input type="number" class="glass-quantity" placeholder="পিস" value="${quantity}" min="1" step="1">
+        <button class="delete-row-btn" onclick="deleteGlassRow(this)" title="মুছে ফেলুন">✕</button>
     `;
-
     glassInputContainer.appendChild(div);
-
 }
-
-
-/*
-    Row Delete
-*/
 
 function deleteGlassRow(button){
-
-    const rows =
-        document.querySelectorAll(
-            "#glassInputContainer .glass-row"
-        );
-
+    const rows = document.querySelectorAll("#glassInputContainer .glass-row");
     if(rows.length <= 1){
-
-        alert(
-            "কমপক্ষে একটি গ্লাসের সারি রাখতে হবে।"
-        );
-
+        alert("কমপক্ষে একটি গ্লাসের সারি রাখতে হবে।");
         return;
     }
-
     button.closest(".glass-row").remove();
-
     renumberRows();
-
 }
-
-
-/*
-    Serial Number ঠিক করা
-*/
 
 function renumberRows(){
-
-    const rows =
-        document.querySelectorAll(
-            "#glassInputContainer .glass-row"
-        );
-
+    const rows = document.querySelectorAll("#glassInputContainer .glass-row");
     rows.forEach((row,index)=>{
-
-        row.querySelector(".serial")
-            .textContent = index + 1;
-
+        row.querySelector(".serial").textContent = index + 1;
     });
-
     rowCount = rows.length;
-
 }
-
-
-/* =====================================================
-   GET SHEET SIZE
-===================================================== */
 
 function getSheetSize(){
-
-    const width =
-        parseFloat(
-            document.getElementById("sheetWidth").value
-        ) || 84;
-
-    const height =
-        parseFloat(
-            document.getElementById("sheetHeight").value
-        ) || 51;
-
     return {
-        width: width,
-        height: height
+        width: parseFloat(document.getElementById("sheetWidth").value) || 84,
+        height: parseFloat(document.getElementById("sheetHeight").value) || 51
     };
-
 }
-
-
-/* =====================================================
-   GET INPUT PIECES
-===================================================== */
 
 function getPieces(){
-
-    const rows =
-        document.querySelectorAll(
-            "#glassInputContainer .glass-row"
-        );
-
+    const rows = document.querySelectorAll("#glassInputContainer .glass-row");
     const pieces = [];
-
     rows.forEach(row=>{
-
-        const height =
-            parseFloat(
-                row.querySelector(".glass-height").value
-            );
-
-        const width =
-            parseFloat(
-                row.querySelector(".glass-width").value
-            );
-
-        const quantity =
-            parseInt(
-                row.querySelector(".glass-quantity").value
-            ) || 0;
-
-        if(
-            height > 0 &&
-            width > 0 &&
-            quantity > 0
-        ){
-
-            pieces.push({
-                height:height,
-                width:width,
-                quantity:quantity
-            });
-
+        const height = parseFloat(row.querySelector(".glass-height").value);
+        const width = parseFloat(row.querySelector(".glass-width").value);
+        const quantity = parseInt(row.querySelector(".glass-quantity").value) || 0;
+        if(height > 0 && width > 0 && quantity > 0){
+            pieces.push({height:height, width:width, quantity:quantity});
         }
-
     });
-
     return pieces;
-
 }
 
-
 /* =====================================================
-   CORE 2D CUTTING OPTIMIZATION
+   BSP Tree Algorithm (To find exact waste rectangles)
 ===================================================== */
-
-function optimizeCutting(
-    pieces,
-    sheetW,
-    sheetH
-){
-
-    let items = [];
-
-    for(const p of pieces){
-        for(let i = 0; i < p.quantity; i++){
-            items.push({
-                w:p.width,
-                h:p.height
-            });
-        }
+class BinNode {
+    constructor(x, y, w, h) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.used = false;
+        this.right = null;
+        this.down = null;
     }
-
-    items.sort(
-        (a,b)=> (b.w * b.h) - (a.w * a.h)
-    );
-
-    const sheets = [];
-
-    for(const item of items){
-
-        let placed = false;
-
-        for(let s = 0; s < sheets.length; s++){
-
-            const layout = sheets[s];
-
-            const pos = findPosition(layout, item.w, item.h, sheetW, sheetH);
-
-            if(pos){
-                layout.push({ w:item.w, h:item.h, x:pos.x, y:pos.y });
-                placed = true;
-                break;
-            }
-
-            const rotated = findPosition(layout, item.h, item.w, sheetW, sheetH);
-
-            if(rotated){
-                layout.push({ w:item.h, h:item.w, x:rotated.x, y:rotated.y });
-                placed = true;
-                break;
-            }
-        }
-
-        if(!placed){
-            const newSheet = [];
-            let pos = findPosition(newSheet, item.w, item.h, sheetW, sheetH);
-
-            if(pos){
-                newSheet.push({ w:item.w, h:item.h, x:pos.x, y:pos.y });
-            }
-            else{
-                pos = findPosition(newSheet, item.h, item.w, sheetW, sheetH);
-                if(pos){
-                    newSheet.push({ w:item.h, h:item.w, x:pos.x, y:pos.y });
-                }
-                else{
-                    newSheet.push({ w:item.w, h:item.h, x:0, y:0 });
-                }
-            }
-            sheets.push(newSheet);
-        }
-    }
-
-    const results = sheets.map((layout,index)=>{
-        let usedArea = 0;
-        for(const p of layout){
-            usedArea += p.w * p.h;
-        }
-
-        const sheetArea = sheetW * sheetH;
-        const waste = sheetArea - usedArea;
-
-        return {
-            sheetIndex:index+1,
-            pieces:layout,
-            usedArea:usedArea,
-            waste:waste,
-            wastePercent: (waste / sheetArea) * 100
-        };
-    });
-
-    const totalSheets = sheets.length;
-    const totalWaste = results.reduce((sum,r)=> sum + r.waste, 0);
-    const totalArea = totalSheets * sheetW * sheetH;
-
-    return {
-        totalSheets:totalSheets,
-        totalPiecesCut: items.length,
-        wastePercent: totalArea > 0 ? (totalWaste / totalArea) * 100 : 0,
-        sheetDetails:results
-    };
-
 }
 
-
-/* =====================================================
-   FIND POSITION
-===================================================== */
-
-function findPosition(layout, itemW, itemH, sheetW, sheetH){
-
-    if(itemW > sheetW || itemH > sheetH){
-        return null;
-    }
-
-    for(let y = 0; y <= sheetH - itemH; y++){
-        for(let x = 0; x <= sheetW - itemW; x++){
-            let overlap = false;
-
-            for(const placed of layout){
-                if(
-                    x < placed.x + placed.w &&
-                    x + itemW > placed.x &&
-                    y < placed.y + placed.h &&
-                    y + itemH > placed.y
-                ){
-                    overlap = true;
-                    break;
-                }
-            }
-            if(!overlap){
-                return { x:x, y:y };
-            }
-        }
+function findNode(root, w, h) {
+    if (root.used) {
+        let node = findNode(root.right, w, h);
+        if (node) return node;
+        return findNode(root.down, w, h);
+    } else if (w <= root.w && h <= root.h) {
+        return root;
     }
     return null;
 }
 
-
-/* =====================================================
-   FORMAT NUMBER
-===================================================== */
-
-function formatNumber(value){
-    return Number(value).toFixed(2);
+function splitNode(node, w, h) {
+    node.used = true;
+    let dw = node.w - w;
+    let dh = node.h - h;
+    
+    // Split logically to create the largest contiguous free rectangles
+    if (dw > dh) {
+        node.right = new BinNode(node.x + w, node.y, dw, node.h);
+        node.down = new BinNode(node.x, node.y + h, w, dh);
+    } else {
+        node.right = new BinNode(node.x + w, node.y, dw, h);
+        node.down = new BinNode(node.x, node.y + h, node.w, dh);
+    }
+    return node;
 }
 
+function getWastePieces(node, wasteArray) {
+    if (!node) return;
+    if (!node.used) {
+        // Only keep waste pieces that have actual area
+        if (node.w > 0 && node.h > 0) {
+            wasteArray.push({w: node.w, h: node.h});
+        }
+    } else {
+        getWastePieces(node.right, wasteArray);
+        getWastePieces(node.down, wasteArray);
+    }
+}
 
-/* =====================================================
-   CALCULATE
-===================================================== */
+function formatNumber(value){
+    return parseFloat(Number(value).toFixed(2)).toString();
+}
+
+function optimizeCutting(pieces, sheetW, sheetH) {
+    let items = [];
+    for (const p of pieces) {
+        for (let i = 0; i < p.quantity; i++) {
+            items.push({ w: p.width, h: p.height });
+        }
+    }
+
+    // Sort pieces by largest dimension first
+    items.sort((a, b) => Math.max(b.w, b.h) - Math.max(a.w, a.h));
+
+    const sheets = [];
+
+    for (const item of items) {
+        let placed = false;
+
+        for (let s = 0; s < sheets.length; s++) {
+            let root = sheets[s].root;
+
+            let node = findNode(root, item.w, item.h);
+            if (node) {
+                splitNode(node, item.w, item.h);
+                sheets[s].placedPieces.push({ w: item.w, h: item.h });
+                placed = true;
+                break;
+            }
+
+            let nodeRotated = findNode(root, item.h, item.w);
+            if (nodeRotated) {
+                splitNode(nodeRotated, item.h, item.w);
+                sheets[s].placedPieces.push({ w: item.h, h: item.w });
+                placed = true;
+                break;
+            }
+        }
+
+        if (!placed) {
+            let newRoot = new BinNode(0, 0, sheetW, sheetH);
+            let node = findNode(newRoot, item.w, item.h);
+            let w = item.w, h = item.h;
+
+            if (!node) {
+                node = findNode(newRoot, item.h, item.w);
+                w = item.h; h = item.w;
+            }
+
+            if (node) {
+                splitNode(node, w, h);
+                sheets.push({
+                    root: newRoot,
+                    placedPieces: [{ w: w, h: h }]
+                });
+            }
+        }
+    }
+
+    const results = sheets.map((sheet, index) => {
+        let wasteArray = [];
+        getWastePieces(sheet.root, wasteArray);
+
+        let groupedWaste = {};
+        wasteArray.forEach(wst => {
+            let key = `${formatNumber(wst.h)} × ${formatNumber(wst.w)}`;
+            if (!groupedWaste[key]) groupedWaste[key] = 0;
+            groupedWaste[key]++;
+        });
+
+        return {
+            sheetIndex: index + 1,
+            pieces: sheet.placedPieces,
+            wasteGroups: groupedWaste
+        };
+    });
+
+    return {
+        totalSheets: sheets.length,
+        totalPiecesCut: items.length,
+        sheetDetails: results
+    };
+}
 
 function calculate(){
-
     const sheet = getSheetSize();
     const pieces = getPieces();
 
@@ -1454,11 +979,9 @@ function calculate(){
     }
 
     const invalidPieces = [];
-
     pieces.forEach((p,index)=>{
         const normalFit = p.width <= sheet.width && p.height <= sheet.height;
         const rotatedFit = p.height <= sheet.width && p.width <= sheet.height;
-
         if(!normalFit && !rotatedFit){
             invalidPieces.push(`সারি ${index+1}: ${p.height} × ${p.width} ইঞ্চি`);
         }
@@ -1473,30 +996,21 @@ function calculate(){
 
     resultArea.style.display = "block";
 
-    /* Summary Update - "বর্গ ইঞ্চি" বাদ দিয়ে પিস ও শতাংশ দেখানো হয়েছে */
     resultSummary.innerHTML = `
         <div class="summary-card">
-            <div class="summary-label">📦 মোট শীট</div>
+            <div class="summary-label">📦 মোট শীট লাগবে</div>
             <div class="summary-value">${result.totalSheets} টি</div>
         </div>
-
         <div class="summary-card">
-            <div class="summary-label">📐 মোট কাটা পিস</div>
+            <div class="summary-label">📐 মোট গ্লাস কাটা হবে</div>
             <div class="summary-value">${result.totalPiecesCut} পিস</div>
-        </div>
-
-        <div class="summary-card">
-            <div class="summary-label">🗑️ মোট অপচয়</div>
-            <div class="summary-value">${result.wastePercent.toFixed(2)}%</div>
         </div>
     `;
 
-    /* Sheet Details Update */
     resultDetail.innerHTML = "";
 
     result.sheetDetails.forEach(sheet=>{
         
-        // Group pieces by size
         let groupedPieces = {};
         sheet.pieces.forEach(p => {
             let sizeKey = `${formatNumber(p.h)} × ${formatNumber(p.w)}`;
@@ -1515,15 +1029,11 @@ function calculate(){
                     <div class="sheet-badge">${sheet.sheetIndex}</div>
                     <div class="sheet-title">শীট #${sheet.sheetIndex}</div>
                 </div>
-                <div class="sheet-waste">
-                    অপচয়: ${sheet.wastePercent.toFixed(1)}%
-                </div>
             </div>
         `;
 
         let pieceHTML = `<div class="piece-list">`;
         let pIndex = 1;
-
         for (let key in groupedPieces) {
             let qty = groupedPieces[key];
             pieceHTML += `
@@ -1536,30 +1046,27 @@ function calculate(){
         }
         pieceHTML += `</div>`;
 
-        const footer = `
-            <div class="sheet-footer">
-                <span class="used-area">এই শিট থেকে মোট কাটা হয়েছে: ${sheet.pieces.length} পিস</span>
-                <span class="waste-area">অপচয়: ${sheet.wastePercent.toFixed(1)}%</span>
-            </div>
-        `;
+        let wasteHTML = `<div class="waste-list">
+                            <div class="waste-title">🗑️ অবশিষ্ট গ্লাস (ওয়েস্টেজ টুকরো):</div>`;
+        let wCount = 0;
+        for (let key in sheet.wasteGroups) {
+            let qty = sheet.wasteGroups[key];
+            wasteHTML += `<div class="waste-item">${key} ইঞ্চি = ${qty} টুকরো</div>`;
+            wCount++;
+        }
+        if (wCount === 0) {
+             wasteHTML += `<div class="waste-item" style="color:#64748b;">কোনো ওয়েস্টেজ নেই</div>`;
+        }
+        wasteHTML += `</div>`;
 
-        card.innerHTML = header + pieceHTML + footer;
+        card.innerHTML = header + pieceHTML + wasteHTML;
         resultDetail.appendChild(card);
     });
 
     setTimeout(()=>{
-        resultArea.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
+        resultArea.scrollIntoView({ behavior:"smooth", block:"start" });
     },100);
-
 }
-
-
-/* =====================================================
-   ENTER KEY
-===================================================== */
 
 document.addEventListener("keydown", function(event){
     if(event.key === "Enter" && event.target.tagName === "INPUT"){
@@ -1567,26 +1074,10 @@ document.addEventListener("keydown", function(event){
     }
 });
 
-
-/* =====================================================
-   DEFAULT DATA (পরিবর্তন করা হয়েছে)
-===================================================== */
-
-function loadDefaultRows(){
-    // শুধুমাত্র ১টি খালি ইনপুট সারি থাকবে
-    addGlassRow("", "", "");
-}
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
 window.addEventListener("load", function(){
     setCurrentDate();
-    loadDefaultRows();
+    addGlassRow("", "", "");
 });
-
 </script>
 
 </body>

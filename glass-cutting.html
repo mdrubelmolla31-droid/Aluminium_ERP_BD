@@ -495,9 +495,9 @@ body{
 
 .piece-position{
     text-align:right;
-    font-size:12px;
-    color:#64748b;
-    font-weight:700;
+    font-size:13px;
+    color:#059669;
+    font-weight:800;
 }
 
 /* =====================================================
@@ -511,7 +511,7 @@ body{
     display:flex;
     justify-content:space-between;
     gap:8px;
-    font-size:12px;
+    font-size:13px;
     font-weight:800;
 }
 
@@ -1025,7 +1025,7 @@ body{
 
 
         <div class="info-box">
-            ✅ হিসাব সম্পন্ন। প্রতিটি শীটে কোন গ্লাস কোথায় বসানো হয়েছে এবং কতটুকু অপচয় হয়েছে তা উপরে দেখানো হয়েছে।
+            ✅ হিসাব সম্পন্ন। প্রতিটি শীটে কোন গ্লাস কত পিস কাটা হয়েছে তা উপরে দেখানো হয়েছে।
         </div>
 
         <button
@@ -1101,7 +1101,6 @@ function scrollToInput(){
 ===================================================== */
 
 let rowCount = 0;
-
 
 /*
     একটি নতুন গ্লাস ইনপুট Row
@@ -1297,318 +1296,101 @@ function getPieces(){
    CORE 2D CUTTING OPTIMIZATION
 ===================================================== */
 
-/*
-    প্রথম কোডের মূল Algorithm
-    এখানে মূল হিসাবের Logic রাখা হয়েছে।
-*/
-
 function optimizeCutting(
     pieces,
     sheetW,
     sheetH
 ){
 
-    /*
-        Quantity অনুযায়ী প্রতিটি Piece
-        আলাদা Item হিসেবে তৈরি
-    */
-
     let items = [];
 
     for(const p of pieces){
-
-        for(
-            let i = 0;
-            i < p.quantity;
-            i++
-        ){
-
+        for(let i = 0; i < p.quantity; i++){
             items.push({
                 w:p.width,
                 h:p.height
             });
-
         }
-
     }
 
-
-    /*
-        বড় Area থেকে ছোট Area
-    */
-
     items.sort(
-        (a,b)=>
-            (b.w * b.h) -
-            (a.w * a.h)
+        (a,b)=> (b.w * b.h) - (a.w * a.h)
     );
 
-
     const sheets = [];
-
-
-    /*
-        প্রতিটি Item বসানো
-    */
 
     for(const item of items){
 
         let placed = false;
 
+        for(let s = 0; s < sheets.length; s++){
 
-        /*
-            আগের Sheet-গুলোতে বসানোর চেষ্টা
-        */
+            const layout = sheets[s];
 
-        for(
-            let s = 0;
-            s < sheets.length;
-            s++
-        ){
-
-            const layout =
-                sheets[s];
-
-
-            /*
-                Normal orientation
-            */
-
-            const pos =
-                findPosition(
-                    layout,
-                    item.w,
-                    item.h,
-                    sheetW,
-                    sheetH
-                );
-
+            const pos = findPosition(layout, item.w, item.h, sheetW, sheetH);
 
             if(pos){
-
-                layout.push({
-
-                    w:item.w,
-                    h:item.h,
-                    x:pos.x,
-                    y:pos.y
-
-                });
-
+                layout.push({ w:item.w, h:item.h, x:pos.x, y:pos.y });
                 placed = true;
-
                 break;
             }
 
-
-            /*
-                Rotation
-            */
-
-            const rotated =
-                findPosition(
-                    layout,
-                    item.h,
-                    item.w,
-                    sheetW,
-                    sheetH
-                );
-
+            const rotated = findPosition(layout, item.h, item.w, sheetW, sheetH);
 
             if(rotated){
-
-                layout.push({
-
-                    w:item.h,
-                    h:item.w,
-                    x:rotated.x,
-                    y:rotated.y
-
-                });
-
+                layout.push({ w:item.h, h:item.w, x:rotated.x, y:rotated.y });
                 placed = true;
-
                 break;
             }
-
         }
-
-
-        /*
-            কোনো Sheet-এ না বসলে
-            নতুন Sheet
-        */
 
         if(!placed){
-
             const newSheet = [];
-
-
-            /*
-                Normal
-            */
-
-            let pos =
-                findPosition(
-                    newSheet,
-                    item.w,
-                    item.h,
-                    sheetW,
-                    sheetH
-                );
-
+            let pos = findPosition(newSheet, item.w, item.h, sheetW, sheetH);
 
             if(pos){
-
-                newSheet.push({
-
-                    w:item.w,
-                    h:item.h,
-                    x:pos.x,
-                    y:pos.y
-
-                });
-
+                newSheet.push({ w:item.w, h:item.h, x:pos.x, y:pos.y });
             }
             else{
-
-                /*
-                    Rotated
-                */
-
-                pos =
-                    findPosition(
-                        newSheet,
-                        item.h,
-                        item.w,
-                        sheetW,
-                        sheetH
-                    );
-
-
+                pos = findPosition(newSheet, item.h, item.w, sheetW, sheetH);
                 if(pos){
-
-                    newSheet.push({
-
-                        w:item.h,
-                        h:item.w,
-                        x:pos.x,
-                        y:pos.y
-
-                    });
-
+                    newSheet.push({ w:item.h, h:item.w, x:pos.x, y:pos.y });
                 }
                 else{
-
-                    /*
-                        কোনোভাবেই না ফিট করলে
-                    */
-
-                    newSheet.push({
-
-                        w:item.w,
-                        h:item.h,
-                        x:0,
-                        y:0
-
-                    });
-
+                    newSheet.push({ w:item.w, h:item.h, x:0, y:0 });
                 }
-
             }
-
             sheets.push(newSheet);
-
         }
-
     }
 
+    const results = sheets.map((layout,index)=>{
+        let usedArea = 0;
+        for(const p of layout){
+            usedArea += p.w * p.h;
+        }
 
-    /*
-        প্রতিটি Sheet-এর Area হিসাব
-    */
+        const sheetArea = sheetW * sheetH;
+        const waste = sheetArea - usedArea;
 
-    const results =
-        sheets.map(
-            (layout,index)=>{
+        return {
+            sheetIndex:index+1,
+            pieces:layout,
+            usedArea:usedArea,
+            waste:waste,
+            wastePercent: (waste / sheetArea) * 100
+        };
+    });
 
-                let usedArea = 0;
-
-                for(const p of layout){
-
-                    usedArea +=
-                        p.w * p.h;
-
-                }
-
-                const sheetArea =
-                    sheetW * sheetH;
-
-                const waste =
-                    sheetArea - usedArea;
-
-                return {
-
-                    sheetIndex:index+1,
-
-                    pieces:layout,
-
-                    usedArea:usedArea,
-
-                    waste:waste,
-
-                    wastePercent:
-                        (waste / sheetArea) * 100
-
-                };
-
-            }
-        );
-
-
-    const totalSheets =
-        sheets.length;
-
-
-    const totalWaste =
-        results.reduce(
-            (sum,r)=>
-                sum + r.waste,
-            0
-        );
-
-
-    const totalUsed =
-        results.reduce(
-            (sum,r)=>
-                sum + r.usedArea,
-            0
-        );
-
-
-    const totalArea =
-        totalSheets *
-        sheetW *
-        sheetH;
-
+    const totalSheets = sheets.length;
+    const totalWaste = results.reduce((sum,r)=> sum + r.waste, 0);
+    const totalArea = totalSheets * sheetW * sheetH;
 
     return {
-
         totalSheets:totalSheets,
-
-        totalWaste:totalWaste,
-
-        totalUsed:totalUsed,
-
-        totalArea:totalArea,
-
-        wastePercent:
-            totalArea > 0
-            ? (totalWaste / totalArea) * 100
-            : 0,
-
+        totalPiecesCut: items.length,
+        wastePercent: totalArea > 0 ? (totalWaste / totalArea) * 100 : 0,
         sheetDetails:results
-
     };
 
 }
@@ -1618,91 +1400,33 @@ function optimizeCutting(
    FIND POSITION
 ===================================================== */
 
-function findPosition(
-    layout,
-    itemW,
-    itemH,
-    sheetW,
-    sheetH
-){
+function findPosition(layout, itemW, itemH, sheetW, sheetH){
 
-    /*
-        Sheet-এর বাইরে গেলে
-        সরাসরি বাদ
-    */
-
-    if(
-        itemW > sheetW ||
-        itemH > sheetH
-    ){
-
+    if(itemW > sheetW || itemH > sheetH){
         return null;
-
     }
 
-
-    /*
-        Bottom-left grid search
-    */
-
-    for(
-        let y = 0;
-        y <= sheetH - itemH;
-        y++
-    ){
-
-        for(
-            let x = 0;
-            x <= sheetW - itemW;
-            x++
-        ){
-
+    for(let y = 0; y <= sheetH - itemH; y++){
+        for(let x = 0; x <= sheetW - itemW; x++){
             let overlap = false;
 
-
-            for(
-                const placed of layout
-            ){
-
+            for(const placed of layout){
                 if(
-
                     x < placed.x + placed.w &&
-
-                    x + itemW >
-                        placed.x &&
-
+                    x + itemW > placed.x &&
                     y < placed.y + placed.h &&
-
-                    y + itemH >
-                        placed.y
-
+                    y + itemH > placed.y
                 ){
-
                     overlap = true;
-
                     break;
-
                 }
-
             }
-
-
             if(!overlap){
-
-                return {
-                    x:x,
-                    y:y
-                };
-
+                return { x:x, y:y };
             }
-
         }
-
     }
-
-
     return null;
-
 }
 
 
@@ -1711,9 +1435,7 @@ function findPosition(
 ===================================================== */
 
 function formatNumber(value){
-
     return Number(value).toFixed(2);
-
 }
 
 
@@ -1723,275 +1445,113 @@ function formatNumber(value){
 
 function calculate(){
 
-    const sheet =
-        getSheetSize();
-
-    const pieces =
-        getPieces();
-
+    const sheet = getSheetSize();
+    const pieces = getPieces();
 
     if(pieces.length === 0){
-
-        alert(
-            "দয়া করে কমপক্ষে একটি বৈধ গ্লাস সাইজ দিন।"
-        );
-
+        alert("দয়া করে কমপক্ষে একটি বৈধ গ্লাস সাইজ দিন।");
         return;
-
     }
-
-
-    /*
-        Check whether any glass
-        is larger than the sheet
-    */
 
     const invalidPieces = [];
 
     pieces.forEach((p,index)=>{
+        const normalFit = p.width <= sheet.width && p.height <= sheet.height;
+        const rotatedFit = p.height <= sheet.width && p.width <= sheet.height;
 
-        const normalFit =
-            p.width <= sheet.width &&
-            p.height <= sheet.height;
-
-        const rotatedFit =
-            p.height <= sheet.width &&
-            p.width <= sheet.height;
-
-        if(
-            !normalFit &&
-            !rotatedFit
-        ){
-
-            invalidPieces.push(
-                `সারি ${index+1}: ${p.height} × ${p.width} ইঞ্চি`
-            );
-
+        if(!normalFit && !rotatedFit){
+            invalidPieces.push(`সারি ${index+1}: ${p.height} × ${p.width} ইঞ্চি`);
         }
-
     });
 
-
     if(invalidPieces.length > 0){
-
-        alert(
-            "নিচের গ্লাসগুলো শীটের মধ্যে ফিট হবে না:\n\n" +
-            invalidPieces.join("\n")
-        );
-
+        alert("নিচের গ্লাসগুলো শীটের মধ্যে ফিট হবে না:\n\n" + invalidPieces.join("\n"));
         return;
-
     }
 
+    const result = optimizeCutting(pieces, sheet.width, sheet.height);
 
-    /*
-        Optimization
-    */
+    resultArea.style.display = "block";
 
-    const result =
-        optimizeCutting(
-            pieces,
-            sheet.width,
-            sheet.height
-        );
-
-
-    /*
-        Show Result
-    */
-
-    resultArea.style.display =
-        "block";
-
-
-    /*
-        Summary
-    */
-
+    /* Summary Update - "বর্গ ইঞ্চি" বাদ দিয়ে પিস ও শতাংশ দেখানো হয়েছে */
     resultSummary.innerHTML = `
-
         <div class="summary-card">
-
-            <div class="summary-label">
-                📦 মোট শীট
-            </div>
-
-            <div class="summary-value">
-                ${result.totalSheets} টি
-            </div>
-
+            <div class="summary-label">📦 মোট শীট</div>
+            <div class="summary-value">${result.totalSheets} টি</div>
         </div>
 
-
         <div class="summary-card">
-
-            <div class="summary-label">
-                📐 ব্যবহার
-            </div>
-
-            <div class="summary-value">
-                ${formatNumber(result.totalUsed)}
-            </div>
-
+            <div class="summary-label">📐 মোট কাটা পিস</div>
+            <div class="summary-value">${result.totalPiecesCut} পিস</div>
         </div>
 
-
         <div class="summary-card">
-
-            <div class="summary-label">
-                🗑️ অপচয়
-            </div>
-
-            <div class="summary-value">
-                ${formatNumber(result.totalWaste)}
-                (${result.wastePercent.toFixed(2)}%)
-            </div>
-
+            <div class="summary-label">🗑️ মোট অপচয়</div>
+            <div class="summary-value">${result.wastePercent.toFixed(2)}%</div>
         </div>
-
     `;
 
-
-    /*
-        Sheet Details
-    */
-
+    /* Sheet Details Update */
     resultDetail.innerHTML = "";
 
+    result.sheetDetails.forEach(sheet=>{
+        
+        // Group pieces by size
+        let groupedPieces = {};
+        sheet.pieces.forEach(p => {
+            let sizeKey = `${formatNumber(p.h)} × ${formatNumber(p.w)}`;
+            if(!groupedPieces[sizeKey]) {
+                groupedPieces[sizeKey] = 0;
+            }
+            groupedPieces[sizeKey]++;
+        });
 
-    result.sheetDetails.forEach(
-        sheet=>{
+        const card = document.createElement("div");
+        card.className = "sheet-card";
 
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "sheet-card";
-
-
-            /*
-                Header
-            */
-
-            let header = `
-
-                <div class="sheet-card-header">
-
-                    <div class="sheet-number">
-
-                        <div class="sheet-badge">
-                            ${sheet.sheetIndex}
-                        </div>
-
-                        <div class="sheet-title">
-                            শীট #${sheet.sheetIndex}
-                        </div>
-
-                    </div>
-
-                    <div class="sheet-waste">
-                        অপচয়:
-                        ${formatNumber(sheet.waste)}
-                        (${sheet.wastePercent.toFixed(1)}%)
-                    </div>
-
+        let header = `
+            <div class="sheet-card-header">
+                <div class="sheet-number">
+                    <div class="sheet-badge">${sheet.sheetIndex}</div>
+                    <div class="sheet-title">শীট #${sheet.sheetIndex}</div>
                 </div>
-
-            `;
-
-
-            /*
-                Piece List
-            */
-
-            let pieceHTML =
-                `<div class="piece-list">`;
-
-
-            sheet.pieces.forEach(
-                (piece,index)=>{
-
-                    pieceHTML += `
-
-                        <div class="piece-item">
-
-                            <div class="piece-number">
-                                ${index+1}
-                            </div>
-
-                            <div class="piece-size">
-                                ${formatNumber(piece.h)}
-                                ×
-                                ${formatNumber(piece.w)}
-                                ইঞ্চি
-                            </div>
-
-                            <div class="piece-position">
-                                অবস্থান:
-                                (${piece.x},
-                                ${piece.y})
-                            </div>
-
-                        </div>
-
-                    `;
-
-                }
-            );
-
-
-            pieceHTML +=
-                `</div>`;
-
-
-            /*
-                Footer
-            */
-
-            const footer = `
-
-                <div class="sheet-footer">
-
-                    <span class="used-area">
-                        ব্যবহার:
-                        ${formatNumber(sheet.usedArea)}
-                        বর্গ ইঞ্চি
-                    </span>
-
-                    <span class="waste-area">
-                        অপচয়:
-                        ${formatNumber(sheet.waste)}
-                        বর্গ ইঞ্চি
-                    </span>
-
+                <div class="sheet-waste">
+                    অপচয়: ${sheet.wastePercent.toFixed(1)}%
                 </div>
+            </div>
+        `;
 
+        let pieceHTML = `<div class="piece-list">`;
+        let pIndex = 1;
+
+        for (let key in groupedPieces) {
+            let qty = groupedPieces[key];
+            pieceHTML += `
+                <div class="piece-item">
+                    <div class="piece-number">${pIndex++}</div>
+                    <div class="piece-size">${key} ইঞ্চি</div>
+                    <div class="piece-position">কাটা হয়েছে: ${qty} পিস</div>
+                </div>
             `;
-
-
-            card.innerHTML =
-                header +
-                pieceHTML +
-                footer;
-
-
-            resultDetail.appendChild(card);
-
         }
-    );
+        pieceHTML += `</div>`;
 
+        const footer = `
+            <div class="sheet-footer">
+                <span class="used-area">এই শিট থেকে মোট কাটা হয়েছে: ${sheet.pieces.length} পিস</span>
+                <span class="waste-area">অপচয়: ${sheet.wastePercent.toFixed(1)}%</span>
+            </div>
+        `;
 
-    /*
-        Result-এ Scroll
-    */
+        card.innerHTML = header + pieceHTML + footer;
+        resultDetail.appendChild(card);
+    });
 
     setTimeout(()=>{
-
         resultArea.scrollIntoView({
             behavior:"smooth",
             block:"start"
         });
-
     },100);
 
 }
@@ -2001,51 +1561,20 @@ function calculate(){
    ENTER KEY
 ===================================================== */
 
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(
-            event.key === "Enter" &&
-            event.target.tagName === "INPUT"
-        ){
-
-            calculate();
-
-        }
-
+document.addEventListener("keydown", function(event){
+    if(event.key === "Enter" && event.target.tagName === "INPUT"){
+        calculate();
     }
-);
+});
 
 
 /* =====================================================
-   DEFAULT DATA
+   DEFAULT DATA (পরিবর্তন করা হয়েছে)
 ===================================================== */
 
 function loadDefaultRows(){
-
-    /*
-        প্রথম কোডের ডিফল্ট ডেটা
-    */
-
-    addGlassRow(
-        "84",
-        "51",
-        "6"
-    );
-
-    addGlassRow(
-        "51",
-        "87",
-        "4"
-    );
-
-    addGlassRow(
-        "16",
-        "9",
-        "8"
-    );
-
+    // শুধুমাত্র ১টি খালি ইনপুট সারি থাকবে
+    addGlassRow("", "", "");
 }
 
 
@@ -2053,16 +1582,10 @@ function loadDefaultRows(){
    INITIALIZE
 ===================================================== */
 
-window.addEventListener(
-    "load",
-    function(){
-
-        setCurrentDate();
-
-        loadDefaultRows();
-
-    }
-);
+window.addEventListener("load", function(){
+    setCurrentDate();
+    loadDefaultRows();
+});
 
 </script>
 

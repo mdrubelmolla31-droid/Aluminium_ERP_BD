@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Curtain Wall Estimator - RM Thai Aluminium</title>
 
@@ -11,43 +11,45 @@
 /* =========================================================
    RESET & BASE
 ========================================================= */
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: "Noto Sans Bengali", "Noto Sans", Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     background: #eef3f8;
     color: #111827;
-    padding: 12px;
+    padding: 15px;
     font-weight: 600;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 .container {
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
+    max-width: 1000px; /* PC এর জন্য প্রশস্ত করা হয়েছে */
     background: #ffffff;
-    padding: 16px;
+    padding: 20px;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
     box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+    align-self: flex-start;
 }
 
 /* =========================================================
    HEADER
 ========================================================= */
-
 .invoice-header {
     position: relative;
     background: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
     color: #ffffff;
     border-radius: 14px;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     box-shadow: 0 6px 20px rgba(20, 70, 160, 0.25);
 }
 
@@ -58,26 +60,27 @@ body {
 }
 
 .menu-btn {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     flex-shrink: 0;
     border: 1px solid rgba(255,255,255,0.35);
     border-radius: 10px;
     background: rgba(255,255,255,0.18);
     color: #ffffff;
-    font-size: 28px;
+    font-size: 24px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.2s;
 }
 
-.header-title-area {
-    flex: 1;
-}
+.menu-btn:hover { background: rgba(255,255,255,0.3); }
+
+.header-title-area { flex: 1; }
 
 .header-main-title {
-    font-size: clamp(18px, 3.5vw, 28px);
+    font-size: clamp(20px, 4vw, 32px);
     font-weight: 900;
     text-transform: uppercase;
     line-height: 1.2;
@@ -85,15 +88,16 @@ body {
 
 .header-sub-title {
     margin-top: 4px;
-    font-size: clamp(12px, 2vw, 16px);
+    font-size: clamp(13px, 2.5vw, 18px);
     font-weight: 700;
+    color: #bfdbfe;
 }
 
 .shop-details {
     margin-top: 15px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive Grid */
+    gap: 12px;
 }
 
 .shop-details input {
@@ -108,30 +112,29 @@ body {
     font-weight: 700;
     text-align: center;
     outline: none;
+    transition: box-shadow 0.2s;
 }
+.shop-details input:focus { box-shadow: 0 0 0 3px rgba(255,255,255,0.4); }
 
 /* =========================================================
    SIDEBAR
 ========================================================= */
-
 .sidebar {
     position: fixed;
     top: 0;
     left: -320px;
     width: 320px;
-    max-width: 88vw;
+    max-width: 85vw;
     height: 100vh;
     background: #ffffff;
     box-shadow: 8px 0 25px rgba(0,0,0,0.25);
-    transition: left 0.28s ease;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 5000;
     padding: 20px;
     overflow-y: auto;
 }
 
-.sidebar.active {
-    left: 0;
-}
+.sidebar.active { left: 0; }
 
 .sidebar-header {
     display: flex;
@@ -142,380 +145,187 @@ body {
     border-bottom: 2px solid #e2e8f0;
 }
 
-.sidebar h3 {
-    color: #1557c0;
-    font-size: 18px;
-    font-weight: 900;
-}
+.sidebar h3 { color: #1557c0; font-size: 18px; font-weight: 900; }
 
 .close-sidebar {
-    background: #dc2626;
-    color: #ffffff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 800;
+    background: #dc2626; color: #ffffff; border: none; padding: 6px 12px;
+    border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 800;
 }
 
 .history-item {
-    background: #f8fafc;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    border-left: 5px solid #1557c0;
-    border: 1px solid #e2e8f0;
+    background: #f8fafc; padding: 12px; margin-bottom: 10px;
+    border-radius: 8px; cursor: pointer; font-size: 14px;
+    border-left: 5px solid #1557c0; border: 1px solid #e2e8f0;
+    transition: background 0.2s;
 }
+.history-item:hover { background: #e2e8f0; }
 
 /* =========================================================
-   INPUT AREA (FIXED & CLEAN)
+   INPUT AREA (FULLY RESPONSIVE GRID)
 ========================================================= */
-
-.dimension-section {
-    margin-bottom: 18px;
-}
+.dimension-section { margin-bottom: 20px; }
 
 .section-heading {
-    background: #1557c0;
-    color: #ffffff;
-    padding: 12px 15px;
-    border-radius: 8px 8px 0 0;
-    font-size: 16px;
-    font-weight: 900;
+    background: #1557c0; color: #ffffff; padding: 14px 18px;
+    border-radius: 8px 8px 0 0; font-size: 16px; font-weight: 900;
 }
 
 .dimension-card {
-    position: relative;
-    background: #ffffff;
-    border: 2px solid #d6dee8;
-    border-top: none;
-    padding: 14px;
-    border-radius: 0 0 10px 10px;
-    margin-bottom: 12px;
-    box-shadow: 0 3px 10px rgba(15,23,42,0.05);
+    position: relative; background: #ffffff; border: 2px solid #d6dee8;
+    border-top: none; padding: 20px; border-radius: 0 0 10px 10px;
+    margin-bottom: 16px; box-shadow: 0 3px 10px rgba(15,23,42,0.05);
 }
 
 .dimension-card-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 12px;
-    background: #e8f0ff;
-    color: #1557c0;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 900;
-    margin-bottom: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 6px 14px; background: #e8f0ff; color: #1557c0;
+    border-radius: 6px; font-size: 14px; font-weight: 900; margin-bottom: 15px;
 }
 
+/* 💻📱 Responsive Input Grid (Mobile: 2 cols, PC: 4 cols) */
 .input-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr); /* Mobile default */
+    gap: 15px;
 }
 
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+@media (min-width: 768px) {
+    .input-grid { grid-template-columns: repeat(4, 1fr); /* PC & iPad default */ }
 }
+
+.input-group { display: flex; flex-direction: column; gap: 8px; }
 
 .input-group label {
-    font-size: 14px;
-    color: #334155;
-    font-weight: 800;
-    line-height: 1.3;
+    font-size: 14px; color: #334155; font-weight: 800; line-height: 1.3;
 }
 
 .input-group input {
-    width: 100%;
-    height: 50px;
-    padding: 8px;
-    font-size: 18px;
-    font-weight: 800;
-    color: #111827;
-    background: #ffffff;
-    border: 2px solid #cbd5e1;
-    border-radius: 8px;
-    outline: none;
-    text-align: center;
+    width: 100%; height: 50px; padding: 8px; font-size: 18px;
+    font-weight: 800; color: #111827; background: #f8fafc;
+    border: 2px solid #cbd5e1; border-radius: 8px; outline: none; text-align: center;
+    transition: border 0.2s, background 0.2s;
 }
 
 .input-group input:focus {
-    border-color: #2563eb;
+    border-color: #2563eb; background: #ffffff;
     box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
 }
 
 .remove-box-btn {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 6px;
-    background: #fee2e2;
-    color: #dc2626;
-    font-size: 18px;
-    cursor: pointer;
-    font-weight: 900;
+    position: absolute; right: 15px; top: 15px; width: 36px; height: 36px;
+    border: none; border-radius: 8px; background: #fee2e2; color: #dc2626;
+    font-size: 20px; cursor: pointer; font-weight: 900; transition: 0.2s;
 }
+.remove-box-btn:hover { background: #fca5a5; }
 
 /* =========================================================
    BUTTONS
 ========================================================= */
-
-.add-box-area {
-    margin: 14px 0;
-}
+.add-box-area { margin: 15px 0; }
 
 .btn-add-box {
-    width: 100%;
-    min-height: 54px;
-    border: 2px dashed #2563eb;
-    border-radius: 9px;
-    background: #eff6ff;
-    color: #1557c0;
-    font-size: 16px;
-    font-weight: 900;
-    cursor: pointer;
+    width: 100%; min-height: 54px; border: 2px dashed #2563eb;
+    border-radius: 9px; background: #eff6ff; color: #1557c0;
+    font-size: 16px; font-weight: 900; cursor: pointer; transition: 0.2s;
 }
+.btn-add-box:hover { background: #dbeafe; }
 
 .btn-calc {
-    width: 100%;
-    min-height: 60px;
-    background: #147a4b;
-    color: #ffffff;
-    font-size: 22px;
-    font-weight: 900;
-    border: none;
-    border-radius: 9px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(20,122,75,0.2);
+    width: 100%; min-height: 60px; background: #147a4b; color: #ffffff;
+    font-size: 20px; font-weight: 900; border: none; border-radius: 9px;
+    cursor: pointer; box-shadow: 0 4px 12px rgba(20,122,75,0.2); transition: 0.2s;
 }
+.btn-calc:hover { background: #10663e; transform: translateY(-2px); }
 
 /* =========================================================
    RESULT TABLES
 ========================================================= */
-
-.result-section {
-    display: none;
-    margin-top: 15px;
-}
+.result-section { display: none; margin-top: 25px; }
 
 .result-title {
-    background: linear-gradient(90deg, #1557c0, #1769d3);
-    color: #ffffff;
-    padding: 10px 14px;
-    font-size: 16px;
-    font-weight: 900;
-    margin-top: 18px;
-    border-radius: 8px 8px 0 0;
+    background: linear-gradient(90deg, #1557c0, #1769d3); color: #ffffff;
+    padding: 12px 15px; font-size: 16px; font-weight: 900;
+    margin-top: 20px; border-radius: 8px 8px 0 0;
 }
 
 .table-wrap {
-    width: 100%;
-    overflow-x: auto;
-    border: 1px solid #cbd5e1;
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    background: #ffffff;
+    width: 100%; overflow-x: auto; border: 1px solid #cbd5e1;
+    border-top: none; border-radius: 0 0 8px 8px; background: #ffffff;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+table { width: 100%; border-collapse: collapse; min-width: 400px; } /* Prevent crushing on mobile */
 
 th, td {
-    border: 1px solid #cbd5e1;
-    padding: 10px 8px;
-    text-align: center;
-    font-size: 13px;
-    color: #111827;
+    border: 1px solid #cbd5e1; padding: 12px 10px; text-align: center;
+    font-size: 14px; color: #111827;
 }
 
-th {
-    background: #f1f5f9;
-    font-weight: 900;
-}
-
-tbody tr:nth-child(even) {
-    background: #f8fafc;
-}
+th { background: #f1f5f9; font-weight: 900; }
+tbody tr:nth-child(even) { background: #f8fafc; }
+tbody tr:hover { background: #eff6ff; }
 
 /* =========================================================
    SUMMARY & PRINT BUTTON
 ========================================================= */
-
 .total-summary {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px; margin-top: 20px;
 }
 
 .summary-card {
-    background: #f8fafc;
-    border: 1px solid #d7dee8;
-    border-radius: 8px;
-    padding: 12px;
-    text-align: center;
+    background: #f8fafc; border: 1px solid #d7dee8;
+    border-radius: 10px; padding: 15px; text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
 }
 
-.summary-label {
-    display: block;
-    color: #475569;
-    font-size: 12px;
-    margin-bottom: 4px;
-}
+.summary-label { display: block; color: #475569; font-size: 13px; margin-bottom: 6px; font-weight: 800;}
+.summary-value { display: block; color: #1557c0; font-size: 22px; font-weight: 900; }
 
-.summary-value {
-    display: block;
-    color: #1557c0;
-    font-size: 18px;
-    font-weight: 900;
-}
-
-.action-buttons {
-    width: 100%;
-    margin: 18px auto 0;
-    text-align: center;
-}
+.action-buttons { width: 100%; margin: 25px auto 0; text-align: center; }
 
 .btn-print {
-    width: 100%;
-    max-width: 400px;
-    min-height: 56px;
-    background: #2456d8;
-    color: #ffffff;
-    border: none;
-    border-radius: 9px;
-    font-size: 18px;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(36,86,216,0.25);
+    width: 100%; max-width: 400px; min-height: 60px;
+    background: #2456d8; color: #ffffff; border: none; border-radius: 9px;
+    font-size: 18px; font-weight: 900; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(36,86,216,0.3); transition: 0.2s;
 }
-
-/* =========================================================
-   MOBILE RESPONSIVE
-========================================================= */
-
-@media (max-width: 650px) {
-    .shop-details {
-        grid-template-columns: 1fr;
-    }
-    .total-summary {
-        grid-template-columns: 1fr;
-    }
-}
+.btn-print:hover { background: #1d4ed8; transform: translateY(-2px); }
 
 /* =========================================================
    PRINT / PDF (CLEAN & PROFESSIONAL)
 ========================================================= */
-
 @media print {
-    @page {
-        size: A4 portrait;
-        margin: 10mm;
-    }
-
-    body {
-        background: #ffffff !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .container {
-        width: 100% !important;
-        max-width: none !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-    }
-
-    .no-print, .sidebar, .action-buttons, .add-box-area, .remove-box-btn, .total-summary {
-        display: none !important;
-    }
-
-    .header-title-area {
-        display: none !important;
-    }
-
+    @page { size: A4 portrait; margin: 10mm; }
+    body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
+    .container { width: 100% !important; max-width: none !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
+    .no-print, .sidebar, .action-buttons, .add-box-area, .remove-box-btn, .total-summary { display: none !important; }
+    .header-title-area { display: none !important; }
     .invoice-header {
-        margin-bottom: 15px !important;
-        padding: 15px !important;
-        background: #123a8c !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
+        margin-bottom: 15px !important; padding: 15px !important;
+        background: #123a8c !important; -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important; display: flex !important;
+        flex-direction: column !important; align-items: center !important; border-radius: 0!important;
     }
-
-    .header-top {
-        display: none !important;
-    }
-
+    .header-top { display: none !important; }
     .shop-details {
-        margin-top: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 5px !important;
+        margin-top: 0 !important; display: flex !important;
+        flex-direction: column !important; width: 100% !important; gap: 5px !important;
     }
-
     .shop-details input {
-        height: auto !important;
-        padding: 0 !important;
-        border: none !important;
-        background: transparent !important;
-        color: #ffffff !important;
-        text-align: center !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        height: auto !important; padding: 0 !important; border: none !important;
+        background: transparent !important; color: #ffffff !important; text-align: center !important;
     }
-
-    #shopName {
-        font-size: 24pt !important;
-        font-weight: 900 !important;
-        text-transform: uppercase !important;
-    }
-
-    #shopPhone {
-        font-size: 15pt !important;
-        font-weight: 700 !important;
-    }
-
-    .result-section {
-        display: block !important;
-    }
-
+    #shopName { font-size: 24pt !important; font-weight: 900 !important; text-transform: uppercase !important; }
+    #shopPhone { font-size: 15pt !important; font-weight: 700 !important; }
+    .result-section { display: block !important; margin-top: 0!important; }
     .result-title {
-        margin-top: 12px !important;
-        padding: 8px 10px !important;
-        font-size: 13pt !important;
-        background: #1557c0 !important;
-        color: #ffffff !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        margin-top: 15px !important; padding: 8px 10px !important; font-size: 13pt !important;
+        background: #1557c0 !important; color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
     }
-
-    th, td {
-        padding: 10px 6px !important;
-        font-size: 11.5pt !important;
-        border: 1px solid #000000 !important;
-        color: #000000 !important;
-    }
-
-    th {
-        background: #e2e8f0 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
+    th, td { padding: 8px 6px !important; font-size: 11.5pt !important; border: 1px solid #000000 !important; color: #000000 !important; }
+    th { background: #e2e8f0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }
 
 </style>
@@ -638,7 +448,6 @@ tbody tr:nth-child(even) {
 </div>
 
 <script>
-
 let dimensionCounter = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -682,7 +491,7 @@ function addDimensionBox(height = "", width = "", cols = "", rows = "") {
                 <input type="number" class="cw-height" placeholder="যেমন: 10" step="0.01" min="0" value="${height}">
             </div>
             <div class="input-group">
-                <label>মোট চওড়া / লেন্থ (ফিট)</label>
+                <label>মোট চওড়া / লেন্থ</label>
                 <input type="number" class="cw-width" placeholder="যেমন: 21" step="0.01" min="0" value="${width}">
             </div>
             <div class="input-group">
@@ -815,7 +624,6 @@ function calculateMaterials() {
         totalScrews += clamps * 2;
         totalNutBolts += clamps;
         
-        // প্রতি খোপে ২০টি করে রিপিট
         totalRivets += khop * 20;
     });
 
@@ -826,7 +634,7 @@ function calculateMaterials() {
 
     document.getElementById("alumTable").innerHTML = `
         <tr>
-            <td>হাফ সেকশন (Top &amp; Side)</td>
+            <td>হাফ সেকশন (Top & Side)</td>
             <td>${totalHalfSectionFeet.toFixed(2)} ফিট</td>
             <td><strong>${totalHalfSectionPipes} পিস</strong></td>
         </tr>
@@ -944,7 +752,6 @@ function printInvoice() {
     }
     window.print();
 }
-
 </script>
 
 </body>

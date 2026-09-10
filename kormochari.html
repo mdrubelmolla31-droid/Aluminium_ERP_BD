@@ -1,357 +1,529 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>কর্মচারী অ্যাডভান্স ও বেতন হিসাব</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>কর্মচারী হিসাব ও বেতন সিস্টেম</title>
+  <style>
+    :root {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --accent: #1e3a8a;
+      --accent-hover: #172554;
+      --text: #020617;
+      --border: #94a3b8;
+      --input-bg: #ffffff;
+      --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1d4ed8 100%);
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      background-color: var(--bg-color);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+      font-size: 16px;
+    }
+    body {
+      padding: 15px;
+    }
+    .main-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
 
-        header { 
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
-            color: white; padding: 15px 20px; display: flex; align-items: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); sticky; top: 0; z-index: 100;
-        }
+    /* ================= HEADER STYLE ================= */
+    .header-card {
+      background: var(--header-bg);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
+      color: #ffffff;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 12px;
+    }
+    .menu-btn {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.5);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.2);
+      color: #ffffff;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-weight: 900;
+      font-size: 22px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .header-subtitle {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-top: 10px;
+    }
 
-        .menu-btn { 
-            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); 
-            color: white; font-size: 22px; padding: 6px 14px; border-radius: 8px; 
-            cursor: pointer; margin-right: 15px; 
-        }
+    /* ================= SIDEBAR (ADD EMPLOYEE) ================= */
+    .sidebar {
+      position: fixed;
+      top: 0; left: -360px;
+      width: 340px; height: 100%;
+      background: #ffffff;
+      border-right: 2px solid var(--border);
+      box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+      transition: left 0.3s ease;
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    .sidebar.active { left: 0; }
+    .drawer-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); z-index: 999; display: none;
+    }
+    .drawer-overlay.active { display: block; }
+    
+    .close-btn { 
+      background: #dc2626; color: #fff; border: none; padding: 6px 12px; 
+      border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: bold; 
+    }
 
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 700; color: var(--accent); }
+    .form-group input {
+      width: 100%; height: 45px; padding: 10px; border-radius: 8px;
+      border: 2px solid var(--border); background: var(--input-bg);
+      color: var(--text); font-size: 16px; font-weight: bold; outline: none;
+    }
+    .form-group input:focus { border-color: var(--accent); }
+    
+    /* ================= BUTTONS ================= */
+    .btn {
+      background: var(--accent); color: #ffffff; border: none; padding: 14px;
+      font-weight: 900; border-radius: 8px; cursor: pointer; width: 100%;
+      font-size: 16px; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    }
+    .btn-add { background: #059669; }
+    .btn-delete { background: #dc2626; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .btn-call { background: #16a34a; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; display: inline-block; }
+    .whatsapp-btn { background: #25D366; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
 
-        /* Side Drawer */
-        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; display: none; }
-        .side-drawer { position: fixed; top: 0; left: -350px; width: 320px; height: 100%; background: white; z-index: 1000; transition: left 0.3s; padding: 20px; overflow-y: auto; }
-        .side-drawer.open { left: 0; }
-        .drawer-overlay.open { display: block; }
+    /* ================= EMPLOYEE CARDS ================= */
+    .employee-list {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 10px;
+    }
+    .emp-card {
+      background: var(--card-bg); padding: 20px; border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align: center;
+      border: 2px solid var(--border); border-top: 6px solid var(--accent);
+      transition: transform 0.2s;
+    }
+    .emp-card:hover { transform: translateY(-3px); }
+    
+    .card-img-container {
+      width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%;
+      overflow: hidden; border: 4px solid var(--accent); box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      cursor: pointer;
+    }
+    .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .emp-card h3 { color: var(--accent); font-size: 22px; margin-bottom: 5px; cursor: pointer; font-weight: 900; }
+    .action-btns { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
+    .payable-amount { margin-top: 12px; font-weight: 900; font-size: 18px; cursor: pointer; padding: 8px; border-radius: 6px; background: #f8fafc; border: 1px solid var(--border); }
 
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 600; }
-        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
-        
-        .btn-submit { background: #1e3c72; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer; }
+    /* ================= PROFILE MODAL ================= */
+    .modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 10px;
+    }
+    .modal-content {
+      background: white; padding: 20px; width: 100%; max-width: 700px;
+      max-height: 95vh; overflow-y: auto; border-radius: 12px; position: relative;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3); border: 2px solid var(--accent);
+    }
+    .modal-close-btn {
+      position: absolute; right: 15px; top: 15px; background: #dc2626; color: white;
+      border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 18px;
+      font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
 
-        /* Employee Cards */
-        .employee-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); text-align: center; position: relative; border-top: 5px solid #2a5298; }
-        
-        /* Larger HD Profile Picture */
-        .card-img-container { width: 140px; height: 140px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 4px solid #2a5298; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .card h3 { color: #1e3c72; font-size: 20px; margin-bottom: 5px; }
-        
-        .action-btns { display: flex; gap: 8px; justify-content: center; margin: 12px 0; }
-        .btn-call { background: #27ae60; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: bold; }
-        .btn-delete { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; }
+    .large-profile { text-align: center; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+    .large-profile img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); }
 
-        /* Modal Profile View */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1001; overflow-y: auto; }
-        .modal-content { background: white; margin: 2% auto; padding: 20px; width: 92%; max-width: 650px; border-radius: 12px; position: relative; }
-        .close-btn { position: absolute; right: 15px; top: 15px; font-size: 28px; cursor: pointer; color: #888; }
+    .setup-box { background: #f8fafc; padding: 15px; border-radius: 10px; border: 2px solid var(--border); margin-bottom: 15px; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+    .calc-grid input {
+      width: 100%; height: 45px; padding: 10px; border-radius: 8px; text-align: center;
+      border: 2px solid var(--border); font-size: 18px; font-weight: bold;
+    }
+    .calc-grid input:focus { border-color: var(--accent); outline: none; }
 
-        .large-profile { text-align: center; margin-bottom: 20px; }
-        .large-profile img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 4px solid #2a5298; }
+    .trans-form { display: flex; gap: 10px; margin: 15px 0; }
+    .trans-form input { flex: 1; height: 45px; padding: 10px; border-radius: 8px; border: 2px solid var(--border); font-weight: bold; }
+    .trans-form button { background: var(--accent); color: white; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background: #1e3c72; color: white; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; font-weight: bold; }
+    th, td { border: 2px solid var(--border); padding: 10px; text-align: center; }
+    th { background: var(--accent); color: white; font-weight: 900; }
 
-        .whatsapp-btn { background: #25D366; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; font-size: 15px; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    </style>
+    .summary-box {
+      background: #e0f2fe; padding: 15px; border-radius: 10px; margin-top: 15px;
+      line-height: 1.8; border: 2px solid #0284c7; font-size: 16px; color: #0f172a; font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <button class="menu-btn" onclick="toggleDrawer()">☰</button>
-        <div>
-            <h2>কর্মচারী হিসাব ও বেতন সিস্টেম</h2>
-            <p style="font-size: 12px; opacity: 0.8;">অটোমেটিক মাস শেষে ফাইনাল স্টেটমেন্ট</p>
-        </div>
-    </header>
-
-    <!-- Side Menu: Add New Employee -->
-    <div id="drawerOverlay" class="drawer-overlay" onclick="toggleDrawer()"></div>
-    <div id="sideDrawer" class="side-drawer">
-        <h3 style="color:#1e3c72; margin-bottom:15px;">নতুন কর্মচারী সেভ করুন</h3>
-        <form id="addEmployeeForm">
-            <div class="form-group"><label>নাম:</label><input type="text" id="empName" required></div>
-            <div class="form-group"><label>পিতার নাম:</label><input type="text" id="empFather" required></div>
-            <div class="form-group"><label>মোবাইল (WhatsApp):</label><input type="text" id="empPhone" placeholder="017xxxxxxxx" required></div>
-            <div class="form-group"><label>ঠিকানা:</label><input type="text" id="empAddress" required></div>
-            <div class="form-group"><label>মাসিক বেতন (৳):</label><input type="number" id="empSalary" required></div>
-            <div class="form-group"><label>ক্যামেরা/ফাইল থেকে ছবি:</label><input type="file" id="empPhotoFile" accept="image/*"></div>
-            <button type="submit" class="btn-submit">কর্মচারী সেভ করুন</button>
-        </form>
+  <div class="main-container">
+    <!-- Header Area -->
+    <div class="header-card">
+      <div class="header-top">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <span class="header-title">কর্মচারী বেতন হিসাব</span>
+        <div style="width: 48px;"></div> <!-- Spacer for balance -->
+      </div>
+      <div class="header-subtitle">অটোমেটিক মাস শেষে ফাইনাল স্টেটমেন্ট</div>
     </div>
 
-    <!-- Main Display -->
-    <div class="container">
-        <div class="employee-list" id="employeeList"></div>
+    <!-- Main Display: Employee Cards -->
+    <div class="employee-list" id="employeeList"></div>
+  </div>
+
+  <!-- Sidebar Overlay -->
+  <div id="drawerOverlay" class="drawer-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar: Add Employee Form -->
+  <div id="sidebar" class="sidebar">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">
+        <h3 style="color: var(--accent); margin: 0; font-weight: 900; font-size: 20px;">নতুন কর্মচারী যোগ</h3>
+        <button class="close-btn" onclick="toggleSidebar()">✕</button>
     </div>
+    
+    <form id="addEmployeeForm">
+        <div class="form-group"><label>নাম:</label><input type="text" id="empName" placeholder="কর্মচারীর নাম" required></div>
+        <div class="form-group"><label>পিতার নাম:</label><input type="text" id="empFather" placeholder="পিতার নাম" required></div>
+        <div class="form-group"><label>মোবাইল (WhatsApp):</label><input type="text" id="empPhone" placeholder="017xxxxxxxx" required></div>
+        <div class="form-group"><label>ঠিকানা:</label><input type="text" id="empAddress" placeholder="বর্তমান ঠিকানা" required></div>
+        <div class="form-group"><label>মাসিক বেতন (৳):</label><input type="number" id="empSalary" placeholder="যেমন: 15000" required></div>
+        <div class="form-group"><label>ছবি দিন (ঐচ্ছিক):</label><input type="file" id="empPhotoFile" accept="image/*" style="padding: 5px;"></div>
+        <button type="submit" class="btn btn-add">কর্মচারী সেভ করুন</button>
+    </form>
+  </div>
 
-    <!-- Employee Full Calculation Profile Modal -->
-    <div id="profileModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div id="largeProfileArea" class="large-profile"></div>
+  <!-- Profile & Calculation Modal -->
+  <div id="profileModal" class="modal" onclick="if(event.target === this) closeModal()">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeModal()">✕</button>
+        
+        <div id="largeProfileArea" class="large-profile"></div>
 
-            <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <h4 style="color: #1e3c72; margin-bottom: 10px;">মাসিক হাজিরা ও বোনাস সেটআপ:</h4>
-                <div class="calc-grid">
-                    <div>
-                        <label style="font-size: 12px;">অনুপস্থিতি (Absents Days):</label>
-                        <input type="number" id="absentDays" value="0" min="0" onchange="updateCalculations()">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px;">হাজিরা বোনাস (৳):</label>
-                        <input type="number" id="bonusAmount" value="0" min="0" onchange="updateCalculations()">
-                    </div>
+        <div class="setup-box">
+            <h4 style="color: var(--accent); margin-bottom: 5px; font-size: 18px; font-weight: 900;">হাজিরা ও বোনাস:</h4>
+            <div style="font-size: 13px; color: #dc2626; font-weight: bold;">* নিচে সংখ্যা টাইপ করার সাথে সাথেই হিসাব আপডেট হবে।</div>
+            <div class="calc-grid">
+                <div>
+                    <label style="font-size: 14px; font-weight: bold; color: var(--text);">অনুপস্থিতি (দিন):</label>
+                    <input type="number" id="absentDays" value="0" min="0" step="any" placeholder="যেমন: 1 বা 1.5" oninput="updateCalculations()">
+                </div>
+                <div>
+                    <label style="font-size: 14px; font-weight: bold; color: var(--text);">হাজিরা বোনাস (৳):</label>
+                    <input type="number" id="bonusAmount" value="0" min="0" placeholder="টাকার পরিমাণ" oninput="updateCalculations()">
                 </div>
             </div>
-
-            <h4 style="color: #1e3c72;">দৈনিক অগ্রিম / খরচ কাটতি:</h4>
-            <form id="transactionForm" style="display:flex; gap:5px; margin: 10px 0;">
-                <input type="date" id="transDate" required>
-                <input type="number" id="transAmount" placeholder="টাকা (৳)" required>
-                <button type="submit" style="background: #2a5298; color: white; border: none; padding: 0 15px; border-radius: 6px; cursor: pointer;">যোগ</button>
-            </form>
-
-            <table>
-                <thead>
-                    <tr><th>তারিখ</th><th>অগ্রিম নিয়েছে (৳)</th><th>অ্যাকশন</th></tr>
-                </thead>
-                <tbody id="ledgerBody"></tbody>
-            </table>
-
-            <div id="summaryBox" style="background: #eef2ff; padding: 15px; border-radius: 8px; margin-top: 15px; line-height: 1.8;"></div>
-
-            <button class="whatsapp-btn" onclick="sendWhatsAppSummary()">
-                📲 WhatsApp এ হিসাবের ফাইনাল রিপোর্ট পাঠান
-            </button>
         </div>
+
+        <h4 style="color: var(--accent); font-weight: 900; font-size: 18px;">দৈনিক অগ্রিম / খরচ কাটতি:</h4>
+        <form id="transactionForm" class="trans-form">
+            <input type="date" id="transDate" required>
+            <input type="number" id="transAmount" placeholder="টাকা (৳)" required>
+            <button type="submit">যোগ করুন</button>
+        </form>
+
+        <div style="max-height: 200px; overflow-y: auto;">
+          <table>
+              <thead>
+                  <tr><th width="35%">তারিখ</th><th width="45%">অগ্রিম (৳)</th><th width="20%">ডিলিট</th></tr>
+              </thead>
+              <tbody id="ledgerBody"></tbody>
+          </table>
+        </div>
+
+        <div id="summaryBox" class="summary-box"></div>
+
+        <button class="whatsapp-btn" onclick="sendWhatsAppSummary()">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-5.824 4.737-10.56 10.562-10.56 2.822.001 5.474 1.101 7.469 3.096 1.995 1.996 3.093 4.648 3.093 7.47.001 5.825-4.738 10.561-10.561 10.561z"/></svg>
+            WhatsApp-এ স্টেটমেন্ট পাঠান
+        </button>
     </div>
+  </div>
 
-    <script>
-        let employees = JSON.parse(localStorage.getItem('employees')) || [];
-        let currentEmpId = null;
+  <script>
+    let employees = JSON.parse(localStorage.getItem('employees')) || [];
+    let currentEmpId = null;
 
-        function toggleDrawer() {
-            document.getElementById('sideDrawer').classList.toggle('open');
-            document.getElementById('drawerOverlay').classList.toggle('open');
+    function toBnNum(num) {
+      if (num === null || num === undefined) return '০';
+      let str = num.toString();
+      const bnNums = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯', '.':'.'};
+      return str.replace(/[0-9.]/g, match => bnNums[match] || match);
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('drawerOverlay').classList.toggle('active');
+    }
+
+    function getBase64(file) {
+      return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+      });
+    }
+
+    // Set today's date in Transaction Form automatically
+    document.getElementById('transDate').valueAsDate = new Date();
+
+    document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const photoInput = document.getElementById('empPhotoFile');
+        // Default avatar image
+        let photoData = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+
+        if (photoInput.files && photoInput.files[0]) {
+            photoData = await getBase64(photoInput.files[0]);
         }
 
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
+        const newEmployee = {
+            id: Date.now().toString(),
+            name: document.getElementById('empName').value,
+            father: document.getElementById('empFather').value,
+            phone: document.getElementById('empPhone').value,
+            address: document.getElementById('empAddress').value,
+            salary: parseFloat(document.getElementById('empSalary').value),
+            photo: photoData,
+            absents: 0,
+            bonus: 0,
+            transactions: []
+        };
 
-        document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const photoInput = document.getElementById('empPhotoFile');
-            let photoData = 'https://via.placeholder.com/200?text=No+Photo';
-
-            if (photoInput.files && photoInput.files[0]) {
-                photoData = await getBase64(photoInput.files[0]);
-            }
-
-            const newEmployee = {
-                id: Date.now().toString(),
-                name: document.getElementById('empName').value,
-                father: document.getElementById('empFather').value,
-                phone: document.getElementById('empPhone').value,
-                address: document.getElementById('empAddress').value,
-                salary: parseFloat(document.getElementById('empSalary').value),
-                photo: photoData,
-                absents: 0,
-                bonus: 0,
-                transactions: []
-            };
-
-            employees.push(newEmployee);
-            saveData();
-            this.reset();
-            toggleDrawer();
-            renderEmployees();
-        });
-
-        function renderEmployees() {
-            const listDiv = document.getElementById('employeeList');
-            listDiv.innerHTML = '';
-
-            if (employees.length === 0) {
-                listDiv.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: #777;">কোনো কর্মচারী সেভ করা নেই। মেনু (☰) থেকে যোগ করুন।</p>`;
-                return;
-            }
-
-            employees.forEach(emp => {
-                const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
-                const dailyRate = emp.salary / 30; // 30 days average
-                const absentDeduction = (emp.absents || 0) * dailyRate;
-                const finalPayable = emp.salary - absentDeduction + (emp.bonus || 0) - totalAdvance;
-
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-img-container" onclick="openProfile('${emp.id}')">
-                        <img src="${emp.photo}" alt="Photo">
-                    </div>
-                    <h3 onclick="openProfile('${emp.id}')" style="cursor:pointer;">${emp.name}</h3>
-                    <p style="font-size: 13px; color: #666;">পিতা: ${emp.father}</p>
-                    <div class="action-btns">
-                        <a href="tel:${emp.phone}" class="btn-call">📞 কল করুন</a>
-                        <button onclick="deleteEmployee('${emp.id}')" class="btn-delete">🗑 বাদ দিন</button>
-                    </div>
-                    <p style="font-size: 14px;">মূল বেতন: ৳${emp.salary}</p>
-                    <div style="margin-top: 8px; font-weight: bold; color: ${finalPayable < 0 ? 'red' : 'green'};" onclick="openProfile('${emp.id}')">
-                        অবশিষ্ট পাওনা: ৳${Math.round(finalPayable)}
-                    </div>
-                `;
-                listDiv.appendChild(card);
-            });
-        }
-
-        function deleteEmployee(id) {
-            if (confirm("আপনি কি নিশ্চিত এই কর্মচারীকে দোকান/ব্যবসা থেকে বাতিল বা মুছে ফেলতে চান?")) {
-                employees = employees.filter(e => e.id !== id);
-                saveData();
-                renderEmployees();
-            }
-        }
-
-        function openProfile(id) {
-            currentEmpId = id;
-            const emp = employees.find(e => e.id === id);
-            if (!emp) return;
-
-            document.getElementById('largeProfileArea').innerHTML = `
-                <img src="${emp.photo}" alt="Profile">
-                <h2 style="color: #1e3c72; margin-top: 8px;">${emp.name}</h2>
-                <p>ফোন: ${emp.phone} | পিতা: ${emp.father}</p>
-            `;
-
-            document.getElementById('absentDays').value = emp.absents || 0;
-            document.getElementById('bonusAmount').value = emp.bonus || 0;
-
-            renderLedger();
-            document.getElementById('profileModal').style.display = 'block';
-        }
-
-        function updateCalculations() {
-            const emp = employees.find(e => e.id === currentEmpId);
-            if (!emp) return;
-
-            emp.absents = parseFloat(document.getElementById('absentDays').value) || 0;
-            emp.bonus = parseFloat(document.getElementById('bonusAmount').value) || 0;
-
-            saveData();
-            renderLedger();
-            renderEmployees();
-        }
-
-        document.getElementById('transactionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const date = document.getElementById('transDate').value;
-            const amount = parseFloat(document.getElementById('transAmount').value);
-
-            const emp = employees.find(e => e.id === currentEmpId);
-            emp.transactions.push({ id: Date.now().toString(), date, amount });
-
-            saveData();
-            this.reset();
-            renderLedger();
-            renderEmployees();
-        });
-
-        function renderLedger() {
-            const emp = employees.find(e => e.id === currentEmpId);
-            const tbody = document.getElementById('ledgerBody');
-            tbody.innerHTML = '';
-            
-            let totalAdvance = 0;
-            emp.transactions.forEach(tr => {
-                totalAdvance += tr.amount;
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${tr.date}</td>
-                        <td style="color: red;">- ৳${tr.amount}</td>
-                        <td><button onclick="deleteTrans('${tr.id}')" style="background:red; color:white; border:none; border-radius:3px; padding:2px 6px; cursor:pointer;">X</button></td>
-                    </tr>
-                `;
-            });
-
-            // Automatic calculation logic
-            const now = new Date();
-            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); // 28, 30, or 31 days dynamically
-            const dailyRate = emp.salary / daysInMonth;
-            const absentCut = (emp.absents || 0) * dailyRate;
-            const finalPayable = emp.salary - absentCut + (emp.bonus || 0) - totalAdvance;
-
-            document.getElementById('summaryBox').innerHTML = `
-                <b>মাসিক চূড়ান্ত হিসাব (${daysInMonth} দিনের মাস):</b><br>
-                মূল বেতন: ৳${emp.salary}<br>
-                অনুপস্থিতি কাটা (${emp.absents || 0} দিন): <span style="color:red;">- ৳${Math.round(absentCut)}</span><br>
-                হাজিরা বোনাস: <span style="color:green;">+ ৳${emp.bonus || 0}</span><br>
-                মোট অগ্রিম নেওয়া: <span style="color:red;">- ৳${totalAdvance}</span><br>
-                <hr style="margin:5px 0;">
-                <b>মাস শেষে নিট পরিশোধযোগ্য পাওনা: <span style="color:blue; font-size: 16px;">৳${Math.round(finalPayable)}</span></b>
-            `;
-        }
-
-        function deleteTrans(transId) {
-            const emp = employees.find(e => e.id === currentEmpId);
-            emp.transactions = emp.transactions.filter(t => t.id !== transId);
-            saveData();
-            renderLedger();
-            renderEmployees();
-        }
-
-        function sendWhatsAppSummary() {
-            const emp = employees.find(e => e.id === currentEmpId);
-            if (!emp) return;
-
-            const now = new Date();
-            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-            const dailyRate = emp.salary / daysInMonth;
-            const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
-            const absentCut = (emp.absents || 0) * dailyRate;
-            const finalPayable = Math.round(emp.salary - absentCut + (emp.bonus || 0) - totalAdvance);
-
-            let message = `*মাসিক বেতন ও হিসাব স্টেটমেন্ট*\n`;
-            message += `নাম: ${emp.name}\n`;
-            message += `মূল বেতন: ৳${emp.salary}\n`;
-            message += `অনুপস্থিতি (${emp.absents || 0} দিন): -৳${Math.round(absentCut)}\n`;
-            message += `হাজিরা বোনাস: +৳${emp.bonus || 0}\n`;
-            message += `মোট অগ্রিম নেওয়া: -৳${totalAdvance}\n`;
-            message += `------------------------\n`;
-            message += `*মাস শেষে অবশিষ্ট পাওনা: ৳${finalPayable}*\n\n`;
-            message += `ধন্যবাদ!`;
-
-            let phone = emp.phone.replace(/[^0-9]/g, '');
-            if(phone.startsWith('0')) phone = '88' + phone;
-
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function closeModal() {
-            document.getElementById('profileModal').style.display = 'none';
-            currentEmpId = null;
-        }
-
-        function saveData() {
-            localStorage.setItem('employees', JSON.stringify(employees));
-        }
-
+        employees.push(newEmployee);
+        saveData();
+        this.reset();
+        toggleSidebar();
         renderEmployees();
-    </script>
+    });
+
+    function renderEmployees() {
+        const listDiv = document.getElementById('employeeList');
+        listDiv.innerHTML = '';
+
+        if (employees.length === 0) {
+            listDiv.innerHTML = `<div style="text-align:center; grid-column: 1/-1; color: var(--accent); padding: 40px; font-size: 18px; font-weight: bold; background: white; border-radius: 10px; border: 2px dashed var(--border);">কোনো কর্মচারী যুক্ত করা নেই।<br><br>মেনু (☰) থেকে 'নতুন কর্মচারী যোগ' করুন।</div>`;
+            return;
+        }
+
+        const now = new Date();
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+
+        employees.forEach(emp => {
+            const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
+            const dailyRate = emp.salary / daysInMonth; 
+            const absentDeduction = (emp.absents || 0) * dailyRate;
+            const finalPayable = emp.salary - absentDeduction + (emp.bonus || 0) - totalAdvance;
+
+            const cardColor = finalPayable < 0 ? '#dc2626' : '#16a34a';
+
+            const card = document.createElement('div');
+            card.className = 'emp-card';
+            card.innerHTML = `
+                <div class="card-img-container" onclick="openProfile('${emp.id}')">
+                    <img src="${emp.photo}" alt="Photo">
+                </div>
+                <h3 onclick="openProfile('${emp.id}')">${emp.name}</h3>
+                <p style="font-size: 14px; color: #475569; font-weight: bold;">পিতা: ${emp.father}</p>
+                <div class="action-btns">
+                    <a href="tel:${emp.phone}" class="btn-call">📞 কল</a>
+                    <button onclick="deleteEmployee('${emp.id}')" class="btn-delete">🗑 ডিলিট</button>
+                </div>
+                <p style="font-size: 16px; font-weight: 900; color: var(--text);">বেতন: ৳${toBnNum(emp.salary)}</p>
+                <div class="payable-amount" style="color: ${cardColor}; border-color: ${cardColor}40;" onclick="openProfile('${emp.id}')">
+                    পাওনা: ৳${toBnNum(Math.round(finalPayable))}
+                </div>
+            `;
+            listDiv.appendChild(card);
+        });
+    }
+
+    function deleteEmployee(id) {
+        if (confirm("আপনি কি নিশ্চিত এই কর্মচারীকে মুছে ফেলতে চান?")) {
+            employees = employees.filter(e => e.id !== id);
+            saveData();
+            renderEmployees();
+        }
+    }
+
+    function openProfile(id) {
+        currentEmpId = id;
+        const emp = employees.find(e => e.id === id);
+        if (!emp) return;
+
+        document.getElementById('largeProfileArea').innerHTML = `
+            <img src="${emp.photo}" alt="Profile">
+            <h2 style="color: var(--accent); margin-top: 10px; font-size: 24px; font-weight: 900;">${emp.name}</h2>
+            <p style="font-size: 15px; color: #475569; font-weight: bold; margin-top: 5px;">ফোন: ${toBnNum(emp.phone)} | পিতা: ${emp.father}</p>
+        `;
+
+        document.getElementById('absentDays').value = emp.absents || '';
+        document.getElementById('bonusAmount').value = emp.bonus || '';
+
+        renderLedger();
+        document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    function updateCalculations() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        if (!emp) return;
+
+        // Automatically update as user types (oninput)
+        emp.absents = parseFloat(document.getElementById('absentDays').value) || 0;
+        emp.bonus = parseFloat(document.getElementById('bonusAmount').value) || 0;
+
+        saveData();
+        renderLedger();
+        renderEmployees(); // updates the background card value too
+    }
+
+    document.getElementById('transactionForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const date = document.getElementById('transDate').value;
+        const amount = parseFloat(document.getElementById('transAmount').value);
+
+        const emp = employees.find(e => e.id === currentEmpId);
+        // Format Date to DD/MM/YYYY
+        let dParts = date.split('-');
+        let formattedDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+
+        emp.transactions.push({ id: Date.now().toString(), date: formattedDate, amount });
+
+        saveData();
+        document.getElementById('transAmount').value = ''; // Just reset amount, keep date
+        renderLedger();
+        renderEmployees();
+    });
+
+    function renderLedger() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        const tbody = document.getElementById('ledgerBody');
+        tbody.innerHTML = '';
+        
+        let totalAdvance = 0;
+        emp.transactions.forEach(tr => {
+            totalAdvance += tr.amount;
+            tbody.innerHTML += `
+                <tr>
+                    <td>${toBnNum(tr.date)}</td>
+                    <td style="color: #dc2626;">- ৳${toBnNum(tr.amount)}</td>
+                    <td><button onclick="deleteTrans('${tr.id}')" style="background:#dc2626; color:white; border:none; border-radius:5px; padding:6px 12px; font-weight:bold; cursor:pointer;">X</button></td>
+                </tr>
+            `;
+        });
+
+        // Automatic calculation logic
+        const now = new Date();
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); 
+        const dailyRate = emp.salary / daysInMonth;
+        const absentCut = (emp.absents || 0) * dailyRate;
+        const finalPayable = emp.salary - absentCut + (emp.bonus || 0) - totalAdvance;
+
+        document.getElementById('summaryBox').innerHTML = `
+            <div style="text-align:center; font-size: 18px; color: var(--accent); margin-bottom: 10px;"><b>চলতি মাসের হিসাব (${toBnNum(daysInMonth)} দিনের মাস)</b></div>
+            <div style="display:flex; justify-content:space-between;"><span>মূল বেতন:</span> <span>৳${toBnNum(emp.salary)}</span></div>
+            <div style="display:flex; justify-content:space-between; color: #dc2626;"><span>অনুপস্থিতি কাটা (${toBnNum(emp.absents || 0)} দিন):</span> <span>- ৳${toBnNum(Math.round(absentCut))}</span></div>
+            <div style="display:flex; justify-content:space-between; color: #16a34a;"><span>হাজিরা বোনাস:</span> <span>+ ৳${toBnNum(emp.bonus || 0)}</span></div>
+            <div style="display:flex; justify-content:space-between; color: #dc2626;"><span>মোট অগ্রিম নেওয়া:</span> <span>- ৳${toBnNum(totalAdvance)}</span></div>
+            <hr style="border: 1px solid #94a3b8; margin: 10px 0;">
+            <div style="display:flex; justify-content:space-between; font-size: 20px; color: ${finalPayable < 0 ? '#dc2626' : '#1e3a8a'};">
+              <b>নিট পাওনা:</b> <b>৳${toBnNum(Math.round(finalPayable))}</b>
+            </div>
+        `;
+    }
+
+    function deleteTrans(transId) {
+        const emp = employees.find(e => e.id === currentEmpId);
+        emp.transactions = emp.transactions.filter(t => t.id !== transId);
+        saveData();
+        renderLedger();
+        renderEmployees();
+    }
+
+    function sendWhatsAppSummary() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        if (!emp) return;
+
+        const now = new Date();
+        const monthNames = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+        const currentMonthName = monthNames[now.getMonth()];
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        
+        const dailyRate = emp.salary / daysInMonth;
+        const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
+        const absentCut = (emp.absents || 0) * dailyRate;
+        const finalPayable = Math.round(emp.salary - absentCut + (emp.bonus || 0) - totalAdvance);
+
+        let message = `*মাসিক বেতন ও হিসাব স্টেটমেন্ট*\n`;
+        message += `মাস: ${currentMonthName} ${now.getFullYear()}\n\n`;
+        message += `নাম: ${emp.name}\n`;
+        message += `মূল বেতন: ৳${emp.salary}\n`;
+        message += `অনুপস্থিতি (${emp.absents || 0} দিন): -৳${Math.round(absentCut)}\n`;
+        message += `হাজিরা বোনাস: +৳${emp.bonus || 0}\n`;
+        message += `মোট অগ্রিম নেওয়া: -৳${totalAdvance}\n`;
+        message += `------------------------\n`;
+        message += `*মাস শেষে নিট পাওনা: ৳${finalPayable}*\n\n`;
+        message += `ধন্যবাদ!`;
+
+        let phone = emp.phone.replace(/[^0-9]/g, '');
+        if(phone.startsWith('0')) phone = '88' + phone;
+
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    function closeModal() {
+        document.getElementById('profileModal').style.display = 'none';
+        currentEmpId = null;
+    }
+
+    function saveData() {
+        localStorage.setItem('employees', JSON.stringify(employees));
+    }
+
+    // Initialize
+    window.onload = function() {
+        renderEmployees();
+    };
+  </script>
 </body>
 </html>

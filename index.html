@@ -30,7 +30,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 45vh;
+            height: 100vh; /* Changed to 100vh for full screen coverage on PC */
             z-index: 0;
             overflow: hidden;
             pointer-events: none;
@@ -161,12 +161,13 @@
             100% { width: 100%; }
         }
 
-        /* Dashboard Container */
+        /* 📱💻 Responsive Dashboard Container */
         .dashboard-container {
             width: 100%;
-            max-width: 450px;
+            max-width: 1200px; /* PC & Laptop support */
             position: relative;
             z-index: 1;
+            padding-bottom: 30px;
         }
 
         /* Header Layout */
@@ -179,9 +180,11 @@
         }
 
         .header-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             color: #ffffff;
+            text-align: center;
+            flex-grow: 1;
         }
 
         .icon-btn {
@@ -192,7 +195,10 @@
             border-radius: 12px;
             cursor: pointer;
             font-size: 20px;
+            transition: 0.2s;
         }
+
+        .icon-btn:hover { background: #334155; }
 
         .header-logo-box {
             width: 45px;
@@ -202,23 +208,28 @@
             background: #1e293b;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            flex-shrink: 0;
         }
 
         .header-logo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
         }
 
-        /* User Card */
+        /* User Card (Responsive Flexbox) */
         .user-card {
             background: #111827;
             border: 1px solid #1e293b;
             border-radius: 16px;
-            padding: 16px;
+            padding: 20px;
             margin-bottom: 24px;
-            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
+
+        .user-info { flex: 1; }
 
         .user-name-container {
             display: flex;
@@ -250,12 +261,9 @@
         }
 
         .avatar-container {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 52px;
-            height: 52px;
+            width: 60px;
+            height: 60px;
+            flex-shrink: 0;
         }
 
         .avatar-img {
@@ -272,10 +280,10 @@
             color: #ffffff;
         }
 
-        /* Dashboard Grid Menu */
+        /* Dashboard Grid Menu (Responsive Auto-Fit Grid) */
         .grid-menu {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, 1fr); /* Mobile default: 2 columns */
             gap: 16px;
         }
 
@@ -283,30 +291,58 @@
             background: #111827;
             border: 1px solid #1e293b;
             border-radius: 16px;
-            padding: 20px 12px;
+            padding: 24px 12px;
             text-align: center;
             text-decoration: none;
             color: #ffffff;
-            transition: transform 0.1s, border-color 0.1s; 
+            transition: transform 0.2s, border-color 0.2s, background 0.2s; 
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .menu-card:hover {
+            background: #1e293b;
+            border-color: #3b82f6;
+            transform: translateY(-3px);
         }
 
         .menu-card:active {
             transform: scale(0.97);
-            border-color: #3b82f6;
         }
 
         .menu-icon { 
-            font-size: 30px; 
-            margin-bottom: 8px; 
+            font-size: 34px; 
+            margin-bottom: 12px; 
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .menu-title { font-size: 14px; font-weight: 600; color: #e5e7eb; }
+        .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
+
+        /* Media Queries for Cross-Device Support */
+        @media (min-width: 576px) {
+            /* Large Phones / Small Tablets */
+            .grid-menu { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        @media (min-width: 768px) {
+            /* Tablets (iPad) */
+            .grid-menu { grid-template-columns: repeat(4, 1fr); gap: 20px;}
+            .user-card { padding: 25px; }
+            .avatar-container { width: 75px; height: 75px; }
+            .header-title { font-size: 24px; }
+        }
+
+        @media (min-width: 1024px) {
+            /* Laptops & PC Desktop */
+            .grid-menu { grid-template-columns: repeat(5, 1fr); gap: 24px; }
+            .menu-card { padding: 30px 15px; }
+            .menu-icon { font-size: 40px; }
+            .menu-title { font-size: 16px; }
+        }
 
         /* Overlays & Modals */
         .lock-overlay {
@@ -323,11 +359,12 @@
         .lock-box {
             background: #111827;
             border: 1px solid #1e293b;
-            padding: 25px;
+            padding: 30px 25px;
             border-radius: 16px;
             width: 100%;
-            max-width: 340px;
+            max-width: 400px; /* Slightly wider for PC/Tab */
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .lock-clickable-icon {
@@ -339,51 +376,51 @@
             transition: transform 0.1s;
         }
 
-        .lock-clickable-icon:active {
-            transform: scale(1.2);
-        }
+        .lock-clickable-icon:active { transform: scale(1.2); }
 
         .device-id-box {
             background: #1e293b;
             border: 1px dashed #3b82f6;
             color: #fbbf24;
-            padding: 8px;
+            padding: 10px;
             border-radius: 8px;
             font-family: monospace;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
             user-select: all;
         }
 
         .btn-whatsapp {
             display: block;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: #25d366;
             color: #fff;
             border: none;
             border-radius: 8px;
             font-weight: bold;
             text-decoration: none;
-            font-size: 13px;
-            margin-bottom: 12px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            transition: 0.2s;
         }
+        .btn-whatsapp:hover { background: #20b958; }
 
         .lock-input {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0 12px 0;
+            padding: 12px;
+            margin: 8px 0 15px 0;
             background: #1e293b;
             border: 1px solid #334155;
             color: white;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .btn-unlock {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: #1d4ed8;
             color: white;
             border: none;
@@ -391,14 +428,17 @@
             font-weight: bold;
             cursor: pointer;
             flex: 1;
+            font-size: 14px;
+            transition: 0.2s;
         }
+        .btn-unlock:hover { background: #1e40af; }
 
         .dev-branding-footer {
             color: #fbbf24;
             font-size: 12px;
             font-weight: bold;
-            margin-top: 18px;
-            padding: 8px;
+            margin-top: 20px;
+            padding: 10px;
             background: rgba(251, 191, 36, 0.1);
             border: 1px solid rgba(251, 191, 36, 0.3);
             border-radius: 8px;
@@ -414,7 +454,7 @@
         }
 
         .sidebar-content {
-            background: #111827; width: 280px; height: 100%;
+            background: #111827; width: 300px; height: 100%;
             padding: 20px; border-right: 1px solid #1e293b;
             transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
@@ -427,17 +467,15 @@
 
         .sidebar-menu-item {
             padding: 14px; color: #e5e7eb; text-decoration: none;
-            border-radius: 8px; margin-bottom: 8px; background: #1e293b; display: block; font-size: 14px; font-weight: bold;
+            border-radius: 8px; margin-bottom: 8px; background: #1e293b; display: block; font-size: 15px; font-weight: bold;
+            transition: 0.2s;
         }
 
-        .sidebar-menu-item:active {
-            background: #334155;
-        }
+        .sidebar-menu-item:hover { background: #334155; }
+        .sidebar-menu-item:active { background: #475569; }
 
-        .support-btn {
-            background: #059669; 
-            color: white;
-        }
+        .support-btn { background: #059669; color: white; }
+        .support-btn:hover { background: #047857; }
     </style>
 </head>
 <body>
@@ -467,8 +505,8 @@
     <div class="lock-overlay" id="lockScreen" style="display: none;">
         <div class="lock-box">
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
-            <h3 id="lockTitle" style="color: #ffffff; font-size: 15px;">Device License Activation</h3>
-            <p id="lockSub" style="color: #9ca3af; font-size: 11px; margin-top: 4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
+            <h3 id="lockTitle" style="color: #ffffff; font-size: 18px;">Device License Activation</h3>
+            <p id="lockSub" style="color: #9ca3af; font-size: 13px; margin-top: 6px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
             <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp" style="text-align: center;">📲 Send Device ID to WhatsApp</a>
             <input type="text" id="keyInput" class="lock-input" placeholder="পেমেন্ট করুন" style="text-align: center;">
@@ -479,28 +517,28 @@
 
     <!-- ⚙️ মাই প্রোফাইল সেটিংস মোডাল -->
     <div class="lock-overlay" id="profileSettingsModal" style="display: none; z-index: 10000;">
-        <div class="lock-box" style="text-align: left; padding: 20px;">
-            <h3 style="color: #fff; margin-bottom: 15px; text-align: center; font-size: 18px;">⚙️ Profile Settings</h3>
+        <div class="lock-box" style="text-align: left;">
+            <h3 style="color: #fff; margin-bottom: 20px; text-align: center; font-size: 20px;">⚙️ Profile Settings</h3>
             
-            <div style="text-align: center; margin-bottom: 15px;">
-                <div class="avatar-img" id="modalAvatarPreview" style="width: 75px; height: 75px; margin: 0 auto; cursor: pointer; border-color: #3b82f6;" onclick="document.getElementById('modalProfilePicker').click()">👤</div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div class="avatar-img" id="modalAvatarPreview" style="width: 85px; height: 85px; margin: 0 auto; cursor: pointer; border-color: #3b82f6;" onclick="document.getElementById('modalProfilePicker').click()">👤</div>
                 <input type="file" id="modalProfilePicker" accept="image/*" style="display: none;" onchange="previewModalProfile(this)">
-                <p style="color: #9ca3af; font-size: 11px; margin-top: 6px;">ছবি পরিবর্তন করতে ক্লিক করুন</p>
+                <p style="color: #9ca3af; font-size: 12px; margin-top: 8px;">ছবি পরিবর্তন করতে ক্লিক করুন</p>
             </div>
 
-            <label style="color: #9ca3af; font-size: 12px; font-weight: bold;">আপনার নাম:</label>
+            <label style="color: #9ca3af; font-size: 13px; font-weight: bold;">আপনার নাম:</label>
             <input type="text" id="profName" class="lock-input" placeholder="আপনার নাম">
 
-            <label style="color: #9ca3af; font-size: 12px; font-weight: bold;">কোম্পানির নাম:</label>
+            <label style="color: #9ca3af; font-size: 13px; font-weight: bold;">কোম্পানির নাম:</label>
             <input type="text" id="profCompany" class="lock-input" placeholder="যেমন: RM THAI ALUMINIUM">
 
-            <label style="color: #9ca3af; font-size: 12px; font-weight: bold;">মোবাইল নাম্বার:</label>
+            <label style="color: #9ca3af; font-size: 13px; font-weight: bold;">মোবাইল নাম্বার:</label>
             <input type="tel" id="profMobile" class="lock-input" placeholder="মোবাইল নাম্বার">
 
-            <label style="color: #9ca3af; font-size: 12px; font-weight: bold;">জিমেইল (ইমেইল):</label>
+            <label style="color: #9ca3af; font-size: 13px; font-weight: bold;">জিমেইল (ইমেইল):</label>
             <input type="email" id="profEmail" class="lock-input" placeholder="example@gmail.com">
 
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <div style="display: flex; gap: 15px; margin-top: 15px;">
                 <button class="btn-unlock" style="background: #ef4444;" onclick="closeProfileSettings()">বাতিল</button>
                 <button class="btn-unlock" style="background: #10b981;" onclick="saveProfileSettings()">সেভ করুন</button>
             </div>
@@ -518,22 +556,23 @@
         </div>
 
         <div class="user-card">
-            <div class="user-name-container">
-                <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
+            <div class="user-info">
+                <div class="user-name-container">
+                    <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
+                </div>
+                <div class="user-sub">Aluminium ERP BD v2</div>
+                <span class="status-badge">✓ System Active</span>
             </div>
-            <div class="user-sub">Aluminium ERP BD v2</div>
-            <span class="status-badge">✓ System Active</span>
-            
             <div class="avatar-container">
                 <div id="avatarDisplay" class="avatar-img">👤</div>
             </div>
         </div>
 
-        <!-- 🔗 মেনু লিংকসমূহ (আপডেটেড আইকনসহ) -->
+        <!-- 🔗 মেনু লিংকসমূহ (Responsive Grid) -->
         <div class="grid-menu">
             <a href="curtain-wall.html" class="menu-card">
                 <div class="menu-icon">
-                    <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6 6H34V12H24V28H34V34H6V28H16V12H6V6Z" fill="url(#alu_grad)" stroke="#94A3B8" stroke-width="1.5"/>
                         <circle cx="11" cy="9" r="1.5" fill="#38BDF8"/>
                         <circle cx="29" cy="9" r="1.5" fill="#38BDF8"/>
@@ -553,7 +592,7 @@
 
             <a href="profile-discount.html" class="menu-card">
                 <div class="menu-icon">🏢</div>
-                <div class="menu-title">কোম্পানি প্রোফাইল ডিসকাউন্ট</div>
+                <div class="menu-title">কোম্পানি ডিসকাউন্ট</div>
             </a>
 
             <a href="calculator.html" class="menu-card">
@@ -606,7 +645,7 @@
                 <div class="menu-title">লুভার ক্যালকুলেটার</div>
             </a>
             <a href="kormochari.html" class="menu-card">
-                <div class="menu-icon">👥</div>
+                <div class="menu-icon">👨‍🔧</div>
                 <div class="menu-title">কর্মচারী হিসাব</div>
             </a>
         </div>
@@ -617,11 +656,10 @@
         <div class="sidebar-content" id="sidebarContent">
             <div class="sidebar-header">
                 <h3 style="color: #fff;">Menu</h3>
-                <button class="icon-btn" onclick="toggleSidebar()" style="padding: 2px 8px;">✕</button>
+                <button class="icon-btn" onclick="toggleSidebar()" style="padding: 4px 10px;">✕</button>
             </div>
             
             <a href="#" class="sidebar-menu-item" onclick="openProfileSettings(); return false;">👤 My Profile Settings</a>
-            
             <a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="sidebar-menu-item support-btn">🎧 Feedback & Support</a>
         </div>
     </div>
@@ -768,7 +806,6 @@
             }
         }
 
-        // নতুন লাইসেন্স লজিক যুক্ত করা হলো
         function validateKey() {
             const inputVal = document.getElementById("keyInput").value.trim();
 
@@ -779,17 +816,12 @@
                     alert("ভুল মাস্টার কী (Master Key)!");
                 }
             } else {
-                // ডিভাইসের আইডি থেকে কোড অংশটি আলাদা করা
                 const codePart = generatedDeviceId.replace("ALU-", "");
-                // কোডটি উল্টে দেওয়া (Reverse)
                 const reversedCode = codePart.split("").reverse().join("");
-                // বর্তমান দিনের তারিখ বের করা (যেমন: ৫, ৬ ইত্যাদি)
                 const todayDate = new Date().getDate(); 
                 
-                // আজকের জন্য সঠিক লাইসেন্স কি তৈরি করা (RM-উল্টানো কোড-আজকের তারিখ)
                 const expectedProductKey = "RM-" + reversedCode + "-" + todayDate;
 
-                // ইউজারের ইনপুট যাচাই করা
                 if (inputVal.toUpperCase() === expectedProductKey.toUpperCase()) {
                     unlockAppPermanently();
                 } else {

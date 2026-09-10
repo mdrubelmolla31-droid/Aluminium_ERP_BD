@@ -2,13 +2,13 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>RM THAI ALUMINIUM - CUTTING CALCULATOR</title>
 
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
-    .container { max-width: 650px; margin: 0 auto; }
+    body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; -webkit-tap-highlight-color: transparent; }
+    .container { max-width: 768px; width: 100%; margin: 0 auto; }
 
     .header-card {
       background: linear-gradient(135deg, #1e3a8a, #2563eb);
@@ -20,7 +20,7 @@
       text-align: center;
       position: relative;
     }
-    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; text-transform: uppercase; }
+    .header-card h2 { margin: 0 0 5px 0; font-size: 22px; text-transform: uppercase; word-break: break-word; }
     .header-card p { margin: 0 0 8px 0; font-size: 14px; opacity: 0.95; font-weight: 600; text-transform: uppercase; }
     
     .shop-input-box {
@@ -33,14 +33,15 @@
       gap: 6px;
     }
     .shop-input-box input {
-      padding: 6px 10px;
-      font-size: 13px;
+      padding: 8px 10px;
+      font-size: 14px;
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 4px;
       background: #fff;
       color: #0f172a;
       text-align: center;
       font-weight: 600;
+      width: 100%;
     }
 
     .card {
@@ -50,6 +51,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       margin-bottom: 16px;
       border: 1px solid #e2e8f0;
+      overflow-x: auto;
     }
 
     .card-title {
@@ -63,8 +65,8 @@
       text-transform: uppercase;
     }
 
-    .row { display: flex; gap: 10px; margin-bottom: 10px; }
-    .col { flex: 1; }
+    .row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+    .col { flex: 1 1 200px; min-width: 0; }
 
     label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #334155; }
     input, select {
@@ -74,6 +76,7 @@
       border: 1px solid #cbd5e1;
       border-radius: 6px;
       background-color: #fff;
+      box-sizing: border-box;
     }
     select:disabled { background-color: #e2e8f0; cursor: not-allowed; }
 
@@ -86,38 +89,42 @@
       cursor: pointer;
       font-size: 15px;
       text-align: center;
+      touch-action: manipulation;
     }
 
     .btn-calc { background-color: #2563eb; color: white; margin-top: 10px; }
     .btn-add { background-color: #10b981; color: white; margin-top: 8px; }
     .btn-print { background-color: #dc2626; color: white; margin-top: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-print:hover { background-color: #b91c1c; }
-    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
+    .btn-danger { background-color: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
+
+    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
     .mat-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
     .mat-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .mat-table td:first-child { text-align: left; color: #334155; font-weight: 500; }
-    .mat-table td:last-child { text-align: right; font-weight: 600; color: #0f172a; }
+    .mat-table td:last-child { text-align: right; font-weight: 600; color: #0f172a; white-space: nowrap; }
     .mat-table tr.highlight { background-color: #f0fdf4; }
     .mat-table tr.highlight-blue { background-color: #eff6ff; }
     .mat-table tr.highlight-blue td { font-weight: 700; color: #1e40af; font-size: 14px; }
     .mat-table tr.highlight-grand { background-color: #e0f2fe; }
     .mat-table tr.highlight-grand td { font-weight: 800; color: #0369a1; font-size: 15px; }
 
-    table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 12px 6px; text-align: center; font-size: 14px; }
+    table.input-table, table.report-table { width: 100%; border-collapse: collapse; margin-top: 8px; min-width: 320px; }
+    table.input-table th, table.report-table th { border: 1px solid #cbd5e1; padding: 10px 4px; text-align: center; font-size: 13px; }
     table.input-table th, table.report-table th { background-color: #1e3a8a; color: white; font-weight: 700; }
     table.report-table td { border: 1px solid #e2e8f0; padding: 8px; font-size: 13px; }
     
     table.input-table input { 
-      padding: 12px 8px; 
+      padding: 8px 4px; 
       text-align: center; 
-      font-size: 16px; 
+      font-size: 15px; 
       font-weight: 700; 
       border: 1px solid #94a3b8; 
       border-radius: 4px;
+      width: 100%;
     }
-    table.input-table td { padding: 6px; }
+    table.input-table td { padding: 4px; }
 
     .notice-box {
       background-color: #eff6ff;
@@ -132,15 +139,16 @@
 
     .menu-btn {
       position: absolute;
-      top: 15px;
-      left: 15px;
+      top: 12px;
+      left: 12px;
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.4);
       color: white;
-      font-size: 20px;
+      font-size: 18px;
       padding: 4px 10px;
       border-radius: 4px;
       cursor: pointer;
+      z-index: 10;
     }
 
     .modal {
@@ -158,7 +166,7 @@
       padding: 12px;
       width: 100%;
       max-width: 700px;
-      height: 96%;
+      max-height: 96vh;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       display: flex;
@@ -176,13 +184,32 @@
     
     .opt-detail { font-size: 12px; text-align: left; margin-top: 6px; line-height: 1.6; }
     
-    .wastage-red { color: #dc2626; font-weight: 800; background-color: #fee2e2; padding: 2px 6px; border-radius: 4px; border: 1px solid #fca5a5; }
-    .wastage-green { color: #166534; font-weight: 700; background-color: #dcfce7; padding: 2px 6px; border-radius: 4px; }
+    .wastage-red { color: #dc2626; font-weight: 800; background-color: #fee2e2; padding: 2px 6px; border-radius: 4px; border: 1px solid #fca5a5; display: inline-block; margin-top: 2px; }
+    .wastage-green { color: #166534; font-weight: 700; background-color: #dcfce7; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 2px; }
     
     .table-title-18 { background: #1e40af; color: white; padding: 8px 12px; font-weight: bold; font-size: 14px; border-radius: 4px 4px 0 0; margin-top: 10px; text-transform: uppercase; }
     .table-title-21 { background: #0369a1; color: white; padding: 8px 12px; font-weight: bold; font-size: 14px; border-radius: 4px 4px 0 0; margin-top: 20px; text-transform: uppercase; }
 
     #printContent * { outline: none !important; }
+
+    /* responsive styles for small devices (Android/iPhone) */
+    @media (max-width: 576px) {
+      body { padding: 6px; }
+      .card { padding: 10px; }
+      .header-card { padding: 12px 10px; }
+      .header-card h2 { font-size: 18px; margin-top: 28px; }
+      .header-card p { font-size: 12px; }
+      .menu-btn { top: 8px; left: 8px; padding: 2px 8px; font-size: 16px; }
+      
+      .row { flex-direction: column; gap: 8px; }
+      .col { width: 100%; flex: 1 1 100%; }
+
+      input, select { font-size: 16px; } /* iOS auto-zoom fix */
+      table.input-table input { font-size: 16px; }
+
+      table.input-table th, table.report-table th { font-size: 11px; padding: 6px 2px; }
+      table.report-table td, .mat-table td { font-size: 12px; padding: 6px 4px; }
+    }
   </style>
 </head>
 <body>
@@ -243,83 +270,92 @@
   <div class="card">
     <div class="card-title">WINDOW DIMENSIONS (INCH)</div>
     <div class="notice-box">ℹ️ উইন্ডোর মাপ আপনার প্রয়োজনমতো বসিয়ে নিন।</div>
-    <table class="input-table">
-      <thead>
-        <tr><th style="width: 15%;">ক্রম</th><th style="width: 25%;">উচ্চতা (ইঞ্চি)</th><th style="width: 25%;">পাশ (ইঞ্চি)</th><th style="width: 20%;">পরিমাণ</th><th style="width: 15%;">অ্যাকশন</th></tr>
-      </thead>
-      <tbody id="winTableBody"></tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="input-table">
+        <thead>
+          <tr><th style="width: 15%;">ক্রম</th><th style="width: 28%;">উচ্চতা (ইঞ্চি)</th><th style="width: 28%;">পাশ (ইঞ্চি)</th><th style="width: 17%;">পরিমাণ</th><th style="width: 12%;">অ্যাকশন</th></tr>
+        </thead>
+        <tbody id="winTableBody"></tbody>
+      </table>
+    </div>
     <button class="btn btn-add" type="button" onclick="addRow()">+ নতুন উইন্ডো যোগ করুন</button>
     <button class="btn btn-calc" type="button" onclick="calculateAll(true)">হিসাব ও ফাইল সেভ করুন</button>
   </div>
 
   <div class="card">
     <div class="card-title">TOTAL MATERIAL & COST</div>
-    <table class="mat-table">
-      <tbody>
-        <tr><td>আউটার সাইড (উচ্চতা)</td><td><span id="mOuterSide">০.০০</span> ফিট</td></tr>
-        <tr><td>আউটার টপ (পাশ)</td><td><span id="mOuterTop">০.০০</span> ফিট</td></tr>
-        <tr><td>আউটার বটম (টপের সমান)</td><td><span id="mOuterBottom">০.০০</span> ফিট</td></tr>
-        <tr><td>শাটার লক</td><td><span id="mShutterLock">০.০০</span> ফিট</td></tr>
-        <tr><td>শাটার ইন্টারলক</td><td><span id="mShutterInterlock">০.০০</span> ফিট</td></tr>
-        <tr><td>শাটার টপ</td><td><span id="mShutterTop">০.০০</span> ফিট</td></tr>
-        <tr><td>শাটার বটম (শাটার টপের সমান)</td><td><span id="mShutterBottom">০.০০</span> ফিট</td></tr>
-        
-        <tr id="netRow" style="display: none;"><td>নেট ফ্রেম অ্যালুমিনিয়াম</td><td><span id="mNetSection">০.০০</span> ফিট</td></tr>
+    <div class="table-responsive">
+      <table class="mat-table">
+        <tbody>
+          <tr><td>আউটার সাইড (উচ্চতা)</td><td><span id="mOuterSide">০.০০</span> ফিট</td></tr>
+          <tr><td>আউটার টপ (পাশ)</td><td><span id="mOuterTop">০.০০</span> ফিট</td></tr>
+          <tr><td>আউটার বটম (টপের সমান)</td><td><span id="mOuterBottom">০.০০</span> ফিট</td></tr>
+          <tr><td>শাটার লক</td><td><span id="mShutterLock">০.০০</span> ফিট</td></tr>
+          <tr><td>শাটার ইন্টারলক</td><td><span id="mShutterInterlock">০.০০</span> ফিট</td></tr>
+          <tr><td>শাটার টপ</td><td><span id="mShutterTop">০.০০</span> ফিট</td></tr>
+          <tr><td>শাটার বটম (শাটার টপের সমান)</td><td><span id="mShutterBottom">০.০০</span> ফিট</td></tr>
+          
+          <tr id="netRow" style="display: none;"><td>নেট ফ্রেম অ্যালুমিনিয়াম</td><td><span id="mNetSection">০.০০</span> ফিট</td></tr>
 
-        <tr class="highlight-blue"><td>সর্বমোট অ্যালুমিনিয়াম</td><td><span id="mTotalAlu">০.০০</span> ফিট</td></tr>
-        
-        <tr><td>গ্লাসের মোট এরিয়া</td><td><span id="mGlassSqft">০.০০</span> স্কয়ার ফিট</td></tr>
-        <tr id="netMeshRow" style="display: none;"><td>নেট জালের এরিয়া</td><td><span id="mNetMeshSqft">০.০০</span> স্কয়ার ফিট</td></tr>
-        
-        <tr><td>অ্যালুমিনিয়াম খরচ</td><td><span id="mAluCost">০.০০</span> ৳</td></tr>
-        <tr><td>গ্লাস খরচ</td><td><span id="mGlassCost">০.০০</span> ৳</td></tr>
-        <tr><td>হার্ডওয়্যার খরচ</td><td><span id="mHardware">০.০০</span> ৳</td></tr>
-        <tr><td>ফিটিং চার্জ</td><td><span id="mFittings">০.০০</span> ৳</td></tr>
-        <tr><td>লেবার চার্জ</td><td><span id="mLabour">০.০০</span> ৳</td></tr>
-        
-        <tr class="highlight"><td>মোট মালামাল খরচ</td><td><span id="mMaterialCost">০.০০</span> ৳</td></tr>
-        <tr><td>বিক্রয় দর / স্কয়ার ফিট</td><td><span id="mSellingRatePerSqft">০.০০</span> ৳</td></tr>
-        <tr><td>লাভ / স্কয়ার ফিট</td><td><span id="mProfitPerSqft">০.০০</span> ৳</td></tr>
-        
-        <tr class="highlight-grand"><td>সর্বমোট বিক্রয় মূল্য</td><td><span id="mSellingPrice">০.০০</span> ৳</td></tr>
-      </tbody>
-    </table>
+          <tr class="highlight-blue"><td>সর্বমোট অ্যালুমিনিয়াম</td><td><span id="mTotalAlu">০.০০</span> ফিট</td></tr>
+          
+          <tr><td>গ্লাসের মোট এরিয়া</td><td><span id="mGlassSqft">০.০০</span> স্কয়ার ফিট</td></tr>
+          <tr id="netMeshRow" style="display: none;"><td>নেট জালের এরিয়া</td><td><span id="mNetMeshSqft">০.০০</span> স্কয়ার ফিট</td></tr>
+          
+          <tr><td>অ্যালুমিনিয়াম খরচ</td><td><span id="mAluCost">০.০০</span> ৳</td></tr>
+          <tr><td>গ্লাস খরচ</td><td><span id="mGlassCost">০.০০</span> ৳</td></tr>
+          <tr><td>হার্ডওয়্যার খরচ</td><td><span id="mHardware">০.০০</span> ৳</td></tr>
+          <tr><td>ফিটিং চার্জ</td><td><span id="mFittings">০.০০</span> ৳</td></tr>
+          <tr><td>লেবার চার্জ</td><td><span id="mLabour">০.০০</span> ৳</td></tr>
+          
+          <tr class="highlight"><td>মোট মালামাল খরচ</td><td><span id="mMaterialCost">০.০০</span> ৳</td></tr>
+          <tr><td>বিক্রয় দর / স্কয়ার ফিট</td><td><span id="mSellingRatePerSqft">০.০০</span> ৳</td></tr>
+          <tr><td>লাভ / স্কয়ার ফিট</td><td><span id="mProfitPerSqft">০.০০</span> ৳</td></tr>
+          
+          <tr class="highlight-grand"><td>সর্বমোট বিক্রয় মূল্য</td><td><span id="mSellingPrice">০.০০</span> ৳</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="card">
     <div class="card-title">CUTTING LIST</div>
     
     <div class="table-title-18">📌 18.6 FEET BAR CUTTING LIST</div>
-    <table class="report-table">
-      <thead>
-        <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
-      </thead>
-      <tbody id="tableBody18"></tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="report-table">
+        <thead>
+          <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
+        </thead>
+        <tbody id="tableBody18"></tbody>
+      </table>
+    </div>
 
     <div class="table-title-21">📌 21 FEET BAR CUTTING LIST</div>
-    <table class="report-table">
-      <thead>
-        <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
-      </thead>
-      <tbody id="tableBody21"></tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="report-table">
+        <thead>
+          <tr><th>আইটেমের নাম</th><th>বার সাইজ</th><th>মোট দৈর্ঘ্য</th><th>কাটিং ব্রেকডাউন</th></tr>
+        </thead>
+        <tbody id="tableBody21"></tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="card" style="margin-top: 15px;">
+  <div class="card">
       <div class="table-title-18">📌 ACCESSORIES LIST (এক্সেসরিজ তালিকা)</div>
-      <table class="report-table">
-          <thead>
-              <tr>
-                  <th>মালামালের নাম</th>
-                  <th>পরিমাণ</th>
-                  <th>একক</th>
-              </tr>
-          </thead>
-          <tbody id="accessoriesTbody">
-          </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>মালামালের নাম</th>
+                    <th>পরিমাণ</th>
+                    <th>একক</th>
+                </tr>
+            </thead>
+            <tbody id="accessoriesTbody"></tbody>
+        </table>
+      </div>
 
       <button class="btn btn-print" onclick="openPrintModal()">
         <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -389,11 +425,11 @@
     let tr = document.createElement('tr');
     tr.className = 'window-row';
     tr.innerHTML = `
-      <td class="row-index" style="text-align: center; font-weight: bold; font-size: 16px;"></td>
+      <td class="row-index" style="text-align: center; font-weight: bold; font-size: 15px;"></td>
       <td><input type="number" class="w-h height-input" value="${h}" placeholder="উচ্চতা" oninput="calculateAll(false)"></td>
       <td><input type="number" class="w-w width-input" value="${w}" placeholder="পাশ" oninput="calculateAll(false)"></td>
       <td><input type="number" class="w-q qty-input" value="${q}" placeholder="সংখ্যা" oninput="calculateAll(false)"></td>
-      <td style="text-align: center;"><button class="btn-danger" type="button" style="padding: 10px 15px;" onclick="removeRow(this)">X</button></td>
+      <td style="text-align: center;"><button class="btn-danger" type="button" style="padding: 6px 10px;" onclick="removeRow(this)">X</button></td>
     `;
     tbody.appendChild(tr);
     updateIndexes();
@@ -639,7 +675,7 @@
           let tr = document.createElement('tr');
           tr.innerHTML = `
             <td><strong>${itemName}</strong></td>
-            <td><span style="color:#1e40af; font-weight:bold;">১৮.৬ ফিট বার</span></td>
+            <td><span style="color:#1e40af; font-weight:bold;">১৮.৬ ফিট</span></td>
             <td>${toBnNum(res18.totalLen.toFixed(2))} ফিট</td>
             <td>${res18.detailsHTML}</td>
           `;
@@ -655,7 +691,7 @@
           let tr = document.createElement('tr');
           tr.innerHTML = `
             <td><strong>${itemName}</strong></td>
-            <td><span style="color:#0369a1; font-weight:bold;">২১ ফিট বার</span></td>
+            <td><span style="color:#0369a1; font-weight:bold;">২১ ফিট</span></td>
             <td>${toBnNum(res21.totalLen.toFixed(2))} ফিট</td>
             <td>${res21.detailsHTML}</td>
           `;
@@ -786,8 +822,7 @@
 
         let locks = totalWinQty * 2; let wheels = totalWinQty * 4; let cordScrews = totalWinQty * 8; let screws15 = totalScrews;
         let mohair = (totalPerimeterFt * 1.1).toFixed(2); let rubber = (totalPerimeterFt * 1.1).toFixed(2); let silicone = Math.max(1, Math.ceil(totalSiliconeEstimate));
-      let royalPlugPieces = Math.ceil(totalScrews * 0.8); let royalPlugPackets = Math.ceil(royalPlugPieces / 50);
-
+        let royalPlugPieces = Math.ceil(totalScrews * 0.8); let royalPlugPackets = Math.ceil(royalPlugPieces / 50);
 
         let rowsHTML = `
             <tr><td>লক (Lock)</td><td><b>${toBnNum(locks)}</b></td><td>পিস</td></tr>
@@ -795,7 +830,7 @@
             <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${toBnNum(cordScrews)}</b></td><td>পিস</td></tr>
             <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${toBnNum(screws15)}</b></td><td>পিস</td></tr>
             <tr><td>রয়াল প্লাগ (Royal Plug)</td><td><b>${toBnNum(royalPlugPackets)}</b></td><td>প্যাকেট</td></tr>
-          <tr><td>মহিয়ার (Mohair)</td><td><b>${toBnNum(mohair)}</b></td><td>ফিট</td></tr>
+            <tr><td>মহিয়ার (Mohair)</td><td><b>${toBnNum(mohair)}</b></td><td>ফিট</td></tr>
             <tr><td id="rubberLabelTd">${rubberLabel}</td><td><b>${toBnNum(rubber)}</b></td><td>ফিট</td></tr>
             <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${toBnNum(silicone)}</b></td><td>টিউব</td></tr>
         `;
@@ -914,7 +949,6 @@
       <div style="border: 2px solid #1e3a8a; border-radius: 6px; padding: 12px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; width: 100%; box-sizing: border-box;">
         
         <div style="text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 10px; position: relative;">
-          <!-- Date Absolute positioned so it does not overlap -->
           <div style="position: absolute; top: 0px; right: 0px; font-size: 9.5pt; font-weight: bold; color: #1e3a8a; margin-bottom: 2px;">তারিখ: ${printDate}</div>
           <h2 style="color: #1e3a8a; font-size: 18pt; font-weight: 900; margin: 0; padding-top: 15px; text-transform: uppercase; word-break: break-word; line-height: 1.2;">${shopName}</h2>
           <div style="background-color: #1e3a8a; color: white; display: inline-block; padding: 4px 14px; border-radius: 12px; margin-top: 6px; font-weight: bold; font-size: 10pt;">
@@ -996,7 +1030,6 @@
               @page { size: A4 portrait; margin: 10mm; }
               html, body { 
                 width: 100%;
-                /* Height auto allows the page to be as long as needed without cutting off */
                 height: auto !important; 
                 min-height: 100%;
                 margin: 0 !important; 
@@ -1007,7 +1040,6 @@
                 print-color-adjust: exact !important; 
                 overflow: visible !important;
               }
-              /* Prevents splitting of table rows and keeps everything intact */
               table { page-break-inside: auto; width: 100%; border-collapse: collapse; }
               tr { page-break-inside: avoid; page-break-after: auto; }
               thead { display: table-header-group; }

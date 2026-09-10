@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>প্রোফাইল ডিসকাউন্ট ক্যালকুলেটর - Aluminium ERP BD</title>
     <style>
         :root {
@@ -16,7 +16,10 @@
             --header-bg: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
         }
 
-        *, *::before, *::after { box-sizing: border-box; }
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
         
         html, body {
             margin: 0;
@@ -24,16 +27,23 @@
             background-color: var(--bg-color);
             color: var(--text);
             font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+            min-height: 100vh;
         }
         
         body {
             padding: 12px;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
         }
 
-        .main-container { width: 100%; max-width: 1000px; }
+        .main-container { 
+            width: 100%; 
+            max-width: 1000px; 
+            margin: 0 auto;
+        }
 
+        /* HEADER SECTION */
         .header-card {
             background: var(--header-bg);
             padding: 16px;
@@ -48,17 +58,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
             margin-bottom: 12px;
             border-bottom: 1px solid rgba(255,255,255,0.2);
             padding-bottom: 10px;
+            flex-wrap: wrap;
         }
 
         .history-menu-btn {
             background: rgba(255,255,255,0.25);
             border: 1px solid rgba(255,255,255,0.4);
             color: white;
-            padding: 6px 14px;
-            border-radius: 6px;
+            min-width: 42px;
+            height: 42px;
+            padding: 0 10px;
+            border-radius: 8px;
             font-size: 20px;
             cursor: pointer;
             font-weight: bold;
@@ -66,6 +80,7 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
+            flex-shrink: 0;
         }
         .history-menu-btn:hover { background: rgba(255,255,255,0.4); }
 
@@ -73,19 +88,20 @@
             flex: 1;
             text-align: center;
             font-weight: 900;
-            font-size: 17px;
+            font-size: clamp(14px, 3.5vw, 18px);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 0 8px;
+            padding: 0 4px;
         }
 
         .date-display {
-            font-size: 13px;
+            font-size: clamp(11px, 2.8vw, 13px);
             font-weight: 700;
             background: rgba(255,255,255,0.2);
             padding: 6px 10px;
             border-radius: 6px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .shop-details {
@@ -96,20 +112,21 @@
 
         .editable-input {
             width: 100%;
-            height: 40px;
+            height: 42px;
             padding: 6px 12px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             background: rgba(255,255,255,0.95);
             color: #0f172a;
-            font-size: 18px;
+            font-size: clamp(15px, 4vw, 18px);
             font-weight: 900;
             text-align: center;
             outline: none;
             transition: all 0.3s ease;
         }
-        #shopPhone { font-size: 15px; font-weight: 800; }
+        #shopPhone { font-size: clamp(13px, 3.2vw, 15px); font-weight: 800; }
 
+        /* CARDS & SECTIONS */
         .card { 
             background: var(--card-bg); 
             border: 1px solid var(--border); 
@@ -120,7 +137,7 @@
         }
 
         .section-title {
-            font-size: 16px;
+            font-size: clamp(14px, 3.5vw, 16px);
             color: #1e3a8a;
             font-weight: 900;
             margin-bottom: 12px;
@@ -129,48 +146,78 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .size-select {
             background: #e0f2fe;
             color: #0369a1;
             border: 1px solid #7dd3fc;
-            padding: 4px 8px;
+            padding: 6px 10px;
             border-radius: 6px;
             font-weight: 900;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             cursor: pointer;
+            max-width: 100%;
         }
 
         .header-section { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 15px; 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
             align-items: center; 
-            justify-content: space-between; 
         }
-        .header-section div { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px; }
-        .header-section label { font-weight: 700; font-size: 13px; color: #334155; }
-        .header-section select, .header-section input { 
+        
+        .header-section div { 
+            display: flex; 
+            flex-direction: column;
+            gap: 4px; 
             width: 100%;
-            padding: 8px 12px; 
-            border: 1.5px solid var(--border); 
-            border-radius: 6px; 
-            font-weight: bold; 
-            color: var(--text);
-            outline: none;
         }
 
-        .table-responsive { overflow-x: auto; margin-bottom: 15px; width: 100%; }
+        @media (min-width: 600px) {
+            .header-section div {
+                flex-direction: row;
+                align-items: center;
+            }
+            .header-section label { min-width: 90px; }
+        }
+
+        .header-section label { font-weight: 800; font-size: 13px; color: #334155; }
+        .header-section select, .header-section input { 
+            width: 100%;
+            height: 42px;
+            padding: 6px 10px; 
+            border: 1.5px solid var(--border); 
+            border-radius: 8px; 
+            font-weight: 800; 
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+            background: #ffffff;
+        }
+
+        /* TABLES */
+        .table-responsive { 
+            overflow-x: auto; 
+            margin-bottom: 15px; 
+            width: 100%; 
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
         table { width: 100%; border-collapse: collapse; background: #fff; }
         table, th, td { border: 1px solid var(--border); }
-        th, td { padding: 8px 10px; text-align: left; font-size: 13px; }
+        th, td { padding: 10px 8px; text-align: left; font-size: 13px; }
         th { background: #1e3a8a; color: white; white-space: nowrap; font-weight: 800; }
         
         td select {
             width: 100%;
-            padding: 8px;
+            min-height: 38px;
+            padding: 6px;
             border: 1px solid var(--border);
             border-radius: 6px;
             font-weight: 700;
@@ -178,50 +225,132 @@
             color: #1e3a8a;
             outline: none;
             cursor: pointer;
+            font-size: 13px;
         }
-        td input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-weight: 700; outline: none; }
+        
+        td input { 
+            width: 100%; 
+            min-height: 38px; 
+            padding: 6px; 
+            border: 1px solid var(--border); 
+            border-radius: 6px; 
+            font-weight: 700; 
+            outline: none; 
+            font-size: 14px;
+        }
+
         .category-header { background: #e2e8f0; color: #1e3a8a; font-weight: 900; text-align: center; }
 
-        .window-box { border: 1px solid var(--border); padding: 14px; margin-bottom: 12px; border-radius: 8px; background: #f8fafc; }
+        /* ITEM BOXES */
+        .window-box { 
+            border: 1px solid var(--border); 
+            padding: 12px; 
+            margin-bottom: 12px; 
+            border-radius: 10px; 
+            background: #f8fafc; 
+        }
         
         .window-header { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             font-weight: 900; 
-            font-size: 15px; 
+            font-size: 14px; 
             margin-bottom: 10px; 
             color: #2563eb; 
             border-bottom: 1px solid #e2e8f0; 
-            padding-bottom: 5px; 
+            padding-bottom: 6px; 
+            gap: 10px;
         }
 
         .btn-remove-win {
             background: #ef4444;
             color: white;
             border: none;
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 800;
             cursor: pointer;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
         .btn-remove-win:hover { background: #dc2626; }
 
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); 
+            gap: 10px; 
+        }
+        
         .input-group { display: flex; flex-direction: column; }
         .input-group label { font-size: 11px; font-weight: 800; margin-bottom: 4px; color: #475569; }
-        .input-group input { padding: 8px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 14px; font-weight: 700; outline: none; }
+        .input-group input { 
+            height: 40px; 
+            padding: 6px 8px; 
+            border: 1.5px solid var(--border); 
+            border-radius: 6px; 
+            font-size: 14px; 
+            font-weight: 800; 
+            outline: none; 
+            width: 100%;
+        }
 
-        .btn-add { background: #059669; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 900; width: 100%; margin-bottom: 10px; font-size: 14px; }
-        .btn-calc { background: var(--accent); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 900; width: 100%; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+        /* BUTTONS */
+        .btn-add { 
+            background: #059669; 
+            color: white; 
+            border: none; 
+            min-height: 48px; 
+            padding: 10px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 900; 
+            width: 100%; 
+            margin-bottom: 10px; 
+            font-size: 14px; 
+            transition: 0.2s;
+        }
+        .btn-add:hover { background: #047857; }
+
+        .btn-calc { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            min-height: 52px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: 900; 
+            width: 100%; 
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); 
+            transition: 0.2s;
+        }
+        .btn-calc:hover { background: var(--accent-hover); }
+
+        /* RESULTS */
+        .result-box { 
+            margin-top: 20px; 
+            padding: 16px; 
+            background: #fff; 
+            border: 2px solid #2563eb; 
+            border-radius: 10px; 
+        }
         
-        .result-box { margin-top: 20px; padding: 16px; background: #fff; border: 2px solid #2563eb; border-radius: 10px; }
         .breakdown-table th { background: #2563eb; }
-        .grand-total-box { margin-top: 15px; background: #eff6ff; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #bfdbfe; }
-        .grand-total-box h3 { margin: 0; color: #1e3a8a; font-size: 19px; font-weight: 900; }
+        
+        .grand-total-box { 
+            margin-top: 15px; 
+            background: #eff6ff; 
+            padding: 15px; 
+            border-radius: 8px; 
+            text-align: center; 
+            border: 1px solid #bfdbfe; 
+        }
+        .grand-total-box h3 { margin: 0; color: #1e3a8a; font-size: clamp(16px, 4vw, 20px); font-weight: 900; }
 
+        /* MODALS */
         .modal-overlay { 
             display: none; 
             position: fixed; 
@@ -235,9 +364,9 @@
         
         .modal-content { 
             background: #f8fafc; 
-            width: 98%; 
-            height: 96vh; 
-            max-width: 900px; 
+            width: 100%; 
+            max-width: 850px; 
+            max-height: 90vh; 
             border-radius: 12px; 
             padding: 0; 
             display: flex; 
@@ -246,51 +375,96 @@
             overflow: hidden;
         }
         
-        .menu-small { height: auto; max-height: 70vh; }
+        .menu-small { max-width: 400px; height: auto; }
 
         .modal-header { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             background: var(--header-bg); 
-            padding: 18px 20px; 
+            padding: 14px 16px; 
         }
         
-        .modal-header h3 { color: #ffffff; font-size: 20px; font-weight: 900; margin: 0; }
+        .modal-header h3 { color: #ffffff; font-size: clamp(16px, 4vw, 20px); font-weight: 900; margin: 0; }
         
         .close-btn { 
             background: rgba(255,255,255,0.2); 
             border: 1px solid rgba(255,255,255,0.4); 
             border-radius: 8px;
-            font-size: 22px; 
+            font-size: 20px; 
             font-weight: bold; 
             color: #ffffff; 
             cursor: pointer; 
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
-        .modal-body { overflow-y: auto; display: flex; flex-direction: column; gap: 15px; flex: 1; padding: 20px; }
+        .modal-body { 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            flex: 1; 
+            padding: 15px; 
+            -webkit-overflow-scrolling: touch;
+        }
         
         .menu-btn { 
             background: #eff6ff; color: #1e3a8a; border: 2px solid #3b82f6; 
-            padding: 22px; border-radius: 12px; font-size: 20px; font-weight: 900; 
+            padding: 16px; border-radius: 10px; font-size: 16px; font-weight: 900; 
             cursor: pointer; text-align: center; display: flex; align-items: center; 
-            justify-content: center; gap: 12px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+            justify-content: center; gap: 10px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
         }
         .menu-btn:hover { background: #dbeafe; }
 
-        .history-card { background: #ffffff; border: 1px solid #bfdbfe; padding: 18px; border-radius: 10px; font-size: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-        .btn-danger { background: #dc2626; color: white; border: none; padding: 16px; border-radius: 8px; font-weight: 900; font-size:16px; cursor: pointer; margin: 15px 20px; width: calc(100% - 40px); }
+        .history-card { 
+            background: #ffffff; 
+            border: 1px solid #bfdbfe; 
+            padding: 14px; 
+            border-radius: 10px; 
+            font-size: 14px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+        }
+        
+        .btn-danger { 
+            background: #dc2626; color: white; border: none; min-height: 48px; padding: 12px; 
+            border-radius: 8px; font-weight: 900; font-size:15px; cursor: pointer; 
+            margin: 10px 15px 15px; width: calc(100% - 30px); 
+        }
 
-        .rate-section-header { background: #1e3a8a; color: white; padding: 12px 15px; font-size: 16px; font-weight: 900; margin-top: 15px; border-radius: 8px; box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2); }
-        .rate-setting-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding: 12px 5px; }
-        .rate-setting-item span { font-size: 15px; font-weight: 800; color: #1e293b; flex: 1; }
-        .rate-setting-item input { width: 130px; padding: 12px; border: 2px solid #94a3b8; border-radius: 8px; font-weight: 900; font-size: 16px; text-align: center; color: #0f172a; }
-        .btn-save-rates { background: #059669; color: white; border: none; padding: 16px; border-radius: 8px; font-size:18px; cursor: pointer; font-weight: 900; margin: 15px 20px; width: calc(100% - 40px); box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3); }
+        .rate-section-header { 
+            background: #1e3a8a; color: white; padding: 10px 12px; font-size: 14px; 
+            font-weight: 900; margin-top: 10px; border-radius: 6px; 
+        }
+        
+        .rate-setting-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 1px solid #e2e8f0; padding: 8px 0; gap: 10px;
+        }
+        .rate-setting-item span { font-size: 13px; font-weight: 800; color: #1e293b; flex: 1; }
+        .rate-setting-item input { 
+            width: 100px; height: 40px; padding: 6px; border: 1.5px solid #94a3b8; 
+            border-radius: 6px; font-weight: 900; font-size: 15px; text-align: center; color: #0f172a; 
+        }
+        
+        .btn-save-rates { 
+            background: #059669; color: white; border: none; min-height: 50px; padding: 12px; 
+            border-radius: 8px; font-size:16px; cursor: pointer; font-weight: 900; 
+            margin: 10px 15px 15px; width: calc(100% - 30px); box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3); 
+        }
+
+        /* SCREEN RESPONSIVE QUERY ADJUSTMENTS */
+        @media (max-width: 480px) {
+            body { padding: 8px; }
+            .card { padding: 12px; }
+            .section-title { flex-direction: column; align-items: flex-start; }
+            .size-select { width: 100%; }
+            th, td { padding: 8px 6px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -370,8 +544,8 @@
             <table>
                 <thead>
                     <tr>
-                        <th>সেকশনের নাম (ড্রপডাউন)</th>
-                        <th>২১ ফিট বারের দাম (টাকা)</th>
+                        <th style="width: 55%;">সেকশনের নাম (ড্রপডাউন)</th>
+                        <th style="width: 45%;">২১ ফিট বারের দাম (টাকা)</th>
                     </tr>
                 </thead>
                 <tbody id="rateTableBody"></tbody>
@@ -410,7 +584,7 @@
 
         <div class="grand-total-box">
             <h3>সর্বমোট মেটেরিয়াল মূল্য: <span id="resFinalPrice">০</span> টাকা</h3>
-            <div style="margin-top: 8px; color: #1d4ed8; font-size: 15px; font-weight: 800;">প্রতি স্কয়ার ফিটে মূল্য: <span id="resPerSqftRate">০</span> ৳ / SFT</div>
+            <div style="margin-top: 8px; color: #1d4ed8; font-size: 14px; font-weight: 800;">প্রতি স্কয়ার ফিটে মূল্য: <span id="resPerSqftRate">০</span> ৳ / SFT</div>
         </div>
     </div>
 </div>
@@ -720,7 +894,7 @@ function addWindow() {
             </div>
             <div class="grid-container">
                 <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value=""></div>
-                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
+                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
                 <div class="input-group"><label>খাড়া খোপ (Vert):</label><input type="number" class="v_div" placeholder="যেমন: 1" value="1"></div>
                 <div class="input-group"><label>আড়াআড়ি খোপ (Horiz):</label><input type="number" class="h_div" placeholder="যেমন: 1" value="1"></div>
                 <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="1"></div>
@@ -734,7 +908,7 @@ function addWindow() {
             </div>
             <div class="grid-container">
                 <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value=""></div>
-                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
+                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value=""></div>
                 <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="1"></div>
             </div>
         `;
@@ -776,7 +950,7 @@ function updateAllWindowInputs() {
                     </div>
                     <div class="grid-container">
                         <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value="${data.h}"></div>
-                        <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value="${data.l}"></div>
+                        <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value="${data.l}"></div>
                         <div class="input-group"><label>খাড়া খোপ (Vert):</label><input type="number" class="v_div" placeholder="যেমন: 1" value="${data.v}"></div>
                         <div class="input-group"><label>আড়াআড়ি খোপ (Horiz):</label><input type="number" class="h_div" placeholder="যেমন: 1" value="${data.hd}"></div>
                         <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="${data.q}"></div>
@@ -790,7 +964,7 @@ function updateAllWindowInputs() {
                     </div>
                     <div class="grid-container">
                         <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value="${data.h}"></div>
-                        <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value="${data.l}"></div>
+                        <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value="${data.l}"></div>
                         <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="${data.q}"></div>
                     </div>
                 `;
@@ -895,25 +1069,34 @@ function calculateTotal() {
         company: document.getElementById('resCompany').innerText, thickness: document.getElementById('resThickness').innerText,
         totalSqft: totalSqft.toFixed(2), totalCost: Math.round(grandTotalCost), perSqftRate: (totalSqft > 0 ? (grandTotalCost / totalSqft) : 0).toFixed(2)
     });
+
+    setTimeout(() => {
+        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
 }
 
 function openHistoryModal() {
     closeModal('mainMenuModal');
     let history = JSON.parse(localStorage.getItem('erp_profile_calc_history')) || [];
     let container = document.getElementById('historyListContainer');
-    container.innerHTML = history.length === 0 ? `<div style="text-align:center; color:#64748b; padding:20px 0; font-weight:bold; font-size:16px;">কোনো হিস্ট্রি পাওয়া যায়নি</div>` : '';
+    container.innerHTML = history.length === 0 ? `<div style="text-align:center; color:#64748b; padding:20px 0; font-weight:bold; font-size:15px;">কোনো হিস্ট্রি পাওয়া যায়নি</div>` : '';
     history.forEach((item) => {
-        container.innerHTML += `<div class="history-card" style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-weight:900;color:#1e3a8a;font-size:16px;"><span>${item.company} (${item.thickness})</span><span style="font-size:13px;color:#64748b;">${item.date}</span></div><div style="color:#334155;margin-top:6px;font-size:14px;"><b>কাজ:</b> ${item.totalSqft} SFT | <b>হার:</b> ${item.perSqftRate} ৳/SFT</div><div style="font-size:16px;font-weight:900;color:#2563eb;margin-top:6px;">মূল্য: ${item.totalCost.toLocaleString('bn-BD')} টাকা</div></div>`;
+        container.innerHTML += `<div class="history-card" style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-weight:900;color:#1e3a8a;font-size:15px;"><span>${item.company} (${item.thickness})</span><span style="font-size:12px;color:#64748b;">${item.date}</span></div><div style="color:#334155;margin-top:6px;font-size:13px;"><b>কাজ:</b> ${item.totalSqft} SFT | <b>হার:</b> ${item.perSqftRate} ৳/SFT</div><div style="font-size:15px;font-weight:900;color:#2563eb;margin-top:6px;">মূল্য: ${item.totalCost.toLocaleString('bn-BD')} টাকা</div></div>`;
     });
     document.getElementById('historyModal').style.display = 'flex';
 }
+
 function saveToHistory(record) {
     let history = JSON.parse(localStorage.getItem('erp_profile_calc_history')) || [];
     history.unshift(record);
     localStorage.setItem('erp_profile_calc_history', JSON.stringify(history));
 }
+
 function clearAllHistory() {
-    if(confirm("সব হিস্ট্রি মুছে ফেলতে চান?")) { localStorage.removeItem('erp_profile_calc_history'); openHistoryModal(); }
+    if(confirm("সব হিস্ট্রি মুছে ফেলতে চান?")) { 
+        localStorage.removeItem('erp_profile_calc_history'); 
+        openHistoryModal(); 
+    }
 }
 </script>
 

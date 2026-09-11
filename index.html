@@ -30,7 +30,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh; /* Changed to 100vh for full screen coverage on PC */
+            height: 100vh;
             z-index: 0;
             overflow: hidden;
             pointer-events: none;
@@ -137,7 +137,6 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* ⏳ স্প্ল্যাশ লোডিং বার */
         .splash-loader-container {
             width: 180px;
             height: 4px;
@@ -161,16 +160,14 @@
             100% { width: 100%; }
         }
 
-        /* 📱💻 Responsive Dashboard Container */
         .dashboard-container {
             width: 100%;
-            max-width: 1200px; /* PC & Laptop support */
+            max-width: 1200px;
             position: relative;
             z-index: 1;
             padding-bottom: 30px;
         }
 
-        /* Header Layout */
         .header {
             display: flex;
             align-items: center;
@@ -215,7 +212,6 @@
             width: 100%; height: 100%; object-fit: cover;
         }
 
-        /* User Card (Responsive Flexbox) */
         .user-card {
             background: #111827;
             border: 1px solid #1e293b;
@@ -280,13 +276,13 @@
             color: #ffffff;
         }
 
-        /* Dashboard Grid Menu (Responsive Auto-Fit Grid) */
         .grid-menu {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Mobile default: 2 columns */
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
         }
 
+        /* 🌟 গ্লোয়িং ইফেক্ট ডিজাইন */
         .menu-card {
             background: #111827;
             border: 1px solid #1e293b;
@@ -295,22 +291,29 @@
             text-align: center;
             text-decoration: none;
             color: #ffffff;
-            transition: transform 0.2s, border-color 0.2s, background 0.2s; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: relative;
         }
 
-        .menu-card:hover {
+        .menu-card:hover, 
+        .menu-card:focus, 
+        .menu-card.active {
             background: #1e293b;
-            border-color: #3b82f6;
-            transform: translateY(-3px);
+            border-color: #60a5fa;
+            transform: translateY(-4px);
+            box-shadow: 0 0 18px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.2);
+            outline: none;
         }
 
         .menu-card:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
+            border-color: #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.7);
         }
 
         .menu-icon { 
@@ -319,17 +322,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.3s;
         }
+
+        .menu-card:hover .menu-icon {
+            transform: scale(1.1);
+        }
+
         .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
 
-        /* Media Queries for Cross-Device Support */
         @media (min-width: 576px) {
-            /* Large Phones / Small Tablets */
             .grid-menu { grid-template-columns: repeat(3, 1fr); }
         }
         
         @media (min-width: 768px) {
-            /* Tablets (iPad) */
             .grid-menu { grid-template-columns: repeat(4, 1fr); gap: 20px;}
             .user-card { padding: 25px; }
             .avatar-container { width: 75px; height: 75px; }
@@ -337,14 +343,12 @@
         }
 
         @media (min-width: 1024px) {
-            /* Laptops & PC Desktop */
             .grid-menu { grid-template-columns: repeat(5, 1fr); gap: 24px; }
             .menu-card { padding: 30px 15px; }
             .menu-icon { font-size: 40px; }
             .menu-title { font-size: 16px; }
         }
 
-        /* Overlays & Modals */
         .lock-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -362,7 +366,7 @@
             padding: 30px 25px;
             border-radius: 16px;
             width: 100%;
-            max-width: 400px; /* Slightly wider for PC/Tab */
+            max-width: 400px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
@@ -445,7 +449,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Sidebar Overlay */
         .sidebar-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7);
@@ -480,7 +483,6 @@
 </head>
 <body>
 
-    <!-- 🌌 গ্যালাক্সি ব্যাকগ্রাউন্ড -->
     <div id="galaxy-bg">
         <div class="shooting-star" style="top: -5%; left: 70%; animation-delay: 0s; animation-duration: 4s;"></div>
         <div class="shooting-star" style="top: 10%; left: 95%; animation-delay: 1.5s; animation-duration: 5s;"></div>
@@ -489,7 +491,6 @@
         <div class="shooting-star" style="top: 5%; left: 80%; animation-delay: 0.8s; animation-duration: 6s;"></div>
     </div>
 
-    <!-- 🌟 স্প্ল্যাশ স্ক্রিন -->
     <div id="splash-screen">
         <div class="splash-profile-box">
             <div class="alu-window-icon"></div>
@@ -501,7 +502,6 @@
         </div>
     </div>
 
-    <!-- 🔒 লকিং স্ক্রিন -->
     <div class="lock-overlay" id="lockScreen" style="display: none;">
         <div class="lock-box">
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
@@ -515,7 +515,6 @@
         </div>
     </div>
 
-    <!-- ⚙️ মাই প্রোফাইল সেটিংস মোডাল -->
     <div class="lock-overlay" id="profileSettingsModal" style="display: none; z-index: 10000;">
         <div class="lock-box" style="text-align: left;">
             <h3 style="color: #fff; margin-bottom: 20px; text-align: center; font-size: 20px;">⚙️ Profile Settings</h3>
@@ -545,7 +544,6 @@
         </div>
     </div>
 
-    <!-- 🏠 মূল ড্যাশবোর্ড -->
     <div class="dashboard-container">
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
@@ -568,8 +566,7 @@
             </div>
         </div>
 
-        <!-- 🔗 মেনু লিংকসমূহ (Responsive Grid) -->
-        <div class="grid-menu">
+        <div class="grid-menu" id="mainGridMenu">
             <a href="curtain-wall.html" class="menu-card">
                 <div class="menu-icon">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -600,11 +597,11 @@
                 <div class="menu-title">স্লাইডিং ক্যালকুলেটার</div>
             </a>
             
-            
             <a href="cachman.html" class="menu-card">
-                <div class="menu-icon">🖼️</div>
+                <div class="menu-icon">🪟</div>
                 <div class="menu-title">ক্যাসম্যান ক্যালকুলেটার</div>
             </a>
+
             <a href="ceiling-calculator.html" class="menu-card">
                 <div class="menu-icon">🛖</div>
                 <div class="menu-title">সিলিং ক্যালকুলেটার</div>
@@ -647,12 +644,14 @@
             
             <a href="Lowver.html" class="menu-card">
                 <div class="menu-icon">🪜</div>
-                <div class="menu-title"> জেড লুভার ক্যালকুলেটার</div>
+                <div class="menu-title">জেড লুভার ক্যালকুলেটার</div>
             </a>
+
             <a href="Lowver.html" class="menu-card">
-                <div class="menu-icon">🪜</div>
+                <div class="menu-icon">🔳</div>
                 <div class="menu-title">বক্স লুভার ক্যালকুলেটার</div>
             </a>
+
             <a href="kormochari.html" class="menu-card">
                 <div class="menu-icon">👨‍🔧</div>
                 <div class="menu-title">কর্মচারী হিসাব</div>
@@ -660,7 +659,6 @@
         </div>
     </div>
                 
-    <!-- সাইডবার -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content" id="sidebarContent">
             <div class="sidebar-header">
@@ -711,6 +709,7 @@
             }, 1500); 
 
             loadUserData();
+            initCardSelection();
 
             if (localStorage.getItem("app_permanently_unlocked") === "true") {
                 document.getElementById("lockScreen").style.display = "none";
@@ -737,6 +736,17 @@
                 document.getElementById("whatsappLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMessage;
             }
         });
+
+        // 🌟 কার্ড সিলেক্টেড/একটিভ গ্লোয়িং কন্ট্রোল
+        function initCardSelection() {
+            const cards = document.querySelectorAll('.menu-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    cards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
 
         function loadUserData() {
             const savedName = localStorage.getItem("app_user_fullname");

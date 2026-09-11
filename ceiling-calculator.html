@@ -23,9 +23,11 @@
             overflow-x: hidden;
         }
 
+        /* কন্টেইনার ডেক্সটপের জন্য বড় করা হয়েছে */
         .container {
             width: 100%;
-            max-width: 600px; /* Tablet & PC view friendly */
+            max-width: 1200px; 
+            margin: 0 auto;
         }
 
         /* হেডার সেকশন */
@@ -67,14 +69,20 @@
         }
 
         .header-titles h1 {
-            font-size: clamp(18px, 5vw, 22px);
+            font-size: clamp(18px, 4vw, 26px);
             font-weight: 800;
         }
 
         .header-titles p {
-            font-size: 12px;
+            font-size: clamp(12px, 2vw, 14px);
             font-weight: 600;
             opacity: 0.9;
+        }
+
+        .header-inputs-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .header-input {
@@ -84,12 +92,39 @@
             border: none;
             border-radius: 10px;
             padding: 12px;
-            font-size: 16px; /* Prevents iOS auto-zoom */
+            font-size: 16px;
             font-weight: bold;
             text-align: center;
-            margin-top: 10px;
             outline: none;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* -------------------------------------
+           Responsive Grid Layout (ডেক্সটপ/মোবাইল) 
+           ------------------------------------- */
+        .main-layout {
+            display: flex;
+            flex-direction: column; /* মোবাইলের জন্য ডিফল্ট */
+            gap: 20px;
+        }
+
+        /* ল্যাপটপ, ডেক্সটপ এবং আইপ্যাডের জন্য Two-column Layout */
+        @media (min-width: 800px) {
+            .header-inputs-wrapper {
+                flex-direction: row; /* ডেক্সটপে ইনপুট পাশাপাশি থাকবে */
+            }
+            .main-layout {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            .left-panel {
+                flex: 1;
+                position: sticky; /* ডেক্সটপে স্ক্রল করার সময় আটকে থাকবে */
+                top: 20px;
+            }
+            .right-panel {
+                flex: 1.2; /* ডান পাশের কলাম একটু বড় রাখা হয়েছে */
+            }
         }
 
         /* কার্ড লেআউট */
@@ -97,7 +132,6 @@
             background: #ffffff;
             border-radius: 16px;
             padding: clamp(15px, 4vw, 25px);
-            margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
         }
@@ -124,7 +158,6 @@
             padding: 12px;
             border-radius: 10px;
             border: 1px solid #e2e8f0;
-            position: relative;
         }
 
         .input-group {
@@ -146,7 +179,7 @@
             background: #ffffff;
             border: 1.5px solid #cbd5e1;
             border-radius: 8px;
-            font-size: 16px; /* Prevents iOS zoom */
+            font-size: 16px;
             font-weight: bold;
             outline: none;
             transition: border 0.2s;
@@ -206,7 +239,7 @@
             background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 16px;
-            padding: clamp(15px, 4vw, 20px);
+            padding: clamp(15px, 4vw, 25px);
             margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
@@ -226,27 +259,27 @@
             justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid #f1f5f9;
-            font-size: 14px;
+            font-size: 15px;
         }
         .result-item:last-child { border-bottom: none; }
 
         .result-label { font-weight: bold; color: #475569; }
-        .result-val { font-weight: bold; color: #1e3a8a; font-size: 15px;}
+        .result-val { font-weight: bold; color: #1e3a8a; font-size: 16px;}
 
         /* Costing Section */
         .cost-row {
             background: #f8fafc;
-            padding: 12px;
+            padding: 15px;
             border-radius: 10px;
             margin-bottom: 10px;
-            border: 1px solid #f1f5f9;
+            border: 1px solid #e2e8f0;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
         }
 
         .cost-row label {
-            font-size: 13px;
+            font-size: 14px;
             color: #1e293b;
             font-weight: bold;
             width: 100%;
@@ -260,73 +293,75 @@
 
         .input-wrapper input {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             background: #ffffff;
             border: 1.5px solid #cbd5e1;
             border-radius: 8px;
-            font-size: 15px; /* iOS safe */
+            font-size: 16px;
             font-weight: bold;
             text-align: center;
-            min-width: 0; /* Prevents overflow */
+            min-width: 0;
         }
 
         .subtotal-text { 
             width: 100%; 
-            font-size: 14px; 
+            font-size: 15px; 
             color: #16a34a; 
             font-weight: bold; 
             text-align: right; 
-            margin-top: 4px;
+            margin-top: 5px;
         }
 
         .extra-charge-row {
             display: flex; 
             justify-content: space-between; 
             align-items: center;
-            margin-top: 10px; 
-            padding-top: 10px; 
+            margin-top: 15px; 
+            padding-top: 15px; 
             border-top: 1px dashed #cbd5e1;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
         .extra-charge-row label {
-            font-size: 13px; font-weight: bold; color: #334155; flex-grow: 1;
+            font-size: 14px; font-weight: bold; color: #334155; flex-grow: 1;
         }
         .extra-charge-row input { 
-            width: 100px; 
-            padding: 10px;
+            width: 120px; 
+            padding: 12px;
             border: 1.5px solid #cbd5e1;
             border-radius: 8px;
-            font-size: 15px; /* iOS safe */
+            font-size: 16px;
             text-align: center;
             font-weight: bold;
         }
 
         .grand-total-card {
-            margin-top: 16px; 
-            padding: 15px; 
+            margin-top: 20px; 
+            padding: 20px; 
             background: #f0fdf4; 
             border: 2px solid #16a34a; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center;
             flex-wrap: wrap; 
-            gap: 8px;
+            gap: 10px;
         }
-        .grand-total-label { font-size: 15px; font-weight: bold; color: #14532d; }
-        .grand-total-val { font-size: 20px; font-weight: 900; color: #15803d; }
+        .grand-total-label { font-size: 16px; font-weight: bold; color: #14532d; }
+        .grand-total-val { font-size: 24px; font-weight: 900; color: #15803d; }
 
         .pdf-print-btn {
-            width: 100%; padding: 15px; background: #2563eb; color: #ffffff; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            width: 100%; padding: 15px; background: #2563eb; color: #ffffff; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); transition: 0.2s;
         }
+        .pdf-print-btn:hover { background: #1d4ed8; }
 
         /* মোডাল ডিজাইন */
         .modal {
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; backdrop-filter: blur(4px);
         }
         .modal-content {
-            background: white; width: 100%; max-width: 500px; border-radius: 16px; padding: 20px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            background: white; width: 100%; max-width: 600px; border-radius: 16px; padding: 20px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
         .modal-header {
             display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 15px;
@@ -335,10 +370,10 @@
 
         /* প্রিভিউ টেবিল */
         .preview-table-wrapper { width: 100%; overflow-x: auto; margin-bottom: 15px; }
-        .preview-table { width: 100%; border-collapse: collapse; min-width: 300px; }
+        .preview-table { width: 100%; border-collapse: collapse; min-width: 400px; }
         .preview-table th { background: #1e3a8a; color: white; padding: 12px 10px; text-align: left; font-size: 14px; white-space: nowrap; }
-        .preview-table td { padding: 10px; border-bottom: 1px solid #cbd5e1; font-size: 14px; font-weight: bold; vertical-align: middle;}
-        .preview-table input { width: 70px; padding: 8px; border: 1.5px solid #94a3b8; border-radius: 6px; font-weight: bold; text-align: center; font-size: 16px; }
+        .preview-table td { padding: 10px; border-bottom: 1px solid #cbd5e1; font-size: 15px; font-weight: bold; vertical-align: middle;}
+        .preview-table input { width: 80px; padding: 10px; border: 1.5px solid #94a3b8; border-radius: 6px; font-weight: bold; text-align: center; font-size: 16px; }
 
         /* স্ক্রিন হাইড করার জন্য */
         #printTemplate { display: none; }
@@ -380,96 +415,107 @@
                     <p>CEILING MATERIAL CALCULATOR</p>
                 </div>
             </div>
-            <input type="text" id="shopNameInput" class="header-input" value="RM THAI ALUMINIUM" oninput="saveHeaderDetails()">
-            <input type="text" id="shopMobileInput" class="header-input" value="01676-474412" oninput="saveHeaderDetails()">
+            <div class="header-inputs-wrapper">
+                <input type="text" id="shopNameInput" class="header-input" value="RM THAI ALUMINIUM" oninput="saveHeaderDetails()">
+                <input type="text" id="shopMobileInput" class="header-input" value="01676-474412" oninput="saveHeaderDetails()">
+            </div>
         </div>
 
-        <!-- পরিমাপ ইনপুট (Dynamic Multiple Rooms) -->
-        <div class="card">
-            <div class="card-header-title">
-                <span>🛖 সিলিং এর মাপ প্রদান করুন</span>
-            </div>
+        <!-- মেইন লেআউট (Responsive Grid) -->
+        <div class="main-layout">
             
-            <div id="roomsContainer">
-                <div class="room-row">
-                    <div class="input-group">
-                        <label>দৈর্ঘ্য (ফিট)</label>
-                        <input type="number" class="r-length" placeholder="যেমন: ২৫" step="any">
+            <!-- বাম প্যানেল (ইনপুট) -->
+            <div class="left-panel">
+                <div class="card">
+                    <div class="card-header-title">
+                        <span>🛖 সিলিং এর মাপ প্রদান করুন</span>
                     </div>
-                    <div class="input-group">
-                        <label>প্রস্থ (ফিট)</label>
-                        <input type="number" class="r-width" placeholder="যেমন: ১৪" step="any">
+                    
+                    <div id="roomsContainer">
+                        <div class="room-row">
+                            <div class="input-group">
+                                <label>দৈর্ঘ্য (ফিট)</label>
+                                <input type="number" class="r-length" placeholder="যেমন: ২৫" step="any">
+                            </div>
+                            <div class="input-group">
+                                <label>প্রস্থ (ফিট)</label>
+                                <input type="number" class="r-width" placeholder="যেমন: ১৪" step="any">
+                            </div>
+                            <button class="remove-btn" style="visibility: hidden;">❌</button>
+                        </div>
                     </div>
-                    <!-- প্রথম বক্সে ডিলিট বাটন লুকানো থাকবে -->
-                    <button class="remove-btn" style="visibility: hidden;">❌</button>
+                    
+                    <button class="add-room-btn" onclick="addRoom()">➕ আরও রুম যোগ করুন</button>
+                    <button class="btn-calc" id="calcBtn">মালামালের হিসাব করুন</button>
                 </div>
             </div>
-            
-            <button class="add-room-btn" onclick="addRoom()">➕ আরও রুম যোগ করুন</button>
-            <button class="btn-calc" id="calcBtn">মালামালের হিসাব করুন</button>
-        </div>
 
-        <!-- মালামালের তালিকা -->
-        <div class="result-box" id="resultBox">
-            <div class="result-title">📊 প্রয়োজনীয় মালামালের তালিকা</div>
-            <div class="result-item"><span class="result-label">মোট ক্ষেত্রফল:</span><span class="result-val" id="totalArea">০ বর্গফুট</span></div>
-            <div class="result-item"><span class="result-label">ওয়াল এঙ্গেল (১০ ফিট):</span><span class="result-val" id="wallAngleText">০ টি</span></div>
-            <div class="result-item"><span class="result-label">মেইন টি (১২ ফিট):</span><span class="result-val" id="mainTeeText">০ টি</span></div>
-            <div class="result-item"><span class="result-label">ক্রস টি (২ ফিট):</span><span class="result-val" id="crossTeeText">০ টি</span></div>
-            <div class="result-item"><span class="result-label">সিলিং বোর্ড (২' × ২'):</span><span class="result-val" id="ceilingBoardText">০ টি</span></div>
-        </div>
-
-        <!-- কস্টিং ও মূল্য হিসাব -->
-        <div class="costing-box" id="costingBox">
-            <div class="result-title">💰 দর ও খরচের হিসাব (প্রিন্টে যাবে না)</div>
-            
-            <div class="cost-row">
-                <label>১. ওয়াল এঙ্গেল (১০ ফিট)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="wallAngleQty" placeholder="পরিমাণ">
-                    <input type="number" id="wallAnglePrice" placeholder="দর (৳)">
+            <!-- ডান প্যানেল (রেজাল্ট ও কস্টিং) -->
+            <div class="right-panel">
+                <!-- মালামালের তালিকা -->
+                <div class="result-box" id="resultBox">
+                    <div class="result-title">📊 প্রয়োজনীয় মালামালের তালিকা</div>
+                    <div class="result-item"><span class="result-label">মোট ক্ষেত্রফল:</span><span class="result-val" id="totalArea">০ বর্গফুট</span></div>
+                    <div class="result-item"><span class="result-label">ওয়াল এঙ্গেল (১০ ফিট):</span><span class="result-val" id="wallAngleText">০ টি</span></div>
+                    <div class="result-item"><span class="result-label">মেইন টি (১২ ফিট):</span><span class="result-val" id="mainTeeText">০ টি</span></div>
+                    <div class="result-item"><span class="result-label">ক্রস টি (২ ফিট):</span><span class="result-val" id="crossTeeText">০ টি</span></div>
+                    <div class="result-item"><span class="result-label">সিলিং বোর্ড (২' × ২'):</span><span class="result-val" id="ceilingBoardText">০ টি</span></div>
                 </div>
-                <div class="subtotal-text" id="wallAngleSubtotal">৳ ০.০০</div>
-            </div>
-            <div class="cost-row">
-                <label>২. মেইন টি (১২ ফিট)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="mainTeeQty" placeholder="পরিমাণ">
-                    <input type="number" id="mainTeePrice" placeholder="দর (৳)">
+
+                <!-- কস্টিং ও মূল্য হিসাব -->
+                <div class="costing-box" id="costingBox">
+                    <div class="result-title">💰 দর ও খরচের হিসাব (প্রিন্টে যাবে না)</div>
+                    
+                    <div class="cost-row">
+                        <label>১. ওয়াল এঙ্গেল (১০ ফিট)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="wallAngleQty" placeholder="পরিমাণ">
+                            <input type="number" id="wallAnglePrice" placeholder="দর (৳)">
+                        </div>
+                        <div class="subtotal-text" id="wallAngleSubtotal">৳ ০.০০</div>
+                    </div>
+                    <div class="cost-row">
+                        <label>২. মেইন টি (১২ ফিট)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="mainTeeQty" placeholder="পরিমাণ">
+                            <input type="number" id="mainTeePrice" placeholder="দর (৳)">
+                        </div>
+                        <div class="subtotal-text" id="mainTeeSubtotal">৳ ০.০০</div>
+                    </div>
+                    <div class="cost-row">
+                        <label>৩. ক্রস টি (২ ফিট)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="crossTeeQty" placeholder="পরিমাণ">
+                            <input type="number" id="crossTeePrice" placeholder="দর (৳)">
+                        </div>
+                        <div class="subtotal-text" id="crossTeeSubtotal">৳ ০.০০</div>
+                    </div>
+                    <div class="cost-row">
+                        <label>৪. সিলিং বোর্ড (২' × ২')</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="boardQty" placeholder="পরিমাণ">
+                            <input type="number" id="boardPrice" placeholder="দর (৳)">
+                        </div>
+                        <div class="subtotal-text" id="boardSubtotal">৳ ০.০০</div>
+                    </div>
+
+                    <div class="extra-charge-row">
+                        <label>ক্যারিয়িং চার্জ (৳):</label><input type="number" id="carryingCharge" placeholder="টাকা">
+                    </div>
+                    <div class="extra-charge-row">
+                        <label>ফিটিং চার্জ (পার স্কয়ার ফিট):</label><input type="number" id="fittingChargePerSqft" placeholder="টাকা">
+                    </div>
+
+                    <div class="grand-total-card">
+                        <span class="grand-total-label">সর্বমোট আনুমানিক খরচ:</span>
+                        <span class="grand-total-val" id="grandTotal">৳ ০.০০</span>
+                    </div>
+
+                    <button class="pdf-print-btn" onclick="openPrintPreview()">🖨️ প্রিন্ট প্রিভিউ (Print Preview)</button>
                 </div>
-                <div class="subtotal-text" id="mainTeeSubtotal">৳ ০.০০</div>
-            </div>
-            <div class="cost-row">
-                <label>৩. ক্রস টি (২ ফিট)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="crossTeeQty" placeholder="পরিমাণ">
-                    <input type="number" id="crossTeePrice" placeholder="দর (৳)">
-                </div>
-                <div class="subtotal-text" id="crossTeeSubtotal">৳ ০.০০</div>
-            </div>
-            <div class="cost-row">
-                <label>৪. সিলিং বোর্ড (২' × ২')</label>
-                <div class="input-wrapper">
-                    <input type="number" id="boardQty" placeholder="পরিমাণ">
-                    <input type="number" id="boardPrice" placeholder="দর (৳)">
-                </div>
-                <div class="subtotal-text" id="boardSubtotal">৳ ০.০০</div>
             </div>
 
-            <div class="extra-charge-row">
-                <label>ক্যারিয়িং চার্জ (৳):</label><input type="number" id="carryingCharge" placeholder="টাকা">
-            </div>
-            <div class="extra-charge-row">
-                <label>ফিটিং চার্জ (পার স্কয়ার ফিট):</label><input type="number" id="fittingChargePerSqft" placeholder="টাকা">
-            </div>
-
-            <div class="grand-total-card">
-                <span class="grand-total-label">সর্বমোট আনুমানিক খরচ:</span>
-                <span class="grand-total-val" id="grandTotal">৳ ০.০০</span>
-            </div>
-
-            <button class="pdf-print-btn" onclick="openPrintPreview()">🖨️ প্রিন্ট প্রিভিউ (Print Preview)</button>
-        </div>
+        </div> <!-- End of Main Layout -->
     </div>
 
     <!-- হিস্ট্রি মোডাল -->
@@ -490,7 +536,7 @@
                 <h3 style="color: #1e3a8a;">🔍 প্রিন্ট প্রিভিউ ও এডিট</h3>
                 <button class="close-btn" onclick="closePrintPreview()">X</button>
             </div>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 12px; line-height: 1.4;">ফাইনাল প্রিন্ট করার আগে মালামাল কম-বেশি করতে পারেন। প্রিন্টে কোনো টাকার হিসাব যাবে না।</p>
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 15px; line-height: 1.4;">ফাইনাল প্রিন্ট করার আগে মালামাল কম-বেশি করতে পারেন। প্রিন্টে কোনো টাকার হিসাব যাবে না।</p>
             
             <div class="preview-table-wrapper">
                 <table class="preview-table">
@@ -523,7 +569,7 @@
                 <div>তারিখ: <span id="ptDate"></span></div>
             </div>
 
-            <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 10px; font-size: 16px; font-weight: bold;">প্রয়োজনীয় মালামালের তালিকা</h3>
+            <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 10px; font-size: 18px; font-weight: bold;">প্রয়োজনীয় মালামালের তালিকা</h3>
 
             <table class="print-table">
                 <thead>
@@ -600,14 +646,14 @@
             btn.parentElement.remove();
         }
 
-        // মালামাল হিসাব করার মূল ফাংশন (একাধিক রুমের জন্য আপডেট করা হয়েছে)
+        // মালামাল হিসাব করার ফাংশন
         document.getElementById('calcBtn').addEventListener('click', function() {
             const roomRows = document.querySelectorAll('.room-row');
             
             let totalArea = 0;
             let totalWallAngleCount = 0;
             let totalMainTeeCount = 0;
-            let validRooms = []; // হিস্ট্রিতে সেভ করার জন্য
+            let validRooms = [];
 
             roomRows.forEach(row => {
                 const length = parseFloat(row.querySelector('.r-length').value);
@@ -619,11 +665,9 @@
                     const area = length * width;
                     totalArea += area;
 
-                    // ওয়াল এঙ্গেল হিসাব (প্রতি রুমের পরিসীমা অনুযায়ী)
                     const perimeter = 2 * (length + width);
                     totalWallAngleCount += Math.ceil(perimeter / 10);
 
-                    // মেইন টি হিসাব (প্রতি রুমের জন্য আলাদা)
                     const longSide = Math.max(length, width);
                     const shortSide = Math.min(length, width);
                     const mainTeeRows = Math.floor(shortSide / 2) - 1;
@@ -638,18 +682,15 @@
             }
 
             calculatedTotalSqft = totalArea;
-            // ক্রস টি এবং বোর্ড মোট ক্ষেত্রফলের উপর নির্ভর করে
             const totalCrossTeeCount = Math.ceil(calculatedTotalSqft / 2);
             const totalBoardCount = Math.ceil(calculatedTotalSqft / 4);
 
-            // রেজাল্ট দেখানো
             document.getElementById('totalArea').innerText = toBng(calculatedTotalSqft.toFixed(2)) + ' বর্গফুট';
             document.getElementById('wallAngleText').innerText = toBng(totalWallAngleCount) + ' টি';
             document.getElementById('mainTeeText').innerText = toBng(totalMainTeeCount) + ' টি';
             document.getElementById('crossTeeText').innerText = toBng(totalCrossTeeCount) + ' টি';
             document.getElementById('ceilingBoardText').innerText = toBng(totalBoardCount) + ' টি';
 
-            // কস্টিং বক্সে পরিমাণ বসানো
             document.getElementById('wallAngleQty').value = totalWallAngleCount;
             document.getElementById('mainTeeQty').value = totalMainTeeCount;
             document.getElementById('crossTeeQty').value = totalCrossTeeCount;
@@ -718,7 +759,6 @@
             window.print();
         }
 
-        // হিস্ট্রিতে মাল্টিপল রুম সেভ করার আপডেট লজিক
         function saveToHistory(roomsArray, sqft) {
             let history = JSON.parse(localStorage.getItem('rm_ceiling_history')) || [];
             const dateStr = new Date().toLocaleString('en-GB');
@@ -736,12 +776,12 @@
                 list.innerHTML = history.map(item => `
                     <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:12px; margin-bottom:12px; border-radius:10px; display:flex; justify-content:space-between; align-items: center;">
                         <div style="cursor:pointer; flex-grow: 1;" onclick="reopenHistory(${item.id})">
-                            <div style="font-size:12px; color:#64748b; font-weight:bold;">📅 ${toBng(item.date.split(',')[0])}</div>
-                            <div style="font-size:14px; font-weight:bold; color:#1e3a8a; margin-top:5px;">
+                            <div style="font-size:13px; color:#64748b; font-weight:bold;">📅 ${toBng(item.date.split(',')[0])}</div>
+                            <div style="font-size:15px; font-weight:bold; color:#1e3a8a; margin-top:5px;">
                                 🛖 মোট রুম: ${toBng(item.rooms ? item.rooms.length : 1)} টি | এরিয়া: ${toBng(item.sqft)} sqft
                             </div>
                         </div>
-                        <button style="background:#ef4444; color:#ffffff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:13px; margin-left:10px;" onclick="deleteHistoryItem(${item.id})">ডিলিট</button>
+                        <button style="background:#ef4444; color:#ffffff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:14px; margin-left:10px;" onclick="deleteHistoryItem(${item.id})">ডিলিট</button>
                     </div>
                 `).join('');
             }
@@ -763,9 +803,8 @@
             if (!item || !item.rooms) return;
             
             const container = document.getElementById('roomsContainer');
-            container.innerHTML = ''; // ক্লিয়ার পুরনো বক্স
+            container.innerHTML = ''; 
 
-            // সেভ করা রুম অনুযায়ী ইনপুট বক্স তৈরি
             item.rooms.forEach((room, index) => {
                 const newRow = document.createElement('div');
                 newRow.className = 'room-row';

@@ -3,160 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casement Calculator - ERP BD</title>
+    <title>Casement Calculator</title>
     <style>
+        /* বেসিক রিসেট ও রেসপন্সিভ সেটআপ */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
-        body { background-color: #0b0f19; color: #f3f4f6; padding: 16px; min-height: 100vh; }
+        body { background-color: #f0f2f5; color: #1f2937; min-height: 100vh; padding-bottom: 30px; }
         
-        /* 🌟 প্রফেশনাল হেডার (অন্যান্য পেজের মতো) */
-        .top-header {
-            display: flex; justify-content: space-between; align-items: center; 
-            background: #111827; padding: 15px; border-radius: 12px;
-            border: 1px solid #1e293b; margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        .container { max-width: 800px; margin: 0 auto; padding: 15px; }
+
+        /* 🌟 ছবির মত কাস্টম হেডার ডিজাইন */
+        .app-header {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
         }
-        .header-profile { display: flex; align-items: center; gap: 12px; }
-        .avatar-box { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; overflow: hidden; background: #1e293b; display: flex; justify-content: center; align-items: center; font-size: 20px; }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .user-details h3 { color: #fbbf24; font-size: 16px; margin-bottom: 2px; }
-        .user-details p { color: #9ca3af; font-size: 12px; }
-        .btn-back { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
         
-        .page-title { text-align: center; color: #60a5fa; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            font-size: 24px;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header-titles h1 { color: #ffffff; font-size: 20px; font-weight: bold; letter-spacing: 0.5px; }
+        .header-titles p { color: #e0e7ff; font-size: 11px; font-weight: 600; text-transform: uppercase; margin-top: 4px; }
+
+        .editable-box {
+            width: 100%;
+            background: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 10px;
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        .editable-box:focus { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); }
+        .editable-box:last-child { margin-bottom: 0; }
 
         /* 🧮 ইনপুট কার্ড */
-        .card { background: #111827; border: 1px solid #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
-        .input-row { display: flex; gap: 10px; margin-bottom: 12px; align-items: center; background: #1e293b; padding: 10px; border-radius: 8px; }
-        .input-group { flex: 1; }
-        .input-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 4px; }
-        .input-group input { width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 14px; }
+        .card { background: #ffffff; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        .input-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; flex-wrap: wrap; }
         
-        .btn-remove { background: #ef4444; border: none; color: white; padding: 10px; border-radius: 6px; cursor: pointer; margin-top: 18px; font-weight: bold; }
-        .btn-add { background: #3b82f6; width: 100%; padding: 12px; border: none; color: white; border-radius: 6px; font-weight: bold; margin-bottom: 15px; cursor: pointer; }
-        .btn-calc { background: #10b981; width: 100%; padding: 15px; border: none; color: white; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .input-group { flex: 1; min-width: 80px; }
+        .input-group label { display: block; font-size: 12px; color: #64748b; margin-bottom: 4px; font-weight: bold; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; text-align: center; }
         
+        .btn-remove { background: #ef4444; border: none; color: white; width: 40px; height: 40px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 18px; }
+        
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .btn { padding: 12px; border: none; border-radius: 8px; font-weight: bold; color: white; font-size: 14px; cursor: pointer; text-align: center; }
+        .btn-add { background: #64748b; }
+        .btn-calc { background: #10b981; grid-column: span 2; font-size: 16px; padding: 15px; }
+        .btn-print { background: #ef4444; grid-column: span 2; display: none; }
+
         /* 📊 রেজাল্ট টেবিল */
-        .result-box { margin-top: 20px; display: none; }
-        .result-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .result-table th, .result-table td { border: 1px solid #334155; padding: 10px; text-align: left; font-size: 14px; }
-        .result-table th { background: #1e293b; color: #9ca3af; }
-        .result-table td { color: #f3f4f6; }
-        .highlight { color: #fbbf24; font-weight: bold; font-size: 16px; }
+        .result-box { display: none; }
+        .result-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .result-table th, .result-table td { border: 1px solid #cbd5e1; padding: 12px; text-align: left; font-size: 14px; }
+        .result-table th { background: #f1f5f9; color: #334155; font-weight: bold; }
+        .highlight { color: #b45309; font-weight: bold; font-size: 15px; }
+
+        /* 🕒 হিস্টরি সাইডবার */
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; z-index: 999; }
+        .sidebar { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background: #fff; z-index: 1000; transition: left 0.3s; display: flex; flex-direction: column; box-shadow: 2px 0 15px rgba(0,0,0,0.3); }
+        .sidebar-header { padding: 20px; background: #1e293b; color: white; display: flex; justify-content: space-between; align-items: center; }
+        .sidebar-close { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+        .history-list { flex: 1; overflow-y: auto; padding: 15px; }
+        .history-item { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+        .history-item:hover { border-color: #3b82f6; }
+        .history-date { font-size: 12px; color: #64748b; margin-bottom: 5px; }
+        .history-summary { font-size: 14px; font-weight: bold; color: #1e293b; }
+        .history-actions { display: flex; justify-content: space-between; margin-top: 10px; }
+        .btn-del-item { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+        .btn-clear-all { background: #ef4444; color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer; width: 100%; }
+
+        /* 🖨️ প্রিন্ট সেটআপ (PDF/A4) */
+        @media print {
+            body { background: #fff; padding: 0; margin: 0; }
+            .container { max-width: 100%; width: 100%; padding: 0; }
+            .no-print, .action-btns, .btn-remove, .menu-btn { display: none !important; }
+            .app-header { box-shadow: none; border-radius: 0; padding: 10px; }
+            .editable-box { border: 1px solid #ccc; box-shadow: none; }
+            .card { box-shadow: none; border: none; margin: 0; padding: 0; }
+            .input-row { background: transparent; border: 1px solid #000; margin-bottom: 5px; page-break-inside: avoid; }
+            .input-group input { border: none; background: transparent; }
+            .result-table { border-collapse: collapse; width: 100%; }
+            .result-table th, .result-table td { border: 1px solid #000; padding: 8px; color: #000; }
+            @page { size: A4 portrait; margin: 15mm; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 🌟 প্রফেশনাল হেডার -->
-    <div class="top-header">
-        <div class="header-profile">
-            <div class="avatar-box" id="avatarDisplay">👤</div>
-            <div class="user-details">
-                <h3 id="userNameDisplay">ইউজার নেম</h3>
-                <p id="userMobileDisplay">মোবাইল নাম্বার</p>
-            </div>
+    <!-- হিস্টরি সাইডবার -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>হিস্টরি (Saved)</h3>
+            <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
         </div>
-        <a href="index.html" class="btn-back">← Back</a>
-    </div>
-
-    <div class="page-title">ক্যাসম্যান উইন্ডো ক্যালকুলেটর</div>
-
-    <!-- 🧮 ইনপুট এরিয়া -->
-    <div id="inputContainer">
-        <div class="input-row card">
-            <div class="input-group">
-                <label>হাইট (ইঞ্চি)</label>
-                <input type="number" class="h-input" placeholder="0">
-            </div>
-            <div class="input-group">
-                <label>চওড়া (ইঞ্চি)</label>
-                <input type="number" class="w-input" placeholder="0">
-            </div>
-            <div class="input-group">
-                <label>পরিমাণ</label>
-                <input type="number" class="q-input" placeholder="1" value="1">
-            </div>
+        <div class="history-list" id="historyList">
+            <!-- হিস্টরি আইটেম এখানে আসবে -->
         </div>
+        <button class="btn-clear-all" onclick="clearAllHistory()">🗑️ সব হিস্টরি মুছুন</button>
     </div>
 
-    <button class="btn-add" onclick="addRow()">+ আরও সাইজ যোগ করুন</button>
-    <button class="btn-calc" onclick="calculateCasement()">হিসাব বের করুন</button>
+    <div class="container">
+        <!-- 🌟 এডিটেবল হেডার -->
+        <div class="app-header">
+            <div class="header-top">
+                <button class="menu-btn no-print" onclick="toggleSidebar()">☰</button>
+                <div class="header-titles">
+                    <h1>RM THAI ALUMINIUM</h1>
+                    <p>CASEMENT WINDOW CALCULATOR</p>
+                </div>
+            </div>
+            <!-- ইউজারের ইচ্ছামতো নাম ও নাম্বার এডিট করার বক্স -->
+            <input type="text" id="profName" class="editable-box" value="RM THAI ALUMINIUM" oninput="saveProfile()">
+            <input type="text" id="profMobile" class="editable-box" value="Mobile: 01676-474412" oninput="saveProfile()">
+        </div>
 
-    <!-- 📊 রেজাল্ট এরিয়া -->
-    <div class="card result-box" id="resultCard">
-        <h3 style="color: #60a5fa; text-align: center; margin-bottom: 10px;">সম্পূর্ণ মালামালের হিসাব</h3>
-        
-        <table class="result-table">
-            <thead>
-                <tr>
-                    <th>মালের নাম</th>
-                    <th>রানিং মাপ</th>
-                    <th>২১ ফিটের পিস</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>আউটার প্রোফাইল (Outer)</td>
-                    <td id="resOuterFt">0 ফিট</td>
-                    <td class="highlight" id="resOuterPcs">0 পিস</td>
-                </tr>
-                <tr>
-                    <td>শাটার প্রোফাইল (Shutter)</td>
-                    <td id="resShutterFt">0 ফিট</td>
-                    <td class="highlight" id="resShutterPcs">0 পিস</td>
-                </tr>
-                <tr>
-                    <td>এঙ্গেল (Angle)</td>
-                    <td id="resAngleFt">0 ফিট</td>
-                    <td class="highlight" id="resAnglePcs">0 পিস</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table class="result-table" style="margin-top: 15px;">
-            <thead>
-                <tr>
-                    <th>এক্সেসরিজ / অন্যান্য</th>
-                    <th>মোট পরিমাণ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>মহিয়ার (Mohair)</td>
-                    <td class="highlight" id="resMohair">0 ফিট</td>
-                </tr>
-                <tr>
-                    <td>হ্যান্ডেল (Handle)</td>
-                    <td class="highlight" id="resHandle">0 পিস</td>
-                </tr>
-                <tr>
-                    <td>রিপিট (Rivet)</td>
-                    <td class="highlight" id="resRivet">0 পিস</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <script>
-        // 🌟 লোকাল স্টোরেজ থেকে প্রোফাইল ডেটা লোড করা
-        window.onload = function() {
-            const savedName = localStorage.getItem("app_user_fullname") || "অ্যালুমিনিয়াম ইআরপি";
-            const savedMobile = localStorage.getItem("app_user_mobile") || "যোগাযোগ নম্বর নেই";
-            const savedPic = localStorage.getItem("app_user_profile_img");
-
-            document.getElementById("userNameDisplay").innerText = savedName;
-            document.getElementById("userMobileDisplay").innerText = savedMobile;
-
-            if (savedPic) {
-                document.getElementById("avatarDisplay").innerHTML = `<img src="${savedPic}">`;
-            }
-        };
-
-        // ➕ নতুন ইনপুট রো যোগ করা
-        function addRow() {
-            const container = document.getElementById('inputContainer');
-            const row = document.createElement('div');
-            row.className = 'input-row card';
-            row.innerHTML = `
+        <!-- 🧮 ইনপুট এরিয়া -->
+        <div class="card no-print" id="inputContainer">
+            <h3 style="margin-bottom:10px; font-size:16px; color:#1e293b;">মাপ ও পরিমাণ দিন:</h3>
+            <!-- ডিফল্ট ১ম রো -->
+            <div class="input-row">
                 <div class="input-group">
                     <label>হাইট (ইঞ্চি)</label>
                     <input type="number" class="h-input" placeholder="0">
@@ -169,22 +163,126 @@
                     <label>পরিমাণ</label>
                     <input type="number" class="q-input" placeholder="1" value="1">
                 </div>
-                <button class="btn-remove" onclick="this.remove()">✕</button>
+            </div>
+        </div>
+
+        <div class="action-btns no-print">
+            <button class="btn btn-add" onclick="addRow()">+ নতুন সাইজ যোগ</button>
+            <button class="btn btn-calc" onclick="calculateCasement(true)">হিসাব বের করুন</button>
+        </div>
+
+        <!-- 📊 রেজাল্ট এরিয়া (প্রিন্ট হবে) -->
+        <div class="card result-box" id="resultCard">
+            <h3 style="text-align: center; margin-bottom: 15px; font-size:18px; color: #1d4ed8;">মালামালের চূড়ান্ত হিসাব</h3>
+            
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>মালের নাম</th>
+                        <th>রানিং মাপ</th>
+                        <th>২১ ফিটের পিস</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>আউটার প্রোফাইল সাইড</td> <!-- নাম পরিবর্তন করা হয়েছে -->
+                        <td id="resOuterFt">0 ফিট</td>
+                        <td class="highlight" id="resOuterPcs">0 পিস</td>
+                    </tr>
+                    <tr>
+                        <td>শাটার প্রোফাইল</td>
+                        <td id="resShutterFt">0 ফিট</td>
+                        <td class="highlight" id="resShutterPcs">0 পিস</td>
+                    </tr>
+                    <tr>
+                        <td>এঙ্গেল (Angle)</td>
+                        <td id="resAngleFt">0 ফিট</td>
+                        <td class="highlight" id="resAnglePcs">0 পিস</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="result-table" style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>এক্সেসরিজ / অন্যান্য</th>
+                        <th>মোট পরিমাণ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>মহিয়ার (Mohair)</td>
+                        <td class="highlight" id="resMohair">0 ফিট</td>
+                    </tr>
+                    <tr>
+                        <td>হ্যান্ডেল (Handle)</td>
+                        <td class="highlight" id="resHandle">0 পিস</td>
+                    </tr>
+                    <tr>
+                        <td>রিপিট (Rivet)</td>
+                        <td class="highlight" id="resRivet">0 পিস</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- প্রিন্ট বাটন -->
+            <button class="btn btn-print no-print" id="printBtn" onclick="window.print()" style="margin-top: 20px; display: block;">🖨️ PDF প্রিন্ট করুন (A4)</button>
+        </div>
+    </div>
+
+    <script>
+        // 🌟 প্রোফাইল ডেটা লোড ও সেভ
+        window.onload = function() {
+            const savedName = localStorage.getItem("casement_profName");
+            const savedMobile = localStorage.getItem("casement_profMobile");
+            if (savedName) document.getElementById("profName").value = savedName;
+            if (savedMobile) document.getElementById("profMobile").value = savedMobile;
+            renderHistory();
+        };
+
+        function saveProfile() {
+            localStorage.setItem("casement_profName", document.getElementById("profName").value);
+            localStorage.setItem("casement_profMobile", document.getElementById("profMobile").value);
+        }
+
+        // ➕ নতুন ইনপুট রো যোগ করা
+        function addRow(h = "", w = "", q = "1") {
+            const container = document.getElementById('inputContainer');
+            const row = document.createElement('div');
+            row.className = 'input-row';
+            row.innerHTML = `
+                <div class="input-group">
+                    <label>হাইট (ইঞ্চি)</label>
+                    <input type="number" class="h-input" placeholder="0" value="${h}">
+                </div>
+                <div class="input-group">
+                    <label>চওড়া (ইঞ্চি)</label>
+                    <input type="number" class="w-input" placeholder="0" value="${w}">
+                </div>
+                <div class="input-group">
+                    <label>পরিমাণ</label>
+                    <input type="number" class="q-input" placeholder="1" value="${q}">
+                </div>
+                <button class="btn-remove no-print" onclick="this.parentElement.remove()">✕</button>
             `;
             container.appendChild(row);
         }
 
         // 🧮 মূল ক্যালকুলেশন লজিক
-        function calculateCasement() {
+        function calculateCasement(saveToHistoryFlag) {
             let totalRunningFt = 0;
             let totalAngleInches = 0;
             let totalRivet = 0;
             let totalHandle = 0;
             let totalMohairFt = 0;
+            
+            let inputsData = []; // হিস্টরির জন্য ডেটা সেভ রাখা
 
             const hInputs = document.querySelectorAll('.h-input');
             const wInputs = document.querySelectorAll('.w-input');
             const qInputs = document.querySelectorAll('.q-input');
+            
+            let hasValidData = false;
 
             for (let i = 0; i < hInputs.length; i++) {
                 let h = parseFloat(hInputs[i].value) || 0;
@@ -192,46 +290,126 @@
                 let qty = parseInt(qInputs[i].value) || 0;
 
                 if (h > 0 && w > 0 && qty > 0) {
-                    // পেরিমিটার বা চারপাশের মাপ (ইঞ্চিতে)
+                    hasValidData = true;
+                    inputsData.push({h: h, w: w, q: qty});
+
                     let perimeterInches = (h + w) * 2;
                     let perimeterFt = perimeterInches / 12;
 
-                    // মোট রানিং ফিট (যেহেতু আউটার ও শাটার চারপাশে একই)
                     totalRunningFt += (perimeterFt * qty);
-
-                    // এক্সেসরিজ
-                    totalAngleInches += (8 * qty); // প্রতি জানালায় ৮ ইঞ্চি
-                    totalRivet += (18 * qty); // প্রতিটিতে ১৮ পিস
-                    totalHandle += (1 * qty); // প্রতিটিতে ১ পিস
-                    totalMohairFt += (perimeterFt * 2) * qty; // রানিং ফিটের ডাবল
+                    totalAngleInches += (8 * qty); 
+                    totalRivet += (18 * qty); 
+                    totalHandle += (1 * qty); 
+                    totalMohairFt += (perimeterFt * 2) * qty; 
                 }
             }
 
-            // ২১ ফিটের পিস বের করা (Math.ceil দিয়ে ভগ্নাংশকে পূর্ণ সংখ্যায় রূপান্তর)
+            if (!hasValidData) {
+                alert("দয়া করে সঠিক মাপ দিন!");
+                return;
+            }
+
             let outerPcs = Math.ceil(totalRunningFt / 21);
             let shutterPcs = Math.ceil(totalRunningFt / 21);
-            
             let angleFt = totalAngleInches / 12;
             let anglePcs = Math.ceil(angleFt / 21);
 
-            // আউটার ডেটা সেট করা
             document.getElementById('resOuterFt').innerText = totalRunningFt.toFixed(2) + " ফিট";
             document.getElementById('resOuterPcs').innerText = outerPcs + " পিস";
-
-            // শাটার ডেটা সেট করা
             document.getElementById('resShutterFt').innerText = totalRunningFt.toFixed(2) + " ফিট";
             document.getElementById('resShutterPcs').innerText = shutterPcs + " পিস";
-
-            // এঙ্গেল ডেটা সেট করা
-            document.getElementById('resAngleFt').innerText = angleFt.toFixed(2) + " ফিট (" + totalAngleInches + "\")";
+            document.getElementById('resAngleFt').innerText = angleFt.toFixed(2) + " ফিট";
             document.getElementById('resAnglePcs').innerText = anglePcs + " পিস";
-
-            // এক্সেসরিজ ডেটা সেট করা
             document.getElementById('resMohair').innerText = totalMohairFt.toFixed(2) + " ফিট";
             document.getElementById('resHandle').innerText = totalHandle + " পিস";
             document.getElementById('resRivet').innerText = totalRivet + " পিস";
             
             document.getElementById('resultCard').style.display = 'block';
+
+            // হিস্টরিতে সেভ করা
+            if (saveToHistoryFlag) {
+                saveToHistory(inputsData, totalRunningFt.toFixed(2));
+            }
+        }
+
+        // 🕒 হিস্টরি সিস্টেম ফাংশন
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("sidebarOverlay");
+            if (sidebar.style.left === "0px") {
+                sidebar.style.left = "-320px";
+                overlay.style.display = "none";
+            } else {
+                sidebar.style.left = "0px";
+                overlay.style.display = "block";
+                renderHistory();
+            }
+        }
+
+        function saveToHistory(inputsData, totalFt) {
+            let history = JSON.parse(localStorage.getItem("casement_history")) || [];
+            const timestamp = new Date().toLocaleString('en-US', {hour12:true});
+            const newRecord = { id: Date.now(), time: timestamp, inputs: inputsData, totalFt: totalFt };
+            
+            history.unshift(newRecord); // শুরুতে যোগ করা
+            localStorage.setItem("casement_history", JSON.stringify(history));
+        }
+
+        function renderHistory() {
+            const historyList = document.getElementById("historyList");
+            let history = JSON.parse(localStorage.getItem("casement_history")) || [];
+            historyList.innerHTML = "";
+
+            if (history.length === 0) {
+                historyList.innerHTML = "<p style='color:#64748b; text-align:center; margin-top:20px;'>কোনো হিস্টরি নেই</p>";
+                return;
+            }
+
+            history.forEach(item => {
+                let div = document.createElement("div");
+                div.className = "history-item";
+                div.innerHTML = `
+                    <div onclick="loadHistoryItem(${item.id})">
+                        <div class="history-date">🕒 ${item.time}</div>
+                        <div class="history-summary">মোট রানার: ${item.totalFt} ফিট (${item.inputs.length} টি আইটেম)</div>
+                    </div>
+                    <div class="history-actions">
+                        <button class="btn-del-item" onclick="deleteHistoryItem(${item.id})">মুছুন</button>
+                    </div>
+                `;
+                historyList.appendChild(div);
+            });
+        }
+
+        function loadHistoryItem(id) {
+            let history = JSON.parse(localStorage.getItem("casement_history")) || [];
+            let item = history.find(x => x.id === id);
+            
+            if (item) {
+                // ইনপুট বক্স ক্লিয়ার করে হিস্টরির ডেটা বসানো
+                const container = document.getElementById('inputContainer');
+                container.innerHTML = '<h3 style="margin-bottom:10px; font-size:16px; color:#1e293b;">মাপ ও পরিমাণ দিন:</h3>';
+                
+                item.inputs.forEach(inp => addRow(inp.h, inp.w, inp.q));
+                calculateCasement(false); // false মানে আবার হিস্টরিতে সেভ হবে না
+                toggleSidebar(); // সাইডবার বন্ধ করা
+            }
+        }
+
+        function deleteHistoryItem(id) {
+            if(confirm("এই হিস্টরিটি মুছতে চান?")) {
+                let history = JSON.parse(localStorage.getItem("casement_history")) || [];
+                history = history.filter(x => x.id !== id);
+                localStorage.setItem("casement_history", JSON.stringify(history));
+                renderHistory();
+            }
+        }
+
+        function clearAllHistory() {
+            if(confirm("সব হিস্টরি মুছে ফেলতে চান?")) {
+                localStorage.removeItem("casement_history");
+                renderHistory();
+            }
         }
     </script>
 </body>

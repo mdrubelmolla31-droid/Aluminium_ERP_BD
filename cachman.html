@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casement Calculator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
+        body { background-color: #0b0f19; color: #f3f4f6; padding: 16px; min-height: 100vh; }
+        
+        .header { display: flex; align-items: center; margin-bottom: 20px; padding: 8px 0; }
+        .icon-btn { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 15px; border-radius: 8px; cursor: pointer; text-decoration: none; font-weight: bold; }
+        .header-title { flex-grow: 1; text-align: center; font-size: 20px; font-weight: bold; color: #60a5fa; }
+        
+        .card { background: #111827; border: 1px solid #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .input-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .input-group { flex: 1; }
+        .input-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 4px; }
+        .input-group input { width: 100%; padding: 10px; background: #1e293b; border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 14px; }
+        
+        .btn-remove { background: #ef4444; border: none; color: white; padding: 10px; border-radius: 6px; cursor: pointer; margin-top: 18px; font-weight: bold; }
+        .btn-add { background: #3b82f6; width: 100%; padding: 12px; border: none; color: white; border-radius: 6px; font-weight: bold; margin-bottom: 15px; cursor: pointer; }
+        .btn-calc { background: #10b981; width: 100%; padding: 15px; border: none; color: white; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        
+        .result-box { margin-top: 20px; display: none; }
+        .result-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #334155; font-size: 15px; }
+        .result-val { color: #fbbf24; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="index.html" class="icon-btn">← Back</a>
+        <div class="header-title">ক্যাসম্যান ক্যালকুলেটর</div>
+        <div style="width: 50px;"></div> <!-- Balancing spacing -->
+    </div>
+
+    <div class="card" id="inputContainer">
+        <!-- Default 1st Row -->
+        <div class="input-row">
+            <div class="input-group">
+                <label>হাইট (ইঞ্চি)</label>
+                <input type="number" class="h-input" placeholder="0">
+            </div>
+            <div class="input-group">
+                <label>লেন্থ/চওড়া (ইঞ্চি)</label>
+                <input type="number" class="w-input" placeholder="0">
+            </div>
+            <div class="input-group">
+                <label>পরিমাণ (পিস)</label>
+                <input type="number" class="q-input" placeholder="1" value="1">
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-add" onclick="addRow()">+ আরও সাইজ যোগ করুন</button>
+    <button class="btn-calc" onclick="calculateCasement()">হিসাব বের করুন</button>
+
+    <div class="card result-box" id="resultCard">
+        <h3 style="color: #60a5fa; text-align: center; margin-bottom: 15px;">মালামালের সম্পূর্ণ হিসাব</h3>
+        
+        <div class="result-item">
+            <span>মোট রানিং ফিট (উইন্ডো ফ্রেম):</span>
+            <span class="result-val" id="resRunningFt">0 ফিট</span>
+        </div>
+        <div class="result-item">
+            <span>এঙ্গেল (প্রতি জানালায় ৮"):</span>
+            <span class="result-val" id="resAngle">0 ইঞ্চি</span>
+        </div>
+        <div class="result-item">
+            <span>রিপিট (প্রতিটিতে ১৮টি ধরে):</span>
+            <span class="result-val" id="resRivet">0 পিস</span>
+        </div>
+        <div class="result-item">
+            <span>হ্যান্ডেল (প্রতিটিতে ১টি):</span>
+            <span class="result-val" id="resHandle">0 পিস</span>
+        </div>
+        <div class="result-item">
+            <span>মহিয়ার (ডাবল রানিং ফিট):</span>
+            <span class="result-val" id="resMohair">0 ফিট</span>
+        </div>
+    </div>
+
+    <script>
+        function addRow() {
+            const container = document.getElementById('inputContainer');
+            const row = document.createElement('div');
+            row.className = 'input-row';
+            row.innerHTML = `
+                <div class="input-group">
+                    <label>হাইট (ইঞ্চি)</label>
+                    <input type="number" class="h-input" placeholder="0">
+                </div>
+                <div class="input-group">
+                    <label>লেন্থ/চওড়া (ইঞ্চি)</label>
+                    <input type="number" class="w-input" placeholder="0">
+                </div>
+                <div class="input-group">
+                    <label>পরিমাণ (পিস)</label>
+                    <input type="number" class="q-input" placeholder="1" value="1">
+                </div>
+                <button class="btn-remove" onclick="this.parentElement.remove()">✕</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function calculateCasement() {
+            let totalRunningFt = 0;
+            let totalAngleInches = 0;
+            let totalRivet = 0;
+            let totalHandle = 0;
+            let totalMohair = 0;
+
+            const hInputs = document.querySelectorAll('.h-input');
+            const wInputs = document.querySelectorAll('.w-input');
+            const qInputs = document.querySelectorAll('.q-input');
+
+            for (let i = 0; i < hInputs.length; i++) {
+                let h = parseFloat(hInputs[i].value) || 0;
+                let w = parseFloat(wInputs[i].value) || 0;
+                let qty = parseInt(qInputs[i].value) || 0;
+
+                if (h > 0 && w > 0 && qty > 0) {
+                    // পেরিমিটার বা চারপাশের মাপ (ইঞ্চিতে)
+                    let perimeterInches = (h + w) * 2;
+                    let perimeterFt = perimeterInches / 12;
+
+                    // মোট রানিং ফিট
+                    totalRunningFt += perimeterFt * qty;
+
+                    // আপনার দেওয়া এক্সেসরিজ হিসাব
+                    totalAngleInches += (8 * qty);
+                    totalRivet += (18 * qty);
+                    totalHandle += (1 * qty);
+                    
+                    // মহিয়ার (রানিং ফিটের ডাবল)
+                    totalMohair += (perimeterFt * 2) * qty;
+                }
+            }
+
+            document.getElementById('resRunningFt').innerText = totalRunningFt.toFixed(2) + " ফিট";
+            document.getElementById('resAngle').innerText = totalAngleInches + " ইঞ্চি";
+            document.getElementById('resRivet').innerText = totalRivet + " পিস";
+            document.getElementById('resHandle').innerText = totalHandle + " পিস";
+            document.getElementById('resMohair').innerText = totalMohair.toFixed(2) + " ফিট";
+            
+            document.getElementById('resultCard').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

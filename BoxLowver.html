@@ -11,7 +11,7 @@
         
         .container { max-width: 800px; margin: 0 auto; padding: 15px; }
 
-        /* 🌟 নতুন ডিজাইনের হেডার (নীল গ্রেডিয়েন্ট) */
+        /* 🌟 নতুন ডিজাইনের হেডার */
         .app-header {
             background: linear-gradient(135deg, #0a2558, #184bb5, #1e3a8a);
             border-radius: 12px;
@@ -30,17 +30,10 @@
             justify-content: center; align-items: center; flex-shrink: 0;
             transition: 0.3s;
         }
-        .menu-btn:active { background: rgba(255, 255, 255, 0.3); }
 
         .header-titles { flex: 1; text-align: center; }
         .header-titles h1 { color: #ffffff; font-size: 22px; font-weight: 800; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); margin-bottom: 4px; }
         .header-titles p { color: #dbeafe; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-
-        .date-badge {
-            background: rgba(255, 255, 255, 0.2);
-            color: white; font-size: 12px; font-weight: bold;
-            padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);
-        }
 
         .editable-box {
             width: 100%; background: #ffffff; border: 2px solid transparent; padding: 14px;
@@ -51,7 +44,7 @@
         .editable-box:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
         .editable-box:last-child { margin-bottom: 0; }
 
-        /* ⚙️ বক্স সিলেকশন কার্ড */
+        /* ⚙️ কার্ড ও সেকশন */
         .card { background: #ffffff; border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; }
         .section-title { font-size: 16px; color: #1e3a8a; margin-bottom: 15px; font-weight: 700; border-bottom: 2px solid #eff6ff; padding-bottom: 8px; }
 
@@ -60,8 +53,7 @@
         /* 🧮 ইনপুট এরিয়া */
         .input-row { 
             display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; align-items: flex-end; 
-            background: #ffffff; padding: 15px; border-radius: 10px; border: 1px solid #cbd5e1;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid #cbd5e1;
         }
         
         .input-group { flex: 1; min-width: 80px; }
@@ -69,29 +61,21 @@
         .input-group input, .input-group select { 
             width: 100%; padding: 12px; border: 1px solid #94a3b8; border-radius: 8px; 
             font-size: 15px; text-align: center; font-weight: 600; color: #0f172a;
-            outline: none; transition: 0.2s; background: #f8fafc;
+            outline: none; transition: 0.2s; background: #ffffff;
         }
-        .input-group input:focus, .input-group select:focus { border-color: #1e3a8a; background: #fff; box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15); }
+        .input-group input:focus, .input-group select:focus { border-color: #1e3a8a; box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15); }
         
         .btn-remove { 
             background: #dc2626; border: none; color: white; width: 46px; height: 46px; 
             border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 20px; 
             display: flex; justify-content: center; align-items: center; transition: 0.2s;
-            box-shadow: 0 2px 5px rgba(220, 38, 38, 0.3);
         }
-        .btn-remove:active { transform: scale(0.95); }
         
         /* 🔘 অ্যাকশন বাটন */
-        .action-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .btn { padding: 16px; border: none; border-radius: 10px; font-weight: 700; color: white; font-size: 16px; cursor: pointer; text-align: center; transition: 0.2s; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn:active { transform: translateY(2px); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        
-        .btn-add { background: #10b981; } /* স্ক্রিনশটের মতো সবুজ কালার */
-        .btn-add:hover { background: #059669; }
-        
-        .btn-calc { background: #1e3a8a; } /* স্ক্রিনশটের মতো গাঢ় নীল */
-        .btn-calc:hover { background: #1e40af; }
-        
+        .action-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; margin-bottom: 20px;}
+        .btn { padding: 16px; border: none; border-radius: 10px; font-weight: 700; color: white; font-size: 16px; cursor: pointer; text-align: center; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-add { background: #10b981; } 
+        .btn-calc { background: #1e3a8a; } 
         .btn-print { background: #dc2626; display: none; }
 
         /* 📊 রেজাল্ট টেবিল */
@@ -99,50 +83,44 @@
         .result-table { width: 100%; border-collapse: collapse; margin-top: 15px; border-radius: 8px; overflow: hidden; }
         .result-table th, .result-table td { border: 1px solid #cbd5e1; padding: 14px; text-align: left; font-size: 15px; }
         .result-table th { background: #f1f5f9; color: #1e293b; font-weight: 800; }
-        .result-table td { background: #fff; }
         .highlight { color: #1e3a8a; font-weight: 800; font-size: 16px; }
 
         /* 🕒 হিস্টরি সাইডবার */
-        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(2px); display: none; z-index: 999; }
-        .sidebar { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background: #f8fafc; z-index: 1000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; box-shadow: 4px 0 25px rgba(0,0,0,0.2); }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
+        .sidebar { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background: #f8fafc; z-index: 1000; transition: left 0.3s; display: flex; flex-direction: column; }
         .sidebar-header { padding: 20px; background: linear-gradient(135deg, #0a2558, #184bb5); color: white; display: flex; justify-content: space-between; align-items: center; }
         .sidebar-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 6px; font-size: 16px; cursor: pointer; }
         .history-list { flex: 1; overflow-y: auto; padding: 15px; }
-        .history-item { background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; margin-bottom: 12px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: 0.2s; }
-        .history-item:active { transform: scale(0.98); border-color: #3b82f6; }
+        .history-item { background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; margin-bottom: 12px; cursor: pointer; }
         .history-date { font-size: 12px; color: #64748b; margin-bottom: 6px; font-weight: 600; }
         .history-summary { font-size: 15px; font-weight: 800; color: #0f172a; }
         .btn-del-item { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; }
         .btn-clear-all { background: #dc2626; color: white; border: none; padding: 18px; font-weight: bold; font-size: 16px; cursor: pointer; width: 100%; }
 
-        /* 📱 রেসপন্সিভ ডিজাইন (মোবাইলের জন্য স্পেসিফিক রুলস) */
+        /* 📱 রেসপন্সিভ ডিজাইন */
         @media (max-width: 480px) {
-            .header-top { flex-direction: row; }
-            .date-badge { display: none; } /* ছোট স্ক্রিনে স্পেস বাঁচাতে হাইড */
             .input-group { min-width: 45%; }
             .input-row { gap: 8px; padding: 12px; }
             .btn-remove { width: 100%; height: 40px; margin-top: 5px; }
             .select-row { flex-direction: column; }
         }
 
-        /* 🖨️ প্রিন্ট সেটআপ (PDF/A4) */
+        /* 🖨️ প্রিন্ট সেটআপ */
         @media print {
             body { background: #fff; padding: 0; margin: 0; }
-            .container { max-width: 100%; width: 100%; padding: 0; }
+            .container { max-width: 100%; padding: 0; }
             .no-print { display: none !important; }
-            .app-header { box-shadow: none; border-radius: 0; padding: 10px; background: #fff; border-bottom: 2px solid #000; }
+            .app-header { box-shadow: none; padding: 10px; border-bottom: 2px solid #000; }
             .header-titles h1, .header-titles p { color: #000; text-shadow: none; }
             .editable-box { border: 1px solid #ccc; box-shadow: none; }
             .card { box-shadow: none; border: none; margin: 0; padding: 0; }
-            .result-table { border-collapse: collapse; width: 100%; }
-            .result-table th, .result-table td { border: 1px solid #000; padding: 8px; color: #000; }
-            .result-table th { background: #eee; }
-            @page { size: A4 portrait; margin: 15mm; }
+            .result-table th, .result-table td { border: 1px solid #000; }
         }
     </style>
 </head>
 <body>
 
+    <!-- হিস্টরি সাইডবার -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -154,6 +132,7 @@
     </div>
 
     <div class="container">
+        <!-- 🌟 হেডার -->
         <div class="app-header">
             <div class="header-top">
                 <button class="menu-btn no-print" onclick="toggleSidebar()">☰</button>
@@ -161,12 +140,12 @@
                     <h1>বক্স লুভার সাইজ</h1>
                     <p>Box Louver Calculator</p>
                 </div>
-                <div class="date-badge no-print" id="currentDate"></div>
             </div>
             <input type="text" id="profName" class="editable-box" value="আর এম থাই অ্যালুমিনিয়াম" oninput="saveProfile()">
             <input type="text" id="profMobile" class="editable-box" value="মোবাইল: 01676474412" oninput="saveProfile()">
         </div>
 
+        <!-- ⚙️ বক্স সিলেকশন -->
         <div class="card no-print">
             <h3 class="section-title">বক্সের সাইজ নির্বাচন করুন</h3>
             <div class="select-row">
@@ -190,5 +169,254 @@
             </div>
         </div>
 
-        <div id="inputContainer" class="no-print">
+        <!-- 🧮 ইনপুট এরিয়া -->
+        <div class="card no-print">
+            <h3 class="section-title">মাপ ও পরিমাণ দিন</h3>
+            <div id="inputContainer">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>হাইট (ইঞ্চি)</label>
+                        <input type="number" class="h-input" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label>চওড়া (ইঞ্চি)</label>
+                        <input type="number" class="w-input" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label>গ্যাপ (ইঞ্চি)</label>
+                        <input type="number" class="gap-input" placeholder="1.5" step="0.1" value="1.5">
+                    </div>
+                    <div class="input-group">
+                        <label>পরিমাণ</label>
+                        <input type="number" class="q-input" placeholder="1" value="1">
+                    </div>
+                    <button class="btn-remove" onclick="if(document.querySelectorAll('.input-row').length > 1) this.parentElement.remove()">✕</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-btns no-print">
+            <button class="btn btn-add" onclick="addRow()">+ আরও উইন্ডো যোগ করুন</button>
+            <button class="btn btn-calc" onclick="calculateBoxLouver(true)">মালামালের হিসাব বের করুন</button>
+        </div>
+
+        <!-- 📊 রেজাল্ট এরিয়া -->
+        <div class="card result-box" id="resultCard">
+            <h3 class="section-title" style="text-align: center; border:none;">মালামালের চূড়ান্ত হিসাব</h3>
             
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>প্রোফাইলের নাম</th>
+                        <th>রানিং মাপ</th>
+                        <th>২১ ফিটের পিস</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span id="lblOuterBox">১x২ বক্স</span> (Outer)</td>
+                        <td id="resOuterFt">0 ফিট</td>
+                        <td class="highlight" id="resOuterPcs">0 পিস</td>
+                    </tr>
+                    <tr>
+                        <td><span id="lblBladeBox">১x২ বক্স</span> (Blade)</td>
+                        <td id="resBladeFt">0 ফিট</td>
+                        <td class="highlight" id="resBladePcs">0 পিস</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="result-table" style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>এক্সেসরিজ / হার্ডওয়্যার</th>
+                        <th>মোট পরিমাণ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>রিপিট (প্রতি ব্লেডে ৪টি)</td>
+                        <td class="highlight" id="resRivet">0 পিস</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn btn-print no-print" id="printBtn" onclick="window.print()" style="margin-top: 20px; display: block;">🖨️ PDF প্রিন্ট করুন (A4)</button>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const savedName = localStorage.getItem("boxlouver_profName2");
+            const savedMobile = localStorage.getItem("boxlouver_profMobile2");
+            if (savedName) document.getElementById("profName").value = savedName;
+            if (savedMobile) document.getElementById("profMobile").value = savedMobile;
+            renderHistory();
+        };
+
+        function saveProfile() {
+            localStorage.setItem("boxlouver_profName2", document.getElementById("profName").value);
+            localStorage.setItem("boxlouver_profMobile2", document.getElementById("profMobile").value);
+        }
+
+        function addRow(h = "", w = "", gap = "1.5", q = "1") {
+            const container = document.getElementById('inputContainer');
+            const row = document.createElement('div');
+            row.className = 'input-row';
+            row.innerHTML = `
+                <div class="input-group">
+                    <label>হাইট (ইঞ্চি)</label>
+                    <input type="number" class="h-input" placeholder="0" value="${h}">
+                </div>
+                <div class="input-group">
+                    <label>চওড়া (ইঞ্চি)</label>
+                    <input type="number" class="w-input" placeholder="0" value="${w}">
+                </div>
+                <div class="input-group">
+                    <label>গ্যাপ (ইঞ্চি)</label>
+                    <input type="number" class="gap-input" placeholder="1.5" step="0.1" value="${gap}">
+                </div>
+                <div class="input-group">
+                    <label>পরিমাণ</label>
+                    <input type="number" class="q-input" placeholder="1" value="${q}">
+                </div>
+                <button class="btn-remove no-print" onclick="this.parentElement.remove()">✕</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function calculateBoxLouver(saveToHistoryFlag) {
+            let totalOuterFt = 0;
+            let totalBladeFt = 0;
+            let totalRivet = 0;
+            
+            let inputsData = []; 
+            const hInputs = document.querySelectorAll('.h-input');
+            const wInputs = document.querySelectorAll('.w-input');
+            const gapInputs = document.querySelectorAll('.gap-input');
+            const qInputs = document.querySelectorAll('.q-input');
+            
+            let outerBoxName = document.getElementById("outerBoxSelect").value;
+            let bladeBoxName = document.getElementById("bladeBoxSelect").value;
+            let hasValidData = false;
+
+            for (let i = 0; i < hInputs.length; i++) {
+                let h = parseFloat(hInputs[i].value) || 0;
+                let w = parseFloat(wInputs[i].value) || 0;
+                let gap = parseFloat(gapInputs[i].value) || 1.5;
+                let qty = parseInt(qInputs[i].value) || 0;
+
+                if (h > 0 && w > 0 && qty > 0 && gap > 0) {
+                    hasValidData = true;
+                    inputsData.push({h: h, w: w, gap: gap, q: qty});
+
+                    let perimeterFt = ((h + w) * 2) / 12;
+                    totalOuterFt += (perimeterFt * qty);
+
+                    let numberOfBlades = Math.ceil(h / gap); 
+                    totalBladeFt += ((numberOfBlades * w) / 12) * qty;
+                    totalRivet += (numberOfBlades * 4) * qty;
+                }
+            }
+
+            if (!hasValidData) {
+                alert("দয়া করে সঠিক মাপ এবং গ্যাপ দিন!");
+                return;
+            }
+
+            let outerPcs = Math.ceil(totalOuterFt / 21);
+            let bladePcs = Math.ceil(totalBladeFt / 21);
+
+            document.getElementById('lblOuterBox').innerText = outerBoxName;
+            document.getElementById('lblBladeBox').innerText = bladeBoxName;
+            document.getElementById('resOuterFt').innerText = totalOuterFt.toFixed(2) + " ফিট";
+            document.getElementById('resOuterPcs').innerText = outerPcs + " পিস";
+            document.getElementById('resBladeFt').innerText = totalBladeFt.toFixed(2) + " ফিট";
+            document.getElementById('resBladePcs').innerText = bladePcs + " পিস";
+            document.getElementById('resRivet').innerText = totalRivet + " পিস";
+            
+            document.getElementById('resultCard').style.display = 'block';
+            document.getElementById('printBtn').style.display = 'block';
+
+            if (saveToHistoryFlag) {
+                saveToHistory(inputsData, totalBladeFt.toFixed(2), outerBoxName, bladeBoxName);
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("sidebarOverlay");
+            if (sidebar.style.left === "0px") {
+                sidebar.style.left = "-320px";
+                overlay.style.display = "none";
+            } else {
+                sidebar.style.left = "0px";
+                overlay.style.display = "block";
+                renderHistory();
+            }
+        }
+
+        function saveToHistory(inputsData, totalBladeFt, outerName, bladeName) {
+            let history = JSON.parse(localStorage.getItem("boxlouver_history_v2")) || [];
+            const timestamp = new Date().toLocaleString('en-US', {hour12:true, day:'numeric', month:'short', hour:'numeric', minute:'numeric'});
+            history.unshift({ id: Date.now(), time: timestamp, inputs: inputsData, totalBladeFt: totalBladeFt, outer: outerName, blade: bladeName }); 
+            localStorage.setItem("boxlouver_history_v2", JSON.stringify(history));
+        }
+
+        function renderHistory() {
+            const historyList = document.getElementById("historyList");
+            let history = JSON.parse(localStorage.getItem("boxlouver_history_v2")) || [];
+            historyList.innerHTML = "";
+
+            if (history.length === 0) {
+                historyList.innerHTML = "<p style='color:#64748b; text-align:center; margin-top:20px;'>কোনো হিস্টরি নেই</p>";
+                return;
+            }
+
+            history.forEach(item => {
+                let div = document.createElement("div");
+                div.className = "history-item";
+                div.innerHTML = `
+                    <div onclick="loadHistoryItem(${item.id})">
+                        <div class="history-date">🕒 ${item.time}</div>
+                        <div class="history-summary">লুভার ব্লেড: ${item.totalBladeFt} ফিট</div>
+                        <div style="font-size:12px; color:#475569;">আউটার: ${item.outer} | ব্লেড: ${item.blade}</div>
+                    </div>
+                    <button class="btn-del-item" onclick="deleteHistoryItem(${item.id})">মুছে ফেলুন</button>
+                `;
+                historyList.appendChild(div);
+            });
+        }
+
+        function loadHistoryItem(id) {
+            let history = JSON.parse(localStorage.getItem("boxlouver_history_v2")) || [];
+            let item = history.find(x => x.id === id);
+            
+            if (item) {
+                document.getElementById("outerBoxSelect").value = item.outer || "১x২ বক্স";
+                document.getElementById("bladeBoxSelect").value = item.blade || "১x২ বক্স";
+                document.getElementById('inputContainer').innerHTML = ''; 
+                item.inputs.forEach(inp => addRow(inp.h, inp.w, inp.gap, inp.q));
+                calculateBoxLouver(false);
+                toggleSidebar();
+            }
+        }
+
+        function deleteHistoryItem(id) {
+            if(confirm("এই হিস্টরিটি মুছতে চান?")) {
+                let history = JSON.parse(localStorage.getItem("boxlouver_history_v2")) || [];
+                history = history.filter(x => x.id !== id);
+                localStorage.setItem("boxlouver_history_v2", JSON.stringify(history));
+                renderHistory();
+            }
+        }
+
+        function clearAllHistory() {
+            if(confirm("সব হিস্টরি মুছে ফেলতে চান?")) {
+                localStorage.removeItem("boxlouver_history_v2");
+                renderHistory();
+            }
+        }
+    </script>
+</body>
+</html>

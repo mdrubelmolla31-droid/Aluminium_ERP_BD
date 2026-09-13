@@ -42,15 +42,17 @@
     
     .header-top {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center; /* Changed from center to accommodate multiline text nicely */
+      align-items: flex-start;
       margin-bottom: 15px;
       border-bottom: 2px solid rgba(255,255,255,0.3);
-      padding-bottom: 12px;
+      padding-bottom: 15px;
       gap: 10px;
     }
     
     .menu-btn {
+      order: 1;
       width: 44px; height: 44px;
       flex-shrink: 0;
       border: 2px solid rgba(255,255,255,0.5);
@@ -65,39 +67,44 @@
     }
     .menu-btn:active { transform: scale(0.95); }
 
+    .date-display {
+      order: 2;
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(255,255,255,0.25);
+      padding: 6px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      margin-top: 6px;
+    }
+
     .header-title-container {
-      flex: 1;
+      order: 3;
+      flex: 0 0 100%; /* Takes full width */
       text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 4px;
+      gap: 8px;
+      margin-top: 10px;
     }
 
     .main-title {
       margin: 0;
       font-weight: 900;
-      font-size: 20px;
+      font-size: 26px; /* Bigger font size */
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       line-height: 1.2;
+      letter-spacing: 0.5px;
     }
 
     .sub-title {
       margin: 0;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 16px;
       color: #dbeafe;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .date-display {
-      font-size: 13px;
-      font-weight: 800;
-      background: rgba(255,255,255,0.25);
-      padding: 6px 10px;
-      border-radius: 6px;
-      white-space: nowrap;
+      letter-spacing: 1px;
     }
 
     .shop-details { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
@@ -126,7 +133,7 @@
 
     /* ================= HISTORY SIDEBAR ================= */
     .sidebar {
-      position: fixed; top: 0; left: -100%; /* Fully hide off-screen initially */
+      position: fixed; top: 0; left: -100%;
       width: 100%; max-width: 320px; height: 100%;
       background: #ffffff; border-right: 2px solid var(--border);
       box-shadow: 4px 0 20px rgba(0,0,0,0.2);
@@ -251,18 +258,19 @@
 
     /* ================= RESPONSIVE MEDIA QUERIES ================= */
     @media (max-width: 600px) {
-      .header-top { flex-wrap: wrap; }
-      .header-title-container { order: 3; flex: 100%; margin-top: 10px; }
-      .main-title { font-size: 18px; }
-      .sub-title { font-size: 14px; }
-      .result-options { grid-template-columns: 1fr; /* Stack dropdowns on small mobiles */ }
+      .main-title { font-size: 24px; }
+      .sub-title { font-size: 15px; }
+      .result-options { grid-template-columns: 1fr; }
       .glass-size-text { font-size: 16px; }
       .window-row input { font-size: 16px; }
     }
     
     @media (max-width: 380px) {
+      .main-title { font-size: 22px; }
+      .sub-title { font-size: 14px; }
       .editable-input, .floor-unit-box select { font-size: 14px; }
       .btn, .btn-print { font-size: 14px; }
+      .date-display { font-size: 11px; padding: 5px 8px; }
     }
   </style>
 </head>
@@ -285,17 +293,16 @@
         <div class="header-top">
           <button class="menu-btn" onclick="toggleHistory()">☰</button>
           
-          <!-- নতুন ফিক্সড টাইটেল সেকশন -->
+          <div id="currentDate" class="date-display"></div>
+
+          <!-- ফিক্সড টাইটেল সেকশন - ফুল উইডথ এবং বড় সাইজ -->
           <div class="header-title-container">
             <h1 class="main-title">আর এম থাই অ্যালুমিনিয়াম</h1>
             <h2 class="sub-title">গ্লাস কাটিং সাইজ</h2>
           </div>
-
-          <div id="currentDate" class="date-display"></div>
         </div>
         
         <div class="shop-details">
-          <!-- এডিটেবল ইনপুটগুলো আগের মতোই রাখা হলো পিডিএফ প্রিন্টের সুবিধার জন্য -->
           <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveCurrentFormState()">
           <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveCurrentFormState()">
         </div>

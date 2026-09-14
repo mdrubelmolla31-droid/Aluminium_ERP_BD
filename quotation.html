@@ -8,7 +8,9 @@
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
-    .container { max-width: 700px; margin: 0 auto; }
+    
+    /* রেসপন্সিভ কন্টেইনার সব ডিভাইসের জন্য ফ্লেক্সিবল করা হয়েছে */
+    .container { max-width: 800px; margin: 0 auto; width: 100%; }
     
     /* নীল হেডার */
     .top-bar {
@@ -22,6 +24,8 @@
       margin-bottom: 16px;
       border: 1px solid #1e3a8a;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+      gap: 10px;
     }
     .top-bar h3 { margin: 0; font-size: 16px; font-weight: bold; }
     
@@ -41,8 +45,9 @@
     .drawer {
       position: fixed;
       top: 0;
-      left: -300px;
+      left: -320px;
       width: 300px;
+      max-width: 80vw;
       height: 100%;
       background: #ffffff;
       box-shadow: 4px 0 10px rgba(0,0,0,0.15);
@@ -105,8 +110,8 @@
       padding-bottom: 6px;
     }
 
-    .row { display: flex; gap: 10px; margin-bottom: 10px; }
-    .col { flex: 1; }
+    .row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+    .col { flex: 1; min-width: 140px; }
 
     label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #334155; }
     input, select {
@@ -118,7 +123,7 @@
       background-color: #fff;
     }
 
-    .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+    .btn-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
 
     .btn {
       flex: 1;
@@ -129,18 +134,33 @@
       cursor: pointer;
       font-size: 14px;
       text-align: center;
+      min-width: 150px;
     }
 
     .btn-add { background-color: #10b981; color: white; width: 100%; margin-top: 8px; }
     .btn-win-pdf { background-color: #2563eb; color: white; }
     .btn-danger { background-color: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    /* টেবিল রেসপন্সিভ করার জন্য স্ক্রল সাপোর্ট */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; min-width: 320px; }
     th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
     th { background-color: #1e3a8a; color: white; font-weight: 600; }
 
     /* screen view hidden for print section */
     #printWinSection { display: none; }
+
+    /* ছোট স্ক্রিন বা মোবাইলের জন্য ফর্ম রো ফ্লেক্স এডজাস্টমেন্ট */
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .card { padding: 12px; }
+      .row { flex-direction: column; gap: 8px; }
+      .col { width: 100%; }
+    }
 
     /* ================= 1-PAGE A4 PRINT STYLES ================= */
     @media print {
@@ -372,12 +392,14 @@
 
   <div class="card">
     <div class="card-title">Window Dimensions (Inches)</div>
-    <table>
-      <thead>
-        <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
-      </thead>
-      <tbody id="winTableBody"></tbody>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Height (in)</th><th>Width (in)</th><th>Qty</th><th>Action</th></tr>
+        </thead>
+        <tbody id="winTableBody"></tbody>
+      </table>
+    </div>
     <button class="btn btn-add" onclick="addRow()">+ Add Window</button>
   </div>
 

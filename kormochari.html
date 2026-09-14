@@ -48,9 +48,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 5px;
-      border-bottom: 2px solid rgba(255,255,255,0.3);
-      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 10px;
     }
     .menu-btn {
       width: 48px;
@@ -71,28 +70,62 @@
       flex: 1;
       text-align: center;
       font-weight: 900;
-      font-size: 22px;
+      font-size: 20px;
       text-transform: uppercase;
       letter-spacing: 1px;
       padding: 0 10px;
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
+    .header-date {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.4;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .editable-field {
+      width: 100%;
+      max-width: 320px;
+      margin: 15px auto 10px;
+      display: block;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px dashed rgba(255, 255, 255, 0.5);
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    .editable-field:focus {
+      outline: none;
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .editable-field::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
     .header-subtitle {
       text-align: center;
       font-size: 14px;
       font-weight: 600;
       opacity: 0.9;
       margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.2);
     }
 
     /* ================= SIDEBAR (ADD EMPLOYEE) ================= */
     .sidebar {
       position: fixed;
-      top: 0; 
-      left: -100%; /* Changed for better mobile responsiveness */
-      width: 100%; 
-      max-width: 340px; 
-      height: 100%;
+      top: 0; left: -100%;
+      width: 100%; max-width: 340px; height: 100%;
       background: #ffffff;
       border-right: 2px solid var(--border);
       box-shadow: 4px 0 20px rgba(0,0,0,0.2);
@@ -136,7 +169,7 @@
     /* ================= EMPLOYEE CARDS ================= */
     .employee-list {
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); /* Made completely fluid for very small screens */
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
       gap: 20px; 
       margin-top: 10px;
     }
@@ -208,22 +241,20 @@
     @media (max-width: 500px) {
       body { padding: 10px; }
       .header-card { padding: 15px; }
-      .header-title { font-size: 18px; padding: 0 5px; }
+      .header-title { font-size: 16px; padding: 0 5px; }
       .menu-btn { width: 40px; height: 40px; font-size: 20px; }
+      .editable-field { font-size: 16px; }
+      .header-date { font-size: 11px; padding: 5px; }
       
       .calc-grid { grid-template-columns: 1fr; gap: 10px; }
-      
       .trans-form { flex-direction: column; }
       .trans-form input, .trans-form button { width: 100%; height: 40px; }
       
       .modal-content { padding: 15px; }
       .large-profile img { width: 100px; height: 100px; }
-      
       .summary-box { font-size: 14px; padding: 10px; }
-      
       th, td { padding: 6px; font-size: 13px; }
       table { font-size: 13px; }
-      
       .payable-amount { font-size: 16px; }
     }
   </style>
@@ -235,9 +266,13 @@
     <div class="header-card">
       <div class="header-top">
         <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-        <span class="header-title">কর্মচারী বেতন হিসাব</span>
-        <div style="width: 48px;"></div> <!-- Spacer for balance -->
+        <span class="header-title">আর এম থাই অ্যালুমিনিয়াম</span>
+        <div class="header-date" id="currentDate"></div>
       </div>
+      
+      <!-- Editable Data Field -->
+      <input type="text" id="editableHeaderInfo" class="editable-field" placeholder="নাম / নাম্বার / ঠিকানা লিখুন..." oninput="saveHeaderInfo()">
+      
       <div class="header-subtitle">অটোমেটিক মাস শেষে ফাইনাল স্টেটমেন্ট</div>
     </div>
 
@@ -317,11 +352,34 @@
     let employees = JSON.parse(localStorage.getItem('employees')) || [];
     let currentEmpId = null;
 
+    // Convert Numbers to Bengali
     function toBnNum(num) {
       if (num === null || num === undefined) return '০';
       let str = num.toString();
       const bnNums = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯', '.':'.'};
       return str.replace(/[0-9.]/g, match => bnNums[match] || match);
+    }
+
+    // Set Current Date in Header
+    function showCurrentDate() {
+        const now = new Date();
+        const d = now.getDate();
+        const y = now.getFullYear();
+        const months = ["জানু", "ফেব্রু", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টে", "অক্টো", "নভে", "ডিসে"];
+        const m = months[now.getMonth()];
+        document.getElementById('currentDate').innerHTML = toBnNum(d) + " " + m + "<br>" + toBnNum(y);
+    }
+
+    // Load and Save Header Editable Info
+    function loadHeaderInfo() {
+        const savedInfo = localStorage.getItem('headerInfo');
+        if (savedInfo) {
+            document.getElementById('editableHeaderInfo').value = savedInfo;
+        }
+    }
+    function saveHeaderInfo() {
+        const info = document.getElementById('editableHeaderInfo').value;
+        localStorage.setItem('headerInfo', info);
     }
 
     function toggleSidebar() {
@@ -442,13 +500,12 @@
         const emp = employees.find(e => e.id === currentEmpId);
         if (!emp) return;
 
-        // Automatically update as user types (oninput)
         emp.absents = parseFloat(document.getElementById('absentDays').value) || 0;
         emp.bonus = parseFloat(document.getElementById('bonusAmount').value) || 0;
 
         saveData();
         renderLedger();
-        renderEmployees(); // updates the background card value too
+        renderEmployees(); 
     }
 
     document.getElementById('transactionForm').addEventListener('submit', function(e) {
@@ -457,14 +514,13 @@
         const amount = parseFloat(document.getElementById('transAmount').value);
 
         const emp = employees.find(e => e.id === currentEmpId);
-        // Format Date to DD/MM/YYYY
         let dParts = date.split('-');
         let formattedDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
 
         emp.transactions.push({ id: Date.now().toString(), date: formattedDate, amount });
 
         saveData();
-        document.getElementById('transAmount').value = ''; // Just reset amount, keep date
+        document.getElementById('transAmount').value = ''; 
         renderLedger();
         renderEmployees();
     });
@@ -486,7 +542,6 @@
             `;
         });
 
-        // Automatic calculation logic
         const now = new Date();
         const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); 
         const dailyRate = emp.salary / daysInMonth;
@@ -556,6 +611,8 @@
 
     // Initialize
     window.onload = function() {
+        showCurrentDate();
+        loadHeaderInfo();
         renderEmployees();
     };
   </script>

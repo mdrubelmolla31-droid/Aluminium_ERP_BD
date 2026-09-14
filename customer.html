@@ -50,19 +50,30 @@
     .header-top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
+      align-items: flex-start;
+      margin-bottom: 15px;
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      padding-bottom: 10px;
+      padding-bottom: 15px;
     }
 
-    .header-title {
+    .titles-area {
       flex: 1;
-      text-align: left;
+    }
+
+    .shop-title {
+      margin: 0 0 5px 0;
+      font-size: 24px;
       font-weight: 900;
-      font-size: 20px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .page-subtitle {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #e2e8f0;
     }
 
     .date-display {
@@ -72,35 +83,19 @@
       padding: 6px 12px;
       border-radius: 6px;
       white-space: nowrap;
+      margin-left: 10px;
     }
 
-    .shop-details {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .shop-contact {
+      font-size: 16px;
+      font-weight: bold;
+      color: #f8fafc;
     }
 
-    .editable-input {
-      width: 100%;
-      height: 45px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.95);
-      color: #0f172a;
-      font-size: 18px;
-      font-weight: 900;
-      text-align: center;
-      outline: none;
-      transition: all 0.3s ease;
-    }
-    
-    #shopPhone { font-size: 16px; font-weight: 800; }
-
-    /* ================= LAYOUT SPLIT (For Large Screens) ================= */
+    /* ================= LAYOUT SPLIT ================= */
     .content-wrapper {
       display: flex;
-      flex-direction: column;
+      flex-direction: column; /* মোবাইলে সবসময় উপর-নিচ থাকবে */
       gap: 20px;
     }
     
@@ -193,34 +188,34 @@
 
     /* ================= RESPONSIVE MEDIA QUERIES ================= */
     
-    /* ট্যাবলেট (iPad) এবং ছোট ল্যাপটপের জন্য */
-    @media (min-width: 768px) {
-      .shop-details { flex-direction: row; }
-      .editable-input { width: 50%; }
+    /* শুধুমাত্র বড় ল্যাপটপ এবং ডেস্কটপের জন্য (PC View) */
+    @media (min-width: 992px) {
+      .content-wrapper { 
+        flex-direction: row; /* পিসিতে পাশাপাশি থাকবে */
+        align-items: flex-start; 
+      }
       
-      .content-wrapper { flex-direction: row; align-items: flex-start; }
-      
-      /* ফর্ম অংশকে ফিক্সড/স্টিকি সাইডবার বানানো হয়েছে */
       .left-side { 
         width: 380px; 
         flex-shrink: 0; 
         position: sticky; 
         top: 20px; 
       }
+      
       .right-side { 
         flex-grow: 1; 
-        width: calc(100% - 400px); 
+        width: auto; 
       }
       
-      /* কাস্টমার লিস্ট ২ কলামে দেখাবে */
-      .customer-list { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+      /* পিসিতে কাস্টমার লিস্ট ২ কলামে দেখাবে */
+      .customer-list { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
     }
 
-    /* বড় ডেস্কটপ স্ক্রিনের জন্য */
-    @media (min-width: 1024px) {
-      .customer-list { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-      .left-side { width: 400px; }
-      .header-title { font-size: 24px; }
+    /* মোবাইলের জন্য শিরোনাম একটু ছোট হবে */
+    @media (max-width: 600px) {
+      .shop-title { font-size: 20px; }
+      .header-top { flex-direction: column; gap: 10px; }
+      .date-display { margin-left: 0; }
     }
 
   </style>
@@ -232,18 +227,19 @@
   <!-- হেডার সেকশন -->
   <div class="header-card">
     <div class="header-top">
-      <span class="header-title">কাস্টমার ম্যানেজমেন্ট</span>
+      <div class="titles-area">
+        <h1 class="shop-title">আর এম থাই অ্যালুমিনিয়াম</h1>
+        <p class="page-subtitle">কাস্টমার ম্যানেজমেন্ট</p>
+      </div>
       <div id="currentDate" class="date-display"></div>
     </div>
-    
-    <div class="shop-details">
-      <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveShopDetails()">
-      <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveShopDetails()">
+    <div class="shop-contact">
+      📞 মোবাইল: 01676474412
     </div>
   </div>
 
   <div class="content-wrapper">
-    <!-- বাম সাইড: কাস্টমার যোগ করার ফর্ম -->
+    <!-- বাম সাইড / উপরের অংশ: কাস্টমার যোগ করার ফর্ম -->
     <div class="left-side">
       <div class="form-card">
         <h3 id="formTitle" style="font-size: 18px; margin-top: 0; margin-bottom: 15px; color: #1e3a8a; font-weight: 900;">➕ Add New Customer</h3>
@@ -268,7 +264,7 @@
       </div>
     </div>
 
-    <!-- ডান সাইড: সার্চ বক্স ও কাস্টমার লিস্ট -->
+    <!-- ডান সাইড / নিচের অংশ: সার্চ বক্স ও কাস্টমার লিস্ট -->
     <div class="right-side">
       <!-- সার্চ বক্স -->
       <div class="search-box">
@@ -287,7 +283,6 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     setCurrentDate();
-    loadShopDetails();
     renderCustomers();
   });
 
@@ -297,20 +292,6 @@
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
     document.getElementById("currentDate").innerText = `তারিখ: ${day}/${month}/${year}`;
-  }
-
-  function saveShopDetails() {
-    const shopName = document.getElementById("shopName").value;
-    const shopPhone = document.getElementById("shopPhone").value;
-    localStorage.setItem("erp_shopName", shopName);
-    localStorage.setItem("erp_shopPhone", shopPhone);
-  }
-
-  function loadShopDetails() {
-    const savedName = localStorage.getItem("erp_shopName");
-    const savedPhone = localStorage.getItem("erp_shopPhone");
-    if (savedName !== null) document.getElementById("shopName").value = savedName;
-    if (savedPhone !== null) document.getElementById("shopPhone").value = savedPhone;
   }
 
   function saveCustomer() {

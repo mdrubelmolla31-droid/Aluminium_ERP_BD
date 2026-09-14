@@ -28,33 +28,41 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 15px;
+            padding: 10px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             overflow-x: hidden;
         }
 
+        @media (min-width: 600px) {
+            body { padding: 20px; }
+        }
+
         .app-container {
             width: 100%;
-            max-width: 1050px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .header-card {
             background: var(--primary-gradient);
             border-radius: 16px;
-            padding: 20px;
+            padding: 15px;
             color: white;
             box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.25);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .header-card { padding: 20px; margin-bottom: 20px; }
         }
 
         .header-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             gap: 10px;
         }
 
@@ -62,10 +70,10 @@
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 10px;
-            padding: 8px 14px;
+            padding: 8px 12px;
             color: white;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 18px;
             transition: 0.2s;
             flex-shrink: 0;
         }
@@ -78,26 +86,26 @@
         }
 
         .header-titles h1 {
-            font-size: clamp(18px, 4vw, 28px);
+            font-size: clamp(16px, 4.5vw, 26px);
             font-weight: 800;
             letter-spacing: 0.5px;
             word-break: break-word;
         }
 
         .header-titles p {
-            font-size: clamp(11px, 1.8vw, 13px);
+            font-size: clamp(10px, 2vw, 13px);
             opacity: 0.9;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
         }
 
         .header-inputs {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 8px;
         }
 
-        @media (min-width: 600px) {
+        @media (min-width: 500px) {
             .header-inputs {
                 grid-template-columns: 1fr 1fr;
             }
@@ -109,9 +117,9 @@
             background: rgba(255, 255, 255, 0.95);
             color: var(--text-main);
             border: none;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 15px;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 14px;
             font-weight: bold;
             text-align: center;
             outline: none;
@@ -120,13 +128,14 @@
         .main-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 15px;
         }
 
         @media (min-width: 850px) {
             .main-grid {
                 grid-template-columns: 1fr 1fr;
                 align-items: start;
+                gap: 20px;
             }
             .left-column {
                 position: sticky;
@@ -137,21 +146,25 @@
         .card {
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 20px;
+            padding: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
             border: 1px solid var(--border-color);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             width: 100%;
+        }
+
+        @media (min-width: 480px) {
+            .card { padding: 16px; }
         }
 
         .card:last-child { margin-bottom: 0; }
 
         .card-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 16px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 2px solid var(--bg-body);
             display: flex;
             align-items: center;
@@ -160,13 +173,14 @@
 
         .room-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: flex-end;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             background: #f8fafc;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 8px;
+            border-radius: 10px;
             border: 1px solid var(--border-color);
+            width: 100%;
         }
 
         .input-group {
@@ -176,21 +190,21 @@
 
         .input-group label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--text-muted);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             white-space: nowrap;
         }
 
         .input-group input {
             width: 100%;
             min-width: 0;
-            padding: 10px 12px;
+            padding: 8px 6px;
             background: #ffffff;
             border: 1.5px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 15px;
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: 700;
             outline: none;
             transition: 0.2s;
@@ -201,10 +215,10 @@
             background: #ffe4e6;
             color: #e11d48;
             border: 1px solid #fecdd3;
-            border-radius: 8px;
-            width: 40px;
-            height: 40px;
-            font-size: 14px;
+            border-radius: 6px;
+            width: 36px;
+            height: 36px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -214,28 +228,28 @@
 
         .add-room-btn {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #f0f6ff;
             color: #2563eb;
             border: 2px dashed #bfdbfe;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             transition: 0.2s;
         }
         .add-room-btn:hover { background: #e0edff; }
 
         .btn-calc {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: var(--success);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
             transition: 0.2s;
@@ -246,13 +260,13 @@
             background: #ffffff;
             border: 2px dashed #cbd5e1;
             border-radius: 16px;
-            padding: 40px 20px;
+            padding: 30px 15px;
             text-align: center;
             color: var(--text-muted);
         }
         .empty-placeholder-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 40px;
+            margin-bottom: 8px;
             opacity: 0.6;
         }
 
@@ -264,45 +278,48 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #f1f5f9;
-            font-size: 15px;
-            gap: 10px;
+            font-size: 14px;
+            gap: 8px;
         }
         .result-item:last-child { border-bottom: none; }
-        .result-label { font-weight: 600; color: var(--text-muted); }
-        .result-val { font-weight: 800; color: var(--primary); font-size: 16px; text-align: right; }
+        .result-label { font-weight: 600; color: var(--text-muted); font-size: 13px; }
+        .result-val { font-weight: 800; color: var(--primary); font-size: 15px; text-align: right; }
 
         .cost-row {
             background: #f8fafc;
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             margin-bottom: 10px;
             border: 1px solid var(--border-color);
+            width: 100%;
         }
         .cost-row label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-main);
             display: block;
             margin-bottom: 6px;
         }
         .cost-inputs {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 8px;
+            width: 100%;
         }
         .cost-inputs input {
-            flex: 1;
+            width: 100%;
             min-width: 0;
-            padding: 8px 10px;
+            padding: 8px 6px;
             border: 1.5px solid #cbd5e1;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             text-align: center;
         }
         .subtotal-text {
-            font-size: 13px;
+            font-size: 12px;
             color: #16a34a;
             font-weight: 700;
             text-align: right;
@@ -313,47 +330,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 12px;
-            gap: 10px;
+            margin-top: 10px;
+            gap: 8px;
         }
-        .extra-charge label { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+        .extra-charge label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
         .extra-charge input {
-            width: 100px;
+            width: 90px;
             min-width: 0;
-            padding: 8px;
+            padding: 6px 8px;
             border: 1.5px solid #cbd5e1;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             text-align: center;
             flex-shrink: 0;
         }
 
         .grand-total-card {
-            margin-top: 15px;
-            padding: 16px;
+            margin-top: 12px;
+            padding: 12px;
             background: #f0fdf4;
             border: 2px solid #16a34a;
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
-        .grand-total-label { font-size: 15px; font-weight: 700; color: #14532d; }
-        .grand-total-val { font-size: 20px; font-weight: 900; color: #15803d; text-align: right; }
+        .grand-total-label { font-size: 14px; font-weight: 700; color: #14532d; }
+        .grand-total-val { font-size: 18px; font-weight: 900; color: #15803d; text-align: right; }
 
         .pdf-print-btn {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: #2563eb;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 12px;
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
             transition: 0.2s;
         }
@@ -367,15 +384,15 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 10px;
             backdrop-filter: blur(4px);
         }
         .modal-content {
             background: white;
             width: 100%;
-            max-width: 550px;
-            border-radius: 16px;
-            padding: 20px;
+            max-width: 500px;
+            border-radius: 14px;
+            padding: 15px;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -384,17 +401,22 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid var(--bg-body);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
         }
         .close-btn {
             background: #ef4444;
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 4px 10px;
             border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
+        }
+
+        .preview-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
         }
 
         .preview-table {
@@ -402,9 +424,9 @@
             border-collapse: collapse;
             margin-bottom: 15px;
         }
-        .preview-table th { background: var(--primary); color: white; padding: 10px; text-align: left; font-size: 13px; }
-        .preview-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); font-size: 14px; font-weight: 700; }
-        .preview-table input { width: 75px; min-width: 0; padding: 6px; border: 1.5px solid #cbd5e1; border-radius: 6px; text-align: center; font-weight: 700; }
+        .preview-table th { background: var(--primary); color: white; padding: 8px; text-align: left; font-size: 12px; }
+        .preview-table td { padding: 8px; border-bottom: 1px solid var(--border-color); font-size: 13px; font-weight: 700; }
+        .preview-table input { width: 65px; min-width: 0; padding: 4px; border: 1.5px solid #cbd5e1; border-radius: 6px; text-align: center; font-weight: 700; }
 
         #printTemplate { display: none; }
 
@@ -490,8 +512,8 @@
                 
                 <div class="empty-placeholder" id="emptyPlaceholder">
                     <div class="empty-placeholder-icon">📐</div>
-                    <h3 style="font-size: 16px; margin-bottom: 6px; color: var(--text-main);">ফলাফল দেখতে মাপ প্রবেশ করুন</h3>
-                    <p style="font-size: 13px;">বামপাশের ঘরে রুমের দৈর্ঘ্য ও প্রস্থ লিখে "মালামালের হিসাব করুন" বাটনে চাপ দিন।</p>
+                    <h3 style="font-size: 15px; margin-bottom: 6px; color: var(--text-main);">ফলাফল দেখতে মাপ প্রবেশ করুন</h3>
+                    <p style="font-size: 12px;">বামপাশের ঘরে রুমের দৈর্ঘ্য ও প্রস্থ লিখে "মালামালের হিসাব করুন" বাটনে চাপ দিন।</p>
                 </div>
 
                 <div class="results-wrapper" id="resultsWrapper">
@@ -571,7 +593,7 @@
     <div class="modal" id="historyModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 style="color: var(--primary);">📜 হিসাবের হিস্ট্রি</h3>
+                <h3 style="color: var(--primary); font-size: 16px;">📜 হিসাবের হিস্ট্রি</h3>
                 <button class="close-btn" onclick="closeHistory()">X</button>
             </div>
             <div id="historyList"></div>
@@ -582,22 +604,24 @@
     <div class="modal" id="printPreviewModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 style="color: var(--primary);">🔍 প্রিন্ট প্রিভিউ ও এডিট</h3>
+                <h3 style="color: var(--primary); font-size: 16px;">🔍 প্রিন্ট প্রিভিউ ও এডিট</h3>
                 <button class="close-btn" onclick="closePrintPreview()">X</button>
             </div>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">ফাইনাল প্রিন্ট করার আগে পরিমাণ সংশোধন করতে পারেন। প্রিন্টে কোনো টাকার হিসাব থাকবে না।</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">ফাইনাল প্রিন্ট করার আগে পরিমাণ সংশোধন করতে পারেন। প্রিন্টে কোনো টাকার হিসাব থাকবে না।</p>
             
-            <table class="preview-table">
-                <thead>
-                    <tr><th>মালামালের নাম</th><th style="text-align: center;">পরিমাণ (টি)</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>ওয়াল এঙ্গেল (১০ ফিট)</td><td align="center"><input type="number" id="prevWallAngle" value="0"></td></tr>
-                    <tr><td>মেইন টি (১২ ফিট)</td><td align="center"><input type="number" id="prevMainTee" value="0"></td></tr>
-                    <tr><td>ক্রস টি (২ ফিট)</td><td align="center"><input type="number" id="prevCrossTee" value="0"></td></tr>
-                    <tr><td>সিলিং বোর্ড (২' × ২')</td><td align="center"><input type="number" id="prevBoard" value="0"></td></tr>
-                </tbody>
-            </table>
+            <div class="preview-table-wrapper">
+                <table class="preview-table">
+                    <thead>
+                        <tr><th>মালামালের নাম</th><th style="text-align: center;">পরিমাণ (টি)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>ওয়াল এঙ্গেল (১০ ফিট)</td><td align="center"><input type="number" id="prevWallAngle" value="0"></td></tr>
+                        <tr><td>মেইন টি (১২ ফিট)</td><td align="center"><input type="number" id="prevMainTee" value="0"></td></tr>
+                        <tr><td>ক্রস টি (২ ফিট)</td><td align="center"><input type="number" id="prevCrossTee" value="0"></td></tr>
+                        <tr><td>সিলিং বোর্ড (২' × ২')</td><td align="center"><input type="number" id="prevBoard" value="0"></td></tr>
+                    </tbody>
+                </table>
+            </div>
             
             <button class="btn-calc" onclick="executeFinalPrint()">✅ কনফার্ম ও প্রিন্ট করুন</button>
         </div>
@@ -817,14 +841,14 @@
                 list.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:15px;">কোনো হিস্ট্রি সংরক্ষণে নেই।</p>';
             } else {
                 list.innerHTML = history.map(item => `
-                    <div style="background:#f8fafc; border:1px solid var(--border-color); padding:12px; margin-bottom:10px; border-radius:10px; display:flex; justify-content:space-between; align-items: center;">
-                        <div style="cursor:pointer; flex-grow: 1;" onclick="reopenHistory(${item.id})">
-                            <div style="font-size:12px; color:var(--text-muted); font-weight:bold;">📅 ${toBng(item.date.split(',')[0])}</div>
-                            <div style="font-size:14px; font-weight:bold; color:var(--primary); margin-top:4px;">
+                    <div style="background:#f8fafc; border:1px solid var(--border-color); padding:10px; margin-bottom:8px; border-radius:10px; display:flex; justify-content:space-between; align-items: center; gap: 8px;">
+                        <div style="cursor:pointer; flex-grow: 1; min-width: 0;" onclick="reopenHistory(${item.id})">
+                            <div style="font-size:11px; color:var(--text-muted); font-weight:bold;">📅 ${toBng(item.date.split(',')[0])}</div>
+                            <div style="font-size:13px; font-weight:bold; color:var(--primary); margin-top:2px;">
                                 🛖 রুম: ${toBng(item.rooms ? item.rooms.length : 1)} টি | এরিয়া: ${toBng(item.sqft)} sqft
                             </div>
                         </div>
-                        <button style="background:#ef4444; color:white; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:12px;" onclick="deleteHistoryItem(${item.id})">ডিলিট</button>
+                        <button style="background:#ef4444; color:white; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:11px; flex-shrink:0;" onclick="deleteHistoryItem(${item.id})">ডিলিট</button>
                     </div>
                 `).join('');
             }

@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RM THAI ALUMINIUM - ফিক্সড গ্লাস ক্যালকুলেটর</title>
     <style>
         * {
@@ -21,9 +21,11 @@
             min-height: 100vh;
         }
 
+        /* Responsive Container */
         .app-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 1000px; /* মোবাইলের লিমিট সরিয়ে বড় স্ক্রিনের জন্য আপডেট করা হয়েছে */
+            margin: 0 auto;
         }
 
         /* হেডার সেকশন */
@@ -42,6 +44,8 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .menu-btn {
@@ -119,12 +123,19 @@
             padding: 16px;
         }
 
+        /* Responsive Boxes Container */
+        #boxesContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
         .box-container {
             background: #f8fafc;
             border: 1px solid #cbd5e1;
             border-radius: 12px;
             padding: 14px;
-            margin-bottom: 15px;
         }
 
         .box-badge {
@@ -177,6 +188,7 @@
             font-weight: bold;
             cursor: pointer;
             margin-bottom: 12px;
+            transition: 0.2s;
         }
 
         .btn-calculate {
@@ -189,6 +201,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .btn-print {
@@ -202,6 +215,7 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 15px;
+            transition: 0.2s;
         }
 
         /* ফলাফল সেকশন */
@@ -236,11 +250,18 @@
             border-left: 4px solid #2563eb;
         }
 
+        /* Responsive Table Wrapper */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            margin-bottom: 15px;
+            min-width: 350px;
         }
 
         th, td {
@@ -254,19 +275,18 @@
             color: white;
         }
 
-        /* মোডাল ডিজাইন (হিস্ট্রি ও প্রিন্ট প্রিভিউ) */
+        /* মোডাল ডিজাইন */
         .modal {
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px;
         }
         .modal-content {
-            background: white; width: 100%; max-width: 460px; border-radius: 16px; padding: 20px; max-height: 85vh; overflow-y: auto;
+            background: white; width: 100%; max-width: 600px; border-radius: 16px; padding: 20px; max-height: 85vh; overflow-y: auto;
         }
         .modal-header {
             display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px;
         }
         .close-btn { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; }
 
-        /* প্রিভিউ টেবিল */
         .preview-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
         .preview-table th { background: #1e3a8a; color: white; padding: 8px; text-align: left; font-size: 12px; }
         .preview-table td { padding: 8px; border-bottom: 1px solid #cbd5e1; font-size: 13px; }
@@ -274,11 +294,38 @@
 
         #printTemplate { display: none; }
 
+        /* ================= DESKTOP & TABLET MEDIA QUERIES ================= */
+        @media (min-width: 768px) {
+            .header-titles h1 { font-size: 24px; }
+            .header-titles p { font-size: 14px; }
+            
+            .header-input {
+                width: calc(50% - 10px);
+                display: inline-block;
+                margin: 10px 4px 0 4px;
+            }
+
+            .grid-2 { gap: 20px; }
+            .form-group label { font-size: 14px; }
+            .form-group input { font-size: 16px; padding: 12px; }
+
+            .btn-add-box, .btn-calculate, .btn-print {
+                font-size: 18px;
+                padding: 16px;
+            }
+
+            table { font-size: 15px; }
+            th, td { padding: 12px 10px; }
+
+            .result-title { font-size: 20px; }
+            .summary-info { font-size: 16px; }
+        }
+
         /* ================= STRICT 1-PAGE A4 PRINT STYLES ================= */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 5mm; /* কম মার্জিন নিশ্চিত করার জন্য */
+                margin: 5mm;
             }
             body, html {
                 background: #fff !important; 
@@ -286,7 +333,7 @@
                 padding: 0 !important; 
                 height: 100% !important; 
                 width: 100% !important;
-                overflow: hidden !important; /* অতিরিক্ত পেজ তৈরি হওয়া বন্ধ করবে */
+                overflow: hidden !important;
             }
             .app-container, .modal { display: none !important; }
 
@@ -295,7 +342,7 @@
                 flex-direction: column;
                 justify-content: space-between;
                 width: 100% !important;
-                max-height: 280mm !important; /* A4 পাতার একদম ১ পেজ পরিমাপ */
+                max-height: 280mm !important;
                 box-sizing: border-box !important;
                 position: absolute; top: 0; left: 0; right: 0;
                 background: #fff !important;
@@ -405,27 +452,31 @@
         <div class="summary-info" id="summaryText"></div>
         
         <h4 style="color:#1e3a8a; margin-bottom:8px;">১. অ্যালুমিনিয়াম সেকশন</h4>
-        <table>
-            <thead>
-                <tr>
-                    <th>সেকশনের নাম</th>
-                    <th>২১ ফিট লাগবে</th>
-                    <th>অপচয় (Waste)</th>
-                </tr>
-            </thead>
-            <tbody id="tableBodyAlu"></tbody>
-        </table>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>সেকশনের নাম</th>
+                        <th>২১ ফিট লাগবে</th>
+                        <th>অপচয় (Waste)</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBodyAlu"></tbody>
+            </table>
+        </div>
 
         <h4 style="color:#1e3a8a; margin-bottom:8px; margin-top:15px;">২. প্রয়োজনীয় এক্সেসরিজ</h4>
-        <table>
-            <thead>
-                <tr>
-                    <th>এক্সেসরিজের নাম</th>
-                    <th>প্রয়োজনীয় পরিমাণ</th>
-                </tr>
-            </thead>
-            <tbody id="tableBodyAcc"></tbody>
-        </table>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>এক্সেসরিজের নাম</th>
+                        <th>প্রয়োজনীয় পরিমাণ</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBodyAcc"></tbody>
+            </table>
+        </div>
 
         <button class="btn-print" onclick="openPrintPreview()">🖨️ প্রিন্ট প্রিভিউ (Print Preview)</button>
     </div>
@@ -451,26 +502,28 @@
         </div>
         <p style="font-size: 11px; color: #64748b; margin-bottom: 10px;">প্রিন্ট করার আগে মালামাল কম-বেশি করতে পারেন।</p>
         
-        <table class="preview-table">
-            <thead>
-                <tr><th>অ্যালুমিনিয়াম সেকশন</th><th style="text-align: center;">পরিমাণ</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>টপ এন্ড সাইড (২১')</td><td align="center"><input type="number" id="prevTopSide"> টি</td></tr>
-                <tr><td>ফিক্সড বটম (২১')</td><td align="center"><input type="number" id="prevBottom"> টি</td></tr>
-                <tr><td>বটম বিট (২১')</td><td align="center"><input type="number" id="prevBead"> টি</td></tr>
-                <tr><td>এঙ্গেল (১ ইঞ্চি)</td><td align="center"><input type="text" id="prevAngle"></td></tr>
-            </tbody>
-            <thead>
-                <tr><th>এক্সেসরিজ</th><th style="text-align: center;">পরিমাণ</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>রিবিট (Pcs)</td><td align="center"><input type="number" id="prevRivet"> টি</td></tr>
-                <tr><td>ফিক্সড রাবার (রানিং ফিট)</td><td align="center"><input type="number" id="prevRubber"> ফিট</td></tr>
-                <tr><td>স্ক্রু ও রয়াল প্লাগ</td><td align="center"><input type="number" id="prevScrew"> সেট</td></tr>
-                <tr><td>সিলিকন গাম (টিউব)</td><td align="center"><input type="number" id="prevGum"> টি</td></tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="preview-table">
+                <thead>
+                    <tr><th>অ্যালুমিনিয়াম সেকশন</th><th style="text-align: center;">পরিমাণ</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>টপ এন্ড সাইড (২১')</td><td align="center"><input type="number" id="prevTopSide"> টি</td></tr>
+                    <tr><td>ফিক্সড বটম (২১')</td><td align="center"><input type="number" id="prevBottom"> টি</td></tr>
+                    <tr><td>বটম বিট (২১')</td><td align="center"><input type="number" id="prevBead"> টি</td></tr>
+                    <tr><td>এঙ্গেল (১ ইঞ্চি)</td><td align="center"><input type="text" id="prevAngle"></td></tr>
+                </tbody>
+                <thead>
+                    <tr><th>এক্সেসরিজ</th><th style="text-align: center;">পরিমাণ</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>রিবিট (Pcs)</td><td align="center"><input type="number" id="prevRivet"> টি</td></tr>
+                    <tr><td>ফিক্সড রাবার (রানিং ফিট)</td><td align="center"><input type="number" id="prevRubber"> ফিট</td></tr>
+                    <tr><td>স্ক্রু ও রয়াল প্লাগ</td><td align="center"><input type="number" id="prevScrew"> সেট</td></tr>
+                    <tr><td>সিলিকন গাম (টিউব)</td><td align="center"><input type="number" id="prevGum"> টি</td></tr>
+                </tbody>
+            </table>
+        </div>
         
         <button class="btn-calculate" onclick="executeFinalPrint()">✅ কনফার্ম এবং প্রিন্ট করুন</button>
     </div>
@@ -566,7 +619,7 @@
             <div class="box-container" id="box_${boxCount}">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <div class="box-badge">বক্স ${boxCount}</div>
-                    <button onclick="removeBox(${boxCount})" style="background:#ef4444; color:white; border:none; border-radius:6px; padding:2px 8px; cursor:pointer; font-size:12px;">মুছুন</button>
+                    <button onclick="removeBox(${boxCount})" style="background:#ef4444; color:white; border:none; border-radius:6px; padding:4px 12px; cursor:pointer; font-size:12px; font-weight:bold;">মুছুন</button>
                 </div>
                 <div class="grid-2">
                     <div class="form-group">
@@ -787,12 +840,12 @@
             list.innerHTML = '<p style="text-align:center; color:#64748b; padding:15px;">কোনো হিস্ট্রি পাওয়া যায়নি।</p>';
         } else {
             list.innerHTML = history.map(item => `
-                <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px; margin-bottom:10px; border-radius:8px; display:flex; justify-content:space-between;">
-                    <div style="cursor:pointer;" onclick="reopenHistory(${item.id})">
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px; margin-bottom:10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+                    <div style="cursor:pointer; flex: 1;" onclick="reopenHistory(${item.id})">
                         <div style="font-size:11px; color:#64748b;">📅 ${item.date}</div>
                         <div style="font-size:13px; font-weight:bold;">${item.boxes.length} টি বক্স | গ্লাস: ${item.sqft} sqft</div>
                     </div>
-                    <button style="background:#fee2e2; color:#dc2626; border:none; padding:5px; border-radius:4px; cursor:pointer;" onclick="deleteHistoryItem(${item.id})">Delete</button>
+                    <button style="background:#fee2e2; color:#dc2626; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:bold;" onclick="deleteHistoryItem(${item.id})">Delete</button>
                 </div>
             `).join('');
         }
@@ -823,7 +876,7 @@
                 <div class="box-container" id="box_${boxCount}">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <div class="box-badge">বক্স ${boxCount}</div>
-                        ${boxCount > 1 ? `<button onclick="removeBox(${boxCount})" style="background:#ef4444; color:white; border:none; border-radius:6px; padding:2px 8px; cursor:pointer; font-size:12px;">মুছুন</button>` : ''}
+                        ${boxCount > 1 ? `<button onclick="removeBox(${boxCount})" style="background:#ef4444; color:white; border:none; border-radius:6px; padding:4px 12px; cursor:pointer; font-size:12px; font-weight:bold;">মুছুন</button>` : ''}
                     </div>
                     <div class="grid-2">
                         <div class="form-group"><label>মোট হাইট (ফিট)</label><input type="number" class="input-height" value="${b.height}" step="any"></div>

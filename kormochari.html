@@ -13,7 +13,7 @@
       --text: #020617;
       --border: #94a3b8;
       --input-bg: #ffffff;
-      --header-bg: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      --header-bg: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
     }
     *, *::before, *::after {
       box-sizing: border-box;
@@ -23,84 +23,522 @@
     html, body {
       background-color: var(--bg-color);
       color: var(--text);
-      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       font-size: 16px;
     }
     body {
       padding: 15px;
     }
-    /* ডেস্কটপ ভিউ ঠিক করতে max-width বাড়ানো হয়েছে */
+    /* ডেক্সটপ ভিউ ঠিক রাখার জন্য max-width বাড়ানো হয়েছে */
     .main-container {
-      max-width: 1200px; 
+      max-width: 1100px;
       margin: 0 auto;
       width: 100%;
     }
 
-    /* ================= HEADER STYLE ================= */
+    /* ================= NEW HEADER STYLE ================= */
     .header-card {
       background: var(--header-bg);
       padding: 20px;
-      border-radius: 12px;
+      border-radius: 10px;
       margin-bottom: 25px;
-      box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
       color: #ffffff;
       width: 100%;
     }
-    .header-top {
+    .header-top-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      padding-bottom: 20px;
+      margin-bottom: 20px;
     }
     .menu-btn {
       width: 45px;
       height: 45px;
       flex-shrink: 0;
-      border: 2px solid rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.4);
       border-radius: 8px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.2);
       color: #ffffff;
-      font-size: 24px;
+      font-size: 22px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-      transition: background 0.3s;
+      transition: 0.3s;
     }
     .menu-btn:hover { background: rgba(255,255,255,0.3); }
-
-    .header-titles {
+    
+    .header-title-area {
       flex: 1;
       text-align: center;
-      padding: 0 15px;
+      padding: 0 10px;
     }
-    .header-titles h2 {
+    .main-title {
       font-weight: 900;
       font-size: 22px;
       margin-bottom: 5px;
-      letter-spacing: 0.5px;
-      text-shadow: 0 2px 4px rgba(আপনার রিকোয়ারমেন্ট অনুযায়ী ডেক্সটপ এবং মোবাইল উভয় স্ক্রিনে রেসপন্সিভ করে নতুন হেডারের কোড নিচে দেওয়া হলো। এখানে তিন নাম্বার ছবি (1000062418.jpg) এর মতো আলাদা দুটি ইনপুট ফিল্ড এবং ডানপাশের একেবারে উপরের কর্নারে ছোট করে ডেট ও টাইম যুক্ত করা হয়েছে। 
-
-**HTML কোড:**
-```html
-<header class="custom-header">
-  <div class="header-top-row">
-    <!-- মেনু বাটন -->
-    <button class="menu-btn">☰</button>
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .sub-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
     
-    <!-- টাইটেল এবং সাব-টাইটেল -->
-    <div class="header-title-area">
-      <h1 class="main-title">RM THAI ALUMINIUM</h1>
-      <p class="sub-title">COSTING & QUOTATION CALCULATOR</p>
+    .header-date-time {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.4;
+      min-width: 75px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .header-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      outline: none;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header-input:focus {
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
+    }
+
+    /* ================= SIDEBAR ================= */
+    .sidebar {
+      position: fixed;
+      top: 0; left: -100%;
+      width: 100%; max-width: 350px; height: 100%;
+      background: #ffffff;
+      border-right: 2px solid var(--border);
+      box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+      transition: left 0.3s ease;
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    .sidebar.active { left: 0; }
+    .drawer-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); z-index: 999; display: none;
+    }
+    .drawer-overlay.active { display: block; }
+    .close-btn { 
+      background: #dc2626; color: #fff; border: none; padding: 6px 12px; 
+      border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: bold; 
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 700; color: var(--accent); }
+    .form-group input {
+      width: 100%; height: 45px; padding: 10px; border-radius: 8px;
+      border: 2px solid var(--border); background: var(--input-bg);
+      font-size: 16px; font-weight: bold; outline: none;
+    }
+    .form-group input:focus { border-color: var(--accent); }
+    
+    /* ================= BUTTONS ================= */
+    .btn {
+      background: var(--accent); color: #ffffff; border: none; padding: 14px;
+      font-weight: 900; border-radius: 8px; cursor: pointer; width: 100%;
+      font-size: 16px;
+    }
+    .btn-add { background: #059669; }
+    .btn-delete { background: #dc2626; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .btn-call { background: #16a34a; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; display: inline-block; }
+    .whatsapp-btn { background: #25D366; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+    /* ================= EMPLOYEE CARDS ================= */
+    .employee-list {
+      display: grid; 
+      /* ডেক্সটপে সুন্দরভাবে ফিট করার জন্য grid-template-columns */
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px; 
+      margin-top: 10px;
+    }
+    .emp-card {
+      background: var(--card-bg); padding: 20px; border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align: center;
+      border: 2px solid var(--border); border-top: 6px solid var(--accent);
+    }
+    .card-img-container {
+      width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%;
+      overflow: hidden; border: 4px solid var(--accent); cursor: pointer;
+    }
+    .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+    .emp-card h3 { color: var(--accent); font-size: 22px; margin-bottom: 5px; cursor: pointer; font-weight: 900; }
+    .action-btns { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
+    .payable-amount { margin-top: 12px; font-weight: 900; font-size: 18px; cursor: pointer; padding: 8px; border-radius: 6px; background: #f8fafc; border: 1px solid var(--border); }
+
+    /* ================= MODAL ================= */
+    .modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
+    }
+    .modal-content {
+      background: white; padding: 20px; width: 100%; max-width: 600px;
+      max-height: 90vh; overflow-y: auto; border-radius: 12px; position: relative;
+    }
+    .modal-close-btn {
+      position: absolute; right: 15px; top: 15px; background: #dc2626; color: white;
+      border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 18px;
+      font-weight: bold; cursor: pointer;
+    }
+    .large-profile { text-align: center; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+    .large-profile img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); }
+    .setup-box { background: #f8fafc; padding: 15px; border-radius: 10px; border: 2px solid var(--border); margin-bottom: 15px; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+    .calc-grid input { width: 100%; height: 45px; padding: 10px; border-radius: 8px; text-align: center; border: 2px solid var(--border); font-size: 18px; font-weight: bold; }
+    .trans-form { display: flex; gap: 10px; margin: 15px 0; }
+    .trans-form input { flex: 1; height: 45px; padding: 10px; border-radius: 8px; border: 2px solid var(--border); font-weight: bold; }
+    .trans-form button { background: var(--accent); color: white; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; font-weight: bold; }
+    th, td { border: 2px solid var(--border); padding: 10px; text-align: center; }
+    th { background: var(--accent); color: white; }
+    .summary-box { background: #e0f2fe; padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px solid #0284c7; font-size: 16px; font-weight: bold; }
+
+    /* ================= MOBILE RESPONSIVE ================= */
+    @media (max-width: 500px) {
+      .header-card { padding: 15px; }
+      .main-title { font-size: 18px; }
+      .menu-btn { width: 40px; height: 40px; font-size: 20px; }
+      .header-date-time { font-size: 10px; padding: 5px; }
+      .calc-grid { grid-template-columns: 1fr; }
+      .trans-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+    <!-- Header Area (Updated for Desktop & Layout 3) -->
+    <div class="header-card">
+      <div class="header-top-row">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        
+        <div class="header-title-area">
+          <h1 class="main-title">আর এম থাই অ্যালুমিনিয়াম</h1>
+          <p class="sub-title">অটোমেটিক মাস শেষে ফাইনাল স্টেটমেন্ট</p>
+        </div>
+        
+        <div class="header-date-time" id="liveDateTime"></div>
+      </div>
+      
+      <div class="header-inputs">
+        <input type="text" id="headerInput1" class="header-input" placeholder="নাম / ঠিকানা লিখুন..." oninput="saveHeaderInfo()">
+        <input type="text" id="headerInput2" class="header-input" placeholder="মোবাইল নাম্বার দিন..." oninput="saveHeaderInfo()">
+      </div>
+    </div>
+
+    <!-- Employee List -->
+    <div class="employee-list" id="employeeList"></div>
+  </div>
+
+  <div id="drawerOverlay" class="drawer-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">
+        <h3 style="color: var(--accent); margin: 0; font-weight: 900; font-size: 20px;">নতুন কর্মচারী যোগ</h3>
+        <button class="close-btn" onclick="toggleSidebar()">✕</button>
     </div>
     
-    <!-- ডেট এবং টাইম (ডান পাশে কর্নারে) -->
-    <div class="header-date-time" id="liveDateTime">
-      --/--/---- <br> --:--
+    <form id="addEmployeeForm">
+        <div class="form-group"><label>নাম:</label><input type="text" id="empName" placeholder="কর্মচারীর নাম" required></div>
+        <div class="form-group"><label>পিতার নাম:</label><input type="text" id="empFather" placeholder="পিতার নাম" required></div>
+        <div class="form-group"><label>মোবাইল (WhatsApp):</label><input type="text" id="empPhone" placeholder="017xxxxxxxx" required></div>
+        <div class="form-group"><label>ঠিকানা:</label><input type="text" id="empAddress" placeholder="বর্তমান ঠিকানা" required></div>
+        <div class="form-group"><label>মাসিক বেতন (৳):</label><input type="number" id="empSalary" placeholder="যেমন: 15000" required></div>
+        <div class="form-group"><label>ছবি দিন (ঐচ্ছিক):</label><input type="file" id="empPhotoFile" accept="image/*" style="padding: 5px;"></div>
+        <button type="submit" class="btn btn-add">কর্মচারী সেভ করুন</button>
+    </form>
+  </div>
+
+  <!-- Modal -->
+  <div id="profileModal" class="modal" onclick="if(event.target === this) closeModal()">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeModal()">✕</button>
+        <div id="largeProfileArea" class="large-profile"></div>
+
+        <div class="setup-box">
+            <h4 style="color: var(--accent); margin-bottom: 5px; font-size: 18px; font-weight: 900;">হাজিরা ও বোনাস:</h4>
+            <div class="calc-grid">
+                <div>
+                    <label>অনুপস্থিতি (দিন):</label>
+                    <input type="number" id="absentDays" value="0" min="0" step="any" oninput="updateCalculations()">
+                </div>
+                <div>
+                    <label>হাজিরা বোনাস (৳):</label>
+                    <input type="number" id="bonusAmount" value="0" min="0" oninput="updateCalculations()">
+                </div>
+            </div>
+        </div>
+
+        <h4 style="color: var(--accent); font-weight: 900; font-size: 18px;">অগ্রিম / খরচ কাটতি:</h4>
+        <form id="transactionForm" class="trans-form">
+            <input type="date" id="transDate" required>
+            <input type="number" id="transAmount" placeholder="টাকা (৳)" required>
+            <button type="submit">যোগ</button>
+        </form>
+
+        <div style="max-height: 200px; overflow-y: auto;">
+          <table>
+              <thead><tr><th>তারিখ</th><th>অগ্রিম (৳)</th><th>ডিলিট</th></tr></thead>
+              <tbody id="ledgerBody"></tbody>
+          </table>
+        </div>
+
+        <div id="summaryBox" class="summary-box"></div>
+
+        <button class="whatsapp-btn" onclick="sendWhatsAppSummary()">
+            WhatsApp-এ স্টেটমেন্ট পাঠান
+        </button>
     </div>
   </div>
 
-  <!-- দুটি আলাদা ইনপুট ফিল্ড -->
-  <div class="header-inputs">
-    <input type="text"
+  <script>
+    // === DATE & TIME SYSTEM ===
+    function toBnNum(num) {
+      if (num === null || num === undefined) return '০';
+      let str = num.toString();
+      const bnNums = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯', '.':'.'};
+      return str.replace(/[0-9.]/g, match => bnNums[match] || match);
+    }
+
+    function updateLiveTime() {
+      const now = new Date();
+      const months = ["জানু", "ফেব্রু", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টে", "অক্টো", "নভে", "ডিসে"];
+      
+      const d = now.getDate();
+      const m = months[now.getMonth()];
+      const y = now.getFullYear();
+      
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      let ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+
+      const dateStr = `${toBnNum(d)} ${m} ${toBnNum(y)}`;
+      const timeStr = `${toBnNum(hours)}:${toBnNum(minutes)} ${ampm}`;
+      
+      document.getElementById('liveDateTime').innerHTML = `${dateStr}<br>${timeStr}`;
+    }
+    setInterval(updateLiveTime, 1000);
+    updateLiveTime();
+
+    // === HEADER INPUT SAVING SYSTEM ===
+    function loadHeaderInfo() {
+      document.getElementById('headerInput1').value = localStorage.getItem('headerInput1') || '';
+      document.getElementById('headerInput2').value = localStorage.getItem('headerInput2') || '';
+    }
+    function saveHeaderInfo() {
+      localStorage.setItem('headerInput1', document.getElementById('headerInput1').value);
+      localStorage.setItem('headerInput2', document.getElementById('headerInput2').value);
+    }
+
+    // === EMPLOYEE SYSTEM ===
+    let employees = JSON.parse(localStorage.getItem('employees')) || [];
+    let currentEmpId = null;
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('drawerOverlay').classList.toggle('active');
+    }
+
+    function getBase64(file) {
+      return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+      });
+    }
+
+    document.getElementById('transDate').valueAsDate = new Date();
+
+    document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const photoInput = document.getElementById('empPhotoFile');
+        let photoData = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+        
+        if (photoInput.files && photoInput.files[0]) {
+            photoData = await getBase64(photoInput.files[0]);
+        }
+
+        const newEmployee = {
+            id: Date.now().toString(),
+            name: document.getElementById('empName').value,
+            father: document.getElementById('empFather').value,
+            phone: document.getElementById('empPhone').value,
+            address: document.getElementById('empAddress').value,
+            salary: parseFloat(document.getElementById('empSalary').value),
+            photo: photoData,
+            absents: 0,
+            bonus: 0,
+            transactions: []
+        };
+
+        employees.push(newEmployee);
+        saveData();
+        this.reset();
+        toggleSidebar();
+        renderEmployees();
+    });
+
+    function renderEmployees() {
+        const listDiv = document.getElementById('employeeList');
+        listDiv.innerHTML = '';
+        const now = new Date();
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+
+        if (employees.length === 0) {
+            listDiv.innerHTML = `<div style="text-align:center; grid-column: 1/-1; color: var(--accent); padding: 40px; font-size: 18px; font-weight: bold; background: white; border-radius: 10px;">কোনো কর্মচারী যুক্ত করা নেই।</div>`;
+            return;
+        }
+
+        employees.forEach(emp => {
+            const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
+            const dailyRate = emp.salary / daysInMonth; 
+            const absentDeduction = (emp.absents || 0) * dailyRate;
+            const finalPayable = emp.salary - absentDeduction + (emp.bonus || 0) - totalAdvance;
+            const cardColor = finalPayable < 0 ? '#dc2626' : '#16a34a';
+
+            listDiv.innerHTML += `
+                <div class="emp-card">
+                    <div class="card-img-container" onclick="openProfile('${emp.id}')"><img src="${emp.photo}"></div>
+                    <h3 onclick="openProfile('${emp.id}')">${emp.name}</h3>
+                    <p style="font-size: 14px; font-weight: bold;">পিতা: ${emp.father}</p>
+                    <div class="action-btns">
+                        <a href="tel:${emp.phone}" class="btn-call">📞 কল</a>
+                        <button onclick="deleteEmployee('${emp.id}')" class="btn-delete">🗑 ডিলিট</button>
+                    </div>
+                    <p style="font-size: 16px; font-weight: 900;">বেতন: ৳${toBnNum(emp.salary)}</p>
+                    <div class="payable-amount" style="color: ${cardColor};" onclick="openProfile('${emp.id}')">
+                        পাওনা: ৳${toBnNum(Math.round(finalPayable))}
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function deleteEmployee(id) {
+        if (confirm("আপনি কি নিশ্চিত এই কর্মচারীকে মুছে ফেলতে চান?")) {
+            employees = employees.filter(e => e.id !== id);
+            saveData(); renderEmployees();
+        }
+    }
+
+    function openProfile(id) {
+        currentEmpId = id;
+        const emp = employees.find(e => e.id === id);
+        document.getElementById('largeProfileArea').innerHTML = `
+            <img src="${emp.photo}">
+            <h2 style="color: var(--accent); margin-top: 10px; font-size: 24px; font-weight: 900;">${emp.name}</h2>
+            <p style="font-size: 15px; font-weight: bold;">ফোন: ${toBnNum(emp.phone)} | পিতা: ${emp.father}</p>
+        `;
+        document.getElementById('absentDays').value = emp.absents || '';
+        document.getElementById('bonusAmount').value = emp.bonus || '';
+        renderLedger();
+        document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    function updateCalculations() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        emp.absents = parseFloat(document.getElementById('absentDays').value) || 0;
+        emp.bonus = parseFloat(document.getElementById('bonusAmount').value) || 0;
+        saveData(); renderLedger(); renderEmployees(); 
+    }
+
+    document.getElementById('transactionForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const date = document.getElementById('transDate').value;
+        const amount = parseFloat(document.getElementById('transAmount').value);
+        const emp = employees.find(e => e.id === currentEmpId);
+        let dParts = date.split('-');
+        emp.transactions.push({ id: Date.now().toString(), date: `${dParts[2]}/${dParts[1]}/${dParts[0]}`, amount });
+        saveData(); document.getElementById('transAmount').value = ''; 
+        renderLedger(); renderEmployees();
+    });
+
+    function renderLedger() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        const tbody = document.getElementById('ledgerBody');
+        tbody.innerHTML = '';
+        let totalAdvance = 0;
+        
+        emp.transactions.forEach(tr => {
+            totalAdvance += tr.amount;
+            tbody.innerHTML += `
+                <tr>
+                    <td>${toBnNum(tr.date)}</td>
+                    <td style="color: #dc2626;">- ৳${toBnNum(tr.amount)}</td>
+                    <td><button onclick="deleteTrans('${tr.id}')" style="background:#dc2626; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">X</button></td>
+                </tr>
+            `;
+        });
+
+        const now = new Date();
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); 
+        const absentCut = (emp.absents || 0) * (emp.salary / daysInMonth);
+        const finalPayable = emp.salary - absentCut + (emp.bonus || 0) - totalAdvance;
+
+        document.getElementById('summaryBox').innerHTML = `
+            <div style="text-align:center; color: var(--accent); margin-bottom: 10px;"><b>চলতি মাসের হিসাব (${toBnNum(daysInMonth)} দিনের)</b></div>
+            <div style="display:flex; justify-content:space-between;"><span>মূল বেতন:</span> <span>৳${toBnNum(emp.salary)}</span></div>
+            <div style="display:flex; justify-content:space-between; color: #dc2626;"><span>অনুপস্থিতি কাটা:</span> <span>- ৳${toBnNum(Math.round(absentCut))}</span></div>
+            <div style="display:flex; justify-content:space-between; color: #16a34a;"><span>হাজিরা বোনাস:</span> <span>+ ৳${toBnNum(emp.bonus || 0)}</span></div>
+            <div style="display:flex; justify-content:space-between; color: #dc2626;"><span>মোট অগ্রিম:</span> <span>- ৳${toBnNum(totalAdvance)}</span></div>
+            <hr style="border: 1px solid #94a3b8; margin: 10px 0;">
+            <div style="display:flex; justify-content:space-between; font-size: 20px; color: ${finalPayable < 0 ? '#dc2626' : '#1e3a8a'};">
+              <b>নিট পাওনা:</b> <b>৳${toBnNum(Math.round(finalPayable))}</b>
+            </div>
+        `;
+    }
+
+    function deleteTrans(transId) {
+        const emp = employees.find(e => e.id === currentEmpId);
+        emp.transactions = emp.transactions.filter(t => t.id !== transId);
+        saveData(); renderLedger(); renderEmployees();
+    }
+
+    function sendWhatsAppSummary() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+        const absentCut = (emp.absents || 0) * (emp.salary / daysInMonth);
+        const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
+        const finalPayable = Math.round(emp.salary - absentCut + (emp.bonus || 0) - totalAdvance);
+
+        let msg = `*মাসিক বেতন স্টেটমেন্ট*\nনাম: ${emp.name}\nমূল বেতন: ৳${emp.salary}\nঅনুপস্থিতি কাটা: -৳${Math.round(absentCut)}\nবোনাস: +৳${emp.bonus || 0}\nমোট অগ্রিম: -৳${totalAdvance}\n-------------------\n*নিট পাওনা: ৳${finalPayable}*`;
+        let phone = emp.phone.replace(/[^0-9]/g, '');
+        if(phone.startsWith('0')) phone = '88' + phone;
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function closeModal() { document.getElementById('profileModal').style.display = 'none'; currentEmpId = null; }
+    function saveData() { localStorage.setItem('employees', JSON.stringify(employees)); }
+
+    window.onload = function() { loadHeaderInfo(); renderEmployees(); };
+  </script>
+</body>
+</html>

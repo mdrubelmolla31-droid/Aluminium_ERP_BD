@@ -1017,8 +1017,25 @@
   function executePrint() {
     let htmlContent = document.getElementById('printContent').innerHTML;
     
-    let printWin = window.open('', '_blank');
-    printWin.document.write(`
+    // তৈরি করা হচ্ছে হিডেন আইফ্রেম (যা মোবাইল অ্যাপের ভেতরে পপ-আপ ব্লক হতে দেবে না)
+    let printFrame = document.getElementById('printIframe');
+    if (!printFrame) {
+      printFrame = document.createElement('iframe');
+      printFrame.id = 'printIframe';
+      printFrame.style.position = 'fixed';
+      printFrame.style.right = '0';
+      printFrame.style.bottom = '0';
+      printFrame.style.width = '0';
+      printFrame.style.height = '0';
+      printFrame.style.border = '0';
+      document.body.appendChild(printFrame);
+    }
+    
+    let frameDoc = printFrame.contentWindow || printFrame.contentDocument;
+    if (frameDoc.document) frameDoc = frameDoc.document;
+
+    frameDoc.open();
+    frameDoc.write(`
       <!DOCTYPE html>
       <html>
         <head>
@@ -1056,13 +1073,15 @@
         </body>
       </html>
     `);
-    
-    printWin.document.close();
-    printWin.focus();
-    
+    frameDoc.close();
+
     setTimeout(() => {
-      printWin.print();
-      printWin.close();
+      try {
+        printFrame.contentWindow.focus();
+        printFrame.contentWindow.print();
+      } catch (e) {
+        window.print();
+      }
       closePrintModal();
     }, 500);
   }

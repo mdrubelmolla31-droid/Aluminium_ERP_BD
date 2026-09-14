@@ -13,7 +13,7 @@
     .header-card {
       background: linear-gradient(135deg, #1e3a8a, #2563eb);
       color: white;
-      padding: 16px;
+      padding: 18px 12px;
       border-radius: 8px;
       margin-bottom: 16px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -21,17 +21,19 @@
       position: relative;
     }
     .header-card h2 { 
-      margin: 28px 0 6px 0; 
-      font-size: 22px; 
+      margin: 32px 0 4px 0; 
+      font-size: 26px; 
+      font-weight: 900;
       text-transform: uppercase; 
       word-break: break-word; 
       width: 100%;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      line-height: 1.2;
     }
     .header-card p { 
-      margin: 0 0 10px 0; 
-      font-size: 14px; 
-      opacity: 0.95; 
+      margin: 0 0 12px 0; 
+      font-size: 11px; 
+      opacity: 0.9; 
       font-weight: 600; 
       text-transform: uppercase; 
       width: 100%;
@@ -221,20 +223,19 @@
 
     #printContent * { outline: none !important; }
 
-    /* responsive styles for small devices (Android/iPhone) */
     @media (max-width: 576px) {
       body { padding: 6px; }
       .card { padding: 10px; }
-      .header-card { padding: 12px 10px; }
-      .header-card h2 { font-size: 18px; margin-top: 32px; }
-      .header-card p { font-size: 12px; }
+      .header-card { padding: 14px 8px; }
+      .header-card h2 { font-size: 20px; margin-top: 34px; }
+      .header-card p { font-size: 10px; margin-bottom: 8px; }
       .menu-btn { top: 8px; left: 8px; padding: 2px 8px; font-size: 16px; }
       .header-date { top: 8px; right: 8px; padding: 2px 6px; font-size: 11px; }
       
       .row { flex-direction: column; gap: 8px; }
       .col { width: 100%; flex: 1 1 100%; }
 
-      input, select { font-size: 16px; } /* iOS auto-zoom fix */
+      input, select { font-size: 16px; }
       table.input-table input { font-size: 16px; }
 
       table.input-table th, table.report-table th { font-size: 11px; padding: 6px 2px; }
@@ -1061,7 +1062,6 @@
   function executePrint() {
     let htmlContent = document.getElementById('printContent').innerHTML;
     
-    // তৈরি করা হচ্ছে হিডেন আইফ্রেম (যা মোবাইল অ্যাপের ভেতরে পপ-আপ ব্লক হতে দেবে না)
     let printFrame = document.getElementById('printIframe');
     if (!printFrame) {
       printFrame = document.createElement('iframe');

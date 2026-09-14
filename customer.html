@@ -27,19 +27,22 @@
     }
     
     body {
-      padding: 12px;
-      display: flex;
-      justify-content: center;
+      padding: 15px;
     }
 
-    .main-container { width: 100%; max-width: 500px; }
+    /* কন্টেইনার সব স্ক্রিনের জন্য ফিট করা হয়েছে */
+    .main-container { 
+      width: 100%; 
+      max-width: 1200px; /* ল্যাপটপ ও ডেস্কটপের জন্য বড় সাইজ */
+      margin: 0 auto; 
+    }
 
     /* ================= HEADER STYLE ================= */
     .header-card {
       background: var(--header-bg);
-      padding: 16px;
+      padding: 20px;
       border-radius: 12px;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       box-shadow: 0 4px 15px rgba(20, 70, 160, 0.2);
       color: #ffffff;
     }
@@ -57,16 +60,16 @@
       flex: 1;
       text-align: left;
       font-weight: 900;
-      font-size: 18px;
+      font-size: 20px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .date-display {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       background: rgba(255,255,255,0.2);
-      padding: 4px 10px;
+      padding: 6px 12px;
       border-radius: 6px;
       white-space: nowrap;
     }
@@ -74,13 +77,13 @@
     .shop-details {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .editable-input {
       width: 100%;
-      height: 40px;
-      padding: 6px 12px;
+      height: 45px;
+      padding: 8px 12px;
       border: none;
       border-radius: 6px;
       background: rgba(255,255,255,0.95);
@@ -91,87 +94,142 @@
       outline: none;
       transition: all 0.3s ease;
     }
-    #shopPhone {
-      font-size: 15px;
-      font-weight: 800;
-    }
+    
+    #shopPhone { font-size: 16px; font-weight: 800; }
 
-    /* ================= FORM & LIST SECTION ================= */
+    /* ================= LAYOUT SPLIT (For Large Screens) ================= */
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .left-side { width: 100%; }
+    .right-side { width: 100%; }
+
+    /* ================= FORM & SEARCH SECTION ================= */
     .form-card { 
       background: var(--card-bg); 
       border: 1px solid var(--border); 
       border-radius: 12px; 
-      padding: 16px; 
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 20px; 
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 13px; color: #475569; margin-bottom: 5px; font-weight: 700; }
+    
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 14px; color: #475569; margin-bottom: 6px; font-weight: 700; }
     .form-control { 
       width: 100%; 
-      padding: 10px; 
+      padding: 12px; 
       background: var(--input-bg); 
       border: 1.5px solid var(--border); 
       color: var(--text); 
       border-radius: 8px; 
-      font-size: 14px; 
+      font-size: 15px; 
       font-weight: 600;
       outline: none; 
+      transition: 0.3s;
     }
-    .form-control:focus { border-color: var(--accent); }
+    .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
 
     .btn-submit { 
       width: 100%; 
-      padding: 12px; 
+      padding: 14px; 
       background: var(--accent); 
       color: white; 
       border: none; 
       border-radius: 8px; 
       font-weight: 900; 
       cursor: pointer; 
-      font-size: 15px; 
-      margin-top: 5px; 
+      font-size: 16px; 
+      margin-top: 10px; 
       box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); 
+      transition: 0.3s;
     }
-    .btn-submit:active { background: var(--accent-hover); }
+    .btn-submit:hover { background: var(--accent-hover); }
 
-    .search-box { margin-bottom: 15px; }
+    .search-box { margin-bottom: 20px; }
 
-    .customer-list { display: flex; flex-direction: column; gap: 12px; }
+    /* ================= CUSTOMER LIST SECTION ================= */
+    .customer-list { 
+      display: grid; 
+      grid-template-columns: 1fr; /* মোবাইলে ১টি কলাম */
+      gap: 15px; 
+    }
+    
     .customer-card { 
       background: var(--card-bg); 
       border: 1px solid var(--border); 
-      border-radius: 10px; 
-      padding: 14px; 
+      border-radius: 12px; 
+      padding: 18px; 
       display: flex; 
       flex-direction: column; 
-      gap: 10px; 
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      gap: 12px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      transition: transform 0.2s;
     }
+    .customer-card:hover { transform: translateY(-2px); border-color: #93c5fd; }
     
-    .cust-top-row { display: flex; justify-content: space-between; align-items: flex-start; }
-    .cust-info h4 { font-size: 16px; color: #1e3a8a; font-weight: 900; margin-bottom: 4px; }
-    .cust-info p { font-size: 13px; color: #475569; font-weight: 600; margin-top: 2px; }
+    .cust-top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .cust-info h4 { font-size: 18px; color: #1e3a8a; font-weight: 900; margin: 0 0 5px 0; }
+    .cust-info p { font-size: 14px; color: #475569; font-weight: 600; margin: 3px 0; }
 
-    .action-btns { display: flex; gap: 6px; }
-    .btn-action { background: #e2e8f0; border: none; color: #0f172a; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
-    .btn-delete { background: #fee2e2; color: #dc2626; }
+    .action-btns { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-action { background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
+    .btn-action:hover { background: #e2e8f0; }
+    .btn-delete { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+    .btn-delete:hover { background: #fee2e2; }
 
     /* যোগাযোগের দ্রুত বাটনসমূহ */
-    .contact-actions { display: flex; gap: 8px; border-top: 1px solid var(--border); padding-top: 10px; flex-wrap: wrap; }
-    .btn-contact { text-decoration: none; padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; color: white; flex: 1; justify-content: center; text-align: center; min-width: 90px; }
-    .btn-call { background: #10b981; } /* ডাইরেক্ট কল */
-    .btn-wa { background: #25d366; color: #ffffff; } /* হোয়াটসঅ্যাপ */
-    .btn-imo { background: #2563eb; } /* ইমু */
+    .contact-actions { display: flex; gap: 10px; border-top: 1px dashed var(--border); padding-top: 12px; flex-wrap: wrap; }
+    .btn-contact { text-decoration: none; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 5px; color: white; flex: 1; min-width: 90px; transition: 0.3s; }
+    .btn-contact:hover { opacity: 0.9; }
+    .btn-call { background: #10b981; } 
+    .btn-wa { background: #25d366; color: #ffffff; } 
+    .btn-imo { background: #2563eb; } 
 
-    .empty-msg { text-align: center; color: #64748b; font-size: 14px; font-weight: bold; margin-top: 30px; }
+    .empty-msg { text-align: center; color: #64748b; font-size: 16px; font-weight: bold; margin-top: 40px; background: white; padding: 20px; border-radius: 10px; border: 1px dashed #cbd5e1; }
+
+    /* ================= RESPONSIVE MEDIA QUERIES ================= */
+    
+    /* ট্যাবলেট (iPad) এবং ছোট ল্যাপটপের জন্য */
+    @media (min-width: 768px) {
+      .shop-details { flex-direction: row; }
+      .editable-input { width: 50%; }
+      
+      .content-wrapper { flex-direction: row; align-items: flex-start; }
+      
+      /* ফর্ম অংশকে ফিক্সড/স্টিকি সাইডবার বানানো হয়েছে */
+      .left-side { 
+        width: 380px; 
+        flex-shrink: 0; 
+        position: sticky; 
+        top: 20px; 
+      }
+      .right-side { 
+        flex-grow: 1; 
+        width: calc(100% - 400px); 
+      }
+      
+      /* কাস্টমার লিস্ট ২ কলামে দেখাবে */
+      .customer-list { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    }
+
+    /* বড় ডেস্কটপ স্ক্রিনের জন্য */
+    @media (min-width: 1024px) {
+      .customer-list { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+      .left-side { width: 400px; }
+      .header-title { font-size: 24px; }
+    }
+
   </style>
 </head>
 <body>
 
 <div class="main-container">
   
-  <!-- হেডার সেকশন (ব্লু গ্রাডিয়েন্ট) -->
+  <!-- হেডার সেকশন -->
   <div class="header-card">
     <div class="header-top">
       <span class="header-title">কাস্টমার ম্যানেজমেন্ট</span>
@@ -184,37 +242,44 @@
     </div>
   </div>
 
-  <!-- কাস্টমার যোগ করার ফর্ম -->
-  <div class="form-card">
-    <h3 id="formTitle" style="font-size: 15px; margin-bottom: 12px; color: #1e3a8a; font-weight: 900;">➕ Add New Customer</h3>
-    <input type="hidden" id="editIndex" value="">
-    
-    <div class="form-group">
-      <label>Customer Name *</label>
-      <input type="text" id="custName" class="form-control" placeholder="গ্রাহকের নাম লিখুন">
+  <div class="content-wrapper">
+    <!-- বাম সাইড: কাস্টমার যোগ করার ফর্ম -->
+    <div class="left-side">
+      <div class="form-card">
+        <h3 id="formTitle" style="font-size: 18px; margin-top: 0; margin-bottom: 15px; color: #1e3a8a; font-weight: 900;">➕ Add New Customer</h3>
+        <input type="hidden" id="editIndex" value="">
+        
+        <div class="form-group">
+          <label>Customer Name *</label>
+          <input type="text" id="custName" class="form-control" placeholder="গ্রাহকের নাম লিখুন">
+        </div>
+        
+        <div class="form-group">
+          <label>Mobile Number *</label>
+          <input type="text" id="custPhone" class="form-control" placeholder="মোবাইল নম্বর (যেমন: 017xxxxxxxx)">
+        </div>
+
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" id="custAddress" class="form-control" placeholder="ঠিকানা লিখুন">
+        </div>
+
+        <button class="btn-submit" id="saveBtn" onclick="saveCustomer()">Save Customer</button>
+      </div>
     </div>
-    
-    <div class="form-group">
-      <label>Mobile Number *</label>
-      <input type="text" id="custPhone" class="form-control" placeholder="মোবাইল নম্বর লিখুন (যেমন: 017xxxxxxxx)">
+
+    <!-- ডান সাইড: সার্চ বক্স ও কাস্টমার লিস্ট -->
+    <div class="right-side">
+      <!-- সার্চ বক্স -->
+      <div class="search-box">
+        <input type="text" id="searchInput" class="form-control" placeholder="🔍 কাস্টমার খুঁজুন (নাম বা নম্বর দিয়ে)..." style="font-size: 16px; padding: 14px;" oninput="renderCustomers()">
+      </div>
+
+      <!-- কাস্টমার লিস্ট -->
+      <div class="customer-list" id="customerListContainer">
+        <!-- কাস্টমার কার্ডগুলো এখানে ডাইনামিকভাবে লোড হবে -->
+      </div>
     </div>
-
-    <div class="form-group">
-      <label>Address</label>
-      <input type="text" id="custAddress" class="form-control" placeholder="ঠিকানা লিখুন">
-    </div>
-
-    <button class="btn-submit" id="saveBtn" onclick="saveCustomer()">Save Customer</button>
-  </div>
-
-  <!-- সার্চ বক্স -->
-  <div class="search-box">
-    <input type="text" id="searchInput" class="form-control" placeholder="🔍 কাস্টমার খুঁজুন (নাম বা নম্বর দিয়ে)..." oninput="renderCustomers()">
-  </div>
-
-  <!-- কাস্টমার লিস্ট -->
-  <div class="customer-list" id="customerListContainer">
-    <!-- কাস্টমার কার্ডগুলো এখানে ডাইনামিকভাবে লোড হবে -->
   </div>
 
 </div>
@@ -262,7 +327,7 @@
     let customers = JSON.parse(localStorage.getItem('erp_customers')) || [];
 
     if (editIndex === "") {
-      customers.push({ name, phone, address });
+      customers.unshift({ name, phone, address }); // নতুন কাস্টমার লিস্টের প্রথমে যোগ হবে
     } else {
       customers[editIndex] = { name, phone, address };
       document.getElementById('editIndex').value = "";
@@ -343,6 +408,7 @@
     document.getElementById('formTitle').innerText = "✏️ Edit Customer";
     document.getElementById('saveBtn').innerText = "Update Customer";
     
+    // স্ক্রল করে ফর্মের কাছে নিয়ে যাওয়া
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 

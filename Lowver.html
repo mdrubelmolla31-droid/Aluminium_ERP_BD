@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Z Louver Calculator - ERP BD</title>
-    
-    <!-- 📄 PDF তৈরি করার লাইব্রেরি (অ্যাপের জন্য) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -14,16 +11,17 @@
         
         .container { max-width: 800px; margin: 0 auto; padding: 15px; }
 
-        /* 🌟 কাস্টম এডিটেবল হেডার */
+        /* 🌟 অ্যাপ হেডার */
         .app-header {
             background: linear-gradient(135deg, #1d4ed8, #3b82f6);
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             margin-bottom: 20px;
+            position: relative; /* তারিখের পজিশন ঠিক করার জন্য */
         }
         
-        .header-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
         .header-left { display: flex; align-items: center; gap: 10px; }
 
         .menu-btn {
@@ -37,7 +35,19 @@
         .header-titles h1 { color: #ffffff; font-size: 18px; font-weight: bold; }
         .header-titles p { color: #e0e7ff; font-size: 12px; font-weight: bold; margin-top: 4px; }
 
-        .header-date { background: rgba(0,0,0,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; }
+        /* 📅 তারিখ ডানপাশে উপরে (আপনার স্ক্রিনশট অনুযায়ী) */
+        .header-date-right { 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            background: rgba(0,0,0,0.25); 
+            color: #fff; 
+            padding: 6px 12px; 
+            border-radius: 6px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            border: 1px solid rgba(255,255,255,0.2);
+        }
 
         .editable-box {
             width: 100%; background: #ffffff; border: none; padding: 12px;
@@ -47,7 +57,7 @@
         .editable-box:focus { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); }
         .editable-box:last-child { margin-bottom: 0; }
 
-        /* 🧮 ইনপুট কার্ড (ফিট ভিত্তিক) */
+        /* 🧮 ইনপুট কার্ড */
         .card { background: #ffffff; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
         .input-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; align-items: center; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; }
         
@@ -65,6 +75,8 @@
         .dropdown-group select { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; font-weight: bold; color: #1e293b; background: #fff; outline: none; }
         
         .btn-calc { background: #10b981; width: 100%; font-size: 16px; padding: 15px; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; margin-bottom: 15px; }
+        
+        /* প্রিন্ট বাটন */
         .btn-print { background: #ef4444; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; color: white; font-size: 16px; cursor: pointer; display: none; margin-top: 20px; }
 
         /* 📊 রেজাল্ট টেবিল */
@@ -84,13 +96,62 @@
         .btn-del-item { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; margin-top: 8px; }
         .btn-clear-all { background: #ef4444; color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer; width: 100%; }
 
+        /* 🖨️ প্রিন্ট লেআউট (শুধুমাত্র এডিটেবল নাম, নাম্বার এবং রেজাল্ট টেবিল যাবে) */
+        @media print {
+            body { background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            
+            /* যেগুলো প্রিন্টে যাবে না সেগুলো হাইড করে দেওয়া হলো */
+            .no-print, .sidebar, .sidebar-overlay, #inputContainer, .settings-row, .btn-calc, .btn-print, .header-top { 
+                display: none !important; 
+            }
+
+            .container { padding: 0 !important; max-width: 100% !important; width: 100% !important; margin: 0 !important; }
+
+            /* হেডার বক্সের নীল ব্যাকগ্রাউন্ড মুছে সাদা করা হলো */
+            .app-header {
+                background: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin-bottom: 10px !important;
+            }
+
+            /* এডিটেবল নাম এবং নাম্বারকে প্রিন্টের জন্য বড় ও পরিষ্কার করা হলো */
+            .editable-box {
+                border: none !important;
+                background: transparent !important;
+                color: #000000 !important;
+                font-size: 26px !important; /* প্রিন্টে বড় দেখাবে */
+                padding: 5px 0 !important;
+                margin: 0 !important;
+                text-align: center !important;
+            }
+            #profMobile { font-size: 18px !important; margin-bottom: 20px !important; }
+
+            /* রেজাল্ট কার্ডের বর্ডার মুছে ফ্রেশ করা হলো */
+            .result-box { border: none !important; box-shadow: none !important; display: block !important; padding: 0 !important; }
+            
+            /* টেবিল ক্লিয়ার এবং এইচডি করার জন্য */
+            .result-table { margin-top: 10px !important; border-collapse: collapse !important; width: 100% !important; }
+            .result-table th, .result-table td {
+                border: 2px solid #000000 !important; /* কালো ও মোটা বর্ডার */
+                padding: 12px !important;
+                font-size: 18px !important; /* প্রিন্টে লেখা স্পষ্ট হবে */
+                color: #000000 !important;
+            }
+            .result-table th { 
+                background-color: #f1f5f9 !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
+            }
+            .highlight { font-weight: bold !important; color: #000000 !important; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- হিস্টরি সাইডবার -->
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
+    <!-- হিস্টরি সাইডবার (প্রিন্টে আসবে না) -->
+    <div class="sidebar-overlay no-print" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar no-print" id="sidebar">
         <div class="sidebar-header">
             <h3>হিস্টরি (Saved)</h3>
             <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
@@ -100,24 +161,32 @@
     </div>
 
     <div class="container" id="mainContainer">
-        <!-- 🌟 এডিটেবল হেডার -->
+        
+        <!-- 🌟 হেডার সেকশন -->
         <div class="app-header">
-            <div class="header-top">
+            
+            <!-- ফিক্সড হেডার এবং তারিখ (প্রিন্টে যাবে না) -->
+            <div class="header-top no-print">
                 <div class="header-left">
-                    <button class="menu-btn no-print" onclick="toggleSidebar()">☰</button>
+                    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
                     <div class="header-titles">
                         <h1>RM THAI ALUMINIUM</h1>
                         <p>জেড লুভার ক্যালকুলেটর</p>
                     </div>
                 </div>
-                <!-- 📅 ডেট সেকশন -->
-                <div class="header-date" id="displayDate"></div>
             </div>
-            <input type="text" id="profName" class="editable-box" value="RM THAI ALUMINIUM" oninput="saveProfile()">
-            <input type="text" id="profMobile" class="editable-box" value="Mobile: 01676-474412" oninput="saveProfile()">
+
+            <!-- 📅 তারিখ আপনার দেওয়া স্ক্রিনশটের জায়গা মতো (ডানদিকে উপরে) -->
+            <div class="header-date-right no-print" id="displayDate"></div>
+
+            <!-- এডিটেবল দোকানের নাম ও মোবাইল (প্রিন্টে যাবে) -->
+            <div class="print-header-info">
+                <input type="text" id="profName" class="editable-box" value="RM THAI ALUMINIUM" oninput="saveProfile()">
+                <input type="text" id="profMobile" class="editable-box" value="Mobile: 01676-474412" oninput="saveProfile()">
+            </div>
         </div>
 
-        <!-- 🎛️ সেটিংস ও ড্রপডাউন রো (উপরে সাজানো) -->
+        <!-- 🎛️ সেটিংস ও ড্রপডাউন (প্রিন্টে যাবে না) -->
         <div class="settings-row no-print">
             <div class="dropdown-group">
                 <select id="bladeSize">
@@ -137,7 +206,7 @@
             <button class="btn-add" onclick="addRow()">+ আরও উইন্ডো যোগ</button>
         </div>
 
-        <!-- 🧮 ইনপুট এরিয়া (ফিট ভিত্তিক) -->
+        <!-- 🧮 ইনপুট এরিয়া (প্রিন্টে যাবে না) -->
         <div class="card no-print" id="inputContainer">
             <h3 style="margin-bottom:10px; font-size:16px; color:#1e293b;">মাপ ও পরিমাণ দিন (ফিটে):</h3>
             <div class="input-row">
@@ -162,9 +231,9 @@
 
         <button class="btn-calc no-print" onclick="calculateLouver(true)">হিসাব বের করুন</button>
 
-        <!-- 📊 রেজাল্ট এরিয়া -->
+        <!-- 📊 রেজাল্ট এরিয়া (এটি প্রিন্টে যাবে) -->
         <div class="card result-box" id="resultCard">
-            <h3 style="text-align: center; margin-bottom: 15px; font-size:18px; color: #1d4ed8;">মালামালের চূড়ান্ত হিসাব</h3>
+            <h3 class="no-print" style="text-align: center; margin-bottom: 15px; font-size:18px; color: #1d4ed8;">মালামালের চূড়ান্ত হিসাব</h3>
             
             <table class="result-table">
                 <thead>
@@ -208,8 +277,8 @@
                 </tbody>
             </table>
 
-            <!-- অ্যাপ এবং ব্রাউজারের জন্য PDF প্রিন্ট বাটন -->
-            <button class="btn-print no-print" id="printBtn" onclick="generateAppPDF()">🖨️ PDF ডাউনলোড করুন</button>
+            <!-- অ্যাপের জন্য নেটিভ প্রিন্ট বাটন -->
+            <button class="btn-print no-print" id="printBtn" onclick="window.print()">🖨️ PDF ডাউনলোড করুন</button>
         </div>
     </div>
 
@@ -327,89 +396,6 @@
             }
         }
 
-        // 📱 শুধুমাত্র রেজাল্ট টেবিল সহ স্পেশাল HD PDF প্রিন্ট ফাংশন
-        function generateAppPDF() {
-            // ১. শুধু মালামালের রেজাল্ট কার্ড টার্গেট করা
-            const resultCard = document.getElementById('resultCard');
-            const clone = resultCard.cloneNode(true);
-            
-            // প্রিন্ট বাটনটি পিডিএফ থেকে মুছে ফেলা
-            const printBtn = clone.querySelector('#printBtn');
-            if(printBtn) printBtn.remove();
-
-            // ২. নতুন একটা র‍্যাপার (Wrapper) তৈরি করা যাতে শুধু পিডিএফের জন্য কাস্টম ডিজাইন দেওয়া যায়
-            const wrapper = document.createElement('div');
-            wrapper.style.padding = '30px';
-            wrapper.style.backgroundColor = '#ffffff';
-            wrapper.style.fontFamily = 'Arial, sans-serif';
-            wrapper.style.width = '800px'; // ফিক্সড উইডথ এইচডি কোয়ালিটির জন্য
-
-            // ৩. পিডিএফের জন্য বড় করে শিরোনাম দেওয়া
-            const pdfTitle = document.createElement('h2');
-            pdfTitle.innerText = "মালামাল এবং এক্সেসরিজের চূড়ান্ত হিসাব";
-            pdfTitle.style.textAlign = 'center';
-            pdfTitle.style.fontSize = '32px'; // অনেক বড় ফন্ট
-            pdfTitle.style.color = '#1d4ed8';
-            pdfTitle.style.marginBottom = '30px';
-            pdfTitle.style.borderBottom = '3px solid #3b82f6';
-            pdfTitle.style.paddingBottom = '15px';
-            pdfTitle.style.fontWeight = 'bold';
-            wrapper.appendChild(pdfTitle);
-
-            // অরিজিনাল ছোট শিরোনাম বাদ দেওয়া
-            const oldTitle = clone.querySelector('h3');
-            if(oldTitle) oldTitle.remove();
-
-            wrapper.appendChild(clone);
-
-            // ৪. টেবিলগুলো বড় এবং এইচডি (HD) ক্লিয়ার করা
-            const tables = wrapper.querySelectorAll('.result-table');
-            tables.forEach(table => {
-                table.style.width = '100%';
-                table.style.borderCollapse = 'collapse';
-                table.style.marginTop = '25px';
-                table.style.marginBottom = '40px';
-
-                const ths = table.querySelectorAll('th');
-                ths.forEach(th => {
-                    th.style.border = '2px solid #334155';
-                    th.style.padding = '18px';
-                    th.style.fontSize = '24px'; // বড় লেখা
-                    th.style.backgroundColor = '#f1f5f9';
-                    th.style.color = '#0f172a';
-                    th.style.textAlign = 'left'; 
-                });
-
-                const tds = table.querySelectorAll('td');
-                tds.forEach(td => {
-                    td.style.border = '2px solid #334155';
-                    td.style.padding = '18px';
-                    td.style.fontSize = '26px'; // অনেক বড় লেখা যাতে দূর থেকে বুঝা যায়
-                    td.style.color = '#1e293b';
-                    td.style.fontWeight = 'bold';
-                    td.style.textAlign = 'left';
-                });
-
-                const highlights = table.querySelectorAll('.highlight');
-                highlights.forEach(h => {
-                    h.style.color = '#b91c1c'; // পিস এর গাঢ় লাল কালার
-                    h.style.fontSize = '28px'; // পিস গুলো আরো বড়
-                });
-            });
-
-            // ৫. এইচডি (HD) সেটিংসে পিডিএফ তৈরি (Scale 4)
-            const opt = {
-                margin:       0.3,
-                filename:     'Z_Louver_Materials.pdf',
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 4, useCORS: true }, // Scale 4 মানে ফুল এইচডি রেজোলিউশন
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-
-            // জেনারেট পিডিএফ
-            html2pdf().set(opt).from(wrapper).save();
-        }
-
         // 🕒 হিস্টরি সিস্টেম
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
@@ -480,12 +466,7 @@
             }
         }
 
-        function clearAllHistory() {
-            if(confirm("সব হিস্টরি মুছে ফেলতে চান?")) {
-                localStorage.removeItem("zlouver_history");
-                renderHistory();
-            }
-        }
+    
     </script>
 </body>
 </html>

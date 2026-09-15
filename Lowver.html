@@ -35,7 +35,7 @@
         }
 
         .header-titles h1 { color: #ffffff; font-size: 18px; font-weight: bold; }
-        .header-titles p { color: #e0e7ff; font-size: 11px; font-weight: 600; text-transform: uppercase; margin-top: 4px; }
+        .header-titles p { color: #e0e7ff; font-size: 12px; font-weight: bold; margin-top: 4px; }
 
         .header-date { background: rgba(0,0,0,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; }
 
@@ -52,10 +52,10 @@
         .input-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; align-items: center; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; }
         
         .input-group { flex: 1; min-width: 70px; }
-        .input-group label { display: block; font-size: 11px; color: #64748b; margin-bottom: 4px; font-weight: bold; }
-        .input-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; text-align: center; }
+        .input-group label { display: block; font-size: 12px; color: #000000; margin-bottom: 4px; font-weight: 800; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; text-align: center; font-weight: bold; }
         
-        .btn-remove { background: #ef4444; border: none; color: white; width: 40px; height: 40px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 17px; }
+        .btn-remove { background: #ef4444; border: none; color: white; width: 40px; height: 40px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 20px; }
         
         /* 🎛️ সেটিংস রো */
         .settings-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; justify-content: space-between; align-items: center; }
@@ -107,7 +107,7 @@
                     <button class="menu-btn no-print" onclick="toggleSidebar()">☰</button>
                     <div class="header-titles">
                         <h1>RM THAI ALUMINIUM</h1>
-                        <p>Z LOUVER CALCULATOR</p>
+                        <p>জেড লুভার ক্যালকুলেটর</p>
                     </div>
                 </div>
                 <!-- 📅 ডেট সেকশন -->
@@ -115,6 +115,26 @@
             </div>
             <input type="text" id="profName" class="editable-box" value="RM THAI ALUMINIUM" oninput="saveProfile()">
             <input type="text" id="profMobile" class="editable-box" value="Mobile: 01676-474412" oninput="saveProfile()">
+        </div>
+
+        <!-- 🎛️ সেটিংস ও ড্রপডাউন রো (উপরে সাজানো) -->
+        <div class="settings-row no-print">
+            <div class="dropdown-group">
+                <select id="bladeSize">
+                    <option value='২" জেড'>২" জেড</option>
+                    <option value='৩" জেড' selected>৩" জেড</option>
+                    <option value='৪" জেড'>৪" জেড</option>
+                    <option value='৬" জেড'>৬" জেড</option>
+                </select>
+                <select id="uChannelSize">
+                    <option value='২" ইউ-চ্যানেল'>২" ইউ-চ্যানেল</option>
+                    <option value='৩" ইউ-চ্যানেল' selected>৩" ইউ-চ্যানেল</option>
+                    <option value='৪" ইউ-চ্যানেল'>৪" ইউ-চ্যানেল</option>
+                    <option value='৫" ইউ-চ্যানেল'>৫" ইউ-চ্যানেল</option>
+                    <option value='৬" ইউ-চ্যানেল'>৬" ইউ-চ্যানেল</option>
+                </select>
+            </div>
+            <button class="btn-add" onclick="addRow()">+ আরও উইন্ডো যোগ</button>
         </div>
 
         <!-- 🧮 ইনপুট এরিয়া (ফিট ভিত্তিক) -->
@@ -137,23 +157,6 @@
                     <label>পরিমাণ</label>
                     <input type="number" class="q-input" placeholder="1" value="1">
                 </div>
-            </div>
-        </div>
-
-        <!-- 🎛️ বাটন এবং ড্রপডাউন এরিয়া -->
-        <div class="settings-row no-print">
-            <button class="btn-add" onclick="addRow()">+ আরও উইন্ডো যোগ</button>
-            <div class="dropdown-group">
-                <select id="bladeSize">
-                    <option value='২"'>২" ব্লেড</option>
-                    <option value='৩"' selected>৩" ব্লেড</option>
-                    <option value='৪"'>৪" ব্লেড</option>
-                    <option value='৬"'>৬" ব্লেড</option>
-                </select>
-                <select id="uChannelSize">
-                    <option value='৩"'>৩" ইউ-চ্যানেল</option>
-                    <option value='৫"'>৫" ইউ-চ্যানেল</option>
-                </select>
             </div>
         </div>
 
@@ -183,7 +186,7 @@
                         <td class="highlight" id="resUPcs">0 পিস</td>
                     </tr>
                     <tr>
-                        <td id="labelBlade">৩" জেড লুভার (Z Blade)</td>
+                        <td id="labelBlade">৩" জেড (Z Blade)</td>
                         <td id="resZFt">0 ফিট</td>
                         <td class="highlight" id="resZPcs">0 পিস</td>
                     </tr>
@@ -205,7 +208,7 @@
                 </tbody>
             </table>
 
-            <!-- অ্যাপের জন্য PDF সেভ বাটন -->
+            <!-- অ্যাপ এবং ব্রাউজারের জন্য PDF প্রিন্ট বাটন -->
             <button class="btn-print no-print" id="printBtn" onclick="generateAppPDF()">🖨️ PDF ডাউনলোড করুন</button>
         </div>
     </div>
@@ -273,8 +276,8 @@
             let hasValidData = false;
 
             for (let i = 0; i < hInputs.length; i++) {
-                let hFt = parseFloat(hInputs[i].value) || 0; // এখন হাইট সরাসরি ফিটে হিসাব হবে
-                let wFt = parseFloat(wInputs[i].value) || 0; // এখন চওড়া সরাসরি ফিটে হিসাব হবে
+                let hFt = parseFloat(hInputs[i].value) || 0; 
+                let wFt = parseFloat(wInputs[i].value) || 0; 
                 let gapInch = parseFloat(gapInputs[i].value) || 1.5;
                 let qty = parseInt(qInputs[i].value) || 0;
 
@@ -282,16 +285,13 @@
                     hasValidData = true;
                     inputsData.push({h: hFt, w: wFt, gap: gapInch, q: qty});
 
-                    // যেহেতু ইনপুট ইতিমধ্যে ফিটে আছে, তাই পেরিমিটার (চতুর্সীমা) = (হাইট + চওড়া) × ২ ফিট
                     let perimeterFt = (hFt + wFt) * 2;
                     totalBoxFt += (perimeterFt * qty);
                     totalUFt += (perimeterFt * qty); 
 
-                    // ব্লেডের সংখ্যা বের করার জন্য হাইটকে ইঞ্চিতে রূপান্তর করে গ্যাপ দিয়ে ভাগ করা হয়েছে
                     let hInch = hFt * 12;
                     let numberOfBlades = Math.ceil(hInch / gapInch); 
                     
-                    // প্রতিটি ব্লেডের দৈর্ঘ্য হলো wFt (ফিটে)
                     totalZBladeFt += (numberOfBlades * wFt) * qty;
                     totalRivet += (numberOfBlades * 4) * qty;
                 }
@@ -305,7 +305,7 @@
             const selBlade = document.getElementById("bladeSize").value;
             const selUChannel = document.getElementById("uChannelSize").value;
             
-            document.getElementById("labelBlade").innerText = selBlade + " জেড লুভার (Z Blade)";
+            document.getElementById("labelBlade").innerText = selBlade + " (Z Blade)";
             document.getElementById("labelUChannel").innerText = selUChannel + " (Inner)";
 
             document.getElementById('resBoxFt').innerText = totalBoxFt.toFixed(2) + " ফিট";
@@ -327,53 +327,87 @@
             }
         }
 
-        // 📱 অ্যাপের জন্য বিশেষ PDF ডাউনলোড ফাংশন (HD Quality)
+        // 📱 শুধুমাত্র রেজাল্ট টেবিল সহ স্পেশাল HD PDF প্রিন্ট ফাংশন
         function generateAppPDF() {
-            const originalContainer = document.getElementById('mainContainer');
-            const clone = originalContainer.cloneNode(true);
+            // ১. শুধু মালামালের রেজাল্ট কার্ড টার্গেট করা
+            const resultCard = document.getElementById('resultCard');
+            const clone = resultCard.cloneNode(true);
             
-            const noPrintItems = clone.querySelectorAll('.no-print');
-            noPrintItems.forEach(item => item.remove());
-            
-            const inputCard = clone.querySelector('#inputContainer');
-            if(inputCard) inputCard.remove();
+            // প্রিন্ট বাটনটি পিডিএফ থেকে মুছে ফেলা
+            const printBtn = clone.querySelector('#printBtn');
+            if(printBtn) printBtn.remove();
 
-            const header = clone.querySelector('.app-header');
-            header.style.background = '#1d4ed8'; 
-            header.style.padding = '20px';
-            
-            const nameInput = clone.querySelector('#profName');
-            const mobileInput = clone.querySelector('#profMobile');
-            
-            if(nameInput) {
-                const nameText = document.createElement('div');
-                nameText.innerText = nameInput.value;
-                nameText.style.color = '#fff';
-                nameText.style.fontSize = '20px';
-                nameText.style.fontWeight = 'bold';
-                nameText.style.textAlign = 'center';
-                nameText.style.marginTop = '10px';
-                nameInput.parentNode.replaceChild(nameText, nameInput);
-            }
-            if(mobileInput) {
-                const mobileText = document.createElement('div');
-                mobileText.innerText = mobileInput.value;
-                mobileText.style.color = '#fff';
-                mobileText.style.fontSize = '16px';
-                mobileText.style.textAlign = 'center';
-                mobileText.style.marginTop = '5px';
-                mobileInput.parentNode.replaceChild(mobileText, mobileInput);
-            }
+            // ২. নতুন একটা র‍্যাপার (Wrapper) তৈরি করা যাতে শুধু পিডিএফের জন্য কাস্টম ডিজাইন দেওয়া যায়
+            const wrapper = document.createElement('div');
+            wrapper.style.padding = '30px';
+            wrapper.style.backgroundColor = '#ffffff';
+            wrapper.style.fontFamily = 'Arial, sans-serif';
+            wrapper.style.width = '800px'; // ফিক্সড উইডথ এইচডি কোয়ালিটির জন্য
 
+            // ৩. পিডিএফের জন্য বড় করে শিরোনাম দেওয়া
+            const pdfTitle = document.createElement('h2');
+            pdfTitle.innerText = "মালামাল এবং এক্সেসরিজের চূড়ান্ত হিসাব";
+            pdfTitle.style.textAlign = 'center';
+            pdfTitle.style.fontSize = '32px'; // অনেক বড় ফন্ট
+            pdfTitle.style.color = '#1d4ed8';
+            pdfTitle.style.marginBottom = '30px';
+            pdfTitle.style.borderBottom = '3px solid #3b82f6';
+            pdfTitle.style.paddingBottom = '15px';
+            pdfTitle.style.fontWeight = 'bold';
+            wrapper.appendChild(pdfTitle);
+
+            // অরিজিনাল ছোট শিরোনাম বাদ দেওয়া
+            const oldTitle = clone.querySelector('h3');
+            if(oldTitle) oldTitle.remove();
+
+            wrapper.appendChild(clone);
+
+            // ৪. টেবিলগুলো বড় এবং এইচডি (HD) ক্লিয়ার করা
+            const tables = wrapper.querySelectorAll('.result-table');
+            tables.forEach(table => {
+                table.style.width = '100%';
+                table.style.borderCollapse = 'collapse';
+                table.style.marginTop = '25px';
+                table.style.marginBottom = '40px';
+
+                const ths = table.querySelectorAll('th');
+                ths.forEach(th => {
+                    th.style.border = '2px solid #334155';
+                    th.style.padding = '18px';
+                    th.style.fontSize = '24px'; // বড় লেখা
+                    th.style.backgroundColor = '#f1f5f9';
+                    th.style.color = '#0f172a';
+                    th.style.textAlign = 'left'; 
+                });
+
+                const tds = table.querySelectorAll('td');
+                tds.forEach(td => {
+                    td.style.border = '2px solid #334155';
+                    td.style.padding = '18px';
+                    td.style.fontSize = '26px'; // অনেক বড় লেখা যাতে দূর থেকে বুঝা যায়
+                    td.style.color = '#1e293b';
+                    td.style.fontWeight = 'bold';
+                    td.style.textAlign = 'left';
+                });
+
+                const highlights = table.querySelectorAll('.highlight');
+                highlights.forEach(h => {
+                    h.style.color = '#b91c1c'; // পিস এর গাঢ় লাল কালার
+                    h.style.fontSize = '28px'; // পিস গুলো আরো বড়
+                });
+            });
+
+            // ৫. এইচডি (HD) সেটিংসে পিডিএফ তৈরি (Scale 4)
             const opt = {
-                margin:       0.4,
-                filename:     'Louver_Bill_RM_THAI.pdf',
+                margin:       0.3,
+                filename:     'Z_Louver_Materials.pdf',
                 image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 3, useCORS: true }, 
+                html2canvas:  { scale: 4, useCORS: true }, // Scale 4 মানে ফুল এইচডি রেজোলিউশন
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(clone).save();
+            // জেনারেট পিডিএফ
+            html2pdf().set(opt).from(wrapper).save();
         }
 
         // 🕒 হিস্টরি সিস্টেম
@@ -415,7 +449,7 @@
                 div.innerHTML = `
                     <div onclick="loadHistoryItem(${item.id})">
                         <div class="history-date">🕒 ${item.time}</div>
-                        <div class="history-summary">মোট ব্লেড (${item.bladeType || '৩"'}): ${item.totalZFt} ফিট</div>
+                        <div class="history-summary">মোট ব্লেড (${item.bladeType || '৩" জেড'}): ${item.totalZFt} ফিট</div>
                     </div>
                     <button class="btn-del-item" onclick="deleteHistoryItem(${item.id})">মুছুন</button>
                 `;

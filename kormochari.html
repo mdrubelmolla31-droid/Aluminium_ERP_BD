@@ -162,8 +162,7 @@
       font-size: 16px;
     }
     .btn-add { background: #059669; }
-    .btn-delete { background: #dc2626; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-    .btn-call { background: #16a34a; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; display: inline-block; }
+    .btn-call { background: #16a34a; color: white; text-decoration: none; padding: 10px 25px; border-radius: 6px; font-weight: bold; display: inline-block; font-size: 16px; }
     .whatsapp-btn { background: #25D366; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
     .employee-list {
@@ -192,7 +191,6 @@
       background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
     }
     .modal-content {
-      /* হালকা ব্লু গ্রেডিয়েন্ট ব্যাকগ্রাউন্ড */
       background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
       padding: 20px; width: 100%; max-width: 600px;
       max-height: 90vh; overflow-y: auto; border-radius: 16px; position: relative;
@@ -203,10 +201,32 @@
       border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 18px;
       font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    .large-profile { text-align: center; margin-bottom: 20px; border-bottom: 2px dashed #94a3b8; padding-bottom: 15px; }
+
+    /* Three Dot Menu in Modal */
+    .modal-menu-container {
+      position: absolute; left: 15px; top: 15px; z-index: 10;
+    }
+    .modal-menu-btn {
+      background: #ffffff; color: #333; border: none; width: 35px; height: 35px; 
+      border-radius: 50%; font-size: 20px; font-weight: bold; cursor: pointer; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .modal-dropdown {
+      display: none; position: absolute; top: 45px; left: 0; background: #ffffff; 
+      border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); overflow: hidden; 
+      width: 150px; border: 1px solid #e2e8f0;
+    }
+    .modal-dropdown button {
+      display: block; width: 100%; padding: 12px 15px; border: none; background: none; 
+      text-align: left; cursor: pointer; font-weight: bold; font-size: 15px;
+    }
+    .modal-dropdown button:first-child { border-bottom: 1px solid #f1f5f9; color: #1e40af; }
+    .modal-dropdown button:last-child { color: #dc2626; }
+    .modal-dropdown button:hover { background: #f8fafc; }
+
+    .large-profile { text-align: center; margin-bottom: 20px; border-bottom: 2px dashed #94a3b8; padding-bottom: 15px; margin-top: 15px; }
     .large-profile img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     
-    /* প্রতিটি সেকশনের জন্য আলাদা পরিষ্কার সাদা কার্ড */
     .setup-box { 
       background: #ffffff; 
       padding: 20px; 
@@ -217,7 +237,6 @@
     }
     
     .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-    /* ইনপুট ফিল্ডের ডিজাইন আরও সুন্দর ও মজবুত করা হয়েছে */
     .calc-grid input, .trans-form input { 
       width: 100%; height: 45px; padding: 10px; border-radius: 8px; 
       text-align: center; border: 2px solid #cbd5e1; background: #f8fafc;
@@ -260,7 +279,8 @@
   <div class="main-container">
     <div class="header-card">
       <div class="header-top-row">
-        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <!-- Sidebar Open Button (Add new employee) -->
+        <button class="menu-btn" onclick="openSidebarForAdd()">☰</button>
         <div class="header-title-area">
           <h1 class="main-title">RM.THAI ALUMINIUM</h1>
           <p class="sub-title">অটোমেটিক মাস শেষে ফাইনাল স্টেটমেন্ট</p>
@@ -279,9 +299,10 @@
 
   <div id="drawerOverlay" class="drawer-overlay" onclick="toggleSidebar()"></div>
 
+  <!-- Sidebar / Add/Edit Form -->
   <div id="sidebar" class="sidebar">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">
-        <h3 style="color: var(--accent); margin: 0; font-weight: 900; font-size: 20px;">নতুন কর্মচারী যোগ</h3>
+        <h3 id="sidebarTitle" style="color: var(--accent); margin: 0; font-weight: 900; font-size: 20px;">নতুন কর্মচারী যোগ</h3>
         <button class="close-btn" onclick="toggleSidebar()">✕</button>
     </div>
     
@@ -292,13 +313,24 @@
         <div class="form-group"><label>ঠিকানা:</label><input type="text" id="empAddress" placeholder="বর্তমান ঠিকানা" required></div>
         <div class="form-group"><label>মাসিক বেতন (৳):</label><input type="number" id="empSalary" placeholder="যেমন: 15000" required></div>
         <div class="form-group"><label>ছবি দিন (ঐচ্ছিক):</label><input type="file" id="empPhotoFile" accept="image/*" style="padding: 5px;"></div>
-        <button type="submit" class="btn btn-add">কর্মচারী সেভ করুন</button>
+        <button type="submit" id="submitEmpBtn" class="btn btn-add">কর্মচারী সেভ করুন</button>
     </form>
   </div>
 
-  <!-- Modal -->
+  <!-- Profile Modal -->
   <div id="profileModal" class="modal" onclick="if(event.target === this) closeModal()">
     <div class="modal-content">
+        
+        <!-- Left Side: 3-Dot Menu for Edit/Delete -->
+        <div class="modal-menu-container">
+            <button class="modal-menu-btn" onclick="toggleModalMenu()">⋮</button>
+            <div id="modalDropdown" class="modal-dropdown">
+                <button onclick="editEmployeeFromModal()">✏️ এডিট করুন</button>
+                <button onclick="deleteEmployeeFromModal()">🗑 ডিলিট করুন</button>
+            </div>
+        </div>
+
+        <!-- Right Side: Close Button -->
         <button class="modal-close-btn" onclick="closeModal()">✕</button>
         
         <div id="largeProfileArea" class="large-profile"></div>
@@ -386,10 +418,22 @@
 
     let employees = JSON.parse(localStorage.getItem('employees')) || [];
     let currentEmpId = null;
+    let isEditing = false;
+    let editEmpId = null;
 
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('active');
       document.getElementById('drawerOverlay').classList.toggle('active');
+    }
+
+    // Prepare sidebar for adding new employee
+    function openSidebarForAdd() {
+      isEditing = false;
+      editEmpId = null;
+      document.getElementById('addEmployeeForm').reset();
+      document.getElementById('sidebarTitle').innerText = "নতুন কর্মচারী যোগ";
+      document.getElementById('submitEmpBtn').innerText = "কর্মচারী সেভ করুন";
+      toggleSidebar();
     }
 
     function getBase64(file) {
@@ -406,30 +450,53 @@
     document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const photoInput = document.getElementById('empPhotoFile');
-        let photoData = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+        let photoData = null;
         
         if (photoInput.files && photoInput.files[0]) {
             photoData = await getBase64(photoInput.files[0]);
         }
 
-        const newEmployee = {
-            id: Date.now().toString(),
-            name: document.getElementById('empName').value,
-            father: document.getElementById('empFather').value,
-            phone: document.getElementById('empPhone').value,
-            address: document.getElementById('empAddress').value,
-            salary: parseFloat(document.getElementById('empSalary').value),
-            photo: photoData,
-            absents: 0,
-            bonus: 0,
-            transactions: []
-        };
+        if (isEditing) {
+            // Update existing employee
+            const emp = employees.find(e => e.id === editEmpId);
+            if (emp) {
+                emp.name = document.getElementById('empName').value;
+                emp.father = document.getElementById('empFather').value;
+                emp.phone = document.getElementById('empPhone').value;
+                emp.address = document.getElementById('empAddress').value;
+                emp.salary = parseFloat(document.getElementById('empSalary').value);
+                if (photoData) {
+                    emp.photo = photoData;
+                }
+            }
+        } else {
+            // Add new employee
+            if (!photoData) {
+                photoData = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+            }
+            const newEmployee = {
+                id: Date.now().toString(),
+                name: document.getElementById('empName').value,
+                father: document.getElementById('empFather').value,
+                phone: document.getElementById('empPhone').value,
+                address: document.getElementById('empAddress').value,
+                salary: parseFloat(document.getElementById('empSalary').value),
+                photo: photoData,
+                absents: 0,
+                bonus: 0,
+                transactions: []
+            };
+            employees.push(newEmployee);
+        }
 
-        employees.push(newEmployee);
         saveData();
         this.reset();
         toggleSidebar();
         renderEmployees();
+        
+        // Reset edit states
+        isEditing = false;
+        editEmpId = null;
     });
 
     function renderEmployees() {
@@ -456,8 +523,8 @@
                     <h3 onclick="openProfile('${emp.id}')">${emp.name}</h3>
                     <p style="font-size: 14px; font-weight: bold;">পিতা: ${emp.father}</p>
                     <div class="action-btns">
-                        <a href="tel:${emp.phone}" class="btn-call">📞 কল</a>
-                        <button onclick="deleteEmployee('${emp.id}')" class="btn-delete">🗑 ডিলিট</button>
+                        <!-- ডিলিট বাটন সরানো হয়েছে -->
+                        <a href="tel:${emp.phone}" class="btn-call">📞 কল করুন</a>
                     </div>
                     <p style="font-size: 16px; font-weight: 900;">বেতন: ৳${toBnNum(emp.salary)}</p>
                     <div class="payable-amount" style="color: ${cardColor};" onclick="openProfile('${emp.id}')">
@@ -468,16 +535,13 @@
         });
     }
 
-    function deleteEmployee(id) {
-        if (confirm("আপনি কি নিশ্চিত এই কর্মচারীকে মুছে ফেলতে চান?")) {
-            employees = employees.filter(e => e.id !== id);
-            saveData(); renderEmployees();
-        }
-    }
-
     function openProfile(id) {
         currentEmpId = id;
         const emp = employees.find(e => e.id === id);
+        
+        // Hide dropdown if previously opened
+        document.getElementById('modalDropdown').style.display = 'none';
+
         document.getElementById('largeProfileArea').innerHTML = `
             <img src="${emp.photo}">
             <h2 style="color: var(--accent); margin-top: 10px; font-size: 24px; font-weight: 900;">${emp.name}</h2>
@@ -487,6 +551,43 @@
         document.getElementById('bonusAmount').value = emp.bonus || '';
         renderLedger();
         document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    // Modal 3-dot Menu Toggle
+    function toggleModalMenu() {
+        const dropdown = document.getElementById('modalDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Edit Employee via Modal
+    function editEmployeeFromModal() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        if (!emp) return;
+        
+        isEditing = true;
+        editEmpId = currentEmpId;
+
+        document.getElementById('empName').value = emp.name;
+        document.getElementById('empFather').value = emp.father;
+        document.getElementById('empPhone').value = emp.phone;
+        document.getElementById('empAddress').value = emp.address;
+        document.getElementById('empSalary').value = emp.salary;
+        
+        document.getElementById('sidebarTitle').innerText = "কর্মচারী আপডেট করুন";
+        document.getElementById('submitEmpBtn').innerText = "আপডেট সেভ করুন";
+        
+        closeModal();
+        toggleSidebar();
+    }
+
+    // Delete Employee via Modal
+    function deleteEmployeeFromModal() {
+        if (confirm("আপনি কি নিশ্চিত এই কর্মচারীকে স্থায়ীভাবে মুছে ফেলতে চান?")) {
+            employees = employees.filter(e => e.id !== currentEmpId);
+            saveData();
+            renderEmployees();
+            closeModal();
+        }
     }
 
     function updateCalculations() {
@@ -561,7 +662,12 @@
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    function closeModal() { document.getElementById('profileModal').style.display = 'none'; currentEmpId = null; }
+    function closeModal() { 
+        document.getElementById('profileModal').style.display = 'none'; 
+        document.getElementById('modalDropdown').style.display = 'none';
+        currentEmpId = null; 
+    }
+    
     function saveData() { localStorage.setItem('employees', JSON.stringify(employees)); }
 
     window.onload = function() { loadHeaderInfo(); renderEmployees(); };

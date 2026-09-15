@@ -8,6 +8,7 @@
     :root {
       --bg-color: #f1f5f9;
       --accent: #1d4ed8;
+      --accent-dark: #1e3a8a;
       --text: #0f172a;
       --border: #cbd5e1;
       --header-bg: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
@@ -23,12 +24,12 @@
     body {
       background-color: var(--bg-color);
       color: var(--text);
-      padding: 15px;
+      padding: 12px;
       padding-bottom: 40px;
     }
 
     .main-container {
-      max-width: 800px;
+      max-width: 850px;
       margin: 0 auto;
       width: 100%;
     }
@@ -36,28 +37,45 @@
     /* ================= APP HEADER ================= */
     .header-card {
       background: var(--header-bg);
-      padding: 20px;
+      padding: 18px;
       border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(29, 78, 216, 0.25);
       color: #ffffff;
     }
-    .header-top-row { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 15px; }
-    .header-left-group { display: flex; align-items: center; gap: 12px; flex: 1; }
+
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .header-left-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
     .menu-btn {
-      width: 42px; height: 42px; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 22px;
+      width: 40px; height: 40px; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 20px;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
+
     .main-title { font-weight: 900; font-size: 18px; }
     .sub-title { font-size: 12px; font-weight: 600; opacity: 0.9; }
+
     .header-date-badge {
-      background: rgba(0, 0, 0, 0.25); color: #fff; padding: 6px 14px;
+      background: rgba(0, 0, 0, 0.25); color: #fff; padding: 6px 12px;
       border-radius: 6px; font-size: 12px; font-weight: bold; border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    .header-inputs { display: flex; flex-direction: column; gap: 10px; }
+
+    .header-inputs { display: flex; flex-direction: column; gap: 8px; }
     .header-input {
-      width: 100%; padding: 11px; border-radius: 6px; border: none; font-size: 15px;
+      width: 100%; padding: 10px; border-radius: 6px; border: none; font-size: 15px;
       font-weight: bold; text-align: center; outline: none;
     }
 
@@ -65,46 +83,55 @@
     .settings-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
     .dropdown-select {
       flex: 1; min-width: 130px; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
-      font-weight: bold; font-size: 14px; outline: none;
-    }
-    .btn-add-window {
-      background: #2563eb; color: white; border: none; padding: 14px; border-radius: 8px;
-      font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; margin-bottom: 15px;
-    }
-    .card {
-      background: #ffffff; border-radius: 12px; padding: 18px; margin-bottom: 15px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); border: 1px solid var(--border);
-    }
-    .card-title { font-size: 16px; font-weight: 800; margin-bottom: 12px; color: var(--accent); text-align: center; }
-    .input-row {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-      gap: 10px; background: #f8fafc; padding: 12px; border-radius: 8px;
-      border: 1px solid #e2e8f0; margin-bottom: 10px;
-    }
-    .input-group label { display: block; font-size: 12px; font-weight: 800; margin-bottom: 4px; color: #334155; }
-    .input-group input {
-      width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border);
-      text-align: center; font-weight: bold; font-size: 15px; outline: none;
-    }
-    .btn-calc {
-      background: #059669; color: white; border: none; padding: 15px; border-radius: 8px;
-      font-weight: 900; font-size: 17px; cursor: pointer; width: 100%; margin-bottom: 20px;
+      font-weight: bold; font-size: 14px; outline: none; background: #fff;
     }
 
-    /* ================= EDITABLE PREVIEW (SCREEN ONLY) ================= */
+    .btn-add-window {
+      background: #2563eb; color: white; border: none; padding: 12px; border-radius: 8px;
+      font-weight: bold; font-size: 14px; cursor: pointer; width: 100%; margin-bottom: 15px;
+    }
+
+    .card {
+      background: #ffffff; border-radius: 12px; padding: 16px; margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border: 1px solid var(--border);
+    }
+
+    .card-title { font-size: 16px; font-weight: 800; margin-bottom: 12px; color: var(--accent); text-align: center; }
+
+    .input-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px; background: #f8fafc; padding: 10px; border-radius: 8px;
+      border: 1px solid #e2e8f0; margin-bottom: 10px;
+    }
+
+    .input-group label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 4px; color: #334155; }
+    .input-group input {
+      width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border);
+      text-align: center; font-weight: bold; font-size: 14px; outline: none;
+    }
+
+    .btn-calc {
+      background: #059669; color: white; border: none; padding: 14px; border-radius: 8px;
+      font-weight: 900; font-size: 16px; cursor: pointer; width: 100%; margin-bottom: 15px;
+    }
+
+    /* ================= EDITABLE PREVIEW (SCREEN) ================= */
     .preview-section { display: none; }
     .edit-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-    .edit-table th, .edit-table td { border: 1px solid var(--border); padding: 8px; text-align: center; font-size: 13px; }
-    .edit-table th { background: #e0f2fe; color: #0f172a; }
-    .edit-table td:first-child { text-align: left; font-weight: bold; width: 35%; }
-    .edit-input { width: 100%; padding: 6px; border: 1px solid #94a3b8; border-radius: 4px; text-align: center; font-weight: bold; font-size: 14px; }
-    
+    .edit-table th, .edit-table td { border: 1px solid var(--border); padding: 8px 6px; text-align: center; font-size: 12px; }
+    .edit-table th { background: #e0f2fe; color: #0f172a; font-weight: 800; }
+    .edit-table td:first-child { text-align: left; font-weight: bold; width: 22%; }
+    .edit-input {
+      width: 100%; padding: 6px 4px; border: 1px solid #94a3b8; border-radius: 4px;
+      text-align: center; font-weight: bold; font-size: 13px; outline: none; background: #fff;
+    }
+
     .btn-print {
-      background: #dc2626; color: white; border: none; padding: 15px; border-radius: 8px;
+      background: #dc2626; color: white; border: none; padding: 14px; border-radius: 8px;
       font-weight: 900; font-size: 16px; cursor: pointer; width: 100%; margin-top: 10px;
     }
 
-    /* ================= 🖨️ PDF PRINT LAYOUT (A4 Design) ================= */
+    /* ================= 🖨️ PDF PRINT LAYOUT (A4 SINGLE PAGE) ================= */
     .pdf-layout { display: none; }
 
     @media print {
@@ -114,18 +141,18 @@
       .no-print { display: none !important; }
       .pdf-layout { display: block !important; width: 100% !important; }
 
-      /* হেডার ব্যানার (নমুনা ছবির মতো) */
-      .pdf-header { background: #1e3a8a !important; color: #ffffff !important; text-align: center !important; padding: 16px !important; border-radius: 4px !important; margin-bottom: 20px !important; }
-      .pdf-header h1 { font-size: 22px !important; font-weight: 900 !important; margin-bottom: 4px !important; letter-spacing: 0.5px; }
-      .pdf-header p { font-size: 14px !important; font-weight: 700 !important; }
+      /* হেডার ব্যানার */
+      .pdf-header { background: #1e3a8a !important; color: #ffffff !important; text-align: center !important; padding: 14px !important; border-radius: 4px !important; margin-bottom: 15px !important; }
+      .pdf-header h1 { font-size: 20px !important; font-weight: 900 !important; margin-bottom: 2px !important; color: #ffffff !important; }
+      .pdf-header p { font-size: 13px !important; font-weight: 700 !important; color: #ffffff !important; }
 
-      /* সেকশন টাইটেল বার (নমুনা ছবির মতো) */
-      .pdf-section-title { background: #1d4ed8 !important; color: #ffffff !important; padding: 8px 12px !important; font-size: 14px !important; font-weight: bold !important; border-radius: 3px 3px 0 0 !important; margin-top: 15px !important; }
+      /* সেকশন টাইটেল বার */
+      .pdf-section-title { background: #1d4ed8 !important; color: #ffffff !important; padding: 6px 10px !important; font-size: 13px !important; font-weight: bold !important; border-radius: 3px 3px 0 0 !important; margin-top: 12px !important; }
 
       /* টেবিল ডিজাইন */
-      .pdf-table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 15px !important; }
-      .pdf-table th, .pdf-table td { border: 1px solid #1d4ed8 !important; padding: 10px !important; font-size: 14px !important; color: #000000 !important; text-align: center !important; }
-      .pdf-table th { background: #e0f2fe !important; font-weight: bold !important; }
+      .pdf-table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 12px !important; }
+      .pdf-table th, .pdf-table td { border: 1px solid #1d4ed8 !important; padding: 8px 6px !important; font-size: 13px !important; color: #000000 !important; text-align: center !important; }
+      .pdf-table th { background: #e0f2fe !important; font-weight: bold !important; color: #0f172a !important; }
       .pdf-table td:first-child { text-align: left !important; font-weight: bold !important; }
       .bold-col { font-weight: 900 !important; }
     }
@@ -153,7 +180,7 @@
       </div>
     </div>
 
-    <!-- 🎛️ অপশন (no-print) -->
+    <!-- 🎛️ অপশন ড্রপডাউন (no-print) -->
     <div class="settings-row no-print">
       <select id="bladeSelect" class="dropdown-select">
         <option value='২" জেড'>২" জেড</option>
@@ -167,7 +194,7 @@
       </select>
     </div>
 
-    <button class="btn-add-window no-print" onclick="addWindowRow()">+ আরও উইন্ডো যোগ</button>
+    <button class="btn-add-window no-print" onclick="addWindowRow()">+ আরও উইন্ডো যোগ করুন</button>
 
     <!-- 🧮 ইনপুট ফরম (no-print) -->
     <div class="card no-print">
@@ -196,41 +223,47 @@
 
     <button class="btn-calc no-print" onclick="calculatePreview()">হিসাব বের করুন</button>
 
-    <!-- 📝 এডিটেবল প্রিভিউ (no-print) -->
+    <!-- 📝 এডিটেবল রেজাল্ট ও প্রিভিউ (no-print) -->
     <div class="card preview-section no-print" id="previewArea">
-      <div class="card-title" style="color: #dc2626;">মালামাল প্রিভিউ (প্রয়োজনে ডাটা এডিট করুন)</div>
+      <div class="card-title" style="color: #dc2626;">মালামালের রেজাল্ট ও এডিটেবল প্রিভিউ</div>
       
+      <!-- ১. অ্যালুমিনিয়াম টেবিল -->
       <table class="edit-table">
         <thead>
           <tr>
             <th>মালের নাম</th>
+            <th>২১' এর পিস</th>
             <th>কাজে লাগবে</th>
             <th>ওয়েস্টেজ</th>
-            <th>পিস (২১ ফিট)</th>
+            <th>সাইজ / টুকরা বিবরণ</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>১x২ বক্স</td>
+            <td><input type="text" id="editBoxPcs" class="edit-input"></td>
             <td><input type="text" id="editBoxUsed" class="edit-input"></td>
             <td><input type="text" id="editBoxWaste" class="edit-input"></td>
-            <td><input type="text" id="editBoxPcs" class="edit-input"></td>
+            <td><input type="text" id="editBoxBreakdown" class="edit-input"></td>
           </tr>
           <tr>
             <td id="editULabel">৩" ইউ-চ্যানেল</td>
+            <td><input type="text" id="editUPcs" class="edit-input"></td>
             <td><input type="text" id="editUUsed" class="edit-input"></td>
             <td><input type="text" id="editUWaste" class="edit-input"></td>
-            <td><input type="text" id="editUPcs" class="edit-input"></td>
+            <td><input type="text" id="editUBreakdown" class="edit-input"></td>
           </tr>
           <tr>
             <td id="editZLabel">৩" জেড ব্লেড</td>
+            <td><input type="text" id="editZPcs" class="edit-input"></td>
             <td><input type="text" id="editZUsed" class="edit-input"></td>
             <td><input type="text" id="editZWaste" class="edit-input"></td>
-            <td><input type="text" id="editZPcs" class="edit-input"></td>
+            <td><input type="text" id="editZBreakdown" class="edit-input"></td>
           </tr>
         </tbody>
       </table>
 
+      <!-- ২. এক্সেসরিজ টেবিল -->
       <table class="edit-table">
         <thead>
           <tr>
@@ -253,7 +286,7 @@
       <button class="btn-print" onclick="generatePDF()">🖨️ চুড়ান্ত PDF প্রিন্ট / সেভ করুন</button>
     </div>
 
-    <!-- 🖨️ চুড়ান্ত PDF প্রিন্ট লেআউট (A4 Single Page) -->
+    <!-- 🖨️ চুড়ান্ত PDF প্রিন্ট লেআউট (A4 Single Page Design) -->
     <div class="pdf-layout" id="printablePDF">
       
       <!-- ১. হেডার ব্যানার -->
@@ -268,29 +301,33 @@
         <thead>
           <tr>
             <th>মালের নাম</th>
-            <th>কাজে লাগবে (Usable)</th>
-            <th>ওয়েস্টেজ (Wastage)</th>
-            <th>পিস (২১ ফিট)</th>
+            <th>২১' এর পিস</th>
+            <th>কাজে লাগবে</th>
+            <th>ওয়েস্টেজ</th>
+            <th>সাইজ / টুকরা বিবরণ</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>১x২ বক্স (Outer Frame)</td>
+            <td class="bold-col" id="pdfBoxPcs">0</td>
             <td id="pdfBoxUsed">0</td>
             <td id="pdfBoxWaste">0</td>
-            <td class="bold-col" id="pdfBoxPcs">0</td>
+            <td id="pdfBoxBreakdown">0</td>
           </tr>
           <tr>
             <td id="pdfUChannelLabel">৩" ইউ-চ্যানেল (Inner)</td>
+            <td class="bold-col" id="pdfUPcs">0</td>
             <td id="pdfUUsed">0</td>
             <td id="pdfUWaste">0</td>
-            <td class="bold-col" id="pdfUPcs">0</td>
+            <td id="pdfUBreakdown">0</td>
           </tr>
           <tr>
             <td id="pdfBladeLabel">৩" জেড (Z Blade)</td>
+            <td class="bold-col" id="pdfZPcs">0</td>
             <td id="pdfZUsed">0</td>
             <td id="pdfZWaste">0</td>
-            <td class="bold-col" id="pdfZPcs">0</td>
+            <td id="pdfZBreakdown">0</td>
           </tr>
         </tbody>
       </table>
@@ -352,6 +389,23 @@
       container.appendChild(div);
     }
 
+    // টুকরা হিসাবের ফাংশন (যেমন: ২১' × ৪ পিস + ৯' টুকরা)
+    function formatBreakdown(totalFt) {
+      if (totalFt <= 0) return "০ ফিট";
+      let full21 = Math.floor(totalFt / 21);
+      let rem = totalFt % 21;
+      
+      let text = "";
+      if (full21 > 0) {
+        text += `২১' × ${full21} পিস`;
+      }
+      if (rem > 0) {
+        if (text !== "") text += " + ";
+        text += `${rem.toFixed(2)}' টুকরা (১ পিস)`;
+      }
+      return text;
+    }
+
     // হিসাব এবং প্রিভিউ জেনারেট
     function calculatePreview() {
       let totalBoxFt = 0, totalUFt = 0, totalZBladeFt = 0, totalRivet = 0, totalScrews = 0;
@@ -385,7 +439,7 @@
         return;
       }
 
-      // স্ক্রু হিসাব: প্রতি ১.৫ রানিং ফিটে (পেরিমিটার) ২টি স্ক্রু
+      // স্ক্রু হিসাব: প্রতি ১.৫ রানিং ফিটে (আউটার বক্সে) ২টি দেড় ইঞ্চি স্ক্রু
       totalScrews = Math.ceil((totalBoxFt / 1.5) * 2);
 
       // ২১ ফিটের পিস এবং ওয়েস্টেজ হিসাব
@@ -398,37 +452,43 @@
       let zPcs = Math.ceil(totalZBladeFt / 21);
       let zWaste = (zPcs > 0) ? (zPcs * 21) - totalZBladeFt : 0;
 
-      // প্রিভিউ ইনপুট বক্সে ডাটা বসানো
+      // ড্রপডাউনের নাম
       const bladeName = document.getElementById('bladeSelect').value;
       const uName = document.getElementById('uChannelSelect').value;
       
       document.getElementById('editULabel').innerText = uName;
       document.getElementById('editZLabel').innerText = bladeName;
 
-      // Box Data
-      document.getElementById('editBoxUsed').value = totalBoxFt.toFixed(2) + " ফিট";
-      document.getElementById('editBoxWaste').value = boxWaste.toFixed(2) + " ফিট";
+      /* ================= রেজাল্ট/প্রিভিউ বক্সে সঠিক ক্রমানুসারে ডাটা ইনপুট ================= */
+      // ১. ২১' এর পিস (প্রথম)
       document.getElementById('editBoxPcs').value = boxPcs + " পিস";
-
-      // U-Channel Data
-      document.getElementById('editUUsed').value = totalUFt.toFixed(2) + " ফিট";
-      document.getElementById('editUWaste').value = uWaste.toFixed(2) + " ফিট";
       document.getElementById('editUPcs').value = uPcs + " পিস";
-
-      // Z-Blade Data
-      document.getElementById('editZUsed').value = totalZBladeFt.toFixed(2) + " ফিট";
-      document.getElementById('editZWaste').value = zWaste.toFixed(2) + " ফিট";
       document.getElementById('editZPcs').value = zPcs + " পিস";
 
-      // Accessories
+      // ২. কাজে লাগবে (দ্বিতীয়)
+      document.getElementById('editBoxUsed').value = totalBoxFt.toFixed(2) + " ফিট";
+      document.getElementById('editUUsed').value = totalUFt.toFixed(2) + " ফিট";
+      document.getElementById('editZUsed').value = totalZBladeFt.toFixed(2) + " ফিট";
+
+      // ৩. ওয়েস্টেজ (তৃতীয়)
+      document.getElementById('editBoxWaste').value = boxWaste.toFixed(2) + " ফিট";
+      document.getElementById('editUWaste').value = uWaste.toFixed(2) + " ফিট";
+      document.getElementById('editZWaste').value = zWaste.toFixed(2) + " ফিট";
+
+      // ৪. টুকরা বিবরণ (চতুর্থ)
+      document.getElementById('editBoxBreakdown').value = formatBreakdown(totalBoxFt);
+      document.getElementById('editUBreakdown').value = formatBreakdown(totalUFt);
+      document.getElementById('editZBreakdown').value = formatBreakdown(totalZBladeFt);
+
+      // এক্সেসরিজ
       document.getElementById('editScrews').value = totalScrews + " পিস";
       document.getElementById('editRivets').value = totalRivet + " পিস";
 
-      // প্রিভিউ এরিয়া শো করা
+      // প্রিভিউ এরিয়া দৃশ্যমান করা
       document.getElementById('previewArea').style.display = 'block';
     }
 
-    // এডিট করা ডাটা নিয়ে পিডিএফ প্রিন্ট করা
+    // এডিট করা ডাটা দিয়ে পিডিএফ তৈরি ও প্রিন্ট
     function generatePDF() {
       // হেডার
       document.getElementById('pdfShopName').innerText = document.getElementById('shopNameInput').value;
@@ -438,26 +498,29 @@
       document.getElementById('pdfUChannelLabel').innerText = document.getElementById('uChannelSelect').value + " (Inner)";
       document.getElementById('pdfBladeLabel').innerText = document.getElementById('bladeSelect').value + " (Z Blade)";
 
-      // Box
+      // বক্স ডাটা পাস
+      document.getElementById('pdfBoxPcs').innerText = document.getElementById('editBoxPcs').value;
       document.getElementById('pdfBoxUsed').innerText = document.getElementById('editBoxUsed').value;
       document.getElementById('pdfBoxWaste').innerText = document.getElementById('editBoxWaste').value;
-      document.getElementById('pdfBoxPcs').innerText = document.getElementById('editBoxPcs').value;
+      document.getElementById('pdfBoxBreakdown').innerText = document.getElementById('editBoxBreakdown').value;
 
-      // U-Channel
+      // ইউ-চ্যানেল ডাটা পাস
+      document.getElementById('pdfUPcs').innerText = document.getElementById('editUPcs').value;
       document.getElementById('pdfUUsed').innerText = document.getElementById('editUUsed').value;
       document.getElementById('pdfUWaste').innerText = document.getElementById('editUWaste').value;
-      document.getElementById('pdfUPcs').innerText = document.getElementById('editUPcs').value;
+      document.getElementById('pdfUBreakdown').innerText = document.getElementById('editUBreakdown').value;
 
-      // Z-Blade
+      // জেড ব্লেড ডাটা পাস
+      document.getElementById('pdfZPcs').innerText = document.getElementById('editZPcs').value;
       document.getElementById('pdfZUsed').innerText = document.getElementById('editZUsed').value;
       document.getElementById('pdfZWaste').innerText = document.getElementById('editZWaste').value;
-      document.getElementById('pdfZPcs').innerText = document.getElementById('editZPcs').value;
+      document.getElementById('pdfZBreakdown').innerText = document.getElementById('editZBreakdown').value;
 
-      // Accessories
+      // এক্সেসরিজ ডাটা পাস
       document.getElementById('pdfScrews').innerText = document.getElementById('editScrews').value;
       document.getElementById('pdfRivets').innerText = document.getElementById('editRivets').value;
 
-      // প্রিন্ট কল করা
+      // প্রিন্ট ডায়ালগ ওপেন
       window.print();
     }
   </script>

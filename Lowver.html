@@ -18,7 +18,8 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      /* ফন্ট আরও ক্লিয়ার করার জন্য */
+      font-family: 'Segoe UI', Arial, sans-serif; 
     }
 
     body {
@@ -26,6 +27,12 @@
       color: var(--text);
       padding: 12px;
       padding-bottom: 40px;
+    }
+
+    /* ইনপুটের প্লেসহোল্ডার (শ্যাডো টেক্সট) এর কালার */
+    ::placeholder {
+      color: #94a3b8;
+      font-weight: 500;
     }
 
     .main-container {
@@ -37,7 +44,7 @@
     /* ================= APP HEADER ================= */
     .header-card {
       background: var(--header-bg);
-      padding: 20px;
+      padding: 15px;
       border-radius: 12px;
       margin-bottom: 15px;
       box-shadow: 0 4px 15px rgba(26, 54, 93, 0.3);
@@ -48,6 +55,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap; /* ছোট স্ক্রিনে ভেঙ্গে নিচে আসার জন্য */
       gap: 10px;
       margin-bottom: 15px;
     }
@@ -55,22 +63,25 @@
     .header-left-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex: 1;
+      min-width: 200px;
     }
 
     .menu-btn {
-      width: 42px; height: 42px; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 22px;
+      width: 40px; height: 40px; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 20px;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
 
-    .main-title { font-weight: 900; font-size: 22px; letter-spacing: 0.5px; }
-    .sub-title { font-size: 13px; font-weight: 600; opacity: 0.9; }
+    .main-title { font-weight: 900; font-size: 18px; letter-spacing: 0.5px; }
+    .sub-title { font-size: 12px; font-weight: 600; opacity: 0.9; }
 
+    /* তারিখের ব্যাজ ফিক্স করা হলো */
     .header-date-badge {
-      background: rgba(0, 0, 0, 0.3); color: #fff; padding: 6px 12px;
+      background: rgba(0, 0, 0, 0.3); color: #fff; padding: 6px 10px;
       border-radius: 6px; font-size: 12px; font-weight: bold; border: 1px solid rgba(255, 255, 255, 0.2);
+      white-space: nowrap;
     }
 
     .header-inputs { display: flex; flex-direction: column; gap: 8px; }
@@ -83,7 +94,7 @@
     .settings-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
     .dropdown-select {
       flex: 1; min-width: 130px; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
-      font-weight: bold; font-size: 14px; outline: none; background: #fff;
+      font-weight: bold; font-size: 14px; outline: none; background: #fff; color: #1a365d;
     }
 
     .btn-add-window {
@@ -100,14 +111,14 @@
 
     .input-row {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px; background: #f8fafc; padding: 10px; border-radius: 8px;
+      gap: 10px; background: #f8fafc; padding: 12px; border-radius: 8px;
       border: 1px solid #e2e8f0; margin-bottom: 10px;
     }
 
-    .input-group label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 4px; color: #334155; }
+    .input-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #475569; }
     .input-group input {
       width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border);
-      text-align: center; font-weight: bold; font-size: 14px; outline: none;
+      text-align: center; font-weight: bold; font-size: 14px; outline: none; color: #0f172a;
     }
 
     .btn-calc {
@@ -125,7 +136,7 @@
     
     .edit-input {
       width: 100%; padding: 8px 2px; border: 1px solid #94a3b8; border-radius: 4px;
-      text-align: center; font-weight: bold; font-size: 14px; outline: none; background: #fff;
+      text-align: center; font-weight: bold; font-size: 14px; outline: none; background: #fff; color: #000;
     }
 
     .btn-print {
@@ -133,18 +144,23 @@
       font-weight: 900; font-size: 16px; cursor: pointer; width: 100%; margin-top: 10px;
     }
 
-    /* ================= 🖨️ PDF PRINT LAYOUT (EXACT MATCH REFERENCE IMAGE) ================= */
+    /* ================= 🖨️ PDF PRINT LAYOUT ================= */
     .pdf-layout { display: none; }
 
     @media print {
       @page { size: A4 portrait; margin: 8mm; }
-      body {
-        background: #ffffff !important;
-        color: #000000 !important;
-        padding: 0 !important;
-        margin: 0 !important;
+      
+      /* ব্রাউজার যেন কালার পরিবর্তন না করে তার জন্য কড়া নির্দেশ */
+      * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
       }
       
       .no-print { display: none !important; }
@@ -170,21 +186,20 @@
       /* ২. বড় হেডার টাইটেল */
       .pdf-main-title {
         text-align: center !important;
-        font-size: 24px !important;
+        font-size: 22px !important;
         font-weight: 900 !important;
         color: #1a365d !important;
         letter-spacing: 1px !important;
         margin-bottom: 6px !important;
-        text-transform: uppercase !important;
       }
 
-      /* ৩. মোবাইল নম্বর ব্যাজ */
+      /* ৩. মোবাইল নম্বর ব্যাজ (Blue Background) */
       .pdf-badge-wrapper {
         text-align: center !important;
         margin-bottom: 12px !important;
       }
       .pdf-mobile-badge {
-        background: #1a365d !important;
+        background-color: #1a365d !important;
         color: #ffffff !important;
         padding: 4px 20px !important;
         border-radius: 15px !important;
@@ -210,7 +225,7 @@
         font-size: 13px !important;
       }
       .pdf-cust-label {
-        background: #1a365d !important;
+        background-color: #1a365d !important;
         color: #ffffff !important;
         font-weight: bold !important;
         width: 22% !important;
@@ -221,9 +236,9 @@
         color: #000000 !important;
       }
 
-      /* ৫. সেকশন ব্যানার */
+      /* ৫. সেকশন ব্যানার (Blue Background) */
       .pdf-section-banner {
-        background: #1a365d !important;
+        background-color: #1a365d !important;
         color: #ffffff !important;
         text-align: center !important;
         font-size: 14px !important;
@@ -248,7 +263,7 @@
         color: #000000 !important;
       }
       .pdf-data-table th {
-        background: #1a365d !important;
+        background-color: #1a365d !important;
         color: #ffffff !important;
         font-weight: bold !important;
       }
@@ -312,13 +327,14 @@
     <div class="card no-print">
       <div class="card-title">কাস্টমার তথ্য (প্রিন্টের জন্য):</div>
       <div class="input-row">
+        <!-- value তুলে দিয়ে placeholder দেওয়া হলো যাতে শ্যাডোর মতো দেখায় -->
         <div class="input-group" style="grid-column: span 2;">
           <label>কাস্টমার নাম</label>
-          <input type="text" id="custNameInput" value="সাধারণ গ্রাহক">
+          <input type="text" id="custNameInput" placeholder="সাধারণ গ্রাহক">
         </div>
         <div class="input-group" style="grid-column: span 2;">
           <label>কাস্টমার ঠিকানা</label>
-          <input type="text" id="custAddrInput" value="সাধারণ ঠিকানা">
+          <input type="text" id="custAddrInput" placeholder="সাধারণ ঠিকানা">
         </div>
       </div>
     </div>
@@ -411,7 +427,7 @@
       <button class="btn-print" onclick="generatePDF()">🖨️ চুড়ান্ত PDF প্রিন্ট / সেভ করুন</button>
     </div>
 
-    <!-- 🖨️ চুড়ান্ত PDF প্রিন্ট লেআউট (EXACTLY MATCHES REFERENCED IMAGE) -->
+    <!-- 🖨️ চুড়ান্ত PDF প্রিন্ট লেআউট -->
     <div class="pdf-layout" id="printablePDF">
       
       <!-- ১. তারিখ -->
@@ -505,7 +521,7 @@
   </div>
 
   <script>
-    // তারিখ প্রদর্শন (বাংলা বিন্যাসে)
+    // তারিখ প্রদর্শন 
     function setDate() {
       const now = new Date();
       const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -633,6 +649,7 @@
       document.getElementById('pdfShopName').innerText = document.getElementById('shopNameInput').value;
       document.getElementById('pdfShopMobile').innerText = document.getElementById('shopMobileInput').value;
       
+      // যদি ইনপুটে কিছু না লেখা থাকে, তাহলে প্লেসহোল্ডারের ডিফল্ট টেক্সট নিবে
       document.getElementById('pdfCustName').innerText = document.getElementById('custNameInput').value || "সাধারণ গ্রাহক";
       document.getElementById('pdfCustAddr').innerText = document.getElementById('custAddrInput').value || "সাধারণ ঠিকানা";
 

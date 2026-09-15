@@ -84,14 +84,32 @@
         }
         .history-menu-btn:hover { background: rgba(255,255,255,0.4); }
 
-        .header-title {
+        /* New Header Title Styles based on your request */
+        .header-title-wrapper {
             flex: 1;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            min-width: 0; /* Prevents overflow */
+        }
+
+        .brand-title {
             font-weight: 900;
-            font-size: clamp(14px, 3.5vw, 18px);
+            font-size: clamp(16px, 4vw, 22px);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 0 4px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .slogan-title {
+            font-weight: 400; /* চিকন করার জন্য */
+            font-size: clamp(10px, 2.5vw, 13px); /* ছোট করার জন্য */
+            white-space: nowrap; /* এক লাইনে রাখার জন্য */
+            margin-top: 2px;
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .date-display {
@@ -474,7 +492,13 @@
     <div class="header-card">
         <div class="header-top">
             <button class="history-menu-btn" onclick="openMenuModal()" title="মেনু">☰</button>
-            <span class="header-title">প্রোফাইল ডিসকাউন্ট ক্যালকুলেটর</span>
+            
+            <!-- Updated Header Title Section Here -->
+            <div class="header-title-wrapper">
+                <span class="brand-title">RM THAI ALUMINIUM</span>
+                <span class="slogan-title">প্রোফাইল ডিসকাউন্ট ক্যালকুলেটর</span>
+            </div>
+
             <div id="currentDate" class="date-display"></div>
         </div>
         

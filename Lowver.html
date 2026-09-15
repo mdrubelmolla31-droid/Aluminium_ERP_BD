@@ -116,14 +116,16 @@
     }
 
     /* ================= EDITABLE PREVIEW (SCREEN) ================= */
-    .preview-section { display: none; }
-    .edit-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-    .edit-table th, .edit-table td { border: 1px solid var(--border); padding: 8px 6px; text-align: center; font-size: 12px; }
+    .preview-section { display: none; overflow-x: auto; }
+    
+    .edit-table { width: 100%; min-width: 300px; border-collapse: collapse; margin-bottom: 15px; }
+    .edit-table th, .edit-table td { border: 1px solid var(--border); padding: 8px 4px; text-align: center; font-size: 13px; }
     .edit-table th { background: #e0f2fe; color: #0f172a; font-weight: 800; }
-    .edit-table td:first-child { text-align: left; font-weight: bold; width: 22%; }
+    .edit-table td:first-child { text-align: left; font-weight: bold; width: 28%; }
+    
     .edit-input {
-      width: 100%; padding: 6px 4px; border: 1px solid #94a3b8; border-radius: 4px;
-      text-align: center; font-weight: bold; font-size: 13px; outline: none; background: #fff;
+      width: 100%; padding: 8px 2px; border: 1px solid #94a3b8; border-radius: 4px;
+      text-align: center; font-weight: bold; font-size: 14px; outline: none; background: #fff;
     }
 
     .btn-print {
@@ -147,13 +149,13 @@
       .pdf-header p { font-size: 13px !important; font-weight: 700 !important; color: #ffffff !important; }
 
       /* সেকশন টাইটেল বার */
-      .pdf-section-title { background: #1d4ed8 !important; color: #ffffff !important; padding: 6px 10px !important; font-size: 13px !important; font-weight: bold !important; border-radius: 3px 3px 0 0 !important; margin-top: 12px !important; }
+      .pdf-section-title { background: #1d4ed8 !important; color: #ffffff !important; padding: 6px 10px !important; font-size: 14px !important; font-weight: bold !important; border-radius: 3px 3px 0 0 !important; margin-top: 12px !important; }
 
       /* টেবিল ডিজাইন */
       .pdf-table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 12px !important; }
-      .pdf-table th, .pdf-table td { border: 1px solid #1d4ed8 !important; padding: 8px 6px !important; font-size: 13px !important; color: #000000 !important; text-align: center !important; }
+      .pdf-table th, .pdf-table td { border: 1px solid #1d4ed8 !important; padding: 10px 8px !important; font-size: 14px !important; color: #000000 !important; text-align: center !important; }
       .pdf-table th { background: #e0f2fe !important; font-weight: bold !important; color: #0f172a !important; }
-      .pdf-table td:first-child { text-align: left !important; font-weight: bold !important; }
+      .pdf-table td:first-child { text-align: left !important; font-weight: bold !important; width: 30%; }
       .bold-col { font-weight: 900 !important; }
     }
   </style>
@@ -224,10 +226,11 @@
     <button class="btn-calc no-print" onclick="calculatePreview()">হিসাব বের করুন</button>
 
     <!-- 📝 এডিটেবল রেজাল্ট ও প্রিভিউ (no-print) -->
+    <!-- স্ক্রিনে কলাম কমানো হয়েছে যেন লেখা কেটে না যায় -->
     <div class="card preview-section no-print" id="previewArea">
       <div class="card-title" style="color: #dc2626;">মালামালের রেজাল্ট ও এডিটেবল প্রিভিউ</div>
       
-      <!-- ১. অ্যালুমিনিয়াম টেবিল -->
+      <!-- ১. অ্যালুমিনিয়াম টেবিল (Screen) -->
       <table class="edit-table">
         <thead>
           <tr>
@@ -235,7 +238,6 @@
             <th>২১' এর পিস</th>
             <th>কাজে লাগবে</th>
             <th>ওয়েস্টেজ</th>
-            <th>সাইজ / টুকরা বিবরণ</th>
           </tr>
         </thead>
         <tbody>
@@ -244,26 +246,23 @@
             <td><input type="text" id="editBoxPcs" class="edit-input"></td>
             <td><input type="text" id="editBoxUsed" class="edit-input"></td>
             <td><input type="text" id="editBoxWaste" class="edit-input"></td>
-            <td><input type="text" id="editBoxBreakdown" class="edit-input"></td>
           </tr>
           <tr>
             <td id="editULabel">৩" ইউ-চ্যানেল</td>
             <td><input type="text" id="editUPcs" class="edit-input"></td>
             <td><input type="text" id="editUUsed" class="edit-input"></td>
             <td><input type="text" id="editUWaste" class="edit-input"></td>
-            <td><input type="text" id="editUBreakdown" class="edit-input"></td>
           </tr>
           <tr>
             <td id="editZLabel">৩" জেড ব্লেড</td>
             <td><input type="text" id="editZPcs" class="edit-input"></td>
             <td><input type="text" id="editZUsed" class="edit-input"></td>
             <td><input type="text" id="editZWaste" class="edit-input"></td>
-            <td><input type="text" id="editZBreakdown" class="edit-input"></td>
           </tr>
         </tbody>
       </table>
 
-      <!-- ২. এক্সেসরিজ টেবিল -->
+      <!-- ২. এক্সেসরিজ টেবিল (Screen) -->
       <table class="edit-table">
         <thead>
           <tr>
@@ -295,44 +294,36 @@
         <p id="pdfShopMobile">Mobile: 01676-474412</p>
       </div>
 
-      <!-- ২. সেকশন ১: অ্যালুমিনিয়াম সেকশন -->
-      <div class="pdf-section-title">১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)</div>
+      <!-- ২. সেকশন ১: অ্যালুমিনিয়াম সেকশন (PDF) -->
+      <div class="pdf-section-title">১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিটের সেকশন)</div>
       <table class="pdf-table">
         <thead>
           <tr>
             <th>মালের নাম</th>
-            <th>২১' এর পিস</th>
-            <th>কাজে লাগবে</th>
-            <th>ওয়েস্টেজ</th>
-            <th>সাইজ / টুকরা বিবরণ</th>
+            <th>মোট পিস (২১')</th>
+            <th>কাজের মাপ (পিস ও টুকরা)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>১x২ বক্স (Outer Frame)</td>
             <td class="bold-col" id="pdfBoxPcs">0</td>
-            <td id="pdfBoxUsed">0</td>
-            <td id="pdfBoxWaste">0</td>
-            <td id="pdfBoxBreakdown">0</td>
+            <td class="bold-col" id="pdfBoxBreakdown">0</td>
           </tr>
           <tr>
             <td id="pdfUChannelLabel">৩" ইউ-চ্যানেল (Inner)</td>
             <td class="bold-col" id="pdfUPcs">0</td>
-            <td id="pdfUUsed">0</td>
-            <td id="pdfUWaste">0</td>
-            <td id="pdfUBreakdown">0</td>
+            <td class="bold-col" id="pdfUBreakdown">0</td>
           </tr>
           <tr>
             <td id="pdfBladeLabel">৩" জেড (Z Blade)</td>
             <td class="bold-col" id="pdfZPcs">0</td>
-            <td id="pdfZUsed">0</td>
-            <td id="pdfZWaste">0</td>
-            <td id="pdfZBreakdown">0</td>
+            <td class="bold-col" id="pdfZBreakdown">0</td>
           </tr>
         </tbody>
       </table>
 
-      <!-- ৩. সেকশন ২: এক্সেসরিজ -->
+      <!-- ৩. সেকশন ২: এক্সেসরিজ (PDF) -->
       <div class="pdf-section-title">২. এক্সেসরিজ ও ফিটিংস হিসাব</div>
       <table class="pdf-table">
         <thead>
@@ -389,23 +380,6 @@
       container.appendChild(div);
     }
 
-    // টুকরা হিসাবের ফাংশন (যেমন: ২১' × ৪ পিস + ৯' টুকরা)
-    function formatBreakdown(totalFt) {
-      if (totalFt <= 0) return "০ ফিট";
-      let full21 = Math.floor(totalFt / 21);
-      let rem = totalFt % 21;
-      
-      let text = "";
-      if (full21 > 0) {
-        text += `২১' × ${full21} পিস`;
-      }
-      if (rem > 0) {
-        if (text !== "") text += " + ";
-        text += `${rem.toFixed(2)}' টুকরা (১ পিস)`;
-      }
-      return text;
-    }
-
     // হিসাব এবং প্রিভিউ জেনারেট
     function calculatePreview() {
       let totalBoxFt = 0, totalUFt = 0, totalZBladeFt = 0, totalRivet = 0, totalScrews = 0;
@@ -439,7 +413,7 @@
         return;
       }
 
-      // স্ক্রু হিসাব: প্রতি ১.৫ রানিং ফিটে (আউটার বক্সে) ২টি দেড় ইঞ্চি স্ক্রু
+      // স্ক্রু হিসাব
       totalScrews = Math.ceil((totalBoxFt / 1.5) * 2);
 
       // ২১ ফিটের পিস এবং ওয়েস্টেজ হিসাব
@@ -459,33 +433,46 @@
       document.getElementById('editULabel').innerText = uName;
       document.getElementById('editZLabel').innerText = bladeName;
 
-      /* ================= রেজাল্ট/প্রিভিউ বক্সে সঠিক ক্রমানুসারে ডাটা ইনপুট ================= */
-      // ১. ২১' এর পিস (প্রথম)
+      /* ================= স্ক্রিন প্রিভিউতে ডাটা ইনপুট ================= */
       document.getElementById('editBoxPcs').value = boxPcs + " পিস";
       document.getElementById('editUPcs').value = uPcs + " পিস";
       document.getElementById('editZPcs').value = zPcs + " পিস";
 
-      // ২. কাজে লাগবে (দ্বিতীয়)
       document.getElementById('editBoxUsed').value = totalBoxFt.toFixed(2) + " ফিট";
       document.getElementById('editUUsed').value = totalUFt.toFixed(2) + " ফিট";
       document.getElementById('editZUsed').value = totalZBladeFt.toFixed(2) + " ফিট";
 
-      // ৩. ওয়েস্টেজ (তৃতীয়)
       document.getElementById('editBoxWaste').value = boxWaste.toFixed(2) + " ফিট";
       document.getElementById('editUWaste').value = uWaste.toFixed(2) + " ফিট";
       document.getElementById('editZWaste').value = zWaste.toFixed(2) + " ফিট";
 
-      // ৪. টুকরা বিবরণ (চতুর্থ)
-      document.getElementById('editBoxBreakdown').value = formatBreakdown(totalBoxFt);
-      document.getElementById('editUBreakdown').value = formatBreakdown(totalUFt);
-      document.getElementById('editZBreakdown').value = formatBreakdown(totalZBladeFt);
-
-      // এক্সেসরিজ
       document.getElementById('editScrews').value = totalScrews + " পিস";
       document.getElementById('editRivets').value = totalRivet + " পিস";
 
-      // প্রিভিউ এরিয়া দৃশ্যমান করা
       document.getElementById('previewArea').style.display = 'block';
+    }
+
+    // পিডিএফ এর জন্য টুকরা হিসাবের ফাংশন (যেমন: ২১' এর ৪ পিস + ২' টুকরা)
+    function generatePdfTukraText(ftString) {
+      // এডিট করা ইনপুট থেকে ফিটের সংখ্যা বের করা
+      let ft = parseFloat(ftString.replace(/[^\d.-]/g, '')) || 0;
+      if (ft <= 0) return "-";
+      
+      let full21 = Math.floor(ft / 21);
+      let rem = ft % 21;
+      let text = "";
+      
+      if (full21 > 0) {
+        text += `২১' এর ${full21} পিস`;
+      }
+      
+      if (rem > 0) {
+        if (text !== "") text += " + ";
+        // দশমিকের পর শূন্য থাকলে পরিষ্কার দেখানোর জন্য
+        let remStr = (rem % 1 === 0) ? rem.toString() : rem.toFixed(2);
+        text += `${remStr}' টুকরা`;
+      }
+      return text;
     }
 
     // এডিট করা ডাটা দিয়ে পিডিএফ তৈরি ও প্রিন্ট
@@ -498,23 +485,15 @@
       document.getElementById('pdfUChannelLabel').innerText = document.getElementById('uChannelSelect').value + " (Inner)";
       document.getElementById('pdfBladeLabel').innerText = document.getElementById('bladeSelect').value + " (Z Blade)";
 
-      // বক্স ডাটা পাস
+      // মোট পিস পাস করা
       document.getElementById('pdfBoxPcs').innerText = document.getElementById('editBoxPcs').value;
-      document.getElementById('pdfBoxUsed').innerText = document.getElementById('editBoxUsed').value;
-      document.getElementById('pdfBoxWaste').innerText = document.getElementById('editBoxWaste').value;
-      document.getElementById('pdfBoxBreakdown').innerText = document.getElementById('editBoxBreakdown').value;
-
-      // ইউ-চ্যানেল ডাটা পাস
       document.getElementById('pdfUPcs').innerText = document.getElementById('editUPcs').value;
-      document.getElementById('pdfUUsed').innerText = document.getElementById('editUUsed').value;
-      document.getElementById('pdfUWaste').innerText = document.getElementById('editUWaste').value;
-      document.getElementById('pdfUBreakdown').innerText = document.getElementById('editUBreakdown').value;
-
-      // জেড ব্লেড ডাটা পাস
       document.getElementById('pdfZPcs').innerText = document.getElementById('editZPcs').value;
-      document.getElementById('pdfZUsed').innerText = document.getElementById('editZUsed').value;
-      document.getElementById('pdfZWaste').innerText = document.getElementById('editZWaste').value;
-      document.getElementById('pdfZBreakdown').innerText = document.getElementById('editZBreakdown').value;
+
+      // টুকরা বিবরণ ডায়নামিক্যালি তৈরি করে পিডিএফে বসানো
+      document.getElementById('pdfBoxBreakdown').innerText = generatePdfTukraText(document.getElementById('editBoxUsed').value);
+      document.getElementById('pdfUBreakdown').innerText = generatePdfTukraText(document.getElementById('editUUsed').value);
+      document.getElementById('pdfZBreakdown').innerText = generatePdfTukraText(document.getElementById('editZUsed').value);
 
       // এক্সেসরিজ ডাটা পাস
       document.getElementById('pdfScrews').innerText = document.getElementById('editScrews').value;

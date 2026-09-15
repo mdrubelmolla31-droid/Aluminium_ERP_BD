@@ -7,11 +7,11 @@
   <style>
     :root {
       --bg-color: #f1f5f9;
-      --accent: #1d4ed8;
-      --accent-dark: #1e3a8a;
+      --accent: #1a365d;
+      --accent-light: #2b4c7e;
       --text: #0f172a;
       --border: #cbd5e1;
-      --header-bg: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+      --header-bg: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
     }
 
     *, *::before, *::after {
@@ -37,10 +37,10 @@
     /* ================= APP HEADER ================= */
     .header-card {
       background: var(--header-bg);
-      padding: 18px;
+      padding: 20px;
       border-radius: 12px;
       margin-bottom: 15px;
-      box-shadow: 0 4px 15px rgba(29, 78, 216, 0.25);
+      box-shadow: 0 4px 15px rgba(26, 54, 93, 0.3);
       color: #ffffff;
     }
 
@@ -49,27 +49,27 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
 
     .header-left-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex: 1;
     }
 
     .menu-btn {
-      width: 40px; height: 40px; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 20px;
+      width: 42px; height: 42px; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 22px;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
 
-    .main-title { font-weight: 900; font-size: 18px; }
-    .sub-title { font-size: 12px; font-weight: 600; opacity: 0.9; }
+    .main-title { font-weight: 900; font-size: 22px; letter-spacing: 0.5px; }
+    .sub-title { font-size: 13px; font-weight: 600; opacity: 0.9; }
 
     .header-date-badge {
-      background: rgba(0, 0, 0, 0.25); color: #fff; padding: 6px 12px;
+      background: rgba(0, 0, 0, 0.3); color: #fff; padding: 6px 12px;
       border-radius: 6px; font-size: 12px; font-weight: bold; border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
@@ -118,7 +118,7 @@
     /* ================= EDITABLE PREVIEW (SCREEN) ================= */
     .preview-section { display: none; overflow-x: auto; }
     
-    .edit-table { width: 100%; min-width: 300px; border-collapse: collapse; margin-bottom: 15px; }
+    .edit-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
     .edit-table th, .edit-table td { border: 1px solid var(--border); padding: 8px 4px; text-align: center; font-size: 13px; }
     .edit-table th { background: #e0f2fe; color: #0f172a; font-weight: 800; }
     .edit-table td:first-child { text-align: left; font-weight: bold; width: 28%; }
@@ -133,30 +133,142 @@
       font-weight: 900; font-size: 16px; cursor: pointer; width: 100%; margin-top: 10px;
     }
 
-    /* ================= 🖨️ PDF PRINT LAYOUT (A4 SINGLE PAGE) ================= */
+    /* ================= 🖨️ PDF PRINT LAYOUT (EXACT MATCH REFERENCE IMAGE) ================= */
     .pdf-layout { display: none; }
 
     @media print {
       @page { size: A4 portrait; margin: 8mm; }
-      body { background: #ffffff !important; color: #000000 !important; padding: 0 !important; margin: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
       
       .no-print { display: none !important; }
-      .pdf-layout { display: block !important; width: 100% !important; }
+      
+      .pdf-layout {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        border: 1.5px solid #1a365d !important;
+        padding: 15px !important;
+        background: #ffffff !important;
+      }
 
-      /* হেডার ব্যানার */
-      .pdf-header { background: #1e3a8a !important; color: #ffffff !important; text-align: center !important; padding: 14px !important; border-radius: 4px !important; margin-bottom: 15px !important; }
-      .pdf-header h1 { font-size: 20px !important; font-weight: 900 !important; margin-bottom: 2px !important; color: #ffffff !important; }
-      .pdf-header p { font-size: 13px !important; font-weight: 700 !important; color: #ffffff !important; }
+      /* ১. তারিখ (ডানপাশে) */
+      .pdf-date-row {
+        text-align: right !important;
+        font-size: 12px !important;
+        font-weight: bold !important;
+        color: #1a365d !important;
+        margin-bottom: 4px !important;
+      }
 
-      /* সেকশন টাইটেল বার */
-      .pdf-section-title { background: #1d4ed8 !important; color: #ffffff !important; padding: 6px 10px !important; font-size: 14px !important; font-weight: bold !important; border-radius: 3px 3px 0 0 !important; margin-top: 12px !important; }
+      /* ২. বড় হেডার টাইটেল */
+      .pdf-main-title {
+        text-align: center !important;
+        font-size: 24px !important;
+        font-weight: 900 !important;
+        color: #1a365d !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 6px !important;
+        text-transform: uppercase !important;
+      }
 
-      /* টেবিল ডিজাইন */
-      .pdf-table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 12px !important; }
-      .pdf-table th, .pdf-table td { border: 1px solid #1d4ed8 !important; padding: 10px 8px !important; font-size: 14px !important; color: #000000 !important; text-align: center !important; }
-      .pdf-table th { background: #e0f2fe !important; font-weight: bold !important; color: #0f172a !important; }
-      .pdf-table td:first-child { text-align: left !important; font-weight: bold !important; width: 30%; }
-      .bold-col { font-weight: 900 !important; }
+      /* ৩. মোবাইল নম্বর ব্যাজ */
+      .pdf-badge-wrapper {
+        text-align: center !important;
+        margin-bottom: 12px !important;
+      }
+      .pdf-mobile-badge {
+        background: #1a365d !important;
+        color: #ffffff !important;
+        padding: 4px 20px !important;
+        border-radius: 15px !important;
+        font-size: 12px !important;
+        font-weight: bold !important;
+        display: inline-block !important;
+      }
+
+      .pdf-divider {
+        border-bottom: 1.5px solid #1a365d !important;
+        margin-bottom: 12px !important;
+      }
+
+      /* ৪. কাস্টমার ইনফো টেবিল */
+      .pdf-customer-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-bottom: 14px !important;
+      }
+      .pdf-customer-table td {
+        border: 1px solid #1a365d !important;
+        padding: 6px 10px !important;
+        font-size: 13px !important;
+      }
+      .pdf-cust-label {
+        background: #1a365d !important;
+        color: #ffffff !important;
+        font-weight: bold !important;
+        width: 22% !important;
+      }
+      .pdf-cust-val {
+        width: 78% !important;
+        font-weight: bold !important;
+        color: #000000 !important;
+      }
+
+      /* ৫. সেকশন ব্যানার */
+      .pdf-section-banner {
+        background: #1a365d !important;
+        color: #ffffff !important;
+        text-align: center !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        padding: 6px !important;
+        margin-bottom: 0 !important;
+        border: 1px solid #1a365d !important;
+        border-bottom: none !important;
+      }
+
+      /* ৬. ডাটা টেবিল (অ্যালুমিনিয়াম ও এক্সেসরিজ) */
+      .pdf-data-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-bottom: 15px !important;
+      }
+      .pdf-data-table th, .pdf-data-table td {
+        border: 1px solid #1a365d !important;
+        padding: 7px 6px !important;
+        font-size: 13px !important;
+        text-align: center !important;
+        color: #000000 !important;
+      }
+      .pdf-data-table th {
+        background: #1a365d !important;
+        color: #ffffff !important;
+        font-weight: bold !important;
+      }
+      .pdf-data-table td.text-left {
+        text-align: left !important;
+        padding-left: 10px !important;
+        font-weight: bold !important;
+      }
+      .pdf-data-table td.bold-text {
+        font-weight: 800 !important;
+      }
+
+      /* ৭. ফুটার মেসেজ */
+      .pdf-footer-note {
+        text-align: center !important;
+        font-size: 13px !important;
+        font-weight: bold !important;
+        color: #1a365d !important;
+        margin-top: 15px !important;
+      }
     }
   </style>
 </head>
@@ -170,15 +282,15 @@
         <div class="header-left-group">
           <button class="menu-btn">☰</button>
           <div>
-            <div class="main-title">RM THAI ALUMINIUM</div>
+            <div class="main-title">RM.THAI.ALUMINIUM</div>
             <div class="sub-title">জেড লুভার ক্যালকুলেটর</div>
           </div>
         </div>
         <div class="header-date-badge" id="liveDateDisplay"></div>
       </div>
       <div class="header-inputs">
-        <input type="text" id="shopNameInput" class="header-input" value="RM THAI ALUMINIUM" oninput="saveHeaderData()">
-        <input type="text" id="shopMobileInput" class="header-input" value="Mobile: 01676-474412" oninput="saveHeaderData()">
+        <input type="text" id="shopNameInput" class="header-input" value="RM.THAI.ALUMINIUM" oninput="saveHeaderData()">
+        <input type="text" id="shopMobileInput" class="header-input" value="মোবাইল: 01676474412" oninput="saveHeaderData()">
       </div>
     </div>
 
@@ -194,6 +306,21 @@
         <option value='৩" ইউ-চ্যানেল' selected>৩" ইউ-চ্যানেল</option>
         <option value='৪" ইউ-চ্যানেল'>৪" ইউ-চ্যানেল</option>
       </select>
+    </div>
+
+    <!-- 👤 কাস্টমার ইনফো ইনপুট (no-print) -->
+    <div class="card no-print">
+      <div class="card-title">কাস্টমার তথ্য (প্রিন্টের জন্য):</div>
+      <div class="input-row">
+        <div class="input-group" style="grid-column: span 2;">
+          <label>কাস্টমার নাম</label>
+          <input type="text" id="custNameInput" value="সাধারণ গ্রাহক">
+        </div>
+        <div class="input-group" style="grid-column: span 2;">
+          <label>কাস্টমার ঠিকানা</label>
+          <input type="text" id="custAddrInput" value="সাধারণ ঠিকানা">
+        </div>
+      </div>
     </div>
 
     <button class="btn-add-window no-print" onclick="addWindowRow()">+ আরও উইন্ডো যোগ করুন</button>
@@ -226,7 +353,6 @@
     <button class="btn-calc no-print" onclick="calculatePreview()">হিসাব বের করুন</button>
 
     <!-- 📝 এডিটেবল রেজাল্ট ও প্রিভিউ (no-print) -->
-    <!-- স্ক্রিনে কলাম কমানো হয়েছে যেন লেখা কেটে না যায় -->
     <div class="card preview-section no-print" id="previewArea">
       <div class="card-title" style="color: #dc2626;">মালামালের রেজাল্ট ও এডিটেবল প্রিভিউ</div>
       
@@ -285,85 +411,118 @@
       <button class="btn-print" onclick="generatePDF()">🖨️ চুড়ান্ত PDF প্রিন্ট / সেভ করুন</button>
     </div>
 
-    <!-- 🖨️ চুড়ান্ত PDF প্রিন্ট লেআউট (A4 Single Page Design) -->
+    <!-- 🖨️ চুড়ান্ত PDF প্রিন্ট লেআউট (EXACTLY MATCHES REFERENCED IMAGE) -->
     <div class="pdf-layout" id="printablePDF">
       
-      <!-- ১. হেডার ব্যানার -->
-      <div class="pdf-header">
-        <h1 id="pdfShopName">RM THAI ALUMINIUM</h1>
-        <p id="pdfShopMobile">Mobile: 01676-474412</p>
+      <!-- ১. তারিখ -->
+      <div class="pdf-date-row">
+        তারিখ: <span id="pdfDateDisplay"></span>
       </div>
 
-      <!-- ২. সেকশন ১: অ্যালুমিনিয়াম সেকশন (PDF) -->
-      <div class="pdf-section-title">১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিটের সেকশন)</div>
-      <table class="pdf-table">
+      <!-- ২. হেডার টাইটেল -->
+      <div class="pdf-main-title" id="pdfShopName">RM.THAI.ALUMINIUM</div>
+
+      <!-- ৩. মোবাইল নম্বর পিল ব্যাজ -->
+      <div class="pdf-badge-wrapper">
+        <div class="pdf-mobile-badge" id="pdfShopMobile">মোবাইল: 01676474412</div>
+      </div>
+
+      <div class="pdf-divider"></div>
+
+      <!-- ৪. কাস্টমার ইনফরমেশন টেবিল -->
+      <table class="pdf-customer-table">
+        <tr>
+          <td class="pdf-cust-label">কাস্টমার নাম</td>
+          <td class="pdf-cust-val" id="pdfCustName">সাধারণ গ্রাহক</td>
+        </tr>
+        <tr>
+          <td class="pdf-cust-label">কাস্টমার ঠিকানা</td>
+          <td class="pdf-cust-val" id="pdfCustAddr">সাধারণ ঠিকানা</td>
+        </tr>
+      </table>
+
+      <!-- ৫. সেকশন ১: অ্যালুমিনিয়াম সেকশন -->
+      <div class="pdf-section-banner">প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)</div>
+      <table class="pdf-data-table">
         <thead>
           <tr>
-            <th>মালের নাম</th>
-            <th>মোট পিস (২১')</th>
-            <th>কাজের মাপ (পিস ও টুকরা)</th>
+            <th style="width: 10%;">ক্রম</th>
+            <th style="width: 40%;">মালামালের নাম</th>
+            <th style="width: 20%;">সাইজ</th>
+            <th style="width: 30%;">প্রকৃত পরিমাণ</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>১x২ বক্স (Outer Frame)</td>
-            <td class="bold-col" id="pdfBoxPcs">0</td>
-            <td class="bold-col" id="pdfBoxBreakdown">0</td>
+            <td>১</td>
+            <td class="text-left">১x২ বক্স</td>
+            <td>২১ এর</td>
+            <td class="bold-text" id="pdfBoxQty">0</td>
           </tr>
           <tr>
-            <td id="pdfUChannelLabel">৩" ইউ-চ্যানেল (Inner)</td>
-            <td class="bold-col" id="pdfUPcs">0</td>
-            <td class="bold-col" id="pdfUBreakdown">0</td>
+            <td>২</td>
+            <td class="text-left" id="pdfUChannelLabel">৩" ইউ-চ্যানেল</td>
+            <td>২১ এর</td>
+            <td class="bold-text" id="pdfUQty">0</td>
           </tr>
           <tr>
-            <td id="pdfBladeLabel">৩" জেড (Z Blade)</td>
-            <td class="bold-col" id="pdfZPcs">0</td>
-            <td class="bold-col" id="pdfZBreakdown">0</td>
+            <td>৩</td>
+            <td class="text-left" id="pdfBladeLabel">৩" জেড</td>
+            <td>২১ এর</td>
+            <td class="bold-text" id="pdfZQty">0</td>
           </tr>
         </tbody>
       </table>
 
-      <!-- ৩. সেকশন ২: এক্সেসরিজ (PDF) -->
-      <div class="pdf-section-title">২. এক্সেসরিজ ও ফিটিংস হিসাব</div>
-      <table class="pdf-table">
+      <!-- ৬. সেকশন ২: এক্সেসরিজ -->
+      <div class="pdf-section-banner">এক্সেসরিজের তালিকা</div>
+      <table class="pdf-data-table">
         <thead>
           <tr>
-            <th>উপাদানের নাম</th>
-            <th>মোট পরিমাণ</th>
+            <th style="width: 10%;">ক্রম</th>
+            <th style="width: 60%;">এক্সেসরিজের নাম</th>
+            <th style="width: 30%;">পরিমাণ</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>দেড় ইঞ্চি (1.5") স্ক্রু</td>
-            <td class="bold-col" id="pdfScrews">0</td>
+            <td>১</td>
+            <td class="text-left">দেড় ইঞ্চি (1.5") স্ক্রু</td>
+            <td class="bold-text" id="pdfScrews">0</td>
           </tr>
           <tr>
-            <td>রিপিট (Rivets)</td>
-            <td class="bold-col" id="pdfRivets">0</td>
+            <td>২</td>
+            <td class="text-left">রিপিট (Rivets)</td>
+            <td class="bold-text" id="pdfRivets">0</td>
           </tr>
         </tbody>
       </table>
+
+      <!-- ৭. ফুটার মেসেজ -->
+      <div class="pdf-footer-note">ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।</div>
 
     </div>
   </div>
 
   <script>
-    // তারিখ প্রদর্শন
+    // তারিখ প্রদর্শন (বাংলা বিন্যাসে)
     function setDate() {
       const now = new Date();
-      const options = { day: 'numeric', month: 'short', year: 'numeric' };
-      document.getElementById('liveDateDisplay').innerText = now.toLocaleDateString('en-GB', options);
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      const dateStr = now.toLocaleDateString('en-GB', options);
+      document.getElementById('liveDateDisplay').innerText = dateStr;
+      document.getElementById('pdfDateDisplay').innerText = dateStr;
     }
     setDate();
 
-    // হেডার ডাটা
+    // হেডার ডাটা লোকালস্টোরেজ
     function saveHeaderData() {
-      localStorage.setItem('zlouver_name', document.getElementById('shopNameInput').value);
-      localStorage.setItem('zlouver_mobile', document.getElementById('shopMobileInput').value);
+      localStorage.setItem('zlouver_name_v2', document.getElementById('shopNameInput').value);
+      localStorage.setItem('zlouver_mobile_v2', document.getElementById('shopMobileInput').value);
     }
     function loadHeaderData() {
-      if (localStorage.getItem('zlouver_name')) document.getElementById('shopNameInput').value = localStorage.getItem('zlouver_name');
-      if (localStorage.getItem('zlouver_mobile')) document.getElementById('shopMobileInput').value = localStorage.getItem('zlouver_mobile');
+      if (localStorage.getItem('zlouver_name_v2')) document.getElementById('shopNameInput').value = localStorage.getItem('zlouver_name_v2');
+      if (localStorage.getItem('zlouver_mobile_v2')) document.getElementById('shopMobileInput').value = localStorage.getItem('zlouver_mobile_v2');
     }
     loadHeaderData();
 
@@ -380,7 +539,7 @@
       container.appendChild(div);
     }
 
-    // হিসাব এবং প্রিভিউ জেনারেট
+    // স্ক্রিনের জন্য ক্যালকুলেশন
     function calculatePreview() {
       let totalBoxFt = 0, totalUFt = 0, totalZBladeFt = 0, totalRivet = 0, totalScrews = 0;
       let hInputs = document.querySelectorAll('.inp-h');
@@ -413,10 +572,8 @@
         return;
       }
 
-      // স্ক্রু হিসাব
       totalScrews = Math.ceil((totalBoxFt / 1.5) * 2);
 
-      // ২১ ফিটের পিস এবং ওয়েস্টেজ হিসাব
       let boxPcs = Math.ceil(totalBoxFt / 21);
       let boxWaste = (boxPcs > 0) ? (boxPcs * 21) - totalBoxFt : 0;
 
@@ -426,14 +583,13 @@
       let zPcs = Math.ceil(totalZBladeFt / 21);
       let zWaste = (zPcs > 0) ? (zPcs * 21) - totalZBladeFt : 0;
 
-      // ড্রপডাউনের নাম
       const bladeName = document.getElementById('bladeSelect').value;
       const uName = document.getElementById('uChannelSelect').value;
       
       document.getElementById('editULabel').innerText = uName;
       document.getElementById('editZLabel').innerText = bladeName;
 
-      /* ================= স্ক্রিন প্রিভিউতে ডাটা ইনপুট ================= */
+      /* ================= স্ক্রিন প্রিভিউতে ইনপুট ================= */
       document.getElementById('editBoxPcs').value = boxPcs + " পিস";
       document.getElementById('editUPcs').value = uPcs + " পিস";
       document.getElementById('editZPcs').value = zPcs + " পিস";
@@ -452,54 +608,48 @@
       document.getElementById('previewArea').style.display = 'block';
     }
 
-    // পিডিএফ এর জন্য টুকরা হিসাবের ফাংশন (যেমন: ২১' এর ৪ পিস + ২' টুকরা)
-    function generatePdfTukraText(ftString) {
-      // এডিট করা ইনপুট থেকে ফিটের সংখ্যা বের করা
-      let ft = parseFloat(ftString.replace(/[^\d.-]/g, '')) || 0;
-      if (ft <= 0) return "-";
-      
+    // ছবির মতো "প্রকৃত পরিমাণ" এর টেক্সট তৈরি করা (যেমন: ২ পিস + ১০ ফিট টুকরা)
+    function formatPdfActualQuantity(usedFtText) {
+      let ft = parseFloat(usedFtText.replace(/[^\d.-]/g, '')) || 0;
+      if (ft <= 0) return "০ পিস";
+
       let full21 = Math.floor(ft / 21);
       let rem = ft % 21;
-      let text = "";
-      
-      if (full21 > 0) {
-        text += `২১' এর ${full21} পিস`;
-      }
-      
-      if (rem > 0) {
-        if (text !== "") text += " + ";
-        // দশমিকের পর শূন্য থাকলে পরিষ্কার দেখানোর জন্য
+
+      if (full21 > 0 && rem > 0) {
         let remStr = (rem % 1 === 0) ? rem.toString() : rem.toFixed(2);
-        text += `${remStr}' টুকরা`;
+        return `${full21} পিস + ${remStr} ফিট টুকরা`;
+      } else if (full21 > 0 && rem === 0) {
+        return `${full21} পিস`;
+      } else {
+        let remStr = (rem % 1 === 0) ? rem.toString() : rem.toFixed(2);
+        return `${remStr} ফিট টুকরা`;
       }
-      return text;
     }
 
-    // এডিট করা ডাটা দিয়ে পিডিএফ তৈরি ও প্রিন্ট
+    // পিডিএফ জেনারেট ও প্রিন্ট
     function generatePDF() {
-      // হেডার
+      // হেডার ও কাস্টমার ডাটা সেটআপ
       document.getElementById('pdfShopName').innerText = document.getElementById('shopNameInput').value;
       document.getElementById('pdfShopMobile').innerText = document.getElementById('shopMobileInput').value;
       
-      // ডাইনামিক নাম
-      document.getElementById('pdfUChannelLabel').innerText = document.getElementById('uChannelSelect').value + " (Inner)";
-      document.getElementById('pdfBladeLabel').innerText = document.getElementById('bladeSelect').value + " (Z Blade)";
+      document.getElementById('pdfCustName').innerText = document.getElementById('custNameInput').value || "সাধারণ গ্রাহক";
+      document.getElementById('pdfCustAddr').innerText = document.getElementById('custAddrInput').value || "সাধারণ ঠিকানা";
 
-      // মোট পিস পাস করা
-      document.getElementById('pdfBoxPcs').innerText = document.getElementById('editBoxPcs').value;
-      document.getElementById('pdfUPcs').innerText = document.getElementById('editUPcs').value;
-      document.getElementById('pdfZPcs').innerText = document.getElementById('editZPcs').value;
+      // মালের নাম
+      document.getElementById('pdfUChannelLabel').innerText = document.getElementById('uChannelSelect').value;
+      document.getElementById('pdfBladeLabel').innerText = document.getElementById('bladeSelect').value;
 
-      // টুকরা বিবরণ ডায়নামিক্যালি তৈরি করে পিডিএফে বসানো
-      document.getElementById('pdfBoxBreakdown').innerText = generatePdfTukraText(document.getElementById('editBoxUsed').value);
-      document.getElementById('pdfUBreakdown').innerText = generatePdfTukraText(document.getElementById('editUUsed').value);
-      document.getElementById('pdfZBreakdown').innerText = generatePdfTukraText(document.getElementById('editZUsed').value);
+      // ছবি অনুযায়ী "প্রকৃত পরিমাণ" এর ঘরের ফরম্যাট পাস করা
+      document.getElementById('pdfBoxQty').innerText = formatPdfActualQuantity(document.getElementById('editBoxUsed').value);
+      document.getElementById('pdfUQty').innerText = formatPdfActualQuantity(document.getElementById('editUUsed').value);
+      document.getElementById('pdfZQty').innerText = formatPdfActualQuantity(document.getElementById('editZUsed').value);
 
-      // এক্সেসরিজ ডাটা পাস
+      // এক্সেসরিজ ডাটা
       document.getElementById('pdfScrews').innerText = document.getElementById('editScrews').value;
       document.getElementById('pdfRivets').innerText = document.getElementById('editRivets').value;
 
-      // প্রিন্ট ডায়ালগ ওপেন
+      // প্রিন্ট ডায়ালগ খোলা
       window.print();
     }
   </script>

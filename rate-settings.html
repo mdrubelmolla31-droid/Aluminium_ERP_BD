@@ -16,7 +16,6 @@
     
     body { padding: 12px; }
     
-    /* ডেস্কটপে সর্বোচ্চ ১১০০px পর্যন্ত চওড়া হবে */
     .container { 
       max-width: 1100px; 
       margin: 0 auto; 
@@ -33,29 +32,32 @@
       box-shadow: 0 4px 15px rgba(20, 70, 160, 0.2);
     }
 
+    /* ডেট সবসময় ডানে রাখার জন্য পজিশনিং ফিক্স */
     .header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
+      flex-wrap: nowrap;
+      gap: 8px;
+      width: 100%;
     }
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      min-width: 0;
     }
 
     .menu-btn {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       flex-shrink: 0;
       border: 1px solid rgba(255,255,255,0.35);
       border-radius: 8px;
       background: rgba(255,255,255,0.18);
       color: #ffffff;
-      font-size: 22px;
+      font-size: 20px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -63,10 +65,13 @@
     }
 
     .header-main-title {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 900;
       text-transform: uppercase;
       line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .header-sub-title {
@@ -76,14 +81,16 @@
       opacity: 0.9;
     }
 
+    /* ডান পাশের ডেট বক্স */
     .header-date {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       background: rgba(0, 0, 0, 0.25);
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .shop-details {
@@ -99,7 +106,7 @@
       border-radius: 6px;
       background: rgba(255,255,255,0.95);
       color: #111827;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       text-align: center;
       outline: none;
@@ -167,14 +174,12 @@
       border-bottom: 2px solid #e2e8f0;
     }
 
-    /* রেসপন্সিভ ফর্ম গ্রিড */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 12px 16px;
     }
 
-    /* ডেক্সটপ বা চওড়া স্ক্রিনে ২ থেকে ৩ কলাম হবে */
     @media (min-width: 600px) {
       .form-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -191,7 +196,7 @@
       padding: 9px 12px;
       font-size: 14px;
       font-weight: 600;
-      border: 1.5px solid #64748b; /* গাঢ় স্পষ্ট বর্ডার */
+      border: 1.5px solid #64748b;
       border-radius: 6px;
       background-color: #f8fafc;
       color: #0f172a;

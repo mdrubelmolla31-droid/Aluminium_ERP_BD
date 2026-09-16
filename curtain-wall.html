@@ -22,7 +22,7 @@
 body {
     background: #eef3f8;
     color: #111827;
-    padding: 10px;
+    padding: 6px; /* Reduced outer space */
     font-weight: 600;
     display: flex;
     flex-direction: column;
@@ -34,10 +34,9 @@ body {
     width: 100%;
     max-width: 1000px;
     background: #ffffff;
-    padding: 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+    padding: 12px; /* Spread across screen edge */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
 }
 
 /* =========================================================
@@ -47,29 +46,31 @@ body {
     position: relative;
     background: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
     color: #ffffff;
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 20px;
+    border-radius: 12px;
+    padding: 45px 10px 15px 10px; /* Top padding to clear absolute buttons */
+    margin-bottom: 16px;
     box-shadow: 0 6px 20px rgba(20, 70, 160, 0.25);
 }
 
-.header-top {
+.header-top-bar {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 100%;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
+    align-items: center;
+    padding: 0 10px;
 }
 
 .menu-btn {
-    width: 42px;
-    height: 42px;
-    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
     border: 1px solid rgba(255,255,255,0.35);
     border-radius: 8px;
     background: rgba(255,255,255,0.18);
     color: #ffffff;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -79,66 +80,61 @@ body {
 
 .menu-btn:hover { background: rgba(255,255,255,0.3); }
 
-.header-title-area { 
-    flex: 1; 
-    text-align: center;
-    padding: 0 5px;
-}
-
-.header-main-title {
-    font-size: clamp(15px, 3.5vw, 24px);
-    font-weight: 900;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    line-height: 1.3;
-}
-
-.title-separator {
-    font-size: 18px;
-    color: #bfdbfe;
-}
-
-.header-sub-title {
-    font-size: clamp(12px, 2.5vw, 16px);
-    font-weight: 700;
-    color: #bfdbfe;
-}
-
 .date-display {
-    font-size: clamp(10px, 2.3vw, 12px);
+    font-size: 12px;
     font-weight: 800;
     background: rgba(255, 255, 255, 0.2);
-    padding: 5px 10px;
+    padding: 6px 12px;
     border-radius: 6px;
-    white-space: nowrap;
     color: #ffffff;
-    flex-shrink: 0;
+}
+
+.header-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px; /* Reduced gap between titles */
+    margin-bottom: 15px;
+}
+
+.main-brand {
+    font-size: clamp(24px, 6vw, 32px); /* Larger text */
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1;
+    text-align: center;
+}
+
+.sub-brand {
+    font-size: clamp(14px, 3.5vw, 18px);
+    font-weight: 700;
+    color: #bfdbfe;
+    line-height: 1.2;
+    text-align: center;
 }
 
 .shop-details {
-    margin-top: 12px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: 1fr;
     gap: 8px;
+}
+
+@media (min-width: 600px) {
+    .shop-details { grid-template-columns: 1fr 1fr; }
 }
 
 .shop-details input {
     width: 100%;
-    height: 40px;
+    height: 42px;
     padding: 4px 10px;
     border: none;
     border-radius: 8px;
     background: rgba(255,255,255,0.95);
     color: #111827;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 800;
     text-align: center;
     outline: none;
-    transition: box-shadow 0.2s;
 }
 
 .shop-details input::placeholder {
@@ -146,285 +142,197 @@ body {
     font-weight: 600;
 }
 
-.shop-details input:focus { box-shadow: 0 0 0 3px rgba(255,255,255,0.4); }
-
 /* =========================================================
    SIDEBAR & HISTORY
 ========================================================= */
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: -320px;
-    width: 320px;
-    max-width: 85vw;
-    height: 100vh;
-    background: #ffffff;
-    box-shadow: 8px 0 25px rgba(0,0,0,0.25);
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 5000;
-    padding: 20px;
-    overflow-y: auto;
+    position: fixed; top: 0; left: -320px; width: 320px; max-width: 85vw;
+    height: 100vh; background: #ffffff; box-shadow: 8px 0 25px rgba(0,0,0,0.25);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5000;
+    padding: 20px; overflow-y: auto;
 }
-
 .sidebar.active { left: 0; }
-
 .sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #e2e8f0;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0;
 }
-
 .sidebar h3 { color: #1557c0; font-size: 18px; font-weight: 900; }
-
 .close-sidebar {
     background: #dc2626; color: #ffffff; border: none; padding: 6px 12px;
     border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 800;
 }
-
 .history-item {
-    background: #f8fafc; padding: 12px; margin-bottom: 10px;
-    border-radius: 8px; cursor: pointer; font-size: 13px;
-    border-left: 5px solid #1557c0; border: 1px solid #e2e8f0;
-    transition: background 0.2s;
+    background: #f8fafc; padding: 12px; margin-bottom: 10px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; border-left: 5px solid #1557c0; border: 1px solid #e2e8f0;
     display: flex; align-items: center; justify-content: space-between; gap: 8px;
 }
-.history-item:hover { background: #e2e8f0; }
-
-.history-text {
-    flex: 1;
-}
-
+.history-text { flex: 1; }
 .delete-history-btn {
-    background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626;
-    width: 32px; height: 32px; border-radius: 6px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; transition: 0.2s; flex-shrink: 0;
+    background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; width: 32px; height: 32px;
+    border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
 }
-.delete-history-btn:hover { background: #f87171; color: #fff; border-color: #f87171; }
 
 /* =========================================================
    INPUT AREA
 ========================================================= */
 .dimension-section { margin-bottom: 20px; }
-
 .section-heading {
     background: #1557c0; color: #ffffff; padding: 12px 16px;
     border-radius: 8px 8px 0 0; font-size: 15px; font-weight: 900;
 }
-
 .dimension-card {
     position: relative; background: #ffffff; border: 2px solid #d6dee8;
-    border-top: none; padding: 16px; border-radius: 0 0 10px 10px;
-    margin-bottom: 16px; box-shadow: 0 3px 10px rgba(15,23,42,0.05);
+    border-top: none; padding: 12px; border-radius: 0 0 10px 10px;
+    margin-bottom: 16px;
 }
-
 .dimension-header-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-    padding-right: 35px; /* space for close button */
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; padding-right: 35px;
 }
-
 .dimension-card-number {
-    display: inline-flex; align-items: center; justify-content: center;
     padding: 6px 12px; background: #e8f0ff; color: #1557c0;
-    border-radius: 6px; font-size: 13px; font-weight: 900;
-    white-space: nowrap;
+    border-radius: 6px; font-size: 13px; font-weight: 900; white-space: nowrap;
 }
-
 .dropdown-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    flex: 1;
-    min-width: 200px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; min-width: 200px;
 }
-
 .header-select {
-    height: 34px;
-    padding: 2px 6px;
-    border: 1.5px solid #7dd3fc;
-    border-radius: 6px;
-    background: #f0f9ff;
-    color: #0369a1;
-    font-size: 12px;
-    font-weight: 800;
-    outline: none;
-    cursor: pointer;
-    width: 100%;
+    height: 36px; padding: 2px 6px; border: 1.5px solid #7dd3fc; border-radius: 6px;
+    background: #f0f9ff; color: #0369a1; font-size: 13px; font-weight: 800; width: 100%;
 }
-
 .input-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
 }
-
-@media (min-width: 768px) {
-    .input-grid { grid-template-columns: repeat(4, 1fr); }
-}
-
+@media (min-width: 768px) { .input-grid { grid-template-columns: repeat(4, 1fr); } }
 .input-group { display: flex; flex-direction: column; gap: 4px; }
-
-.input-group label {
-    font-size: 12px; color: #334155; font-weight: 800; line-height: 1.2;
-}
-
+.input-group label { font-size: 12px; color: #334155; font-weight: 800; }
 .input-group input {
-    width: 100%; height: 42px; padding: 6px; font-size: 16px;
-    font-weight: 800; color: #111827; background: #f8fafc;
-    border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none; text-align: center;
-    transition: border 0.2s, background 0.2s;
+    width: 100%; height: 42px; padding: 6px; font-size: 16px; font-weight: 800;
+    background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; text-align: center; outline: none;
 }
-
-.input-group input:focus {
-    border-color: #2563eb; background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
-}
-
+.input-group input:focus { border-color: #2563eb; background: #ffffff; }
 .remove-box-btn {
-    position: absolute; right: 10px; top: 14px; width: 32px; height: 32px;
+    position: absolute; right: 10px; top: 12px; width: 32px; height: 32px;
     border: none; border-radius: 6px; background: #fee2e2; color: #dc2626;
-    font-size: 18px; cursor: pointer; font-weight: 900; transition: 0.2s;
-    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; cursor: pointer; font-weight: 900; display: flex; align-items: center; justify-content: center;
 }
-.remove-box-btn:hover { background: #fca5a5; }
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 .add-box-area { margin: 12px 0; }
-
 .btn-add-box {
-    width: 100%; min-height: 48px; border: 2px dashed #2563eb;
-    border-radius: 9px; background: #eff6ff; color: #1557c0;
-    font-size: 14px; font-weight: 900; cursor: pointer; transition: 0.2s;
+    width: 100%; min-height: 48px; border: 2px dashed #2563eb; border-radius: 9px;
+    background: #eff6ff; color: #1557c0; font-size: 15px; font-weight: 900; cursor: pointer;
 }
-.btn-add-box:hover { background: #dbeafe; }
-
 .btn-calc {
     width: 100%; min-height: 52px; background: #147a4b; color: #ffffff;
-    font-size: 18px; font-weight: 900; border: none; border-radius: 9px;
-    cursor: pointer; box-shadow: 0 4px 12px rgba(20,122,75,0.2); transition: 0.2s;
+    font-size: 18px; font-weight: 900; border: none; border-radius: 9px; cursor: pointer;
 }
-.btn-calc:hover { background: #10663e; transform: translateY(-2px); }
 
 /* =========================================================
    RESULT TABLES
 ========================================================= */
-.result-section { display: none; margin-top: 20px; }
-
+.result-section { display: none; margin-top: 15px; }
 .result-title {
     background: linear-gradient(90deg, #1557c0, #1769d3); color: #ffffff;
-    padding: 8px 12px; font-size: 14px; font-weight: 900;
-    margin-top: 14px; border-radius: 8px 8px 0 0;
+    padding: 8px 12px; font-size: 14px; font-weight: 900; margin-top: 12px; border-radius: 8px 8px 0 0;
 }
-
 .table-wrap {
-    width: 100%; overflow-x: auto; border: 1px solid #cbd5e1;
-    border-top: none; border-radius: 0 0 8px 8px; background: #ffffff;
+    width: 100%; overflow-x: auto; border: 1px solid #cbd5e1; border-top: none;
+    border-radius: 0 0 8px 8px; background: #ffffff;
 }
-
 table { width: 100%; border-collapse: collapse; min-width: 300px; }
-
-th, td {
-    border: 1px solid #cbd5e1; padding: 8px; text-align: center;
-    font-size: 13px; color: #111827;
-}
-
+th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; color: #111827; }
 th { background: #f1f5f9; font-weight: 900; }
 tbody tr:nth-child(even) { background: #f8fafc; }
-tbody tr:hover { background: #eff6ff; }
 
 /* =========================================================
    SUMMARY & PRINT BUTTON
 ========================================================= */
 .total-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 10px; margin-top: 16px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 16px;
 }
-
 .summary-card {
-    background: #f8fafc; border: 1px solid #d7dee8;
-    border-radius: 8px; padding: 12px 8px; text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    background: #f8fafc; border: 1px solid #d7dee8; border-radius: 8px; padding: 12px 8px; text-align: center;
 }
-
 .summary-label { display: block; color: #475569; font-size: 11px; margin-bottom: 4px; font-weight: 800;}
 .summary-value { display: block; color: #1557c0; font-size: 18px; font-weight: 900; }
-
 .action-buttons { width: 100%; margin: 20px auto 0; text-align: center; }
-
 .btn-print {
-    width: 100%; max-width: 400px; min-height: 48px;
-    background: #2456d8; color: #ffffff; border: none; border-radius: 9px;
-    font-size: 16px; font-weight: 900; cursor: pointer;
-    box-shadow: 0 4px 15px rgba(36,86,216,0.3); transition: 0.2s;
+    width: 100%; max-width: 400px; min-height: 50px; background: #2456d8; color: #ffffff;
+    border: none; border-radius: 9px; font-size: 16px; font-weight: 900; cursor: pointer;
 }
-.btn-print:hover { background: #1d4ed8; transform: translateY(-2px); }
 
 /* =========================================================
-   PRINT / PDF (Single Page Strict Layout)
+   PRINT / PDF (Strictly 1 Page & HD Clear)
 ========================================================= */
 @media print {
-    @page { size: A4 portrait; margin: 5mm; }
+    @page { size: A4 portrait; margin: 4mm; }
     body, html { 
-        background: #ffffff !important; margin: 0 !important; padding: 0 !important; font-size: 11pt !important; 
+        background: #ffffff !important; margin: 0 !important; padding: 0 !important;
     }
     .container { 
         width: 100% !important; max-width: none !important; border: none !important; 
-        box-shadow: none !important; padding: 0 !important; 
+        box-shadow: none !important; padding: 0 !important; margin: 0 !important;
     }
-    .no-print, .sidebar, .action-buttons, .add-box-area, .remove-box-btn, .total-summary { display: none !important; }
-    .header-title-area { display: block !important; flex: 100% !important; margin-bottom: 5px; }
+    .no-print, .sidebar, .action-buttons, .add-box-area, .remove-box-btn, .total-summary, .header-top-bar { 
+        display: none !important; 
+    }
     
+    /* PDF Header Logic */
     .invoice-header {
-        margin-bottom: 10px !important; padding: 10px !important;
-        background: #123a8c !important; -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important; display: flex !important;
-        flex-direction: column !important; align-items: center !important; border-radius: 0!important;
+        margin-bottom: 5px !important; padding: 10px !important;
+        background: #123a8c !important; border-radius: 0 !important;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+        display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;
     }
-    .header-top { display: flex !important; justify-content: center !important; width: 100% !important; }
-    .menu-btn, .date-display { display: none !important; }
-    .title-separator { display: inline !important; }
+    
+    .header-titles { margin-top: 0 !important; margin-bottom: 8px !important; }
+    
+    .main-brand { display: none !important; } /* Hidden in print */
+    
+    .sub-brand {
+        font-size: 22pt !important; /* Huge & HD */
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        display: block !important;
+    }
     
     .shop-details {
-        margin-top: 0 !important; display: flex !important;
-        flex-direction: column !important; width: 100% !important; gap: 0 !important;
+        display: flex !important; flex-direction: column !important; gap: 3px !important; width: 100% !important; align-items: center !important;
     }
     .shop-details input {
-        height: auto !important; padding: 2px !important; border: none !important;
+        height: auto !important; padding: 0 !important; border: none !important;
         background: transparent !important; color: #ffffff !important; text-align: center !important;
     }
-    #shopName { font-size: 18pt !important; font-weight: 900 !important; text-transform: uppercase !important; }
-    #shopPhone { font-size: 12pt !important; font-weight: 700 !important; }
+    #shopName { font-size: 16pt !important; font-weight: 900 !important; text-transform: uppercase !important; }
+    #shopPhone { font-size: 12pt !important; font-weight: 800 !important; }
     
-    .result-section { 
-        display: block !important; margin-top: 0 !important;
-        page-break-inside: avoid !important;
-    }
+    .result-section { display: block !important; margin-top: 0 !important; page-break-inside: avoid !important; }
     
     .result-title {
-        margin-top: 8px !important; padding: 4px 8px !important; font-size: 11pt !important;
+        margin-top: 6px !important; padding: 5px 8px !important; font-size: 13pt !important; font-weight: 900 !important;
         background: #1557c0 !important; color: #ffffff !important;
         -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
     }
     
-    table { width: 100% !important; page-break-inside: avoid !important; }
+    /* Table styling for HD Print and One Page */
+    table { width: 100% !important; border-collapse: collapse !important; page-break-inside: auto !important; }
     tr { page-break-inside: avoid !important; page-break-after: auto !important; }
+    
     th, td { 
-        padding: 4px 3px !important; font-size: 10pt !important; 
-        border: 1px solid #000000 !important; color: #000000 !important; 
+        padding: 4px 6px !important; /* Compact padding for 1 page */
+        font-size: 11pt !important; /* HD Clear text */
+        font-weight: 800 !important; /* Bolder text for clear print */
+        border: 1px solid #000000 !important; /* Dark black border */
+        color: #000000 !important; /* Dark black text */
     }
-    th { background: #e2e8f0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    th { 
+        background: #e2e8f0 !important; font-size: 12pt !important; font-weight: 900 !important;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; 
+    }
 }
-
 </style>
 </head>
 
@@ -441,17 +349,16 @@ tbody tr:hover { background: #eff6ff; }
 <div class="container">
 
     <div class="invoice-header">
-        <div class="header-top">
-            <button class="menu-btn no-print" onclick="toggleSidebar()" title="মেনু">☰</button>
-            <div class="header-title-area">
-                <div class="header-main-title">
-                    RM THAI ALUMINIUM 
-                    <span class="title-separator">|</span> 
-                    <span class="header-sub-title">কার্টেন ওয়াল ও কোটেশন ক্যালকুলেটর</span>
-                </div>
-            </div>
+        <div class="header-top-bar no-print">
+            <button class="menu-btn" onclick="toggleSidebar()" title="মেনু">☰</button>
             <div id="currentDate" class="date-display"></div>
         </div>
+        
+        <div class="header-titles">
+            <div class="main-brand no-print">RM THAI ALUMINIUM</div>
+            <div class="sub-brand">কার্টেন ওয়াল ক্যালকুলেশন</div>
+        </div>
+        
         <div class="shop-details">
             <input type="text" id="shopName" placeholder="আপনার দোকানের নাম দিন">
             <input type="text" id="shopPhone" placeholder="আপনার মোবাইল নাম্বার দিন">
@@ -500,8 +407,8 @@ tbody tr:hover { background: #eff6ff; }
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 45%;">বিবরণ</th>
-                        <th style="width: 55%;">মোট স্কয়ার ফিট / পরিমাণ</th>
+                        <th style="width: 40%;">বিবরণ</th>
+                        <th style="width: 60%;">মোট স্কয়ার ফিট / পরিমাণ</th>
                     </tr>
                 </thead>
                 <tbody id="glassTable"></tbody>
@@ -515,8 +422,8 @@ tbody tr:hover { background: #eff6ff; }
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 45%;">উপাদানের নাম</th>
-                        <th style="width: 55%;">মোট পরিমাণ</th>
+                        <th style="width: 40%;">উপাদানের নাম</th>
+                        <th style="width: 60%;">মোট পরিমাণ</th>
                     </tr>
                 </thead>
                 <tbody id="accTable"></tbody>
@@ -529,7 +436,7 @@ tbody tr:hover { background: #eff6ff; }
                 <span class="summary-value" id="summaryHeight">0</span>
             </div>
             <div class="summary-card">
-                <span class="summary-label">মোট চওড়া / লেন্থ</span>
+                <span class="summary-label">মোট চওড়া</span>
                 <span class="summary-value" id="summaryWidth">0</span>
             </div>
             <div class="summary-card">
@@ -642,9 +549,7 @@ function renumberDimensionBoxes() {
     const cards = document.querySelectorAll(".dimension-card");
     cards.forEach(function (card, index) {
         const number = card.querySelector(".dimension-card-number");
-        if (number) {
-            number.textContent = "বক্স " + (index + 1);
-        }
+        if (number) number.textContent = "বক্স " + (index + 1);
     });
 }
 
@@ -674,81 +579,48 @@ function calculateMaterials() {
     }
 
     let groupSummary = {};
-
     let totalGlassSqft = 0;
     let totalTapeFeet = 0;
     let totalMaskingTapeRolls = 0;
     let totalNotanTapeRolls = 0;
     let totalSilicon = 0;
-
-    let totalClamps = 0;
-    let totalRoyalBolts = 0;
-    let totalScrews = 0;
-    let totalNutBolts = 0;
-    let totalRivets = 0;
-
-    let totalKhop = 0;
-    let displayHeight = 0;
-    let displayWidth = 0;
+    let totalClamps = 0, totalRoyalBolts = 0, totalScrews = 0, totalNutBolts = 0, totalRivets = 0;
+    let totalKhop = 0, displayHeight = 0, displayWidth = 0;
 
     dimensions.forEach(function (item) {
-        const height = item.height;
-        const width = item.width;
-        const cols = item.cols;
-        const rows = item.rows;
-        const color = item.color;
-        const size = item.size;
-
+        const height = item.height, width = item.width, cols = item.cols, rows = item.rows;
+        const color = item.color, size = item.size;
         if (height <= 0 || width <= 0 || cols <= 0 || rows <= 0) return;
 
         const groupKey = `${size}" - ${color}`;
         if (!groupSummary[groupKey]) {
-            groupSummary[groupKey] = {
-                halfFeet: 0,
-                fullFeet: 0,
-                angleFeet: 0,
-                size: size,
-                color: color
-            };
+            groupSummary[groupKey] = { halfFeet: 0, fullFeet: 0, angleFeet: 0, size: size, color: color };
         }
 
         const khop = cols * rows;
         totalKhop += khop;
-
         displayHeight = Math.max(displayHeight, height);
         displayWidth += width;
 
-        const halfSectionFeet = (width * 2) + (height * 2);
-        groupSummary[groupKey].halfFeet += halfSectionFeet;
+        groupSummary[groupKey].halfFeet += (width * 2) + (height * 2);
 
         const verticalPipesCount = cols + 1;
-        const middleVerticalsCount = cols - 1;
-        const middleVerticalFeet = middleVerticalsCount * height;
-
-        const horizontalRowsCount = rows - 1;
-        const deductionPerLine = (verticalPipesCount * 2) / 12;
-        let horizontalFeetPerLine = width - deductionPerLine;
+        const middleVerticalFeet = (cols - 1) * height;
+        let horizontalFeetPerLine = width - ((verticalPipesCount * 2) / 12);
         if (horizontalFeetPerLine < 0) horizontalFeetPerLine = 0;
+        const middleHorizontalFeet = (rows - 1) * horizontalFeetPerLine;
 
-        const middleHorizontalFeet = horizontalRowsCount * horizontalFeetPerLine;
-        const fullSectionFeet = middleVerticalFeet + middleHorizontalFeet;
-        groupSummary[groupKey].fullFeet += fullSectionFeet;
+        groupSummary[groupKey].fullFeet += middleVerticalFeet + middleHorizontalFeet;
+        groupSummary[groupKey].angleFeet += khop * (8 / 12);
 
-        const angleFeet = khop * (8 / 12);
-        groupSummary[groupKey].angleFeet += angleFeet;
-
-        const glassSqft = width * height;
-        totalGlassSqft += glassSqft;
-
-        const tapeFeet = ((width / cols * 2) + (height / rows * 2)) * khop;
-        totalTapeFeet += tapeFeet;
+        totalGlassSqft += width * height;
+        totalTapeFeet += ((width / cols * 2) + (height / rows * 2)) * khop;
 
         const clamps = verticalPipesCount * 4;
         totalClamps += clamps;
         totalRoyalBolts += clamps;
         totalScrews += clamps * 2;
         totalNutBolts += clamps;
-        
         totalRivets += khop * 20;
     });
 
@@ -757,8 +629,6 @@ function calculateMaterials() {
         return;
     }
 
-    // Masking tape calculation adjust for 26.4 feet (approx) per roll/chaki 
-    // to align accurately with your 20 rolls target for 528 feet requirement
     totalMaskingTapeRolls = Math.ceil(totalTapeFeet / 26.4); 
     totalNotanTapeRolls = Math.ceil(totalTapeFeet / 100);
     totalSilicon = Math.ceil(totalGlassSqft / 10);
@@ -771,7 +641,7 @@ function calculateMaterials() {
         const anglePipes = Math.ceil(item.angleFeet / 21);
 
         alumTableHTML += `
-            <tr style="background:#e0f2fe; font-weight:900; text-align:left;">
+            <tr style="background:#e0f2fe; text-align:left;">
                 <td colspan="3">স্পেসিফিকেশন: <strong>${item.size} ইঞ্চি কার্টেন ওয়াল (${item.color})</strong></td>
             </tr>
             <tr>
@@ -813,26 +683,11 @@ function calculateMaterials() {
     `;
 
     document.getElementById("accTable").innerHTML = `
-        <tr>
-            <td>ক্ল্যাম (Clamps)</td>
-            <td><strong>${totalClamps} পিস</strong></td>
-        </tr>
-        <tr>
-            <td>রয়্যাল বোল্ট</td>
-            <td><strong>${totalRoyalBolts} পিস</strong></td>
-        </tr>
-        <tr>
-            <td>১ ইঞ্চি স্ক্রু</td>
-            <td><strong>${totalScrews} পিস</strong></td>
-        </tr>
-        <tr>
-            <td>২" নাট-বোল্ট</td>
-            <td><strong>${totalNutBolts} পিস</strong></td>
-        </tr>
-        <tr>
-            <td>রিপিট (Rivets)</td>
-            <td><strong>${totalRivets} পিস</strong> (প্রতি খোপে ২০টি করে)</td>
-        </tr>
+        <tr><td>ক্ল্যাম (Clamps)</td><td><strong>${totalClamps} পিস</strong></td></tr>
+        <tr><td>রয়্যাল বোল্ট</td><td><strong>${totalRoyalBolts} পিস</strong></td></tr>
+        <tr><td>১ ইঞ্চি স্ক্রু</td><td><strong>${totalScrews} পিস</strong></td></tr>
+        <tr><td>২" নাট-বোল্ট</td><td><strong>${totalNutBolts} পিস</strong></td></tr>
+        <tr><td>রিপিট (Rivets)</td><td><strong>${totalRivets} পিস</strong> (প্রতি খোপে ২০টি করে)</td></tr>
     `;
 
     document.getElementById("summaryHeight").textContent = displayHeight.toFixed(2) + " ফিট";
@@ -851,7 +706,7 @@ function saveHistory(dimensions) {
     let history = JSON.parse(localStorage.getItem("cw_history")) || [];
     const item = { dimensions: JSON.parse(JSON.stringify(dimensions)), date: new Date().toLocaleString("bn-BD") };
     history.unshift(item);
-    if (history.length > 20) history = history.slice(0, 20); // kept limit to 20 for convenience
+    if (history.length > 20) history = history.slice(0, 20);
     localStorage.setItem("cw_history", JSON.stringify(history));
     loadHistory();
 }
@@ -860,17 +715,14 @@ function loadHistory() {
     const history = JSON.parse(localStorage.getItem("cw_history")) || [];
     const listDiv = document.getElementById("historyList");
     listDiv.innerHTML = "";
-
     if (history.length === 0) {
         listDiv.innerHTML = `<div style="text-align:center; color:#64748b; padding:20px; font-size:13px;">এখনো কোনো হিসাব সেভ করা হয়নি।</div>`;
         return;
     }
-
     history.forEach(function (item, index) {
         const div = document.createElement("div");
         div.className = "history-item";
         const totalKhop = item.dimensions.reduce((sum, x) => sum + ((x.cols || 0) * (x.rows || 0)), 0);
-        
         div.innerHTML = `
             <div class="history-text" onclick="loadHistoryItem(${index})">
                 <strong>হিসাব #${index + 1}</strong><br>
@@ -887,15 +739,12 @@ function loadHistoryItem(index) {
     const history = JSON.parse(localStorage.getItem("cw_history")) || [];
     const item = history[index];
     if (!item) return;
-
     const container = document.getElementById("dimensionContainer");
     container.innerHTML = "";
     dimensionCounter = 0;
-    
     item.dimensions.forEach(function (dim) {
         addDimensionBox(dim.height || "", dim.width || "", dim.cols || "", dim.rows || "", dim.color || "Silver", dim.size || "4");
     });
-    
     toggleSidebar();
     calculateMaterials();
 }

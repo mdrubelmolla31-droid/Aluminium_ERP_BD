@@ -185,7 +185,7 @@
     .action-btns { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
     .payable-amount { margin-top: 12px; font-weight: 900; font-size: 18px; cursor: pointer; padding: 10px; border-radius: 6px; background: #f8fafc; border: 1px solid var(--border); }
 
-    /* ================= NEW MODAL DESIGN (Gradient & Boxes) ================= */
+    /* ================= MODAL DESIGN ================= */
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
@@ -202,7 +202,6 @@
       font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
-    /* Three Dot Menu in Modal */
     .modal-menu-container {
       position: absolute; left: 15px; top: 15px; z-index: 10;
     }
@@ -229,30 +228,28 @@
     
     .setup-box { 
       background: #ffffff; 
-      padding: 20px; 
+      padding: 15px; 
       border-radius: 12px; 
       border: 1px solid #bae6fd; 
       box-shadow: 0 4px 10px rgba(0,0,0,0.04); 
       margin-bottom: 15px; 
     }
     
-    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-    .calc-grid input, .trans-form input { 
-      width: 100%; height: 45px; padding: 10px; border-radius: 8px; 
+    .trans-form-v2 { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    .trans-form-v2 input { 
+      width: 100%; height: 42px; padding: 10px; border-radius: 8px; 
       text-align: center; border: 2px solid #cbd5e1; background: #f8fafc;
-      font-size: 18px; font-weight: bold; outline: none; transition: 0.3s;
+      font-size: 16px; font-weight: bold; outline: none; transition: 0.3s;
     }
-    .calc-grid input:focus, .trans-form input:focus { border-color: var(--accent); background: #ffffff; }
-    
-    .trans-form { display: flex; gap: 10px; margin: 15px 0; align-items: center; }
-    .trans-form button { 
+    .trans-form-v2 input:focus { border-color: var(--accent); background: #ffffff; }
+    .trans-form-v2 button { 
       background: var(--accent); color: white; border: none; 
-      padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; 
-      font-size: 18px; min-width: 100px; height: 45px; 
+      padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; 
+      font-size: 16px; height: 44px; 
     }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 15px; font-weight: bold; }
-    th, td { border: 1px solid #cbd5e1; padding: 12px; text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; font-weight: bold; }
+    th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; }
     th { background: #f1f5f9; color: var(--accent); }
     
     .summary-box { 
@@ -261,16 +258,15 @@
       box-shadow: 0 4px 10px rgba(2, 132, 199, 0.1); margin-top: 15px;
     }
 
+    .btn-del-mini { background:#dc2626; color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer; font-weight:bold; }
+
     /* ================= MOBILE RESPONSIVE ================= */
     @media (max-width: 600px) {
       .header-card { padding: 15px; }
       .main-title { font-size: 18px; }
       .menu-btn { width: 40px; height: 40px; font-size: 20px; }
       .header-date-time { font-size: 10px; padding: 5px; }
-      .calc-grid { grid-template-columns: 1fr; }
-      .trans-form { flex-direction: column; }
-      .trans-form button { width: 100%; height: 50px; font-size: 20px; } 
-      .setup-box { padding: 15px; }
+      .setup-box { padding: 12px; }
     }
   </style>
 </head>
@@ -279,7 +275,6 @@
   <div class="main-container">
     <div class="header-card">
       <div class="header-top-row">
-        <!-- Sidebar Open Button (Add new employee) -->
         <button class="menu-btn" onclick="openSidebarForAdd()">☰</button>
         <div class="header-title-area">
           <h1 class="main-title">RM.THAI ALUMINIUM</h1>
@@ -321,7 +316,7 @@
   <div id="profileModal" class="modal" onclick="if(event.target === this) closeModal()">
     <div class="modal-content">
         
-        <!-- Left Side: 3-Dot Menu for Edit/Delete -->
+        <!-- 3-Dot Menu -->
         <div class="modal-menu-container">
             <button class="modal-menu-btn" onclick="toggleModalMenu()">⋮</button>
             <div id="modalDropdown" class="modal-dropdown">
@@ -330,36 +325,51 @@
             </div>
         </div>
 
-        <!-- Right Side: Close Button -->
         <button class="modal-close-btn" onclick="closeModal()">✕</button>
         
         <div id="largeProfileArea" class="large-profile"></div>
 
-        <!-- হাজিরা বক্স -->
+        <!-- অনুপস্থিতির সেকশন -->
         <div class="setup-box">
-            <h4 style="color: var(--accent); margin-bottom: 10px; font-size: 18px; font-weight: 900;">হাজিরা ও ওভারটাইম:</h4>
-            <div class="calc-grid">
-                <div>
-                    <label style="font-weight:bold; color: #475569; display:block; margin-bottom:5px;">অনুপস্থিতি (দিন):</label>
-                    <input type="number" id="absentDays" value="0" min="0" step="any" oninput="updateCalculations()">
-                </div>
-                <div>
-                    <label style="font-weight:bold; color: #475569; display:block; margin-bottom:5px;">ওভারটাইম বোনাস (৳):</label>
-                    <input type="number" id="bonusAmount" value="0" min="0" oninput="updateCalculations()">
-                </div>
+            <h4 style="color: var(--accent); margin-bottom: 8px; font-size: 17px; font-weight: 900;">অনুপস্থিতির হিসাব:</h4>
+            <div class="trans-form-v2">
+                <input type="date" id="absentDate">
+                <button type="button" style="background:#dc2626;" onclick="addAbsentDate()">অনুপস্থিতি যোগ করুন</button>
+            </div>
+            <div style="max-height: 120px; overflow-y: auto;">
+              <table>
+                  <thead><tr><th>তারিখ</th><th>অ্যাকশন</th></tr></thead>
+                  <tbody id="absentTableBody"></tbody>
+              </table>
             </div>
         </div>
 
-        <!-- অগ্রিম বক্স -->
+        <!-- ওভারটাইম সেকশন -->
         <div class="setup-box">
-            <h4 style="color: var(--accent); font-weight: 900; font-size: 18px; margin-bottom: 10px;">অগ্রিম / খরচ কাটতি:</h4>
-            <form id="transactionForm" class="trans-form">
-                <input type="date" id="transDate" required>
+            <h4 style="color: var(--accent); margin-bottom: 8px; font-size: 17px; font-weight: 900;">ওভারটাইম হিসাব (ঘণ্টা অনুযায়ী):</h4>
+            <div class="trans-form-v2">
+                <input type="date" id="otDate">
+                <input type="number" id="otHours" placeholder="ওভারটাইম ঘণ্টা (যেমন: ২)" min="0.5" step="any">
+                <button type="button" style="background:#0284c7;" onclick="addOvertimeEntry()">ওভারটাইম যোগ করুন</button>
+            </div>
+            <div style="max-height: 120px; overflow-y: auto;">
+              <table>
+                  <thead><tr><th>তারিখ</th><th>ঘণ্টা</th><th>টাকা (৳)</th><th>অ্যাকশন</th></tr></thead>
+                  <tbody id="otTableBody"></tbody>
+              </table>
+            </div>
+        </div>
+
+        <!-- অগ্রিম / খরচ কাটতি -->
+        <div class="setup-box">
+            <h4 style="color: var(--accent); font-weight: 900; font-size: 17px; margin-bottom: 8px;">অগ্রিম / খরচ কাটতি:</h4>
+            <form id="transactionForm" class="trans-form-v2">
+                <input type="date" id="transDate">
                 <input type="number" id="transAmount" placeholder="টাকা (৳)" required>
                 <button type="submit">যোগ করুন</button>
             </form>
 
-            <div style="max-height: 200px; overflow-y: auto;">
+            <div style="max-height: 140px; overflow-y: auto;">
               <table>
                   <thead><tr><th>তারিখ</th><th>অগ্রিম (৳)</th><th>ডিলিট</th></tr></thead>
                   <tbody id="ledgerBody"></tbody>
@@ -382,6 +392,21 @@
       let str = num.toString();
       const bnNums = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯', '.':'.'};
       return str.replace(/[0-9.]/g, match => bnNums[match] || match);
+    }
+
+    function getTodayFormatted() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function resetAllDateInputs() {
+      const today = getTodayFormatted();
+      if(document.getElementById('transDate')) document.getElementById('transDate').value = today;
+      if(document.getElementById('absentDate')) document.getElementById('absentDate').value = today;
+      if(document.getElementById('otDate')) document.getElementById('otDate').value = today;
     }
 
     function updateLiveTime() {
@@ -426,7 +451,6 @@
       document.getElementById('drawerOverlay').classList.toggle('active');
     }
 
-    // Prepare sidebar for adding new employee
     function openSidebarForAdd() {
       isEditing = false;
       editEmpId = null;
@@ -445,8 +469,6 @@
       });
     }
 
-    document.getElementById('transDate').valueAsDate = new Date();
-
     document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const photoInput = document.getElementById('empPhotoFile');
@@ -457,7 +479,6 @@
         }
 
         if (isEditing) {
-            // Update existing employee
             const emp = employees.find(e => e.id === editEmpId);
             if (emp) {
                 emp.name = document.getElementById('empName').value;
@@ -470,7 +491,6 @@
                 }
             }
         } else {
-            // Add new employee
             if (!photoData) {
                 photoData = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
             }
@@ -482,8 +502,8 @@
                 address: document.getElementById('empAddress').value,
                 salary: parseFloat(document.getElementById('empSalary').value),
                 photo: photoData,
-                absents: 0,
-                bonus: 0,
+                absentDates: [],
+                overtimeEntries: [],
                 transactions: []
             };
             employees.push(newEmployee);
@@ -494,7 +514,6 @@
         toggleSidebar();
         renderEmployees();
         
-        // Reset edit states
         isEditing = false;
         editEmpId = null;
     });
@@ -511,10 +530,15 @@
         }
 
         employees.forEach(emp => {
+            if(!emp.absentDates) emp.absentDates = [];
+            if(!emp.overtimeEntries) emp.overtimeEntries = [];
+
             const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
             const dailyRate = emp.salary / daysInMonth; 
-            const absentDeduction = (emp.absents || 0) * dailyRate;
-            const finalPayable = emp.salary - absentDeduction + (emp.bonus || 0) - totalAdvance;
+            const absentDeduction = (emp.absentDates.length) * dailyRate;
+            const totalOtBonus = emp.overtimeEntries.reduce((sum, ot) => sum + ot.amount, 0);
+
+            const finalPayable = emp.salary - absentDeduction + totalOtBonus - totalAdvance;
             const cardColor = finalPayable < 0 ? '#dc2626' : '#16a34a';
 
             listDiv.innerHTML += `
@@ -523,7 +547,6 @@
                     <h3 onclick="openProfile('${emp.id}')">${emp.name}</h3>
                     <p style="font-size: 14px; font-weight: bold;">পিতা: ${emp.father}</p>
                     <div class="action-btns">
-                        <!-- ডিলিট বাটন সরানো হয়েছে -->
                         <a href="tel:${emp.phone}" class="btn-call">📞 কল করুন</a>
                     </div>
                     <p style="font-size: 16px; font-weight: 900;">বেতন: ৳${toBnNum(emp.salary)}</p>
@@ -538,8 +561,9 @@
     function openProfile(id) {
         currentEmpId = id;
         const emp = employees.find(e => e.id === id);
+        if(!emp.absentDates) emp.absentDates = [];
+        if(!emp.overtimeEntries) emp.overtimeEntries = [];
         
-        // Hide dropdown if previously opened
         document.getElementById('modalDropdown').style.display = 'none';
 
         document.getElementById('largeProfileArea').innerHTML = `
@@ -547,19 +571,19 @@
             <h2 style="color: var(--accent); margin-top: 10px; font-size: 24px; font-weight: 900;">${emp.name}</h2>
             <p style="font-size: 15px; font-weight: bold; color: #475569;">ফোন: ${toBnNum(emp.phone)} | পিতা: ${emp.father}</p>
         `;
-        document.getElementById('absentDays').value = emp.absents || '';
-        document.getElementById('bonusAmount').value = emp.bonus || '';
+        
+        resetAllDateInputs();
+        renderAbsents();
+        renderOvertime();
         renderLedger();
         document.getElementById('profileModal').style.display = 'flex';
     }
 
-    // Modal 3-dot Menu Toggle
     function toggleModalMenu() {
         const dropdown = document.getElementById('modalDropdown');
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
 
-    // Edit Employee via Modal
     function editEmployeeFromModal() {
         const emp = employees.find(e => e.id === currentEmpId);
         if (!emp) return;
@@ -580,7 +604,6 @@
         toggleSidebar();
     }
 
-    // Delete Employee via Modal
     function deleteEmployeeFromModal() {
         if (confirm("আপনি কি নিশ্চিত এই কর্মচারীকে স্থায়ীভাবে মুছে ফেলতে চান?")) {
             employees = employees.filter(e => e.id !== currentEmpId);
@@ -590,13 +613,111 @@
         }
     }
 
-    function updateCalculations() {
+    /* ================= 1. অনুপস্থিতি লজিক ================= */
+    function addAbsentDate() {
+        const dateInput = document.getElementById('absentDate').value;
+        if(!dateInput) return alert('তারিখ নির্বাচন করুন!');
+
         const emp = employees.find(e => e.id === currentEmpId);
-        emp.absents = parseFloat(document.getElementById('absentDays').value) || 0;
-        emp.bonus = parseFloat(document.getElementById('bonusAmount').value) || 0;
-        saveData(); renderLedger(); renderEmployees(); 
+        if(!emp.absentDates) emp.absentDates = [];
+
+        let dParts = dateInput.split('-');
+        let formattedDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+
+        emp.absentDates.push({ id: Date.now().toString(), date: formattedDate });
+        saveData();
+        renderAbsents();
+        renderLedger();
+        renderEmployees();
     }
 
+    function deleteAbsentDate(absentId) {
+        const emp = employees.find(e => e.id === currentEmpId);
+        emp.absentDates = emp.absentDates.filter(a => a.id !== absentId);
+        saveData();
+        renderAbsents();
+        renderLedger();
+        renderEmployees();
+    }
+
+    function renderAbsents() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        const tbody = document.getElementById('absentTableBody');
+        tbody.innerHTML = '';
+        if(!emp.absentDates) emp.absentDates = [];
+
+        emp.absentDates.forEach(item => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${toBnNum(item.date)}</td>
+                    <td><button onclick="deleteAbsentDate('${item.id}')" class="btn-del-mini">X</button></td>
+                </tr>
+            `;
+        });
+    }
+
+    /* ================= 2. ওভারটাইম লজিক (ঘণ্টা ভিত্তিক) ================= */
+    function addOvertimeEntry() {
+        const otDate = document.getElementById('otDate').value;
+        const hours = parseFloat(document.getElementById('otHours').value);
+        if(!otDate || isNaN(hours) || hours <= 0) return alert('সঠিক তারিখ এবং ওভারটাইম ঘণ্টা দিন!');
+
+        const emp = employees.find(e => e.id === currentEmpId);
+        if(!emp.overtimeEntries) emp.overtimeEntries = [];
+
+        const now = new Date();
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        
+        // দৈনিক বেতন = মাসিক বেতন / মাসের দিন
+        // ঘণ্টাপ্রতি বেতন = দৈনিক বেতন / ৮ ঘণ্টা
+        const hourlyRate = (emp.salary / daysInMonth) / 8;
+        const otAmount = Math.round(hours * hourlyRate);
+
+        let dParts = otDate.split('-');
+        let formattedDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+
+        emp.overtimeEntries.push({
+            id: Date.now().toString(),
+            date: formattedDate,
+            hours: hours,
+            amount: otAmount
+        });
+
+        document.getElementById('otHours').value = '';
+        saveData();
+        renderOvertime();
+        renderLedger();
+        renderEmployees();
+    }
+
+    function deleteOtEntry(otId) {
+        const emp = employees.find(e => e.id === currentEmpId);
+        emp.overtimeEntries = emp.overtimeEntries.filter(o => o.id !== otId);
+        saveData();
+        renderOvertime();
+        renderLedger();
+        renderEmployees();
+    }
+
+    function renderOvertime() {
+        const emp = employees.find(e => e.id === currentEmpId);
+        const tbody = document.getElementById('otTableBody');
+        tbody.innerHTML = '';
+        if(!emp.overtimeEntries) emp.overtimeEntries = [];
+
+        emp.overtimeEntries.forEach(item => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${toBnNum(item.date)}</td>
+                    <td>${toBnNum(item.hours)} ঘণ্টা</td>
+                    <td style="color:#16a34a;">+ ৳${toBnNum(item.amount)}</td>
+                    <td><button onclick="deleteOtEntry('${item.id}')" class="btn-del-mini">X</button></td>
+                </tr>
+            `;
+        });
+    }
+
+    /* ================= 3. অগ্রিম টাকা ও সামারি লজিক ================= */
     document.getElementById('transactionForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const date = document.getElementById('transDate').value;
@@ -604,9 +725,19 @@
         const emp = employees.find(e => e.id === currentEmpId);
         let dParts = date.split('-');
         emp.transactions.push({ id: Date.now().toString(), date: `${dParts[2]}/${dParts[1]}/${dParts[0]}`, amount });
-        saveData(); document.getElementById('transAmount').value = ''; 
-        renderLedger(); renderEmployees();
+        saveData(); 
+        document.getElementById('transAmount').value = ''; 
+        renderLedger(); 
+        renderEmployees();
     });
+
+    function deleteTrans(transId) {
+        const emp = employees.find(e => e.id === currentEmpId);
+        emp.transactions = emp.transactions.filter(t => t.id !== transId);
+        saveData(); 
+        renderLedger(); 
+        renderEmployees();
+    }
 
     function renderLedger() {
         const emp = employees.find(e => e.id === currentEmpId);
@@ -620,21 +751,27 @@
                 <tr>
                     <td>${toBnNum(tr.date)}</td>
                     <td style="color: #dc2626;">- ৳${toBnNum(tr.amount)}</td>
-                    <td><button onclick="deleteTrans('${tr.id}')" style="background:#dc2626; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;">X</button></td>
+                    <td><button onclick="deleteTrans('${tr.id}')" class="btn-del-mini">X</button></td>
                 </tr>
             `;
         });
 
         const now = new Date();
         const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); 
-        const absentCut = (emp.absents || 0) * (emp.salary / daysInMonth);
-        const finalPayable = emp.salary - absentCut + (emp.bonus || 0) - totalAdvance;
+        
+        const absentCount = emp.absentDates ? emp.absentDates.length : 0;
+        const absentCut = absentCount * (emp.salary / daysInMonth);
+        
+        const totalOtBonus = emp.overtimeEntries ? emp.overtimeEntries.reduce((sum, ot) => sum + ot.amount, 0) : 0;
+        const totalOtHours = emp.overtimeEntries ? emp.overtimeEntries.reduce((sum, ot) => sum + ot.hours, 0) : 0;
+
+        const finalPayable = emp.salary - absentCut + totalOtBonus - totalAdvance;
 
         document.getElementById('summaryBox').innerHTML = `
             <div style="text-align:center; color: var(--accent); margin-bottom: 12px; font-size: 18px;"><b>চলতি মাসের হিসাব (${toBnNum(daysInMonth)} দিনের)</b></div>
             <div style="display:flex; justify-content:space-between; margin-bottom: 5px;"><span>মূল বেতন:</span> <span>৳${toBnNum(emp.salary)}</span></div>
-            <div style="display:flex; justify-content:space-between; color: #dc2626; margin-bottom: 5px;"><span>অনুপস্থিতি কাটা:</span> <span>- ৳${toBnNum(Math.round(absentCut))}</span></div>
-            <div style="display:flex; justify-content:space-between; color: #16a34a; margin-bottom: 5px;"><span>হাজিরা বোনাস:</span> <span>+ ৳${toBnNum(emp.bonus || 0)}</span></div>
+            <div style="display:flex; justify-content:space-between; color: #dc2626; margin-bottom: 5px;"><span>অনুপস্থিতি কাটা (${toBnNum(absentCount)} দিন):</span> <span>- ৳${toBnNum(Math.round(absentCut))}</span></div>
+            <div style="display:flex; justify-content:space-between; color: #16a34a; margin-bottom: 5px;"><span>ওভারটাইম (${toBnNum(totalOtHours)} ঘণ্টা):</span> <span>+ ৳${toBnNum(totalOtBonus)}</span></div>
             <div style="display:flex; justify-content:space-between; color: #dc2626; margin-bottom: 5px;"><span>মোট অগ্রিম:</span> <span>- ৳${toBnNum(totalAdvance)}</span></div>
             <hr style="border: 1px solid #bae6fd; margin: 12px 0;">
             <div style="display:flex; justify-content:space-between; font-size: 20px; color: ${finalPayable < 0 ? '#dc2626' : '#0369a1'};">
@@ -643,20 +780,20 @@
         `;
     }
 
-    function deleteTrans(transId) {
-        const emp = employees.find(e => e.id === currentEmpId);
-        emp.transactions = emp.transactions.filter(t => t.id !== transId);
-        saveData(); renderLedger(); renderEmployees();
-    }
-
     function sendWhatsAppSummary() {
         const emp = employees.find(e => e.id === currentEmpId);
         const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-        const absentCut = (emp.absents || 0) * (emp.salary / daysInMonth);
-        const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
-        const finalPayable = Math.round(emp.salary - absentCut + (emp.bonus || 0) - totalAdvance);
+        
+        const absentCount = emp.absentDates ? emp.absentDates.length : 0;
+        const absentCut = absentCount * (emp.salary / daysInMonth);
+        
+        const totalOtBonus = emp.overtimeEntries ? emp.overtimeEntries.reduce((sum, ot) => sum + ot.amount, 0) : 0;
+        const totalOtHours = emp.overtimeEntries ? emp.overtimeEntries.reduce((sum, ot) => sum + ot.hours, 0) : 0;
 
-        let msg = `*মাসিক বেতন স্টেটমেন্ট*\nনাম: ${emp.name}\nমূল বেতন: ৳${emp.salary}\nঅনুপস্থিতি কাটা: -৳${Math.round(absentCut)}\nবোনাস: +৳${emp.bonus || 0}\nমোট অগ্রিম: -৳${totalAdvance}\n-------------------\n*নিট পাওনা: ৳${finalPayable}*`;
+        const totalAdvance = emp.transactions.reduce((sum, tr) => sum + tr.amount, 0);
+        const finalPayable = Math.round(emp.salary - absentCut + totalOtBonus - totalAdvance);
+
+        let msg = `*মাসিক বেতন স্টেটমেন্ট*\nনাম: ${emp.name}\nমূল বেতন: ৳${emp.salary}\nঅনুপস্থিতি কাটা (${absentCount} দিন): -৳${Math.round(absentCut)}\nওভারটাইম (${totalOtHours} ঘণ্টা): +৳${totalOtBonus}\nমোট অগ্রিম: -৳${totalAdvance}\n-------------------\n*নিট পাওনা: ৳${finalPayable}*`;
         let phone = emp.phone.replace(/[^0-9]/g, '');
         if(phone.startsWith('0')) phone = '88' + phone;
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');

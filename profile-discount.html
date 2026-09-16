@@ -521,7 +521,7 @@
         </div>
     </div>
 
-    <!-- COMPACT & COMPRESSED INPUT SECTION WITH COLOR -->
+    <!-- COMPACT HEADER INPUT SECTION -->
     <div class="card">
         <div class="header-section">
             <div>
@@ -582,11 +582,13 @@
         <div class="section-title">
             <span>সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</span>
             <select id="profileSizeSelect" class="size-select" onchange="onSizeCategoryChange()">
-                <option value="3">৩ ইঞ্চি (3")</option>
-                <option value="4">৪ ইঞ্চি (4")</option>
+                <option value="3">৩ ইঞ্চি স্লাইডিং (3")</option>
+                <option value="4">৪ ইঞ্চি স্লাইডিং (4")</option>
                 <option value="single">সিঙ্গেল শাটার (Single)</option>
-                <option value="fixed">ফিক্সড (Fixed)</option>
-                <option value="curtain_wall">কার্টেন ওয়াল ও বক্স (CW & Box)</option>
+                <option value="fixed_3">৩ ইঞ্চি ফিক্সড (3" Fixed)</option>
+                <option value="fixed_4">৪ ইঞ্চি ফিক্সড (4" Fixed)</option>
+                <option value="curtain_wall_2">২ ইঞ্চি কার্টেন ওয়াল ও বক্স (2" CW & Box)</option>
+                <option value="curtain_wall_4">৪ ইঞ্চি কার্টেন ওয়াল ও বক্স (4" CW & Box)</option>
                 <option value="others">অন্যান্য (Others)</option>
             </select>
         </div>
@@ -607,7 +609,7 @@
     <div class="card">
         <div class="section-title">আইটেমের তালিকা</div>
         <div id="windowsList"></div>
-        <button class="btn-add" onclick="addWindow()">+ নতুন আইটেম (উচ্চতা/দৈর্ঘ্য) যোগ করুন</button>
+        <button class="btn-add" onclick="addWindow()">+ নতুন আইটেম যোগ করুন</button>
         <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
     </div>
 
@@ -772,11 +774,15 @@ document.addEventListener("DOMContentLoaded", function() {
     onSizeCategoryChange();
     setCurrentDate();
     loadShopDetails();
-    addWindow(); // Loads exactly 1 window initially
+    addWindow();
 });
 
 function openMenuModal() { document.getElementById('mainMenuModal').style.display = 'flex'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+function isGridAndFeetSystem(sizeType) {
+    return sizeType.startsWith('fixed') || sizeType.startsWith('curtain_wall');
+}
 
 function openRateSettingsModal() {
     closeModal('mainMenuModal');
@@ -829,7 +835,7 @@ function onSizeCategoryChange() {
     let headerTitle = "";
 
     if (sizeType === '3') {
-        headerTitle = "৩ ইঞ্চি স্লাইডিং ও ফিক্সড সেকশন";
+        headerTitle = "৩ ইঞ্চি স্লাইডিং সেকশন (ইঞ্চিতে মাপ)";
         itemsToDisplay = [
             { id: 'outer_top', def: '3" Sliding Outer Top' },
             { id: 'outer_bottom', def: '3" Sliding Outer Low Bottom' },
@@ -840,7 +846,7 @@ function onSizeCategoryChange() {
             { id: 'interlock', def: 'Sliding Shutter Inter Lock' }
         ];
     } else if (sizeType === '4') {
-        headerTitle = "৪ ইঞ্চি স্লাইডিং ও নেট সেকশন";
+        headerTitle = "৪ ইঞ্চি স্লাইডিং সেকশন (ইঞ্চিতে মাপ)";
         itemsToDisplay = [
             { id: 'outer_top', def: '4" Sliding Outer Top' },
             { id: 'outer_bottom', def: '4" Sliding Outer(H) Bottom' },
@@ -851,7 +857,7 @@ function onSizeCategoryChange() {
             { id: 'interlock', def: 'Sliding Shutter Inter Lock' }
         ];
     } else if (sizeType === 'single') {
-        headerTitle = "সিঙ্গেল শাটার (টপ/বটম ডাবল, সাইড সিঙ্গেল)";
+        headerTitle = "সিঙ্গেল শাটার সেকশন (ইঞ্চিতে মাপ)";
         itemsToDisplay = [
             { id: 'outer_top', def: 'Single Outer Top' },
             { id: 'outer_bottom', def: 'Single Outer Low Bottom' },
@@ -861,8 +867,8 @@ function onSizeCategoryChange() {
             { id: 'lock_style', def: 'Sliding Shutter Lock' },
             { id: 'box_section', def: '1.75" x 1.75" Box' }
         ];
-    } else if (sizeType === 'fixed') {
-        headerTitle = "ফিক্সড আইটেম (খোপ ভিত্তিক)";
+    } else if (sizeType === 'fixed_3') {
+        headerTitle = "৩ ইঞ্চি ফিক্সড সেকশন (খোপ ভিত্তিক - ফিটে মাপ)";
         itemsToDisplay = [
             { id: 'outer_top', def: '3" Fixed Top and Side' },
             { id: 'outer_bottom', def: '3" Fixed Bottom' },
@@ -870,13 +876,32 @@ function onSizeCategoryChange() {
             { id: 'plane_cover', def: '3" Plane Cover' },
             { id: 'angle', def: '1" x 1" Angle' }
         ];
-    } else if (sizeType === 'curtain_wall') {
-        headerTitle = "কার্টেন ওয়াল ও বক্স (খোপ ভিত্তিক)";
+    } else if (sizeType === 'fixed_4') {
+        headerTitle = "৪ ইঞ্চি ফিক্সড সেকশন (খোপ ভিত্তিক - ফিটে মাপ)";
+        itemsToDisplay = [
+            { id: 'outer_top', def: '4" Fixed Top and Side' },
+            { id: 'outer_bottom', def: '4" Fixed Bottom' },
+            { id: 'group_cover', def: '4" Group Cover' },
+            { id: 'plane_cover', def: '4" Plane Cover' },
+            { id: 'wall_frame', def: '4" Wall Frame' },
+            { id: 'angle', def: '1" x 1" Fitting Angel (2 mm)' }
+        ];
+    } else if (sizeType === 'curtain_wall_2') {
+        headerTitle = "২ ইঞ্চি কার্টেন ওয়াল ও বক্স (খোপ ভিত্তিক - ফিটে মাপ)";
+        itemsToDisplay = [
+            { id: 'cw_box', def: '2" x 1" Box (0.95 mm)' },
+            { id: 'box_175', def: '1.75" x 1.75" Box' },
+            { id: 'box_125', def: '1.25" x 1.25" Box' },
+            { id: 'angle', def: '1" x 1" Fitting Angel (2 mm)' }
+        ];
+    } else if (sizeType === 'curtain_wall_4') {
+        headerTitle = "৪ ইঞ্চি কার্টেন ওয়াল ও বক্স (খোপ ভিত্তিক - ফিটে মাপ)";
         itemsToDisplay = [
             { id: 'cw_middle', def: 'Carting Wall Middle' },
             { id: 'cw_side', def: 'Carting Wall Side' },
             { id: 'corner_box', def: '3" Corner Box (136)' },
-            { id: 'angle', def: '1" x 1" Fitting Angel (2 mm)' }
+            { id: 'cw_box4', def: '3" x 1" Box (1 mm)' },
+            { id: 'angle', def: '1" x 1.25" Fitting Angel (2.5 mm)' }
         ];
     } else {
         headerTitle = "অন্যান্য আইটেম (সব সেকশন)";
@@ -908,7 +933,6 @@ function onSizeCategoryChange() {
         `;
     });
 
-    // ডাইনামিক ফিল্ড রিফ্রেশ (ফিক্সড/কার্টেন ওয়াল সিলেক্ট করলে খোপ চলে আসবে)
     updateAllWindowsLayout();
 }
 
@@ -929,22 +953,22 @@ function updateAllWindowsLayout() {
 }
 
 function renderWindowFields(windowDiv, id, sizeType, savedVals = {}) {
-    const isGridSystem = (sizeType === 'fixed' || sizeType === 'curtain_wall');
+    const isFeetGrid = isGridAndFeetSystem(sizeType);
     const hVal = savedVals.height || '';
     const lVal = savedVals.length || '';
     const vVal = savedVals.v_div || '1';
     const hValDiv = savedVals.h_div || '1';
     const qVal = savedVals.qty || '1';
 
-    if (isGridSystem) {
+    if (isFeetGrid) {
         windowDiv.innerHTML = `
             <div class="window-header">
-                <span>আইটেম #${id} (খোপ সিস্টেম)</span>
+                <span>আইটেম #${id} (খোপ সিস্টেম - ফিট)</span>
                 <button class="btn-remove-win" onclick="removeWindow(${id})" title="মুছে ফেলুন">✕ মুছে ফেলুন</button>
             </div>
             <div class="grid-container">
-                <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value="${hVal}"></div>
-                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value="${lVal}"></div>
+                <div class="input-group"><label>উচ্চতা (ফিট):</label><input type="number" class="height" placeholder="ফিট" value="${hVal}"></div>
+                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ফিট):</label><input type="number" class="length" placeholder="ফিট" value="${lVal}"></div>
                 <div class="input-group"><label>খাড়া খোপ (Vert):</label><input type="number" class="v_div" placeholder="যেমন: 1" value="${vVal}"></div>
                 <div class="input-group"><label>আড়াআড়ি খোপ (Horiz):</label><input type="number" class="h_div" placeholder="যেমন: 1" value="${hValDiv}"></div>
                 <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="${qVal}"></div>
@@ -953,12 +977,12 @@ function renderWindowFields(windowDiv, id, sizeType, savedVals = {}) {
     } else {
         windowDiv.innerHTML = `
             <div class="window-header">
-                <span>আইটেম #${id}</span>
+                <span>আইটেম #${id} (ইঞ্চি)</span>
                 <button class="btn-remove-win" onclick="removeWindow(${id})" title="মুছে ফেলুন">✕ মুছে ফেলুন</button>
             </div>
             <div class="grid-container">
-                <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="উচ্চতা" value="${hVal}"></div>
-                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="দৈর্ঘ্য" value="${lVal}"></div>
+                <div class="input-group"><label>উচ্চতা (ইঞ্চি):</label><input type="number" class="height" placeholder="ইঞ্চি" value="${hVal}"></div>
+                <div class="input-group"><label>দৈর্ঘ্য/চওড়া (ইঞ্চি):</label><input type="number" class="length" placeholder="ইঞ্চি" value="${lVal}"></div>
                 <div class="input-group"><label>পরিমাণ (Qty):</label><input type="number" class="qty" placeholder="পরিমাণ" value="${qVal}"></div>
             </div>
         `;
@@ -1036,6 +1060,7 @@ function removeWindow(id) {
 function calculateTotal() {
     const discount = parseFloat(document.getElementById('globalDiscount').value) || 0;
     const sizeType = document.getElementById('profileSizeSelect').value;
+    const isFeet = isGridAndFeetSystem(sizeType);
     let totalSqft = 0;
 
     let activeConfigs = [];
@@ -1059,14 +1084,14 @@ function calculateTotal() {
                         if (nameToLower.includes('lock')) return h * 2 * q;
                         if (nameToLower.includes('box')) return (l + h) * q;
                         return l * q;
-                    } else if (sizeType === 'fixed' || sizeType === 'curtain_wall') {
+                    } else if (isFeet) {
                         let outerTopBottom = (l * 2) * q;
                         let outerSide = (h * 2) * q;
                         let verticalMullion = ((vDiv - 1) > 0 ? (vDiv - 1) * h * q : 0);
                         let horizontalTransom = ((hDiv - 1) > 0 ? (hDiv - 1) * l * q : 0);
 
                         if (nameToLower.includes('top') || nameToLower.includes('middle') || nameToLower.includes('plane cover')) return outerTopBottom + horizontalTransom;
-                        if (nameToLower.includes('bottom') || nameToLower.includes('side') || nameToLower.includes('group cover')) return outerSide + verticalMullion;
+                        if (nameToLower.includes('bottom') || nameToLower.includes('side') || nameToLower.includes('group cover') || nameToLower.includes('wall frame')) return outerSide + verticalMullion;
                         if (nameToLower.includes('angle')) return (vDiv + hDiv) * 2 * q;
                         return (l + h) * q;
                     } else {
@@ -1091,15 +1116,29 @@ function calculateTotal() {
     }
 
     windowBoxes.forEach(win => {
-        const hInch = parseFloat(win.querySelector('.height').value) || 0;
-        const lInch = parseFloat(win.querySelector('.length').value) || 0;
+        const hInput = parseFloat(win.querySelector('.height').value) || 0;
+        const lInput = parseFloat(win.querySelector('.length').value) || 0;
         const qty = parseInt(win.querySelector('.qty').value) || 0;
         const vDiv = parseInt(win.querySelector('.v_div')?.value) || 1;
         const hDiv = parseInt(win.querySelector('.h_div')?.value) || 1;
 
-        if (hInch > 0 && lInch > 0 && qty > 0) {
-            totalSqft += ((hInch * lInch) / 144) * qty;
-            activeConfigs.forEach(s => sectionTotals[s.key] += s.ftCalc(lInch / 12, hInch / 12, qty, vDiv, hDiv));
+        if (hInput > 0 && lInput > 0 && qty > 0) {
+            let winSqft = 0;
+            let hFeet = 0;
+            let lFeet = 0;
+
+            if (isFeet) {
+                winSqft = (hInput * lInput) * qty;
+                hFeet = hInput;
+                lFeet = lInput;
+            } else {
+                winSqft = ((hInput * lInput) / 144) * qty;
+                hFeet = hInput / 12;
+                lFeet = lInput / 12;
+            }
+
+            totalSqft += winSqft;
+            activeConfigs.forEach(s => sectionTotals[s.key] += s.ftCalc(lFeet, hFeet, qty, vDiv, hDiv));
         }
     });
 

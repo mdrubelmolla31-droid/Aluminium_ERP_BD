@@ -7,7 +7,6 @@
 <title>Curtain Wall Estimator - RM Thai Aluminium</title>
 
 <style>
-
 /* =========================================================
    RESET & BASE
 ========================================================= */
@@ -22,7 +21,7 @@
 body {
     background: #eef3f8;
     color: #111827;
-    padding: 6px; /* Reduced outer space */
+    padding: 6px;
     font-weight: 600;
     display: flex;
     flex-direction: column;
@@ -34,89 +33,57 @@ body {
     width: 100%;
     max-width: 1000px;
     background: #ffffff;
-    padding: 12px; /* Spread across screen edge */
+    padding: 12px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
 }
 
 /* =========================================================
-   HEADER
+   SCREEN HEADER (অ্যাপের ভেতরের হেডার)
 ========================================================= */
 .invoice-header {
     position: relative;
     background: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
     color: #ffffff;
     border-radius: 12px;
-    padding: 45px 10px 15px 10px; /* Top padding to clear absolute buttons */
+    padding: 45px 10px 15px 10px;
     margin-bottom: 16px;
     box-shadow: 0 6px 20px rgba(20, 70, 160, 0.25);
 }
 
 .header-top-bar {
-    position: absolute;
-    top: 10px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
+    position: absolute; top: 10px; left: 0; width: 100%;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 10px;
 }
 
 .menu-btn {
-    width: 38px;
-    height: 38px;
-    border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 8px;
-    background: rgba(255,255,255,0.18);
-    color: #ffffff;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 8px; background: rgba(255,255,255,0.18); color: #ffffff;
+    font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: 0.2s;
 }
 
 .menu-btn:hover { background: rgba(255,255,255,0.3); }
 
 .date-display {
-    font-size: 12px;
-    font-weight: 800;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 6px 12px;
-    border-radius: 6px;
-    color: #ffffff;
+    font-size: 12px; font-weight: 800; background: rgba(255, 255, 255, 0.2);
+    padding: 6px 12px; border-radius: 6px; color: #ffffff;
 }
 
 .header-titles {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px; /* Reduced gap between titles */
-    margin-bottom: 15px;
+    display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 15px;
 }
 
 .main-brand {
-    font-size: clamp(24px, 6vw, 32px); /* Larger text */
-    font-weight: 900;
-    text-transform: uppercase;
-    line-height: 1;
-    text-align: center;
+    font-size: clamp(24px, 6vw, 32px); font-weight: 900; text-transform: uppercase; line-height: 1; text-align: center;
 }
 
 .sub-brand {
-    font-size: clamp(14px, 3.5vw, 18px);
-    font-weight: 700;
-    color: #bfdbfe;
-    line-height: 1.2;
-    text-align: center;
+    font-size: clamp(14px, 3.5vw, 18px); font-weight: 700; color: #bfdbfe; line-height: 1.2; text-align: center;
 }
 
 .shop-details {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
+    display: grid; grid-template-columns: 1fr; gap: 8px;
 }
 
 @media (min-width: 600px) {
@@ -124,22 +91,9 @@ body {
 }
 
 .shop-details input {
-    width: 100%;
-    height: 42px;
-    padding: 4px 10px;
-    border: none;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.95);
-    color: #111827;
-    font-size: 16px;
-    font-weight: 800;
-    text-align: center;
-    outline: none;
-}
-
-.shop-details input::placeholder {
-    color: #94a3b8;
-    font-weight: 600;
+    width: 100%; height: 42px; padding: 4px 10px; border: none; border-radius: 8px;
+    background: rgba(255,255,255,0.95); color: #111827; font-size: 16px; font-weight: 800;
+    text-align: center; outline: none;
 }
 
 /* =========================================================
@@ -183,8 +137,7 @@ body {
 }
 .dimension-card {
     position: relative; background: #ffffff; border: 2px solid #d6dee8;
-    border-top: none; padding: 12px; border-radius: 0 0 10px 10px;
-    margin-bottom: 16px;
+    border-top: none; padding: 12px; border-radius: 0 0 10px 10px; margin-bottom: 16px;
 }
 .dimension-header-bar {
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; padding-right: 35px;
@@ -231,7 +184,7 @@ body {
 }
 
 /* =========================================================
-   RESULT TABLES
+   SCREEN RESULT TABLES (অ্যাপের ভেতরের ফলাফল)
 ========================================================= */
 .result-section { display: none; margin-top: 15px; }
 .result-title {
@@ -242,10 +195,10 @@ body {
     width: 100%; overflow-x: auto; border: 1px solid #cbd5e1; border-top: none;
     border-radius: 0 0 8px 8px; background: #ffffff;
 }
-table { width: 100%; border-collapse: collapse; min-width: 300px; }
-th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; color: #111827; }
-th { background: #f1f5f9; font-weight: 900; }
-tbody tr:nth-child(even) { background: #f8fafc; }
+table.screen-table { width: 100%; border-collapse: collapse; min-width: 300px; }
+.screen-table th, .screen-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; color: #111827; }
+.screen-table th { background: #f1f5f9; font-weight: 900; }
+.screen-table tbody tr:nth-child(even) { background: #f8fafc; }
 
 /* =========================================================
    SUMMARY & PRINT BUTTON
@@ -265,10 +218,13 @@ tbody tr:nth-child(even) { background: #f8fafc; }
 }
 
 /* =========================================================
-   PRINT / PDF (Strictly 1 Page & HD Clear)
+   PDF PRINT LAYOUT (লুকানো থাকবে, শুধু প্রিন্টের সময় দেখাবে)
 ========================================================= */
+#printLayout { display: none; }
+
 @media print {
-    @page { size: A4 portrait; margin: 4mm; }
+    @page { size: A4 portrait; margin: 8mm; }
+    
     body, html { 
         background: #ffffff !important; margin: 0 !important; padding: 0 !important;
     }
@@ -276,61 +232,135 @@ tbody tr:nth-child(even) { background: #f8fafc; }
         width: 100% !important; max-width: none !important; border: none !important; 
         box-shadow: none !important; padding: 0 !important; margin: 0 !important;
     }
-    .no-print, .sidebar, .action-buttons, .add-box-area, .remove-box-btn, .total-summary, .header-top-bar { 
+    
+    /* Hide everything on screen view */
+    .invoice-header, .dimension-section, .result-section, .sidebar { 
         display: none !important; 
     }
     
-    /* PDF Header Logic */
-    .invoice-header {
-        margin-bottom: 5px !important; padding: 10px !important;
-        background: #123a8c !important; border-radius: 0 !important;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
-        display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;
+    /* Show PDF Print Layout */
+    #printLayout { display: block !important; width: 100%; }
+
+    /* PDF Header styling matching the image */
+    .pdf-main-header {
+        border: 4px solid #0033a0;
+        border-radius: 15px;
+        text-align: center;
+        padding: 20px 10px 15px 10px;
+        margin-bottom: 12px;
+        position: relative;
     }
     
-    .header-titles { margin-top: 0 !important; margin-bottom: 8px !important; }
-    
-    .main-brand { display: none !important; } /* Hidden in print */
-    
-    .sub-brand {
-        font-size: 22pt !important; /* Huge & HD */
-        font-weight: 900 !important;
+    .pdf-shop-name {
+        font-size: 32pt;
+        font-weight: 900;
+        color: #0033a0 !important;
+        line-height: 1.2;
+        margin-bottom: 10px;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    }
+
+    .pdf-phone-pill {
+        display: inline-block;
+        background-color: #0033a0 !important;
         color: #ffffff !important;
-        display: block !important;
+        padding: 6px 30px;
+        border-radius: 40px;
+        font-size: 18pt;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
     }
-    
-    .shop-details {
-        display: flex !important; flex-direction: column !important; gap: 3px !important; width: 100% !important; align-items: center !important;
+
+    /* PDF Customer/Project Info box */
+    .pdf-info-box {
+        border: 2px solid #0033a0;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
     }
-    .shop-details input {
-        height: auto !important; padding: 0 !important; border: none !important;
-        background: transparent !important; color: #ffffff !important; text-align: center !important;
+
+    .pdf-info-row {
+        display: flex;
+        border-bottom: 1px solid #0033a0;
     }
-    #shopName { font-size: 16pt !important; font-weight: 900 !important; text-transform: uppercase !important; }
-    #shopPhone { font-size: 12pt !important; font-weight: 800 !important; }
-    
-    .result-section { display: block !important; margin-top: 0 !important; page-break-inside: avoid !important; }
-    
-    .result-title {
-        margin-top: 6px !important; padding: 5px 8px !important; font-size: 13pt !important; font-weight: 900 !important;
-        background: #1557c0 !important; color: #ffffff !important;
+    .pdf-info-row:last-child {
+        border-bottom: none;
+    }
+
+    .pdf-info-label {
+        background-color: #0033a0 !important;
+        color: #ffffff !important;
+        width: 140px;
+        padding: 6px 10px;
+        font-size: 14pt;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    }
+
+    .pdf-info-value {
+        flex: 1;
+        padding: 6px 10px;
+    }
+
+    /* PDF Tables matching the image */
+    .pdf-table-title {
+        text-align: center;
+        color: #0033a0 !important;
+        font-size: 18pt;
+        font-weight: 900;
+        margin: 10px 0 5px 0;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    }
+
+    .pdf-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #0033a0;
+        margin-bottom: 10px;
+    }
+
+    .pdf-table th, .pdf-table td {
+        border: 1px solid #0033a0;
+        padding: 6px;
+        text-align: center;
+        font-size: 12pt;
+        font-weight: bold;
+        color: #0033a0 !important;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    }
+
+    .pdf-table th {
+        background-color: #0033a0 !important;
+        color: #ffffff !important;
+        font-size: 13pt;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    }
+
+    .pdf-table tbody tr:nth-child(even) td {
+        background-color: #e6f2ff !important;
         -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
     }
     
-    /* Table styling for HD Print and One Page */
-    table { width: 100% !important; border-collapse: collapse !important; page-break-inside: auto !important; }
-    tr { page-break-inside: avoid !important; page-break-after: auto !important; }
-    
-    th, td { 
-        padding: 4px 6px !important; /* Compact padding for 1 page */
-        font-size: 11pt !important; /* HD Clear text */
-        font-weight: 800 !important; /* Bolder text for clear print */
-        border: 1px solid #000000 !important; /* Dark black border */
-        color: #000000 !important; /* Dark black text */
+    .pdf-table tbody tr:nth-child(odd) td {
+        background-color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
     }
-    th { 
-        background: #e2e8f0 !important; font-size: 12pt !important; font-weight: 900 !important;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; 
+
+    /* PDF Footer */
+    .pdf-footer {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 2px solid #0033a0;
+    }
+
+    .pdf-footer-text {
+        color: #0033a0 !important;
+        font-size: 16pt;
+        font-weight: 900;
+        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
     }
 }
 </style>
@@ -338,6 +368,7 @@ tbody tr:nth-child(even) { background: #f8fafc; }
 
 <body>
 
+<!-- Sidebar for History -->
 <div class="sidebar" id="historySidebar">
     <div class="sidebar-header">
         <h3>পূর্ববর্তী হিসাব</h3>
@@ -348,6 +379,7 @@ tbody tr:nth-child(even) { background: #f8fafc; }
 
 <div class="container">
 
+    <!-- Screen UI Header -->
     <div class="invoice-header">
         <div class="header-top-bar no-print">
             <button class="menu-btn" onclick="toggleSidebar()" title="মেনু">☰</button>
@@ -365,6 +397,7 @@ tbody tr:nth-child(even) { background: #f8fafc; }
         </div>
     </div>
 
+    <!-- Screen UI Inputs -->
     <div class="dimension-section no-print">
         <div class="section-heading">
             <span>কাজের মাপ, কালার ও সেকশন সাইজ</span>
@@ -382,13 +415,11 @@ tbody tr:nth-child(even) { background: #f8fafc; }
         </button>
     </div>
 
+    <!-- Screen UI Result -->
     <div id="resultArea" class="result-section">
-
-        <div class="result-title">
-            ১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)
-        </div>
+        <div class="result-title">১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)</div>
         <div class="table-wrap">
-            <table>
+            <table class="screen-table">
                 <thead>
                     <tr>
                         <th style="width: 45%;">মালের নাম ও স্পেসিফিকেশন</th>
@@ -396,53 +427,40 @@ tbody tr:nth-child(even) { background: #f8fafc; }
                         <th style="width: 30%;">পিস (২১ ফিট)</th>
                     </tr>
                 </thead>
-                <tbody id="alumTable"></tbody>
+                <tbody id="screenAlumTable"></tbody>
             </table>
         </div>
 
-        <div class="result-title">
-            ২. গ্লাস এরিয়া হিসাব
-        </div>
+        <div class="result-title">২. গ্লাস এরিয়া ও টেপ হিসাব</div>
         <div class="table-wrap">
-            <table>
+            <table class="screen-table">
                 <thead>
                     <tr>
                         <th style="width: 40%;">বিবরণ</th>
                         <th style="width: 60%;">মোট স্কয়ার ফিট / পরিমাণ</th>
                     </tr>
                 </thead>
-                <tbody id="glassTable"></tbody>
+                <tbody id="screenGlassTable"></tbody>
             </table>
         </div>
 
-        <div class="result-title">
-            ৩. এক্সেসরিজ ও ফিটিংস হিসাব
-        </div>
+        <div class="result-title">৩. এক্সেসরিজ ও ফিটিংস হিসাব</div>
         <div class="table-wrap">
-            <table>
+            <table class="screen-table">
                 <thead>
                     <tr>
                         <th style="width: 40%;">উপাদানের নাম</th>
                         <th style="width: 60%;">মোট পরিমাণ</th>
                     </tr>
                 </thead>
-                <tbody id="accTable"></tbody>
+                <tbody id="screenAccTable"></tbody>
             </table>
         </div>
 
         <div class="total-summary no-print">
-            <div class="summary-card">
-                <span class="summary-label">মোট হাইট</span>
-                <span class="summary-value" id="summaryHeight">0</span>
-            </div>
-            <div class="summary-card">
-                <span class="summary-label">মোট চওড়া</span>
-                <span class="summary-value" id="summaryWidth">0</span>
-            </div>
-            <div class="summary-card">
-                <span class="summary-label">মোট খোপ</span>
-                <span class="summary-value" id="summaryKhop">0</span>
-            </div>
+            <div class="summary-card"><span class="summary-label">মোট হাইট</span><span class="summary-value" id="summaryHeight">0</span></div>
+            <div class="summary-card"><span class="summary-label">মোট চওড়া</span><span class="summary-value" id="summaryWidth">0</span></div>
+            <div class="summary-card"><span class="summary-label">মোট খোপ</span><span class="summary-value" id="summaryKhop">0</span></div>
         </div>
 
         <div class="action-buttons no-print">
@@ -450,7 +468,58 @@ tbody tr:nth-child(even) { background: #f8fafc; }
                 🖨️ পিডিএফ প্রিন্ট (A4 ওয়ান পেজ)
             </button>
         </div>
+    </div>
+    
+    <!-- ========================================== -->
+    <!-- PDF PRINT LAYOUT (Matches the Image perfectly) -->
+    <!-- ========================================== -->
+    <div id="printLayout">
+        <div class="pdf-main-header">
+            <div class="pdf-shop-name" id="pdfShopName">আরএম থাই অ্যালুমিনিয়াম</div>
+            <div class="pdf-phone-pill">
+                📞 মোবাইল: <span id="pdfShopPhone"></span>
+            </div>
+        </div>
 
+        <div class="pdf-info-box">
+            <div class="pdf-info-row">
+                <div class="pdf-info-label">👤 কাস্টমার</div>
+                <div class="pdf-info-value"></div>
+            </div>
+            <div class="pdf-info-row">
+                <div class="pdf-info-label">🏢 প্রজেক্ট</div>
+                <div class="pdf-info-value"></div>
+            </div>
+        </div>
+
+        <div class="pdf-table-title">প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)</div>
+        <table class="pdf-table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">ক্রমিক নং</th>
+                    <th style="width: 40%;">মালামালের নাম</th>
+                    <th style="width: 25%;">সাইজ</th>
+                    <th style="width: 20%;">প্রকৃত পরিমাণ</th>
+                </tr>
+            </thead>
+            <tbody id="pdfMaterialTable"></tbody>
+        </table>
+
+        <div class="pdf-table-title">এক্সেসরিজের তালিকা</div>
+        <table class="pdf-table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">ক্রমিক নং</th>
+                    <th style="width: 55%;">এক্সেসরিজের নাম</th>
+                    <th style="width: 30%;">পরিমাণ</th>
+                </tr>
+            </thead>
+            <tbody id="pdfAccTable"></tbody>
+        </table>
+
+        <div class="pdf-footer">
+            <div class="pdf-footer-text">ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।</div>
+        </div>
     </div>
 
 </div>
@@ -474,8 +543,8 @@ function setCurrentDate() {
 function loadShopData() {
     const savedName = localStorage.getItem("cw_shopName");
     const savedPhone = localStorage.getItem("cw_shopPhone");
-    if (savedName !== null) document.getElementById("shopName").value = savedName;
-    if (savedPhone !== null) document.getElementById("shopPhone").value = savedPhone;
+    if (savedName) document.getElementById("shopName").value = savedName;
+    if (savedPhone) document.getElementById("shopPhone").value = savedPhone;
 }
 
 document.getElementById("shopName").addEventListener("input", function () {
@@ -579,11 +648,7 @@ function calculateMaterials() {
     }
 
     let groupSummary = {};
-    let totalGlassSqft = 0;
-    let totalTapeFeet = 0;
-    let totalMaskingTapeRolls = 0;
-    let totalNotanTapeRolls = 0;
-    let totalSilicon = 0;
+    let totalGlassSqft = 0, totalTapeFeet = 0;
     let totalClamps = 0, totalRoyalBolts = 0, totalScrews = 0, totalNutBolts = 0, totalRivets = 0;
     let totalKhop = 0, displayHeight = 0, displayWidth = 0;
 
@@ -629,60 +694,52 @@ function calculateMaterials() {
         return;
     }
 
-    totalMaskingTapeRolls = Math.ceil(totalTapeFeet / 26.4); 
-    totalNotanTapeRolls = Math.ceil(totalTapeFeet / 100);
-    totalSilicon = Math.ceil(totalGlassSqft / 10);
+    const totalMaskingTapeRolls = Math.ceil(totalTapeFeet / 26.4); 
+    const totalNotanTapeRolls = Math.ceil(totalTapeFeet / 100);
+    const totalSilicon = Math.ceil(totalGlassSqft / 10);
 
-    let alumTableHTML = "";
+    // =====================================
+    // 1. Populate Screen View UI (App View)
+    // =====================================
+    let screenAlumHTML = "";
+    let pdfMaterialHTML = "";
+    let pdfSerial = 1;
+
     for (const key in groupSummary) {
         const item = groupSummary[key];
         const halfPipes = Math.ceil(item.halfFeet / 21);
         const fullPipes = Math.ceil(item.fullFeet / 21);
         const anglePipes = Math.ceil(item.angleFeet / 21);
+        const sizeDesc = `${item.size}" ${item.color}`;
 
-        alumTableHTML += `
+        // Screen Table
+        screenAlumHTML += `
             <tr style="background:#e0f2fe; text-align:left;">
                 <td colspan="3">স্পেসিফিকেশন: <strong>${item.size} ইঞ্চি কার্টেন ওয়াল (${item.color})</strong></td>
             </tr>
-            <tr>
-                <td>হাফ সেকশন (Top & Side)</td>
-                <td>${item.halfFeet.toFixed(2)} ফিট</td>
-                <td><strong>${halfPipes} পিস</strong></td>
-            </tr>
-            <tr>
-                <td>ফুল সেকশন (Middle)</td>
-                <td>${item.fullFeet.toFixed(2)} ফিট</td>
-                <td><strong>${fullPipes} পিস</strong></td>
-            </tr>
-            <tr>
-                <td>অ্যাঙ্গেল (Angle)</td>
-                <td>${item.angleFeet.toFixed(2)} ফিট</td>
-                <td><strong>${anglePipes} পিস</strong></td>
-            </tr>
+            <tr><td>হাফ সেকশন (Top & Side)</td><td>${item.halfFeet.toFixed(2)} ফিট</td><td><strong>${halfPipes} পিস</strong></td></tr>
+            <tr><td>ফুল সেকশন (Middle)</td><td>${item.fullFeet.toFixed(2)} ফিট</td><td><strong>${fullPipes} পিস</strong></td></tr>
+            <tr><td>অ্যাঙ্গেল (Angle)</td><td>${item.angleFeet.toFixed(2)} ফিট</td><td><strong>${anglePipes} পিস</strong></td></tr>
+        `;
+
+        // PDF Material Table rows for this section
+        pdfMaterialHTML += `
+            <tr><td>${pdfSerial++}</td><td style="text-align:left;">হাফ সেকশন (Top & Side)</td><td>${sizeDesc} (${item.halfFeet.toFixed(2)} ft)</td><td>${halfPipes} পিস</td></tr>
+            <tr><td>${pdfSerial++}</td><td style="text-align:left;">ফুল সেকশন (Middle)</td><td>${sizeDesc} (${item.fullFeet.toFixed(2)} ft)</td><td>${fullPipes} পিস</td></tr>
+            <tr><td>${pdfSerial++}</td><td style="text-align:left;">অ্যাঙ্গেল (Angle)</td><td>${sizeDesc} (${item.angleFeet.toFixed(2)} ft)</td><td>${anglePipes} পিস</td></tr>
         `;
     }
-    document.getElementById("alumTable").innerHTML = alumTableHTML;
+    
+    document.getElementById("screenAlumTable").innerHTML = screenAlumHTML;
 
-    document.getElementById("glassTable").innerHTML = `
-        <tr>
-            <td>মোট গ্লাস এরিয়া</td>
-            <td><strong>${totalGlassSqft.toFixed(2)} স্কয়ার ফিট</strong> (মোট খোপ: ${totalKhop}টি)</td>
-        </tr>
-        <tr>
-            <td>মাস্কিং টেপ (Masking Tape)</td>
-            <td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalMaskingTapeRolls} চাকি/রোল)</td>
-        </tr>
-        <tr>
-            <td>নটেন টেপ (Notan Tape)</td>
-            <td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalNotanTapeRolls} বান্ডেল (১০০ পিসের))</td>
-        </tr>
-        <tr>
-            <td>সিলিকন গাম (Silicon Gum)</td>
-            <td><strong>${totalSilicon} পিস</strong></td>
-        </tr>
+    document.getElementById("screenGlassTable").innerHTML = `
+        <tr><td>মোট গ্লাস এরিয়া</td><td><strong>${totalGlassSqft.toFixed(2)} স্কয়ার ফিট</strong> (মোট খোপ: ${totalKhop}টি)</td></tr>
+        <tr><td>মাস্কিং টেপ (Masking Tape)</td><td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalMaskingTapeRolls} চাকি/রোল)</td></tr>
+        <tr><td>নটেন টেপ (Notan Tape)</td><td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalNotanTapeRolls} বান্ডেল)</td></tr>
+        <tr><td>সিলিকন গাম (Silicon Gum)</td><td><strong>${totalSilicon} পিস</strong></td></tr>
     `;
 
-    document.getElementById("accTable").innerHTML = `
+    document.getElementById("screenAccTable").innerHTML = `
         <tr><td>ক্ল্যাম (Clamps)</td><td><strong>${totalClamps} পিস</strong></td></tr>
         <tr><td>রয়্যাল বোল্ট</td><td><strong>${totalRoyalBolts} পিস</strong></td></tr>
         <tr><td>১ ইঞ্চি স্ক্রু</td><td><strong>${totalScrews} পিস</strong></td></tr>
@@ -690,6 +747,26 @@ function calculateMaterials() {
         <tr><td>রিপিট (Rivets)</td><td><strong>${totalRivets} পিস</strong> (প্রতি খোপে ২০টি করে)</td></tr>
     `;
 
+    // =====================================
+    // 2. Populate PDF Print Layout (Image match)
+    // =====================================
+    pdfMaterialHTML += `
+        <tr><td>${pdfSerial++}</td><td style="text-align:left;">গ্লাস (Glass)</td><td>${totalGlassSqft.toFixed(2)} sqft</td><td>${totalKhop} টি খোপ</td></tr>
+        <tr><td>${pdfSerial++}</td><td style="text-align:left;">মাস্কিং টেপ (Masking Tape)</td><td>${totalTapeFeet.toFixed(2)} ft</td><td>${totalMaskingTapeRolls} চাকি/রোল</td></tr>
+        <tr><td>${pdfSerial++}</td><td style="text-align:left;">নটেন টেপ (Notan Tape)</td><td>${totalTapeFeet.toFixed(2)} ft</td><td>${totalNotanTapeRolls} বান্ডেল</td></tr>
+        <tr><td>${pdfSerial++}</td><td style="text-align:left;">সিলিকন গাম (Silicon Gum)</td><td>-</td><td>${totalSilicon} পিস</td></tr>
+    `;
+    document.getElementById("pdfMaterialTable").innerHTML = pdfMaterialHTML;
+
+    document.getElementById("pdfAccTable").innerHTML = `
+        <tr><td>1</td><td style="text-align:left;">ক্ল্যাম (Clamps)</td><td>${totalClamps} পিস</td></tr>
+        <tr><td>2</td><td style="text-align:left;">রয়্যাল বোল্ট</td><td>${totalRoyalBolts} পিস</td></tr>
+        <tr><td>3</td><td style="text-align:left;">১ ইঞ্চি স্ক্রু</td><td>${totalScrews} পিস</td></tr>
+        <tr><td>4</td><td style="text-align:left;">২" নাট-বোল্ট</td><td>${totalNutBolts} পিস</td></tr>
+        <tr><td>5</td><td style="text-align:left;">রিপিট (Rivets)</td><td>${totalRivets} পিস</td></tr>
+    `;
+
+    // Update screen summaries
     document.getElementById("summaryHeight").textContent = displayHeight.toFixed(2) + " ফিট";
     document.getElementById("summaryWidth").textContent = displayWidth.toFixed(2) + " ফিট";
     document.getElementById("summaryKhop").textContent = totalKhop + " টি";
@@ -765,6 +842,15 @@ function printInvoice() {
         alert("আগে হিসাব বের করুন, তারপর PDF প্রিন্ট করুন।");
         return;
     }
+
+    // Set Dynamic Name and Phone in PDF Layout before printing
+    let inputName = document.getElementById("shopName").value.trim();
+    let inputPhone = document.getElementById("shopPhone").value.trim();
+    
+    // Fallback names if inputs are empty
+    document.getElementById("pdfShopName").textContent = inputName !== "" ? inputName : "আরএম থাই অ্যালুমিনিয়াম";
+    document.getElementById("pdfShopPhone").textContent = inputPhone !== "" ? inputPhone : "01676474412";
+
     window.print();
 }
 </script>

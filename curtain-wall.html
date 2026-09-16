@@ -22,7 +22,7 @@
 body {
     background: #eef3f8;
     color: #111827;
-    padding: 15px;
+    padding: 10px;
     font-weight: 600;
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@ body {
     width: 100%;
     max-width: 1000px;
     background: #ffffff;
-    padding: 20px;
+    padding: 16px;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
     box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
@@ -48,26 +48,28 @@ body {
     background: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
     color: #ffffff;
     border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 24px;
+    padding: 16px;
+    margin-bottom: 20px;
     box-shadow: 0 6px 20px rgba(20, 70, 160, 0.25);
 }
 
 .header-top {
     display: flex;
     align-items: center;
-    gap: 15px;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .menu-btn {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     flex-shrink: 0;
     border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 10px;
+    border-radius: 8px;
     background: rgba(255,255,255,0.18);
     color: #ffffff;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -77,39 +79,54 @@ body {
 
 .menu-btn:hover { background: rgba(255,255,255,0.3); }
 
-.header-title-area { flex: 1; }
+.header-title-area { 
+    flex: 1; 
+    text-align: center;
+    padding: 0 5px;
+}
 
 .header-main-title {
-    font-size: clamp(20px, 4vw, 32px);
+    font-size: clamp(16px, 4vw, 26px);
     font-weight: 900;
     text-transform: uppercase;
     line-height: 1.2;
 }
 
 .header-sub-title {
-    margin-top: 4px;
-    font-size: clamp(13px, 2.5vw, 18px);
+    margin-top: 3px;
+    font-size: clamp(11px, 2.5vw, 15px);
     font-weight: 700;
     color: #bfdbfe;
 }
 
+.date-display {
+    font-size: clamp(10px, 2.3vw, 12px);
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
 .shop-details {
-    margin-top: 15px;
+    margin-top: 12px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
 }
 
 .shop-details input {
     width: 100%;
-    height: 46px;
-    padding: 6px 12px;
+    height: 40px;
+    padding: 4px 10px;
     border: none;
     border-radius: 8px;
     background: rgba(255,255,255,0.95);
     color: #111827;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 800;
     text-align: center;
     outline: none;
     transition: box-shadow 0.2s;
@@ -154,7 +171,7 @@ body {
 
 .history-item {
     background: #f8fafc; padding: 12px; margin-bottom: 10px;
-    border-radius: 8px; cursor: pointer; font-size: 14px;
+    border-radius: 8px; cursor: pointer; font-size: 13px;
     border-left: 5px solid #1557c0; border: 1px solid #e2e8f0;
     transition: background 0.2s;
 }
@@ -166,42 +183,67 @@ body {
 .dimension-section { margin-bottom: 20px; }
 
 .section-heading {
-    background: #1557c0; color: #ffffff; padding: 14px 18px;
-    border-radius: 8px 8px 0 0; font-size: 16px; font-weight: 900;
+    background: #1557c0; color: #ffffff; padding: 12px 16px;
+    border-radius: 8px 8px 0 0; font-size: 15px; font-weight: 900;
 }
 
 .dimension-card {
     position: relative; background: #ffffff; border: 2px solid #d6dee8;
-    border-top: none; padding: 20px; border-radius: 0 0 10px 10px;
+    border-top: none; padding: 16px; border-radius: 0 0 10px 10px;
     margin-bottom: 16px; box-shadow: 0 3px 10px rgba(15,23,42,0.05);
+}
+
+.dimension-header-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    padding-right: 35px;
 }
 
 .dimension-card-number {
     display: inline-flex; align-items: center; justify-content: center;
-    padding: 6px 14px; background: #e8f0ff; color: #1557c0;
-    border-radius: 6px; font-size: 14px; font-weight: 900; margin-bottom: 15px;
+    padding: 6px 12px; background: #e8f0ff; color: #1557c0;
+    border-radius: 6px; font-size: 13px; font-weight: 900;
+    white-space: nowrap;
+}
+
+.header-select {
+    height: 34px;
+    padding: 2px 8px;
+    border: 1.5px solid #7dd3fc;
+    border-radius: 6px;
+    background: #f0f9ff;
+    color: #0369a1;
+    font-size: 12px;
+    font-weight: 800;
+    outline: none;
+    cursor: pointer;
+    flex: 1;
+    min-width: 120px;
 }
 
 .input-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 10px;
 }
 
 @media (min-width: 768px) {
     .input-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-.input-group { display: flex; flex-direction: column; gap: 8px; }
+.input-group { display: flex; flex-direction: column; gap: 4px; }
 
 .input-group label {
-    font-size: 14px; color: #334155; font-weight: 800; line-height: 1.3;
+    font-size: 12px; color: #334155; font-weight: 800; line-height: 1.2;
 }
 
 .input-group input {
-    width: 100%; height: 50px; padding: 8px; font-size: 18px;
+    width: 100%; height: 42px; padding: 6px; font-size: 16px;
     font-weight: 800; color: #111827; background: #f8fafc;
-    border: 2px solid #cbd5e1; border-radius: 8px; outline: none; text-align: center;
+    border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none; text-align: center;
     transition: border 0.2s, background 0.2s;
 }
 
@@ -211,27 +253,28 @@ body {
 }
 
 .remove-box-btn {
-    position: absolute; right: 15px; top: 15px; width: 36px; height: 36px;
-    border: none; border-radius: 8px; background: #fee2e2; color: #dc2626;
-    font-size: 20px; cursor: pointer; font-weight: 900; transition: 0.2s;
+    position: absolute; right: 10px; top: 12px; width: 32px; height: 32px;
+    border: none; border-radius: 6px; background: #fee2e2; color: #dc2626;
+    font-size: 18px; cursor: pointer; font-weight: 900; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
 }
 .remove-box-btn:hover { background: #fca5a5; }
 
 /* =========================================================
    BUTTONS
 ========================================================= */
-.add-box-area { margin: 15px 0; }
+.add-box-area { margin: 12px 0; }
 
 .btn-add-box {
-    width: 100%; min-height: 54px; border: 2px dashed #2563eb;
+    width: 100%; min-height: 48px; border: 2px dashed #2563eb;
     border-radius: 9px; background: #eff6ff; color: #1557c0;
-    font-size: 16px; font-weight: 900; cursor: pointer; transition: 0.2s;
+    font-size: 14px; font-weight: 900; cursor: pointer; transition: 0.2s;
 }
 .btn-add-box:hover { background: #dbeafe; }
 
 .btn-calc {
-    width: 100%; min-height: 60px; background: #147a4b; color: #ffffff;
-    font-size: 20px; font-weight: 900; border: none; border-radius: 9px;
+    width: 100%; min-height: 52px; background: #147a4b; color: #ffffff;
+    font-size: 18px; font-weight: 900; border: none; border-radius: 9px;
     cursor: pointer; box-shadow: 0 4px 12px rgba(20,122,75,0.2); transition: 0.2s;
 }
 .btn-calc:hover { background: #10663e; transform: translateY(-2px); }
@@ -239,12 +282,12 @@ body {
 /* =========================================================
    RESULT TABLES
 ========================================================= */
-.result-section { display: none; margin-top: 25px; }
+.result-section { display: none; margin-top: 20px; }
 
 .result-title {
     background: linear-gradient(90deg, #1557c0, #1769d3); color: #ffffff;
-    padding: 12px 15px; font-size: 16px; font-weight: 900;
-    margin-top: 20px; border-radius: 8px 8px 0 0;
+    padding: 10px 14px; font-size: 14px; font-weight: 900;
+    margin-top: 16px; border-radius: 8px 8px 0 0;
 }
 
 .table-wrap {
@@ -255,8 +298,8 @@ body {
 table { width: 100%; border-collapse: collapse; min-width: 300px; }
 
 th, td {
-    border: 1px solid #cbd5e1; padding: 12px 10px; text-align: center;
-    font-size: 14px; color: #111827;
+    border: 1px solid #cbd5e1; padding: 10px 8px; text-align: center;
+    font-size: 13px; color: #111827;
 }
 
 th { background: #f1f5f9; font-weight: 900; }
@@ -268,25 +311,25 @@ tbody tr:hover { background: #eff6ff; }
 ========================================================= */
 .total-summary {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 15px; margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 10px; margin-top: 16px;
 }
 
 .summary-card {
     background: #f8fafc; border: 1px solid #d7dee8;
-    border-radius: 10px; padding: 15px; text-align: center;
+    border-radius: 8px; padding: 12px 8px; text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.02);
 }
 
-.summary-label { display: block; color: #475569; font-size: 13px; margin-bottom: 6px; font-weight: 800;}
-.summary-value { display: block; color: #1557c0; font-size: 22px; font-weight: 900; }
+.summary-label { display: block; color: #475569; font-size: 11px; margin-bottom: 4px; font-weight: 800;}
+.summary-value { display: block; color: #1557c0; font-size: 18px; font-weight: 900; }
 
-.action-buttons { width: 100%; margin: 25px auto 0; text-align: center; }
+.action-buttons { width: 100%; margin: 20px auto 0; text-align: center; }
 
 .btn-print {
-    width: 100%; max-width: 400px; min-height: 55px;
+    width: 100%; max-width: 400px; min-height: 48px;
     background: #2456d8; color: #ffffff; border: none; border-radius: 9px;
-    font-size: 18px; font-weight: 900; cursor: pointer;
+    font-size: 16px; font-weight: 900; cursor: pointer;
     box-shadow: 0 4px 15px rgba(36,86,216,0.3); transition: 0.2s;
 }
 .btn-print:hover { background: #1d4ed8; transform: translateY(-2px); }
@@ -295,35 +338,36 @@ tbody tr:hover { background: #eff6ff; }
    PRINT / PDF
 ========================================================= */
 @media print {
-    @page { size: A4 portrait; margin: 10mm; }
+    @page { size: A4 portrait; margin: 8mm; }
     body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
     .container { width: 100% !important; max-width: none !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
     .no-print, .sidebar, .action-buttons, .add-box-area, .remove-box-btn, .total-summary { display: none !important; }
-    .header-title-area { display: none !important; }
+    .header-title-area { display: block !important; }
     .invoice-header {
-        margin-bottom: 15px !important; padding: 15px !important;
+        margin-bottom: 15px !important; padding: 12px !important;
         background: #123a8c !important; -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important; display: flex !important;
         flex-direction: column !important; align-items: center !important; border-radius: 0!important;
     }
-    .header-top { display: none !important; }
+    .header-top { display: flex !important; justify-content: center !important; width: 100% !important; }
+    .menu-btn, .date-display { display: none !important; }
     .shop-details {
-        margin-top: 0 !important; display: flex !important;
-        flex-direction: column !important; width: 100% !important; gap: 5px !important;
+        margin-top: 5px !important; display: flex !important;
+        flex-direction: column !important; width: 100% !important; gap: 2px !important;
     }
     .shop-details input {
         height: auto !important; padding: 0 !important; border: none !important;
         background: transparent !important; color: #ffffff !important; text-align: center !important;
     }
-    #shopName { font-size: 24pt !important; font-weight: 900 !important; text-transform: uppercase !important; }
-    #shopPhone { font-size: 15pt !important; font-weight: 700 !important; }
+    #shopName { font-size: 20pt !important; font-weight: 900 !important; text-transform: uppercase !important; }
+    #shopPhone { font-size: 13pt !important; font-weight: 700 !important; }
     .result-section { display: block !important; margin-top: 0!important; }
     .result-title {
-        margin-top: 15px !important; padding: 8px 10px !important; font-size: 13pt !important;
+        margin-top: 12px !important; padding: 6px 10px !important; font-size: 12pt !important;
         background: #1557c0 !important; color: #ffffff !important;
         -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
     }
-    th, td { padding: 8px 6px !important; font-size: 11.5pt !important; border: 1px solid #000000 !important; color: #000000 !important; }
+    th, td { padding: 6px 4px !important; font-size: 11pt !important; border: 1px solid #000000 !important; color: #000000 !important; }
     th { background: #e2e8f0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }
 
@@ -344,11 +388,12 @@ tbody tr:hover { background: #eff6ff; }
 
     <div class="invoice-header">
         <div class="header-top">
-            <button class="menu-btn no-print" onclick="toggleSidebar()">☰</button>
+            <button class="menu-btn no-print" onclick="toggleSidebar()" title="মেনু">☰</button>
             <div class="header-title-area">
                 <div class="header-main-title">RM THAI ALUMINIUM</div>
-                <div class="header-sub-title">CURTAIN WALL &amp; QUOTATION CALCULATOR</div>
+                <div class="header-sub-title">কার্টেন ওয়াল ও কোটেশন ক্যালকুলেটর</div>
             </div>
+            <div id="currentDate" class="date-display"></div>
         </div>
         <div class="shop-details">
             <input type="text" id="shopName" value="RM THAI ALUMINIUM">
@@ -358,7 +403,7 @@ tbody tr:hover { background: #eff6ff; }
 
     <div class="dimension-section no-print">
         <div class="section-heading">
-            <span>কাজের মাপ ও খোপের সংখ্যা</span>
+            <span>কাজের মাপ, কালার ও সেকশন সাইজ</span>
         </div>
         <div id="dimensionContainer"></div>
 
@@ -382,9 +427,9 @@ tbody tr:hover { background: #eff6ff; }
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 35%;">মালের নাম</th>
+                        <th style="width: 45%;">মালের নাম ও স্পেসিফিকেশন</th>
                         <th style="width: 25%;">টোটাল রানিং ফিট</th>
-                        <th style="width: 40%;">পিস (২১ ফিট)</th>
+                        <th style="width: 30%;">পিস (২১ ফিট)</th>
                     </tr>
                 </thead>
                 <tbody id="alumTable"></tbody>
@@ -413,8 +458,8 @@ tbody tr:hover { background: #eff6ff; }
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 35%;">উপাদানের নাম</th>
-                        <th style="width: 65%;">মোট পরিমাণ</th>
+                        <th style="width: 45%;">উপাদানের নাম</th>
+                        <th style="width: 55%;">মোট পরিমাণ</th>
                     </tr>
                 </thead>
                 <tbody id="accTable"></tbody>
@@ -450,10 +495,17 @@ tbody tr:hover { background: #eff6ff; }
 let dimensionCounter = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
+    setCurrentDate();
     loadShopData();
     addDimensionBox();
     loadHistory();
 });
+
+function setCurrentDate() {
+    const today = new Date();
+    const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+    document.getElementById("currentDate").innerText = formattedDate;
+}
 
 function loadShopData() {
     const savedName = localStorage.getItem("cw_shopName");
@@ -474,7 +526,7 @@ function toggleSidebar() {
     document.getElementById("historySidebar").classList.toggle("active");
 }
 
-function addDimensionBox(height = "", width = "", cols = "", rows = "") {
+function addDimensionBox(height = "", width = "", cols = "", rows = "", color = "Silver", size = "4") {
     dimensionCounter++;
     const container = document.getElementById("dimensionContainer");
     const card = document.createElement("div");
@@ -482,7 +534,21 @@ function addDimensionBox(height = "", width = "", cols = "", rows = "") {
     card.dataset.id = dimensionCounter;
 
     card.innerHTML = `
-        <div class="dimension-card-number">বক্স ${dimensionCounter}</div>
+        <div class="dimension-header-bar">
+            <div class="dimension-card-number">বক্স ${dimensionCounter}</div>
+            <select class="header-select cw-color">
+                <option value="Silver" ${color === 'Silver' ? 'selected' : ''}>সিলভার (Silver)</option>
+                <option value="Sparkle Grey" ${color === 'Sparkle Grey' ? 'selected' : ''}>স্পার্কল গ্রে (Sparkle Grey)</option>
+                <option value="Wooden" ${color === 'Wooden' ? 'selected' : ''}>উডেন (Wooden)</option>
+                <option value="Black" ${color === 'Black' ? 'selected' : ''}>ব্ল্যাক (Black)</option>
+                <option value="Bronze" ${color === 'Bronze' ? 'selected' : ''}>ব্রঞ্জ (Bronze)</option>
+                <option value="White" ${color === 'White' ? 'selected' : ''}>হোয়াইট (White)</option>
+            </select>
+            <select class="header-select cw-size">
+                <option value="4" ${size === '4' ? 'selected' : ''}>৪ ইঞ্চি (4") সেকশন</option>
+                <option value="2" ${size === '2' ? 'selected' : ''}>২ ইঞ্চি (2") সেকশন</option>
+            </select>
+        </div>
         ${dimensionCounter > 1 ? `<button type="button" class="remove-box-btn" onclick="removeDimensionBox(this)">×</button>` : ""}
         <div class="input-grid">
             <div class="input-group">
@@ -531,8 +597,11 @@ function getDimensionData() {
         const width = parseFloat(card.querySelector(".cw-width").value) || 0;
         const cols = parseInt(card.querySelector(".cw-cols").value) || 0;
         const rows = parseInt(card.querySelector(".cw-rows").value) || 0;
+        const color = card.querySelector(".cw-color").value;
+        const size = card.querySelector(".cw-size").value;
+
         if (height > 0 || width > 0 || cols > 0 || rows > 0) {
-            data.push({ height, width, cols, rows });
+            data.push({ height, width, cols, rows, color, size });
         }
     });
     return data;
@@ -545,12 +614,7 @@ function calculateMaterials() {
         return;
     }
 
-    let totalHalfSectionFeet = 0;
-    let totalHalfSectionPipes = 0;
-    let totalFullSectionFeet = 0;
-    let totalFullSectionPipes = 0;
-    let totalAngleFeet = 0;
-    let totalAnglePipes = 0;
+    let groupSummary = {};
 
     let totalGlassSqft = 0;
     let totalTapeFeet = 0;
@@ -573,8 +637,21 @@ function calculateMaterials() {
         const width = item.width;
         const cols = item.cols;
         const rows = item.rows;
+        const color = item.color;
+        const size = item.size;
 
         if (height <= 0 || width <= 0 || cols <= 0 || rows <= 0) return;
+
+        const groupKey = `${size}" - ${color}`;
+        if (!groupSummary[groupKey]) {
+            groupSummary[groupKey] = {
+                halfFeet: 0,
+                fullFeet: 0,
+                angleFeet: 0,
+                size: size,
+                color: color
+            };
+        }
 
         const khop = cols * rows;
         totalKhop += khop;
@@ -583,9 +660,7 @@ function calculateMaterials() {
         displayWidth += width;
 
         const halfSectionFeet = (width * 2) + (height * 2);
-        const halfSectionPipes = Math.ceil(halfSectionFeet / 21);
-        totalHalfSectionFeet += halfSectionFeet;
-        totalHalfSectionPipes += halfSectionPipes;
+        groupSummary[groupKey].halfFeet += halfSectionFeet;
 
         const verticalPipesCount = cols + 1;
         const middleVerticalsCount = cols - 1;
@@ -598,25 +673,16 @@ function calculateMaterials() {
 
         const middleHorizontalFeet = horizontalRowsCount * horizontalFeetPerLine;
         const fullSectionFeet = middleVerticalFeet + middleHorizontalFeet;
-        const fullSectionPipes = Math.ceil(fullSectionFeet / 21);
-        totalFullSectionFeet += fullSectionFeet;
-        totalFullSectionPipes += fullSectionPipes;
+        groupSummary[groupKey].fullFeet += fullSectionFeet;
 
         const angleFeet = khop * (8 / 12);
-        const anglePipes = Math.ceil(angleFeet / 21);
-        totalAngleFeet += angleFeet;
-        totalAnglePipes += anglePipes;
+        groupSummary[groupKey].angleFeet += angleFeet;
 
         const glassSqft = width * height;
         totalGlassSqft += glassSqft;
 
         const tapeFeet = ((width / cols * 2) + (height / rows * 2)) * khop;
         totalTapeFeet += tapeFeet;
-        totalMaskingTapeRolls += Math.ceil(tapeFeet / 80);
-        totalNotanTapeRolls += Math.ceil(tapeFeet / 100);
-
-        // প্রতি ১০ স্কয়ার ফিটে ১টি সিলিকন গাম
-        totalSilicon += Math.ceil(glassSqft / 10);
 
         const clamps = verticalPipesCount * 4;
         totalClamps += clamps;
@@ -632,23 +698,39 @@ function calculateMaterials() {
         return;
     }
 
-    document.getElementById("alumTable").innerHTML = `
-        <tr>
-            <td>হাফ সেকশন (Top & Side)</td>
-            <td>${totalHalfSectionFeet.toFixed(2)} ফিট</td>
-            <td><strong>${totalHalfSectionPipes} পিস</strong></td>
-        </tr>
-        <tr>
-            <td>ফুল সেকশন (Middle)</td>
-            <td>${totalFullSectionFeet.toFixed(2)} ফিট</td>
-            <td><strong>${totalFullSectionPipes} পিস</strong></td>
-        </tr>
-        <tr>
-            <td>অ্যাঙ্গেল (Angle)</td>
-            <td>${totalAngleFeet.toFixed(2)} ফিট</td>
-            <td><strong>${totalAnglePipes} পিস</strong></td>
-        </tr>
-    `;
+    totalMaskingTapeRolls = Math.ceil(totalTapeFeet / 80);
+    totalNotanTapeRolls = Math.ceil(totalTapeFeet / 100);
+    totalSilicon = Math.ceil(totalGlassSqft / 10);
+
+    let alumTableHTML = "";
+    for (const key in groupSummary) {
+        const item = groupSummary[key];
+        const halfPipes = Math.ceil(item.halfFeet / 21);
+        const fullPipes = Math.ceil(item.fullFeet / 21);
+        const anglePipes = Math.ceil(item.angleFeet / 21);
+
+        alumTableHTML += `
+            <tr style="background:#e0f2fe; font-weight:900; text-align:left;">
+                <td colspan="3">স্পেসিফিকেশন: <strong>${item.size} ইঞ্চি কার্টেন ওয়াল (${item.color})</strong></td>
+            </tr>
+            <tr>
+                <td>হাফ সেকশন (Top & Side)</td>
+                <td>${item.halfFeet.toFixed(2)} ফিট</td>
+                <td><strong>${halfPipes} পিস</strong></td>
+            </tr>
+            <tr>
+                <td>ফুল সেকশন (Middle)</td>
+                <td>${item.fullFeet.toFixed(2)} ফিট</td>
+                <td><strong>${fullPipes} পিস</strong></td>
+            </tr>
+            <tr>
+                <td>অ্যাঙ্গেল (Angle)</td>
+                <td>${item.angleFeet.toFixed(2)} ফিট</td>
+                <td><strong>${anglePipes} পিস</strong></td>
+            </tr>
+        `;
+    }
+    document.getElementById("alumTable").innerHTML = alumTableHTML;
 
     document.getElementById("glassTable").innerHTML = `
         <tr>
@@ -738,7 +820,7 @@ function loadHistoryItem(dimensions) {
     container.innerHTML = "";
     dimensionCounter = 0;
     dimensions.forEach(function (item) {
-        addDimensionBox(item.height || "", item.width || "", item.cols || "", item.rows || "");
+        addDimensionBox(item.height || "", item.width || "", item.cols || "", item.rows || "", item.color || "Silver", item.size || "4");
     });
     toggleSidebar();
     calculateMaterials();

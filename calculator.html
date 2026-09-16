@@ -22,7 +22,7 @@
     }
     .header-card h2 { 
       margin: 32px 0 4px 0; 
-      font-size: 34px; /* সাইজ আরও বড় করা হয়েছে */
+      font-size: 34px;
       font-weight: 900;
       text-transform: uppercase; 
       word-break: break-word; 
@@ -32,7 +32,7 @@
     }
     .header-card p { 
       margin: 0 0 12px 0; 
-      font-size: 14px; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+      font-size: 14px;
       opacity: 0.9; 
       font-weight: 600; 
       width: 100%;
@@ -247,7 +247,8 @@
 
     @media print {
       @page { size: A4 portrait; margin: 10mm; }
-      body { background-color: #fff !important; margin: 0 !important; padding: 0 !important; }
+      body { background-color: #fff !important; margin: 0 !important; padding: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
       .container { display: none !important; }
       
       #printModal {
@@ -998,26 +999,26 @@
        if(window.printData.items21 && window.printData.items21[item]) {
            let cutStr = formatCutText(window.printData.items21[item].plan, true);
            materialRowsHTML += `<tr style="${bgClass}">
-             <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 14pt; color: #000;">${toBnNum(matCounter++)}</td>
-             <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 15pt; color: #000;">${item}</td>
-             <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 14pt; color: #000;">২১ এর</td>
-             <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 14pt; color: #000; word-break: break-word;">${cutStr}</td>
+             <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 18pt; color: #000;">${toBnNum(matCounter++)}</td>
+             <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 20pt; color: #000;">${item}</td>
+             <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 18pt; color: #000;">২১ এর</td>
+             <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 18pt; color: #000; word-break: break-word;">${cutStr}</td>
            </tr>`;
        }
        if(window.printData.items18 && window.printData.items18[item]) {
            bgClass = (matCounter % 2 === 0) ? 'background-color: #e6f0ff;' : 'background-color: #ffffff;';
            let cutStr = formatCutText(window.printData.items18[item].plan, false);
            materialRowsHTML += `<tr style="${bgClass}">
-             <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 14pt; color: #000;">${toBnNum(matCounter++)}</td>
-             <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 15pt; color: #000;">${item}</td>
-             <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 14pt; color: #000;">১৮.৬ এর</td>
-             <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 14pt; color: #000; word-break: break-word;">${cutStr}</td>
+             <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 18pt; color: #000;">${toBnNum(matCounter++)}</td>
+             <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 20pt; color: #000;">${item}</td>
+             <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 18pt; color: #000;">১৮.৬ এর</td>
+             <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 18pt; color: #000; word-break: break-word;">${cutStr}</td>
            </tr>`;
        }
     });
 
     if(materialRowsHTML === '') {
-        materialRowsHTML = '<tr><td colspan="4" style="border: 1.5px solid #0047AB; padding: 12px; text-align: center; font-size: 14pt; font-weight: bold;">কোনো তথ্য নেই</td></tr>';
+        materialRowsHTML = '<tr><td colspan="4" style="border: 1.5px solid #0047AB; padding: 12px; text-align: center; font-size: 18pt; font-weight: 900;">কোনো তথ্য নেই</td></tr>';
     }
 
     let accRowsHTML = '';
@@ -1032,63 +1033,63 @@
         let bgClass = (accCounter % 2 === 0) ? 'background-color: #e6f0ff;' : 'background-color: #ffffff;';
         
         accRowsHTML += `<tr style="${bgClass}">
-          <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 14pt; color: #000;">${toBnNum(accCounter++)}</td>
-          <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 15pt; color: #000;">${name}</td>
-          <td style="border: 1.5px solid #0047AB; padding: 10px; text-align: center; font-weight: bold; font-size: 14pt; color: #000;">${qty}${unit}</td>
+          <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 18pt; color: #000;">${toBnNum(accCounter++)}</td>
+          <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 20pt; color: #000;">${name}</td>
+          <td style="border: 1.5px solid #0047AB; padding: 6px 10px; text-align: center; font-weight: 900; font-size: 18pt; color: #000;">${qty}${unit}</td>
         </tr>`;
       }
     });
 
     let printHTML = `
-      <div style="border: 4px solid #0047AB; border-radius: 12px; padding: 15px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; width: 100%; box-sizing: border-box;">
+      <div style="border: 4px solid #0047AB; border-radius: 12px; padding: 12px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; width: 100%; box-sizing: border-box;">
         
         <!-- Header Banner Section -->
-        <div style="text-align: center; margin-bottom: 20px; position: relative;">
-          <div style="font-size: 14pt; color: #0047AB; font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <div style="text-align: center; margin-bottom: 10px; position: relative;">
+          <div style="font-size: 14pt; color: #0047AB; font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 4px;">
             <span></span>
             <span>তারিখ: ${printDate}</span>
           </div>
-          <h2 style="color: #0047AB; font-size: 32pt; font-weight: 900; margin: 5px 0; text-transform: uppercase; word-break: break-word; line-height: 1.1; letter-spacing: 1px;">${shopName}</h2>
-          <div style="margin-top: 10px;">
-            <span style="background-color: #0047AB; color: white; display: inline-block; padding: 8px 30px; border-radius: 25px; font-weight: bold; font-size: 16pt;">
+          <h2 style="color: #0047AB; font-size: 38pt; font-weight: 900; margin: 4px 0; text-transform: uppercase; word-break: break-word; line-height: 1.1; letter-spacing: 1px;">${shopName}</h2>
+          <div style="margin-top: 8px;">
+            <span style="background-color: #0047AB; color: white; display: inline-block; padding: 6px 25px; border-radius: 25px; font-weight: 900; font-size: 18pt;">
               📞 মোবাইল: ${shopPhone}
             </span>
           </div>
         </div>
 
         <!-- Details Section -->
-        <table style="width: 100%; border-collapse: collapse; border: 2px solid #0047AB; margin-bottom: 20px;">
+        <table style="width: 100%; border-collapse: collapse; border: 2px solid #0047AB; margin-bottom: 15px;">
            <tr>
-             <td style="background-color: #0047AB; color: white; width: 25%; padding: 10px; font-weight: bold; font-size: 15pt; border: 2px solid #0047AB;">
+             <td style="background-color: #0047AB; color: white; width: 25%; padding: 8px 10px; font-weight: 900; font-size: 18pt; border: 2px solid #0047AB;">
                👤 কাস্টমার
              </td>
-             <td style="padding: 10px; border: 2px solid #0047AB; color: #000; font-weight: bold; font-size: 16pt;">${custName}</td>
+             <td style="padding: 8px 10px; border: 2px solid #0047AB; color: #000; font-weight: 900; font-size: 20pt;">${custName}</td>
            </tr>
            <tr>
-             <td style="background-color: #0047AB; color: white; width: 25%; padding: 10px; font-weight: bold; font-size: 15pt; border: 2px solid #0047AB;">
+             <td style="background-color: #0047AB; color: white; width: 25%; padding: 8px 10px; font-weight: 900; font-size: 18pt; border: 2px solid #0047AB;">
                🏢 প্রজেক্ট
              </td>
-             <td style="padding: 10px; border: 2px solid #0047AB; color: #000; font-weight: bold; font-size: 16pt;">${custAddress}</td>
+             <td style="padding: 8px 10px; border: 2px solid #0047AB; color: #000; font-weight: 900; font-size: 20pt;">${custAddress}</td>
            </tr>
            <tr>
-             <td style="background-color: #0047AB; color: white; width: 25%; padding: 10px; font-weight: bold; font-size: 15pt; border: 2px solid #0047AB;">
+             <td style="background-color: #0047AB; color: white; width: 25%; padding: 8px 10px; font-weight: 900; font-size: 18pt; border: 2px solid #0047AB;">
                ⚙️ মেটেরিয়াল
              </td>
-             <td style="padding: 10px; border: 2px solid #0047AB; color: #000; font-weight: bold; font-size: 16pt; color: #dc2626;">${matInfo}</td>
+             <td style="padding: 8px 10px; border: 2px solid #0047AB; font-weight: 900; font-size: 20pt; color: #dc2626;">${matInfo}</td>
            </tr>
         </table>
 
         <!-- Materials Table -->
-        <div style="text-align: center; color: #0047AB; font-weight: 900; font-size: 18pt; margin-bottom: 5px;">
+        <div style="text-align: center; color: #0047AB; font-weight: 900; font-size: 20pt; margin-bottom: 5px;">
           প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)
         </div>
-        <table style="width: 100%; border-collapse: collapse; border: 2px solid #0047AB; margin-bottom: 20px; table-layout: fixed;">
+        <table style="width: 100%; border-collapse: collapse; border: 2px solid #0047AB; margin-bottom: 15px; table-layout: fixed;">
           <thead>
             <tr>
-              <th style="background-color: #0047AB; color: white; padding: 12px; border: 1.5px solid #0047AB; width: 15%; font-size: 14pt; font-weight: bold;">ক্রমিক নং</th>
-              <th style="background-color: #0047AB; color: white; padding: 12px; border: 1.5px solid #0047AB; width: 40%; font-size: 14pt; font-weight: bold;">মালামালের নাম</th>
-              <th style="background-color: #0047AB; color: white; padding: 12px; border: 1.5px solid #0047AB; width: 18%; font-size: 14pt; font-weight: bold;">সাইজ</th>
-              <th style="background-color: #0047AB; color: white; padding: 12px; border: 1.5px solid #0047AB; width: 27%; font-size: 14pt; font-weight: bold;">প্রকৃত পরিমাণ</th>
+              <th style="background-color: #0047AB; color: white; padding: 10px; border: 1.5px solid #0047AB; width: 12%; font-size: 18pt; font-weight: 900;">ক্রমিক নং</th>
+              <th style="background-color: #0047AB; color: white; padding: 10px; border: 1.5px solid #0047AB; width: 43%; font-size: 18pt; font-weight: 900;">মালামালের নাম</th>
+              <th style="background-color: #0047AB; color: white; padding: 10px; border: 1.5px solid #0047AB; width: 18%; font-size: 18pt; font-weight: 900;">সাইজ</th>
+              <th style="background-color: #0047AB; color: white; padding: 10px; border: 1.5px solid #0047AB; width: 27%; font-size: 18pt; font-weight: 900;">প্রকৃত পরিমাণ</th>
             </tr>
           </thead>
           <tbody>
@@ -1097,15 +1098,15 @@
         </table>
 
         <!-- Accessories Table -->
-        <div style="text-align: center; color: #0047AB; font-weight: 900; font-size: 18pt; margin-bottom: 5px; margin-top: 10px;">
+        <div style="text-align: center; color: #0047AB; font-weight: 900; font-size: 20pt; margin-bottom: 5px; margin-top: 5px;">
           এক্সেসরিজের তালিকা
         </div>
         <table style="width: 100%; border-collapse: collapse; border: 2px solid #0047AB; margin-bottom: 10px; table-layout: fixed;">
           <thead>
             <tr>
-              <th style="background-color: #0047AB; color: white; padding: 12px; border: 1.5px solid #0047AB; width: 20%; font-size: 14pt; font-weight: bold;">ক্রমিক নং</th>
-              <th style="background-color: #0047AB; color: white; padding: 12px; border: 1.5px solid #0047AB; width: 50%; font-size: 14pt; font-weight: bold;">এক্সেসরিজের নাম</th>
-              <th style="background-color: #0047AB; color: white; padding: 12px; border: 1.5px solid #0047AB; width: 30%; font-size: 14pt; font-weight: bold;">পরিমাণ</th>
+              <th style="background-color: #0047AB; color: white; padding: 10px; border: 1.5px solid #0047AB; width: 18%; font-size: 18pt; font-weight: 900;">ক্রমিক নং</th>
+              <th style="background-color: #0047AB; color: white; padding: 10px; border: 1.5px solid #0047AB; width: 52%; font-size: 18pt; font-weight: 900;">এক্সেসরিজের নাম</th>
+              <th style="background-color: #0047AB; color: white; padding: 10px; border: 1.5px solid #0047AB; width: 30%; font-size: 18pt; font-weight: 900;">পরিমাণ</th>
             </tr>
           </thead>
           <tbody>
@@ -1114,7 +1115,7 @@
         </table>
 
         <!-- Footer -->
-        <div style="text-align: center; font-weight: 900; font-size: 16pt; margin-top: 30px; margin-bottom: 15px; color: #0047AB;">
+        <div style="text-align: center; font-weight: 900; font-size: 18pt; margin-top: 15px; margin-bottom: 10px; color: #0047AB;">
           ~ ধন্যবাদ আপনার মূল্যবান আস্থার জন্য ~
         </div>
       </div>

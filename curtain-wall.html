@@ -86,15 +86,24 @@ body {
 }
 
 .header-main-title {
-    font-size: clamp(16px, 4vw, 26px);
+    font-size: clamp(15px, 3.5vw, 24px);
     font-weight: 900;
     text-transform: uppercase;
-    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    line-height: 1.3;
+}
+
+.title-separator {
+    font-size: 18px;
+    color: #bfdbfe;
 }
 
 .header-sub-title {
-    margin-top: 3px;
-    font-size: clamp(11px, 2.5vw, 15px);
+    font-size: clamp(12px, 2.5vw, 16px);
     font-weight: 700;
     color: #bfdbfe;
 }
@@ -131,10 +140,16 @@ body {
     outline: none;
     transition: box-shadow 0.2s;
 }
+
+.shop-details input::placeholder {
+    color: #94a3b8;
+    font-weight: 600;
+}
+
 .shop-details input:focus { box-shadow: 0 0 0 3px rgba(255,255,255,0.4); }
 
 /* =========================================================
-   SIDEBAR
+   SIDEBAR & HISTORY
 ========================================================= */
 .sidebar {
     position: fixed;
@@ -174,8 +189,21 @@ body {
     border-radius: 8px; cursor: pointer; font-size: 13px;
     border-left: 5px solid #1557c0; border: 1px solid #e2e8f0;
     transition: background 0.2s;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
 }
 .history-item:hover { background: #e2e8f0; }
+
+.history-text {
+    flex: 1;
+}
+
+.delete-history-btn {
+    background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626;
+    width: 32px; height: 32px; border-radius: 6px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; transition: 0.2s; flex-shrink: 0;
+}
+.delete-history-btn:hover { background: #f87171; color: #fff; border-color: #f87171; }
 
 /* =========================================================
    INPUT AREA
@@ -196,10 +224,10 @@ body {
 .dimension-header-bar {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 12px;
-    padding-right: 35px;
+    padding-right: 35px; /* space for close button */
 }
 
 .dimension-card-number {
@@ -209,9 +237,17 @@ body {
     white-space: nowrap;
 }
 
+.dropdown-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+}
+
 .header-select {
     height: 34px;
-    padding: 2px 8px;
+    padding: 2px 6px;
     border: 1.5px solid #7dd3fc;
     border-radius: 6px;
     background: #f0f9ff;
@@ -220,8 +256,7 @@ body {
     font-weight: 800;
     outline: none;
     cursor: pointer;
-    flex: 1;
-    min-width: 120px;
+    width: 100%;
 }
 
 .input-grid {
@@ -253,7 +288,7 @@ body {
 }
 
 .remove-box-btn {
-    position: absolute; right: 10px; top: 12px; width: 32px; height: 32px;
+    position: absolute; right: 10px; top: 14px; width: 32px; height: 32px;
     border: none; border-radius: 6px; background: #fee2e2; color: #dc2626;
     font-size: 18px; cursor: pointer; font-weight: 900; transition: 0.2s;
     display: flex; align-items: center; justify-content: center;
@@ -286,8 +321,8 @@ body {
 
 .result-title {
     background: linear-gradient(90deg, #1557c0, #1769d3); color: #ffffff;
-    padding: 10px 14px; font-size: 14px; font-weight: 900;
-    margin-top: 16px; border-radius: 8px 8px 0 0;
+    padding: 8px 12px; font-size: 14px; font-weight: 900;
+    margin-top: 14px; border-radius: 8px 8px 0 0;
 }
 
 .table-wrap {
@@ -298,7 +333,7 @@ body {
 table { width: 100%; border-collapse: collapse; min-width: 300px; }
 
 th, td {
-    border: 1px solid #cbd5e1; padding: 10px 8px; text-align: center;
+    border: 1px solid #cbd5e1; padding: 8px; text-align: center;
     font-size: 13px; color: #111827;
 }
 
@@ -335,39 +370,58 @@ tbody tr:hover { background: #eff6ff; }
 .btn-print:hover { background: #1d4ed8; transform: translateY(-2px); }
 
 /* =========================================================
-   PRINT / PDF
+   PRINT / PDF (Single Page Strict Layout)
 ========================================================= */
 @media print {
-    @page { size: A4 portrait; margin: 8mm; }
-    body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
-    .container { width: 100% !important; max-width: none !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
+    @page { size: A4 portrait; margin: 5mm; }
+    body, html { 
+        background: #ffffff !important; margin: 0 !important; padding: 0 !important; font-size: 11pt !important; 
+    }
+    .container { 
+        width: 100% !important; max-width: none !important; border: none !important; 
+        box-shadow: none !important; padding: 0 !important; 
+    }
     .no-print, .sidebar, .action-buttons, .add-box-area, .remove-box-btn, .total-summary { display: none !important; }
-    .header-title-area { display: block !important; }
+    .header-title-area { display: block !important; flex: 100% !important; margin-bottom: 5px; }
+    
     .invoice-header {
-        margin-bottom: 15px !important; padding: 12px !important;
+        margin-bottom: 10px !important; padding: 10px !important;
         background: #123a8c !important; -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important; display: flex !important;
         flex-direction: column !important; align-items: center !important; border-radius: 0!important;
     }
     .header-top { display: flex !important; justify-content: center !important; width: 100% !important; }
     .menu-btn, .date-display { display: none !important; }
+    .title-separator { display: inline !important; }
+    
     .shop-details {
-        margin-top: 5px !important; display: flex !important;
-        flex-direction: column !important; width: 100% !important; gap: 2px !important;
+        margin-top: 0 !important; display: flex !important;
+        flex-direction: column !important; width: 100% !important; gap: 0 !important;
     }
     .shop-details input {
-        height: auto !important; padding: 0 !important; border: none !important;
+        height: auto !important; padding: 2px !important; border: none !important;
         background: transparent !important; color: #ffffff !important; text-align: center !important;
     }
-    #shopName { font-size: 20pt !important; font-weight: 900 !important; text-transform: uppercase !important; }
-    #shopPhone { font-size: 13pt !important; font-weight: 700 !important; }
-    .result-section { display: block !important; margin-top: 0!important; }
+    #shopName { font-size: 18pt !important; font-weight: 900 !important; text-transform: uppercase !important; }
+    #shopPhone { font-size: 12pt !important; font-weight: 700 !important; }
+    
+    .result-section { 
+        display: block !important; margin-top: 0 !important;
+        page-break-inside: avoid !important;
+    }
+    
     .result-title {
-        margin-top: 12px !important; padding: 6px 10px !important; font-size: 12pt !important;
+        margin-top: 8px !important; padding: 4px 8px !important; font-size: 11pt !important;
         background: #1557c0 !important; color: #ffffff !important;
         -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
     }
-    th, td { padding: 6px 4px !important; font-size: 11pt !important; border: 1px solid #000000 !important; color: #000000 !important; }
+    
+    table { width: 100% !important; page-break-inside: avoid !important; }
+    tr { page-break-inside: avoid !important; page-break-after: auto !important; }
+    th, td { 
+        padding: 4px 3px !important; font-size: 10pt !important; 
+        border: 1px solid #000000 !important; color: #000000 !important; 
+    }
     th { background: #e2e8f0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }
 
@@ -390,14 +444,17 @@ tbody tr:hover { background: #eff6ff; }
         <div class="header-top">
             <button class="menu-btn no-print" onclick="toggleSidebar()" title="মেনু">☰</button>
             <div class="header-title-area">
-                <div class="header-main-title">RM THAI ALUMINIUM</div>
-                <div class="header-sub-title">কার্টেন ওয়াল ও কোটেশন ক্যালকুলেটর</div>
+                <div class="header-main-title">
+                    RM THAI ALUMINIUM 
+                    <span class="title-separator">|</span> 
+                    <span class="header-sub-title">কার্টেন ওয়াল ও কোটেশন ক্যালকুলেটর</span>
+                </div>
             </div>
             <div id="currentDate" class="date-display"></div>
         </div>
         <div class="shop-details">
-            <input type="text" id="shopName" value="RM THAI ALUMINIUM">
-            <input type="text" id="shopPhone" value="Mobile: 01676-474412">
+            <input type="text" id="shopName" placeholder="আপনার দোকানের নাম দিন">
+            <input type="text" id="shopPhone" placeholder="আপনার মোবাইল নাম্বার দিন">
         </div>
     </div>
 
@@ -510,8 +567,8 @@ function setCurrentDate() {
 function loadShopData() {
     const savedName = localStorage.getItem("cw_shopName");
     const savedPhone = localStorage.getItem("cw_shopPhone");
-    if (savedName) document.getElementById("shopName").value = savedName;
-    if (savedPhone) document.getElementById("shopPhone").value = savedPhone;
+    if (savedName !== null) document.getElementById("shopName").value = savedName;
+    if (savedPhone !== null) document.getElementById("shopPhone").value = savedPhone;
 }
 
 document.getElementById("shopName").addEventListener("input", function () {
@@ -536,20 +593,22 @@ function addDimensionBox(height = "", width = "", cols = "", rows = "", color = 
     card.innerHTML = `
         <div class="dimension-header-bar">
             <div class="dimension-card-number">বক্স ${dimensionCounter}</div>
-            <select class="header-select cw-color">
-                <option value="Silver" ${color === 'Silver' ? 'selected' : ''}>সিলভার (Silver)</option>
-                <option value="Sparkle Grey" ${color === 'Sparkle Grey' ? 'selected' : ''}>স্পার্কল গ্রে (Sparkle Grey)</option>
-                <option value="Wooden" ${color === 'Wooden' ? 'selected' : ''}>উডেন (Wooden)</option>
-                <option value="Black" ${color === 'Black' ? 'selected' : ''}>ব্ল্যাক (Black)</option>
-                <option value="Bronze" ${color === 'Bronze' ? 'selected' : ''}>ব্রঞ্জ (Bronze)</option>
-                <option value="White" ${color === 'White' ? 'selected' : ''}>হোয়াইট (White)</option>
-            </select>
-            <select class="header-select cw-size">
-                <option value="4" ${size === '4' ? 'selected' : ''}>৪ ইঞ্চি (4") সেকশন</option>
-                <option value="2" ${size === '2' ? 'selected' : ''}>২ ইঞ্চি (2") সেকশন</option>
-            </select>
+            <div class="dropdown-group">
+                <select class="header-select cw-color">
+                    <option value="Silver" ${color === 'Silver' ? 'selected' : ''}>সিলভার (Silver)</option>
+                    <option value="Sparkle Grey" ${color === 'Sparkle Grey' ? 'selected' : ''}>স্পার্কল গ্রে (Sparkle Grey)</option>
+                    <option value="Wooden" ${color === 'Wooden' ? 'selected' : ''}>উডেন (Wooden)</option>
+                    <option value="Black" ${color === 'Black' ? 'selected' : ''}>ব্ল্যাক (Black)</option>
+                    <option value="Bronze" ${color === 'Bronze' ? 'selected' : ''}>ব্রঞ্জ (Bronze)</option>
+                    <option value="White" ${color === 'White' ? 'selected' : ''}>হোয়াইট (White)</option>
+                </select>
+                <select class="header-select cw-size">
+                    <option value="4" ${size === '4' ? 'selected' : ''}>৪ ইঞ্চি (4") সেকশন</option>
+                    <option value="2" ${size === '2' ? 'selected' : ''}>২ ইঞ্চি (2") সেকশন</option>
+                </select>
+            </div>
+            ${dimensionCounter > 1 ? `<button type="button" class="remove-box-btn" onclick="removeDimensionBox(this)" title="বক্সটি কাটুন">×</button>` : ""}
         </div>
-        ${dimensionCounter > 1 ? `<button type="button" class="remove-box-btn" onclick="removeDimensionBox(this)">×</button>` : ""}
         <div class="input-grid">
             <div class="input-group">
                 <label>মোট হাইট (ফিট)</label>
@@ -698,7 +757,9 @@ function calculateMaterials() {
         return;
     }
 
-    totalMaskingTapeRolls = Math.ceil(totalTapeFeet / 80);
+    // Masking tape calculation adjust for 26.4 feet (approx) per roll/chaki 
+    // to align accurately with your 20 rolls target for 528 feet requirement
+    totalMaskingTapeRolls = Math.ceil(totalTapeFeet / 26.4); 
     totalNotanTapeRolls = Math.ceil(totalTapeFeet / 100);
     totalSilicon = Math.ceil(totalGlassSqft / 10);
 
@@ -739,11 +800,11 @@ function calculateMaterials() {
         </tr>
         <tr>
             <td>মাস্কিং টেপ (Masking Tape)</td>
-            <td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalMaskingTapeRolls} রোল)</td>
+            <td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalMaskingTapeRolls} চাকি/রোল)</td>
         </tr>
         <tr>
             <td>নটেন টেপ (Notan Tape)</td>
-            <td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalNotanTapeRolls} কয়েল)</td>
+            <td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalNotanTapeRolls} বান্ডেল (১০০ পিসের))</td>
         </tr>
         <tr>
             <td>সিলিকন গাম (Silicon Gum)</td>
@@ -790,7 +851,7 @@ function saveHistory(dimensions) {
     let history = JSON.parse(localStorage.getItem("cw_history")) || [];
     const item = { dimensions: JSON.parse(JSON.stringify(dimensions)), date: new Date().toLocaleString("bn-BD") };
     history.unshift(item);
-    if (history.length > 10) history = history.slice(0, 10);
+    if (history.length > 20) history = history.slice(0, 20); // kept limit to 20 for convenience
     localStorage.setItem("cw_history", JSON.stringify(history));
     loadHistory();
 }
@@ -809,21 +870,44 @@ function loadHistory() {
         const div = document.createElement("div");
         div.className = "history-item";
         const totalKhop = item.dimensions.reduce((sum, x) => sum + ((x.cols || 0) * (x.rows || 0)), 0);
-        div.innerHTML = `<strong>হিসাব #${index + 1}</strong><br>বক্স: ${item.dimensions.length}টি | খোপ: ${totalKhop}টি<br><small>${item.date || ""}</small>`;
-        div.onclick = function () { loadHistoryItem(item.dimensions); };
+        
+        div.innerHTML = `
+            <div class="history-text" onclick="loadHistoryItem(${index})">
+                <strong>হিসাব #${index + 1}</strong><br>
+                বক্স: ${item.dimensions.length}টি | খোপ: ${totalKhop}টি<br>
+                <small>${item.date || ""}</small>
+            </div>
+            <button class="delete-history-btn" onclick="deleteHistoryItem(${index}, event)" title="হিসাব মুছুন">🗑️</button>
+        `;
         listDiv.appendChild(div);
     });
 }
 
-function loadHistoryItem(dimensions) {
+function loadHistoryItem(index) {
+    const history = JSON.parse(localStorage.getItem("cw_history")) || [];
+    const item = history[index];
+    if (!item) return;
+
     const container = document.getElementById("dimensionContainer");
     container.innerHTML = "";
     dimensionCounter = 0;
-    dimensions.forEach(function (item) {
-        addDimensionBox(item.height || "", item.width || "", item.cols || "", item.rows || "", item.color || "Silver", item.size || "4");
+    
+    item.dimensions.forEach(function (dim) {
+        addDimensionBox(dim.height || "", dim.width || "", dim.cols || "", dim.rows || "", dim.color || "Silver", dim.size || "4");
     });
+    
     toggleSidebar();
     calculateMaterials();
+}
+
+function deleteHistoryItem(index, event) {
+    event.stopPropagation();
+    let history = JSON.parse(localStorage.getItem("cw_history")) || [];
+    if(confirm("আপনি কি নিশ্চিত যে এই হিসাবটি ডিলিট করতে চান?")) {
+        history.splice(index, 1);
+        localStorage.setItem("cw_history", JSON.stringify(history));
+        loadHistory();
+    }
 }
 
 function printInvoice() {

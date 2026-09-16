@@ -7,7 +7,7 @@
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
     body { background-color: #f1f5f9; padding: 10px; color: #0f172a; }
-    .container { max-width: 600px; margin: 0 auto; }
+    .container { max-width: 600px; margin: 0 auto; width: 100%; }
 
     /* ================= HEADER STYLE ================= */
     .invoice-header {
@@ -39,7 +39,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: background 0.3s;
     }
+    .menu-btn:hover { background: rgba(255,255,255,0.3); }
 
     .header-title-area {
       flex: 1;
@@ -59,8 +61,20 @@
       opacity: 0.9;
     }
 
+    /* New Date Style */
+    .header-date {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      white-space: nowrap;
+    }
+
     .shop-details {
-      margin-top: 12px;
+      margin-top: 15px;
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -68,7 +82,7 @@
 
     .shop-details input {
       width: 100%;
-      height: 36px;
+      height: 40px;
       padding: 4px 10px;
       border: none;
       border-radius: 6px;
@@ -86,13 +100,13 @@
       top: 0;
       left: -320px;
       width: 320px;
-      max-width: 88vw;
+      max-width: 85vw;
       height: 100vh;
       background: #ffffff;
       box-shadow: 8px 0 25px rgba(0,0,0,0.25);
-      transition: left 0.28s ease;
+      transition: left 0.3s ease-in-out;
       z-index: 5000;
-      padding: 16px;
+      padding: 20px 16px;
       overflow-y: auto;
     }
 
@@ -106,7 +120,8 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(2px);
       display: none;
       z-index: 4999;
     }
@@ -119,14 +134,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
-      padding-bottom: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
       border-bottom: 2px solid #e2e8f0;
     }
 
     .sidebar-header h3 {
       color: #1d4ed8;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 800;
     }
 
@@ -134,121 +149,153 @@
       background: #dc2626;
       color: #ffffff;
       border: none;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 800;
     }
 
     /* ================= CARDS & FORM ================= */
     .card {
       background: #ffffff;
-      padding: 14px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      margin-bottom: 14px;
-      border: 1px solid #cbd5e1;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
     }
 
     .card-title {
-      color: #1d4ed8;
+      color: #1e3a8a;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 800;
       text-align: center;
-      margin-bottom: 12px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2e8f0;
     }
 
-    .field-group { margin-bottom: 10px; }
-    label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 3px; color: #334155; }
+    .field-group { margin-bottom: 12px; }
+    label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; color: #334155; }
     
+    /* Updated Input & Select Style - Clearer Borders */
     input, select {
       width: 100%;
-      padding: 8px;
-      font-size: 13px;
-      border: 1px solid #cbd5e1;
-      border-radius: 5px;
-      background-color: #fff;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1.5px solid #64748b; /* গাঢ় বর্ডার কালার */
+      border-radius: 6px;
+      background-color: #f8fafc;
+      color: #0f172a;
       outline: none;
+      transition: all 0.3s ease;
     }
 
     input:focus, select:focus {
       border-color: #2563eb;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
     .btn-add {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       background-color: #2563eb;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 13px;
       cursor: pointer;
-      margin-top: 5px;
+      margin-top: 6px;
+      transition: background 0.3s;
     }
+    .btn-add:hover { background-color: #1d4ed8; }
 
     .btn-save {
       width: 100%;
-      padding: 11px;
+      padding: 12px;
       background-color: #1d4ed8;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 15px;
+      transition: background 0.3s, transform 0.1s;
     }
+    .btn-save:hover { background-color: #1e40af; }
+    .btn-save:active { transform: scale(0.98); }
 
     /* ================= TABLE ================= */
     .table-container {
       width: 100%;
       overflow-x: auto;
-      margin-top: 8px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
     }
 
     .rate-table {
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
-      min-width: 850px;
+      min-width: 900px;
     }
 
     .rate-table th {
       background-color: #2563eb;
       color: white;
-      padding: 6px 3px;
-      font-size: 10px;
-      font-weight: 600;
+      padding: 8px 4px;
+      font-size: 11px;
+      font-weight: 700;
       text-align: center;
-      border: 1px solid #1d4ed8;
+      border: 1px solid #1e40af;
       word-break: break-word;
     }
 
     .rate-table td {
-      padding: 6px 3px;
+      padding: 8px 4px;
       border: 1px solid #cbd5e1;
       text-align: center;
       color: #0f172a;
-      font-size: 10px;
-      font-weight: 500;
+      font-size: 11px;
+      font-weight: 600;
       white-space: nowrap;
     }
 
-    .rate-table tr:nth-child(even) { background-color: #f8fafc; }
+    .rate-table tr:nth-child(even) { background-color: #f1f5f9; }
+    .rate-table tr:hover { background-color: #e2e8f0; }
 
     .btn-del {
       background-color: #dc2626;
       color: white;
       border: none;
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .btn-del:hover { background-color: #b91c1c; }
+
+    /* ================= RESPONSIVE DESIGN ================= */
+    @media (max-width: 480px) {
+      .invoice-header { padding: 12px; }
+      .header-main-title { font-size: 15px; }
+      .header-sub-title { font-size: 11px; }
+      .header-date { font-size: 11px; padding: 4px 8px; }
+      .menu-btn { width: 38px; height: 38px; font-size: 20px; }
+      
+      .card { padding: 12px; }
+      .card-title { font-size: 15px; margin-bottom: 12px; }
+      label { font-size: 12px; }
+      input, select { padding: 8px; font-size: 13px; }
+      
+      .btn-save { padding: 10px; font-size: 14px; }
     }
   </style>
 </head>
@@ -317,6 +364,8 @@
         <div class="header-main-title">RM THAI ALUMINIUM</div>
         <div class="header-sub-title">রেট সেটিংস</div>
       </div>
+      <!-- Current Date Here -->
+      <div class="header-date" id="currentDate"></div>
     </div>
     <div class="shop-details">
       <input type="text" id="shopPhone" value="প্রোফাইলের ডিসকাউন্ট করা স্কয়ার ফিটের দাম লিখুন" readonly>
@@ -403,20 +452,20 @@
       <table class="rate-table">
         <thead>
           <tr>
-            <th style="width: 55px;">Company</th>
-            <th style="width: 75px;">Series</th>
-            <th style="width: 45px;">Alu Thick</th>
-            <th style="width: 55px;">Alu Colour</th>
-            <th style="width: 50px;">Glass Co.</th>
-            <th style="width: 45px;">Glass Thick</th>
-            <th style="width: 55px;">Glass Colour</th>
-            <th style="width: 45px;">Alu Rate</th>
-            <th style="width: 45px;">Glass Rate</th>
-            <th style="width: 40px;">HW Rate</th>
-            <th style="width: 40px;">Fit Rate</th>
-            <th style="width: 45px;">Labour</th>
-            <th style="width: 45px;">Profit (%)</th>
-            <th style="width: 50px;">Delete</th>
+            <th style="width: 70px;">Company</th>
+            <th style="width: 80px;">Series</th>
+            <th style="width: 60px;">Alu Thick</th>
+            <th style="width: 70px;">Alu Colour</th>
+            <th style="width: 65px;">Glass Co.</th>
+            <th style="width: 60px;">Glass Thick</th>
+            <th style="width: 70px;">Glass Colour</th>
+            <th style="width: 60px;">Alu Rate</th>
+            <th style="width: 60px;">Glass Rate</th>
+            <th style="width: 60px;">HW Rate</th>
+            <th style="width: 60px;">Fit Rate</th>
+            <th style="width: 60px;">Labour</th>
+            <th style="width: 60px;">Profit (%)</th>
+            <th style="width: 60px;">Action</th>
           </tr>
         </thead>
         <tbody id="rateTableBody">
@@ -443,7 +492,20 @@
     initDropdowns();
     loadRateList();
     setupDropdownLongPress();
+    displayCurrentDate(); // Load Current Date
   });
+
+  // Display Current Date Function
+  function displayCurrentDate() {
+    const dateEl = document.getElementById('currentDate');
+    const today = new Date();
+    
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    
+    dateEl.textContent = `${day}/${month}/${year}`;
+  }
 
   function toggleSidebar() {
     document.getElementById('masterSidebar').classList.toggle('active');
@@ -591,7 +653,7 @@
     tbody.innerHTML = '';
 
     if (rateList.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="14" style="padding:10px; font-size:11px;">কোনো রেট সেভ করা নেই</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="14" style="padding:15px; font-size:12px; font-weight:600;">কোনো রেট সেভ করা নেই</td></tr>';
       return;
     }
 

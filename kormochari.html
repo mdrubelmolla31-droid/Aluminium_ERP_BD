@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>কর্মচারী হিসাব ও বেতন সিস্টেম</title>
+  <title>কর্মচারী হিসাব ও বেতন সিস্টেম - RM Thai Aluminium</title>
   <style>
     :root {
       --bg-color: #f1f5f9;
@@ -258,7 +258,27 @@
       box-shadow: 0 4px 10px rgba(2, 132, 199, 0.1); margin-top: 15px;
     }
 
-    .btn-del-mini { background:#dc2626; color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer; font-weight:bold; }
+    /* ✂️ ছোট ক্রপস এঙ্গেল ও সেইফ ডিলিট বাটন (Crop Angle Safe Button) */
+    .btn-del-mini { 
+      background: #dc2626; 
+      color: white; 
+      border: none; 
+      width: 26px; 
+      height: 26px; 
+      border-radius: 6px; 
+      font-size: 12px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2px;
+      transition: 0.2s;
+      box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+    }
+    .btn-del-mini:hover {
+      background: #b91c1c;
+    }
 
     /* ================= MOBILE RESPONSIVE ================= */
     @media (max-width: 600px) {
@@ -338,7 +358,7 @@
             </div>
             <div style="max-height: 120px; overflow-y: auto;">
               <table>
-                  <thead><tr><th>তারিখ</th><th>অ্যাকশন</th></tr></thead>
+                  <thead><tr><th>তারিখ (দিন/মাস/বছর)</th><th>অ্যাকশন</th></tr></thead>
                   <tbody id="absentTableBody"></tbody>
               </table>
             </div>
@@ -354,7 +374,7 @@
             </div>
             <div style="max-height: 120px; overflow-y: auto;">
               <table>
-                  <thead><tr><th>তারিখ</th><th>ঘণ্টা</th><th>টাকা (৳)</th><th>অ্যাকশন</th></tr></thead>
+                  <thead><tr><th>তারিখ (দিন/মাস/বছর)</th><th>ঘণ্টা</th><th>টাকা (৳)</th><th>অ্যাকশন</th></tr></thead>
                   <tbody id="otTableBody"></tbody>
               </table>
             </div>
@@ -371,7 +391,7 @@
 
             <div style="max-height: 140px; overflow-y: auto;">
               <table>
-                  <thead><tr><th>তারিখ</th><th>অগ্রিম (৳)</th><th>ডিলিট</th></tr></thead>
+                  <thead><tr><th>তারিখ (দিন/মাস/বছর)</th><th>অগ্রিম (৳)</th><th>ডিলিট</th></tr></thead>
                   <tbody id="ledgerBody"></tbody>
               </table>
             </div>
@@ -394,12 +414,23 @@
       return str.replace(/[0-9.]/g, match => bnNums[match] || match);
     }
 
+    // আজকের তারিখ YYYY-MM-DD আকারে পেতে (HTML type="date" ইনপুটের জন্য)
     function getTodayFormatted() {
       const now = new Date();
       const y = now.getFullYear();
       const m = String(now.getMonth() + 1).padStart(2, '0');
       const d = String(now.getDate()).padStart(2, '0');
       return `${y}-${m}-${d}`;
+    }
+
+    // YYYY-MM-DD তারিখকে DD/MM/YYYY (দিন/মাস/বছর) এ রূপান্তর
+    function formatToDdMmYyyy(dateString) {
+      if(!dateString) return '';
+      let parts = dateString.split('-');
+      if(parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`; // দিন/মাস/বছর
+      }
+      return dateString;
     }
 
     function resetAllDateInputs() {
@@ -424,6 +455,7 @@
       hours = hours ? hours : 12;
       minutes = minutes < 10 ? '0' + minutes : minutes;
 
+      // তারিখ -> মাস -> বছর ফরম্যাট
       const dateStr = `${toBnNum(d)} ${m} ${toBnNum(y)}`;
       const timeStr = `${toBnNum(hours)}:${toBnNum(minutes)} ${ampm}`;
       
@@ -621,8 +653,8 @@
         const emp = employees.find(e => e.id === currentEmpId);
         if(!emp.absentDates) emp.absentDates = [];
 
-        let dParts = dateInput.split('-');
-        let formattedDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+        // দিন/মাস/বছর ফরম্যাটে তারিখ তৈরি
+        let formattedDate = formatToDdMmYyyy(dateInput);
 
         emp.absentDates.push({ id: Date.now().toString(), date: formattedDate });
         saveData();
@@ -632,6 +664,7 @@
     }
 
     function deleteAbsentDate(absentId) {
+        if(!confirm("আপনি কি নিশ্চিত এই অনুপস্থিতির তারিখটি মুছতে চান?")) return;
         const emp = employees.find(e => e.id === currentEmpId);
         emp.absentDates = emp.absentDates.filter(a => a.id !== absentId);
         saveData();
@@ -650,7 +683,7 @@
             tbody.innerHTML += `
                 <tr>
                     <td>${toBnNum(item.date)}</td>
-                    <td><button onclick="deleteAbsentDate('${item.id}')" class="btn-del-mini">X</button></td>
+                    <td><button onclick="deleteAbsentDate('${item.id}')" class="btn-del-mini" title="ডিলিট করুন">✕</button></td>
                 </tr>
             `;
         });
@@ -668,13 +701,11 @@
         const now = new Date();
         const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
         
-        // দৈনিক বেতন = মাসিক বেতন / মাসের দিন
-        // ঘণ্টাপ্রতি বেতন = দৈনিক বেতন / ৮ ঘণ্টা
+        // ৮ ঘণ্টা ডিউটি ধরে ঘণ্টাপ্রতি বেতন হিসাব
         const hourlyRate = (emp.salary / daysInMonth) / 8;
         const otAmount = Math.round(hours * hourlyRate);
 
-        let dParts = otDate.split('-');
-        let formattedDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+        let formattedDate = formatToDdMmYyyy(otDate);
 
         emp.overtimeEntries.push({
             id: Date.now().toString(),
@@ -691,6 +722,7 @@
     }
 
     function deleteOtEntry(otId) {
+        if(!confirm("আপনি কি নিশ্চিত এই ওভারটাইম হিসাবটি মুছতে চান?")) return;
         const emp = employees.find(e => e.id === currentEmpId);
         emp.overtimeEntries = emp.overtimeEntries.filter(o => o.id !== otId);
         saveData();
@@ -711,7 +743,7 @@
                     <td>${toBnNum(item.date)}</td>
                     <td>${toBnNum(item.hours)} ঘণ্টা</td>
                     <td style="color:#16a34a;">+ ৳${toBnNum(item.amount)}</td>
-                    <td><button onclick="deleteOtEntry('${item.id}')" class="btn-del-mini">X</button></td>
+                    <td><button onclick="deleteOtEntry('${item.id}')" class="btn-del-mini" title="ডিলিট করুন">✕</button></td>
                 </tr>
             `;
         });
@@ -723,8 +755,10 @@
         const date = document.getElementById('transDate').value;
         const amount = parseFloat(document.getElementById('transAmount').value);
         const emp = employees.find(e => e.id === currentEmpId);
-        let dParts = date.split('-');
-        emp.transactions.push({ id: Date.now().toString(), date: `${dParts[2]}/${dParts[1]}/${dParts[0]}`, amount });
+        
+        let formattedDate = formatToDdMmYyyy(date);
+
+        emp.transactions.push({ id: Date.now().toString(), date: formattedDate, amount });
         saveData(); 
         document.getElementById('transAmount').value = ''; 
         renderLedger(); 
@@ -732,6 +766,7 @@
     });
 
     function deleteTrans(transId) {
+        if(!confirm("আপনি কি নিশ্চিত এই অগ্রিম লেনদেনটি মুছতে চান?")) return;
         const emp = employees.find(e => e.id === currentEmpId);
         emp.transactions = emp.transactions.filter(t => t.id !== transId);
         saveData(); 
@@ -751,7 +786,7 @@
                 <tr>
                     <td>${toBnNum(tr.date)}</td>
                     <td style="color: #dc2626;">- ৳${toBnNum(tr.amount)}</td>
-                    <td><button onclick="deleteTrans('${tr.id}')" class="btn-del-mini">X</button></td>
+                    <td><button onclick="deleteTrans('${tr.id}')" class="btn-del-mini" title="ডিলিট করুন">✕</button></td>
                 </tr>
             `;
         });

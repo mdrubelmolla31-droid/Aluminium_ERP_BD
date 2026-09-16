@@ -5,35 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Box Louver Calculator - RM Thai Aluminium</title>
     <style>
-        /* 🎨 বেসিক সেটআপ ও রিসেট */
+        /* 🎨 রিসেট ও বেসিক স্টাইল */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: #f4f6f9; color: #0f172a; min-height: 100vh; padding-bottom: 40px; }
         
         .container { max-width: 800px; margin: 0 auto; padding: 15px; }
 
-        /* 🌟 অ্যাপ হেডার */
+        /* 🌟 অ্যাপ হেডার (স্ক্রিন ভিউ) */
         .app-header {
-            background: linear-gradient(135deg, #0a2558, #184bb5, #1e3a8a);
+            background: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            padding: 18px;
+            box-shadow: 0 4px 15px rgba(20, 70, 160, 0.2);
             margin-bottom: 20px;
+            color: #ffffff;
         }
         
-        .header-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
 
         .menu-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #fff; font-size: 24px; width: 42px; height: 42px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff; font-size: 22px; width: 42px; height: 42px;
             border-radius: 8px; cursor: pointer; display: flex;
             justify-content: center; align-items: center; flex-shrink: 0;
-            transition: 0.3s;
         }
 
         .header-titles { flex: 1; text-align: center; }
-        .header-titles h1 { color: #ffffff; font-size: clamp(16px, 4vw, 22px); font-weight: 900; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); margin-bottom: 4px; white-space: nowrap; }
-        .header-titles p { color: #dbeafe; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .header-titles h1 { color: #ffffff; font-size: clamp(16px, 4vw, 22px); font-weight: 900; text-transform: uppercase; margin-bottom: 2px; }
+        .header-titles p { color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 700; }
 
         .date-display {
             background: rgba(255,255,255,0.2);
@@ -48,16 +48,15 @@
 
         .shop-details { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .editable-input {
-            width: 100%; padding: 12px; border: none; border-radius: 8px;
+            width: 100%; padding: 10px; border: none; border-radius: 8px;
             text-align: center; font-size: 15px; font-weight: 800; outline: none;
             background: rgba(255,255,255,0.95); color: #0f172a;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
         .editable-input::placeholder { color: #64748b; font-weight: 600; font-size: 13px; }
 
         /* ⚙️ কার্ড ও সেকশন */
         .card { background: #ffffff; border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #cbd5e1; }
-        .section-title { font-size: 16px; color: #1e3a8a; margin-bottom: 15px; font-weight: 900; border-bottom: 2px solid #eff6ff; padding-bottom: 8px; }
+        .section-title { font-size: 16px; color: #1e3a8a; margin-bottom: 15px; font-weight: 900; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
 
         .select-row { display: flex; gap: 15px; flex-wrap: wrap; }
         
@@ -72,128 +71,43 @@
         .input-group input, .input-group select { 
             width: 100%; padding: 12px; border: 1.5px solid #64748b; border-radius: 8px; 
             font-size: 15px; text-align: center; font-weight: 800; color: #0f172a;
-            outline: none; transition: 0.2s; background: #ffffff;
+            outline: none; background: #ffffff;
         }
-        .input-group input:focus, .input-group select:focus { border-color: #1e3a8a; box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15); }
+        .input-group input:focus, .input-group select:focus { border-color: #2563eb; }
         
         .btn-remove { 
-            background: #dc2626; border: none; color: white; width: 46px; height: 46px; 
-            border-radius: 8px; cursor: pointer; font-weight: 900; font-size: 20px; 
-            display: flex; justify-content: center; align-items: center; transition: 0.2s;
+            background: #dc2626; border: none; color: white; width: 44px; height: 44px; 
+            border-radius: 8px; cursor: pointer; font-weight: 900; font-size: 18px; 
+            display: flex; justify-content: center; align-items: center;
         }
         
-        /* 🔘 অ্যাকশন বাটন */
-        .action-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; margin-bottom: 20px;}
-        .btn { padding: 16px; border: none; border-radius: 10px; font-weight: 900; color: white; font-size: 16px; cursor: pointer; text-align: center; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        /* 🔘 বাটন */
+        .action-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; margin-bottom: 15px;}
+        .btn { padding: 15px; border: none; border-radius: 8px; font-weight: 900; color: white; font-size: 16px; cursor: pointer; text-align: center; width: 100%; }
         .btn-add { background: #059669; } 
         .btn-calc { background: #123a8c; } 
-        .btn-preview { background: #2563d9; display: none; margin-top: 15px; }
+        .btn-print { background: #2563d9; display: none; margin-top: 15px; }
 
-        /* 📊 রেজাল্ট টেবিল (ওয়েব ভিউ - বোল্ড ও স্পষ্ট) */
+        /* 📊 রেজাল্ট টেবিল (ওয়েব ভিউ - বোল্ড ও বড় টেক্সট) */
         .result-box { display: none; }
-        .result-table { width: 100%; border-collapse: collapse; margin-top: 10px; border-radius: 8px; overflow: hidden; border: 1.5px solid #0f172a; }
-        .result-table th, .result-table td { border: 1.5px solid #0f172a; padding: 12px; text-align: center; font-size: 15px; font-weight: 800; color: #0f172a; }
+        .result-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px; border: 1.5px solid #0f172a; }
+        .result-table th, .result-table td { border: 1.5px solid #0f172a; padding: 10px; text-align: center; font-size: 15px; font-weight: 800; color: #0f172a; }
         .result-table th { background: #e2e8f0; color: #0f172a; font-weight: 900; }
-        .highlight { color: #1e3a8a; font-weight: 900; font-size: 15px; }
+        .highlight { color: #1e3a8a; font-weight: 900; }
 
-        /* 🕒 হিস্টরি সাইডবার */
+        /* 🕒 সাইডবার */
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
         .sidebar { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background: #f8fafc; z-index: 1000; transition: left 0.3s; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 20px; background: linear-gradient(135deg, #0a2558, #184bb5); color: white; display: flex; justify-content: space-between; align-items: center; }
+        .sidebar-header { padding: 20px; background: #123a8c; color: white; display: flex; justify-content: space-between; align-items: center; }
         .sidebar-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 6px; font-size: 16px; cursor: pointer; }
         .history-list { flex: 1; overflow-y: auto; padding: 15px; }
-        .history-item { background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; margin-bottom: 12px; cursor: pointer; }
-        .history-date { font-size: 12px; color: #64748b; margin-bottom: 6px; font-weight: 600; }
-        .history-summary { font-size: 15px; font-weight: 800; color: #0f172a; }
-        .btn-del-item { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; }
-        .btn-clear-all { background: #dc2626; color: white; border: none; padding: 18px; font-weight: bold; font-size: 16px; cursor: pointer; width: 100%; }
+        .history-item { background: #ffffff; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+        .history-date { font-size: 12px; color: #64748b; margin-bottom: 4px; font-weight: 600; }
+        .history-summary { font-size: 14px; font-weight: 800; color: #0f172a; }
+        .btn-del-item { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 5px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 8px; width: 100%; }
+        .btn-clear-all { background: #dc2626; color: white; border: none; padding: 15px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; }
 
-        /* 🖥️ প্রিন্ট প্রিভিউ মডাল (Print Preview Modal) */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.85); z-index: 5000;
-            justify-content: center; align-items: center; padding: 10px;
-            overflow-y: auto;
-        }
-        .modal-content {
-            background: #ffffff; width: 100%; max-width: 800px;
-            border-radius: 12px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            max-height: 95vh; overflow-y: auto; position: relative;
-        }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 15px; }
-        .modal-header h3 { color: #123a8c; font-size: 18px; font-weight: 900; }
-        .close-modal-btn { background: #dc2626; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: 900; }
-
-        /* 📄 কাস্টমাইজড নমুনা মেমো ফরম্যাট (স্ক্রিনশটের মতো) */
-        .memo-box {
-            border: 2px solid #000000;
-            padding: 12px;
-            background: #ffffff;
-            color: #000000;
-            font-family: Arial, sans-serif;
-        }
-        .memo-date-row { text-align: right; font-size: 13px; font-weight: bold; margin-bottom: 8px; }
-        .memo-header-title {
-            text-align: center;
-            border: 2px solid #0f2c59;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            background-color: #f8fafc;
-        }
-        .memo-header-title h2 { color: #0f2c59; font-size: 22px; font-weight: 900; margin-bottom: 4px; text-transform: uppercase; }
-        .memo-phone-badge {
-            background-color: #0f2c59;
-            color: white;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .customer-info-table {
-            width: 100%; border-collapse: collapse; margin-bottom: 12px; border: 1.5px solid #000;
-        }
-        .customer-info-table td {
-            padding: 6px 8px; border: 1px solid #000; font-size: 13px; font-weight: bold;
-        }
-        .customer-info-table .lbl-td {
-            background-color: #0f2c59; color: #ffffff; width: 140px; text-align: left;
-        }
-        .editable-cell {
-            background-color: #fffde7;
-            outline: none;
-            border: 1px dashed #999;
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
-
-        .memo-section-header {
-            background-color: #0f2c59;
-            color: white;
-            font-size: 14px;
-            font-weight: 900;
-            padding: 6px 10px;
-            margin-top: 10px;
-            border: 1.5px solid #0f2c59;
-        }
-
-        .memo-table {
-            width: 100%; border-collapse: collapse; margin-bottom: 12px; border: 1.5px solid #000;
-        }
-        .memo-table th {
-            background-color: #0f2c59; color: #ffffff; font-size: 13px; font-weight: 900; padding: 8px 6px; border: 1px solid #000; text-align: center;
-        }
-        .memo-table td {
-            font-size: 13px; font-weight: 800; padding: 6px; border: 1px solid #000; text-align: center; color: #000;
-        }
-
-        .edit-controls-note {
-            background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-bottom: 12px; text-align: center;
-        }
-
-        /* 📱 রেসপন্সিভ ડિઝાઇન */
+        /* 📱 রেসপন্সিভ */
         @media (max-width: 480px) {
             .input-group { min-width: 45%; }
             .input-row { gap: 8px; padding: 12px; }
@@ -201,36 +115,99 @@
             .select-row { flex-direction: column; }
         }
 
-        /* 🖨️ ১-পেজ A4 প্রিন্ট রুলস (ONLY Memo Box Prints) */
+        /* ========================================================
+           🖨️ ১-পেজ A4 PDF প্রিন্ট আউটপুট স্টাইল (হুবহু নমুনা ছবি)
+           ======================================================== */
+        .pdf-print-area { display: none; }
+
         @page {
             size: A4 portrait;
-            margin: 6mm 8mm;
+            margin: 10mm 12mm;
         }
 
         @media print {
             body * { visibility: hidden !important; }
-            .modal-overlay { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; height: auto !important; background: transparent !important; padding: 0 !important; display: block !important; }
-            .modal-content { max-height: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; }
-            .modal-header, .close-modal-btn, .edit-controls-note, .btn-do-print, .no-print { display: none !important; }
-            
-            #printableMemoArea, #printableMemoArea * {
+            .no-print { display: none !important; }
+
+            .pdf-print-area, .pdf-print-area * {
                 visibility: visible !important;
             }
-            #printableMemoArea {
+
+            .pdf-print-area {
+                display: block !important;
                 position: absolute !important;
                 left: 0 !important;
                 top: 0 !important;
                 width: 100% !important;
+                font-family: Arial, sans-serif !important;
+                color: #000000 !important;
+                background: #ffffff !important;
             }
 
-            .memo-box { border: 2px solid #000 !important; padding: 10px !important; }
-            .memo-header-title { border: 2px solid #0f2c59 !important; background-color: #ffffff !important; }
-            .memo-header-title h2 { color: #0f2c59 !important; }
-            .memo-phone-badge { background-color: #0f2c59 !important; color: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            .customer-info-table .lbl-td, .memo-section-header, .memo-table th {
-                background-color: #0f2c59 !important; color: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+            /* ১. টপ ব্যানার হেডার (গাঢ় নীলপটভূমি, সাদা টেক্সট) */
+            .pdf-top-banner {
+                background-color: #123a8c !important;
+                color: #ffffff !important;
+                text-align: center !important;
+                padding: 14px 10px !important;
+                margin-bottom: 12px !important;
+                border-radius: 4px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
-            .editable-cell { background-color: transparent !important; border: none !important; padding: 0 !important; }
+            .pdf-top-banner h1 {
+                font-size: 24px !important;
+                font-weight: 900 !important;
+                margin: 0 0 4px 0 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.5px !important;
+            }
+            .pdf-top-banner p {
+                font-size: 14px !important;
+                font-weight: 700 !important;
+                margin: 0 !important;
+            }
+
+            /* ২. সেকশন হেডার বার (গাঢ় নীল পটভূমি, সাদা টেক্সট) */
+            .pdf-sec-bar {
+                background-color: #123a8c !important;
+                color: #ffffff !important;
+                font-size: 14px !important;
+                font-weight: 900 !important;
+                padding: 8px 12px !important;
+                margin-top: 10px !important;
+                margin-bottom: 0 !important;
+                border-radius: 3px 3px 0 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* ৩. টেবিল স্টাইল (হালকা নীল হেডার, স্পষ্ট কালো বর্ডার) */
+            .pdf-table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                margin-bottom: 15px !important;
+                border: 1.5px solid #000000 !important;
+            }
+            .pdf-table th {
+                background-color: #dbe2ef !important;
+                color: #000000 !important;
+                font-size: 13px !important;
+                font-weight: 900 !important;
+                padding: 8px 6px !important;
+                border: 1.5px solid #000000 !important;
+                text-align: center !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .pdf-table td {
+                font-size: 13px !important;
+                font-weight: 800 !important;
+                padding: 8px 6px !important;
+                border: 1.5px solid #000000 !important;
+                text-align: center !important;
+                color: #000000 !important;
+            }
         }
     </style>
 </head>
@@ -339,14 +316,14 @@
 
         <!-- 📊 রেজাল্ট এরিয়া (ওয়েব ভিউ) -->
         <div class="card result-box" id="resultCard">
-            <h3 class="section-title" style="text-align: center; border:none;">মালামালের চূড়ান্ত হিসাব</h3>
+            <h3 class="section-title" style="text-align: center; border:none;">১. মালামালের হিসাব</h3>
             
             <table class="result-table">
                 <thead>
                     <tr>
                         <th style="width: 40%;">মালের নাম</th>
                         <th style="width: 30%;">টোটাল রানিং ফিট</th>
-                        <th style="width: 30%;">পিস ও টুকরা মাল (২১ ফিট)</th>
+                        <th style="width: 30%;">পিস (২১ ফিট)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -361,14 +338,15 @@
                         <td class="highlight" id="resBladePcs">0 পিস</td>
                     </tr>
                     <tr>
-                        <td>১" x ১.৫" এঙ্গেল (প্রতি ব্লেডে ৩" করে)</td>
+                        <td>১" x ১.৫" এঙ্গেল (Angle)</td>
                         <td id="resAngleFt">0 ফিট</td>
                         <td class="highlight" id="resAnglePcs">0 পিস</td>
                     </tr>
                 </tbody>
             </table>
 
-            <table class="result-table" style="margin-top: 15px;">
+            <h3 class="section-title" style="text-align: center; border:none; margin-top:15px;">২. এক্সেসরিজ ও ফিটিংস</h3>
+            <table class="result-table">
                 <thead>
                     <tr>
                         <th style="width: 50%;">উপাদানের নাম</th>
@@ -383,93 +361,70 @@
                 </tbody>
             </table>
 
-            <button class="btn btn-preview" id="previewBtn" onclick="openPrintPreview()">👁️ প্রিন্ট প্রিভিউ ও মালামাল কাস্টমাইজ করুন</button>
+            <button class="btn btn-print" id="printBtn" onclick="triggerPDFPrint()">🖨️ PDF হিসেবে সেভ করুন (A4 - 1 Page)</button>
         </div>
     </div>
 
-    <!-- 🖥️ প্রিন্ট প্রিভিউ মডাল (Print Preview Modal - Editable) -->
-    <div class="modal-overlay" id="previewModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>📜 প্রিন্ট প্রিভিউ ও মালামাল সংশোধন</h3>
-                <button class="close-modal-btn" onclick="closePreviewModal()">✕ বন্ধ করুন</button>
-            </div>
-
-            <div class="edit-controls-note">
-                💡 টিপস: নিচের হলুদ মার্ক করা বক্সে বা টেবিলের যেকোনো ঘরে ক্লিক করে সরাসরি নাম, ঠিকানা বা মালামালের পরিমাণ কম-বেশি করে নিতে পারবেন!
-            </div>
-
-            <div class="memo-box" id="printableMemoArea">
-                <div class="memo-date-row">
-                    তারিখ: <span id="memoDateDisplay">১৬/০৯/২০২৬</span>
-                </div>
-
-                <div class="memo-header-title">
-                    <h2 id="memoShopName">RM THAI ALUMINIUM</h2>
-                    <div class="memo-phone-badge">মোবাইল: <span id="memoShopPhone">01676474412</span></div>
-                </div>
-
-                <table class="customer-info-table">
-                    <tr>
-                        <td class="lbl-td">👤 কাস্টমার নাম</td>
-                        <td><span class="editable-cell" contenteditable="true" id="memoCustName">সাধারণ গ্রাহক</span></td>
-                    </tr>
-                    <tr>
-                        <td class="lbl-td">📍 কাস্টমার ঠিকানা</td>
-                        <td><span class="editable-cell" contenteditable="true" id="memoCustAddress">সাধারণ ঠিকানা</span></td>
-                    </tr>
-                </table>
-
-                <div class="memo-section-header">১. প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)</div>
-                <table class="memo-table" id="memoTable1">
-                    <thead>
-                        <tr>
-                            <th style="width: 10%;">ক্রম</th>
-                            <th style="width: 35%;">মালামালের নাম</th>
-                            <th style="width: 25%;">সাইজ / টাইপ</th>
-                            <th style="width: 30%;">প্রকৃত পরিমাণ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="memoTable1Body">
-                        <!-- Dynamic Content injected via JS -->
-                    </tbody>
-                </table>
-
-                <div class="memo-section-header">২. এক্সেসরিজের তালিকা</div>
-                <table class="memo-table" id="memoTable2">
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;">ক্রম</th>
-                            <th style="width: 55%;">এক্সেসরিজের নাম</th>
-                            <th style="width: 30%;">পরিমাণ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="memoTable2Body">
-                        <!-- Dynamic Content injected via JS -->
-                    </tbody>
-                </table>
-
-                <div style="text-align: center; font-size: 11px; font-weight: bold; margin-top: 15px; border-top: 1px dashed #000; padding-top: 5px;">
-                    ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।
-                </div>
-            </div>
-
-            <button class="btn btn-calc btn-do-print" style="margin-top: 15px; background: #0f2c59;" onclick="triggerPrint()">🖨️ প্রিন্ট করুন (1 Page A4)</button>
+    <!-- 📄 প্রিন্ট টেমপ্লেট (যা শুধু PDF/প্রিন্টে দেখাবে - নমুনা ছবির সাথে ১০০% মিল) -->
+    <div class="pdf-print-area" id="pdfPrintArea">
+        <div class="pdf-top-banner">
+            <h1 id="pdfHeaderName">RM THAI ALUMINIUM</h1>
+            <p>Mobile: <span id="pdfHeaderPhone">01676-474412</span></p>
         </div>
+
+        <div class="pdf-sec-bar">১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)</div>
+        <table class="pdf-table">
+            <thead>
+                <tr>
+                    <th style="width: 40%;">মালের নাম</th>
+                    <th style="width: 30%;">টোটাল রানিং ফিট</th>
+                    <th style="width: 30%;">পিস (২১ ফিট)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span id="pdfOuterBoxName">১" x ২" বক্স</span> (Outer)</td>
+                    <td id="pdfOuterFt">0.00 ফিট</td>
+                    <td id="pdfOuterPcs">0 পিস</td>
+                </tr>
+                <tr>
+                    <td><span id="pdfBladeBoxName">১" x ২" বক্স</span> (Blade)</td>
+                    <td id="pdfBladeFt">0.00 ফিট</td>
+                    <td id="pdfBladePcs">0 পিস</td>
+                </tr>
+                <tr>
+                    <td>১" x ১.৫" এঙ্গেল (Angle)</td>
+                    <td id="pdfAngleFt">0.00 ফিট</td>
+                    <td id="pdfAnglePcs">0 পিস</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pdf-sec-bar">২. এক্সেসরিজ ও ফিটিংস হিসাব</div>
+        <table class="pdf-table">
+            <thead>
+                <tr>
+                    <th style="width: 50%;">উপাদানের নাম</th>
+                    <th style="width: 50%;">মোট পরিমাণ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>রিপিট (Rivets)</td>
+                    <td id="pdfRivetPcs">0 পিস</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script>
-        let calculatedDataCache = null;
-
         window.onload = function() {
             const today = new Date();
             const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
             const formattedDate = today.toLocaleDateString('bn-BD', dateOptions);
-            
             document.getElementById("currentDate").innerText = formattedDate;
-            document.getElementById("memoDateDisplay").innerText = formattedDate;
 
-            // শপের ইনপুট লোড করা
+            // শপের তথ্য লোড করা
             const savedName = localStorage.getItem("boxlouver_shopName");
             const savedMobile = localStorage.getItem("boxlouver_shopPhone");
             if (savedName) document.getElementById("shopName").value = savedName;
@@ -578,82 +533,43 @@
             let bladeFormatted = formatPcsAndFt(totalBladeFt);
             let angleFormatted = formatPcsAndFt(totalAngleFt);
 
+            // Screen Display Update
             document.getElementById('lblOuterBox').innerText = outerBoxName;
             document.getElementById('lblBladeBox').innerText = bladeBoxName;
-            
             document.getElementById('resOuterFt').innerText = totalOuterFt.toFixed(2) + " ফিট";
             document.getElementById('resOuterPcs').innerText = outerFormatted;
-            
             document.getElementById('resBladeFt').innerText = totalBladeFt.toFixed(2) + " ফিট";
             document.getElementById('resBladePcs').innerText = bladeFormatted;
-
             document.getElementById('resAngleFt').innerText = totalAngleFt.toFixed(2) + " ফিট";
             document.getElementById('resAnglePcs').innerText = angleFormatted;
-
             document.getElementById('resRivet').innerText = totalRivet + " পিস";
-            
-            document.getElementById('resultCard').style.display = 'block';
-            document.getElementById('previewBtn').style.display = 'block';
 
-            calculatedDataCache = {
-                outerName: outerBoxName, outerPcs: outerFormatted,
-                bladeName: bladeBoxName, bladePcs: bladeFormatted,
-                anglePcs: angleFormatted, rivetPcs: totalRivet + " পিস"
-            };
+            // Print PDF Template Update
+            document.getElementById('pdfOuterBoxName').innerText = outerBoxName;
+            document.getElementById('pdfBladeBoxName').innerText = bladeBoxName;
+            document.getElementById('pdfOuterFt').innerText = totalOuterFt.toFixed(2) + " ফিট";
+            document.getElementById('pdfOuterPcs').innerText = outerFormatted;
+            document.getElementById('pdfBladeFt').innerText = totalBladeFt.toFixed(2) + " ফিট";
+            document.getElementById('pdfBladePcs').innerText = bladeFormatted;
+            document.getElementById('pdfAngleFt').innerText = totalAngleFt.toFixed(2) + " ফিট";
+            document.getElementById('pdfAnglePcs').innerText = angleFormatted;
+            document.getElementById('pdfRivetPcs').innerText = totalRivet + " পিস";
+
+            document.getElementById('resultCard').style.display = 'block';
+            document.getElementById('printBtn').style.display = 'block';
 
             if (saveToHistoryFlag) {
                 saveToHistory(inputsData, totalBladeFt.toFixed(2), outerBoxName, bladeBoxName);
             }
         }
 
-        function openPrintPreview() {
-            if (!calculatedDataCache) return;
-
+        function triggerPDFPrint() {
             let userShopName = document.getElementById("shopName").value.trim();
             let userShopPhone = document.getElementById("shopPhone").value.trim();
 
-            document.getElementById("memoShopName").innerText = userShopName !== "" ? userShopName : "RM THAI ALUMINIUM";
-            document.getElementById("memoShopPhone").innerText = userShopPhone !== "" ? userShopPhone : "01676474412";
+            document.getElementById("pdfHeaderName").innerText = userShopName !== "" ? userShopName : "RM THAI ALUMINIUM";
+            document.getElementById("pdfHeaderPhone").innerText = userShopPhone !== "" ? userShopPhone : "01676-474412";
 
-            let tbody1 = document.getElementById("memoTable1Body");
-            tbody1.innerHTML = `
-                <tr>
-                    <td>১</td>
-                    <td><span class="editable-cell" contenteditable="true">আউটার বক্স</span></td>
-                    <td><span class="editable-cell" contenteditable="true">${calculatedDataCache.outerName}</span></td>
-                    <td><span class="editable-cell" contenteditable="true">${calculatedDataCache.outerPcs}</span></td>
-                </tr>
-                <tr>
-                    <td>২</td>
-                    <td><span class="editable-cell" contenteditable="true">লুভার ব্লেড</span></td>
-                    <td><span class="editable-cell" contenteditable="true">${calculatedDataCache.bladeName}</span></td>
-                    <td><span class="editable-cell" contenteditable="true">${calculatedDataCache.bladePcs}</span></td>
-                </tr>
-                <tr>
-                    <td>৩</td>
-                    <td><span class="editable-cell" contenteditable="true">এঙ্গেল (Angle)</span></td>
-                    <td><span class="editable-cell" contenteditable="true">১" x ১.৫"</span></td>
-                    <td><span class="editable-cell" contenteditable="true">${calculatedDataCache.anglePcs}</span></td>
-                </tr>
-            `;
-
-            let tbody2 = document.getElementById("memoTable2Body");
-            tbody2.innerHTML = `
-                <tr>
-                    <td>১</td>
-                    <td><span class="editable-cell" contenteditable="true">রিপিট (Rivets)</span></td>
-                    <td><span class="editable-cell" contenteditable="true">${calculatedDataCache.rivetPcs}</span></td>
-                </tr>
-            `;
-
-            document.getElementById("previewModal").style.display = "flex";
-        }
-
-        function closePreviewModal() {
-            document.getElementById("previewModal").style.display = "none";
-        }
-
-        function triggerPrint() {
             window.print();
         }
 

@@ -6,45 +6,60 @@
   <title>Rate Settings - RM Thai Aluminium</title>
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-    body { background-color: #f1f5f9; padding: 10px; color: #0f172a; }
-    .container { max-width: 600px; margin: 0 auto; width: 100%; }
+    
+    html, body { 
+      background-color: #f1f5f9; 
+      color: #0f172a; 
+      width: 100%; 
+      min-height: 100vh;
+    }
+    
+    body { padding: 12px; }
+    
+    /* ডেস্কটপে সর্বোচ্চ ১১০০px পর্যন্ত চওড়া হবে */
+    .container { 
+      max-width: 1100px; 
+      margin: 0 auto; 
+      width: 100%; 
+    }
 
     /* ================= HEADER STYLE ================= */
     .invoice-header {
-      position: relative;
       background: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
       color: #ffffff;
       border-radius: 12px;
       padding: 16px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       box-shadow: 0 4px 15px rgba(20, 70, 160, 0.2);
     }
 
     .header-top {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
       gap: 12px;
     }
 
     .menu-btn {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       flex-shrink: 0;
       border: 1px solid rgba(255,255,255,0.35);
       border-radius: 8px;
       background: rgba(255,255,255,0.18);
       color: #ffffff;
-      font-size: 24px;
+      font-size: 22px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.3s;
-    }
-    .menu-btn:hover { background: rgba(255,255,255,0.3); }
-
-    .header-title-area {
-      flex: 1;
     }
 
     .header-main-title {
@@ -55,35 +70,31 @@
     }
 
     .header-sub-title {
-      margin-top: 3px;
+      margin-top: 2px;
       font-size: 12px;
       font-weight: 600;
       opacity: 0.9;
     }
 
-    /* New Date Style */
     .header-date {
-      margin-left: auto;
       font-size: 13px;
       font-weight: 700;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 6px 12px;
       border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       white-space: nowrap;
     }
 
     .shop-details {
-      margin-top: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      margin-top: 14px;
+      width: 100%;
     }
 
     .shop-details input {
       width: 100%;
       height: 40px;
-      padding: 4px 10px;
+      padding: 5px 10px;
       border: none;
       border-radius: 6px;
       background: rgba(255,255,255,0.95);
@@ -110,25 +121,18 @@
       overflow-y: auto;
     }
 
-    .sidebar.active {
-      left: 0;
-    }
+    .sidebar.active { left: 0; }
 
     .sidebar-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0,0,0,0.5);
       backdrop-filter: blur(2px);
       display: none;
       z-index: 4999;
     }
 
-    .sidebar-overlay.active {
-      display: block;
-    }
+    .sidebar-overlay.active { display: block; }
 
     .sidebar-header {
       display: flex;
@@ -139,31 +143,18 @@
       border-bottom: 2px solid #e2e8f0;
     }
 
-    .sidebar-header h3 {
-      color: #1d4ed8;
-      font-size: 17px;
-      font-weight: 800;
-    }
-
-    .close-sidebar {
-      background: #dc2626;
-      color: #ffffff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 800;
-    }
+    .sidebar-header h3 { color: #1d4ed8; font-size: 16px; font-weight: 800; }
+    .close-sidebar { background: #dc2626; color: #ffffff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 800; }
 
     /* ================= CARDS & FORM ================= */
     .card {
       background: #ffffff;
-      padding: 16px;
+      padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.06);
       margin-bottom: 16px;
       border: 1px solid #e2e8f0;
+      width: 100%;
     }
 
     .card-title {
@@ -171,131 +162,93 @@
       font-size: 16px;
       font-weight: 800;
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       padding-bottom: 10px;
       border-bottom: 2px solid #e2e8f0;
     }
 
-    .field-group { margin-bottom: 12px; }
+    /* রেসপন্সিভ ফর্ম গ্রিড */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px 16px;
+    }
+
+    /* ডেক্সটপ বা চওড়া স্ক্রিনে ২ থেকে ৩ কলাম হবে */
+    @media (min-width: 600px) {
+      .form-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 900px) {
+      .form-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .field-group { margin-bottom: 4px; }
     label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; color: #334155; }
     
-    /* Updated Input & Select Style - Clearer Borders */
     input, select {
       width: 100%;
-      padding: 10px;
+      padding: 9px 12px;
       font-size: 14px;
-      font-weight: 500;
-      border: 1.5px solid #64748b; /* গাঢ় বর্ডার কালার */
+      font-weight: 600;
+      border: 1.5px solid #64748b; /* গাঢ় স্পষ্ট বর্ডার */
       border-radius: 6px;
       background-color: #f8fafc;
       color: #0f172a;
       outline: none;
-      transition: all 0.3s ease;
     }
-
-    input:focus, select:focus {
-      border-color: #2563eb;
-      background-color: #ffffff;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    }
+    
+    input:focus, select:focus { border-color: #2563eb; background-color: #ffffff; }
 
     .btn-add {
-      width: 100%;
-      padding: 10px;
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      margin-top: 6px;
-      transition: background 0.3s;
+      width: 100%; padding: 10px; background-color: #2563eb; color: white; border: none;
+      border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; margin-top: 6px;
     }
-    .btn-add:hover { background-color: #1d4ed8; }
-
+    
     .btn-save {
-      width: 100%;
-      padding: 12px;
-      background-color: #1d4ed8;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: background 0.3s, transform 0.1s;
+      width: 100%; padding: 13px; background-color: #1d4ed8; color: white; border: none;
+      border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 20px;
     }
-    .btn-save:hover { background-color: #1e40af; }
-    .btn-save:active { transform: scale(0.98); }
 
     /* ================= TABLE ================= */
-    .table-container {
+    .table-responsive-wrapper {
       width: 100%;
       overflow-x: auto;
-      margin-top: 10px;
-      border-radius: 6px;
       border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #fff;
     }
 
     .rate-table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed;
-      min-width: 900px;
+      white-space: nowrap;
     }
 
     .rate-table th {
       background-color: #2563eb;
       color: white;
-      padding: 8px 4px;
-      font-size: 11px;
+      padding: 10px 12px;
+      font-size: 12px;
       font-weight: 700;
       text-align: center;
       border: 1px solid #1e40af;
-      word-break: break-word;
     }
 
     .rate-table td {
-      padding: 8px 4px;
+      padding: 9px 12px;
       border: 1px solid #cbd5e1;
       text-align: center;
       color: #0f172a;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
-      white-space: nowrap;
     }
 
     .rate-table tr:nth-child(even) { background-color: #f1f5f9; }
-    .rate-table tr:hover { background-color: #e2e8f0; }
-
+    
     .btn-del {
-      background-color: #dc2626;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: bold;
-    }
-    .btn-del:hover { background-color: #b91c1c; }
-
-    /* ================= RESPONSIVE DESIGN ================= */
-    @media (max-width: 480px) {
-      .invoice-header { padding: 12px; }
-      .header-main-title { font-size: 15px; }
-      .header-sub-title { font-size: 11px; }
-      .header-date { font-size: 11px; padding: 4px 8px; }
-      .menu-btn { width: 38px; height: 38px; font-size: 20px; }
-      
-      .card { padding: 12px; }
-      .card-title { font-size: 15px; margin-bottom: 12px; }
-      label { font-size: 12px; }
-      input, select { padding: 8px; font-size: 13px; }
-      
-      .btn-save { padding: 10px; font-size: 14px; }
+      background-color: #dc2626; color: white; border: none; padding: 5px 10px;
+      border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;
     }
   </style>
 </head>
@@ -356,15 +309,16 @@
 
 <div class="container">
 
-  <!-- Header Section with 3-Line Menu -->
+  <!-- Header Section -->
   <div class="invoice-header">
     <div class="header-top">
-      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-      <div class="header-title-area">
-        <div class="header-main-title">RM THAI ALUMINIUM</div>
-        <div class="header-sub-title">রেট সেটিংস</div>
+      <div class="header-left">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <div>
+          <div class="header-main-title">RM THAI ALUMINIUM</div>
+          <div class="header-sub-title">রেট সেটিংস</div>
+        </div>
       </div>
-      <!-- Current Date Here -->
       <div class="header-date" id="currentDate"></div>
     </div>
     <div class="shop-details">
@@ -376,69 +330,21 @@
   <div class="card">
     <div class="card-title">যথাযথ আইটেম সিলেক্ট করুন ও প্রকৃত দাম লিখুন</div>
 
-    <div class="field-group">
-      <label>Company</label>
-      <select id="company"></select>
-    </div>
+    <div class="form-grid">
+      <div class="field-group"><label>Company</label><select id="company"></select></div>
+      <div class="field-group"><label>Series</label><select id="series"></select></div>
+      <div class="field-group"><label>Aluminium Thickness</label><select id="aluThickness"></select></div>
+      <div class="field-group"><label>Aluminium Colour</label><select id="aluColour"></select></div>
+      <div class="field-group"><label>Glass Company</label><select id="glassCompany"></select></div>
+      <div class="field-group"><label>Glass Thickness</label><select id="glassThickness"></select></div>
+      <div class="field-group"><label>Glass Colour</label><select id="glassColour"></select></div>
 
-    <div class="field-group">
-      <label>Series</label>
-      <select id="series"></select>
-    </div>
-
-    <div class="field-group">
-      <label>Aluminium Thickness</label>
-      <select id="aluThickness"></select>
-    </div>
-
-    <div class="field-group">
-      <label>Aluminium Colour</label>
-      <select id="aluColour"></select>
-    </div>
-
-    <div class="field-group">
-      <label>Glass Company</label>
-      <select id="glassCompany"></select>
-    </div>
-
-    <div class="field-group">
-      <label>Glass Thickness</label>
-      <select id="glassThickness"></select>
-    </div>
-
-    <div class="field-group">
-      <label>Glass Colour</label>
-      <select id="glassColour"></select>
-    </div>
-
-    <div class="field-group">
-      <label>Aluminium Rate (৳/ft)</label>
-      <input type="number" id="aluRate" placeholder="200">
-    </div>
-
-    <div class="field-group">
-      <label>Glass Rate (৳/Sqft)</label>
-      <input type="number" id="glassRate" placeholder="150">
-    </div>
-
-    <div class="field-group">
-      <label>Hardware Rate (৳/Sqft)</label>
-      <input type="number" id="hwRate" placeholder="40">
-    </div>
-
-    <div class="field-group">
-      <label>Fittings Rate (৳/Sqft)</label>
-      <input type="number" id="fitRate" placeholder="45">
-    </div>
-
-    <div class="field-group">
-      <label>Labour Rate (৳/Sqft)</label>
-      <input type="number" id="labourRate" placeholder="10">
-    </div>
-
-    <div class="field-group">
-      <label>Profit (%)</label>
-      <input type="number" id="profit" placeholder="5">
+      <div class="field-group"><label>Aluminium Rate (৳/ft)</label><input type="number" id="aluRate" placeholder="200"></div>
+      <div class="field-group"><label>Glass Rate (৳/Sqft)</label><input type="number" id="glassRate" placeholder="150"></div>
+      <div class="field-group"><label>Hardware Rate (৳/Sqft)</label><input type="number" id="hwRate" placeholder="40"></div>
+      <div class="field-group"><label>Fittings Rate (৳/Sqft)</label><input type="number" id="fitRate" placeholder="45"></div>
+      <div class="field-group"><label>Labour Rate (৳/Sqft)</label><input type="number" id="labourRate" placeholder="10"></div>
+      <div class="field-group"><label>Profit (%)</label><input type="number" id="profit" placeholder="5"></div>
     </div>
 
     <button class="btn-save" onclick="saveRate()">Save Rate</button>
@@ -448,24 +354,24 @@
   <div class="card">
     <div class="card-title">Saved Rate List</div>
     
-    <div class="table-container">
+    <div class="table-responsive-wrapper">
       <table class="rate-table">
         <thead>
           <tr>
-            <th style="width: 70px;">Company</th>
-            <th style="width: 80px;">Series</th>
-            <th style="width: 60px;">Alu Thick</th>
-            <th style="width: 70px;">Alu Colour</th>
-            <th style="width: 65px;">Glass Co.</th>
-            <th style="width: 60px;">Glass Thick</th>
-            <th style="width: 70px;">Glass Colour</th>
-            <th style="width: 60px;">Alu Rate</th>
-            <th style="width: 60px;">Glass Rate</th>
-            <th style="width: 60px;">HW Rate</th>
-            <th style="width: 60px;">Fit Rate</th>
-            <th style="width: 60px;">Labour</th>
-            <th style="width: 60px;">Profit (%)</th>
-            <th style="width: 60px;">Action</th>
+            <th>Company</th>
+            <th>Series</th>
+            <th>Alu Thick</th>
+            <th>Alu Colour</th>
+            <th>Glass Co.</th>
+            <th>Glass Thick</th>
+            <th>Glass Colour</th>
+            <th>Alu Rate</th>
+            <th>Glass Rate</th>
+            <th>HW Rate</th>
+            <th>Fit Rate</th>
+            <th>Labour</th>
+            <th>Profit (%)</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody id="rateTableBody">
@@ -477,7 +383,6 @@
 </div>
 
 <script>
-  // Hardcoded Default Options
   const defaultMasterData = {
     companyList: ["Kai", "Altech", "Alpha", "Alumax", "Fresh", "Nukki", "Nasir", "Max", "Max Pro", "BTA", "Chunghua", "Alco", "EDF"],
     seriesList: ['Sliding 3"', 'Sliding 4"'],
@@ -492,18 +397,15 @@
     initDropdowns();
     loadRateList();
     setupDropdownLongPress();
-    displayCurrentDate(); // Load Current Date
+    displayCurrentDate();
   });
 
-  // Display Current Date Function
   function displayCurrentDate() {
     const dateEl = document.getElementById('currentDate');
     const today = new Date();
-    
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
-    
     dateEl.textContent = `${day}/${month}/${year}`;
   }
 
@@ -524,13 +426,10 @@
 
   function populateDropdown(storageKey, selectId) {
     let list = JSON.parse(localStorage.getItem(storageKey));
-    
-    // If empty or null, set default hardcoded list
     if (!list || list.length === 0) {
       list = defaultMasterData[storageKey] || [];
       localStorage.setItem(storageKey, JSON.stringify(list));
     }
-
     let select = document.getElementById(selectId);
     let currentVal = select.value;
     select.innerHTML = '';
@@ -546,33 +445,24 @@
       opt.textContent = item;
       select.appendChild(opt);
     });
-
     select.value = currentVal;
   }
 
   function setupDropdownLongPress() {
     const dropdowns = [
-      { id: 'company', storageKey: 'companyList' },
-      { id: 'series', storageKey: 'seriesList' },
-      { id: 'aluThickness', storageKey: 'thickList' },
-      { id: 'aluColour', storageKey: 'aluColourList' },
-      { id: 'glassCompany', storageKey: 'glassCoList' },
-      { id: 'glassThickness', storageKey: 'glassThickList' },
+      { id: 'company', storageKey: 'companyList' }, { id: 'series', storageKey: 'seriesList' },
+      { id: 'aluThickness', storageKey: 'thickList' }, { id: 'aluColour', storageKey: 'aluColourList' },
+      { id: 'glassCompany', storageKey: 'glassCoList' }, { id: 'glassThickness', storageKey: 'glassThickList' },
       { id: 'glassColour', storageKey: 'glassColourList' }
     ];
 
     dropdowns.forEach(item => {
       const selectEl = document.getElementById(item.id);
       let timer;
-
       const triggerDelete = () => {
         const selectedValue = selectEl.value;
-        if (!selectedValue) {
-          alert("মুছে ফেলার জন্য প্রথমে ড্রপডাউন থেকে যেকোনো একটি অপশন সিলেক্ট করুন।");
-          return;
-        }
-
-        if (confirm(`আপনি কি "${selectedValue}" অপশনটি ড্রপডাউন থেকে ডিলিট করতে চান?`)) {
+        if (!selectedValue) { alert("মুছে ফেলার জন্য প্রথমে সিলেক্ট করুন।"); return; }
+        if (confirm(`আপনি কি "${selectedValue}" অপশনটি ডিলিট করতে চান?`)) {
           let list = JSON.parse(localStorage.getItem(item.storageKey)) || [];
           list = list.filter(val => val !== selectedValue);
           localStorage.setItem(item.storageKey, JSON.stringify(list));
@@ -580,28 +470,16 @@
         }
       };
 
-      selectEl.addEventListener('touchstart', (e) => {
-        timer = setTimeout(() => {
-          triggerDelete();
-        }, 800);
-      });
-
+      selectEl.addEventListener('touchstart', (e) => { timer = setTimeout(() => { triggerDelete(); }, 800); });
       selectEl.addEventListener('touchend', () => clearTimeout(timer));
       selectEl.addEventListener('touchmove', () => clearTimeout(timer));
-
-      selectEl.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        triggerDelete();
-      });
+      selectEl.addEventListener('contextmenu', (e) => { e.preventDefault(); triggerDelete(); });
     });
   }
 
   function addMasterItem(storageKey, inputId, labelName, selectId) {
     let val = document.getElementById(inputId).value.trim();
-    if (!val) {
-      alert(labelName + " এর নাম লিখুন!");
-      return;
-    }
+    if (!val) { alert(labelName + " এর নাম লিখুন!"); return; }
     let list = JSON.parse(localStorage.getItem(storageKey)) || [];
     if (!list.includes(val)) {
       list.push(val);
@@ -616,18 +494,12 @@
 
   function saveRate() {
     let companyVal = document.getElementById('company').value;
-    if (!companyVal) {
-      alert("দয়া করে প্রথমে কোম্পানি সিলেক্ট করুন!");
-      return;
-    }
+    if (!companyVal) { alert("প্রথমে কোম্পানি সিলেক্ট করুন!"); return; }
 
     let rateData = {
-      company: companyVal,
-      series: document.getElementById('series').value,
-      aluThickness: document.getElementById('aluThickness').value,
-      aluColour: document.getElementById('aluColour').value,
-      glassCompany: document.getElementById('glassCompany').value,
-      glassThickness: document.getElementById('glassThickness').value,
+      company: companyVal, series: document.getElementById('series').value,
+      aluThickness: document.getElementById('aluThickness').value, aluColour: document.getElementById('aluColour').value,
+      glassCompany: document.getElementById('glassCompany').value, glassThickness: document.getElementById('glassThickness').value,
       glassColour: document.getElementById('glassColour').value,
       aluRate: parseFloat(document.getElementById('aluRate').value) || 0,
       glassRate: parseFloat(document.getElementById('glassRate').value) || 0,
@@ -639,10 +511,8 @@
 
     let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
     rateList.push(rateData);
-    
     localStorage.setItem('rateList', JSON.stringify(rateList));
     localStorage.setItem('rateSettingsData', JSON.stringify(rateList));
-
     alert("রেট সফলভাবে সেভ হয়েছে!");
     loadRateList();
   }
@@ -651,27 +521,19 @@
     let rateList = JSON.parse(localStorage.getItem('rateList')) || [];
     let tbody = document.getElementById('rateTableBody');
     tbody.innerHTML = '';
-
     if (rateList.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="14" style="padding:15px; font-size:12px; font-weight:600;">কোনো রেট সেভ করা নেই</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="14" style="padding:15px;">কোনো রেট সেভ করা নেই</td></tr>';
       return;
     }
-
     rateList.forEach((item, index) => {
       let tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>${item.company || '-'}</td>
-        <td>${item.series || '-'}</td>
-        <td>${item.aluThickness || '-'}</td>
-        <td>${item.aluColour || '-'}</td>
-        <td>${item.glassCompany || '-'}</td>
-        <td>${item.glassThickness || '-'}</td>
-        <td>${item.glassColour || '-'}</td>
-        <td>${item.aluRate}</td>
-        <td>${item.glassRate}</td>
-        <td>${item.hwRate}</td>
-        <td>${item.fitRate}</td>
-        <td>${item.labourRate}</td>
+        <td>${item.company || '-'}</td><td>${item.series || '-'}</td>
+        <td>${item.aluThickness || '-'}</td><td>${item.aluColour || '-'}</td>
+        <td>${item.glassCompany || '-'}</td><td>${item.glassThickness || '-'}</td>
+        <td>${item.glassColour || '-'}</td><td>${item.aluRate}</td>
+        <td>${item.glassRate}</td><td>${item.hwRate}</td>
+        <td>${item.fitRate}</td><td>${item.labourRate}</td>
         <td>${item.profit}%</td>
         <td><button class="btn-del" onclick="deleteRate(${index})">Delete</button></td>
       `;

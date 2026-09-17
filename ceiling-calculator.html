@@ -50,15 +50,15 @@
         .header-card {
             background: var(--primary-gradient);
             border-radius: 16px;
-            padding: 15px;
+            padding: 16px;
             color: white;
-            box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.25);
+            box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.3);
             margin-bottom: 15px;
         }
 
         @media (min-width: 600px) {
             .header-card {
-                padding: 20px;
+                padding: 24px;
                 margin-bottom: 20px;
             }
         }
@@ -67,13 +67,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             gap: 10px;
         }
 
         .menu-btn {
             background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.35);
             border-radius: 10px;
             padding: 8px 12px;
             color: white;
@@ -84,33 +84,52 @@
         }
 
         .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .header-date-badge {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 10px;
+            padding: 6px 10px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .header-titles {
             text-align: center;
             flex-grow: 1;
             min-width: 0;
+            padding: 0 5px;
         }
 
         .header-titles h1 {
-            font-size: clamp(16px, 4.5vw, 26px);
-            font-weight: 800;
+            font-size: clamp(20px, 5.5vw, 30px);
+            font-weight: 900;
             letter-spacing: 0.5px;
             word-break: break-word;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .header-titles p {
-            font-size: clamp(10px, 2vw, 13px);
-            opacity: 0.9;
-            font-weight: 600;
-            letter-spacing: 0.8px;
+            font-size: clamp(12px, 2.8vw, 15px);
+            opacity: 0.95;
+            font-weight: 700;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
         }
 
         .header-inputs {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 8px;
+            gap: 10px;
         }
 
         @media (min-width: 500px) {
@@ -126,11 +145,17 @@
             color: var(--text-main);
             border: none;
             border-radius: 8px;
-            padding: 8px 10px;
+            padding: 10px 12px;
             font-size: 14px;
             font-weight: bold;
             text-align: center;
             outline: none;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header-input::placeholder {
+            color: #94a3b8;
+            font-weight: 600;
         }
 
         .main-grid {
@@ -521,7 +546,6 @@
 
         /* =========================================================
            A4 PDF PRINT DESIGN
-           এক পেজ + বড় ফন্ট + বোল্ড + নীল/সাদা ডিজাইন
         ========================================================= */
 
         @media print {
@@ -536,14 +560,10 @@
                 width: 210mm !important;
                 height: 297mm !important;
                 min-height: 297mm !important;
-
                 margin: 0 !important;
                 padding: 0 !important;
-
                 background: #ffffff !important;
-
                 overflow: hidden !important;
-
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -558,46 +578,30 @@
             }
 
             #printTemplate {
-
                 display: flex !important;
-
                 flex-direction: column !important;
-
                 justify-content: space-between !important;
-
                 width: 210mm !important;
                 height: 297mm !important;
                 min-height: 297mm !important;
                 max-height: 297mm !important;
-
                 box-sizing: border-box !important;
-
                 position: absolute !important;
-
                 top: 0 !important;
                 left: 0 !important;
-
                 margin: 0 !important;
-
                 padding: 5mm !important;
-
                 background: #ffffff !important;
-
                 border: none !important;
-
                 overflow: hidden !important;
-
                 page-break-before: avoid !important;
                 page-break-after: avoid !important;
                 page-break-inside: avoid !important;
-
                 break-before: avoid !important;
                 break-after: avoid !important;
                 break-inside: avoid !important;
-
                 transform: none !important;
                 zoom: 1 !important;
-
                 font-family:
                     "Noto Sans Bengali",
                     "Hind Siliguri",
@@ -610,29 +614,20 @@
 
             #printTemplate::before {
                 content: "" !important;
-
                 position: absolute !important;
-
                 left: 5mm !important;
                 top: 5mm !important;
-
                 width: 200mm !important;
                 height: 287mm !important;
-
                 border: 0.7mm solid #1e3a8a !important;
-
                 border-radius: 2mm !important;
-
                 pointer-events: none !important;
             }
 
             #printTemplate > div:first-child {
                 width: 100% !important;
-
                 position: relative !important;
-
                 z-index: 2 !important;
-
                 padding: 3mm !important;
             }
 
@@ -642,70 +637,46 @@
             ========================= */
 
             .print-header {
-
                 text-align: center !important;
-
                 border: 0.6mm solid #1e3a8a !important;
-
                 border-radius: 2mm !important;
-
                 padding: 4mm 4mm 3.5mm 4mm !important;
-
                 margin-bottom: 3mm !important;
-
                 background: #e0e7ff !important;
-
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
 
             .print-title {
-
                 font-family:
                     "Noto Sans Bengali",
                     "Hind Siliguri",
                     "Segoe UI",
                     Arial,
                     sans-serif !important;
-
                 font-size: 25pt !important;
-
                 line-height: 1.1 !important;
-
                 font-weight: 900 !important;
-
                 color: #1e3a8a !important;
-
                 margin: 0 0 2mm 0 !important;
-
                 letter-spacing: 0 !important;
-
                 white-space: nowrap !important;
-
                 text-rendering: optimizeLegibility !important;
-
                 -webkit-font-smoothing: antialiased !important;
             }
 
             .print-subtitle {
-
                 font-family:
                     "Noto Sans Bengali",
                     "Hind Siliguri",
                     "Segoe UI",
                     Arial,
                     sans-serif !important;
-
                 font-size: 14pt !important;
-
                 line-height: 1.2 !important;
-
                 font-weight: 900 !important;
-
                 color: #0f172a !important;
-
                 margin: 0 !important;
-
                 white-space: nowrap !important;
             }
 
@@ -715,35 +686,20 @@
             ========================= */
 
             .print-info-box {
-
                 display: flex !important;
-
                 justify-content: space-between !important;
-
                 align-items: center !important;
-
                 width: 100% !important;
-
                 min-height: 13mm !important;
-
                 font-size: 13pt !important;
-
                 line-height: 1.2 !important;
-
                 background: #f0f6ff !important;
-
                 padding: 2.5mm 4mm !important;
-
                 border: 0.5mm solid #1e3a8a !important;
-
                 border-radius: 2mm !important;
-
                 margin-bottom: 3mm !important;
-
                 font-weight: 900 !important;
-
                 color: #0f172a !important;
-
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
@@ -754,30 +710,20 @@
             ========================= */
 
             #printTemplate h3 {
-
                 font-family:
                     "Noto Sans Bengali",
                     "Hind Siliguri",
                     "Segoe UI",
                     Arial,
                     sans-serif !important;
-
                 text-align: center !important;
-
                 color: #1e3a8a !important;
-
                 font-size: 15pt !important;
-
                 line-height: 1.2 !important;
-
                 font-weight: 900 !important;
-
                 margin: 2mm 0 2mm 0 !important;
-
                 padding: 0 !important;
-
                 page-break-after: avoid !important;
-
                 break-after: avoid !important;
             }
 
@@ -787,75 +733,46 @@
             ========================= */
 
             .print-table {
-
                 width: 100% !important;
-
                 border-collapse: collapse !important;
-
                 border-spacing: 0 !important;
-
                 table-layout: fixed !important;
-
                 margin: 0 !important;
-
                 border: 0.7mm solid #1e3a8a !important;
-
                 background: #ffffff !important;
-
                 page-break-inside: avoid !important;
-
                 break-inside: avoid !important;
             }
 
             .print-table th,
             .print-table td {
-
                 border: 0.45mm solid #1e3a8a !important;
-
                 padding: 3mm 2mm !important;
-
                 font-family:
                     "Noto Sans Bengali",
                     "Hind Siliguri",
                     "Segoe UI",
                     Arial,
                     sans-serif !important;
-
                 font-size: 14pt !important;
-
                 line-height: 1.25 !important;
-
                 text-align: center !important;
-
                 vertical-align: middle !important;
-
                 font-weight: 900 !important;
-
                 color: #000000 !important;
-
                 page-break-inside: avoid !important;
-
                 break-inside: avoid !important;
-
                 word-wrap: break-word !important;
-
                 overflow-wrap: break-word !important;
-
                 text-rendering: optimizeLegibility !important;
-
                 -webkit-font-smoothing: antialiased !important;
             }
 
             .print-table th {
-
                 background-color: #1e3a8a !important;
-
                 color: #ffffff !important;
-
                 font-size: 15pt !important;
-
                 font-weight: 900 !important;
-
                 padding: 3.2mm 2mm !important;
             }
 
@@ -882,53 +799,33 @@
             ========================= */
 
             .signature-area {
-
                 width: 100% !important;
-
                 display: flex !important;
-
                 justify-content: space-between !important;
-
                 align-items: flex-end !important;
-
                 margin-top: auto !important;
-
                 padding: 0 10mm 7mm 10mm !important;
-
                 position: relative !important;
-
                 z-index: 2 !important;
-
                 page-break-inside: avoid !important;
-
                 break-inside: avoid !important;
             }
 
             .sig-line {
-
                 border-top: 0.5mm solid #1e3a8a !important;
-
                 width: 55mm !important;
-
                 text-align: center !important;
-
                 padding-top: 2mm !important;
-
                 font-family:
                     "Noto Sans Bengali",
                     "Hind Siliguri",
                     "Segoe UI",
                     Arial,
                     sans-serif !important;
-
                 font-size: 12pt !important;
-
                 line-height: 1.2 !important;
-
                 color: #1e3a8a !important;
-
                 font-weight: 900 !important;
-
                 white-space: nowrap !important;
             }
 
@@ -946,9 +843,7 @@
             .print-table td,
             .print-table th,
             .signature-area {
-
                 page-break-before: avoid !important;
-
                 page-break-after: avoid !important;
             }
         }
@@ -960,7 +855,6 @@
     <div class="app-container">
 
         <!-- হেডার সেকশন -->
-
         <div class="header-card">
 
             <div class="header-top">
@@ -973,15 +867,12 @@
                 </button>
 
                 <div class="header-titles">
-
-                    <h1 id="headerMainTitle">
-                        RM THAI ALUMINIUM
-                    </h1>
-
+                    <h1 id="headerMainTitle">RM THAI ALUMINIUM</h1>
                     <p>সিলিং মেটারিয়াল ক্যালকুলেটার</p>
-                        
-                    
+                </div>
 
+                <div class="header-date-badge" id="currentDateBadge">
+                    📅 <span>--/--/----</span>
                 </div>
 
             </div>
@@ -992,14 +883,14 @@
                     type="text"
                     id="shopNameInput"
                     class="header-input"
-                    value="RM THAI ALUMINIUM"
+                    placeholder="আপনার দোকানের নাম দিন"
                     oninput="saveHeaderDetails()">
 
                 <input
                     type="text"
                     id="shopMobileInput"
                     class="header-input"
-                    value="01676-474412"
+                    placeholder="আপনার মোবাইল নাম্বার দিন"
                     oninput="saveHeaderDetails()">
 
             </div>
@@ -1008,11 +899,9 @@
 
 
         <!-- মেইন গ্রিড -->
-
         <div class="main-grid">
 
             <!-- বাম পাশ: ইনপুট সেকশন -->
-
             <div class="left-column">
 
                 <div class="card">
@@ -1081,7 +970,6 @@
 
 
             <!-- ডান পাশ: ফলাফল ও কস্টিং সেকশন -->
-
             <div class="right-column">
 
                 <div
@@ -1679,8 +1567,20 @@
                 );
         }
 
+        function getTodayFormattedDate() {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            return `${dd}/${mm}/${yyyy}`;
+        }
+
 
         window.onload = function() {
+
+            // কারেন্ট ডেট প্রদর্শন
+            const currentDate = getTodayFormattedDate();
+            document.getElementById('currentDateBadge').innerHTML = '📅 ' + toBng(currentDate);
 
             const savedName =
                 localStorage.getItem(
@@ -1737,8 +1637,7 @@
             document.getElementById(
                 'headerMainTitle'
             ).innerText =
-                nameVal ||
-                'RM THAI ALUMINIUM';
+                nameVal.trim() !== '' ? nameVal : 'RM THAI ALUMINIUM';
         }
 
 
@@ -2201,20 +2100,7 @@
                 );
 
 
-            const today =
-                new Date();
-
-            const dateString =
-                String(
-                    today.getDate()
-                ).padStart(2, '0') +
-                '/' +
-                String(
-                    today.getMonth() + 1
-                ).padStart(2, '0') +
-                '/' +
-                today.getFullYear();
-
+            const dateString = getTodayFormattedDate();
 
             document.getElementById(
                 'ptDate'

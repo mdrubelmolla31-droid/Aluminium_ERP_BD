@@ -58,7 +58,7 @@ table.input-table td { padding: 4px; }
 #printContent * { outline: none !important; }
 
 /* ========================================================= PRINT CONTROL ========================================================= */
-.print-page-one { width: 100%; box-sizing: border-box; }
+.print-page-one { width: 100%; box-sizing: border-box; page-break-after: always; break-after: page; }
 .print-page-two { width: 100%; box-sizing: border-box; page-break-before: always; break-before: page; }
 .print-section { page-break-inside: avoid; break-inside: avoid; }
 
@@ -78,10 +78,10 @@ table.input-table td { padding: 4px; }
   table.report-table td, .mat-table td { font-size: 12px; padding: 6px 4px; }
 }
 
-/* ========================================================= A4 PRINT ========================================================= */
+/* ========================================================= A4 PRINT (MODIFIED FOR EXACT 2 PAGES) ========================================================= */
 @media print {
-  @page { size: A4 portrait; margin: 10mm; }
-  html, body { background-color: #fff !important; margin: 0 !important; padding: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  @page { size: A4 portrait; margin: 5mm; }
+  html, body { background-color: #fff !important; margin: 0 !important; padding: 0 !important; height: auto !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 14pt; }
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   .container { display: none !important; }
   #printModal { display: block !important; position: static !important; background: white !important; padding: 0 !important; width: 100% !important; height: auto !important; }
@@ -89,9 +89,12 @@ table.input-table td { padding: 4px; }
   .modal-header, .modal-content > div:nth-child(2), .btn-print { display: none !important; }
   #printContent { border: none !important; box-shadow: none !important; overflow: visible !important; height: auto !important; max-height: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; background: #fff !important; }
   
-  .print-page-one { page-break-after: always !important; break-after: page !important; page-break-inside: avoid !important; break-inside: avoid !important; width: 100% !important; }
-  .print-page-two { page-break-before: always !important; break-before: page !important; page-break-inside: auto !important; break-inside: auto !important; width: 100% !important; }
-  .print-section { page-break-inside: avoid !important; break-inside: avoid !important; }
+  /* Fixed 2-page layout */
+  .print-page-one { page-break-after: always !important; break-after: page !important; page-break-inside: auto !important; break-inside: auto !important; width: 100% !important; height: auto !important; display: block !important; }
+  .print-page-two { page-break-before: always !important; break-before: page !important; page-break-inside: auto !important; break-inside: auto !important; width: 100% !important; height: auto !important; display: block !important; }
+  .print-section { page-break-inside: auto !important; break-inside: auto !important; }
+  table { page-break-inside: auto !important; }
+  tr { page-break-inside: avoid !important; break-inside: avoid !important; }
 }
 </style>
 </head>
@@ -557,7 +560,11 @@ function calculateAll(shouldSave = false) {
     let pcs18 = [], pcs21 = [];
     pcs.forEach(p => {
       let pVal = parseFloat(p.toFixed(2));
-      if (itemName === "নেট সেকশন") {
+      if (itemName === "নেট সেকশন" || 
+          itemName === "আউটার টপ" || 
+          itemName === "আউটার বটম" || 
+          itemName === "শাটার টপ" || 
+          itemName === "শাটার বটম") {
         pcs21.push(p);
       } else {
         let rem18 = 18.6 % pVal;
@@ -828,9 +835,6 @@ function formatCutText(plan, isBar21) {
   }
 }
 
-/* ========================================================= 
-   OPEN PRINT PREVIEW (2 Pages Layout: Page 1 = Aluminium & Cutting, Page 2 = Accessories) 
-   ========================================================= */
 function openPrintModal() {
   let shopName = document.getElementById('shopOwnerName').value || 'আরএম থাই অ্যালুমিনিয়াম';
   let shopPhone = document.getElementById('shopPhone').value || '';
@@ -860,10 +864,10 @@ function openPrintModal() {
       let cutStr = formatCutText(window.printData.items21[item].plan, true);
       materialRowsHTML += `
         <tr style="${bgClass}">
-          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:16pt; color:#000;">${toBnNum(matCounter++)}</td>
-          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:18pt; color:#000;">${item}</td>
-          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:16pt; color:#000;">২১ এর</td>
-          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:16pt; color:#000; word-break:break-word;">${cutStr}</td>
+          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:14pt; color:#000;">${toBnNum(matCounter++)}</td>
+          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:15pt; color:#000;">${item}</td>
+          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:14pt; color:#000;">২১ এর</td>
+          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:14pt; color:#000; word-break:break-word;">${cutStr}</td>
         </tr>
       `;
     }
@@ -872,20 +876,19 @@ function openPrintModal() {
       let cutStr = formatCutText(window.printData.items18[item].plan, false);
       materialRowsHTML += `
         <tr style="${bgClass}">
-          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:16pt; color:#000;">${toBnNum(matCounter++)}</td>
-          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:18pt; color:#000;">${item}</td>
-          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:16pt; color:#000;">১৮.৬ এর</td>
-          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:16pt; color:#000; word-break:break-word;">${cutStr}</td>
+          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:14pt; color:#000;">${toBnNum(matCounter++)}</td>
+          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:15pt; color:#000;">${item}</td>
+          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:14pt; color:#000;">১৮.৬ এর</td>
+          <td style="border:1.5px solid #0047AB; padding:6px 10px; text-align:center; font-weight:900; font-size:14pt; color:#000; word-break:break-word;">${cutStr}</td>
         </tr>
       `;
     }
   });
 
   if (materialRowsHTML === '') {
-    materialRowsHTML = `<tr><td colspan="4" style="border:1.5px solid #0047AB; padding:12px; text-align:center; font-size:16pt; font-weight:900;">কোনো তথ্য নেই</td></tr>`;
+    materialRowsHTML = `<tr><td colspan="4" style="border:1.5px solid #0047AB; padding:12px; text-align:center; font-size:14pt; font-weight:900;">কোনো তথ্য নেই</td></tr>`;
   }
 
-  /* ACCESSORIES ROWS */
   let accRowsHTML = '';
   let accCounter = 1;
   let accDomRows = document.querySelectorAll('#accessoriesTbody tr');
@@ -898,82 +901,82 @@ function openPrintModal() {
       let bgClass = (accCounter % 2 === 0) ? 'background-color:#e6f0ff;' : 'background-color:#ffffff;';
       accRowsHTML += `
         <tr style="${bgClass}">
-          <td style="border:1.5px solid #0047AB; padding:8px 10px; text-align:center; font-weight:900; font-size:18pt; color:#000;">${toBnNum(accCounter++)}</td>
-          <td style="border:1.5px solid #0047AB; padding:8px 10px; text-align:center; font-weight:900; font-size:20pt; color:#000;">${name}</td>
-          <td style="border:1.5px solid #0047AB; padding:8px 10px; text-align:center; font-weight:900; font-size:18pt; color:#000;">${qty}${unit}</td>
+          <td style="border:1.5px solid #0047AB; padding:8px 10px; text-align:center; font-weight:900; font-size:15pt; color:#000;">${toBnNum(accCounter++)}</td>
+          <td style="border:1.5px solid #0047AB; padding:8px 10px; text-align:center; font-weight:900; font-size:16pt; color:#000;">${name}</td>
+          <td style="border:1.5px solid #0047AB; padding:8px 10px; text-align:center; font-weight:900; font-size:15pt; color:#000;">${qty}${unit}</td>
         </tr>
       `;
     }
   });
 
   if (accRowsHTML === '') {
-    accRowsHTML = `<tr><td colspan="3" style="border:1.5px solid #0047AB; padding:12px; text-align:center; font-size:18pt; font-weight:900;">কোনো এক্সেসরিজ তথ্য নেই</td></tr>`;
+    accRowsHTML = `<tr><td colspan="3" style="border:1.5px solid #0047AB; padding:12px; text-align:center; font-size:15pt; font-weight:900;">কোনো এক্সেসরিজ তথ্য নেই</td></tr>`;
   }
 
   let printHTML = `
-    <!-- ================= PAGE 1 ================= -->
-    <div class="print-page-one" style="width:100%; box-sizing:border-box;">
-      <div style="border:4px solid #0047AB; border-radius:12px; padding:12px; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:#fff; width:100%; box-sizing:border-box;">
-        <div class="print-section" style="text-align:center; margin-bottom:10px; position:relative;">
-          <div style="font-size:14pt; color:#0047AB; font-weight:bold; display:flex; justify-content:space-between; margin-bottom:4px;">
+    <!-- PAGE 1: ALUMINIUM SECTION -->
+    <div class="print-page-one">
+      <div style="border:3px solid #0047AB; border-radius:10px; padding:10px; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:#fff; width:100%; box-sizing:border-box;">
+        <div class="print-section" style="text-align:center; margin-bottom:8px;">
+          <div style="font-size:12pt; color:#0047AB; font-weight:bold; display:flex; justify-content:space-between; margin-bottom:2px;">
             <span></span> <span> তারিখ: ${printDate} </span>
           </div>
-          <h2 style="color:#0047AB; font-size:36pt; font-weight:900; margin:4px 0; text-transform:uppercase; word-break:break-word; line-height:1.1;"> ${shopName} </h2>
-          <div style="margin-top:8px;">
-            <span style="background-color:#0047AB; color:white; display:inline-block; padding:6px 25px; border-radius:25px; font-weight:900; font-size:16pt;"> 📞 মোবাইল: ${shopPhone} </span>
+          <h2 style="color:#0047AB; font-size:28pt; font-weight:900; margin:2px 0; text-transform:uppercase; word-break:break-word; line-height:1.1;"> ${shopName} </h2>
+          <div style="margin-top:4px;">
+            <span style="background-color:#0047AB; color:white; display:inline-block; padding:4px 20px; border-radius:20px; font-weight:900; font-size:14pt;"> 📞 মোবাইল: ${shopPhone} </span>
           </div>
         </div>
 
-        <table class="print-section" style="width:100%; border-collapse:collapse; border:2px solid #0047AB; margin-bottom:12px;">
+        <table class="print-section" style="width:100%; border-collapse:collapse; border:2px solid #0047AB; margin-bottom:10px;">
           <tr>
-            <td style="background-color:#0047AB; color:white; width:25%; padding:8px 10px; font-weight:900; font-size:16pt; border:2px solid #0047AB;"> 👤 কাস্টমার </td>
-            <td style="padding:8px 10px; border:2px solid #0047AB; color:#000; font-weight:900; font-size:18pt;"> ${custName} </td>
+            <td style="background-color:#0047AB; color:white; width:25%; padding:6px 8px; font-weight:900; font-size:14pt; border:2px solid #0047AB;"> 👤 কাস্টমার </td>
+            <td style="padding:6px 8px; border:2px solid #0047AB; color:#000; font-weight:900; font-size:15pt;"> ${custName} </td>
           </tr>
           <tr>
-            <td style="background-color:#0047AB; color:white; width:25%; padding:8px 10px; font-weight:900; font-size:16pt; border:2px solid #0047AB;"> 🏢 প্রজেক্ট </td>
-            <td style="padding:8px 10px; border:2px solid #0047AB; color:#000; font-weight:900; font-size:18pt;"> ${custAddress} </td>
+            <td style="background-color:#0047AB; color:white; width:25%; padding:6px 8px; font-weight:900; font-size:14pt; border:2px solid #0047AB;"> 🏢 প্রজেক্ট </td>
+            <td style="padding:6px 8px; border:2px solid #0047AB; color:#000; font-weight:900; font-size:15pt;"> ${custAddress} </td>
           </tr>
           <tr>
-            <td style="background-color:#0047AB; color:white; width:25%; padding:8px 10px; font-weight:900; font-size:16pt; border:2px solid #0047AB;"> ⚙️ মেটেরিয়াল </td>
-            <td style="padding:8px 10px; border:2px solid #0047AB; font-weight:900; font-size:18pt; color:#dc2626;"> ${matInfo} </td>
+            <td style="background-color:#0047AB; color:white; width:25%; padding:6px 8px; font-weight:900; font-size:14pt; border:2px solid #0047AB;"> ⚙️ মেটেরিয়াল </td>
+            <td style="padding:6px 8px; border:2px solid #0047AB; font-weight:900; font-size:15pt; color:#dc2626;"> ${matInfo} </td>
           </tr>
         </table>
 
-        <div class="print-section" style="text-align:center; color:#0047AB; font-weight:900; font-size:18pt; margin-bottom:6px;"> প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ) </div>
+        <div class="print-section" style="text-align:center; color:#0047AB; font-weight:900; font-size:15pt; margin-bottom:4px;"> অ্যালুমিনিয়াম কাটিং তালিকা (১ম পেজ) </div>
 
-        <table class="print-section" style="width:100%; border-collapse:collapse; border:2px solid #0047AB; margin-bottom:10px; table-layout:fixed;">
+        <table class="print-section" style="width:100%; border-collapse:collapse; border:2px solid #0047AB; margin-bottom:6px; table-layout:fixed;">
           <thead>
             <tr>
-              <th style="background-color:#0047AB; color:white; padding:8px; border:1.5px solid #0047AB; width:12%; font-size:16pt; font-weight:900;">ক্রমিক</th>
-              <th style="background-color:#0047AB; color:white; padding:8px; border:1.5px solid #0047AB; width:43%; font-size:16pt; font-weight:900;">মালামালের নাম</th>
-              <th style="background-color:#0047AB; color:white; padding:8px; border:1.5px solid #0047AB; width:18%; font-size:16pt; font-weight:900;">সাইজ</th>
-              <th style="background-color:#0047AB; color:white; padding:8px; border:1.5px solid #0047AB; width:27%; font-size:16pt; font-weight:900;">পরিমাণ</th>
+              <th style="background-color:#0047AB; color:white; padding:6px; border:1.5px solid #0047AB; width:12%; font-size:14pt; font-weight:900;">ক্রমিক</th>
+              <th style="background-color:#0047AB; color:white; padding:6px; border:1.5px solid #0047AB; width:43%; font-size:14pt; font-weight:900;">মালামালের নাম</th>
+              <th style="background-color:#0047AB; color:white; padding:6px; border:1.5px solid #0047AB; width:18%; font-size:14pt; font-weight:900;">সাইজ</th>
+              <th style="background-color:#0047AB; color:white; padding:6px; border:1.5px solid #0047AB; width:27%; font-size:14pt; font-weight:900;">পরিমাণ</th>
             </tr>
           </thead>
           <tbody>
             ${materialRowsHTML}
           </tbody>
         </table>
-        <div style="text-align:center; font-weight:900; font-size:16pt; margin-top:10px; color:#0047AB;"> ~ ধন্যবাদ আপনার মূল্যবান আস্থার জন্য ~ </div>
+        <div style="text-align:center; font-weight:900; font-size:14pt; margin-top:6px; color:#0047AB;"> ~ ধন্যবাদ আপনার মূল্যবান আস্থার জন্য ~ </div>
       </div>
     </div>
 
-    <!-- ================= PAGE 2 (Accessories) ================= -->
-    <div class="print-page-two" style="width:100%; box-sizing:border-box; page-break-before:always; break-before:page; padding-top:0;">
-      <div style="border:4px solid #0047AB; border-radius:12px; padding:12px; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:#fff; width:100%; box-sizing:border-box;">
-        <div style="text-align:center; margin-bottom:15px;">
-          <div style="color:#0047AB; font-size:32pt; font-weight:900; line-height:1.15;"> ${shopName} </div>
-          <div style="margin-top:6px; display:inline-block; background:#0047AB; color:#fff; padding:5px 22px; border-radius:20px; font-size:16pt; font-weight:900;"> 📞 ${shopPhone} </div>
+    <!-- PAGE 2: ACCESSORIES SECTION -->
+    <div class="print-page-two">
+      <div style="border:3px solid #0047AB; border-radius:10px; padding:10px; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:#fff; width:100%; box-sizing:border-box;">
+        <div style="text-align:center; margin-bottom:10px;">
+          <div style="color:#0047AB; font-size:26pt; font-weight:900; line-height:1.15;"> ${shopName} </div>
+          <div style="margin-top:4px; display:inline-block; background:#0047AB; color:#fff; padding:4px 18px; border-radius:18px; font-size:14pt; font-weight:900;"> 📞 ${shopPhone} </div>
         </div>
 
-        <div style="text-align:center; color:#0047AB; font-weight:900; font-size:22pt; margin-bottom:10px; border-bottom:3px solid #0047AB; padding-bottom:6px;"> এক্সেসরিজের তালিকা </div>
+        <div style="text-align:center; color:#0047AB; font-weight:900; font-size:18pt; margin-bottom:8px; border-bottom:2px solid #0047AB; padding-bottom:4px;"> এক্সেসরিজের তালিকা (২য় পেজ) </div>
 
-        <table style="width:100%; border-collapse:collapse; border:2px solid #0047AB; margin-bottom:15px; table-layout:fixed;">
+        <table style="width:100%; border-collapse:collapse; border:2px solid #0047AB; margin-bottom:10px; table-layout:fixed;">
           <thead>
             <tr>
-              <th style="background-color:#0047AB; color:white; padding:10px; border:1.5px solid #0047AB; width:18%; font-size:18pt; font-weight:900;">ক্রমিক নং</th>
-              <th style="background-color:#0047AB; color:white; padding:10px; border:1.5px solid #0047AB; width:52%; font-size:18pt; font-weight:900;">এক্সেসরিজের নাম</th>
-              <th style="background-color:#0047AB; color:white; padding:10px; border:1.5px solid #0047AB; width:30%; font-size:18pt; font-weight:900;">পরিমাণ</th>
+              <th style="background-color:#0047AB; color:white; padding:8px; border:1.5px solid #0047AB; width:18%; font-size:15pt; font-weight:900;">ক্রমিক নং</th>
+              <th style="background-color:#0047AB; color:white; padding:8px; border:1.5px solid #0047AB; width:52%; font-size:15pt; font-weight:900;">এক্সেসরিজের নাম</th>
+              <th style="background-color:#0047AB; color:white; padding:8px; border:1.5px solid #0047AB; width:30%; font-size:15pt; font-weight:900;">পরিমাণ</th>
             </tr>
           </thead>
           <tbody>
@@ -981,7 +984,7 @@ function openPrintModal() {
           </tbody>
         </table>
 
-        <div style="text-align:center; font-weight:900; font-size:18pt; margin-top:30px; color:#0047AB;"> ~ ধন্যবাদ আপনার মূল্যবান আস্থার জন্য ~ </div>
+        <div style="text-align:center; font-weight:900; font-size:15pt; margin-top:20px; color:#0047AB;"> ~ ধন্যবাদ আপনার মূল্যবান আস্থার জন্য ~ </div>
       </div>
     </div>
   `;

@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html lang="bn">
+<!DOCTYPE html><html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>Curtain Wall Estimator - RM Thai Aluminium</title>
-
-<style>
-/* =========================================================
-   RESET & BASE
-========================================================= */
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Curtain Wall Estimator - RM Thai Aluminium</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700;800;900&display=swap" rel="stylesheet"><style>
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: "Noto Sans Bengali", "Noto Sans", Arial, sans-serif;
+    font-family: 'Hind Siliguri', "Noto Sans Bengali", Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
 body {
     background: #eef3f8;
     color: #111827;
-    padding: 6px;
+    padding: 8px;
     font-weight: 600;
     display: flex;
     flex-direction: column;
@@ -31,501 +25,1148 @@ body {
 
 .container {
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
     background: #ffffff;
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
 }
 
 /* =========================================================
-   SCREEN HEADER (অ্যাপের ভেতরের হেডার)
+   SCREEN HEADER
 ========================================================= */
+
 .invoice-header {
     position: relative;
-    background: linear-gradient(135deg, #123a8c 0%, #1557c0 45%, #2563d9 100%);
+    background: linear-gradient(135deg, #0033a0 0%, #1557c0 100%);
     color: #ffffff;
-    border-radius: 12px;
-    padding: 45px 10px 15px 10px;
-    margin-bottom: 16px;
-    box-shadow: 0 6px 20px rgba(20, 70, 160, 0.25);
+    border-radius: 10px;
+    padding: 35px 10px 15px 10px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(0, 51, 160, 0.2);
 }
 
 .header-top-bar {
-    position: absolute; top: 10px; left: 0; width: 100%;
-    display: flex; justify-content: space-between; align-items: center; padding: 0 10px;
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
 }
 
 .menu-btn {
-    width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 8px; background: rgba(255,255,255,0.18); color: #ffffff;
-    font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: 0.2s;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.18);
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.menu-btn:hover { background: rgba(255,255,255,0.3); }
-
 .date-display {
-    font-size: 12px; font-weight: 800; background: rgba(255, 255, 255, 0.2);
-    padding: 6px 12px; border-radius: 6px; color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: #ffffff;
 }
 
 .header-titles {
-    display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 12px;
 }
 
 .main-brand {
-    font-size: clamp(24px, 6vw, 32px); font-weight: 900; text-transform: uppercase; line-height: 1; text-align: center;
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .sub-brand {
-    font-size: clamp(14px, 3.5vw, 18px); font-weight: 700; color: #edf2f7; line-height: 1.2; text-align: center;
+    font-size: clamp(12px, 3.2vw, 15px);
+    font-weight: 700;
+    color: #edf2f7;
+    text-align: center;
 }
 
 .shop-details {
-    display: grid; grid-template-columns: 1fr; gap: 8px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
 }
 
-@media (min-width: 600px) {
-    .shop-details { grid-template-columns: 1fr 1fr; }
+@media (min-width: 550px) {
+    .shop-details {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .shop-details input {
-    width: 100%; height: 42px; padding: 4px 10px; border: none; border-radius: 8px;
-    background: rgba(255,255,255,0.95); color: #111827; font-size: 16px; font-weight: 800;
-    text-align: center; outline: none;
+    width: 100%;
+    height: 40px;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.95);
+    color: #111827;
+    font-size: 14px;
+    font-weight: 800;
+    text-align: center;
+    outline: none;
 }
 
 /* =========================================================
    SIDEBAR & HISTORY
 ========================================================= */
+
 .sidebar {
-    position: fixed; top: 0; left: -320px; width: 320px; max-width: 85vw;
-    height: 100vh; background: #ffffff; box-shadow: 8px 0 25px rgba(0,0,0,0.25);
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5000;
-    padding: 20px; overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: 8px 0 25px rgba(0,0,0,0.25);
+    transition: left 0.3s ease;
+    z-index: 5000;
+    padding: 20px;
+    overflow-y: auto;
 }
-.sidebar.active { left: 0; }
+
+.sidebar.active {
+    left: 0;
+}
+
 .sidebar-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
 }
-.sidebar h3 { color: #1557c0; font-size: 18px; font-weight: 900; }
+
+.sidebar h3 {
+    color: #0033a0;
+    font-size: 17px;
+    font-weight: 900;
+}
+
 .close-sidebar {
-    background: #dc2626; color: #ffffff; border: none; padding: 6px 12px;
-    border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 800;
+    background: #dc2626;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 800;
 }
+
 .history-item {
-    background: #f8fafc; padding: 12px; margin-bottom: 10px; border-radius: 8px; cursor: pointer;
-    font-size: 13px; border-left: 5px solid #1557c0; border: 1px solid #e2e8f0;
-    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    background: #f8fafc;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    border-left: 5px solid #0033a0;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 }
-.history-text { flex: 1; }
+
 .delete-history-btn {
-    background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; width: 32px; height: 32px;
-    border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 14px; flex-shrink: 0;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* =========================================================
    INPUT AREA
 ========================================================= */
-.dimension-section { margin-bottom: 20px; }
+
+.dimension-section {
+    margin-bottom: 15px;
+}
+
 .section-heading {
-    background: #1557c0; color: #ffffff; padding: 12px 16px;
-    border-radius: 8px 8px 0 0; font-size: 15px; font-weight: 900;
+    background: #0033a0;
+    color: #ffffff;
+    padding: 10px 14px;
+    border-radius: 8px 8px 0 0;
+    font-size: 15px;
+    font-weight: 900;
 }
+
 .dimension-card {
-    position: relative; background: #ffffff; border: 2px solid #d6dee8;
-    border-top: none; padding: 12px; border-radius: 0 0 10px 10px; margin-bottom: 16px;
+    position: relative;
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    border-top: none;
+    padding: 10px;
+    border-radius: 0 0 8px 8px;
+    margin-bottom: 12px;
 }
+
 .dimension-header-bar {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; padding-right: 35px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    padding-right: 30px;
 }
+
 .dimension-card-number {
-    padding: 6px 12px; background: #e8f0ff; color: #1557c0;
-    border-radius: 6px; font-size: 13px; font-weight: 900; white-space: nowrap;
+    padding: 4px 10px;
+    background: #e0f2fe;
+    color: #0033a0;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 900;
+    white-space: nowrap;
 }
+
 .dropdown-group {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; min-width: 200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 6px;
+    flex: 1;
 }
+
 .header-select {
-    height: 36px; padding: 2px 6px; border: 1.5px solid #7dd3fc; border-radius: 6px;
-    background: #f0f9ff; color: #0369a1; font-size: 13px; font-weight: 800; width: 100%;
+    height: 36px;
+    padding: 2px 4px;
+    border: 1.5px solid #0033a0;
+    border-radius: 6px;
+    background: #f0f9ff;
+    color: #0033a0;
+    font-size: 13px;
+    font-weight: 800;
+    width: 100%;
 }
+
 .input-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
 }
-@media (min-width: 768px) { .input-grid { grid-template-columns: repeat(4, 1fr); } }
-.input-group { display: flex; flex-direction: column; gap: 4px; }
-.input-group label { font-size: 12px; color: #334155; font-weight: 800; }
+
+@media (min-width: 650px) {
+    .input-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.input-group label {
+    font-size: 12px;
+    color: #334155;
+    font-weight: 800;
+}
+
 .input-group input {
-    width: 100%; height: 42px; padding: 6px; font-size: 16px; font-weight: 800;
-    background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; text-align: center; outline: none;
+    width: 100%;
+    height: 40px;
+    padding: 4px;
+    font-size: 15px;
+    font-weight: 800;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    text-align: center;
+    outline: none;
 }
-.input-group input:focus { border-color: #2563eb; background: #ffffff; }
+
 .remove-box-btn {
-    position: absolute; right: 10px; top: 12px; width: 32px; height: 32px;
-    border: none; border-radius: 6px; background: #fee2e2; color: #dc2626;
-    font-size: 18px; cursor: pointer; font-weight: 900; display: flex; align-items: center; justify-content: center;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    background: #fee2e2;
+    color: #dc2626;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 900;
 }
 
 /* =========================================================
    BUTTONS
 ========================================================= */
-.add-box-area { margin: 12px 0; }
+
 .btn-add-box {
-    width: 100%; min-height: 48px; border: 2px dashed #2563eb; border-radius: 9px;
-    background: #eff6ff; color: #1557c0; font-size: 15px; font-weight: 900; cursor: pointer;
+    width: 100%;
+    min-height: 44px;
+    border: 2px dashed #0033a0;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #0033a0;
+    font-size: 14px;
+    font-weight: 900;
+    cursor: pointer;
+    margin-bottom: 8px;
 }
+
 .btn-calc {
-    width: 100%; min-height: 52px; background: #147a4b; color: #ffffff;
-    font-size: 18px; font-weight: 900; border: none; border-radius: 9px; cursor: pointer;
+    width: 100%;
+    min-height: 48px;
+    background: #147a4b;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 900;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 /* =========================================================
-   SCREEN RESULT TABLES (অ্যাপের ভেতরের ফলাফল)
+   SCREEN RESULT
 ========================================================= */
-.result-section { display: none; margin-top: 15px; }
+
+.result-section {
+    display: none;
+    margin-top: 15px;
+}
+
 .result-title {
-    background: linear-gradient(90deg, #1557c0, #1769d3); color: #ffffff;
-    padding: 8px 12px; font-size: 14px; font-weight: 900; margin-top: 12px; border-radius: 8px 8px 0 0;
+    background: #0033a0;
+    color: #ffffff;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-weight: 900;
+    margin-top: 10px;
+    border-radius: 6px 6px 0 0;
 }
+
 .table-wrap {
-    width: 100%; overflow-x: auto; border: 1px solid #cbd5e1; border-top: none;
-    border-radius: 0 0 8px 8px; background: #ffffff;
-}
-table.screen-table { width: 100%; border-collapse: collapse; min-width: 300px; }
-.screen-table th, .screen-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; color: #111827; }
-.screen-table th { background: #f1f5f9; font-weight: 900; }
-.screen-table tbody tr:nth-child(even) { background: #f8fafc; }
-
-/* =========================================================
-   SUMMARY & PRINT BUTTON
-========================================================= */
-.total-summary {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 16px;
-}
-.summary-card {
-    background: #f8fafc; border: 1px solid #d7dee8; border-radius: 8px; padding: 12px 8px; text-align: center;
-}
-.summary-label { display: block; color: #475569; font-size: 11px; margin-bottom: 4px; font-weight: 800;}
-.summary-value { display: block; color: #1557c0; font-size: 18px; font-weight: 900; }
-.action-buttons { width: 100%; margin: 20px auto 0; text-align: center; }
-.btn-print {
-    width: 100%; max-width: 400px; min-height: 50px; background: #2456d8; color: #ffffff;
-    border: none; border-radius: 9px; font-size: 16px; font-weight: 900; cursor: pointer;
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #cbd5e1;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    background: #ffffff;
 }
 
+table.screen-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 280px;
+}
+
+.screen-table th,
+.screen-table td {
+    border: 1px solid #cbd5e1;
+    padding: 6px;
+    text-align: center;
+    font-size: 13px;
+    color: #111827;
+}
+
+.screen-table th {
+    background: #f1f5f9;
+    font-weight: 900;
+}
+
+.btn-preview-edit {
+    width: 100%;
+    max-width: 400px;
+    min-height: 48px;
+    background: #0033a0;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
 /* =========================================================
-   PDF PRINT LAYOUT (লুকানো থাকবে, শুধু প্রিন্টের সময় দেখাবে)
+   MODAL
 ========================================================= */
-#printLayout { display: none; }
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9000;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    border-radius: 10px;
+    overflow-y: auto;
+    padding: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #0033a0;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.modal-title {
+    font-size: 17px;
+    font-weight: 900;
+    color: #0033a0;
+}
+
+.edit-table-input {
+    width: 100%;
+    padding: 4px;
+    border: 1.5px solid #0033a0;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 800;
+    text-align: center;
+    color: #000;
+}
+
+/* =========================================================
+   PDF PRINT — A4 ONE PAGE + LARGE CLEAN TEXT
+========================================================= */
+
+#printLayout {
+    display: none;
+}
 
 @media print {
-    @page { size: A4 portrait; margin: 8mm; }
-    
-    body, html { 
-        background: #ffffff !important; margin: 0 !important; padding: 0 !important;
-    }
-    .container { 
-        width: 100% !important; max-width: none !important; border: none !important; 
-        box-shadow: none !important; padding: 0 !important; margin: 0 !important;
-    }
-    
-    /* Hide everything on screen view */
-    .invoice-header, .dimension-section, .result-section, .sidebar { 
-        display: none !important; 
-    }
-    
-    /* Show PDF Print Layout */
-    #printLayout { display: block !important; width: 100%; }
 
-    /* PDF Header styling matching the image */
-    .pdf-main-header {
-        border: 4px solid #0033a0;
-        border-radius: 15px;
-        text-align: center;
-        padding: 20px 10px 15px 10px;
-        margin-bottom: 12px;
-        position: relative;
+    @page {
+        size: A4 portrait;
+        margin: 0 !important;
     }
-    
-    .pdf-shop-name {
-        font-size: 32pt;
-        font-weight: 900;
+
+    html,
+    body {
+        width: 210mm !important;
+        height: 297mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        overflow: hidden !important;
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body > *:not(#printLayout) {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    #printLayout {
+        display: block !important;
+
+        width: 210mm !important;
+        height: 297mm !important;
+
+        margin: 0 !important;
+        padding: 5mm !important;
+
+        background: #ffffff !important;
+
+        overflow: hidden !important;
+
+        page-break-before: avoid !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+
+        break-before: avoid !important;
+        break-after: avoid !important;
+        break-inside: avoid !important;
+
+        font-family:
+            "Hind Siliguri",
+            "Noto Sans Bengali",
+            Arial,
+            sans-serif !important;
+
+        transform: none !important;
+        zoom: 1 !important;
+    }
+
+    .pdf-outer-border {
+        width: 200mm !important;
+        height: 287mm !important;
+
+        margin: 0 !important;
+        padding: 4mm !important;
+
+        border: 0.7mm solid #0033a0 !important;
+        border-radius: 2mm !important;
+
+        background: #ffffff !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+
+        overflow: hidden !important;
+
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    /* ================= HEADER ================= */
+
+    .pdf-main-header {
+        width: 100% !important;
+
+        border: 0.6mm solid #0033a0 !important;
+        border-radius: 2mm !important;
+
+        text-align: center !important;
+
+        padding: 2mm 3mm !important;
+        margin-bottom: 3mm !important;
+
+        position: relative !important;
+
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    .pdf-top-date {
+        position: absolute !important;
+
+        top: 2mm !important;
+        right: 3mm !important;
+
+        font-size: 11pt !important;
+        line-height: 1.2 !important;
+
+        font-weight: 800 !important;
+
         color: #0033a0 !important;
-        line-height: 1.2;
-        margin-bottom: 10px;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+
+        white-space: nowrap !important;
+    }
+
+    /* দোকানের নাম বড় ও বোল্ড */
+
+    .pdf-shop-name {
+        font-size: 27pt !important;
+        line-height: 1.15 !important;
+
+        font-weight: 900 !important;
+
+        color: #0033a0 !important;
+
+        margin: 1mm 0 1.5mm 0 !important;
+
+        letter-spacing: 0 !important;
+
+        white-space: nowrap !important;
     }
 
     .pdf-phone-pill {
-        display: inline-block;
-        background-color: #0033a0 !important;
+        display: inline-block !important;
+
+        background: #0033a0 !important;
         color: #ffffff !important;
-        padding: 6px 30px;
-        border-radius: 40px;
-        font-size: 18pt;
-        font-weight: bold;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+
+        padding: 1mm 8mm !important;
+
+        border-radius: 5mm !important;
+
+        font-size: 13pt !important;
+        line-height: 1.25 !important;
+
+        font-weight: 900 !important;
+
+        white-space: nowrap !important;
     }
 
-    /* PDF Customer/Project Info box */
+    /* ================= CUSTOMER INFO ================= */
+
     .pdf-info-box {
-        border: 2px solid #0033a0;
-        margin-bottom: 15px;
-        display: flex;
-        flex-direction: column;
+        width: 100% !important;
+
+        border: 0.5mm solid #0033a0 !important;
+
+        margin-bottom: 3mm !important;
+
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
 
     .pdf-info-row {
-        display: flex;
-        border-bottom: 1px solid #0033a0;
+        display: flex !important;
+
+        min-height: 10mm !important;
+        height: 10mm !important;
+
+        border-bottom: 0.4mm solid #0033a0 !important;
+
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
+
     .pdf-info-row:last-child {
-        border-bottom: none;
+        border-bottom: none !important;
     }
 
     .pdf-info-label {
-        background-color: #0033a0 !important;
+        width: 34mm !important;
+        min-width: 34mm !important;
+
+        padding: 1.5mm 2.5mm !important;
+
+        display: flex !important;
+        align-items: center !important;
+
+        background: #0033a0 !important;
         color: #ffffff !important;
-        width: 140px;
-        padding: 6px 10px;
-        font-size: 14pt;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+
+        font-size: 13pt !important;
+        line-height: 1.2 !important;
+
+        font-weight: 900 !important;
+
+        white-space: nowrap !important;
     }
 
     .pdf-info-value {
-        flex: 1;
-        padding: 6px 10px;
+        flex: 1 !important;
+
+        padding: 1.5mm 3mm !important;
+
+        display: flex !important;
+        align-items: center !important;
+
+        color: #000000 !important;
+
+        font-size: 13pt !important;
+        line-height: 1.2 !important;
+
+        font-weight: 800 !important;
+
+        overflow: hidden !important;
     }
 
-    /* PDF Tables matching the image */
+    /* ================= SECTION TITLE ================= */
+
     .pdf-table-title {
-        text-align: center;
+        width: 100% !important;
+
+        text-align: center !important;
+
         color: #0033a0 !important;
-        font-size: 18pt;
-        font-weight: 900;
-        margin: 10px 0 5px 0;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+
+        font-size: 14pt !important;
+        line-height: 1.2 !important;
+
+        font-weight: 900 !important;
+
+        margin: 2mm 0 1.5mm 0 !important;
+        padding: 0 !important;
+
+        page-break-after: avoid !important;
+        break-after: avoid !important;
     }
+
+    /* ================= MAIN TABLE ================= */
 
     .pdf-table {
-        width: 100%;
-        border-collapse: collapse;
-        border: 2px solid #0033a0;
-        margin-bottom: 10px;
+        width: 100% !important;
+
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+
+        border: 0.6mm solid #0033a0 !important;
+
+        margin-bottom: 2.5mm !important;
+
+        table-layout: fixed !important;
+
+        background: #ffffff !important;
+
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
 
-    .pdf-table th, .pdf-table td {
-        border: 1px solid #0033a0;
-        padding: 6px;
-        text-align: center;
-        font-size: 12pt;
-        font-weight: bold;
-        color: #0033a0 !important;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    /* =====================================================
+       এখানেই মূল পরিবর্তন:
+       ROW-এর ভেতরের সব লেখা বড় + বোল্ড
+    ===================================================== */
+
+    .pdf-table th,
+    .pdf-table td {
+        border: 0.4mm solid #0033a0 !important;
+
+        padding: 2.2mm 1.8mm !important;
+
+        text-align: center !important;
+
+        font-size: 13pt !important;
+        line-height: 1.25 !important;
+
+        font-weight: 900 !important;
+
+        color: #000000 !important;
+
+        vertical-align: middle !important;
+
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+
+        font-family:
+            "Hind Siliguri",
+            "Noto Sans Bengali",
+            Arial,
+            sans-serif !important;
     }
+
+    /* TABLE HEADER আরও বড় */
 
     .pdf-table th {
-        background-color: #0033a0 !important;
+        background: #0033a0 !important;
         color: #ffffff !important;
-        font-size: 13pt;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+
+        font-size: 14pt !important;
+        line-height: 1.2 !important;
+
+        font-weight: 900 !important;
+
+        padding: 2.3mm 1.5mm !important;
+
+        white-space: nowrap !important;
+    }
+
+    /* প্রতিটি ROW যেন মাঝখানে না ভাঙে */
+
+    .pdf-table tr,
+    .pdf-table tbody tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    .pdf-table thead {
+        display: table-header-group !important;
+    }
+
+    .pdf-table tbody {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
 
     .pdf-table tbody tr:nth-child(even) td {
-        background-color: #e6f2ff !important;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
-    }
-    
-    .pdf-table tbody tr:nth-child(odd) td {
-        background-color: #ffffff !important;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+        background: #f0f6ff !important;
     }
 
-    /* PDF Footer */
+    .pdf-table tbody tr:nth-child(odd) td {
+        background: #ffffff !important;
+    }
+
+    /* ================= FOOTER ================= */
+
     .pdf-footer {
-        text-align: center;
-        margin-top: 20px;
-        padding-top: 10px;
-        border-top: 2px solid #0033a0;
+        text-align: center !important;
+
+        margin-top: 2mm !important;
+        padding-top: 1.5mm !important;
+
+        border-top: 0.35mm solid #0033a0 !important;
+
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
 
     .pdf-footer-text {
         color: #0033a0 !important;
-        font-size: 16pt;
-        font-weight: 900;
-        -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+
+        font-size: 13pt !important;
+        line-height: 1.2 !important;
+
+        font-weight: 900 !important;
+
+        white-space: nowrap !important;
+    }
+
+    /* ================= ONE PAGE LOCK ================= */
+
+    #printLayout,
+    #printLayout *,
+    .pdf-outer-border,
+    .pdf-main-header,
+    .pdf-info-box,
+    .pdf-table,
+    .pdf-table tr,
+    .pdf-table td,
+    .pdf-table th,
+    .pdf-footer {
+        page-break-before: avoid !important;
+        page-break-after: avoid !important;
+    }
+
+    /* Sharp text rendering */
+
+    #printLayout,
+    #printLayout * {
+        -webkit-font-smoothing: antialiased !important;
+        text-rendering: optimizeLegibility !important;
     }
 }
-</style>
-</head>
-
-<body>
-
-<!-- Sidebar for History -->
-<div class="sidebar" id="historySidebar">
+</style></head><body><div class="sidebar" id="historySidebar">
     <div class="sidebar-header">
         <h3>পূর্ববর্তী হিসাব</h3>
         <button class="close-sidebar" onclick="toggleSidebar()">বন্ধ</button>
     </div>
     <div id="historyList"></div>
-</div>
+</div><div class="container"><div class="invoice-header">
 
-<div class="container">
-
-    <!-- Screen UI Header -->
-    <div class="invoice-header">
-        <div class="header-top-bar no-print">
-            <button class="menu-btn" onclick="toggleSidebar()" title="মেনু">☰</button>
-            <div id="currentDate" class="date-display"></div>
-        </div>
-        
-        <div class="header-titles">
-            <div class="main-brand no-print">RM THAI ALUMINIUM</div>
-            <div class="sub-brand">কার্টেন ওয়াল ক্যালকুলেশন</div>
-        </div>
-        
-        <div class="shop-details">
-            <input type="text" id="shopName" placeholder="আপনার দোকানের নাম দিন">
-            <input type="text" id="shopPhone" placeholder="আপনার মোবাইল নাম্বার দিন">
-        </div>
+    <div class="header-top-bar">
+        <button class="menu-btn" onclick="toggleSidebar()" title="মেনু">☰</button>
+        <div id="currentDate" class="date-display"></div>
     </div>
 
-    <!-- Screen UI Inputs -->
-    <div class="dimension-section no-print">
-        <div class="section-heading">
-            <span>কাজের মাপ, কালার ও সেকশন সাইজ</span>
-        </div>
-        <div id="dimensionContainer"></div>
+    <div class="header-titles">
+        <div class="main-brand">RM THAI ALUMINIUM</div>
+        <div class="sub-brand">কার্টেন ওয়াল ক্যালকুলেশন</div>
+    </div>
 
-        <div class="add-box-area">
-            <button type="button" class="btn-add-box" onclick="addDimensionBox()">
-                ＋ আরও একটি মাপের বক্স যোগ করুন
-            </button>
-        </div>
+    <div class="shop-details">
+        <input type="text" id="shopName" placeholder="আপনার দোকানের নাম দিন">
+        <input type="text" id="shopPhone" placeholder="আপনার মোবাইল নাম্বার দিন">
+    </div>
 
-        <button type="button" class="btn-calc" onclick="calculateMaterials()">
-            হিসাব বের করুন
+</div>
+
+<div class="dimension-section">
+
+    <div class="section-heading">
+        <span>কাজের মাপ, কালার ও পাইপের সাইজ</span>
+    </div>
+
+    <div id="dimensionContainer"></div>
+
+    <button type="button" class="btn-add-box" onclick="addDimensionBox()">
+        ＋ আরও একটি মাপের বক্স যোগ করুন
+    </button>
+
+    <button type="button" class="btn-calc" onclick="calculateMaterials()">
+        হিসাব বের করুন
+    </button>
+
+</div>
+
+<div id="resultArea" class="result-section">
+
+    <div class="result-title">১. অ্যালুমিনিয়াম সেকশন হিসাব</div>
+
+    <div class="table-wrap">
+        <table class="screen-table">
+            <thead>
+                <tr>
+                    <th style="width:45%;">মালের নাম ও স্পেসিফিকেশন</th>
+                    <th style="width:25%;">সাইজ ও বার</th>
+                    <th style="width:30%;">পিস সংখ্যা</th>
+                </tr>
+            </thead>
+            <tbody id="screenAlumTable"></tbody>
+        </table>
+    </div>
+
+    <div class="result-title">২. গ্লাস এরিয়া ও টেপ হিসাব</div>
+
+    <div class="table-wrap">
+        <table class="screen-table">
+            <thead>
+                <tr>
+                    <th style="width:40%;">বিবরণ</th>
+                    <th style="width:60%;">মোট স্কয়ার ফিট / পরিমাণ</th>
+                </tr>
+            </thead>
+            <tbody id="screenGlassTable"></tbody>
+        </table>
+    </div>
+
+    <div class="result-title">৩. এক্সেসরিজ ও ফিটিংস হিসাব</div>
+
+    <div class="table-wrap">
+        <table class="screen-table">
+            <thead>
+                <tr>
+                    <th style="width:40%;">উপাদানের নাম</th>
+                    <th style="width:60%;">মোট পরিমাণ</th>
+                </tr>
+            </thead>
+            <tbody id="screenAccTable"></tbody>
+        </table>
+    </div>
+
+    <div style="text-align:center;">
+        <button type="button" class="btn-preview-edit" onclick="openPreviewModal()">
+            🖨️ প্রিভিউ ও সম্পাদনা (প্রিন্ট করার আগে)
         </button>
     </div>
 
-    <!-- Screen UI Result -->
-    <div id="resultArea" class="result-section">
-        <div class="result-title">১. অ্যালুমিনিয়াম সেকশন হিসাব (২১ ফিট লম্বা পাইপ)</div>
-        <div class="table-wrap">
-            <table class="screen-table">
-                <thead>
-                    <tr>
-                        <th style="width: 45%;">মালের নাম ও স্পেসিফিকেশন</th>
-                        <th style="width: 25%;">টোটাল রানিং ফিট</th>
-                        <th style="width: 30%;">পিস (২১ ফিট)</th>
-                    </tr>
-                </thead>
-                <tbody id="screenAlumTable"></tbody>
-            </table>
-        </div>
+</div>
 
-        <div class="result-title">২. গ্লাস এরিয়া ও টেপ হিসাব</div>
-        <div class="table-wrap">
-            <table class="screen-table">
-                <thead>
-                    <tr>
-                        <th style="width: 40%;">বিবরণ</th>
-                        <th style="width: 60%;">মোট স্কয়ার ফিট / পরিমাণ</th>
-                    </tr>
-                </thead>
-                <tbody id="screenGlassTable"></tbody>
-            </table>
-        </div>
+</div><!-- EDITABLE PREVIEW MODAL --><div class="modal-overlay" id="previewModal"><div class="modal-box">
 
-        <div class="result-title">৩. এক্সেসরিজ ও ফিটিংস হিসাব</div>
-        <div class="table-wrap">
-            <table class="screen-table">
-                <thead>
-                    <tr>
-                        <th style="width: 40%;">উপাদানের নাম</th>
-                        <th style="width: 60%;">মোট পরিমাণ</th>
-                    </tr>
-                </thead>
-                <tbody id="screenAccTable"></tbody>
-            </table>
-        </div>
-
-        <div class="total-summary no-print">
-            <div class="summary-card"><span class="summary-label">মোট হাইট</span><span class="summary-value" id="summaryHeight">0</span></div>
-            <div class="summary-card"><span class="summary-label">মোট চওড়া</span><span class="summary-value" id="summaryWidth">0</span></div>
-            <div class="summary-card"><span class="summary-label">মোট খোপ</span><span class="summary-value" id="summaryKhop">0</span></div>
-        </div>
-
-        <div class="action-buttons no-print">
-            <button type="button" class="btn-print" onclick="printInvoice()">
-                🖨️ পিডিএফ প্রিন্ট (A4 ওয়ান পেজ)
-            </button>
-        </div>
+    <div class="modal-header">
+        <div class="modal-title">প্রিন্ট প্রিভিউ ও সম্পাদনা</div>
+        <button class="close-sidebar" onclick="closePreviewModal()">বন্ধ</button>
     </div>
-    
-    <!-- ========================================== -->
-    <!-- PDF PRINT LAYOUT (Matches the Image perfectly) -->
-    <!-- ========================================== -->
-    <div id="printLayout">
-        <div class="pdf-main-header">
-            <div class="pdf-shop-name" id="pdfShopName">আরএম থাই অ্যালুমিনিয়াম</div>
-            <div class="pdf-phone-pill">
-                📞 মোবাইল: <span id="pdfShopPhone"></span>
-            </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+
+        <div>
+            <label style="font-size:12px;color:#0033a0;font-weight:800;">
+                👤 কাস্টমার নাম:
+            </label>
+
+            <input
+                type="text"
+                id="editCustomer"
+                class="edit-table-input"
+                placeholder="কাস্টমারের নাম লিখুন">
         </div>
 
-        <div class="pdf-info-box">
-            <div class="pdf-info-row">
-                <div class="pdf-info-label">👤 কাস্টমার</div>
-                <div class="pdf-info-value"></div>
-            </div>
-            <div class="pdf-info-row">
-                <div class="pdf-info-label">🏢 প্রজেক্ট</div>
-                <div class="pdf-info-value"></div>
-            </div>
+        <div>
+            <label style="font-size:12px;color:#0033a0;font-weight:800;">
+                🏢 প্রজেক্ট / ঠিকানা:
+            </label>
+
+            <input
+                type="text"
+                id="editProject"
+                class="edit-table-input"
+                placeholder="প্রজেক্ট বা স্থান">
         </div>
 
-        <div class="pdf-table-title">প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)</div>
-        <table class="pdf-table">
+    </div>
+
+    <div
+        style="font-weight:900;color:#0033a0;margin:10px 0 4px 0;font-size:14px;"
+        id="modalMatTitle">
+        ১. প্রয়োজনীয় মালামালের বিবরণ (সম্পাদনা যোগ্য)
+    </div>
+
+    <div class="table-wrap">
+
+        <table class="screen-table">
+
             <thead>
                 <tr>
-                    <th style="width: 15%;">ক্রমিক নং</th>
-                    <th style="width: 40%;">মালামালের নাম</th>
-                    <th style="width: 25%;">সাইজ</th>
-                    <th style="width: 20%;">প্রকৃত পরিমাণ</th>
+                    <th style="width:10%;">ক্র. নং</th>
+                    <th style="width:40%;">মালামালের নাম</th>
+                    <th style="width:25%;">সাইজ</th>
+                    <th style="width:25%;">প্রকৃত পরিমাণ</th>
                 </tr>
             </thead>
-            <tbody id="pdfMaterialTable"></tbody>
+
+            <tbody id="editMaterialTbody"></tbody>
+
         </table>
 
-        <div class="pdf-table-title">এক্সেসরিজের তালিকা</div>
-        <table class="pdf-table">
+    </div>
+
+    <div style="font-weight:900;color:#0033a0;margin:12px 0 4px 0;font-size:14px;">
+        ২. এক্সেসরিজের তালিকা (সম্পাদনা যোগ্য)
+    </div>
+
+    <div class="table-wrap">
+
+        <table class="screen-table">
+
             <thead>
                 <tr>
-                    <th style="width: 15%;">ক্রমিক নং</th>
-                    <th style="width: 55%;">এক্সেসরিজের নাম</th>
-                    <th style="width: 30%;">পরিমাণ</th>
+                    <th style="width:10%;">ক্র. নং</th>
+                    <th style="width:55%;">এক্সেসরিজের নাম</th>
+                    <th style="width:35%;">পরিমাণ</th>
                 </tr>
             </thead>
-            <tbody id="pdfAccTable"></tbody>
+
+            <tbody id="editAccTbody"></tbody>
+
         </table>
 
-        <div class="pdf-footer">
-            <div class="pdf-footer-text">ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।</div>
-        </div>
+    </div>
+
+    <div style="text-align:center;margin-top:15px;">
+
+        <button
+            type="button"
+            class="btn-calc"
+            onclick="triggerFinalPrint()"
+            style="background:#0033a0;">
+            🖨️ প্রিন্ট / পিডিএফ সেভ করুন (১ পেজ)
+        </button>
+
     </div>
 
 </div>
 
-<script>
+</div><!-- PDF PRINT LAYOUT --><div id="printLayout"><div class="pdf-outer-border">
+
+    <div>
+
+        <div class="pdf-main-header">
+
+            <div class="pdf-top-date">
+                তারিখ: <span id="pdfDate"></span>
+            </div>
+
+            <div
+                class="pdf-shop-name"
+                id="pdfShopName">
+                আরএম থাই অ্যালুমিনিয়াম
+            </div>
+
+            <div class="pdf-phone-pill">
+                📞 মোবাইল:
+                <span id="pdfShopPhone">01676474412</span>
+            </div>
+
+        </div>
+
+        <div class="pdf-info-box">
+
+            <div class="pdf-info-row">
+
+                <div class="pdf-info-label">
+                    👤 কাস্টমার
+                </div>
+
+                <div
+                    class="pdf-info-value"
+                    id="pdfCustomer">
+                </div>
+
+            </div>
+
+            <div class="pdf-info-row">
+
+                <div class="pdf-info-label">
+                    🏢 প্রজেক্ট
+                </div>
+
+                <div
+                    class="pdf-info-value"
+                    id="pdfProject">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            class="pdf-table-title"
+            id="pdfTableTitle">
+            প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)
+        </div>
+
+        <table class="pdf-table">
+
+            <thead>
+
+                <tr>
+                    <th style="width:10%;">ক্রমিক</th>
+                    <th style="width:45%;">মালামালের নাম</th>
+                    <th style="width:25%;">সাইজ</th>
+                    <th style="width:20%;">প্রকৃত পরিমাণ</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="pdfMaterialTable"></tbody>
+
+        </table>
+
+        <div class="pdf-table-title">
+            এক্সেসরিজের তালিকা
+        </div>
+
+        <table class="pdf-table">
+
+            <thead>
+
+                <tr>
+                    <th style="width:12%;">ক্রমিক</th>
+                    <th style="width:58%;">এক্সেসরিজের নাম</th>
+                    <th style="width:30%;">পরিমাণ</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="pdfAccTable"></tbody>
+
+        </table>
+
+    </div>
+
+    <div class="pdf-footer">
+
+        <div class="pdf-footer-text">
+            ধন্যবাদ আপনার মূল্যবান আস্থার জন্য।
+        </div>
+
+    </div>
+
+</div>
+
+</div><script>
+
 let dimensionCounter = 0;
+let calculatedMaterials = [];
+let calculatedAccs = [];
+let currentSectionHeader = "";
 
 document.addEventListener("DOMContentLoaded", function () {
     setCurrentDate();
@@ -535,16 +1176,28 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function setCurrentDate() {
+
     const today = new Date();
-    const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+    const formattedDate =
+        `${String(today.getDate()).padStart(2, '0')}/` +
+        `${String(today.getMonth() + 1).padStart(2, '0')}/` +
+        `${today.getFullYear()}`;
+
     document.getElementById("currentDate").innerText = formattedDate;
+    document.getElementById("pdfDate").innerText = formattedDate;
 }
 
 function loadShopData() {
+
     const savedName = localStorage.getItem("cw_shopName");
     const savedPhone = localStorage.getItem("cw_shopPhone");
-    if (savedName) document.getElementById("shopName").value = savedName;
-    if (savedPhone) document.getElementById("shopPhone").value = savedPhone;
+
+    if (savedName)
+        document.getElementById("shopName").value = savedName;
+
+    if (savedPhone)
+        document.getElementById("shopPhone").value = savedPhone;
 }
 
 document.getElementById("shopName").addEventListener("input", function () {
@@ -559,129 +1212,366 @@ function toggleSidebar() {
     document.getElementById("historySidebar").classList.toggle("active");
 }
 
-function addDimensionBox(height = "", width = "", cols = "", rows = "", color = "Silver", size = "4") {
+function addDimensionBox(
+    height = "",
+    width = "",
+    cols = "",
+    rows = "",
+    color = "Silver",
+    size = "4",
+    pipeLen = "21"
+) {
+
     dimensionCounter++;
-    const container = document.getElementById("dimensionContainer");
-    const card = document.createElement("div");
+
+    const container =
+        document.getElementById("dimensionContainer");
+
+    const card =
+        document.createElement("div");
+
     card.className = "dimension-card";
     card.dataset.id = dimensionCounter;
 
     card.innerHTML = `
         <div class="dimension-header-bar">
-            <div class="dimension-card-number">বক্স ${dimensionCounter}</div>
-            <div class="dropdown-group">
-                <select class="header-select cw-color">
-                    <option value="Silver" ${color === 'Silver' ? 'selected' : ''}>সিলভার (Silver)</option>
-                    <option value="Sparkle Grey" ${color === 'Sparkle Grey' ? 'selected' : ''}>স্পার্কল গ্রে (Sparkle Grey)</option>
-                    <option value="Wooden" ${color === 'Wooden' ? 'selected' : ''}>উডেন (Wooden)</option>
-                    <option value="Black" ${color === 'Black' ? 'selected' : ''}>ব্ল্যাক (Black)</option>
-                    <option value="Bronze" ${color === 'Bronze' ? 'selected' : ''}>ব্রঞ্জ (Bronze)</option>
-                    <option value="White" ${color === 'White' ? 'selected' : ''}>হোয়াইট (White)</option>
-                </select>
-                <select class="header-select cw-size">
-                    <option value="4" ${size === '4' ? 'selected' : ''}>৪ ইঞ্চি (4") সেকশন</option>
-                    <option value="2" ${size === '2' ? 'selected' : ''}>২ ইঞ্চি (2") সেকশন</option>
-                </select>
+
+            <div class="dimension-card-number">
+                বক্স ${dimensionCounter}
             </div>
-            ${dimensionCounter > 1 ? `<button type="button" class="remove-box-btn" onclick="removeDimensionBox(this)" title="বক্সটি কাটুন">×</button>` : ""}
+
+            <div class="dropdown-group">
+
+                <select class="header-select cw-color">
+
+                    <option value="সিলভার"
+                        ${color === 'সিলভার' || color === 'Silver' ? 'selected' : ''}>
+                        সিলভার (Silver)
+                    </option>
+
+                    <option value="স্পার্কল গ্রে"
+                        ${color === 'স্পার্কল গ্রে' || color === 'Sparkle Grey' ? 'selected' : ''}>
+                        স্পার্কল গ্রে (Sparkle Grey)
+                    </option>
+
+                    <option value="উডেন"
+                        ${color === 'উডেন' || color === 'Wooden' ? 'selected' : ''}>
+                        উডেন (Wooden)
+                    </option>
+
+                    <option value="ব্ল্যাক"
+                        ${color === 'ব্ল্যাক' || color === 'Black' ? 'selected' : ''}>
+                        ব্ল্যাক (Black)
+                    </option>
+
+                    <option value="ব্রঞ্জ"
+                        ${color === 'ব্রঞ্জ' || color === 'Bronze' ? 'selected' : ''}>
+                        ব্রঞ্জ (Bronze)
+                    </option>
+
+                    <option value="হোয়াইট"
+                        ${color === 'হোয়াইট' || color === 'White' ? 'selected' : ''}>
+                        হোয়াইট (White)
+                    </option>
+
+                </select>
+
+                <select class="header-select cw-size">
+
+                    <option value="4"
+                        ${size === '4' ? 'selected' : ''}>
+                        ৪" সেকশন
+                    </option>
+
+                    <option value="2"
+                        ${size === '2' ? 'selected' : ''}>
+                        ২" সেকশন
+                    </option>
+
+                </select>
+
+                <select class="header-select cw-pipe">
+
+                    <option value="21"
+                        ${pipeLen === '21' ? 'selected' : ''}>
+                        ২১ ফিটের বার
+                    </option>
+
+                    <option value="18.5"
+                        ${pipeLen === '18.5' ? 'selected' : ''}>
+                        ১৮.৫ ফিটের বার
+                    </option>
+
+                </select>
+
+            </div>
+
+            ${
+                dimensionCounter > 1
+                ?
+                `<button
+                    type="button"
+                    class="remove-box-btn"
+                    onclick="removeDimensionBox(this)"
+                    title="বক্সটি কাটুন">×</button>`
+                :
+                ""
+            }
+
         </div>
+
         <div class="input-grid">
+
             <div class="input-group">
                 <label>মোট হাইট (ফিট)</label>
-                <input type="number" class="cw-height" placeholder="যেমন: 10" step="0.01" min="0" value="${height}">
+                <input
+                    type="number"
+                    class="cw-height"
+                    placeholder="যেমন: 10"
+                    step="0.01"
+                    min="0"
+                    value="${height}">
             </div>
+
             <div class="input-group">
                 <label>মোট চওড়া / লেন্থ</label>
-                <input type="number" class="cw-width" placeholder="যেমন: 21" step="0.01" min="0" value="${width}">
+                <input
+                    type="number"
+                    class="cw-width"
+                    placeholder="যেমন: 21"
+                    step="0.01"
+                    min="0"
+                    value="${width}">
             </div>
+
             <div class="input-group">
                 <label>খাড়া কলাম (খোপ)</label>
-                <input type="number" class="cw-cols" placeholder="যেমন: 4" step="1" min="1" value="${cols}">
+                <input
+                    type="number"
+                    class="cw-cols"
+                    placeholder="যেমন: 4"
+                    step="1"
+                    min="1"
+                    value="${cols}">
             </div>
+
             <div class="input-group">
                 <label>আড়াআড়ি (খোপ)</label>
-                <input type="number" class="cw-rows" placeholder="যেমন: 2" step="1" min="1" value="${rows}">
+                <input
+                    type="number"
+                    class="cw-rows"
+                    placeholder="যেমন: 2"
+                    step="1"
+                    min="1"
+                    value="${rows}">
             </div>
+
         </div>
     `;
+
     container.appendChild(card);
 }
 
 function removeDimensionBox(button) {
-    const card = button.closest(".dimension-card");
+
+    const card =
+        button.closest(".dimension-card");
+
     if (!card) return;
+
     card.remove();
+
     renumberDimensionBoxes();
 }
 
 function renumberDimensionBoxes() {
-    const cards = document.querySelectorAll(".dimension-card");
+
+    const cards =
+        document.querySelectorAll(".dimension-card");
+
     cards.forEach(function (card, index) {
-        const number = card.querySelector(".dimension-card-number");
-        if (number) number.textContent = "বক্স " + (index + 1);
+
+        const number =
+            card.querySelector(".dimension-card-number");
+
+        if (number)
+            number.textContent = "বক্স " + (index + 1);
     });
 }
 
 function getDimensionData() {
-    const cards = document.querySelectorAll(".dimension-card");
-    const data = [];
-    cards.forEach(function (card) {
-        const height = parseFloat(card.querySelector(".cw-height").value) || 0;
-        const width = parseFloat(card.querySelector(".cw-width").value) || 0;
-        const cols = parseInt(card.querySelector(".cw-cols").value) || 0;
-        const rows = parseInt(card.querySelector(".cw-rows").value) || 0;
-        const color = card.querySelector(".cw-color").value;
-        const size = card.querySelector(".cw-size").value;
 
-        if (height > 0 || width > 0 || cols > 0 || rows > 0) {
-            data.push({ height, width, cols, rows, color, size });
+    const cards =
+        document.querySelectorAll(".dimension-card");
+
+    const data = [];
+
+    cards.forEach(function (card) {
+
+        const height =
+            parseFloat(
+                card.querySelector(".cw-height").value
+            ) || 0;
+
+        const width =
+            parseFloat(
+                card.querySelector(".cw-width").value
+            ) || 0;
+
+        const cols =
+            parseInt(
+                card.querySelector(".cw-cols").value
+            ) || 0;
+
+        const rows =
+            parseInt(
+                card.querySelector(".cw-rows").value
+            ) || 0;
+
+        const color =
+            card.querySelector(".cw-color").value;
+
+        const size =
+            card.querySelector(".cw-size").value;
+
+        const pipeLen =
+            parseFloat(
+                card.querySelector(".cw-pipe").value
+            ) || 21;
+
+        if (
+            height > 0 ||
+            width > 0 ||
+            cols > 0 ||
+            rows > 0
+        ) {
+
+            data.push({
+                height,
+                width,
+                cols,
+                rows,
+                color,
+                size,
+                pipeLen
+            });
         }
     });
+
     return data;
 }
 
 function calculateMaterials() {
-    const dimensions = getDimensionData();
+
+    const dimensions =
+        getDimensionData();
+
     if (dimensions.length === 0) {
-        alert("দয়া করে অন্তত একটি মাপের বক্সে তথ্য দিন।");
+
+        alert(
+            "দয়া করে অন্তত একটি মাপের বক্সে তথ্য দিন।"
+        );
+
         return;
     }
 
     let groupSummary = {};
-    let totalGlassSqft = 0, totalTapeFeet = 0;
-    let totalClamps = 0, totalRoyalBolts = 0, totalScrews = 0, totalNutBolts = 0, totalRivets = 0;
-    let totalKhop = 0, displayHeight = 0, displayWidth = 0;
+
+    let totalGlassSqft = 0;
+    let totalTapeFeet = 0;
+
+    let totalClamps = 0;
+    let totalRoyalBolts = 0;
+    let totalScrews = 0;
+    let totalNutBolts = 0;
+    let totalRivets = 0;
+
+    let totalKhop = 0;
+
+    let mainHeaderTitles = [];
 
     dimensions.forEach(function (item) {
-        const height = item.height, width = item.width, cols = item.cols, rows = item.rows;
-        const color = item.color, size = item.size;
-        if (height <= 0 || width <= 0 || cols <= 0 || rows <= 0) return;
 
-        const groupKey = `${size}" - ${color}`;
+        const height = item.height;
+        const width = item.width;
+        const cols = item.cols;
+        const rows = item.rows;
+
+        const color = item.color;
+        const size = item.size;
+        const pipeLen = item.pipeLen;
+
+        if (
+            height <= 0 ||
+            width <= 0 ||
+            cols <= 0 ||
+            rows <= 0
+        ) return;
+
+        const headerTitleStr =
+            `${color} ${size}" সেকশন`;
+
+        if (!mainHeaderTitles.includes(headerTitleStr)) {
+            mainHeaderTitles.push(headerTitleStr);
+        }
+
+        const groupKey =
+            `${size}" - ${color} (${pipeLen} ft)`;
+
         if (!groupSummary[groupKey]) {
-            groupSummary[groupKey] = { halfFeet: 0, fullFeet: 0, angleFeet: 0, size: size, color: color };
+
+            groupSummary[groupKey] = {
+                halfFeet: 0,
+                fullFeet: 0,
+                angleFeet: 0,
+                size: size,
+                color: color,
+                pipeLen: pipeLen
+            };
         }
 
         const khop = cols * rows;
+
         totalKhop += khop;
-        displayHeight = Math.max(displayHeight, height);
-        displayWidth += width;
 
-        groupSummary[groupKey].halfFeet += (width * 2) + (height * 2);
+        groupSummary[groupKey].halfFeet +=
+            (width * 2) + (height * 2);
 
-        const verticalPipesCount = cols + 1;
-        const middleVerticalFeet = (cols - 1) * height;
-        let horizontalFeetPerLine = width - ((verticalPipesCount * 2) / 12);
-        if (horizontalFeetPerLine < 0) horizontalFeetPerLine = 0;
-        const middleHorizontalFeet = (rows - 1) * horizontalFeetPerLine;
+        const verticalPipesCount =
+            cols + 1;
 
-        groupSummary[groupKey].fullFeet += middleVerticalFeet + middleHorizontalFeet;
-        groupSummary[groupKey].angleFeet += khop * (8 / 12);
+        const middleVerticalFeet =
+            (cols - 1) * height;
 
-        totalGlassSqft += width * height;
-        totalTapeFeet += ((width / cols * 2) + (height / rows * 2)) * khop;
+        let horizontalFeetPerLine =
+            width -
+            ((verticalPipesCount * 2) / 12);
 
-        const clamps = verticalPipesCount * 4;
+        if (horizontalFeetPerLine < 0)
+            horizontalFeetPerLine = 0;
+
+        const middleHorizontalFeet =
+            (rows - 1) *
+            horizontalFeetPerLine;
+
+        groupSummary[groupKey].fullFeet +=
+            middleVerticalFeet +
+            middleHorizontalFeet;
+
+        groupSummary[groupKey].angleFeet +=
+            khop * (8 / 12);
+
+        totalGlassSqft +=
+            width * height;
+
+        totalTapeFeet +=
+            ((width / cols * 2) +
+            (height / rows * 2)) *
+            khop;
+
+        const clamps =
+            verticalPipesCount * 4;
+
         totalClamps += clamps;
         totalRoyalBolts += clamps;
         totalScrews += clamps * 2;
@@ -690,170 +1580,682 @@ function calculateMaterials() {
     });
 
     if (totalKhop === 0) {
-        alert("হাইট, চওড়া এবং খোপের সংখ্যা সঠিকভাবে দিন।");
+
+        alert(
+            "হাইট, চওড়া এবং খোপের সংখ্যা সঠিকভাবে দিন।"
+        );
+
         return;
     }
 
-    const totalMaskingTapeRolls = Math.ceil(totalTapeFeet / 26.4); 
-    const totalNotanTapeRolls = Math.ceil(totalTapeFeet / 100);
-    const totalSilicon = Math.ceil(totalGlassSqft / 10);
+    currentSectionHeader =
+        mainHeaderTitles.join(", ") +
+        " - প্রয়োজনীয় মালামালের বিবরণ (প্রকৃত পরিমাণ)";
 
-    // =====================================
-    // 1. Populate Screen View UI (App View)
-    // =====================================
+    const totalMaskingTapeRolls =
+        Math.ceil(totalTapeFeet / 26.4);
+
+    const totalNotanTapeRolls =
+        Math.ceil(totalTapeFeet / 100);
+
+    const totalSilicon =
+        Math.ceil(totalGlassSqft / 10);
+
     let screenAlumHTML = "";
-    let pdfMaterialHTML = "";
-    let pdfSerial = 1;
+
+    calculatedMaterials = [];
+    calculatedAccs = [];
 
     for (const key in groupSummary) {
-        const item = groupSummary[key];
-        const halfPipes = Math.ceil(item.halfFeet / 21);
-        const fullPipes = Math.ceil(item.fullFeet / 21);
-        const anglePipes = Math.ceil(item.angleFeet / 21);
-        const sizeDesc = `${item.size}" ${item.color}`;
 
-        // Screen Table
+        const item =
+            groupSummary[key];
+
+        const pipeLen =
+            item.pipeLen;
+
+        const halfPipes =
+            Math.ceil(
+                item.halfFeet / pipeLen
+            );
+
+        const fullPipes =
+            Math.ceil(
+                item.fullFeet / pipeLen
+            );
+
+        const anglePipes =
+            Math.ceil(
+                item.angleFeet / pipeLen
+            );
+
+        const barSizeText =
+            `${pipeLen} ফিটের বার`;
+
         screenAlumHTML += `
-            <tr style="background:#e0f2fe; text-align:left;">
-                <td colspan="3">স্পেসিফিকেশন: <strong>${item.size} ইঞ্চি কার্টেন ওয়াল (${item.color})</strong></td>
+
+            <tr style="background:#e0f2fe;text-align:left;">
+                <td colspan="3">
+                    স্পেসিফিকেশন:
+                    <strong>
+                        ${item.color}
+                        ${item.size} ইঞ্চি কার্টেন ওয়াল
+                        - বার: ${pipeLen} ফিট
+                    </strong>
+                </td>
             </tr>
-            <tr><td>হাফ সেকশন (Top & Side)</td><td>${item.halfFeet.toFixed(2)} ফিট</td><td><strong>${halfPipes} পিস</strong></td></tr>
-            <tr><td>ফুল সেকশন (Middle)</td><td>${item.fullFeet.toFixed(2)} ফিট</td><td><strong>${fullPipes} পিস</strong></td></tr>
-            <tr><td>অ্যাঙ্গেল (Angle)</td><td>${item.angleFeet.toFixed(2)} ফিট</td><td><strong>${anglePipes} পিস</strong></td></tr>
+
+            <tr>
+                <td>হাফ সেকশন (Top & Side)</td>
+                <td>${barSizeText}</td>
+                <td><strong>${halfPipes} পিস</strong></td>
+            </tr>
+
+            <tr>
+                <td>ফুল সেকশন (Middle)</td>
+                <td>${barSizeText}</td>
+                <td><strong>${fullPipes} পিস</strong></td>
+            </tr>
+
+            <tr>
+                <td>অ্যাঙ্গেল (Angle)</td>
+                <td>${barSizeText}</td>
+                <td><strong>${anglePipes} পিস</strong></td>
+            </tr>
         `;
 
-        // PDF Material Table rows for this section
-        pdfMaterialHTML += `
-            <tr><td>${pdfSerial++}</td><td style="text-align:left;">হাফ সেকশন (Top & Side)</td><td>${sizeDesc} (${item.halfFeet.toFixed(2)} ft)</td><td>${halfPipes} পিস</td></tr>
-            <tr><td>${pdfSerial++}</td><td style="text-align:left;">ফুল সেকশন (Middle)</td><td>${sizeDesc} (${item.fullFeet.toFixed(2)} ft)</td><td>${fullPipes} পিস</td></tr>
-            <tr><td>${pdfSerial++}</td><td style="text-align:left;">অ্যাঙ্গেল (Angle)</td><td>${sizeDesc} (${item.angleFeet.toFixed(2)} ft)</td><td>${anglePipes} পিস</td></tr>
-        `;
+        calculatedMaterials.push({
+            name: `হাফ সেকশন (Top & Side)`,
+            size: barSizeText,
+            qty: `${halfPipes} পিস`
+        });
+
+        calculatedMaterials.push({
+            name: `ফুল সেকশন (Middle)`,
+            size: barSizeText,
+            qty: `${fullPipes} পিস`
+        });
+
+        calculatedMaterials.push({
+            name: `অ্যাঙ্গেল (Angle)`,
+            size: barSizeText,
+            qty: `${anglePipes} পিস`
+        });
     }
-    
-    document.getElementById("screenAlumTable").innerHTML = screenAlumHTML;
 
-    document.getElementById("screenGlassTable").innerHTML = `
-        <tr><td>মোট গ্লাস এরিয়া</td><td><strong>${totalGlassSqft.toFixed(2)} স্কয়ার ফিট</strong> (মোট খোপ: ${totalKhop}টি)</td></tr>
-        <tr><td>মাস্কিং টেপ (Masking Tape)</td><td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalMaskingTapeRolls} চাকি/রোল)</td></tr>
-        <tr><td>নটেন টেপ (Notan Tape)</td><td><strong>${totalTapeFeet.toFixed(2)} ফিট</strong> (আনুমানিক ${totalNotanTapeRolls} বান্ডেল)</td></tr>
-        <tr><td>সিলিকন গাম (Silicon Gum)</td><td><strong>${totalSilicon} পিস</strong></td></tr>
+    document.getElementById(
+        "screenAlumTable"
+    ).innerHTML = screenAlumHTML;
+
+    document.getElementById(
+        "screenGlassTable"
+    ).innerHTML = `
+
+        <tr>
+            <td>মোট গ্লাস এরিয়া</td>
+            <td>
+                <strong>
+                    ${totalGlassSqft.toFixed(2)} sqft
+                </strong>
+                (${totalKhop} টি খোপ)
+            </td>
+        </tr>
+
+        <tr>
+            <td>মাস্কিং টেপ (Masking Tape)</td>
+            <td>
+                <strong>
+                    ${totalMaskingTapeRolls} রোল
+                </strong>
+            </td>
+        </tr>
+
+        <tr>
+            <td>নটেন টেপ (Notan Tape)</td>
+            <td>
+                <strong>
+                    ${totalNotanTapeRolls} বান্ডেল
+                </strong>
+            </td>
+        </tr>
+
+        <tr>
+            <td>সিলিকন গাম (Silicon Gum)</td>
+            <td>
+                <strong>
+                    ${totalSilicon} পিস
+                </strong>
+            </td>
+        </tr>
     `;
 
-    document.getElementById("screenAccTable").innerHTML = `
-        <tr><td>ক্ল্যাম (Clamps)</td><td><strong>${totalClamps} পিস</strong></td></tr>
-        <tr><td>রয়্যাল বোল্ট</td><td><strong>${totalRoyalBolts} পিস</strong></td></tr>
-        <tr><td>১ ইঞ্চি স্ক্রু</td><td><strong>${totalScrews} পিস</strong></td></tr>
-        <tr><td>২" নাট-বোল্ট</td><td><strong>${totalNutBolts} পিস</strong></td></tr>
-        <tr><td>রিপিট (Rivets)</td><td><strong>${totalRivets} পিস</strong> (প্রতি খোপে ২০টি করে)</td></tr>
+    document.getElementById(
+        "screenAccTable"
+    ).innerHTML = `
+
+        <tr>
+            <td>ক্ল্যাম (Clamps)</td>
+            <td><strong>${totalClamps} পিস</strong></td>
+        </tr>
+
+        <tr>
+            <td>রয়্যাল বোল্ট</td>
+            <td><strong>${totalRoyalBolts} পিস</strong></td>
+        </tr>
+
+        <tr>
+            <td>১ ইঞ্চি স্ক্রু</td>
+            <td><strong>${totalScrews} পিস</strong></td>
+        </tr>
+
+        <tr>
+            <td>২" নাট-বোল্ট</td>
+            <td><strong>${totalNutBolts} পিস</strong></td>
+        </tr>
+
+        <tr>
+            <td>রিপিট (Rivets)</td>
+            <td><strong>${totalRivets} পিস</strong></td>
+        </tr>
     `;
 
-    // =====================================
-    // 2. Populate PDF Print Layout (Image match)
-    // =====================================
-    pdfMaterialHTML += `
-        <tr><td>${pdfSerial++}</td><td style="text-align:left;">গ্লাস (Glass)</td><td>${totalGlassSqft.toFixed(2)} sqft</td><td>${totalKhop} টি খোপ</td></tr>
-        <tr><td>${pdfSerial++}</td><td style="text-align:left;">মাস্কিং টেপ (Masking Tape)</td><td>${totalTapeFeet.toFixed(2)} ft</td><td>${totalMaskingTapeRolls} চাকি/রোল</td></tr>
-        <tr><td>${pdfSerial++}</td><td style="text-align:left;">নটেন টেপ (Notan Tape)</td><td>${totalTapeFeet.toFixed(2)} ft</td><td>${totalNotanTapeRolls} বান্ডেল</td></tr>
-        <tr><td>${pdfSerial++}</td><td style="text-align:left;">সিলিকন গাম (Silicon Gum)</td><td>-</td><td>${totalSilicon} পিস</td></tr>
-    `;
-    document.getElementById("pdfMaterialTable").innerHTML = pdfMaterialHTML;
+    calculatedMaterials.push({
+        name: "গ্লাস (Glass)",
+        size: `${totalGlassSqft.toFixed(2)} sqft`,
+        qty: `${totalKhop} টি খোপ`
+    });
 
-    document.getElementById("pdfAccTable").innerHTML = `
-        <tr><td>1</td><td style="text-align:left;">ক্ল্যাম (Clamps)</td><td>${totalClamps} পিস</td></tr>
-        <tr><td>2</td><td style="text-align:left;">রয়্যাল বোল্ট</td><td>${totalRoyalBolts} পিস</td></tr>
-        <tr><td>3</td><td style="text-align:left;">১ ইঞ্চি স্ক্রু</td><td>${totalScrews} পিস</td></tr>
-        <tr><td>4</td><td style="text-align:left;">২" নাট-বোল্ট</td><td>${totalNutBolts} পিস</td></tr>
-        <tr><td>5</td><td style="text-align:left;">রিপিট (Rivets)</td><td>${totalRivets} পিস</td></tr>
-    `;
+    calculatedMaterials.push({
+        name: "মাস্কিং টেপ (Masking Tape)",
+        size: "-",
+        qty: `${totalMaskingTapeRolls} রোল`
+    });
 
-    // Update screen summaries
-    document.getElementById("summaryHeight").textContent = displayHeight.toFixed(2) + " ফিট";
-    document.getElementById("summaryWidth").textContent = displayWidth.toFixed(2) + " ফিট";
-    document.getElementById("summaryKhop").textContent = totalKhop + " টি";
+    calculatedMaterials.push({
+        name: "নটেন টেপ (Notan Tape)",
+        size: "-",
+        qty: `${totalNotanTapeRolls} বান্ডেল`
+    });
 
-    document.getElementById("resultArea").style.display = "block";
+    calculatedMaterials.push({
+        name: "সিলিকন গাম (Silicon Gum)",
+        size: "-",
+        qty: `${totalSilicon} পিস`
+    });
+
+    calculatedAccs.push({
+        name: "ক্ল্যাম (Clamps)",
+        qty: `${totalClamps} পিস`
+    });
+
+    calculatedAccs.push({
+        name: "রয়্যাল বোল্ট",
+        qty: `${totalRoyalBolts} পিস`
+    });
+
+    calculatedAccs.push({
+        name: "১ ইঞ্চি স্ক্রু",
+        qty: `${totalScrews} পিস`
+    });
+
+    calculatedAccs.push({
+        name: '২" নাট-বোল্ট',
+        qty: `${totalNutBolts} পিস`
+    });
+
+    calculatedAccs.push({
+        name: "রিপিট (Rivets)",
+        qty: `${totalRivets} পিস`
+    });
+
+    document.getElementById(
+        "resultArea"
+    ).style.display = "block";
+
     saveHistory(dimensions);
 
-    setTimeout(function () {
-        document.getElementById("resultArea").scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => {
+
+        document.getElementById(
+            "resultArea"
+        ).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
     }, 100);
 }
 
+function openPreviewModal() {
+
+    document.getElementById(
+        "previewModal"
+    ).classList.add("active");
+
+    document.getElementById(
+        "modalMatTitle"
+    ).innerText = currentSectionHeader;
+
+    let matHTML = "";
+
+    calculatedMaterials.forEach(
+        (item, index) => {
+
+            matHTML += `
+
+                <tr>
+
+                    <td>${index + 1}</td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="edit-table-input edit-mat-name"
+                            value="${item.name}">
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="edit-table-input edit-mat-size"
+                            value="${item.size}">
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="edit-table-input edit-mat-qty"
+                            value="${item.qty}">
+                    </td>
+
+                </tr>
+            `;
+        }
+    );
+
+    document.getElementById(
+        "editMaterialTbody"
+    ).innerHTML = matHTML;
+
+    let accHTML = "";
+
+    calculatedAccs.forEach(
+        (item, index) => {
+
+            accHTML += `
+
+                <tr>
+
+                    <td>${index + 1}</td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="edit-table-input edit-acc-name"
+                            value="${item.name}">
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="edit-table-input edit-acc-qty"
+                            value="${item.qty}">
+                    </td>
+
+                </tr>
+            `;
+        }
+    );
+
+    document.getElementById(
+        "editAccTbody"
+    ).innerHTML = accHTML;
+}
+
+function closePreviewModal() {
+
+    document.getElementById(
+        "previewModal"
+    ).classList.remove("active");
+}
+
+function triggerFinalPrint() {
+
+    let inputName =
+        document.getElementById(
+            "shopName"
+        ).value.trim();
+
+    let inputPhone =
+        document.getElementById(
+            "shopPhone"
+        ).value.trim();
+
+    let customerName =
+        document.getElementById(
+            "editCustomer"
+        ).value.trim();
+
+    let projectName =
+        document.getElementById(
+            "editProject"
+        ).value.trim();
+
+    document.getElementById(
+        "pdfShopName"
+    ).textContent =
+        inputName !== ""
+        ? inputName
+        : "আরএম থাই অ্যালুমিনিয়াম";
+
+    document.getElementById(
+        "pdfShopPhone"
+    ).textContent =
+        inputPhone !== ""
+        ? inputPhone
+        : "01676474412";
+
+    document.getElementById(
+        "pdfCustomer"
+    ).textContent =
+        customerName;
+
+    document.getElementById(
+        "pdfProject"
+    ).textContent =
+        projectName;
+
+    document.getElementById(
+        "pdfTableTitle"
+    ).textContent =
+        currentSectionHeader;
+
+    const matNames =
+        document.querySelectorAll(
+            ".edit-mat-name"
+        );
+
+    const matSizes =
+        document.querySelectorAll(
+            ".edit-mat-size"
+        );
+
+    const matQtys =
+        document.querySelectorAll(
+            ".edit-mat-qty"
+        );
+
+    let pdfMatHTML = "";
+
+    matNames.forEach((el, i) => {
+
+        pdfMatHTML += `
+
+            <tr>
+
+                <td>${i + 1}</td>
+
+                <td style="text-align:left;">
+                    ${el.value}
+                </td>
+
+                <td>
+                    ${matSizes[i].value}
+                </td>
+
+                <td>
+                    ${matQtys[i].value}
+                </td>
+
+            </tr>
+        `;
+    });
+
+    document.getElementById(
+        "pdfMaterialTable"
+    ).innerHTML = pdfMatHTML;
+
+    const accNames =
+        document.querySelectorAll(
+            ".edit-acc-name"
+        );
+
+    const accQtys =
+        document.querySelectorAll(
+            ".edit-acc-qty"
+        );
+
+    let pdfAccHTML = "";
+
+    accNames.forEach((el, i) => {
+
+        pdfAccHTML += `
+
+            <tr>
+
+                <td>${i + 1}</td>
+
+                <td style="text-align:left;">
+                    ${el.value}
+                </td>
+
+                <td>
+                    ${accQtys[i].value}
+                </td>
+
+            </tr>
+        `;
+    });
+
+    document.getElementById(
+        "pdfAccTable"
+    ).innerHTML = pdfAccHTML;
+
+    if (
+        window.Android &&
+        window.Android.print
+    ) {
+
+        window.Android.print();
+
+    } else {
+
+        window.print();
+
+    }
+}
+
 function saveHistory(dimensions) {
-    let history = JSON.parse(localStorage.getItem("cw_history")) || [];
-    const item = { dimensions: JSON.parse(JSON.stringify(dimensions)), date: new Date().toLocaleString("bn-BD") };
+
+    let history =
+        JSON.parse(
+            localStorage.getItem(
+                "cw_history"
+            )
+        ) || [];
+
+    const item = {
+        dimensions:
+            JSON.parse(
+                JSON.stringify(dimensions)
+            ),
+        date:
+            new Date().toLocaleString(
+                "bn-BD"
+            )
+    };
+
     history.unshift(item);
-    if (history.length > 20) history = history.slice(0, 20);
-    localStorage.setItem("cw_history", JSON.stringify(history));
+
+    if (history.length > 20)
+        history = history.slice(0, 20);
+
+    localStorage.setItem(
+        "cw_history",
+        JSON.stringify(history)
+    );
+
     loadHistory();
 }
 
 function loadHistory() {
-    const history = JSON.parse(localStorage.getItem("cw_history")) || [];
-    const listDiv = document.getElementById("historyList");
+
+    const history =
+        JSON.parse(
+            localStorage.getItem(
+                "cw_history"
+            )
+        ) || [];
+
+    const listDiv =
+        document.getElementById(
+            "historyList"
+        );
+
     listDiv.innerHTML = "";
+
     if (history.length === 0) {
-        listDiv.innerHTML = `<div style="text-align:center; color:#64748b; padding:20px; font-size:13px;">এখনো কোনো হিসাব সেভ করা হয়নি।</div>`;
+
+        listDiv.innerHTML = `
+            <div
+                style="
+                    text-align:center;
+                    color:#64748b;
+                    padding:20px;
+                    font-size:13px;
+                ">
+                এখনো কোনো হিসাব সেভ করা হয়নি।
+            </div>
+        `;
+
         return;
     }
-    history.forEach(function (item, index) {
-        const div = document.createElement("div");
-        div.className = "history-item";
-        const totalKhop = item.dimensions.reduce((sum, x) => sum + ((x.cols || 0) * (x.rows || 0)), 0);
-        div.innerHTML = `
-            <div class="history-text" onclick="loadHistoryItem(${index})">
-                <strong>হিসাব #${index + 1}</strong><br>
-                বক্স: ${item.dimensions.length}টি | খোপ: ${totalKhop}টি<br>
-                <small>${item.date || ""}</small>
-            </div>
-            <button class="delete-history-btn" onclick="deleteHistoryItem(${index}, event)" title="হিসাব মুছুন">🗑️</button>
-        `;
-        listDiv.appendChild(div);
-    });
+
+    history.forEach(
+        function (item, index) {
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "history-item";
+
+            const totalKhop =
+                item.dimensions.reduce(
+                    (sum, x) =>
+                        sum +
+                        ((x.cols || 0) *
+                        (x.rows || 0)),
+                    0
+                );
+
+            div.innerHTML = `
+
+                <div onclick="loadHistoryItem(${index})">
+
+                    <strong>
+                        হিসাব #${index + 1}
+                    </strong>
+
+                    <br>
+
+                    বক্স:
+                    ${item.dimensions.length}টি
+                    |
+                    খোপ:
+                    ${totalKhop}টি
+
+                    <br>
+
+                    <small>
+                        ${item.date || ""}
+                    </small>
+
+                </div>
+
+                <button
+                    class="delete-history-btn"
+                    onclick="deleteHistoryItem(${index}, event)"
+                    title="হিসাব মুছুন">
+                    🗑️
+                </button>
+            `;
+
+            listDiv.appendChild(div);
+        }
+    );
 }
 
 function loadHistoryItem(index) {
-    const history = JSON.parse(localStorage.getItem("cw_history")) || [];
-    const item = history[index];
+
+    const history =
+        JSON.parse(
+            localStorage.getItem(
+                "cw_history"
+            )
+        ) || [];
+
+    const item =
+        history[index];
+
     if (!item) return;
-    const container = document.getElementById("dimensionContainer");
+
+    const container =
+        document.getElementById(
+            "dimensionContainer"
+        );
+
     container.innerHTML = "";
+
     dimensionCounter = 0;
-    item.dimensions.forEach(function (dim) {
-        addDimensionBox(dim.height || "", dim.width || "", dim.cols || "", dim.rows || "", dim.color || "Silver", dim.size || "4");
-    });
+
+    item.dimensions.forEach(
+        function (dim) {
+
+            addDimensionBox(
+                dim.height || "",
+                dim.width || "",
+                dim.cols || "",
+                dim.rows || "",
+                dim.color || "সিলভার",
+                dim.size || "4",
+                dim.pipeLen || "21"
+            );
+        }
+    );
+
     toggleSidebar();
+
     calculateMaterials();
 }
 
 function deleteHistoryItem(index, event) {
+
     event.stopPropagation();
-    let history = JSON.parse(localStorage.getItem("cw_history")) || [];
-    if(confirm("আপনি কি নিশ্চিত যে এই হিসাবটি ডিলিট করতে চান?")) {
+
+    let history =
+        JSON.parse(
+            localStorage.getItem(
+                "cw_history"
+            )
+        ) || [];
+
+    if (
+        confirm(
+            "আপনি কি নিশ্চিত যে এই হিসাবটি ডিলিট করতে চান?"
+        )
+    ) {
+
         history.splice(index, 1);
-        localStorage.setItem("cw_history", JSON.stringify(history));
+
+        localStorage.setItem(
+            "cw_history",
+            JSON.stringify(history)
+        );
+
         loadHistory();
     }
 }
 
-function printInvoice() {
-    const resultArea = document.getElementById("resultArea");
-    if (resultArea.style.display !== "block") {
-        alert("আগে হিসাব বের করুন, তারপর PDF প্রিন্ট করুন।");
-        return;
-    }
-
-    // Set Dynamic Name and Phone in PDF Layout before printing
-    let inputName = document.getElementById("shopName").value.trim();
-    let inputPhone = document.getElementById("shopPhone").value.trim();
-    
-    // Fallback names if inputs are empty
-    document.getElementById("pdfShopName").textContent = inputName !== "" ? inputName : "আরএম থাই অ্যালুমিনিয়াম";
-    document.getElementById("pdfShopPhone").textContent = inputPhone !== "" ? inputPhone : "01676474412";
-
-    window.print();
-}
-</script>
-
-</body>
+</script></body>
 </html>

@@ -80,7 +80,7 @@
 
     .header-title-container {
       order: 3;
-      flex: 0 0 100%; /* Takes full width */
+      flex: 0 0 100%;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -92,7 +92,7 @@
     .main-title {
       margin: 0;
       font-weight: 900;
-      font-size: 26px; /* Bigger font size */
+      font-size: 26px;
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       line-height: 1.2;
       letter-spacing: 0.5px;
@@ -119,6 +119,11 @@
       font-size: 18px; font-weight: 900;
       text-align: center; outline: none;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .editable-input::placeholder {
+      font-size: 16px;
+      font-weight: normal;
+      color: #64748b;
     }
     
     .floor-unit-box { display: flex; gap: 10px; width: 100%; }
@@ -166,13 +171,19 @@
       display: flex; gap: 10px; align-items: center;
       border: 2px solid var(--border);
       box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      flex-wrap: wrap;
     }
     .window-row input {
-      flex: 1; min-width: 0; height: 50px; padding: 10px;
+      flex: 1; min-width: 120px; height: 50px; padding: 10px;
       border-radius: 8px; border: 2px solid var(--border);
       background: var(--input-bg); color: var(--text);
-      font-size: 18px; font-weight: 900;
+      font-size: 15px; font-weight: 900;
       text-align: center; outline: none; transition: 0.2s;
+    }
+    .window-row input::placeholder {
+        font-size: 13px;
+        font-weight: normal;
+        color: #64748b;
     }
     .window-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15); }
     
@@ -262,7 +273,7 @@
       .sub-title { font-size: 15px; }
       .result-options { grid-template-columns: 1fr; }
       .glass-size-text { font-size: 16px; }
-      .window-row input { font-size: 16px; }
+      .window-row input { font-size: 14px; }
     }
     
     @media (max-width: 380px) {
@@ -271,6 +282,56 @@
       .editable-input, .floor-unit-box select { font-size: 14px; }
       .btn, .btn-print { font-size: 14px; }
       .date-display { font-size: 11px; padding: 5px 8px; }
+    }
+
+    /* ================= PRINT MEDIA QUERIES ================= */
+    @media print {
+      @page { size: A4 portrait; margin: 8mm; }
+      body, html {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        color: #000 !important;
+      }
+      .main-container {
+        display: none !important; 
+      }
+      #printModal {
+        position: static !important;
+        display: block !important;
+        background: white !important;
+        padding: 0 !important;
+      }
+      .modal-content {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+      }
+      .modal-header, 
+      .modal-content > div:nth-child(2), 
+      .btn-print {
+        display: none !important;
+      }
+      #printContent {
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+        height: auto !important;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      table { page-break-inside: auto; width: 100%; border-collapse: collapse !important; }
+      tr { page-break-inside: avoid; page-break-after: auto; }
+      thead { display: table-header-group; }
     }
   </style>
 </head>
@@ -295,7 +356,7 @@
           
           <div id="currentDate" class="date-display"></div>
 
-          <!-- ফিক্সড টাইটেল সেকশন - ফুল উইডথ এবং বড় সাইজ -->
+          <!-- ফিক্সড টাইটেল সেকশন -->
           <div class="header-title-container">
             <h1 class="main-title">RM THAI ALUMINIUM</h1>
             <h2 class="sub-title">গ্লাস কাটিং সাইজ</h2>
@@ -303,8 +364,9 @@
         </div>
         
         <div class="shop-details">
-          <input type="text" id="shopName" class="editable-input" value="আর এম থাই অ্যালুমিনিয়াম" placeholder="দোকানের নাম" oninput="saveCurrentFormState()">
-          <input type="text" id="shopPhone" class="editable-input" value="মোবাইল: 01676474412" placeholder="মোবাইল নম্বর" oninput="saveCurrentFormState()">
+          <!-- প্লেসহোল্ডার আপনার দেওয়া নির্দেশ অনুযায়ী সেট করা হয়েছে -->
+          <input type="text" id="shopName" class="editable-input" value="" placeholder="আপনার দোকানের নাম দিন" oninput="saveCurrentFormState()">
+          <input type="text" id="shopPhone" class="editable-input" value="" placeholder="আপনার মোবাইল নাম্বার দিন" oninput="saveCurrentFormState()">
         </div>
         
         <div class="floor-unit-box">
@@ -321,6 +383,17 @@
             <option value="৮ম তলা">৮ম তলা</option>
             <option value="৯ম তলা">৯ম তলা</option>
             <option value="১০ম তলা">১০ম তলা</option>
+            <option value="১১ তলা">১১ তলা</option>
+            <option value="১২ তলা">১২ তলা</option>
+            <option value="১৩ তলা">১৩ তলা</option>
+            <option value="১৪ তলা">১৪ তলা</option>
+            <option value="১৫ তলা">১৫ তলা</option>
+            <option value="১৬ তলা">১৬ তলা</option>
+            <option value="১৭ তলা">১৭ তলা</option>
+            <option value="১৮ তলা">১৮ তলা</option>
+            <option value="১৯ তলা">১৯ তলা</option>
+            <option value="২০ তলা">২০ তলা</option>
+            <option value="২১ তলা">২১ তলা</option>
           </select>
           
           <select id="unitSelect" onchange="saveCurrentFormState();">
@@ -396,9 +469,10 @@
       const container = document.getElementById("windowsContainer");
       const div = document.createElement("div");
       div.className = "window-row";
+      
       div.innerHTML = `
-        <input type="number" class="mm-h" placeholder="হাইট (mm)" value="${hVal}" oninput="saveCurrentFormState()">
-        <input type="number" class="mm-w" placeholder="চওড়া (mm)" value="${wVal}" oninput="saveCurrentFormState()">
+        <input type="number" class="mm-h" placeholder="হাইট (মিলিমিটারে সাইজ দিন)" value="${hVal}" oninput="saveCurrentFormState()">
+        <input type="number" class="mm-w" placeholder="চওড়া (মিলিমিটারে সাইজ দিন)" value="${wVal}" oninput="saveCurrentFormState()">
         <button class="delete-row-btn" onclick="removeWindow(this)">✕</button>
       `;
       container.appendChild(div);
@@ -636,8 +710,9 @@
     }
 
     function openPrintModal() {
-      let shopName = document.getElementById('shopName').value || 'আর এম থাই অ্যালুমিনিয়াম';
-      let shopPhone = document.getElementById('shopPhone').value || '01676474412';
+      // যদি ইনপুট বক্সে কিছু না দেওয়া থাকে তাহলে প্রিন্টে 'দোকানের নাম' এবং খালি নাম্বার দেখাবে
+      let shopName = document.getElementById('shopName').value || 'দোকানের নাম';
+      let shopPhone = document.getElementById('shopPhone').value || '';
       let floor = document.getElementById("floorSelect").value || 'উল্লেখ নেই';
       let unit = document.getElementById("unitSelect").value || 'উল্লেখ নেই';
 
@@ -670,15 +745,18 @@
           materialRowsHTML = '<tr><td colspan="5" style="border: 2px solid #000; padding: 15px; text-align: center; font-size: 13pt; font-weight: 900;">কোনো তথ্য নেই</td></tr>';
       }
 
+      // ফোন নাম্বার থাকলে প্রিন্টে দেখাবে, না থাকলে অংশটুকু হাইড থাকবে
+      let phoneHtml = shopPhone ? `<div style="background-color: #1e3a8a; color: white; display: inline-block; padding: 6px 15px; border-radius: 8px; margin-top: 10px; font-weight: 900; font-size: 13pt;">
+              📱 ${shopPhone.includes('মোবাইল') ? toBnNum(shopPhone) : 'মোবাইল: ' + toBnNum(shopPhone)}
+            </div>` : '';
+
       let printHTML = `
         <div style="border: 3px solid #1e3a8a; border-radius: 8px; padding: 15px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; width: 100%; box-sizing: border-box;">
           
           <div style="text-align: center; border-bottom: 3px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 15px; position: relative;">
             <div style="position: absolute; top: 0px; right: 0px; font-size: 12pt; font-weight: 900; color: #1e3a8a;">তারিখ: ${printDate}</div>
             <h2 style="color: #1e3a8a; font-size: 22pt; font-weight: 900; margin: 0; padding-top: 15px; text-transform: uppercase; word-break: break-word; line-height: 1.2;">${shopName}</h2>
-            <div style="background-color: #1e3a8a; color: white; display: inline-block; padding: 6px 15px; border-radius: 8px; margin-top: 10px; font-weight: 900; font-size: 13pt;">
-              📱 ${shopPhone.includes('মোবাইল') ? toBnNum(shopPhone) : 'মোবাইল: ' + toBnNum(shopPhone)}
-            </div>
+            ${phoneHtml}
           </div>
 
           <table style="width: 100%; border-collapse: collapse; border: 2px solid #1e3a8a; margin-bottom: 15px;">
@@ -723,33 +801,7 @@
     function closePrintModal() { document.getElementById('printModal').style.display = 'none'; }
 
     function executePrint() {
-      let htmlContent = document.getElementById('printContent').innerHTML;
-      let printWin = window.open('', '_blank');
-      printWin.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>Glass Cutting Print</title>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <style>
-              @media print {
-                @page { size: A4 portrait; margin: 8mm; }
-                html, body { width: 100%; height: auto !important; min-height: 100%; margin: 0 !important; padding: 0 !important; background: white; color: #000 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-                table { page-break-inside: auto; width: 100%; border-collapse: collapse; }
-                tr { page-break-inside: avoid; page-break-after: auto; }
-                thead { display: table-header-group; }
-                * { box-sizing: border-box; }
-              }
-              body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #000; margin: 0; padding: 0; background: white; }
-            </style>
-          </head>
-          <body>${htmlContent}</body>
-        </html>
-      `);
-      printWin.document.close();
-      printWin.focus();
-      setTimeout(() => { printWin.print(); printWin.close(); closePrintModal(); }, 500);
+      window.print();
     }
 
     window.onload = function() {

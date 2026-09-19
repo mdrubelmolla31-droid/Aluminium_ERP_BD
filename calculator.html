@@ -728,37 +728,57 @@ function clearAllHistory() {
 
 function runAccessoriesCalculation() {
   try {
-    let totalWinQty = 0, totalPerimeterFt = 0, totalNetPerimeterFt = 0, totalScrews = 0, totalSiliconeEstimate = 0;
+    let totalWinQty = 0;            // সব উইন্ডোর মোট সংখ্যা (লক/চাকা বাদ দিয়ে)
+    let totalWinQtyForLockWheel = 0; // শুধু ২ ফিট+ উইন্ডোর সংখ্যা (লক/চাকার জন্য)
+    let totalPerimeterFt = 0, totalNetPerimeterFt = 0, totalScrews = 0, totalSiliconeEstimate = 0;
+    const MIN_HEIGHT_FT = 2; // ২ ফিটের নিচের হাইটের উইন্ডোতে লক ও চাকা যুক্ত হবে না
+
     let rows = document.querySelectorAll('#winTableBody tr');
     rows.forEach(function(row) {
       let hInput = row.querySelector('.w-h');
       let wInput = row.querySelector('.w-w');
       let qInput = row.querySelector('.w-q');
       if (hInput && wInput) {
-        let h = parseFloat(hInput.value) || 0;
-        let w = parseFloat(wInput.value) || 0;
+        let hRaw = parseFloat(hInput.value) || 0;
+        let wRaw = parseFloat(wInput.value) || 0;
         let q = qInput ? (parseInt(qInput.value) || 1) : 1;
-        if (h > 0 && w > 0) {
+
+        // ইনপুট ইঞ্চি ধরে ফিটে রূপান্তর (12 এর বেশি হলে ইঞ্চি)
+        let hFt = hRaw > 12 ? hRaw / 12 : hRaw;
+        let wFt = wRaw > 12 ? wRaw / 12 : wRaw;
+
+        if (hFt > 0 && wFt > 0) {
+          // সব উইন্ডোই মোট গণনায় যুক্ত হবে
           totalWinQty += q;
-          let hFt = h > 12 ? h / 12 : h;
-          let wFt = w > 12 ? w / 12 : w;
+
+          // শুধু ২ ফিট বা তার বেশি হাইটের উইন্ডো লক/চাকা পাবে
+          if (hFt >= MIN_HEIGHT_FT) {
+            totalWinQtyForLockWheel += q;
+          }
+
           let singlePerimeter = (hFt + wFt) * 2;
           totalPerimeterFt += singlePerimeter * q;
           let singleNetPerimeter = (hFt + (wFt / 2)) * 2;
           totalNetPerimeterFt += singleNetPerimeter * q;
+
           if (hFt <= 3 && wFt <= 3) { totalScrews += 21 * q; }
           else if (hFt >= 6 || wFt >= 6) { totalScrews += 37 * q; }
           else { totalScrews += 32 * q; }
-          if (hFt >= 7 && q >= 4) { totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80); }
-          else { totalSiliconeEstimate += (singlePerimeter * q) / 85; }
+
+          if (hFt >= 7 && q >= 4) {
+            totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80);
+          } else {
+            totalSiliconeEstimate += (singlePerimeter * q) / 85;
+          }
         }
       }
     });
 
     let tbody = document.getElementById('accessoriesTbody');
     if (!tbody) return;
+
     if (totalWinQty === 0) {
-      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8;">ইনপুট দিন, হিসাব চলে আসবে</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:14px;">উইন্ডোর মাপ দিন, হিসাব দেখা যাবে</td></tr>`;
       return;
     }
 
@@ -766,7 +786,7 @@ function runAccessoriesCalculation() {
     let netVal = document.getElementById('netSection') ? document.getElementById('netSection').value : '';
     let glassThickVal = document.getElementById('glassThickness') ? document.getElementById('glassThickness').value : '';
     let is4Inch = seriesVal.includes('4') || seriesVal.includes('ফোর') || seriesVal.includes('Four');
-    let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
+    let hasNet = netVal !== '' && netVal !== 'none' && !netVal.includes('ছাড়াই');
 
     let rubberLabel = "গ্লাস রাবার (Rubber)";
     if (glassThickVal) {
@@ -775,8 +795,11 @@ function runAccessoriesCalculation() {
       else { rubberLabel = `গ্লাস রাবার (${glassThickVal} Rubber)`; }
     }
 
-    let locks = totalWinQty * 2;
-    let wheels = totalWinQty * 4;
+    // 🎯 লক ও চাকা শুধু ২ ফিট+ উইন্ডোর জন্য
+    let locks = totalWinQtyForLockWheel * 2;
+    let wheels = totalWinQtyForLockWheel * 4;
+
+    // বাকি সব আইটেম সব উইন্ডোর জন্য
     let cordScrews = totalWinQty * 8;
     let screws15 = totalScrews;
     let mohair = (totalPerimeterFt * 1.1).toFixed(2);
@@ -790,13 +813,14 @@ function runAccessoriesCalculation() {
       <tr><td>চাকা (Wheel)</td><td><b>${toBnNum(wheels)}</b></td><td>পিস</td></tr>
       <tr><td>কড স্ক্রু (Cord Screw)</td><td><b>${toBnNum(cordScrews)}</b></td><td>পিস</td></tr>
       <tr><td>১.৫ ইঞ্চি স্ক্রু (1.5" Screw)</td><td><b>${toBnNum(screws15)}</b></td><td>পিস</td></tr>
-      <tr><td>রয়াল প্লাগ (Royal Plug)</td><td><b>${toBnNum(royalPlugPackets)}</b></td><td>প্যাকেট</td></tr>
-      <tr><td>মহিয়ার (Mohair)</td><td><b>${toBnNum(mohair)}</b></td><td>ফিট</td></tr>
+      <tr><td>রয়াল প্লাগ (Royal Plug)</td><td><b>${toBnNum(royalPlugPackets)}</b></td><td>প্যাকেট</td></tr>
+      <tr><td>মহিয়ার (Mohair)</td><td><b>${toBnNum(mohair)}</b></td><td>ফিট</td></tr>
       <tr id="rubberLabelTd"><td>${rubberLabel}</td><td><b>${toBnNum(rubber)}</b></td><td>ফিট</td></tr>
       <tr><td>সিলিকন গাম (Silicone Tube)</td><td><b>${toBnNum(silicone)}</b></td><td>টিউব</td></tr>
     `;
 
     if (is4Inch || hasNet) {
+      // নেটের চাকা/এঙ্গেল/রিভেট সব উইন্ডোর জন্য (নেট থাকলে)
       let netWheels = totalWinQty * 2;
       let netAngles = totalWinQty * 4;
       let netRivet = totalWinQty * 17;
@@ -813,7 +837,6 @@ function runAccessoriesCalculation() {
     console.error('Accessories Calculation Error:', err);
   }
 }
-
 function formatCutText(plan, isBar21) {
   if (!plan || plan.length === 0) { return "-"; }
   if (isBar21) {

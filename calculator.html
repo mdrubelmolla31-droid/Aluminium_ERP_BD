@@ -761,9 +761,9 @@ function runAccessoriesCalculation() {
           let singleNetPerimeter = (hFt + (wFt / 2)) * 2;
           totalNetPerimeterFt += singleNetPerimeter * q;
 
-          if (hFt <= 3 && wFt <= 3) { totalScrews += 19 * q; }
+          if (hFt <= 3 && wFt <= 3) { totalScrews += 21 * q; }
           else if (hFt >= 6 || wFt >= 6) { totalScrews += 37 * q; }
-          else { totalScrews += 32 * q; }
+          else { totalScrews += 28 * q; }
 
           if (hFt >= 7 && q >= 4) {
             totalSiliconeEstimate += Math.max(1, (singlePerimeter * q) / 80);

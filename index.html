@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0f19">
     <title>Aluminium ERP BD v2</title>
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent; 
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -24,13 +25,11 @@
             position: relative;
         }
 
-        /* 🌌 গ্যালাক্সি ব্যাকগ্রাউন্ড (তারা খসে পড়া) */
+        /* 🌌 গ্যালাক্সি ব্যাকগ্রাউন্ড */
         #galaxy-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
             z-index: 0;
             overflow: hidden;
             pointer-events: none;
@@ -40,7 +39,7 @@
             position: absolute;
             width: 2px;
             height: 60px;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
             border-radius: 50%;
             filter: drop-shadow(0 0 6px #60a5fa);
             opacity: 0;
@@ -50,11 +49,9 @@
         .shooting-star::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 50%;
+            bottom: 0; left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
+            width: 4px; height: 4px;
             background: #ffffff;
             border-radius: 50%;
             box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6;
@@ -67,18 +64,12 @@
             100% { opacity: 0; }
         }
 
-        /* 🖼️ স্প্ল্যাশ স্ক্রিন */
+        /* 🖼️ স্প্ল্যাশ */
         #splash-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background-color: #0b0f19;
-            background-image: linear-gradient(rgba(11, 15, 25, 0.65), rgba(11, 15, 25, 0.9)), url('splash-bg.jpg');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -88,37 +79,41 @@
         }
 
         .splash-profile-box {
-            width: 90px;
-            height: 90px;
+            width: 90px; height: 90px;
             background: transparent;
             border: 2px solid #3b82f6;
             border-radius: 22px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 20px rgba(59,130,246,0.3);
             margin-bottom: 20px;
         }
 
         .alu-window-icon {
-            width: 44px;
-            height: 44px;
+            width: 44px; height: 44px;
             border: 2px solid #60a5fa;
             border-radius: 6px;
             position: relative;
-            box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
+            box-shadow: 0 0 10px rgba(96,165,250,0.4);
         }
 
         .alu-window-icon::before {
-            content: ''; position: absolute;
-            top: 0; bottom: 0; left: 50%; width: 2px;
-            background: #60a5fa; transform: translateX(-50%);
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 50%;
+            width: 2px;
+            background: #60a5fa;
+            transform: translateX(-50%);
         }
 
         .alu-window-icon::after {
-            content: ''; position: absolute;
-            top: 50%; left: 0; right: 0; height: 2px;
-            background: #60a5fa; transform: translateY(-50%);
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 2px;
+            background: #60a5fa;
+            transform: translateY(-50%);
         }
 
         .splash-title {
@@ -140,7 +135,7 @@
         .splash-loader-container {
             width: 180px;
             height: 4px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.2);
             border-radius: 2px;
             margin-top: 30px;
             overflow: hidden;
@@ -149,9 +144,9 @@
         .splash-loader-bar {
             width: 0%;
             height: 100%;
-            background: #fbbf24; 
-            box-shadow: 0 0 12px #fbbf24; 
-            animation: loadBar 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            background: #fbbf24;
+            box-shadow: 0 0 12px #fbbf24;
+            animation: loadBar 1.5s cubic-bezier(0.4,0,0.2,1) forwards;
         }
 
         @keyframes loadBar {
@@ -198,18 +193,18 @@
         .icon-btn:hover { background: #334155; }
 
         .header-logo-box {
-            width: 45px;
-            height: 45px;
+            width: 45px; height: 45px;
             border-radius: 50%;
             border: 2px solid #3b82f6;
             background: #1e293b;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 10px rgba(59,130,246,0.5);
             flex-shrink: 0;
         }
 
         .header-logo-box img {
-            width: 100%; height: 100%; object-fit: cover;
+            width: 100%; height: 100%;
+            object-fit: cover;
         }
 
         .user-card {
@@ -248,23 +243,21 @@
 
         .status-badge {
             display: inline-block;
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(16,185,129,0.1);
             color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16,185,129,0.2);
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 12px;
         }
 
         .avatar-container {
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             flex-shrink: 0;
         }
 
         .avatar-img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #fbbf24;
@@ -278,11 +271,10 @@
 
         .grid-menu {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2,1fr);
             gap: 16px;
         }
 
-        /* 🌟 গ্লোয়িং ইফেক্ট ডিজাইন */
         .menu-card {
             background: #111827;
             border: 1px solid #1e293b;
@@ -291,7 +283,7 @@
             text-align: center;
             text-decoration: none;
             color: #ffffff;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -300,50 +292,48 @@
             position: relative;
         }
 
-        .menu-card:hover, 
-        .menu-card:focus, 
+        .menu-card:hover,
+        .menu-card:focus,
         .menu-card.active {
             background: #1e293b;
             border-color: #60a5fa;
             transform: translateY(-4px);
-            box-shadow: 0 0 18px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 18px rgba(59,130,246,0.6), 0 0 30px rgba(59,130,246,0.2);
             outline: none;
         }
 
         .menu-card:active {
             transform: scale(0.96);
             border-color: #fbbf24;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.7);
+            box-shadow: 0 0 20px rgba(251,191,36,0.7);
         }
 
-        .menu-icon { 
-            font-size: 34px; 
-            margin-bottom: 12px; 
+        .menu-icon {
+            font-size: 34px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: transform 0.3s;
         }
 
-        .menu-card:hover .menu-icon {
-            transform: scale(1.1);
+        .menu-card:hover .menu-icon { transform: scale(1.1); }
+
+        .menu-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #e5e7eb;
         }
 
-        .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
-
-        @media (min-width: 576px) {
-            .grid-menu { grid-template-columns: repeat(3, 1fr); }
-        }
-        
-        @media (min-width: 768px) {
-            .grid-menu { grid-template-columns: repeat(4, 1fr); gap: 20px;}
+        @media (min-width:576px) { .grid-menu { grid-template-columns: repeat(3,1fr); } }
+        @media (min-width:768px) {
+            .grid-menu { grid-template-columns: repeat(4,1fr); gap: 20px; }
             .user-card { padding: 25px; }
             .avatar-container { width: 75px; height: 75px; }
             .header-title { font-size: 24px; }
         }
-
-        @media (min-width: 1024px) {
-            .grid-menu { grid-template-columns: repeat(5, 1fr); gap: 24px; }
+        @media (min-width:1024px) {
+            .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; }
             .menu-card { padding: 30px 15px; }
             .menu-icon { font-size: 40px; }
             .menu-title { font-size: 16px; }
@@ -351,8 +341,9 @@
 
         .lock-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(11, 15, 25, 0.95);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(11,15,25,0.95);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -409,6 +400,7 @@
             margin-bottom: 15px;
             transition: 0.2s;
         }
+
         .btn-whatsapp:hover { background: #20b958; }
 
         .lock-input {
@@ -435,6 +427,7 @@
             font-size: 14px;
             transition: 0.2s;
         }
+
         .btn-unlock:hover { background: #1e40af; }
 
         .dev-branding-footer {
@@ -443,35 +436,54 @@
             font-weight: bold;
             margin-top: 20px;
             padding: 10px;
-            background: rgba(251, 191, 36, 0.1);
-            border: 1px solid rgba(251, 191, 36, 0.3);
+            background: rgba(251,191,36,0.1);
+            border: 1px solid rgba(251,191,36,0.3);
             border-radius: 8px;
             letter-spacing: 0.5px;
         }
 
         .sidebar-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
             display: none;
             z-index: 1000;
         }
 
         .sidebar-content {
-            background: #111827; width: 300px; height: 100%;
-            padding: 20px; border-right: 1px solid #1e293b;
+            background: #111827;
+            width: 300px;
+            height: 100%;
+            padding: 20px;
+            border-right: 1px solid #1e293b;
             transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-header {
-            display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
         }
 
         .sidebar-menu-item {
-            padding: 14px; color: #e5e7eb; text-decoration: none;
-            border-radius: 8px; margin-bottom: 8px; background: #1e293b; display: block; font-size: 15px; font-weight: bold;
+            padding: 14px;
+            color: #e5e7eb;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: #1e293b;
+            display: block;
+            font-size: 15px;
+            font-weight: bold;
             transition: 0.2s;
+            text-align: center;
         }
 
         .sidebar-menu-item:hover { background: #334155; }
@@ -479,16 +491,115 @@
 
         .support-btn { background: #059669; color: white; }
         .support-btn:hover { background: #047857; }
+
+        /* আপডেট বাটন - margin-top রিমুভ করা হয়েছে যাতে এটি ঠিক নিচে থাকে */
+        .update-btn { background: #3b82f6; color: white; }
+        .update-btn:hover { background: #2563eb; }
+
+        /* ================================
+           ☁️ সহজ Backup UI
+        ================================= */
+
+        .drive-box {
+            margin-top: 22px;
+            padding: 15px;
+            border-radius: 14px;
+            background: #0f172a;
+            border: 1px solid #334155;
+        }
+
+        .drive-title {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .drive-subtitle {
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .drive-status {
+            padding: 10px;
+            border-radius: 9px;
+            background: #1e293b;
+            color: #cbd5e1;
+            font-size: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+
+        .drive-status.connected {
+            color: #10b981;
+            border-color: rgba(16,185,129,0.35);
+            background: rgba(16,185,129,0.08);
+        }
+
+        .drive-status.error {
+            color: #f87171;
+            border-color: rgba(248,113,113,0.35);
+            background: rgba(248,113,113,0.08);
+        }
+
+        .drive-btn-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .drive-btn {
+            flex: 1;
+            border: none;
+            border-radius: 9px;
+            padding: 13px 7px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .drive-btn:active { transform: scale(0.96); }
+
+        .drive-backup-btn { background: #059669; }
+        .drive-backup-btn:hover { background: #047857; }
+
+        .drive-restore-btn { background: #7c3aed; }
+        .drive-restore-btn:hover { background: #6d28d9; }
+
+        .drive-last-backup {
+            color: #64748b;
+            font-size: 11px;
+            margin-top: 9px;
+            text-align: center;
+        }
+
+        .drive-note {
+            color: #fbbf24;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1.5;
+            margin-top: 10px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(251,191,36,0.1);
+            border-radius: 8px;
+            border: 1px dashed rgba(251,191,36,0.4);
+        }
     </style>
 </head>
+
 <body>
 
     <div id="galaxy-bg">
-        <div class="shooting-star" style="top: -5%; left: 70%; animation-delay: 0s; animation-duration: 4s;"></div>
-        <div class="shooting-star" style="top: 10%; left: 95%; animation-delay: 1.5s; animation-duration: 5s;"></div>
-        <div class="shooting-star" style="top: -10%; left: 45%; animation-delay: 2.8s; animation-duration: 3.5s;"></div>
-        <div class="shooting-star" style="top: 25%; left: 110%; animation-delay: 4.2s; animation-duration: 4.5s;"></div>
-        <div class="shooting-star" style="top: 5%; left: 80%; animation-delay: 0.8s; animation-duration: 6s;"></div>
+        <div class="shooting-star" style="top:-5%;left:70%;animation-delay:0s;animation-duration:4s;"></div>
+        <div class="shooting-star" style="top:10%;left:95%;animation-delay:1.5s;animation-duration:5s;"></div>
+        <div class="shooting-star" style="top:-10%;left:45%;animation-delay:2.8s;animation-duration:3.5s;"></div>
+        <div class="shooting-star" style="top:25%;left:110%;animation-delay:4.2s;animation-duration:4.5s;"></div>
+        <div class="shooting-star" style="top:5%;left:80%;animation-delay:0.8s;animation-duration:6s;"></div>
     </div>
 
     <div id="splash-screen">
@@ -502,44 +613,110 @@
         </div>
     </div>
 
-    <div class="lock-overlay" id="lockScreen" style="display: none;">
+    <!-- LICENSE LOCK -->
+    <div class="lock-overlay" id="lockScreen" style="display:none;">
         <div class="lock-box">
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
-            <h3 id="lockTitle" style="color: #ffffff; font-size: 18px;">Device License Activation</h3>
-            <p id="lockSub" style="color: #9ca3af; font-size: 13px; margin-top: 6px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
+            <h3 id="lockTitle" style="color:#ffffff;font-size:18px;">Device License Activation</h3>
+            <p id="lockSub" style="color:#9ca3af;font-size:13px;margin-top:6px;">
+                আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন
+            </p>
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
-            <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp" style="text-align: center;">📲 Send Device ID to WhatsApp</a>
-            <input type="text" id="keyInput" class="lock-input" placeholder="পেমেন্ট করুন" style="text-align: center;">
+            <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp" style="text-align:center;">
+                📲 Send Device ID to WhatsApp
+            </a>
+            <input type="text" id="keyInput" class="lock-input" placeholder="পেমেন্ট করুন" style="text-align:center;">
             <button class="btn-unlock" onclick="validateKey()">Activate License</button>
             <div class="dev-branding-footer">RM, THAI ALUMINUM, BY, RUBEL</div>
         </div>
     </div>
 
-    <div class="lock-overlay" id="profileSettingsModal" style="display: none; z-index: 10000;">
-        <div class="lock-box" style="text-align: left;">
-            <h3 style="color: #fff; margin-bottom: 20px; text-align: center; font-size: 20px;">⚙️ Profile Settings</h3>
-            
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div class="avatar-img" id="modalAvatarPreview" style="width: 85px; height: 85px; margin: 0 auto; cursor: pointer; border-color: #3b82f6;" onclick="document.getElementById('modalProfilePicker').click()">👤</div>
-                <input type="file" id="modalProfilePicker" accept="image/*" style="display: none;" onchange="previewModalProfile(this)">
-                <p style="color: #9ca3af; font-size: 12px; margin-top: 8px;">ছবি পরিবর্তন করতে ক্লিক করুন</p>
+    <!-- PROFILE SETTINGS MODAL -->
+    <div class="lock-overlay" id="profileSettingsModal" style="display:none;z-index:10000;overflow-y:auto;">
+        <div class="lock-box" style="text-align:left;margin:20px auto;">
+
+            <h3 style="color:#fff;margin-bottom:20px;text-align:center;font-size:20px;">
+                ⚙️ Profile Settings
+            </h3>
+
+            <div style="text-align:center;margin-bottom:20px;">
+                <div class="avatar-img" id="modalAvatarPreview"
+                     style="width:85px;height:85px;margin:0 auto;cursor:pointer;border-color:#3b82f6;"
+                     onclick="document.getElementById('modalProfilePicker').click()">
+                    👤
+                </div>
+                <input type="file" id="modalProfilePicker" accept="image/*"
+                       style="display:none;" onchange="previewModalProfile(this)">
+                <p style="color:#9ca3af;font-size:12px;margin-top:8px;">
+                    ছবি পরিবর্তন করতে ক্লিক করুন
+                </p>
             </div>
 
-            <label style="color: #9ca3af; font-size: 13px; font-weight: bold;">আপনার নাম:</label>
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">আপনার নাম:</label>
             <input type="text" id="profName" class="lock-input" placeholder="আপনার নাম">
 
-            <label style="color: #9ca3af; font-size: 13px; font-weight: bold;">কোম্পানির নাম:</label>
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">কোম্পানির নাম:</label>
             <input type="text" id="profCompany" class="lock-input" placeholder="যেমন: RM THAI ALUMINIUM">
 
-            <label style="color: #9ca3af; font-size: 13px; font-weight: bold;">মোবাইল নাম্বার:</label>
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">মোবাইল নাম্বার:</label>
             <input type="tel" id="profMobile" class="lock-input" placeholder="মোবাইল নাম্বার">
 
-            <label style="color: #9ca3af; font-size: 13px; font-weight: bold;">জিমেইল (ইমেইল):</label>
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">জিমেইল (ইমেইল):</label>
             <input type="email" id="profEmail" class="lock-input" placeholder="example@gmail.com">
 
-            <div style="display: flex; gap: 15px; margin-top: 15px;">
-                <button class="btn-unlock" style="background: #ef4444;" onclick="closeProfileSettings()">বাতিল</button>
-                <button class="btn-unlock" style="background: #10b981;" onclick="saveProfileSettings()">সেভ করুন</button>
+            <!-- ☁️ সহজ Backup Box -->
+            <div class="drive-box">
+                <div class="drive-title">☁️ ডাটা Backup ও Restore</div>
+                <div class="drive-subtitle">
+                    এক ক্লিকে Backup নিন। ফাইলটি Google Drive, WhatsApp বা
+                    যেকোনো জায়গায় পাঠান। পরে Restore দিয়ে ফিরিয়ে আনুন।
+                </div>
+                <div class="drive-status connected" id="simpleStatus">
+                    🟢 LocalStorage-এ ডাটা সেভ আছে
+                </div>
+                <div class="drive-btn-row">
+                    <button class="drive-btn drive-backup-btn" onclick="smartBackup()">
+                        📤 এক ক্লিকে Backup
+                    </button>
+                    <button class="drive-btn drive-restore-btn"
+                            onclick="document.getElementById('restoreFileInput').click()">
+                        📥 Restore
+                    </button>
+                </div>
+                <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="restoreFromFile(this)">
+                <div class="drive-last-backup" id="lastBackupTime">Last Backup: এখনো হয়নি</div>
+                <div class="drive-note">💡 ১০ দিন পর পর অবশ্যই আপনার ডাটা ব্যাকআপ করুন।</div>
+            </div>
+
+            <div style="display:flex;gap:15px;margin-top:15px;">
+                <button class="btn-unlock" style="background:#ef4444;" onclick="closeProfileSettings()">বাতিল</button>
+                <button class="btn-unlock" style="background:#10b981;" onclick="saveProfileSettings()">সেভ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPDATE MODAL (ব্রাউজারের পপ-আপ ব্লক ফিক্স করতে কাস্টম মডাল) -->
+    <div class="lock-overlay" id="updateModal" style="display:none;z-index:10001;padding:20px;">
+        <div class="lock-box" style="text-align:left;max-width:350px;">
+            <h3 style="color:#fff;margin-bottom:15px;text-align:center;font-size:18px;">🔄 অ্যাপ আপডেট গাইডলাইন</h3>
+            
+            <div style="background:#1e293b;padding:15px;border-radius:10px;border:1px solid #334155;margin-bottom:20px;">
+                <p style="color:#fbbf24;font-size:13px;margin-bottom:10px;line-height:1.5;">
+                    ১. নতুন ভার্সনে যাওয়ার আগে অবশ্যই সেটিংসে গিয়ে ডাটা <b>Backup</b> করে নিবেন।
+                </p>
+                <p style="color:#fbbf24;font-size:13px;line-height:1.5;">
+                    ২. আপডেট করার পর আগের ডাটা মুছে গেলে <b>Restore</b> অপশন দিয়ে ব্যাকআপ ফাইলটি সিলেক্ট করবেন।
+                </p>
+            </div>
+            
+            <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">
+                বর্তমান ভার্সন: <b style="color:#fff;">v2.0.0</b>
+            </div>
+            
+            <div style="display:flex;gap:12px;">
+                <button class="btn-unlock" style="background:#ef4444;flex:1;" onclick="closeUpdateModal()">বাতিল</button>
+                <!-- Direct link - এটি কোনো ব্রাউজার ব্লক করবে না -->
+                <a href="#" id="updateWaLink" target="_blank" class="btn-unlock" style="background:#10b981;flex:1;text-decoration:none;display:flex;align-items:center;justify-content:center;" onclick="markUpdateChecked(); closeUpdateModal()">এগিয়ে যান</a>
             </div>
         </div>
     </div>
@@ -584,115 +761,106 @@
                         </defs>
                     </svg>
                 </div>
-                <div class="menu-title">কার্টিন ওয়াল</div>
+                <div class="menu-title">কার্টিন ওয়াল</div>
             </a>
-
-            <a href="profile-discount.html" class="menu-card">
-                <div class="menu-icon">🏢</div>
-                <div class="menu-title">কোম্পানি প্রোফাইল ডিসকাউন্ট</div>
-            </a>
-
-            <a href="calculator.html" class="menu-card">
-                <div class="menu-icon">🧮</div>
-                <div class="menu-title">স্লাইডিং ক্যালকুলেটার</div>
-            </a>
+            <a href="profile-discount.html" class="menu-card"><div class="menu-icon">🏢</div><div class="menu-title">কোম্পানি প্রোফাইল ডিসকাউন্ট</div></a>
+            <a href="calculator.html" class="menu-card"><div class="menu-icon">🧮</div><div class="menu-title">স্লাইডিং ক্যালকুলেটর</div></a>
+            <a href="cachman.html" class="menu-card"><div class="menu-icon">🪟</div><div class="menu-title">ক্যাসম্যান ক্যালকুলেটর</div></a>
+            <a href="ceiling-calculator.html" class="menu-card"><div class="menu-icon">🛖</div><div class="menu-title">সিলিং ক্যালকুলেটর</div></a>
             
-            <a href="cachman.html" class="menu-card">
-                <div class="menu-icon">🪟</div>
-                <div class="menu-title">ক্যাসম্যান ক্যালকুলেটার</div>
-            </a>
-
-            <a href="ceiling-calculator.html" class="menu-card">
-                <div class="menu-icon">🛖</div>
-                <div class="menu-title">সিলিং ক্যালকুলেটার</div>
-            </a>
-
-            <a href="fixed-calculator.html" class="menu-card">
-                <div class="menu-icon">🖼️</div>
-                <div class="menu-title">ফিক্সড ক্যালকুলেটার</div>
-            </a>
-        
-<a href="Lowver.html" class="menu-card">
-                <div class="menu-icon">🪜</div>
-                <div class="menu-title">জেড লুভার ক্যালকুলেটার</div>
-            </a>
-            
-            <a href="BoxLowver.html" class="menu-card">
-                <div class="menu-icon">🔳</div>
-                <div class="menu-title">বক্স লুভার ক্যালকুলেটার</div>
-            </a>
-
-            <a href="door.html" class="menu-card">
-                <div class="menu-icon">🔳</div>
-                <div class="menu-title">ডোর সেকশন</div>
-            </a>
-
-            <a href="rate-settings.html" class="menu-card">
-                <div class="menu-icon">⚙️</div>
-                <div class="menu-title">রেট সেটিংস</div>
-            </a>
-            
-
-            <a href="quotation.html" class="menu-card">
-                <div class="menu-icon">📝</div>
-                <div class="menu-title">কোটেশন</div>
-            </a>
-
-            <a href="invoice.html" class="menu-card">
-                <div class="menu-icon">🧾</div>
-                <div class="menu-title">বিল ও ইনভয়েস</div>
-            </a>
-
-            <a href="glass.html" class="menu-card">
-                <div class="menu-icon">🧊</div>
-                <div class="menu-title">গ্লাস সাইজ কাটিং</div>
-            </a>
-            
-
-            
-            
-            <a href="glass-cutting.html" class="menu-card">
-                <div class="menu-icon">✂️</div>
-                <div class="menu-title">গ্লাস শীট কাটিং</div>
-            </a>
-            
-            <a href="customer.html" class="menu-card">
-                <div class="menu-icon">👥</div>
-                <div class="menu-title">কাস্টমার ডিটেইলস</div>
-            </a>
-            <a href="kormochari.html" class="menu-card">
-                <div class="menu-icon">👨‍🔧</div>
-                <div class="menu-title">কর্মচারী হিসাব</div>
-            </a>
+            <a href="Lowver.html" class="menu-card"><div class="menu-icon">🪜</div><div class="menu-title">জেড লুভার ক্যালকুলেটর</div></a>
+            <a href="BoxLowver.html" class="menu-card"><div class="menu-icon">🔳</div><div class="menu-title">বক্স লুভার ক্যালকুলেটর</div></a>
+    
+        <a href="rate-settings.html" class="menu-card"><div class="menu-icon">⚙️</div><div class="menu-title">রেট সেটিংস</div></a>
+            <a href="quotation.html" class="menu-card"><div class="menu-icon">📝</div><div class="menu-title">কোটেশন</div></a>
+            <a href="invoice.html" class="menu-card"><div class="menu-icon">🧾</div><div class="menu-title">বিল ও ইনভয়েস</div></a>
+            <a href="glass.html" class="menu-card"><div class="menu-icon">🧊</div><div class="menu-title">গ্লাস সাইজ কাটিং</div></a>
+            <a href="glass-cutting.html" class="menu-card"><div class="menu-icon">✂️</div><div class="menu-title">গ্লাস শীট কাটিং</div></a>
+            <a href="customer.html" class="menu-card"><div class="menu-icon">👥</div><div class="menu-title">কাস্টমার ডিটেইলস</div></a>
+            <a href="kormochari.html" class="menu-card"><div class="menu-icon">👨‍🔧</div><div class="menu-title">কর্মচারী হিসাব</div></a>
         </div>
     </div>
-                
+
+    <!-- SIDEBAR -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content" id="sidebarContent">
             <div class="sidebar-header">
-                <h3 style="color: #fff;">Menu</h3>
-                <button class="icon-btn" onclick="toggleSidebar()" style="padding: 4px 10px;">✕</button>
+                <h3 style="color:#fff;">Menu</h3>
+                <button class="icon-btn" onclick="toggleSidebar()" style="padding:4px 10px;">✕</button>
             </div>
             
-            <a href="#" class="sidebar-menu-item" onclick="openProfileSettings(); return false;">👤 My Profile Settings</a>
-            <a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="sidebar-menu-item support-btn">🎧 Feedback & Support</a>
+            <a href="#" class="sidebar-menu-item" onclick="openProfileSettings();return false;">
+                👤 My Profile Settings
+            </a>
+            
+            <!-- Support & Feedback Button (Direct Link, No pop-up block) -->
+            <a href="#" id="sidebarSupportBtn" target="_blank" class="sidebar-menu-item support-btn">
+                🎧 Feedback & Support
+            </a>
+            
+            <!-- Update Button (Now sits right below Support) -->
+            <a href="javascript:void(0)" onclick="showUpdateModal()" class="sidebar-menu-item update-btn">
+                🔄 অ্যাপ আপডেট করুন
+            </a>
         </div>
     </div>
 
     <script>
+        /* ============================================================
+           VARIABLES
+        ============================================================ */
         let lockClickCount = 0;
         let isMasterMode = false;
         let generatedDeviceId = "";
-        let tempProfileImgData = ""; 
+        let tempProfileImgData = "";
 
         const MASTER_KEY = "mdrubelmolla1989";
-        const ADMIN_PHONE = "8801676474412"; 
+        const ADMIN_PHONE = "8801676474412";
 
-        function openWhatsAppSupport() {
-            const supportMessage = encodeURIComponent("হ্যালো ভাই, অ্যালুমিনিয়াম ইআরপি অ্যাপ নিয়ে আমার একটু সাপোর্ট দরকার...");
-            window.open("https://wa.me/" + ADMIN_PHONE + "?text=" + supportMessage, "_blank");
+        /* ============================================================
+           WHATSAPP SUPPORT & 3-MONTH UPDATE MODAL SYSTEM
+        ============================================================ */
+        function showUpdateModal() {
+            // অ্যাপ ইন্সটল ডেট বের করা, না থাকলে আজকের ডেট দেওয়া
+            let installDate = parseInt(localStorage.getItem("app_install_date"));
+            if (!installDate) {
+                installDate = Date.now();
+                localStorage.setItem("app_install_date", installDate);
+            }
+
+            // শেষবার কবে আপডেট চেক করেছে তা বের করা
+            let lastCheckDate = localStorage.getItem("app_last_update_check");
+            let currentTime = Date.now();
+            let threeMonthsMs = 90 * 24 * 60 * 60 * 1000; // ৯০ দিন (৩ মাস)
+
+            // টার্গেট ডেট নির্ধারণ করা
+            let targetDate = lastCheckDate ? parseInt(lastCheckDate) + threeMonthsMs : installDate + threeMonthsMs;
+
+            if (currentTime >= targetDate) {
+                // সময় হলে মডাল ওপেন হবে
+                toggleSidebar();
+                document.getElementById("updateModal").style.display = "flex";
+            } else {
+                // সময় না হলে অ্যালার্ট দিয়ে জানিয়ে দেবে আর কতদিন বাকি
+                let remainingMs = targetDate - currentTime;
+                let remainingDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
+                alert(`আপডেট বাটনটি প্রতি ৩ মাস (৯০ দিন) পর পর কাজ করে।\nপরবর্তী আপডেট চেক করতে আরও ${remainingDays} দিন অপেক্ষা করুন।`);
+            }
         }
 
+        // ব্যবহারকারী "এগিয়ে যান" বাটনে ক্লিক করলে চেকের তারিখ সেভ হবে
+        function markUpdateChecked() {
+            localStorage.setItem("app_last_update_check", Date.now().toString());
+        }
+
+        // মডাল বন্ধ করা
+        function closeUpdateModal() {
+            document.getElementById("updateModal").style.display = "none";
+        }
+
+        /* ============================================================
+           DEVICE ID
+        ============================================================ */
         function getDeviceId() {
             let savedId = localStorage.getItem("app_device_id");
             if (!savedId) {
@@ -707,18 +875,31 @@
             return savedId;
         }
 
+        /* ============================================================
+           PAGE LOAD & INITIALIZATION
+        ============================================================ */
         document.addEventListener("DOMContentLoaded", function() {
+            // ডাইরেক্ট WhatsApp লিংকগুলো সেটআপ (পপ-আপ ব্লক ফিক্স)
+            const supportMsg = encodeURIComponent("হ্যালো ভাই, অ্যালুমিনিয়াম ইআরপি অ্যাপ নিয়ে আমার একটু সাপোর্ট দরকার...");
+            document.getElementById("sidebarSupportBtn").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + supportMsg;
+
+            const updateMsg = encodeURIComponent("হ্যালো ভাই, আমার অ্যালুমিনিয়াম ইআরপি অ্যাপটির কোনো নতুন ভার্সন বা আপডেট এসেছে কি?");
+            document.getElementById("updateWaLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + updateMsg;
+
+            // স্প্ল্যাশ স্ক্রিন
             setTimeout(function() {
                 const splash = document.getElementById("splash-screen");
                 if (splash) {
                     splash.style.opacity = "0";
-                    setTimeout(() => { splash.style.display = "none"; }, 400); 
+                    setTimeout(() => { splash.style.display = "none"; }, 400);
                 }
-            }, 1500); 
+            }, 1500);
 
             loadUserData();
             initCardSelection();
+            loadBackupTime();
 
+            // লাইসেন্স লক সিস্টেম
             if (localStorage.getItem("app_permanently_unlocked") === "true") {
                 document.getElementById("lockScreen").style.display = "none";
             } else {
@@ -727,11 +908,10 @@
                     installDate = new Date().getTime();
                     localStorage.setItem("app_install_date", installDate);
                 }
-
                 const currentTime = new Date().getTime();
-                const sevenDaysInMillis = 7 * 24 * 60 * 60 * 1000;
+                const trialDays = 7 * 24 * 60 * 60 * 1000;
 
-                if (currentTime - installDate > sevenDaysInMillis) {
+                if (currentTime - installDate > trialDays) {
                     document.getElementById("lockScreen").style.display = "flex";
                 } else {
                     document.getElementById("lockScreen").style.display = "none";
@@ -739,53 +919,62 @@
 
                 generatedDeviceId = getDeviceId();
                 document.getElementById("deviceIdDisplay").innerText = "ID: " + generatedDeviceId;
-                
-                const waMessage = encodeURIComponent("Hello Rubel Bhai, please give me the product key for my Device ID: " + generatedDeviceId);
-                document.getElementById("whatsappLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMessage;
+
+                const waMsg = encodeURIComponent("Hello Rubel Bhai, please give me the product key for my Device ID: " + generatedDeviceId);
+                document.getElementById("whatsappLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
             }
+
+            // প্রতি ১০ দিনে একবার Backup reminder
+            setTimeout(checkBackupReminder, 5000);
         });
 
-        // 🌟 কার্ড সিলেক্টেড/একটিভ গ্লোয়িং কন্ট্রোল
+        /* ============================================================
+           CARD SELECTION
+        ============================================================ */
         function initCardSelection() {
-            const cards = document.querySelectorAll('.menu-card');
+            const cards = document.querySelectorAll(".menu-card");
             cards.forEach(card => {
-                card.addEventListener('click', function() {
-                    cards.forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
+                card.addEventListener("click", function() {
+                    cards.forEach(c => c.classList.remove("active"));
+                    this.classList.add("active");
                 });
             });
         }
 
+        /* ============================================================
+           USER DATA
+        ============================================================ */
         function loadUserData() {
             const savedName = localStorage.getItem("app_user_fullname");
             const savedPic = localStorage.getItem("app_user_profile_img");
 
-            if (savedName) {
-                document.getElementById("userNameDisplay").innerText = savedName; 
-            } else {
-                document.getElementById("userNameDisplay").innerText = "ইউজারের নাম";
-            }
+            document.getElementById("userNameDisplay").innerText = savedName || "ইউজারের নাম";
 
             if (savedPic) {
-                const imgTag = `<img src="${savedPic}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
-                document.getElementById("avatarDisplay").innerHTML = imgTag;
+                document.getElementById("avatarDisplay").innerHTML =
+                    `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
                 tempProfileImgData = savedPic;
             }
         }
 
+        /* ============================================================
+           PROFILE SETTINGS
+        ============================================================ */
         function openProfileSettings() {
-            toggleSidebar(); 
-            
+            toggleSidebar();
+
             document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
             document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
             document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
             document.getElementById("profEmail").value = localStorage.getItem("app_user_email") || "";
-            
+
             if (tempProfileImgData) {
-                document.getElementById("modalAvatarPreview").innerHTML = `<img src="${tempProfileImgData}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                document.getElementById("modalAvatarPreview").innerHTML =
+                    `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
             }
 
             document.getElementById("profileSettingsModal").style.display = "flex";
+            loadBackupTime();
         }
 
         function closeProfileSettings() {
@@ -797,8 +986,9 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     tempProfileImgData = e.target.result;
-                    document.getElementById("modalAvatarPreview").innerHTML = `<img src="${tempProfileImgData}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
-                }
+                    document.getElementById("modalAvatarPreview").innerHTML =
+                        `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                };
                 reader.readAsDataURL(input.files[0]);
             }
         }
@@ -809,16 +999,20 @@
             const mobile = document.getElementById("profMobile").value.trim();
             const email = document.getElementById("profEmail").value.trim();
 
-            if(name) localStorage.setItem("app_user_fullname", name);
-            if(company) localStorage.setItem("app_user_company", company);
-            if(mobile) localStorage.setItem("app_user_mobile", mobile);
-            if(email) localStorage.setItem("app_user_email", email);
-            if(tempProfileImgData) localStorage.setItem("app_user_profile_img", tempProfileImgData);
+            if (name) localStorage.setItem("app_user_fullname", name);
+            if (company) localStorage.setItem("app_user_company", company);
+            if (mobile) localStorage.setItem("app_user_mobile", mobile);
+            if (email) localStorage.setItem("app_user_email", email);
+            if (tempProfileImgData) localStorage.setItem("app_user_profile_img", tempProfileImgData);
 
-            loadUserData(); 
+            loadUserData();
             closeProfileSettings();
+            localStorage.setItem("erp_last_active", Date.now().toString());
         }
 
+        /* ============================================================
+           LICENSE SYSTEM
+        ============================================================ */
         function handleLockIconClick() {
             lockClickCount++;
             if (lockClickCount >= 10 && !isMasterMode) {
@@ -845,14 +1039,13 @@
             } else {
                 const codePart = generatedDeviceId.replace("ALU-", "");
                 const reversedCode = codePart.split("").reverse().join("");
-                const todayDate = new Date().getDate(); 
-                
+                const todayDate = new Date().getDate();
                 const expectedProductKey = "RM-" + reversedCode + "-" + todayDate;
 
                 if (inputVal.toUpperCase() === expectedProductKey.toUpperCase()) {
                     unlockAppPermanently();
                 } else {
-                    alert("ভুল প্রোডাক্ট কী (Product Key)! নিশ্চিত করুন আজকেই কোডটি তৈরি করা হয়েছে।");
+                    alert("ভুল প্রোডাক্ট কী (Product Key)!");
                 }
             }
         }
@@ -860,20 +1053,190 @@
         function unlockAppPermanently() {
             localStorage.setItem("app_permanently_unlocked", "true");
             document.getElementById("lockScreen").style.display = "none";
-            alert("সফটওয়্যার স্থায়ীভাবে আনলক হয়েছে!");
+            alert("সফটওয়্যার স্থায়ীভাবে আনলক হয়েছে!");
         }
 
+        /* ============================================================
+           SIDEBAR
+        ============================================================ */
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const sidebarContent = document.getElementById('sidebarContent');
-            if (sidebar.style.display === 'flex') {
-                sidebarContent.style.transform = 'translateX(-100%)';
-                setTimeout(() => { sidebar.style.display = 'none'; }, 250);
+            const sidebar = document.getElementById("sidebar");
+            const sidebarContent = document.getElementById("sidebarContent");
+
+            if (sidebar.style.display === "flex") {
+                sidebarContent.style.transform = "translateX(-100%)";
+                setTimeout(() => { sidebar.style.display = "none"; }, 250);
             } else {
-                sidebar.style.display = 'flex';
-                setTimeout(() => { sidebarContent.style.transform = 'translateX(0)'; }, 10);
+                sidebar.style.display = "flex";
+                setTimeout(() => { sidebarContent.style.transform = "translateX(0)"; }, 10);
             }
         }
+
+        /* ============================================================
+           🔥 SIMPLE BACKUP SYSTEM (ফাইল রিপ্লেস করার জন্য ফিক্সড নাম)
+        ============================================================ */
+        function collectERPData() {
+            const allData = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (!key) continue;
+                if (key === "erp_last_backup" || key === "erp_last_active") continue;
+                allData[key] = localStorage.getItem(key);
+            }
+
+            return {
+                app: "Aluminium ERP BD v2",
+                version: 1,
+                deviceId: localStorage.getItem("app_device_id") || "",
+                createdAt: new Date().toISOString(),
+                data: allData
+            };
+        }
+
+        async function smartBackup() {
+            try {
+                const erpData = collectERPData();
+                const dataText = JSON.stringify(erpData, null, 2);
+                
+                // ফাইলের নাম ফিক্সড করা হয়েছে যাতে ড্রাইভ বা ফোল্ডারে এটি নিজে থেকেই আগের ফাইল রিপ্লেস করতে পারে
+                const fileName = "Aluminium_ERP_Backup.json";
+
+                if (navigator.canShare) {
+                    const file = new File([dataText], fileName, { type: "application/json" });
+                    if (navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({
+                                files: [file],
+                                title: "Aluminium ERP Backup",
+                                text: "আমার ERP ডাটার Backup — Drive/WhatsApp-এ রাখুন"
+                            });
+                            showBackupTime();
+                            updateSimpleStatus("🟢 Backup Share সফল!", "connected");
+                            return;
+                        } catch (err) {
+                            if (err.name === "AbortError") return;
+                            console.log("Share failed, using download:", err);
+                        }
+                    }
+                }
+                downloadJSON(dataText, fileName);
+            } catch (err) {
+                console.error("Backup error:", err);
+                alert("Backup করা যায়নি:\n" + err.message);
+            }
+        }
+
+        function downloadJSON(text, fileName) {
+            const blob = new Blob([text], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showBackupTime();
+            updateSimpleStatus("🟢 Backup Download সফল!", "connected");
+
+            setTimeout(() => {
+                alert("✅ Backup ফাইল Download হয়েছে।\n\n💡 ফাইলটি Google Drive-এ রাখলে অন্য ফোন থেকেও পাওয়া যাবে।");
+            }, 300);
+        }
+
+        function restoreFromFile(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+
+            if (!confirm("বর্তমান সব ডাটা মুছে Backup থেকে Restore হবে।\n\nনিশ্চিত?")) {
+                input.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                try {
+                    const backup = JSON.parse(e.target.result);
+                    if (!backup || !backup.data) {
+                        throw new Error("এটি Aluminium ERP Backup ফাইল নয়।");
+                    }
+
+                    const keysToRemove = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const k = localStorage.key(i);
+                        if (k && k !== "app_device_id" && k !== "erp_last_backup") {
+                            keysToRemove.push(k);
+                        }
+                    }
+                    keysToRemove.forEach(k => localStorage.removeItem(k));
+
+                    Object.keys(backup.data).forEach(key => {
+                        localStorage.setItem(key, backup.data[key]);
+                    });
+
+                    alert("🔄 Restore সফল!\n\nঅ্যাপ Reload হচ্ছে...");
+                    setTimeout(() => location.reload(), 800);
+
+                } catch (err) {
+                    console.error("Restore error:", err);
+                    alert("❌ Restore করা যায়নি:\n" + err.message);
+                }
+            };
+            reader.readAsText(file);
+            input.value = "";
+        }
+
+        function updateSimpleStatus(msg, type) {
+            const el = document.getElementById("simpleStatus");
+            if (!el) return;
+            el.innerText = msg;
+            el.className = "drive-status" + (type ? " " + type : "");
+        }
+
+        function showBackupTime() {
+            const now = new Date().toLocaleString("bn-BD");
+            localStorage.setItem("erp_last_backup", now);
+            localStorage.setItem("erp_last_backup_ts", Date.now().toString());
+
+            const el = document.getElementById("lastBackupTime");
+            if (el) el.innerText = "Last Backup: " + now;
+            updateSimpleStatus("🟢 Backup সম্পন্ন হয়েছে", "connected");
+        }
+
+        function loadBackupTime() {
+            const saved = localStorage.getItem("erp_last_backup");
+            const el = document.getElementById("lastBackupTime");
+            if (el) {
+                el.innerText = saved ? "Last Backup: " + saved : "Last Backup: এখনো হয়নি";
+            }
+        }
+
+        /* -------- ১০ দিন পর Backup Reminder -------- */
+        function checkBackupReminder() {
+            if (localStorage.getItem("app_permanently_unlocked") !== "true") return;
+
+            const lastBackupTs = parseInt(localStorage.getItem("erp_last_backup_ts") || "0");
+            const daysSince = lastBackupTs === 0 ? 999 : (Date.now() - lastBackupTs) / (1000 * 60 * 60 * 24);
+
+            if (daysSince >= 10) {
+                if (confirm("⚠️ ১০ দিন ধরে Backup নেওয়া হয়নি!\n\nএখনই Backup নিতে চান?")) {
+                    smartBackup();
+                }
+            }
+        }
+
+        window.addEventListener("beforeunload", function(e) {
+            const lastBackupTs = parseInt(localStorage.getItem("erp_last_backup_ts") || "0");
+            const daysSince = lastBackupTs === 0 ? 999 : (Date.now() - lastBackupTs) / (1000 * 60 * 60 * 24);
+
+            if (daysSince >= 10) {
+                e.preventDefault();
+                e.returnValue = "";
+            }
+        });
     </script>
+
 </body>
 </html>

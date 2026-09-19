@@ -69,6 +69,8 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
+            /* স্প্ল্যাশ স্ক্রিনের ব্যাকগ্রাউন্ড ছবি যোগ করা হয়েছে */
+            background: url('splash-bg.jpg') center/cover no-repeat;
             background-color: #0b0f19;
             display: flex;
             flex-direction: column;
@@ -78,9 +80,19 @@
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
+        /* স্প্ল্যাশ স্ক্রিনকে আরও সুন্দর দেখাতে একটি ডার্ক ওভারলে */
+        #splash-screen::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(11, 15, 25, 0.7);
+            z-index: -1;
+        }
+
         .splash-profile-box {
             width: 90px; height: 90px;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.5);
             border: 2px solid #3b82f6;
             border-radius: 22px;
             display: flex;
@@ -146,7 +158,7 @@
             height: 100%;
             background: #fbbf24;
             box-shadow: 0 0 12px #fbbf24;
-            animation: loadBar 1.5s cubic-bezier(0.4,0,0.2,1) forwards;
+            animation: loadBar 2s cubic-bezier(0.4,0,0.2,1) forwards; /* 2 সেকেন্ড করা হয়েছে */
         }
 
         @keyframes loadBar {
@@ -491,15 +503,12 @@
 
         .support-btn { background: #059669; color: white; }
         .support-btn:hover { background: #047857; }
-
-        /* আপডেট বাটন - margin-top রিমুভ করা হয়েছে যাতে এটি ঠিক নিচে থাকে */
         .update-btn { background: #3b82f6; color: white; }
         .update-btn:hover { background: #2563eb; }
 
         /* ================================
            ☁️ সহজ Backup UI
         ================================= */
-
         .drive-box {
             margin-top: 22px;
             padding: 15px;
@@ -695,7 +704,7 @@
         </div>
     </div>
 
-    <!-- UPDATE MODAL (ব্রাউজারের পপ-আপ ব্লক ফিক্স করতে কাস্টম মডাল) -->
+    <!-- UPDATE MODAL -->
     <div class="lock-overlay" id="updateModal" style="display:none;z-index:10001;padding:20px;">
         <div class="lock-box" style="text-align:left;max-width:350px;">
             <h3 style="color:#fff;margin-bottom:15px;text-align:center;font-size:18px;">🔄 অ্যাপ আপডেট গাইডলাইন</h3>
@@ -715,7 +724,6 @@
             
             <div style="display:flex;gap:12px;">
                 <button class="btn-unlock" style="background:#ef4444;flex:1;" onclick="closeUpdateModal()">বাতিল</button>
-                <!-- Direct link - এটি কোনো ব্রাউজার ব্লক করবে না -->
                 <a href="#" id="updateWaLink" target="_blank" class="btn-unlock" style="background:#10b981;flex:1;text-decoration:none;display:flex;align-items:center;justify-content:center;" onclick="markUpdateChecked(); closeUpdateModal()">এগিয়ে যান</a>
             </div>
         </div>
@@ -726,6 +734,7 @@
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
             <div class="header-title">Aluminium ERP BD</div>
             <div class="header-logo-box">
+                <!-- পারমানেন্ট প্রোফাইল ছবি যুক্ত করা হলো -->
                 <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
             </div>
         </div>
@@ -793,12 +802,10 @@
                 👤 My Profile Settings
             </a>
             
-            <!-- Support & Feedback Button (Direct Link, No pop-up block) -->
             <a href="#" id="sidebarSupportBtn" target="_blank" class="sidebar-menu-item support-btn">
                 🎧 Feedback & Support
             </a>
             
-            <!-- Update Button (Now sits right below Support) -->
             <a href="javascript:void(0)" onclick="showUpdateModal()" class="sidebar-menu-item update-btn">
                 🔄 অ্যাপ আপডেট করুন
             </a>
@@ -818,42 +825,35 @@
         const ADMIN_PHONE = "8801676474412";
 
         /* ============================================================
-           WHATSAPP SUPPORT & 3-MONTH UPDATE MODAL SYSTEM
+           WHATSAPP SUPPORT & UPDATE MODAL SYSTEM
         ============================================================ */
         function showUpdateModal() {
-            // অ্যাপ ইন্সটল ডেট বের করা, না থাকলে আজকের ডেট দেওয়া
             let installDate = parseInt(localStorage.getItem("app_install_date"));
             if (!installDate) {
                 installDate = Date.now();
                 localStorage.setItem("app_install_date", installDate);
             }
 
-            // শেষবার কবে আপডেট চেক করেছে তা বের করা
             let lastCheckDate = localStorage.getItem("app_last_update_check");
             let currentTime = Date.now();
-            let threeMonthsMs = 90 * 24 * 60 * 60 * 1000; // ৯০ দিন (৩ মাস)
+            let threeMonthsMs = 90 * 24 * 60 * 60 * 1000;
 
-            // টার্গেট ডেট নির্ধারণ করা
             let targetDate = lastCheckDate ? parseInt(lastCheckDate) + threeMonthsMs : installDate + threeMonthsMs;
 
             if (currentTime >= targetDate) {
-                // সময় হলে মডাল ওপেন হবে
                 toggleSidebar();
                 document.getElementById("updateModal").style.display = "flex";
             } else {
-                // সময় না হলে অ্যালার্ট দিয়ে জানিয়ে দেবে আর কতদিন বাকি
                 let remainingMs = targetDate - currentTime;
                 let remainingDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
                 alert(`আপডেট বাটনটি প্রতি ৩ মাস (৯০ দিন) পর পর কাজ করে।\nপরবর্তী আপডেট চেক করতে আরও ${remainingDays} দিন অপেক্ষা করুন।`);
             }
         }
 
-        // ব্যবহারকারী "এগিয়ে যান" বাটনে ক্লিক করলে চেকের তারিখ সেভ হবে
         function markUpdateChecked() {
             localStorage.setItem("app_last_update_check", Date.now().toString());
         }
 
-        // মডাল বন্ধ করা
         function closeUpdateModal() {
             document.getElementById("updateModal").style.display = "none";
         }
@@ -879,29 +879,30 @@
            PAGE LOAD & INITIALIZATION
         ============================================================ */
         document.addEventListener("DOMContentLoaded", function() {
-            // ডাইরেক্ট WhatsApp লিংকগুলো সেটআপ (পপ-আপ ব্লক ফিক্স)
             const supportMsg = encodeURIComponent("হ্যালো ভাই, অ্যালুমিনিয়াম ইআরপি অ্যাপ নিয়ে আমার একটু সাপোর্ট দরকার...");
             document.getElementById("sidebarSupportBtn").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + supportMsg;
 
             const updateMsg = encodeURIComponent("হ্যালো ভাই, আমার অ্যালুমিনিয়াম ইআরপি অ্যাপটির কোনো নতুন ভার্সন বা আপডেট এসেছে কি?");
             document.getElementById("updateWaLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + updateMsg;
 
-            // স্প্ল্যাশ স্ক্রিন
+            // স্প্ল্যাশ স্ক্রিন ২ সেকেন্ডের জন্য নির্ধারণ করা হয়েছে 
             setTimeout(function() {
                 const splash = document.getElementById("splash-screen");
                 if (splash) {
                     splash.style.opacity = "0";
                     setTimeout(() => { splash.style.display = "none"; }, 400);
                 }
-            }, 1500);
+            }, 2000);
 
             loadUserData();
             initCardSelection();
             loadBackupTime();
 
-            // লাইসেন্স লক সিস্টেম
             if (localStorage.getItem("app_permanently_unlocked") === "true") {
                 document.getElementById("lockScreen").style.display = "none";
+                
+                // অ্যাপ পুরোপুরি আনলক থাকলে প্রতি ১০ দিনের ব্যাকআপ চেকটি রান করবে
+                setTimeout(checkBackupReminder, 3000);
             } else {
                 let installDate = localStorage.getItem("app_install_date");
                 if (!installDate) {
@@ -923,13 +924,10 @@
                 const waMsg = encodeURIComponent("Hello Rubel Bhai, please give me the product key for my Device ID: " + generatedDeviceId);
                 document.getElementById("whatsappLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
             }
-
-            // প্রতি ১০ দিনে একবার Backup reminder
-            setTimeout(checkBackupReminder, 5000);
         });
 
         /* ============================================================
-           CARD SELECTION
+           CARD SELECTION & USER DATA
         ============================================================ */
         function initCardSelection() {
             const cards = document.querySelectorAll(".menu-card");
@@ -941,9 +939,6 @@
             });
         }
 
-        /* ============================================================
-           USER DATA
-        ============================================================ */
         function loadUserData() {
             const savedName = localStorage.getItem("app_user_fullname");
             const savedPic = localStorage.getItem("app_user_profile_img");
@@ -962,7 +957,6 @@
         ============================================================ */
         function openProfileSettings() {
             toggleSidebar();
-
             document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
             document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
             document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
@@ -1056,9 +1050,6 @@
             alert("সফটওয়্যার স্থায়ীভাবে আনলক হয়েছে!");
         }
 
-        /* ============================================================
-           SIDEBAR
-        ============================================================ */
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const sidebarContent = document.getElementById("sidebarContent");
@@ -1073,14 +1064,14 @@
         }
 
         /* ============================================================
-           🔥 SIMPLE BACKUP SYSTEM (ফাইল রিপ্লেস করার জন্য ফিক্সড নাম)
+           🔥 SIMPLE BACKUP SYSTEM
         ============================================================ */
         function collectERPData() {
             const allData = {};
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (!key) continue;
-                if (key === "erp_last_backup" || key === "erp_last_active") continue;
+                if (key === "erp_last_backup" || key === "erp_last_active" || key === "erp_last_reminded_ts") continue;
                 allData[key] = localStorage.getItem(key);
             }
 
@@ -1097,8 +1088,6 @@
             try {
                 const erpData = collectERPData();
                 const dataText = JSON.stringify(erpData, null, 2);
-                
-                // ফাইলের নাম ফিক্সড করা হয়েছে যাতে ড্রাইভ বা ফোল্ডারে এটি নিজে থেকেই আগের ফাইল রিপ্লেস করতে পারে
                 const fileName = "Aluminium_ERP_Backup.json";
 
                 if (navigator.canShare) {
@@ -1213,29 +1202,31 @@
             }
         }
 
-        /* -------- ১০ দিন পর Backup Reminder -------- */
+        /* -------- ১০ দিন পর স্মার্ট Backup Reminder -------- */
         function checkBackupReminder() {
-            if (localStorage.getItem("app_permanently_unlocked") !== "true") return;
-
             const lastBackupTs = parseInt(localStorage.getItem("erp_last_backup_ts") || "0");
-            const daysSince = lastBackupTs === 0 ? 999 : (Date.now() - lastBackupTs) / (1000 * 60 * 60 * 24);
+            const lastRemindedTs = parseInt(localStorage.getItem("erp_last_reminded_ts") || "0");
+            
+            // যদি আগে কখনো ব্যাকআপ না নেওয়া হয়ে থাকে, তাহলে অ্যাপ ইন্সটলের ১০ দিন পর থেকে কাউন্ট হবে
+            let baseTime = lastBackupTs;
+            if (baseTime === 0) {
+                baseTime = parseInt(localStorage.getItem("app_install_date") || Date.now().toString());
+            }
 
-            if (daysSince >= 10) {
-                if (confirm("⚠️ ১০ দিন ধরে Backup নেওয়া হয়নি!\n\nএখনই Backup নিতে চান?")) {
+            const daysSinceBackup = (Date.now() - baseTime) / (1000 * 60 * 60 * 24);
+            const daysSinceReminded = (Date.now() - lastRemindedTs) / (1000 * 60 * 60 * 24);
+
+            // ১০ দিন পার হলে এবং লাস্ট রিমাইন্ডার অন্তত ১ দিন আগে দিয়ে থাকলে (যাতে বারবার বিরক্ত না করে)
+            if (daysSinceBackup >= 10 && daysSinceReminded >= 1) {
+                if (confirm("⚠️ ১০ দিন ধরে Backup নেওয়া হয়নি!\n\nআপনার ডাটা সুরক্ষিত রাখতে এখনই Backup নিতে চান?")) {
                     smartBackup();
                 }
+                // রিমাইন্ডারের টাইম সেভ করে রাখছি, যাতে ওইদিন আর মেসেজ না দেয়
+                localStorage.setItem("erp_last_reminded_ts", Date.now().toString());
             }
         }
-
-        window.addEventListener("beforeunload", function(e) {
-            const lastBackupTs = parseInt(localStorage.getItem("erp_last_backup_ts") || "0");
-            const daysSince = lastBackupTs === 0 ? 999 : (Date.now() - lastBackupTs) / (1000 * 60 * 60 * 24);
-
-            if (daysSince >= 10) {
-                e.preventDefault();
-                e.returnValue = "";
-            }
-        });
+        
+        // আগে ব্রাউজার থেকে বের হওয়ার সময় যে পপ-আপ (beforeunload) আসতো, সেটা রিমুভ করা হয়েছে যাতে ইউজার বিরক্ত না হয়।
     </script>
 
 </body>

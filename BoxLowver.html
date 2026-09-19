@@ -208,7 +208,7 @@
         }
 
         /* ========================================================
-           🖨️ ১-পেজ A4 PDF প্রিন্ট সেটআপ (স্ট্রিক্ট ১-পেজ + ১০০% নমুনা ছবির মতো)
+           🖨️ ১-পেজ A4 PDF প্রিন্ট সেটআপ (সাদা পেজ সমস্যার সমাধান)
            ======================================================== */
         @page {
             size: A4 portrait;
@@ -216,28 +216,43 @@
         }
 
         @media print {
-            body * { visibility: hidden !important; }
-            .no-print, .edit-controls-note, .btn-table-action, .btn-row-del, .close-modal-btn, .modal-header, .btn-do-print { display: none !important; }
+            /* মেইন বডি ব্যাকগ্রাউন্ড সাদা এবং মূল কন্টেইনার হাইড করা */
+            body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
+            .container, .sidebar-overlay, .sidebar { display: none !important; }
 
+            /* মডালের অপ্রয়োজনীয় বাটনগুলো হাইড করা */
+            .no-print, .edit-controls-note, .btn-table-action, .btn-row-del, .close-modal-btn, .modal-header, .btn-do-print { 
+                display: none !important; 
+            }
+
+            /* মডাল ওভারলেটিকে মূল পেজের মতো আচরণ করানো */
             .modal-overlay {
-                position: absolute !important; left: 0 !important; top: 0 !important;
-                width: 100% !important; height: auto !important; background: transparent !important;
-                padding: 0 !important; display: block !important;
-            }
-            .modal-content {
-                max-height: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; border: none !important;
+                display: block !important;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                background: transparent !important;
+                padding: 0 !important;
             }
 
-            #printableMemoArea, #printableMemoArea * {
-                visibility: visible !important;
+            .modal-content {
+                display: block !important;
+                position: static !important;
+                max-height: none !important; 
+                box-shadow: none !important; 
+                padding: 0 !important; 
+                width: 100% !important; 
+                border: none !important;
             }
+
+            /* প্রিন্ট এরিয়া ১ পেজের মধ্যে সীমাবদ্ধ করা */
             #printableMemoArea {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
+                display: block !important;
+                position: static !important;
                 width: 100% !important;
+                max-height: 285mm !important; /* A4 পেজের সাইজের চেয়ে সামান্য কম */
                 overflow: hidden !important;
-                max-height: 280mm !important;
+                page-break-inside: avoid !important;
             }
 
             .memo-box {
@@ -247,7 +262,7 @@
             }
 
             .memo-top-banner {
-                background-color: #0a2558 !important;
+                background-color: #103ec2 !important;
                 color: #ffffff !important;
                 text-align: center !important;
                 padding: 10px 6px !important;
@@ -270,7 +285,7 @@
             }
 
             .customer-info-table .lbl-td {
-                background-color: #0a2558 !important;
+                background-color: #103ec2 !important;
                 color: #ffffff !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;

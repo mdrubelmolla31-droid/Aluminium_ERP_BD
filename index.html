@@ -1154,18 +1154,39 @@ function downloadJSON(text, fileName) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
+async function smartBackup() {
+    try {
+        const erpData = collectERPData();
+        const dataText = JSON.stringify(erpData, null, 2);
+        const fileName = "Aluminium_ERP_Backup.json";
+
+        // কোনো ফোল্ডার বা শেয়ার না দেখিয়ে সরাসরি অটোমেটিক ডাউনলোড
+        downloadJSON(dataText, fileName);
+
+    } catch (err) {
+        console.error("Backup error:", err);
+        alert("Backup করা যায়নি:\n" + err.message);
+    }
+}
+
+function downloadJSON(text, fileName) {
+    // Android WebView / Web2APK অ্যাপে সরাসরি ফাইল ডাউনলোডের Forced Data URI পদ্ধতি
+    const dataStr = "data:application/octet-stream;charset=utf-8," + encodeURIComponent(text);
+    const a = document.createElement("a");
+    a.href = dataStr;
     a.download = fileName;
+    
     document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
 
-    setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, 200);
-
+    // একদম আপনার আসল কোডের হুবহু মেসেজ ও টাইম স্ট্যাম্প
     showBackupTime();
     updateSimpleStatus("🟢 Backup Download সফল!", "connected");
-    alert("✅ Backup ফাইল Download শুরু হয়েছে। ফাইলটি আপনার ডিভাইসের Downloads ফোল্ডারে পাওয়া যাবে।");
+
+    setTimeout(() => {
+        alert("✅ Backup ফাইল Download হয়েছে।\n\n💡 ফাইলটি Google Drive-এ রাখলে অন্য ফোন থেকেও পাওয়া যাবে।");
+    }, 300);
 }
 
 

@@ -1084,55 +1084,90 @@
             };
         }
 
-        async function smartBackup() {
-            try {
-                const erpData = collectERPData();
-                const dataText = JSON.stringify(erpData, null, 2);
-                const fileName = "Aluminium_ERP_Backup.json";
+        /* ============================================================
+   🔥 UPGRADED BACKUP SYSTEM (Folder Selection & Direct Save)
+============================================================ */
+async function smartBackup() {
+    try {
+        const erpData = collectERPData();
+        const dataText = JSON.stringify(erpData, null, 2);
+        
+        // তারিখসহ ফাইলের নাম তৈরি
+        const today = new Date().toISOString().slice(0,10);
+        const fileName = `Aluminium_ERP_Backup_${today}.json`;
 
-                if (navigator.canShare) {
-                    const file = new File([dataText], fileName, { type: "application/json" });
-                    if (navigator.canShare({ files: [file] })) {
-                        try {
-                            await navigator.share({
-                                files: [file],
-                                title: "Aluminium ERP Backup",
-                                text: "আমার ERP ডাটার Backup — Drive/WhatsApp-এ রাখুন"
-                            });
-                            showBackupTime();
-                            updateSimpleStatus("🟢 Backup Share সফল!", "connected");
-                            return;
-                        } catch (err) {
-                            if (err.name === "AbortError") return;
-                            console.log("Share failed, using download:", err);
-                        }
-                    }
-                }
-                downloadJSON(dataText, fileName);
+        // ১. ফাইল সেভ পিকার ডায়ালগ (ইউজারকে ফোল্ডার সিলেক্ট করতে দিবে)
+        if ('showSaveFilePicker' in window) {
+            try {
+                const handle = await window.showSaveFilePicker({
+                    suggestedName: fileName,
+                    types: [{
+                        description: 'JSON Backup File',
+                        accept: { 'application/json': ['.json'] },
+                    }],
+                });
+                const writable = await handle.createWritable();
+                await writable.write(dataText);
+                await writable.close();
+
+                showBackupTime();
+                updateSimpleStatus("🟢 ফাইল নির্দিষ্ট ফোল্ডারে সেভ হয়েছে!", "connected");
+                alert("✅ ব্যাকআপ ফাইলটি আপনার সিলেক্ট করা ফোল্ডারে সফলভাবে সেভ হয়েছে!");
+                return;
             } catch (err) {
-                console.error("Backup error:", err);
-                alert("Backup করা যায়নি:\n" + err.message);
+                if (err.name === 'AbortError') return; // ইউজার বাতিল করলে কিছু হবে না
+                console.log("File picker not supported or cancelled, trying share method...", err);
             }
         }
 
-        function downloadJSON(text, fileName) {
-            const blob = new Blob([text], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            showBackupTime();
-            updateSimpleStatus("🟢 Backup Download সফল!", "connected");
-
-            setTimeout(() => {
-                alert("✅ Backup ফাইল Download হয়েছে।\n\n💡 ফাইলটি Google Drive-এ রাখলে অন্য ফোন থেকেও পাওয়া যাবে।");
-            }, 300);
+        // ২. মোবাইল সিস্টেমে Google Drive বা File Manager-এ সেভ করার সুবিধা (Web Share)
+        if (navigator.canShare) {
+            const file = new File([dataText], fileName, { type: "application/json" });
+            if (navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: "Aluminium ERP Backup",
+                        text: "আপনার ব্যাকআপ ফাইলটি ড্রাইভ বা ফাইল ম্যানেজারে সেভ করুন"
+                    });
+                    showBackupTime();
+                    updateSimpleStatus("🟢 Backup Share সফল!", "connected");
+                    return;
+                } catch (err) {
+                    if (err.name === "AbortError") return;
+                    console.log("Share failed, using direct download fallback:", err);
+                }
+            }
         }
+
+        // ৩. ব্যাকআপ ফলব্যাক (ডিরেক্ট ডাউনলোড)
+        downloadJSON(dataText, fileName);
+
+    } catch (err) {
+        console.error("Backup error:", err);
+        alert("❌ Backup করা যায়নি:\n" + err.message);
+    }
+}
+
+function downloadJSON(text, fileName) {
+    const blob = new Blob([text], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+
+    setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 200);
+
+    showBackupTime();
+    updateSimpleStatus("🟢 Backup Download সফল!", "connected");
+    alert("✅ Backup ফাইল Download শুরু হয়েছে। ফাইলটি আপনার ডিভাইসের Downloads ফোল্ডারে পাওয়া যাবে।");
+}
+
 
         function restoreFromFile(input) {
             const file = input.files && input.files[0];

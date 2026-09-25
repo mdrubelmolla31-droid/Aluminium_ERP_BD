@@ -1234,6 +1234,12 @@
         
         // আগে ব্রাউজার থেকে বের হওয়ার সময় যে পপ-আপ (beforeunload) আসতো, সেটা রিমুভ করা হয়েছে যাতে ইউজার বিরক্ত না হয়।
     </script>
+    
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+</script>
 
 </body>
 </html>

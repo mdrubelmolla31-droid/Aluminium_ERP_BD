@@ -737,7 +737,6 @@ table.screen-table {
     }
 
     /* =====================================================
-       এখানেই মূল পরিবর্তন:
        ROW-এর ভেতরের সব লেখা বড় + বোল্ড
     ===================================================== */
 
@@ -1189,15 +1188,23 @@ function setCurrentDate() {
 }
 
 function loadShopData() {
+    // index.html (প্রোফাইল) এর ডাটা রিড করা
+    const profileCompany = localStorage.getItem("app_user_company");
+    const profileMobile = localStorage.getItem("app_user_mobile");
 
+    // এই পেজের পূর্বের লোকাল সেভ করা ডাটা
     const savedName = localStorage.getItem("cw_shopName");
     const savedPhone = localStorage.getItem("cw_shopPhone");
 
-    if (savedName)
-        document.getElementById("shopName").value = savedName;
+    // প্রথম অগ্রাধিকার পাবে index.html এর প্রোফাইল ডাটা
+    const finalName = profileCompany || savedName;
+    const finalPhone = profileMobile || savedPhone;
 
-    if (savedPhone)
-        document.getElementById("shopPhone").value = savedPhone;
+    if (finalName)
+        document.getElementById("shopName").value = finalName;
+
+    if (finalPhone)
+        document.getElementById("shopPhone").value = finalPhone;
 }
 
 document.getElementById("shopName").addEventListener("input", function () {
@@ -1250,7 +1257,7 @@ function addDimensionBox(
                     </option>
 
                     <option value="সার্কেল গ্রে"
-                        ${color === 'স্পার্কল গ্রে' || color === 'Sparkle Grey' ? 'selected' : ''}>
+                        ${color === 'সার্কেল গ্রে' || color === 'Sarkel Grey' ? 'selected' : ''}>
                         সার্কেল গ্রে (Sarkle Grey)
                     </option>
 

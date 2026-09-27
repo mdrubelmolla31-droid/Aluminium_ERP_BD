@@ -1712,34 +1712,36 @@
         };
 
 
-        function saveHeaderDetails() {
+        window.onload = function() {
+    // মেইন ইনডেক্স থেকে ডাটা অটোমেটিক আনার লজিক
+    const savedName = localStorage.getItem("app_user_company") || localStorage.getItem("rm_shop") || localStorage.getItem("rm_ceiling_shop_name");
+    const savedMobile = localStorage.getItem("app_user_mobile") || localStorage.getItem("rm_mobile") || localStorage.getItem("rm_ceiling_shop_mobile");
 
-            const nameVal =
-                document.getElementById(
-                    'shopNameInput'
-                ).value;
+    if (savedName) {
+        document.getElementById('shopNameInput').value = savedName;
+        // হেডারের টাইটেল পরিবর্তন করার লাইনটি এখান থেকে বাদ দেওয়া হয়েছে
+    }
 
-            const mobileVal =
-                document.getElementById(
-                    'shopMobileInput'
-                ).value;
+    if (savedMobile) {
+        document.getElementById('shopMobileInput').value = savedMobile;
+    }
+};
 
-            localStorage.setItem(
-                'rm_ceiling_shop_name',
-                nameVal
-            );
+function saveHeaderDetails() {
+    const nameVal = document.getElementById('shopNameInput').value;
+    const mobileVal = document.getElementById('shopMobileInput').value;
 
-            localStorage.setItem(
-                'rm_ceiling_shop_mobile',
-                mobileVal
-            );
+    // এই পেজের জন্য স্টোরেজ আপডেট
+    localStorage.setItem('rm_ceiling_shop_name', nameVal);
+    localStorage.setItem('rm_ceiling_shop_mobile', mobileVal);
+    
+    // মেইন ইনডেক্সের স্টোরেজও আপডেট রাখার জন্য
+    localStorage.setItem('rm_shop', nameVal);
+    localStorage.setItem('rm_mobile', mobileVal);
 
-            document.getElementById(
-                'headerMainTitle'
-            ).innerText =
-                nameVal ||
-                'RM THAI ALUMINIUM';
-        }
+    // হেডারের মেইন টাইটেল পরিবর্তন করার কোডটি এখান থেকেও বাদ দেওয়া হয়েছে
+}
+
 
 
         function addRoom() {

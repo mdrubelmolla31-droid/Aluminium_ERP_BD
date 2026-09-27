@@ -791,15 +791,16 @@
             const d = new Date();
             return (String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear());
         }
-
         /* ================= LOAD ================= */
         window.onload = function() {
             document.getElementById('currentDate').innerText = getCurrentDate();
-            const savedShop = localStorage.getItem("rm_shop");
-            const savedMobile = localStorage.getItem("rm_mobile");
             
-            if (savedShop !== null) document.getElementById("profName").value = savedShop;
-            if (savedMobile !== null) document.getElementById("profMobile").value = savedMobile;
+            // --- মেইন ইনডেক্স থেকে শপের তথ্য লোড করার নতুন লজিক ---
+            const savedShop = localStorage.getItem("app_user_company") || localStorage.getItem("rm_shop");
+            const savedMobile = localStorage.getItem("app_user_mobile") || localStorage.getItem("rm_mobile");
+            
+            if (savedShop) document.getElementById("profName").value = savedShop;
+            if (savedMobile) document.getElementById("profMobile").value = savedMobile;
 
             document.getElementById("profName").addEventListener("input", function() {
                 localStorage.setItem("rm_shop", this.value);
@@ -813,6 +814,7 @@
 
             renderHistory();
         };
+
 
         /* ================= ADD ROW ================= */
         function addRow(h="", w="", q="1", hg='8"', arm='8"', secSize='১.৫"', col='সিলভার (Silver)') {

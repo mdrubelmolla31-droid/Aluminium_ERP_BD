@@ -459,8 +459,8 @@
 <script>
   // --- ইনডেক্স পেজের মেমোরি থেকে দোকানের নাম ও নাম্বার আনার লজিক ---
   function loadShopData() {
-    let savedShopName = localStorage.getItem('rm_shop_name');
-    let savedShopPhone = localStorage.getItem('rm_shop_phone');
+    let savedShopName = localStorage.getItem('app_user_company');
+    let savedShopPhone = localStorage.getItem('app_user_mobile');
 
     if (savedShopName) {
       document.getElementById('shopName').value = savedShopName;

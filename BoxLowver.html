@@ -580,21 +580,29 @@
         let calculatedDataCache = null;
 
         window.onload = function() {
-            const today = new Date();
-            const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            const formattedDate = today.toLocaleDateString('bn-BD', dateOptions);
-            
-            document.getElementById("currentDate").innerText = formattedDate;
-            document.getElementById("memoDateDisplay").innerText = formattedDate;
+    const today = new Date();
+    const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const formattedDate = today.toLocaleDateString('bn-BD', dateOptions);
+    
+    document.getElementById("currentDate").innerText = formattedDate;
+    document.getElementById("memoDateDisplay").innerText = formattedDate;
 
-            // শপের তথ্য লোড
-            const savedName = localStorage.getItem("boxlouver_shopName");
-            const savedMobile = localStorage.getItem("boxlouver_shopPhone");
-            if (savedName) document.getElementById("shopName").value = savedName;
-            if (savedMobile) document.getElementById("shopPhone").value = savedMobile;
-            
-            renderHistory();
-        };
+    // --- মেইন ইনডেক্স থেকে শপের তথ্য লোড করার নতুন লজিক ---
+    // প্রথমে মেইন প্রোফাইলের ডেটা খুঁজবে, না পেলে এই পেজের আগের সেভ করা ডেটা দেখাবে
+    let savedName = localStorage.getItem("app_user_company") || localStorage.getItem("boxlouver_shopName");
+    let savedMobile = localStorage.getItem("app_user_mobile") || localStorage.getItem("boxlouver_shopPhone");
+    
+    if (savedName) {
+        document.getElementById("shopName").value = savedName;
+    }
+    if (savedMobile) {
+        document.getElementById("shopPhone").value = savedMobile;
+    }
+    // -------------------------------------------------------
+    
+    renderHistory();
+};
+
 
         function saveShopDetails() {
             localStorage.setItem("boxlouver_shopName", document.getElementById("shopName").value);

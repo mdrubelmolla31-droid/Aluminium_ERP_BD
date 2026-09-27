@@ -553,7 +553,7 @@
                 <label>কালার (রং):</label>
                 <select id="colorSelect">
                     <option value="Silver (সিলভার)">Silver (সিলভার)</option>
-                    <option value="Sparkle Grey (স্পার্কল গ্রে)">Sparkle Grey (স্পার্কল গ্রে)</option>
+                    
                     <option value="Wooden (উডেন)">Wooden (উডেন)</option>
                     <option value="Black (ব্ল্যাক)">Black (ব্ল্যাক)</option>
                     <option value="Bronze (ব্রঞ্জ)">Bronze (ব্রঞ্জ)</option>
@@ -1032,17 +1032,25 @@ function saveShopDetails() {
 }
 
 function loadShopDetails() {
-    // মাই প্রোফাইল সেটিংস থেকে ডেটা নেওয়ার লজিক (যাতে প্রোফাইল থেকে অটোমেটিক ফিল হয়ে যায়)
-    const savedName = localStorage.getItem("profile_shop_name") || localStorage.getItem("profileShopName") || localStorage.getItem("shopName") || localStorage.getItem("erp_shopName");
-    const savedPhone = localStorage.getItem("profile_shop_phone") || localStorage.getItem("profileShopPhone") || localStorage.getItem("shopPhone") || localStorage.getItem("erp_shopPhone");
-    
-    if(savedName) {
-        document.getElementById("shopName").value = savedName;
+    // ইনডেক্স ফাইলের সঠিক Key (app_user_company এবং app_user_mobile) ব্যবহার করা হলো
+    let savedShopName = localStorage.getItem("app_user_company");
+    let savedShopPhone = localStorage.getItem("app_user_mobile");
+
+    // যদি নাম সেভ করা থাকে, তবে তা ফিল্ডে বসবে
+    if (savedShopName) {
+        document.getElementById("shopName").value = savedShopName;
     }
-    if(savedPhone) {
-        document.getElementById("shopPhone").value = savedPhone;
+    // যদি নাম্বার সেভ করা থাকে, তবে তা ফিল্ডে বসবে
+    if (savedShopPhone) {
+        document.getElementById("shopPhone").value = savedShopPhone;
     }
 }
+
+// পেজ লোড হওয়ার সাথে সাথে ডেটা অটোমেটিক বসানোর জন্য
+window.onload = function() {
+    loadShopDetails();
+};
+
 
 function addWindow() {
     windowCount++;

@@ -536,9 +536,17 @@
       localStorage.setItem('zlouver_name_v2', document.getElementById('shopNameInput').value);
       localStorage.setItem('zlouver_mobile_v2', document.getElementById('shopMobileInput').value);
     }
-    function loadHeaderData() {
-      if (localStorage.getItem('zlouver_name_v2')) document.getElementById('shopNameInput').value = localStorage.getItem('zlouver_name_v2');
-      if (localStorage.getItem('zlouver_mobile_v2')) document.getElementById('shopMobileInput').value = localStorage.getItem('zlouver_mobile_v2');
+        function loadHeaderData() {
+      // প্রথমে মেইন প্রোফাইলের ডেটা খুঁজবে, না পেলে আগের সেভ করা ডেটা দেখাবে
+      let savedName = localStorage.getItem("app_user_company") || localStorage.getItem("zlouver_name_v2");
+      let savedMobile = localStorage.getItem("app_user_mobile") || localStorage.getItem("zlouver_mobile_v2");
+      
+      if (savedName) {
+          document.getElementById('shopNameInput').value = savedName;
+      }
+      if (savedMobile) {
+          document.getElementById('shopMobileInput').value = savedMobile;
+      }
     }
     loadHeaderData();
 

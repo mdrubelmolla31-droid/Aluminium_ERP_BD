@@ -459,11 +459,30 @@
 </div>
 
 <script>
+    // --- ইনডেক্স পেজের মেমোরি থেকে দোকানের নাম ও নাম্বার আনার লজিক ---
+  function loadShopData() {
+    // ইনডেক্স পেজে ইউজার যে নাম ও নাম্বার সেভ করেছে, সেটা মেমোরি বক্স থেকে টেনে আনা হচ্ছে
+    let savedShopName = localStorage.getItem('rm_shop_name');
+    let savedShopPhone = localStorage.getItem('rm_shop_phone');
+
+    // ইনডেক্স পেজে ইউজার যে নাম লিখেছে, ঠিক সেটাই এখানে বসে যাবে
+    if (savedShopName) {
+      document.getElementById('shopName').value = savedShopName;
+    }
+    // ইনডেক্স পেজে ইউজার যে নাম্বার লিখেছে, ঠিক সেটাই এখানে বসে যাবে
+    if (savedShopPhone) {
+      document.getElementById('shopPhone').value = savedShopPhone;
+    }
+  }
+
+  // পেজ ওপেন হওয়ার সাথে সাথেই নিচের কাজগুলো হবে
   window.onload = function() {
+    loadShopData(); // সবার আগে ইনডেক্স পেজের নতুন নাম ও নাম্বার লোড করবে
     addRow();
     loadHistory();
     runCalculation();
   };
+
 
   function toggleDrawer() {
     let drawer = document.getElementById('historyDrawer');

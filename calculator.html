@@ -399,14 +399,21 @@ function saveHeaderInfo() {
   let phone = document.getElementById('shopPhone').value;
   localStorage.setItem('rm_shop_name', name);
   localStorage.setItem('rm_shop_phone', phone);
+  
+  // মেইন ইনডেক্সের স্টোরেজও আপডেট রাখার জন্য
+  localStorage.setItem('rm_shop', name);
+  localStorage.setItem('rm_mobile', phone);
 }
 
 function loadHeaderInfo() {
-  let name = localStorage.getItem('rm_shop_name') || '';
-  let phone = localStorage.getItem('rm_shop_phone') || '';
+  // মেইন ইনডেক্স থেকে ডাটা অটোমেটিক আনার নতুন লজিক
+  let name = localStorage.getItem("app_user_company") || localStorage.getItem("rm_shop") || localStorage.getItem('rm_shop_name') || '';
+  let phone = localStorage.getItem("app_user_mobile") || localStorage.getItem("rm_mobile") || localStorage.getItem('rm_shop_phone') || '';
+  
   document.getElementById('shopOwnerName').value = name;
   document.getElementById('shopPhone').value = phone;
 }
+
 
 function toggleNetSection() {
   let seriesSelect = document.getElementById('aluSeries');

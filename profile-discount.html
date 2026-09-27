@@ -1032,10 +1032,16 @@ function saveShopDetails() {
 }
 
 function loadShopDetails() {
-    const savedName = localStorage.getItem("erp_shopName");
-    const savedPhone = localStorage.getItem("erp_shopPhone");
-    if(savedName) document.getElementById("shopName").value = savedName;
-    if(savedPhone) document.getElementById("shopPhone").value = savedPhone;
+    // মাই প্রোফাইল সেটিংস থেকে ডেটা নেওয়ার লজিক (যাতে প্রোফাইল থেকে অটোমেটিক ফিল হয়ে যায়)
+    const savedName = localStorage.getItem("profile_shop_name") || localStorage.getItem("profileShopName") || localStorage.getItem("shopName") || localStorage.getItem("erp_shopName");
+    const savedPhone = localStorage.getItem("profile_shop_phone") || localStorage.getItem("profileShopPhone") || localStorage.getItem("shopPhone") || localStorage.getItem("erp_shopPhone");
+    
+    if(savedName) {
+        document.getElementById("shopName").value = savedName;
+    }
+    if(savedPhone) {
+        document.getElementById("shopPhone").value = savedPhone;
+    }
 }
 
 function addWindow() {

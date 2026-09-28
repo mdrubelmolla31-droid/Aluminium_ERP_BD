@@ -1077,7 +1077,19 @@ document.addEventListener("keydown", function(event){
 window.addEventListener("load", function(){
     setCurrentDate();
     addGlassRow("", "", "");
+
+    // মূল ইনডেক্স থেকে কোম্পানির নাম এবং মোবাইল নাম্বার নিয়ে আসার লজিক
+    const savedName = localStorage.getItem("app_user_company");
+    const savedPhone = localStorage.getItem("app_user_mobile");
+
+    if (savedName) {
+        document.getElementById("shopName").value = savedName;
+    }
+    if (savedPhone) {
+        document.getElementById("shopPhone").value = savedPhone;
+    }
 });
+
 </script>
 
 </body>

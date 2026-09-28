@@ -656,29 +656,30 @@ function printInvoice() {
     window.print();
 }
 </script>
+
 <script>
 window.addEventListener("load", function() {
-    // ১. মূল ইনডেক্স থেকে সেভ হওয়া ৩টি ডাটা টেনে আনা হচ্ছে
+    // ১. মূল ইনডেক্স (localStorage) থেকে ৩টি তথ্য টেনে আনা
     const savedCompany = localStorage.getItem("app_user_company");
     const savedProprietor = localStorage.getItem("app_user_fullname");
     const savedMobile = localStorage.getItem("app_user_mobile");
 
-    // ২. কোম্পানির নাম বসানো
+    // ২. কোম্পানির নাম বসানো (#shopName ইনপুটে)
     if (savedCompany) {
-        let el = document.getElementById("shopCompany") || document.getElementById("companyName") || document.getElementById("shopName");
-        if (el) { el.tagName === "INPUT" ? el.value = savedCompany : el.innerText = savedCompany; }
+        const compEl = document.getElementById("shopName");
+        if (compEl) compEl.value = savedCompany;
     }
 
-    // ৩. প্রোপাইটরের নাম বসানো
+    // ৩. প্রোপাইটরের নাম বসানো (#fromName ইনপুটে)
     if (savedProprietor) {
-        let el = document.getElementById("proprietorName") || document.getElementById("ownerName") || document.getElementById("profName");
-        if (el) { el.tagName === "INPUT" ? el.value = savedProprietor : el.innerText = savedProprietor; }
+        const propEl = document.getElementById("fromName");
+        if (propEl) propEl.value = savedProprietor;
     }
 
-    // ৪. মোবাইল নাম্বার বসানো
+    // ৪. মোবাইল নাম্বার বসানো (#fromPhone ইনপুটে)
     if (savedMobile) {
-        let el = document.getElementById("shopPhone") || document.getElementById("shopMobile") || document.getElementById("mobileNumber");
-        if (el) { el.tagName === "INPUT" ? el.value = savedMobile : el.innerText = savedMobile; }
+        const phoneEl = document.getElementById("fromPhone");
+        if (phoneEl) phoneEl.value = savedMobile;
     }
 });
 </script>

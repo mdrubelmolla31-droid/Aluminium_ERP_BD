@@ -804,9 +804,26 @@
       window.print();
     }
 
-    window.onload = function() {
-      setCurrentDate(); loadSavedFormState(); renderHistory();
+        window.onload = function() {
+      setCurrentDate(); 
+      loadSavedFormState(); 
+      renderHistory();
+
+      // মূল ইনডেক্স থেকে কোম্পানির নাম এবং মোবাইল নাম্বার অটোমেটিক নিয়ে আসার লজিক
+      let globalCompany = localStorage.getItem("app_user_company");
+      let globalMobile = localStorage.getItem("app_user_mobile");
+
+      if (globalCompany) {
+        document.getElementById("shopName").value = globalCompany;
+      }
+      if (globalMobile) {
+        document.getElementById("shopPhone").value = globalMobile;
+      }
+      
+      // নতুন ডাটা সেট হওয়ার পর ফর্মের বর্তমান স্টেট সেভ করে রাখা
+      saveCurrentFormState();
     };
+
   </script>
 </body>
 </html>

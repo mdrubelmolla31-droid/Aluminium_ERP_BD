@@ -659,27 +659,34 @@ function printInvoice() {
 
 <script>
 window.addEventListener("load", function() {
-    // ১. মূল ইনডেক্স (localStorage) থেকে ৩টি তথ্য টেনে আনা
+    // ১. মূল ইনডেক্স (localStorage) থেকে ৪টি তথ্য টেনে আনা হচ্ছে
     const savedCompany = localStorage.getItem("app_user_company");
     const savedProprietor = localStorage.getItem("app_user_fullname");
     const savedMobile = localStorage.getItem("app_user_mobile");
+    const savedEmail = localStorage.getItem("app_user_email");
 
-    // ২. কোম্পানির নাম বসানো (#shopName ইনপুটে)
+    // ২. কোম্পানির নাম বসানো
     if (savedCompany) {
         const compEl = document.getElementById("shopName");
         if (compEl) compEl.value = savedCompany;
     }
 
-    // ৩. প্রোপাইটরের নাম বসানো (#fromName ইনপুটে)
+    // ৩. প্রোপাইটরের নাম বসানো
     if (savedProprietor) {
         const propEl = document.getElementById("fromName");
         if (propEl) propEl.value = savedProprietor;
     }
 
-    // ৪. মোবাইল নাম্বার বসানো (#fromPhone ইনপুটে)
+    // ৪. মোবাইল নাম্বার বসানো
     if (savedMobile) {
         const phoneEl = document.getElementById("fromPhone");
         if (phoneEl) phoneEl.value = savedMobile;
+    }
+
+    // ৫. জিমেইল (ইমেইল) বসানো
+    if (savedEmail) {
+        const emailEl = document.getElementById("paymentEmail");
+        if (emailEl) emailEl.value = savedEmail;
     }
 });
 </script>

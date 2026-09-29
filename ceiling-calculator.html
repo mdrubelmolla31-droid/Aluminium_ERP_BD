@@ -973,9 +973,9 @@
                 </button>
 
                 <div class="header-titles">
-
+                    <!-- হেডার এর নাম এখন ফিক্সড থাকবে, ইনপুট কাটলে এটি আর মুছবে না -->
                     <h1 id="headerMainTitle">
-                        RM THAI ALUMINIUM
+                        আর এম.থাই এ্যালুমিনিয়াম
                     </h1>
 
                     <p>
@@ -992,7 +992,7 @@
                     type="text"
                     id="shopNameInput"
                     class="header-input"
-                    value="RM THAI ALUMINIUM"
+                    value="আর এম.থাই এ্যালুমিনিয়াম"
                     oninput="saveHeaderDetails()">
 
                 <input
@@ -1686,7 +1686,7 @@
 
             if (savedName) {
                 document.getElementById('shopNameInput').value = savedName;
-                document.getElementById('headerMainTitle').innerText = savedName;
+                // মেইন হেডার আর চেঞ্জ হবে না, ইনপুট বক্সে ঠিকই নাম আসবে
             }
 
             if (savedMobile) {
@@ -1706,7 +1706,7 @@
             localStorage.setItem('rm_shop', nameVal);
             localStorage.setItem('rm_mobile', mobileVal);
             
-            document.getElementById('headerMainTitle').innerText = nameVal;
+            // ইনপুট বক্স থেকে মেইন হেডারের নাম পরিবর্তন করার কোডটি মুছে দেওয়া হয়েছে
         }
 
         function addRoom() {
@@ -2017,7 +2017,7 @@
                 document.getElementById(
                     'shopNameInput'
                 ).value ||
-                'RM THAI ALUMINIUM';
+                'আর এম.থাই এ্যালুমিনিয়াম';
 
 
             document.getElementById(

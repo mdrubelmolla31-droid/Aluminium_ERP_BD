@@ -1679,70 +1679,35 @@
                 );
         }
 
-
         window.onload = function() {
-
-            const savedName =
-                localStorage.getItem(
-                    'rm_ceiling_shop_name'
-                );
-
-            const savedMobile =
-                localStorage.getItem(
-                    'rm_ceiling_shop_mobile'
-                );
+            // মেইন ইনডেক্স থেকে ডাটা অটোমেটিক আনার লজিক
+            const savedName = localStorage.getItem("app_user_company") || localStorage.getItem("rm_shop") || localStorage.getItem("rm_ceiling_shop_name");
+            const savedMobile = localStorage.getItem("app_user_mobile") || localStorage.getItem("rm_mobile") || localStorage.getItem("rm_ceiling_shop_mobile");
 
             if (savedName) {
-
-                document.getElementById(
-                    'shopNameInput'
-                ).value = savedName;
-
-                document.getElementById(
-                    'headerMainTitle'
-                ).innerText = savedName;
+                document.getElementById('shopNameInput').value = savedName;
+                document.getElementById('headerMainTitle').innerText = savedName;
             }
 
             if (savedMobile) {
-
-                document.getElementById(
-                    'shopMobileInput'
-                ).value = savedMobile;
+                document.getElementById('shopMobileInput').value = savedMobile;
             }
         };
 
+        function saveHeaderDetails() {
+            const nameVal = document.getElementById('shopNameInput').value;
+            const mobileVal = document.getElementById('shopMobileInput').value;
 
-        window.onload = function() {
-    // মেইন ইনডেক্স থেকে ডাটা অটোমেটিক আনার লজিক
-    const savedName = localStorage.getItem("app_user_company") || localStorage.getItem("rm_shop") || localStorage.getItem("rm_ceiling_shop_name");
-    const savedMobile = localStorage.getItem("app_user_mobile") || localStorage.getItem("rm_mobile") || localStorage.getItem("rm_ceiling_shop_mobile");
-
-    if (savedName) {
-        document.getElementById('shopNameInput').value = savedName;
-        // হেডারের টাইটেল পরিবর্তন করার লাইনটি এখান থেকে বাদ দেওয়া হয়েছে
-    }
-
-    if (savedMobile) {
-        document.getElementById('shopMobileInput').value = savedMobile;
-    }
-};
-
-function saveHeaderDetails() {
-    const nameVal = document.getElementById('shopNameInput').value;
-    const mobileVal = document.getElementById('shopMobileInput').value;
-
-    // এই পেজের জন্য স্টোরেজ আপডেট
-    localStorage.setItem('rm_ceiling_shop_name', nameVal);
-    localStorage.setItem('rm_ceiling_shop_mobile', mobileVal);
-    
-    // মেইন ইনডেক্সের স্টোরেজও আপডেট রাখার জন্য
-    localStorage.setItem('rm_shop', nameVal);
-    localStorage.setItem('rm_mobile', mobileVal);
-
-    // হেডারের মেইন টাইটেল পরিবর্তন করার কোডটি এখান থেকেও বাদ দেওয়া হয়েছে
-}
-
-
+            // এই পেজের জন্য স্টোরেজ আপডেট
+            localStorage.setItem('rm_ceiling_shop_name', nameVal);
+            localStorage.setItem('rm_ceiling_shop_mobile', mobileVal);
+            
+            // মেইন ইনডেক্সের স্টোরেজও আপডেট রাখার জন্য
+            localStorage.setItem('rm_shop', nameVal);
+            localStorage.setItem('rm_mobile', mobileVal);
+            
+            document.getElementById('headerMainTitle').innerText = nameVal;
+        }
 
         function addRoom() {
 
@@ -1797,216 +1762,91 @@ function saveHeaderDetails() {
             container.appendChild(newRow);
         }
 
-
         function removeRoom(btn) {
 
             btn.parentElement.remove();
         }
 
+        document.getElementById('calcBtn').addEventListener('click', function() {
+            const roomRows = document.querySelectorAll('.room-row');
+            
+            let totalArea = 0;
+            let totalWallAngleCount = 0;
+            let totalMainTeeCount = 0;
+            let totalCrossTeeCount = 0;
+            let totalBoardCount = 0;
+            
+            let validRooms = [];
 
-        document
-            .getElementById('calcBtn')
-            .addEventListener(
-                'click',
-                function() {
+            roomRows.forEach(row => {
+                const length = parseFloat(row.querySelector('.r-length').value);
+                const width = parseFloat(row.querySelector('.r-width').value);
 
-                    const roomRows =
-                        document.querySelectorAll(
-                            '.room-row'
-                        );
+                if (length > 0 && width > 0) {
+                    validRooms.push({ l: length, w: width });
+                    const area = length * width;
+                    totalArea += area;
 
-                    let totalArea = 0;
-                    let totalWallAngleCount = 0;
-                    let totalMainTeeCount = 0;
+                    // ওয়াল এঙ্গেল হিসাব
+                    const perimeter = 2 * (length + width);
+                    totalWallAngleCount += Math.ceil(perimeter / 10);
 
-                    let validRooms = [];
+                    // ২x২ ফিটের খোপ বা বক্সের হিসাব
+                    const boxesL = Math.ceil(length / 2);
+                    const boxesW = Math.ceil(width / 2);
+                    
+                    // মোট সিলিং বোর্ড
+                    totalBoardCount += (boxesL * boxesW);
 
-                    roomRows.forEach(
-                        row => {
+                    // লজিক ১: মেইন টি লম্বা দিকের (Length) সাথে বসালে
+                    let mtLines1 = boxesW - 1;
+                    let mtPerLine1 = Math.ceil(length / 12);
+                    let mtTotal1 = mtLines1 > 0 ? mtLines1 * mtPerLine1 : 0;
+                    let ctTotal1 = (boxesL - 1) * boxesW;
 
-                            const length =
-                                parseFloat(
-                                    row.querySelector(
-                                        '.r-length'
-                                    ).value
-                                );
+                    // লজিক ২: মেইন টি চওড়া দিকের (Width) সাথে বসালে 
+                    let mtLines2 = boxesL - 1;
+                    let mtPerLine2 = Math.ceil(width / 12);
+                    let mtTotal2 = mtLines2 > 0 ? mtLines2 * mtPerLine2 : 0;
+                    let ctTotal2 = (boxesW - 1) * boxesL;
 
-                            const width =
-                                parseFloat(
-                                    row.querySelector(
-                                        '.r-width'
-                                    ).value
-                                );
-
-                            if (
-                                length > 0 &&
-                                width > 0
-                            ) {
-
-                                validRooms.push({
-                                    l: length,
-                                    w: width
-                                });
-
-                                const area =
-                                    length * width;
-
-                                totalArea += area;
-
-                                const perimeter =
-                                    2 *
-                                    (length + width);
-
-                                totalWallAngleCount +=
-                                    Math.ceil(
-                                        perimeter / 10
-                                    );
-
-                                const longSide =
-                                    Math.max(
-                                        length,
-                                        width
-                                    );
-
-                                const shortSide =
-                                    Math.min(
-                                        length,
-                                        width
-                                    );
-
-                                const mainTeeRows =
-                                    Math.floor(
-                                        shortSide / 2
-                                    ) - 1;
-
-                                const mainTeePerRow =
-                                    Math.ceil(
-                                        longSide / 12
-                                    );
-
-                                totalMainTeeCount +=
-                                    Math.max(
-                                        0,
-                                        mainTeeRows *
-                                        mainTeePerRow
-                                    );
-                            }
-                        }
-                    );
-
-
-                    if (
-                        validRooms.length === 0
-                    ) {
-
-                        alert(
-                            'অনুগ্রহ করে অন্তত একটি রুমের সঠিক দৈর্ঘ্য ও প্রস্থ লিখুন!'
-                        );
-
-                        return;
+                    // সিস্টেম চেক করবে কোনদিকে মেইন টি বসালে অপচয় কম হয়
+                    if (mtTotal2 <= mtTotal1) {
+                        totalMainTeeCount += mtTotal2;
+                        totalCrossTeeCount += ctTotal2;
+                    } else {
+                        totalMainTeeCount += mtTotal1;
+                        totalCrossTeeCount += ctTotal1;
                     }
-
-
-                    calculatedTotalSqft =
-                        totalArea;
-
-                    const totalCrossTeeCount =
-                        Math.ceil(
-                            calculatedTotalSqft / 2
-                        );
-
-                    const totalBoardCount =
-                        Math.ceil(
-                            calculatedTotalSqft / 4
-                        );
-
-
-                    document.getElementById(
-                        'totalArea'
-                    ).innerText =
-                        toBng(
-                            calculatedTotalSqft.toFixed(2)
-                        ) +
-                        ' বর্গফুট';
-
-
-                    document.getElementById(
-                        'wallAngleText'
-                    ).innerText =
-                        toBng(
-                            totalWallAngleCount
-                        ) +
-                        ' টি';
-
-
-                    document.getElementById(
-                        'mainTeeText'
-                    ).innerText =
-                        toBng(
-                            totalMainTeeCount
-                        ) +
-                        ' টি';
-
-
-                    document.getElementById(
-                        'crossTeeText'
-                    ).innerText =
-                        toBng(
-                            totalCrossTeeCount
-                        ) +
-                        ' টি';
-
-
-                    document.getElementById(
-                        'ceilingBoardText'
-                    ).innerText =
-                        toBng(
-                            totalBoardCount
-                        ) +
-                        ' টি';
-
-
-                    document.getElementById(
-                        'wallAngleQty'
-                    ).value =
-                        totalWallAngleCount;
-
-                    document.getElementById(
-                        'mainTeeQty'
-                    ).value =
-                        totalMainTeeCount;
-
-                    document.getElementById(
-                        'crossTeeQty'
-                    ).value =
-                        totalCrossTeeCount;
-
-                    document.getElementById(
-                        'boardQty'
-                    ).value =
-                        totalBoardCount;
-
-
-                    document.getElementById(
-                        'emptyPlaceholder'
-                    ).style.display =
-                        'none';
-
-                    document.getElementById(
-                        'resultsWrapper'
-                    ).style.display =
-                        'block';
-
-
-                    calculateCost();
-
-                    saveToHistory(
-                        validRooms,
-                        calculatedTotalSqft
-                    );
                 }
-            );
+            });
 
+            if (validRooms.length === 0) {
+                alert('অনুগ্রহ করে অন্তত একটি রুমের সঠিক দৈর্ঘ্য ও প্রস্থ লিখুন!');
+                return;
+            }
+
+            calculatedTotalSqft = totalArea;
+
+            // স্ক্রিনে ফলাফল দেখানো
+            document.getElementById('totalArea').innerText = toBng(calculatedTotalSqft.toFixed(2)) + ' বর্গফুট';
+            document.getElementById('wallAngleText').innerText = toBng(totalWallAngleCount) + ' টি';
+            document.getElementById('mainTeeText').innerText = toBng(totalMainTeeCount) + ' টি';
+            document.getElementById('crossTeeText').innerText = toBng(totalCrossTeeCount) + ' টি';
+            document.getElementById('ceilingBoardText').innerText = toBng(totalBoardCount) + ' টি';
+
+            // খরচের ইনপুট বক্সে পরিমাণ বসানো
+            document.getElementById('wallAngleQty').value = totalWallAngleCount;
+            document.getElementById('mainTeeQty').value = totalMainTeeCount;
+            document.getElementById('crossTeeQty').value = totalCrossTeeCount;
+            document.getElementById('boardQty').value = totalBoardCount;
+
+            document.getElementById('emptyPlaceholder').style.display = 'none';
+            document.getElementById('resultsWrapper').style.display = 'block';
+
+            calculateCost();
+            saveToHistory(validRooms, calculatedTotalSqft);
+        });
 
         function calculateCost() {
 
@@ -2097,7 +1937,6 @@ function saveHeaderDetails() {
                 );
         }
 
-
         document
             .querySelectorAll('.card input')
             .forEach(
@@ -2109,7 +1948,6 @@ function saveHeaderDetails() {
                     );
                 }
             );
-
 
         function openPrintPreview() {
 
@@ -2163,7 +2001,6 @@ function saveHeaderDetails() {
                 'flex';
         }
 
-
         function closePrintPreview() {
 
             document.getElementById(
@@ -2171,7 +2008,6 @@ function saveHeaderDetails() {
             ).style.display =
                 'none';
         }
-
 
         function executeFinalPrint() {
 
@@ -2273,7 +2109,6 @@ function saveHeaderDetails() {
             window.print();
         }
 
-
         function saveToHistory(
             roomsArray,
             sqft
@@ -2313,7 +2148,6 @@ function saveHeaderDetails() {
                 JSON.stringify(history)
             );
         }
-
 
         function openHistory() {
 
@@ -2430,7 +2264,6 @@ function saveHeaderDetails() {
                 'flex';
         }
 
-
         function closeHistory() {
 
             document.getElementById(
@@ -2438,7 +2271,6 @@ function saveHeaderDetails() {
             ).style.display =
                 'none';
         }
-
 
         function deleteHistoryItem(id) {
 
@@ -2465,7 +2297,6 @@ function saveHeaderDetails() {
 
             openHistory();
         }
-
 
         function reopenHistory(id) {
 

@@ -881,6 +881,118 @@
             }
             return savedId;
         }
+        /* ============================================================
+           VARIABLES
+        ============================================================ */
+        let lockClickCount = 0;
+        let isMasterMode = false;
+        let generatedDeviceId = "";
+        let tempProfileImgData = "";
+
+        const MASTER_KEY = "mdrubelmolla1989";
+        const ADMIN_PHONE = "8801676474412";
+
+        /* ============================================================
+           DEVICE FINGERPRINTING & MULTI-STORAGE (ANTI-BYPASS)
+        ============================================================ */
+        // কুকি সেট করার ফাংশন
+        function setSecretCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // কুকি পড়ার ফাংশন
+        function getSecretCookie(name) {
+            let nameEQ = name + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // ডিভাইস স্পেসিফিকেশন দিয়ে ফিক্সড আইডি তৈরি (ডাটা ক্লিয়ার করলেও চেঞ্জ হবে না)
+        function generateDeviceFingerprint() {
+            let fp = navigator.userAgent + screen.width + screen.height + navigator.language + (navigator.hardwareConcurrency || "");
+            let hash = 0;
+            for (let i = 0; i < fp.length; i++) {
+                let char = fp.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return "ALU-" + Math.abs(hash).toString(16).toUpperCase().substring(0, 7);
+        }
+
+        function getDeviceId() {
+            let fpId = generateDeviceFingerprint();
+            // LocalStorage এ সেভ করে রাখা
+            localStorage.setItem("app_device_id", fpId);
+            return fpId;
+        }
+
+        // ইন্সটল ডেট বের করা (LocalStorage এবং Cookie দুই যায়গা থেকে চেক করবে)
+        function manageInstallDate() {
+            let lsDate = localStorage.getItem("app_install_date");
+            let cookieDate = getSecretCookie("_sys_al_dt"); // ছদ্মনামে কুকি সেভ
+
+            let oldestDate = null;
+            if (lsDate && cookieDate) {
+                oldestDate = Math.min(parseInt(lsDate), parseInt(cookieDate)); // যেটা সবচেয়ে পুরনো সেটা নিবে
+            } else if (lsDate) {
+                oldestDate = parseInt(lsDate);
+            } else if (cookieDate) {
+                oldestDate = parseInt(cookieDate);
+            }
+
+            // যদি কোথাও না থাকে, তারমানে একদম নতুন ইন্সটল
+            if (!oldestDate) {
+                oldestDate = new Date().getTime();
+            }
+
+            // দুই যায়গাতেই আবার সেভ করে দেওয়া যাতে ক্লিয়ার করলেও একটা থেকে যায়
+            localStorage.setItem("app_install_date", oldestDate);
+            setSecretCookie("_sys_al_dt", oldestDate, 365); // ১ বছরের জন্য কুকি সেট
+
+            return oldestDate;
+        }
+
+        /* ============================================================
+           WHATSAPP SUPPORT & UPDATE MODAL SYSTEM
+        ============================================================ */
+        function showUpdateModal() {
+            let installDate = manageInstallDate();
+
+            let lastCheckDate = localStorage.getItem("app_last_update_check");
+            let currentTime = Date.now();
+            let threeMonthsMs = 90 * 24 * 60 * 60 * 1000;
+
+            let targetDate = lastCheckDate ? parseInt(lastCheckDate) + threeMonthsMs : installDate + threeMonthsMs;
+
+            if (currentTime >= targetDate) {
+                toggleSidebar();
+                document.getElementById("updateModal").style.display = "flex";
+            } else {
+                let remainingMs = targetDate - currentTime;
+                let remainingDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
+                alert(`আপডেট বাটনটি প্রতি ৩ মাস (৯০ দিন) পর পর কাজ করে।\nপরবর্তী আপডেট চেক করতে আরও ${remainingDays} দিন অপেক্ষা করুন।`);
+            }
+        }
+
+        function markUpdateChecked() {
+            localStorage.setItem("app_last_update_check", Date.now().toString());
+        }
+
+        function closeUpdateModal() {
+            document.getElementById("updateModal").style.display = "none";
+        }
+
 
         /* ============================================================
            PAGE LOAD & INITIALIZATION
@@ -907,24 +1019,21 @@
 
             if (localStorage.getItem("app_permanently_unlocked") === "true") {
                 document.getElementById("lockScreen").style.display = "none";
-                
-                // অ্যাপ পুরোপুরি আনলক থাকলে প্রতি ১০ দিনের ব্যাকআপ চেকটি রান করবে
                 setTimeout(checkBackupReminder, 3000);
             } else {
-                let installDate = localStorage.getItem("app_install_date");
-                if (!installDate) {
-                    installDate = new Date().getTime();
-                    localStorage.setItem("app_install_date", installDate);
-                }
+                // এখানে নতুন ট্র্যাকিং সিস্টেম কল করা হলো
+                let installDate = manageInstallDate();
                 const currentTime = new Date().getTime();
                 const trialDays = 7 * 24 * 60 * 60 * 1000;
 
+                // চেক করা হচ্ছে ৭ দিন পার হয়েছে কিনা
                 if (currentTime - installDate > trialDays) {
                     document.getElementById("lockScreen").style.display = "flex";
                 } else {
                     document.getElementById("lockScreen").style.display = "none";
                 }
 
+                // জেনারেট ডিভাইস আইডি (ফিক্সড আইডি)
                 generatedDeviceId = getDeviceId();
                 document.getElementById("deviceIdDisplay").innerText = "ID: " + generatedDeviceId;
 

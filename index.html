@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0f19">
-    <title>Aluminium ERP BD v2</title>
+    <title>Aluminium ERP BD v3</title>
     <link rel="icon" type="image/png" href="icon-192.png">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
@@ -16,70 +16,56 @@
         .shooting-star { position: absolute; width: 2px; height: 60px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1)); border-radius: 50%; filter: drop-shadow(0 0 6px #60a5fa); opacity: 0; animation: shooting 4s linear infinite; }
         .shooting-star::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6; }
         @keyframes shooting { 0% { transform: translateY(-50px) translateX(50px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 35% { transform: translateY(300px) translateX(-300px) rotate(45deg); opacity: 0; } 100% { opacity: 0; } }
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('splash-bg.jpg') center/cover no-repeat; background-color: #0b0f19; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; transition: opacity 0.4s ease, visibility 0.3s ease; }
-        #splash-screen::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 15, 25, 0.7); z-index: -1; }
-        .splash-profile-box { width: 90px; height: 90px; background: rgba(0, 0, 0, 0.5); border: 2px solid #3b82f6; border-radius: 22px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 20px rgba(59,130,246,0.3); margin-bottom: 20px; }
-        .alu-window-icon { width: 44px; height: 44px; border: 2px solid #60a5fa; border-radius: 6px; position: relative; box-shadow: 0 0 10px rgba(96,165,250,0.4); }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0b0f19; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; transition: opacity 0.4s ease; }
+        .splash-profile-box { width: 90px; height: 90px; background: rgba(0, 0, 0, 0.5); border: 2px solid #3b82f6; border-radius: 22px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+        .alu-window-icon { width: 44px; height: 44px; border: 2px solid #60a5fa; border-radius: 6px; position: relative; }
         .alu-window-icon::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #60a5fa; transform: translateX(-50%); }
         .alu-window-icon::after { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #60a5fa; transform: translateY(-50%); }
-        .splash-title { color: #ffffff; font-size: 22px; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 6px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
-        .splash-sub { color: #60a5fa; font-size: 13px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        .splash-title { color: #ffffff; font-size: 22px; font-weight: bold; margin-bottom: 6px; }
+        .splash-sub { color: #60a5fa; font-size: 13px; font-weight: 600; }
         .splash-loader-container { width: 180px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 30px; overflow: hidden; }
-        .splash-loader-bar { width: 0%; height: 100%; background: #fbbf24; box-shadow: 0 0 12px #fbbf24; animation: loadBar 2s cubic-bezier(0.4,0,0.2,1) forwards; }
+        .splash-loader-bar { width: 0%; height: 100%; background: #fbbf24; animation: loadBar 2s forwards; }
         @keyframes loadBar { 0% { width: 0%; } 60% { width: 80%; } 100% { width: 100%; } }
         .dashboard-container { width: 100%; max-width: 1200px; position: relative; z-index: 1; padding-bottom: 30px; }
         .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 8px 0; }
         .header-title { font-size: 20px; font-weight: bold; color: #ffffff; text-align: center; flex-grow: 1; }
-        .icon-btn { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 20px; transition: 0.2s; }
-        .icon-btn:hover { background: #334155; }
-        .header-logo-box { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; background: #1e293b; overflow: hidden; box-shadow: 0 0 10px rgba(59,130,246,0.5); flex-shrink: 0; }
+        .icon-btn { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 20px; }
+        .header-logo-box { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; background: #1e293b; overflow: hidden; flex-shrink: 0; }
         .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
-        .user-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .user-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
         .user-info { flex: 1; }
-        .user-name-container { display: flex; align-items: center; gap: 6px; }
         .user-title { color: #fbbf24; font-size: 18px; font-weight: bold; margin-bottom: 4px; }
         .user-sub { color: #9ca3af; font-size: 13px; margin-bottom: 12px; }
         .status-badge { display: inline-block; background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); padding: 4px 10px; border-radius: 20px; font-size: 12px; }
         .avatar-container { width: 60px; height: 60px; flex-shrink: 0; }
         .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #fbbf24; background: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffffff; }
         .grid-menu { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
-        .menu-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); position: relative; }
-        .menu-card:hover, .menu-card:focus, .menu-card.active { background: #1e293b; border-color: #60a5fa; transform: translateY(-4px); box-shadow: 0 0 18px rgba(59,130,246,0.6), 0 0 30px rgba(59,130,246,0.2); outline: none; }
-        .menu-card:active { transform: scale(0.96); border-color: #fbbf24; box-shadow: 0 0 20px rgba(251,191,36,0.7); }
-        .menu-icon { font-size: 34px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
-        .menu-card:hover .menu-icon { transform: scale(1.1); }
+        .menu-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .menu-card:active { transform: scale(0.96); border-color: #fbbf24; }
+        .menu-icon { font-size: 34px; margin-bottom: 12px; }
         .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
-        @media (min-width:576px) { .grid-menu { grid-template-columns: repeat(3,1fr); } }
-        @media (min-width:768px) { .grid-menu { grid-template-columns: repeat(4,1fr); gap: 20px; } .user-card { padding: 25px; } .avatar-container { width: 75px; height: 75px; } .header-title { font-size: 24px; } }
-        @media (min-width:1024px) { .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; } .menu-card { padding: 30px 15px; } .menu-icon { font-size: 40px; } .menu-title { font-size: 16px; } }
+        @media (min-width:768px) { .grid-menu { grid-template-columns: repeat(4,1fr); gap: 20px; } }
+        @media (min-width:1024px) { .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; } }
         .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,15,25,0.98); display: flex; justify-content: center; align-items: center; z-index: 9999999; padding: 20px; }
-        .lock-box { background: #111827; border: 1px solid #1e293b; padding: 30px 25px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .lock-clickable-icon { font-size: 36px; margin-bottom: 10px; cursor: pointer; user-select: none; display: inline-block; transition: transform 0.1s; }
-        .lock-clickable-icon:active { transform: scale(1.2); }
+        .lock-box { background: #111827; border: 1px solid #1e293b; padding: 30px 25px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; }
+        .lock-clickable-icon { font-size: 36px; margin-bottom: 10px; cursor: pointer; user-select: none; display: inline-block; }
         .device-id-box { background: #1e293b; border: 1px dashed #3b82f6; color: #fbbf24; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 16px; font-weight: bold; margin: 15px 0; user-select: all; }
-        .btn-whatsapp { display: block; width: 100%; padding: 12px; background: #25d366; color: #fff; border: none; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 14px; margin-bottom: 15px; transition: 0.2s; }
-        .btn-whatsapp:hover { background: #20b958; }
+        .btn-whatsapp { display: block; width: 100%; padding: 12px; background: #25d366; color: #fff; border: none; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 14px; margin-bottom: 15px; text-align: center; }
         .lock-input { width: 100%; padding: 12px; margin: 8px 0 15px 0; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 14px; }
-        .btn-unlock { width: 100%; padding: 12px; background: #1d4ed8; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 1; font-size: 14px; transition: 0.2s; }
-        .btn-unlock:hover { background: #1e40af; }
-        .dev-branding-footer { color: #fbbf24; font-size: 12px; font-weight: bold; margin-top: 20px; padding: 10px; background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); border-radius: 8px; letter-spacing: 0.5px; }
+        .btn-unlock { width: 100%; padding: 12px; background: #1d4ed8; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .dev-branding-footer { color: #fbbf24; font-size: 12px; font-weight: bold; margin-top: 20px; padding: 10px; background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); border-radius: 8px; }
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 1000; }
-        .sidebar-content { background: #111827; width: 300px; height: 100%; padding: 20px; border-right: 1px solid #1e293b; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
+        .sidebar-content { background: #111827; width: 300px; height: 100%; padding: 20px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 10px; }
-        .sidebar-menu-item { padding: 14px; color: #e5e7eb; text-decoration: none; border-radius: 8px; margin-bottom: 12px; background: #1e293b; display: block; font-size: 15px; font-weight: bold; transition: 0.2s; text-align: center; }
-        .sidebar-menu-item:hover { background: #334155; }
-        .sidebar-menu-item:active { background: #475569; }
+        .sidebar-menu-item { padding: 14px; color: #e5e7eb; text-decoration: none; border-radius: 8px; margin-bottom: 12px; background: #1e293b; display: block; font-size: 15px; font-weight: bold; text-align: center; }
         .support-btn { background: #059669; color: white; }
-        .support-btn:hover { background: #047857; }
         .update-btn { background: #3b82f6; color: white; }
-        .update-btn:hover { background: #2563eb; }
         .drive-box { margin-top: 22px; padding: 15px; border-radius: 14px; background: #0f172a; border: 1px solid #334155; }
         .drive-title { color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
-        .drive-subtitle { color: #94a3b8; font-size: 12px; line-height: 1.5; margin-bottom: 12px; }
-        .drive-status { padding: 10px; border-radius: 9px; background: #1e293b; color: #cbd5e1; font-size: 12px; margin-bottom: 10px; border: 1px solid #334155; text-align: center; }
-        .drive-status.connected { color: #10b981; border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.08); }
+        .drive-subtitle { color: #94a3b8; font-size: 12px; margin-bottom: 12px; }
+        .drive-status { padding: 10px; border-radius: 9px; background: #1e293b; color: #10b981; font-size: 12px; margin-bottom: 10px; text-align: center; }
         .drive-btn-row { display: flex; gap: 8px; }
-        .drive-btn { flex: 1; border: none; border-radius: 9px; padding: 13px 7px; color: #ffffff; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .drive-btn { flex: 1; border: none; border-radius: 9px; padding: 13px 7px; color: #ffffff; font-size: 12px; font-weight: bold; cursor: pointer; }
         .drive-backup-btn { background: #059669; }
         .drive-restore-btn { background: #7c3aed; }
         .drive-last-backup { color: #64748b; font-size: 11px; margin-top: 9px; text-align: center; }
@@ -92,20 +78,16 @@
         <div class="shooting-star" style="top:-5%;left:70%;animation-delay:0s;animation-duration:4s;"></div>
         <div class="shooting-star" style="top:10%;left:95%;animation-delay:1.5s;animation-duration:5s;"></div>
         <div class="shooting-star" style="top:-10%;left:45%;animation-delay:2.8s;animation-duration:3.5s;"></div>
-        <div class="shooting-star" style="top:25%;left:110%;animation-delay:4.2s;animation-duration:4.5s;"></div>
     </div>
 
     <div id="splash-screen">
-        <div class="splash-profile-box">
-            <div class="alu-window-icon"></div>
-        </div>
+        <div class="splash-profile-box"><div class="alu-window-icon"></div></div>
         <div class="splash-title">Aluminium ERP BD</div>
-        <div class="splash-sub">Glass & Aluminium Section Manager</div>
-        <div class="splash-loader-container">
-            <div class="splash-loader-bar"></div>
-        </div>
+        <div class="splash-sub">Glass & Aluminium Manager</div>
+        <div class="splash-loader-container"><div class="splash-loader-bar"></div></div>
     </div>
 
+    <!-- LOCK SCREEN -->
     <div class="lock-overlay" id="lockScreen" style="display:none;">
         <div class="lock-box">
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
@@ -113,17 +95,18 @@
             <p id="lockSub" style="color:#ef4444;font-size:13px;margin-top:6px;font-weight:bold;">
                 আপনার ট্রায়াল লিমিট শেষ হয়েছে!
             </p>
-            <p style="color:#9ca3af;font-size:12px;margin-top:4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
+            <p style="color:#9ca3af;font-size:12px;margin-top:4px;">আইডিটি WhatsApp-এ পাঠিয়ে Product Key সংগ্রহ করুন</p>
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
-            <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp" style="text-align:center;">
+            <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">
                 📲 Send Device ID to WhatsApp
             </a>
-            <input type="text" id="keyInput" class="lock-input" placeholder="লাইসেন্স কী দিন" style="text-align:center;">
+            <input type="text" id="keyInput" class="lock-input" placeholder="Product Key লিখুন" style="text-align:center;">
             <button class="btn-unlock" onclick="validateKey()">Activate License</button>
             <div class="dev-branding-footer">RM, THAI ALUMINUM, BY, RUBEL</div>
         </div>
     </div>
 
+    <!-- PROFILE SETTINGS -->
     <div class="lock-overlay" id="profileSettingsModal" style="display:none;z-index:10000;overflow-y:auto;">
         <div class="lock-box" style="text-align:left;margin:20px auto;">
             <h3 style="color:#fff;margin-bottom:20px;text-align:center;font-size:20px;">⚙️ Profile Settings</h3>
@@ -135,18 +118,17 @@
             <label style="color:#9ca3af;font-size:13px;font-weight:bold;">আপনার নাম:</label>
             <input type="text" id="profName" class="lock-input" placeholder="আপনার নাম">
             <label style="color:#9ca3af;font-size:13px;font-weight:bold;">কোম্পানির নাম:</label>
-            <input type="text" id="profCompany" class="lock-input" placeholder="যেমন: RM THAI ALUMINIUM">
+            <input type="text" id="profCompany" class="lock-input" placeholder="কোম্পানির নাম">
             <label style="color:#9ca3af;font-size:13px;font-weight:bold;">মোবাইল নাম্বার:</label>
             <input type="tel" id="profMobile" class="lock-input" placeholder="মোবাইল নাম্বার">
-            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">জিমেইল (ইমেইল):</label>
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">ইমেইল:</label>
             <input type="email" id="profEmail" class="lock-input" placeholder="example@gmail.com">
-
             <div class="drive-box">
                 <div class="drive-title">☁️ ডাটা Backup ও Restore</div>
-                <div class="drive-subtitle">এক ক্লিকে Backup নিন। ফাইলটি Google Drive, WhatsApp বা যেকোনো জায়গায় পাঠান।</div>
-                <div class="drive-status connected" id="simpleStatus">🟢 LocalStorage-এ ডাটা সেভ আছে</div>
+                <div class="drive-subtitle">এক ক্লিকে Backup নিন। Google Drive বা WhatsApp-এ পাঠান।</div>
+                <div class="drive-status" id="simpleStatus">🟢 LocalStorage-এ ডাটা সেভ আছে</div>
                 <div class="drive-btn-row">
-                    <button class="drive-btn drive-backup-btn" onclick="smartBackup()">📤 এক ক্লিকে Backup</button>
+                    <button class="drive-btn drive-backup-btn" onclick="smartBackup()">📤 Backup</button>
                     <button class="drive-btn drive-restore-btn" onclick="document.getElementById('restoreFileInput').click()">📥 Restore</button>
                 </div>
                 <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="restoreFromFile(this)">
@@ -154,26 +136,27 @@
             </div>
             <div style="display:flex;gap:15px;margin-top:15px;">
                 <button class="btn-unlock" style="background:#ef4444;" onclick="closeProfileSettings()">বাতিল</button>
-                <button class="btn-unlock" style="background:#10b981;" onclick="saveProfileSettings()">সেভ করুন</button>
+                <button class="btn-unlock" style="background:#10b981;" onclick="saveProfileSettings()">সেভ</button>
             </div>
         </div>
     </div>
 
+    <!-- UPDATE MODAL -->
     <div class="lock-overlay" id="updateModal" style="display:none;z-index:10001;padding:20px;">
         <div class="lock-box" style="text-align:left;max-width:350px;">
-            <h3 style="color:#fff;margin-bottom:15px;text-align:center;font-size:18px;">🔄 অ্যাপ আপডেট গাইডলাইন</h3>
+            <h3 style="color:#fff;margin-bottom:15px;text-align:center;font-size:18px;">🔄 অ্যাপ আপডেট</h3>
             <div style="background:#1e293b;padding:15px;border-radius:10px;border:1px solid #334155;margin-bottom:20px;">
-                <p style="color:#fbbf24;font-size:13px;margin-bottom:10px;line-height:1.5;">১. নতুন ভার্সনে যাওয়ার আগে অবশ্যই সেটিংসে গিয়ে ডাটা <b>Backup</b> করে নিবেন।</p>
-                <p style="color:#fbbf24;font-size:13px;line-height:1.5;">২. আপডেট করার পর আগের ডাটা মুছে গেলে <b>Restore</b> অপশন দিয়ে ব্যাকআপ ফাইলটি সিলেক্ট করবেন।</p>
+                <p style="color:#fbbf24;font-size:13px;">আপডেটের আগে অবশ্যই ডাটা <b>Backup</b> করে নিন।</p>
             </div>
-            <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">বর্তমান ভার্সন: <b style="color:#fff;">v2.1.0</b></div>
+            <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">ভার্সন: <b style="color:#fff;">v3.0.0</b></div>
             <div style="display:flex;gap:12px;">
                 <button class="btn-unlock" style="background:#ef4444;flex:1;" onclick="closeUpdateModal()">বাতিল</button>
-                <a href="#" id="updateWaLink" target="_blank" class="btn-unlock" style="background:#10b981;flex:1;text-decoration:none;display:flex;align-items:center;justify-content:center;" onclick="markUpdateChecked(); closeUpdateModal()">এগিয়ে যান</a>
+                <a href="https://wa.me/8801676474412" target="_blank" class="btn-unlock" style="background:#10b981;flex:1;text-decoration:none;display:flex;align-items:center;justify-content:center;" onclick="closeUpdateModal()">WhatsApp</a>
             </div>
         </div>
     </div>
 
+    <!-- DASHBOARD -->
     <div class="dashboard-container">
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
@@ -185,10 +168,8 @@
 
         <div class="user-card">
             <div class="user-info">
-                <div class="user-name-container">
-                    <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
-                </div>
-                <div class="user-sub">Aluminium ERP BD v2</div>
+                <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
+                <div class="user-sub">Aluminium ERP BD v3</div>
                 <span class="status-badge" id="trialStatusBadge">✓ System Active</span>
             </div>
             <div class="avatar-container">
@@ -197,57 +178,54 @@
         </div>
 
         <div class="grid-menu" id="mainGridMenu">
-            <a href="curtain-wall.html" class="menu-card">
-                <div class="menu-icon">
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 6H34V12H24V28H34V34H6V28H16V12H6V6Z" fill="url(#alu_grad)" stroke="#94A3B8" stroke-width="1.5"/>
-                        <circle cx="11" cy="9" r="1.5" fill="#38BDF8"/>
-                        <circle cx="29" cy="9" r="1.5" fill="#38BDF8"/>
-                        <circle cx="11" cy="31" r="1.5" fill="#38BDF8"/>
-                        <circle cx="29" cy="31" r="1.5" fill="#38BDF8"/>
-                        <defs><linearGradient id="alu_grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#E2E8F0"/><stop offset="0.5" stop-color="#94A3B8"/><stop offset="1" stop-color="#64748B"/></linearGradient></defs>
-                    </svg>
-                </div>
-                <div class="menu-title">কার্টিন ওয়াল</div>
-            </a>
-            <a href="profile-discount.html" class="menu-card"><div class="menu-icon">🏢</div><div class="menu-title">কোম্পানি প্রোফাইল ডিসকাউন্ট</div></a>
+            <a href="curtain-wall.html" class="menu-card"><div class="menu-icon">🏗️</div><div class="menu-title">কার্টিন ওয়াল</div></a>
+            <a href="profile-discount.html" class="menu-card"><div class="menu-icon">🏢</div><div class="menu-title">কোম্পানি প্রোফাইল</div></a>
             <a href="calculator.html" class="menu-card"><div class="menu-icon">🧮</div><div class="menu-title">স্লাইডিং ক্যালকুলেটর</div></a>
             <a href="cachman.html" class="menu-card"><div class="menu-icon">🪟</div><div class="menu-title">ক্যাসম্যান ক্যালকুলেটর</div></a>
             <a href="ceiling-calculator.html" class="menu-card"><div class="menu-icon">🛖</div><div class="menu-title">সিলিং ক্যালকুলেটর</div></a>
-            <a href="Lowver.html" class="menu-card"><div class="menu-icon">🪜</div><div class="menu-title">জেড লুভার ক্যালকুলেটর</div></a>
-            <a href="BoxLowver.html" class="menu-card"><div class="menu-icon">🔳</div><div class="menu-title">বক্স লুভার ক্যালকুলেটর</div></a>
+            <a href="Lowver.html" class="menu-card"><div class="menu-icon">🪜</div><div class="menu-title">জেড লুভার</div></a>
+            <a href="BoxLowver.html" class="menu-card"><div class="menu-icon">🔳</div><div class="menu-title">বক্স লুভার</div></a>
             <a href="rate-settings.html" class="menu-card"><div class="menu-icon">⚙️</div><div class="menu-title">রেট সেটিংস</div></a>
             <a href="quotation.html" class="menu-card"><div class="menu-icon">📝</div><div class="menu-title">কোটেশন</div></a>
             <a href="invoice.html" class="menu-card"><div class="menu-icon">🧾</div><div class="menu-title">বিল ও ইনভয়েস</div></a>
-            <a href="glass.html" class="menu-card"><div class="menu-icon">🧊</div><div class="menu-title">গ্লাস সাইজ কাটিং</div></a>
-            <a href="glass-cutting.html" class="menu-card"><div class="menu-icon">✂️</div><div class="menu-title">গ্লাস শীট কাটিং</div></a>
-            <a href="customer.html" class="menu-card"><div class="menu-icon">👥</div><div class="menu-title">কাস্টমার ডিটেইলস</div></a>
-            <a href="kormochari.html" class="menu-card"><div class="menu-icon">👨‍🔧</div><div class="menu-title">কর্মচারী হিসাব</div></a>
+            <a href="glass.html" class="menu-card"><div class="menu-icon">🧊</div><div class="menu-title">গ্লাস সাইজ</div></a>
+            <a href="glass-cutting.html" class="menu-card"><div class="menu-icon">✂️</div><div class="menu-title">গ্লাস কাটিং</div></a>
+            <a href="customer.html" class="menu-card"><div class="menu-icon">👥</div><div class="menu-title">কাস্টমার</div></a>
+            <a href="kormochari.html" class="menu-card"><div class="menu-icon">👨‍🔧</div><div class="menu-title">কর্মচারী</div></a>
         </div>
     </div>
 
+    <!-- SIDEBAR -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content" id="sidebarContent">
             <div class="sidebar-header">
                 <h3 style="color:#fff;">Menu</h3>
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding:4px 10px;">✕</button>
             </div>
-            <a href="#" class="sidebar-menu-item" onclick="openProfileSettings();return false;">👤 My Profile Settings</a>
-            <a href="#" id="sidebarSupportBtn" target="_blank" class="sidebar-menu-item support-btn">🎧 Feedback & Support</a>
-            <a href="javascript:void(0)" onclick="showUpdateModal()" class="sidebar-menu-item update-btn">🔄 অ্যাপ আপডেট করুন</a>
+            <a href="#" class="sidebar-menu-item" onclick="openProfileSettings();return false;">👤 My Profile</a>
+            <a href="https://wa.me/8801676474412" target="_blank" class="sidebar-menu-item support-btn">🎧 Support</a>
+            <a href="javascript:void(0)" onclick="showUpdateModal()" class="sidebar-menu-item update-btn">🔄 আপডেট</a>
         </div>
     </div>
 
     <script>
         /* ============================================================
-           🔐 SECURITY CONFIGURATION
-           আপনার Master Key: mdrubelmolla1989
-           SHA-256 হ্যাশ আগেই বসানো আছে — কিছু বের করতে হবে না
+           🔐 SECURITY CONFIG — Aluminium ERP BD v3
+           ------------------------------------------------------------
+           Master Key: mdrubelmolla1989
+           Product Key Format: RM-{REVERSED_DEVICE_CODE}-{SECRET}
+           ------------------------------------------------------------
+           Trial Rule:
+           • নতুন ইনস্টল → ৫০ বার ট্রায়াল
+           • পুরনো ইউজার (আগের ভার্সনের ডাটা আছে) → সোজা লক
         ============================================================ */
         const SEC = {
             MASTER_KEY_HASH: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-            FINGERPRINT_SALT: "ALUMINIUM_ERP_BD_2026_V2",
-            TRIAL_LAUNCH_LIMIT: 50
+            FINGERPRINT_SALT: "ALUMINIUM_ERP_BD_2026_V3",
+            PRODUCT_KEY_SECRET: "RUBEL2026",
+            TRIAL_LAUNCH_LIMIT: 50,
+            FORCE_VERSION: "FORCE_LOCK_RESET_2026_V4",
+            MIGRATION_MARKER: "erp_v3_installed_at"
         };
 
         async function sha256(input) {
@@ -262,7 +240,13 @@
             return diff === 0;
         }
 
-        const GLOBAL_FORCE_VERSION = "FORCE_LOCK_RESET_2026_V3";
+        /* ============================================================
+           🔄 GLOBAL FORCE RESET + OLD USER DETECTION
+           ============================================================
+           ১. Service Worker ও Cache ক্লিয়ার
+           ২. পুরনো আনলক টোকেন মুছে ফেলা
+           ৩. পুরনো ইউজার ডিটেক্ট করা (যাদের আগের ডাটা আছে)
+           ============================================================ */
         (function(){
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -275,11 +259,37 @@
                 });
             }
             try {
+                // --- Force Reset Check ---
                 let savedVer = localStorage.getItem("app_global_sec_version");
-                if (savedVer !== GLOBAL_FORCE_VERSION) {
+                if (savedVer !== SEC.FORCE_VERSION) {
                     localStorage.removeItem("_secure_license_token");
                     localStorage.removeItem("app_permanently_unlocked");
-                    localStorage.setItem("app_global_sec_version", GLOBAL_FORCE_VERSION);
+                    localStorage.removeItem("license_key");
+                    localStorage.removeItem("activated");
+                    localStorage.setItem("app_global_sec_version", SEC.FORCE_VERSION);
+                }
+
+                // --- 🔥 OLD USER DETECTION (গুরুত্বপূর্ণ!) ---
+                // যদি V3 মার্কার না থাকে কিন্তু পুরনো ডাটা থাকে (যেমন app_install_timestamp)
+                // → এটা নিশ্চিতভাবে পুরনো ইউজার। তার জন্য সরাসরি "old_user_locked" ফ্ল্যাগ সেট হবে।
+                let v3Marker = localStorage.getItem(SEC.MIGRATION_MARKER);
+                let oldInstallTs = localStorage.getItem("app_install_timestamp");
+                let oldLaunch = localStorage.getItem("app_launch_count");
+
+                if (!v3Marker) {
+                    // পুরনো ডাটার কোন চিহ্ন আছে কিনা দেখি
+                    let hasOldData = oldInstallTs || oldLaunch ||
+                                     localStorage.getItem("app_user_fullname") ||
+                                     localStorage.getItem("app_user_company") ||
+                                     localStorage.getItem("app_user_mobile");
+
+                    if (hasOldData) {
+                        // পুরনো ইউজার → লক ফ্ল্যাগ সেট করি
+                        localStorage.setItem("old_user_locked", "1");
+                        console.log("🔒 Old user detected and locked");
+                    }
+                    // এখন V3 মার্কার সেট করি (এখন থেকে এটা নতুন ইনস্টল)
+                    localStorage.setItem(SEC.MIGRATION_MARKER, Date.now().toString());
                 }
             } catch(e){}
         })();
@@ -312,10 +322,8 @@
 
         function generateDeviceFingerprint() {
             const parts = [
-                navigator.userAgent,
-                screen.width + "x" + screen.height,
-                screen.colorDepth,
-                navigator.language,
+                navigator.userAgent, screen.width + "x" + screen.height,
+                screen.colorDepth, navigator.language,
                 navigator.hardwareConcurrency || "0",
                 navigator.platform || "0",
                 new Date().getTimezoneOffset(),
@@ -357,6 +365,10 @@
             const devEl = document.getElementById("deviceIdDisplay");
             if (devEl) devEl.innerText = "ID: " + generatedDeviceId;
 
+            const lockScreen = document.getElementById("lockScreen");
+            const badge = document.getElementById("trialStatusBadge");
+
+            // ---------- 1. License Token Verify ----------
             let isUnlocked = false;
             const savedToken = localStorage.getItem("_secure_license_token");
             if (savedToken) {
@@ -368,9 +380,6 @@
                 }
             }
 
-            const lockScreen = document.getElementById("lockScreen");
-            const badge = document.getElementById("trialStatusBadge");
-
             if (isUnlocked) {
                 lockScreen.style.display = "none";
                 badge.innerText = "✓ Premium Active";
@@ -378,21 +387,45 @@
                 badge.style.background = "rgba(16,185,129,0.1)";
                 badge.style.borderColor = "rgba(16,185,129,0.2)";
                 setTimeout(checkBackupReminder, 3000);
-            } else {
-                const launchCount = await getLaunchCounter();
-                const status = getTrialStatus(launchCount);
-                if (status.locked) {
-                    lockScreen.style.display = "flex";
-                    document.getElementById("lockSub").innerText = "আপনার ট্রায়াল লিমিট শেষ হয়েছে!";
-                } else {
-                    lockScreen.style.display = "none";
-                    badge.innerText = "⏳ Trial: " + status.left + " launches left";
-                    badge.style.color = "#fbbf24";
-                    badge.style.background = "rgba(251,191,36,0.1)";
-                    badge.style.borderColor = "rgba(251,191,36,0.3)";
-                }
+                return;
             }
 
+            // ---------- 2. Old User Lock Check ----------
+            const oldUserLock = localStorage.getItem("old_user_locked");
+            if (oldUserLock === "1") {
+                lockScreen.style.display = "flex";
+                document.getElementById("lockSub").innerText = "আপনার ট্রায়ালের সময় শেষ — লাইসেন্স প্রয়োজন!";
+                badge.innerText = "🔒 License Required";
+                badge.style.color = "#ef4444";
+                badge.style.background = "rgba(239,68,68,0.1)";
+                badge.style.borderColor = "rgba(239,68,68,0.2)";
+                updateWhatsAppLink();
+                return;
+            }
+
+            // ---------- 3. New User Launch Counter ----------
+            const launchCount = await getLaunchCounter();
+            const status = getTrialStatus(launchCount);
+
+            if (status.locked) {
+                lockScreen.style.display = "flex";
+                document.getElementById("lockSub").innerText = "আপনার ৫০ বারের ট্রায়াল শেষ!";
+                badge.innerText = "🔒 Trial Ended";
+                badge.style.color = "#ef4444";
+                badge.style.background = "rgba(239,68,68,0.1)";
+                badge.style.borderColor = "rgba(239,68,68,0.2)";
+            } else {
+                lockScreen.style.display = "none";
+                badge.innerText = "⏳ Trial: " + status.left + " launches left";
+                badge.style.color = "#fbbf24";
+                badge.style.background = "rgba(251,191,36,0.1)";
+                badge.style.borderColor = "rgba(251,191,36,0.3)";
+            }
+
+            updateWhatsAppLink();
+        }
+
+        function updateWhatsAppLink() {
             const waMsg = encodeURIComponent(
                 "Hello Rubel Bhai, my trial ended. Device ID: " + generatedDeviceId +
                 ". Please send me the Product Key."
@@ -411,7 +444,6 @@
             }, 2000);
 
             loadUserData();
-            initCardSelection();
             loadBackupTime();
             checkAppAccessAndTrial();
         });
@@ -435,23 +467,45 @@
             if (!inputVal) { alert("কী দিন"); return; }
 
             if (isMasterMode) {
+                // ===== MASTER KEY VERIFY =====
                 const inputHash = await sha256(inputVal);
                 if (safeCompare(inputHash, SEC.MASTER_KEY_HASH)) {
                     await unlockAppPermanently();
                 } else {
                     alert("❌ ভুল মাস্টার কী!");
-                    lockClickCount = 0;
-                    isMasterMode = false;
-                    document.getElementById("lockIcon").innerText = "🔒";
+                    resetLockIcon();
                 }
             } else {
-                alert("❌ ভুল প্রোডাক্ট কী! WhatsApp-এ যোগাযোগ করুন।");
+                // ===== PRODUCT KEY VERIFY =====
+                // Format: RM-{REVERSED_CODE}-{SECRET}
+                const codePart = generatedDeviceId.replace("ALU-", "");
+                const reversedCode = codePart.split("").reverse().join("");
+                const expectedKey = ("RM-" + reversedCode + "-" + SEC.PRODUCT_KEY_SECRET).toUpperCase();
+
+                if (inputVal.toUpperCase() === expectedKey) {
+                    await unlockAppPermanently();
+                } else {
+                    alert("❌ ভুল Product Key!\nWhatsApp-এ যোগাযোগ করুন।");
+                }
             }
+        }
+
+        function resetLockIcon() {
+            lockClickCount = 0;
+            isMasterMode = false;
+            document.getElementById("lockIcon").innerText = "🔒";
+            document.getElementById("lockTitle").innerText = "Device License Activation";
+            document.getElementById("lockTitle").style.color = "#ffffff";
+            document.getElementById("deviceIdDisplay").style.display = "block";
+            document.getElementById("whatsappLink").style.display = "block";
+            document.getElementById("keyInput").placeholder = "Product Key লিখুন";
         }
 
         async function unlockAppPermanently() {
             const token = await sha256(generatedDeviceId + "|ACTIVATED|" + SEC.FINGERPRINT_SALT);
             localStorage.setItem("_secure_license_token", token);
+            localStorage.removeItem("old_user_locked"); // লক ফ্ল্যাগ মুছে ফেলা
+
             document.getElementById("lockScreen").style.display = "none";
             const badge = document.getElementById("trialStatusBadge");
             badge.innerText = "✓ Premium Active";
@@ -471,16 +525,6 @@
                 sidebar.style.display = "flex";
                 setTimeout(() => { content.style.transform = "translateX(0)"; }, 10);
             }
-        }
-
-        function initCardSelection() {
-            const cards = document.querySelectorAll(".menu-card");
-            cards.forEach(card => {
-                card.addEventListener("click", function() {
-                    cards.forEach(c => c.classList.remove("active"));
-                    this.classList.add("active");
-                });
-            });
         }
 
         function loadUserData() {
@@ -541,7 +585,7 @@
                     allData[key] = localStorage.getItem(key);
                 }
             }
-            return { app: "Aluminium ERP", version: 2.1, deviceId: getDeviceId(), data: allData };
+            return { app: "Aluminium ERP", version: 3, deviceId: getDeviceId(), data: allData };
         }
 
         async function smartBackup() {
@@ -603,9 +647,6 @@
         }
         function closeUpdateModal() {
             document.getElementById("updateModal").style.display = "none";
-        }
-        function markUpdateChecked() {
-            localStorage.setItem("last_update_check", Date.now().toString());
         }
     </script>
 </body>

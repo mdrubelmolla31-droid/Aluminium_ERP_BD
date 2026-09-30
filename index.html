@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0f19">
-    <title>Aluminium ERP BD v3</title>
+    <title>Aluminium ERP BD v4.1</title>
     <link rel="icon" type="image/png" href="icon-192.png">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
@@ -210,7 +210,7 @@
 
     <script>
         /* ============================================================
-           🔥 HARD CACHE BUSTER & SERVICE WORKER KILLER (v4.2)
+           🔥 HARD CACHE BUSTER & SERVICE WORKER KILLER (v4.3)
            ============================================================ */
         (function() {
             if ('serviceWorker' in navigator) {
@@ -226,15 +226,14 @@
         })();
 
         /* ============================================================
-           🔐 STRICT LICENSE & SECURITY CONFIG — v4.2
+           🔐 STRICT LICENSE & SECURITY CONFIG — v4.3
            ============================================================ */
         const SEC = {
             MASTER_KEY_HASH: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-            FINGERPRINT_SALT: "ALUMINIUM_ERP_BD_2026_STRICT_V42",
-            PRODUCT_KEY_SECRET: "RUBEL2026",
+            FINGERPRINT_SALT: "ALUMINIUM_ERP_BD_2026_STRICT_V43",
             MAX_TRIAL_DAYS: 7, 
             MAX_LAUNCHES: 50,  
-            FORCE_VERSION: "FORCE_LOCK_RESET_2026_V10_STRICT_PURGE"
+            FORCE_VERSION: "FORCE_LOCK_RESET_2026_V12_PERFECT_SECURITY"
         };
 
         async function sha256(input) {
@@ -249,29 +248,38 @@
             return diff === 0;
         }
 
+        // Encrypted Key Logic (Obfuscated against GitHub source code searching)
+        function _getExpectedKey(id) {
+            try {
+                const prefix = atob("Uk0t"); // "RM-"
+                const secret = atob("UlVCRUwyMDI2"); // "RUBEL2026"
+                const tag = atob("QUxVLQ=="); // "ALU-"
+                const core = id.replace(tag, "").split("").reverse().join("");
+                return (prefix + core + "-" + secret).toUpperCase();
+            } catch(e) {
+                return "";
+            }
+        }
+
         /* ============================================================
-           🚨 AGGRESSIVE FORCE RESET & BYPASS USER CATCHER (v4.2)
+           🚨 ABSOLUTE PURGE FOR OLD BYPASS USERS (v4.3)
            ============================================================ */
         (function(){
             try {
                 let savedVer = localStorage.getItem("app_global_sec_version");
                 if (savedVer !== SEC.FORCE_VERSION) {
-                    // পুরনো সমস্ত টোকেন এবং ব্যাকডেটেড লাইসেন্স মুছে ফেলা হলো
+                    // purge old tokens
                     localStorage.removeItem("_secure_license_token");
                     localStorage.removeItem("app_permanently_unlocked");
                     localStorage.removeItem("license_key");
                     localStorage.removeItem("activated");
                     
-                    // কড়া চেকিং: যারাই আগে থেকে অ্যাপ ব্যবহার করছে (অর্থাৎ যাদের লোকাল স্টোরেজে অলরেডি কোনো প্রজেক্ট ডাটা, کাস্টমার বা আগের ইনস্টল টাইম আছে কিন্তু সঠিক সিকিউর টোকেন নেই), তাদের কাউন্ট বা ট্রায়াল মেয়াদ ফোর্সড এক্সপায়ার্ড করে লক স্ক্রিনে পাঠিয়ে দেওয়া হবে।
-                    let existingInstallTime = localStorage.getItem("erp_strict_install_time");
-                    let hasOldActivity = localStorage.getItem("app_user_fullname") || localStorage.getItem("app_launch_count") || existingInstallTime;
+                    let hasUserData = localStorage.getItem("app_user_fullname") || 
+                                      localStorage.getItem("app_launch_count") || 
+                                      localStorage.getItem("erp_strict_install_time");
                     
-                    if (hasOldActivity) {
-                        // যদি আগে থেকেই ইউজার একটিভ থাকে কিন্তু নতুন সিকিউর টোকেন না থাকে, তবে তাকে অবশ্যই রিকল লাইসেন্সের আওতায় এনে লক করতে হবে
-                        let currentSecureToken = localStorage.getItem("_secure_license_token");
-                        if (!currentSecureToken) {
-                            localStorage.setItem("erp_forced_expired", "true");
-                        }
+                    if (hasUserData) {
+                        localStorage.setItem("erp_forced_expired", "true");
                     }
                     localStorage.setItem("app_global_sec_version", SEC.FORCE_VERSION);
                 }
@@ -325,9 +333,6 @@
 
         function getDeviceId() { return generateDeviceFingerprint(); }
 
-        /* ============================================================
-           ⏳ STRICT TRIAL & INSTALL DATE MANAGEMENT
-           ============================================================ */
         function manageInstallTime() {
             let installTime = localStorage.getItem("erp_strict_install_time");
             let cookieTime = getCookie("_sys_strict_time");
@@ -374,7 +379,6 @@
             const lockScreen = document.getElementById("lockScreen");
             const badge = document.getElementById("trialStatusBadge");
 
-            // --- 1. Check if forced expired (পুরনো বাইপাস বা সিকিউরিটি আপডেট চেক) ---
             if (localStorage.getItem("erp_forced_expired") === "true") {
                 lockScreen.style.display = "flex";
                 document.getElementById("lockSub").innerText = "সুরক্ষা আপডেটের কারণে লাইসেন্স রি-ভেরিফিকেশন প্রয়োজন!";
@@ -386,7 +390,6 @@
                 return;
             }
 
-            // --- 2. Check Valid Secure Token ---
             let isUnlocked = false;
             const savedToken = localStorage.getItem("_secure_license_token");
             if (savedToken) {
@@ -408,7 +411,6 @@
                 return;
             }
 
-            // --- 3. Check Trial Days & Launches ---
             let installTime = manageInstallTime();
             let currentTime = new Date().getTime();
             let daysPassed = (currentTime - installTime) / (1000 * 60 * 60 * 24);
@@ -473,8 +475,8 @@
         }
 
         async function validateKey() {
-            const inputVal = document.getElementById("keyInput").value.trim();
-            if (!inputVal) { alert("कृपया কী দিন"); return; }
+            const inputVal = document.getElementById("keyInput").value.trim().toUpperCase();
+            if (!inputVal) { alert("দয়া করে কী দিন"); return; }
 
             if (isMasterMode) {
                 const inputHash = await sha256(inputVal);
@@ -485,11 +487,9 @@
                     resetLockIcon();
                 }
             } else {
-                const codePart = generatedDeviceId.replace("ALU-", "");
-                const reversedCode = codePart.split("").reverse().join("");
-                const expectedKey = ("RM-" + reversedCode + "-" + SEC.PRODUCT_KEY_SECRET).toUpperCase();
+                const expectedKey = _getExpectedKey(generatedDeviceId);
 
-                if (inputVal.toUpperCase() === expectedKey) {
+                if (safeCompare(inputVal, expectedKey)) {
                     await unlockAppPermanently();
                 } else {
                     alert("❌ ভুল Product Key!\nWhatsApp-এ যোগাযোগ করুন।");
@@ -621,7 +621,7 @@
                 return;
             }
             const reader = new FileReader();
-            .onload = function(e) {
+            reader.onload = function(e) {
                 try {
                     const backup = JSON.parse(e.target.result);
                     if (!backup.data) throw new Error("Invalid file");
@@ -652,9 +652,7 @@
             toggleSidebar();
             document.getElementById("updateModal").style.display = "flex";
         }
-        function closeUpdateManager() { // Safe guard
-            document.getElementById("updateModal").style.display = "none";
-        }
+
         function closeUpdateModal() {
             document.getElementById("updateModal").style.display = "none";
         }

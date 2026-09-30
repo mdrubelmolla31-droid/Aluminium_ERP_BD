@@ -53,7 +53,7 @@
         @media (min-width:576px) { .grid-menu { grid-template-columns: repeat(3,1fr); } }
         @media (min-width:768px) { .grid-menu { grid-template-columns: repeat(4,1fr); gap: 20px; } .user-card { padding: 25px; } .avatar-container { width: 75px; height: 75px; } .header-title { font-size: 24px; } }
         @media (min-width:1024px) { .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; } .menu-card { padding: 30px 15px; } .menu-icon { font-size: 40px; } .menu-title { font-size: 16px; } }
-        .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,15,25,0.95); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
+        .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,15,25,0.98); display: flex; justify-content: center; align-items: center; z-index: 9999999; padding: 20px; }
         .lock-box { background: #111827; border: 1px solid #1e293b; padding: 30px 25px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .lock-clickable-icon { font-size: 36px; margin-bottom: 10px; cursor: pointer; user-select: none; display: inline-block; transition: transform 0.1s; }
         .lock-clickable-icon:active { transform: scale(1.2); }
@@ -99,7 +99,6 @@
         <div class="shooting-star" style="top:10%;left:95%;animation-delay:1.5s;animation-duration:5s;"></div>
         <div class="shooting-star" style="top:-10%;left:45%;animation-delay:2.8s;animation-duration:3.5s;"></div>
         <div class="shooting-star" style="top:25%;left:110%;animation-delay:4.2s;animation-duration:4.5s;"></div>
-        <div class="shooting-star" style="top:5%;left:80%;animation-delay:0.8s;animation-duration:6s;"></div>
     </div>
 
     <div id="splash-screen">
@@ -113,14 +112,15 @@
         </div>
     </div>
 
-    <!-- LICENSE LOCK -->
-    <div class="lock-overlay" id="lockScreen" style="display:flex;">
+    <!-- LICENSE LOCK SCREEN -->
+    <div class="lock-overlay" id="lockScreen" style="display:none;">
         <div class="lock-box">
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
             <h3 id="lockTitle" style="color:#ffffff;font-size:18px;">Device License Activation</h3>
-            <p id="lockSub" style="color:#9ca3af;font-size:13px;margin-top:6px;">
-                আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন
+            <p id="lockSub" style="color:#ef4444;font-size:13px;margin-top:6px;font-weight:bold;">
+                আপনার ৭ দিনের ফ্রি ট্রায়াল শেষ হয়েছে!
             </p>
+            <p style="color:#9ca3af;font-size:12px;margin-top:4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
             <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp" style="text-align:center;">
                 📲 Send Device ID to WhatsApp
@@ -151,7 +151,7 @@
 
             <div class="drive-box">
                 <div class="drive-title">☁️ ডাটা Backup ও Restore</div>
-                <div class="drive-subtitle">এক ক্লিকে Backup নিন। ফাইলটি Google Drive, WhatsApp বা যেকোনো জায়গায় পাঠান। পরে Restore দিয়ে ফিরিয়ে আনুন।</div>
+                <div class="drive-subtitle">এক ক্লিকে Backup নিন। ফাইলটি Google Drive, WhatsApp বা যেকোনো জায়গায় পাঠান।</div>
                 <div class="drive-status connected" id="simpleStatus">🟢 LocalStorage-এ ডাটা সেভ আছে</div>
                 <div class="drive-btn-row">
                     <button class="drive-btn drive-backup-btn" onclick="smartBackup()">📤 এক ক্লিকে Backup</button>
@@ -159,7 +159,6 @@
                 </div>
                 <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="restoreFromFile(this)">
                 <div class="drive-last-backup" id="lastBackupTime">Last Backup: এখনো হয়নি</div>
-                <div class="drive-note">💡 ১০ দিন পর পর অবশ্যই আপনার ডাটা ব্যাকআপ করুন।</div>
             </div>
             <div style="display:flex;gap:15px;margin-top:15px;">
                 <button class="btn-unlock" style="background:#ef4444;" onclick="closeProfileSettings()">বাতিল</button>
@@ -173,7 +172,7 @@
         <div class="lock-box" style="text-align:left;max-width:350px;">
             <h3 style="color:#fff;margin-bottom:15px;text-align:center;font-size:18px;">🔄 অ্যাপ আপডেট গাইডলাইন</h3>
             <div style="background:#1e293b;padding:15px;border-radius:10px;border:1px solid #334155;margin-bottom:20px;">
-                <p style="color:#fbbf24;font-size:13px;margin-bottom:10px;line-height:1.5;">১. নতুন ভার্সনে যাওয়ার আগে অবশ্যই সেটিংসে গিয়ে ডাটা <b>Backup</b> করে নিবেন。</p>
+                <p style="color:#fbbf24;font-size:13px;margin-bottom:10px;line-height:1.5;">১. নতুন ভার্সনে যাওয়ার আগে অবশ্যই সেটিংসে গিয়ে ডাটা <b>Backup</b> করে নিবেন।</p>
                 <p style="color:#fbbf24;font-size:13px;line-height:1.5;">২. আপডেট করার পর আগের ডাটা মুছে গেলে <b>Restore</b> অপশন দিয়ে ব্যাকআপ ফাইলটি সিলেক্ট করবেন।</p>
             </div>
             <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">বর্তমান ভার্সন: <b style="color:#fff;">v2.0.0</b></div>
@@ -199,7 +198,7 @@
                     <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
                 </div>
                 <div class="user-sub">Aluminium ERP BD v2</div>
-                <span class="status-badge">✓ System Active</span>
+                <span class="status-badge" id="trialStatusBadge">✓ System Active</span>
             </div>
             <div class="avatar-container">
                 <div id="avatarDisplay" class="avatar-img">👤</div>
@@ -251,56 +250,63 @@
 
     <script>
         /* ============================================================
-           🔒 INSTANT GLOBAL FORCE LOCKOUT SYSTEM (OBFUSCATED)
+           🔒 GLOBAL HARD RESET (PURGES ALL OLD BYPASS TOKENS)
         ============================================================ */
+        const GLOBAL_FORCE_VERSION = "FORCE_LOCK_RESET_2026_V2";
+
         (function(){
-            var _0x9f1a = "FORCE_LOCK_RESET_V2026_FINAL";
+            // সার্ভিস ওয়ার্কার ও ক্যাশ পুরোপুরি ক্লিয়ার করা
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let reg of registrations) reg.unregister();
+                });
+            }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) caches.delete(name);
+                });
+            }
+
+            // আগের যেকোনো পুরনো বা মেমোরিতে থাকা আনলক টোকেন এক ঝটকায় মুছে ফেলা
             try {
-                if(localStorage.getItem("app_sec_lock_token") !== _0x9f1a){
+                let savedVer = localStorage.getItem("app_global_sec_version");
+                if (savedVer !== GLOBAL_FORCE_VERSION) {
+                    localStorage.removeItem("_secure_license_token");
                     localStorage.removeItem("app_permanently_unlocked");
-                    localStorage.setItem("app_install_date", "1000000000000");
-                    document.cookie = "_sys_al_dt=1000000000000; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    localStorage.setItem("app_sec_lock_token", _0x9f1a);
+                    localStorage.setItem("app_global_sec_version", GLOBAL_FORCE_VERSION);
                 }
             } catch(e){}
         })();
 
         /* ============================================================
-           VARIABLES
+           VARIABLES & SECURE TOKENS
         ============================================================ */
         let lockClickCount = 0;
         let isMasterMode = false;
         let generatedDeviceId = "";
         let tempProfileImgData = "";
 
-        const MASTER_KEY = "mdrubelmolla1989";
+        const MASTER_KEY = "mdrubelmolla1989"; 
         const ADMIN_PHONE = "8801676474412";
 
-        /* ============================================================
-           DEVICE FINGERPRINTING & MULTI-STORAGE (ANTI-CRASH)
-        ============================================================ */
-        function setSecretCookie(name, value, days) {
-            try {
-                let expires = "";
-                if (days) {
-                    let date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    expires = "; expires=" + date.toUTCString();
-                }
-                document.cookie = name + "=" + (value || "") + expires + "; path=/";
-            } catch(e) { console.log("Cookie blocked"); }
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/;";
         }
 
-        function getSecretCookie(name) {
-            try {
-                let nameEQ = name + "=";
-                let ca = document.cookie.split(';');
-                for (let i = 0; i < ca.length; i++) {
-                    let c = ca[i];
-                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-                }
-            } catch(e) { console.log("Cookie blocked"); }
+        function getCookie(name) {
+            let nameEQ = name + "=";
+            let ca = document.cookie.split(';');
+            for(let i=0;i < ca.length;i++) {
+                let c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
             return null;
         }
 
@@ -316,218 +322,92 @@
         }
 
         function getDeviceId() {
-            let fpId = generateDeviceFingerprint();
-            try { localStorage.setItem("app_device_id", fpId); } catch(e) {}
-            return fpId;
-        }
-
-        function manageInstallDate() {
-            let lsDate = null;
-            try { lsDate = localStorage.getItem("app_install_date"); } catch(e) {}
-            let cookieDate = getSecretCookie("_sys_al_dt");
-
-            let oldestDate = null;
-            if (lsDate && cookieDate) {
-                oldestDate = Math.min(parseInt(lsDate), parseInt(cookieDate));
-            } else if (lsDate) {
-                oldestDate = parseInt(lsDate);
-            } else if (cookieDate) {
-                oldestDate = parseInt(cookieDate);
-            }
-
-            if (!oldestDate || isNaN(oldestDate)) {
-                oldestDate = new Date().getTime();
-            }
-
-            try { localStorage.setItem("app_install_date", oldestDate); } catch(e) {}
-            setSecretCookie("_sys_al_dt", oldestDate, 365);
-
-            return oldestDate;
+            return generateDeviceFingerprint();
         }
 
         /* ============================================================
-           WHATSAPP SUPPORT & UPDATE MODAL
+           STRICT 7-DAY TRIAL & FORCE LOCK LOGIC
         ============================================================ */
-        function showUpdateModal() {
-            let installDate = manageInstallDate();
-            let lastCheckDate = null;
-            try { lastCheckDate = localStorage.getItem("app_last_update_check"); } catch(e){}
-            
-            let currentTime = Date.now();
-            let threeMonthsMs = 90 * 24 * 60 * 60 * 1000;
-            let targetDate = lastCheckDate ? parseInt(lastCheckDate) + threeMonthsMs : installDate + threeMonthsMs;
+        function checkAppAccessAndTrial() {
+            generatedDeviceId = getDeviceId();
+            document.getElementById("deviceIdDisplay").innerText = "ID: " + generatedDeviceId;
 
-            if (currentTime >= targetDate) {
-                toggleSidebar();
-                document.getElementById("updateModal").style.display = "flex";
-            } else {
-                let remainingMs = targetDate - currentTime;
-                let remainingDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
-                alert(`আপডেট বাটনটি প্রতি ৩ মাস (৯০ দিন) পর পর কাজ করে।\nপরবর্তী আপডেট চেক করতে আরও ${remainingDays} দিন অপেক্ষা করুন।`);
+            // ১. পার্মানেন্ট আনলক টোকেন চেক
+            let isUnlocked = false;
+            let currentToken = localStorage.getItem("_secure_license_token");
+            let validToken = btoa(generatedDeviceId + "-ACTIVATED-2026");
+
+            if (currentToken === validToken) {
+                isUnlocked = true;
             }
-        }
 
-        function markUpdateChecked() {
-            try { localStorage.setItem("app_last_update_check", Date.now().toString()); } catch(e){}
-        }
+            // ২. ইনস্টল ডেট ট্র্যাক করা (লোকাল স্টোরেজ ও কুকি উভয় মাধ্যম দিয়ে)
+            let installDate = localStorage.getItem("app_install_timestamp");
+            let cookieInstall = getCookie("app_install_timestamp");
 
-        function closeUpdateModal() {
-            document.getElementById("updateModal").style.display = "none";
+            if (!installDate && cookieInstall) {
+                installDate = cookieInstall;
+                localStorage.setItem("app_install_timestamp", installDate);
+            }
+            
+            if (!installDate) {
+                installDate = Date.now().toString();
+                localStorage.setItem("app_install_timestamp", installDate);
+                setCookie("app_install_timestamp", installDate, 365);
+            }
+
+            // ৭ দিন বা তার বেশি সময় পার হয়েছে কি না হিসাব
+            let daysElapsed = (Date.now() - parseInt(installDate)) / (1000 * 60 * 60 * 24);
+            let lockScreen = document.getElementById("lockScreen");
+
+            if (isUnlocked) {
+                // যদি এডমিন কী দিয়ে বা প্রোডাক্ট কী দিয়ে আনলক করা থাকে
+                lockScreen.style.display = "none";
+                document.getElementById("trialStatusBadge").innerText = "✓ Premium Active";
+                setTimeout(checkBackupReminder, 3000);
+            } else {
+                // আনলক করা না থাকলে ৭ দিনের ট্রায়াল চেক করবে
+                if (daysElapsed > 7) {
+                    // ৭ দিন পার হয়ে গেছে! সুতরাং সবার জন্য লক স্ক্রিন চলে আসবে (পুরনো বাইপাস করা ইউজাররাও ধরা পড়বে)
+                    lockScreen.style.display = "flex";
+                } else {
+                    // ৭ দিনের ভেতরে থাকলে অ্যাপ ওপেন থাকবে
+                    lockScreen.style.display = "none";
+                    let daysLeft = Math.ceil(7 - daysElapsed);
+                    document.getElementById("trialStatusBadge").innerText = "⏳ Trial: " + daysLeft + " Days Left";
+                    document.getElementById("trialStatusBadge").style.color = "#fbbf24";
+                    document.getElementById("trialStatusBadge").style.background = "rgba(251,191,36,0.1)";
+                    document.getElementById("trialStatusBadge").style.borderColor = "rgba(251,191,36,0.3)";
+                }
+            }
+
+            // WhatsApp Button Link
+            const waMsg = encodeURIComponent("Hello Rubel Bhai, my 7-day trial ended. Please give me the product key for Device ID: " + generatedDeviceId);
+            let whatsappLink = document.getElementById("whatsappLink");
+            if (whatsappLink) whatsappLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
         }
 
         /* ============================================================
-           PAGE LOAD & INITIALIZATION (STRICT LOCK ENFORCEMENT)
+           PAGE LOAD
         ============================================================ */
         document.addEventListener("DOMContentLoaded", function() {
-            try {
-                const supportMsg = encodeURIComponent("হ্যালো ভাই, অ্যালুমিনিয়াম ইআরপি অ্যাপ নিয়ে আমার একটু সাপোর্ট দরকার...");
-                let supportBtn = document.getElementById("sidebarSupportBtn");
-                if(supportBtn) supportBtn.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + supportMsg;
-
-                const updateMsg = encodeURIComponent("হ্যালো ভাই, আমার অ্যালুমিনিয়াম ইআরপি অ্যাপটির কোনো নতুন ভার্সন বা আপডেট এসেছে কি?");
-                let updateLink = document.getElementById("updateWaLink");
-                if(updateLink) updateLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + updateMsg;
-            } catch(e) {}
-
             setTimeout(function() {
-                try {
-                    const splash = document.getElementById("splash-screen");
-                    if (splash) {
-                        splash.style.opacity = "0";
-                        setTimeout(() => { splash.style.display = "none"; }, 400);
-                    }
-                } catch(e) {}
+                const splash = document.getElementById("splash-screen");
+                if (splash) {
+                    splash.style.opacity = "0";
+                    setTimeout(() => { splash.style.display = "none"; }, 400);
+                }
             }, 2000);
 
-            try { loadUserData(); } catch(e) {}
-            try { initCardSelection(); } catch(e) {}
-            try { loadBackupTime(); } catch(e) {}
-
-            try {
-                let isUnlocked = false;
-                try { isUnlocked = (localStorage.getItem("app_permanently_unlocked") === "true"); } catch(e){}
-
-                generatedDeviceId = getDeviceId();
-                let deviceIdDisplay = document.getElementById("deviceIdDisplay");
-                if (deviceIdDisplay) deviceIdDisplay.innerText = "ID: " + generatedDeviceId;
-
-                const waMsg = encodeURIComponent("Hello Rubel Bhai, please give me the product key for my Device ID: " + generatedDeviceId);
-                let whatsappLink = document.getElementById("whatsappLink");
-                if (whatsappLink) whatsappLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
-
-                let lockScreen = document.getElementById("lockScreen");
-
-                if (isUnlocked) {
-                    if(lockScreen) lockScreen.style.display = "none";
-                    setTimeout(checkBackupReminder, 3000);
-                } else {
-                    let installDate = manageInstallDate();
-                    const currentTime = new Date().getTime();
-                    const trialDays = 7 * 24 * 60 * 60 * 1000;
-
-                    if (lockScreen) {
-                        if (currentTime - installDate > trialDays) {
-                            lockScreen.style.display = "flex"; // ৭ দিন বা ফোর্স লক হলে সরাসরি লক!
-                        } else {
-                            lockScreen.style.display = "none";
-                        }
-                    }
-                }
-            } catch(err) {
-                console.error("Initialization error", err);
-            }
+            loadUserData();
+            initCardSelection();
+            loadBackupTime();
+            
+            checkAppAccessAndTrial();
         });
 
         /* ============================================================
-           CARD SELECTION & USER DATA
-        ============================================================ */
-        function initCardSelection() {
-            const cards = document.querySelectorAll(".menu-card");
-            cards.forEach(card => {
-                card.addEventListener("click", function() {
-                    cards.forEach(c => c.classList.remove("active"));
-                    this.classList.add("active");
-                });
-            });
-        }
-
-        function loadUserData() {
-            let savedName = "";
-            let savedPic = "";
-            try {
-                savedName = localStorage.getItem("app_user_fullname");
-                savedPic = localStorage.getItem("app_user_profile_img");
-            } catch(e){}
-
-            let nameDisplay = document.getElementById("userNameDisplay");
-            if (nameDisplay) nameDisplay.innerText = savedName || "ইউজারের নাম";
-
-            if (savedPic) {
-                let avatarDisplay = document.getElementById("avatarDisplay");
-                if (avatarDisplay) {
-                    avatarDisplay.innerHTML = `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-                }
-                tempProfileImgData = savedPic;
-            }
-        }
-
-        /* ============================================================
-           PROFILE SETTINGS
-        ============================================================ */
-        function openProfileSettings() {
-            toggleSidebar();
-            try {
-                document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
-                document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
-                document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
-                document.getElementById("profEmail").value = localStorage.getItem("app_user_email") || "";
-            } catch(e){}
-
-            if (tempProfileImgData) {
-                document.getElementById("modalAvatarPreview").innerHTML =
-                    `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-            }
-            document.getElementById("profileSettingsModal").style.display = "flex";
-            loadBackupTime();
-        }
-
-        function closeProfileSettings() {
-            document.getElementById("profileSettingsModal").style.display = "none";
-        }
-
-        function previewModalProfile(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    tempProfileImgData = e.target.result;
-                    document.getElementById("modalAvatarPreview").innerHTML =
-                        `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function saveProfileSettings() {
-            const name = document.getElementById("profName").value.trim();
-            const company = document.getElementById("profCompany").value.trim();
-            const mobile = document.getElementById("profMobile").value.trim();
-            const email = document.getElementById("profEmail").value.trim();
-
-            try {
-                if (name) localStorage.setItem("app_user_fullname", name);
-                if (company) localStorage.setItem("app_user_company", company);
-                if (mobile) localStorage.setItem("app_user_mobile", mobile);
-                if (email) localStorage.setItem("app_user_email", email);
-                if (tempProfileImgData) localStorage.setItem("app_user_profile_img", tempProfileImgData);
-                localStorage.setItem("erp_last_active", Date.now().toString());
-            } catch(e){}
-
-            loadUserData();
-            closeProfileSettings();
-        }
-
-        /* ============================================================
-           LICENSE SYSTEM (VALIDATION & MASTER KEY)
+           LICENSE ACTIVATION (PRODUCT KEY / MASTER KEY)
         ============================================================ */
         function handleLockIconClick() {
             lockClickCount++;
@@ -536,13 +416,8 @@
                 document.getElementById("lockIcon").innerText = "🔑";
                 document.getElementById("lockTitle").innerText = "Admin Master Key Mode";
                 document.getElementById("lockTitle").style.color = "#fbbf24";
-                
-                let deviceIdDisplay = document.getElementById("deviceIdDisplay");
-                if(deviceIdDisplay) deviceIdDisplay.style.display = "none";
-                
-                let whatsappLink = document.getElementById("whatsappLink");
-                if(whatsappLink) whatsappLink.style.display = "none";
-                
+                document.getElementById("deviceIdDisplay").style.display = "none";
+                document.getElementById("whatsappLink").style.display = "none";
                 document.getElementById("keyInput").placeholder = "Enter Master Key";
                 alert("Admin Master Key Mode Activated!");
             }
@@ -571,13 +446,20 @@
         }
 
         function unlockAppPermanently() {
-            try { 
-                localStorage.setItem("app_permanently_unlocked", "true"); 
-            } catch(e){}
+            let validToken = btoa(generatedDeviceId + "-ACTIVATED-2026");
+            localStorage.setItem("_secure_license_token", validToken);
+            
             document.getElementById("lockScreen").style.display = "none";
+            document.getElementById("trialStatusBadge").innerText = "✓ Premium Active";
+            document.getElementById("trialStatusBadge").style.color = "#10b981";
+            document.getElementById("trialStatusBadge").style.background = "rgba(16,185,129,0.1)";
+            document.getElementById("trialStatusBadge").style.borderColor = "rgba(16,185,129,0.2)";
             alert("সফটওয়্যার সফলভাবে আনলক হয়েছে!");
         }
 
+        /* ============================================================
+           OTHER UI FUNCTIONS (Sidebar, Settings, Backup)
+        ============================================================ */
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const sidebarContent = document.getElementById("sidebarContent");
@@ -590,158 +472,116 @@
             }
         }
 
-        /* ============================================================
-           🔥 SIMPLE BACKUP SYSTEM
-        ============================================================ */
+        function initCardSelection() {
+            const cards = document.querySelectorAll(".menu-card");
+            cards.forEach(card => {
+                card.addEventListener("click", function() {
+                    cards.forEach(c => c.classList.remove("active"));
+                    this.classList.add("active");
+                });
+            });
+        }
+
+        function loadUserData() {
+            let savedName = localStorage.getItem("app_user_fullname") || "ইউজারের নাম";
+            let savedPic = localStorage.getItem("app_user_profile_img");
+            document.getElementById("userNameDisplay").innerText = savedName;
+            if (savedPic) {
+                document.getElementById("avatarDisplay").innerHTML = `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                tempProfileImgData = savedPic;
+            }
+        }
+
+        function openProfileSettings() {
+            toggleSidebar();
+            document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
+            document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
+            document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
+            document.getElementById("profEmail").value = localStorage.getItem("app_user_email") || "";
+            if (tempProfileImgData) {
+                document.getElementById("modalAvatarPreview").innerHTML = `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+            }
+            document.getElementById("profileSettingsModal").style.display = "flex";
+        }
+
+        function closeProfileSettings() { document.getElementById("profileSettingsModal").style.display = "none"; }
+
+        function previewModalProfile(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempProfileImgData = e.target.result;
+                    document.getElementById("modalAvatarPreview").innerHTML = `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function saveProfileSettings() {
+            localStorage.setItem("app_user_fullname", document.getElementById("profName").value.trim());
+            localStorage.setItem("app_user_company", document.getElementById("profCompany").value.trim());
+            localStorage.setItem("app_user_mobile", document.getElementById("profMobile").value.trim());
+            localStorage.setItem("app_user_email", document.getElementById("profEmail").value.trim());
+            if (tempProfileImgData) localStorage.setItem("app_user_profile_img", tempProfileImgData);
+            loadUserData();
+            closeProfileSettings();
+        }
+
         function collectERPData() {
             const allData = {};
-            try {
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (!key) continue;
-                    if (key === "erp_last_backup" || key === "erp_last_active" || key === "erp_last_reminded_ts") continue;
-                    allData[key] = localStorage.getItem(key);
-                }
-            } catch(e){}
-
-            return {
-                app: "Aluminium ERP BD v2",
-                version: 1,
-                deviceId: getDeviceId(),
-                createdAt: new Date().toISOString(),
-                data: allData
-            };
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key !== "erp_last_backup" && key !== "erp_last_reminded_ts") allData[key] = localStorage.getItem(key);
+            }
+            return { app: "Aluminium ERP", version: 2, deviceId: getDeviceId(), data: allData };
         }
 
         async function smartBackup() {
             try {
-                const erpData = collectERPData();
-                const dataText = JSON.stringify(erpData, null, 2);
-                const fileName = "Aluminium_ERP_Backup.json";
-
-                if (navigator.canShare) {
-                    const file = new File([dataText], fileName, { type: "application/json" });
-                    if (navigator.canShare({ files: [file] })) {
-                        try {
-                            await navigator.share({
-                                files: [file],
-                                title: "Aluminium ERP Backup",
-                                text: "আমার ERP ডাটার Backup — Drive/WhatsApp-এ রাখুন"
-                            });
-                            showBackupTime();
-                            updateSimpleStatus("🟢 Backup Share সফল!", "connected");
-                            return;
-                        } catch (err) {
-                            if (err.name === "AbortError") return;
-                            console.log("Share failed, using download:", err);
-                        }
-                    }
-                }
-                downloadJSON(dataText, fileName);
-            } catch (err) {
-                alert("Backup করা যায়নি:\n" + err.message);
-            }
-        }
-
-        function downloadJSON(text, fileName) {
-            const blob = new Blob([text], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showBackupTime();
-            updateSimpleStatus("🟢 Backup Download সফল!", "connected");
-            setTimeout(() => { alert("✅ Backup ফাইল Download হয়েছে।\n\n💡 ফাইলটি Google Drive-এ রাখলে অন্য ফোন থেকেও পাওয়া যাবে।"); }, 300);
+                const text = JSON.stringify(collectERPData(), null, 2);
+                const blob = new Blob([text], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url; a.download = "Aluminium_ERP_Backup.json";
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                localStorage.setItem("erp_last_backup", new Date().toLocaleString("bn-BD"));
+                localStorage.setItem("erp_last_backup_ts", Date.now().toString());
+                loadBackupTime();
+                alert("✅ Backup Download হয়েছে।");
+            } catch (err) { alert("Backup Failed!"); }
         }
 
         function restoreFromFile(input) {
             const file = input.files && input.files[0];
             if (!file) return;
-
-            if (!confirm("বর্তমান সব ডাটা মুছে Backup থেকে Restore হবে।\n\nনিশ্চিত?")) {
-                input.value = ""; return;
-            }
-
+            if (!confirm("বর্তমান সব ডাটা মুছে Backup থেকে Restore হবে। নিশ্চিত?")) { input.value = ""; return; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const backup = JSON.parse(e.target.result);
-                    if (!backup || !backup.data) throw new Error("এটি Aluminium ERP Backup ফাইল নয়।");
-
-                    const keysToRemove = [];
-                    for (let i = 0; i < localStorage.length; i++) {
-                        const k = localStorage.key(i);
-                        if (k && k !== "app_device_id" && k !== "erp_last_backup") keysToRemove.push(k);
-                    }
-                    keysToRemove.forEach(k => localStorage.removeItem(k));
-
-                    Object.keys(backup.data).forEach(key => { localStorage.setItem(key, backup.data[key]); });
-                    alert("🔄 Restore সফল!\n\nঅ্যাপ Reload হচ্ছে...");
-                    setTimeout(() => location.reload(), 800);
-                } catch (err) {
-                    alert("❌ Restore করা যায়নি:\n" + err.message);
-                }
+                    if (!backup.data) throw new Error("Invalid file");
+                    Object.keys(backup.data).forEach(key => localStorage.setItem(key, backup.data[key]));
+                    alert("🔄 Restore সফল! অ্যাপ রিলোড হচ্ছে...");
+                    location.reload();
+                } catch (err) { alert("❌ Restore Failed."); }
             };
             reader.readAsText(file);
             input.value = "";
         }
 
-        function updateSimpleStatus(msg, type) {
-            const el = document.getElementById("simpleStatus");
-            if (!el) return;
-            el.innerText = msg;
-            el.className = "drive-status" + (type ? " " + type : "");
-        }
-
-        function showBackupTime() {
-            const now = new Date().toLocaleString("bn-BD");
-            try {
-                localStorage.setItem("erp_last_backup", now);
-                localStorage.setItem("erp_last_backup_ts", Date.now().toString());
-            } catch(e){}
-            const el = document.getElementById("lastBackupTime");
-            if (el) el.innerText = "Last Backup: " + now;
-            updateSimpleStatus("🟢 Backup সম্পন্ন হয়েছে", "connected");
-        }
-
         function loadBackupTime() {
-            let saved = null;
-            try { saved = localStorage.getItem("erp_last_backup"); } catch(e){}
-            const el = document.getElementById("lastBackupTime");
-            if (el) { el.innerText = saved ? "Last Backup: " + saved : "Last Backup: এখনো হয়নি"; }
+            let saved = localStorage.getItem("erp_last_backup");
+            let el = document.getElementById("lastBackupTime");
+            if (el) el.innerText = saved ? "Last Backup: " + saved : "Last Backup: এখনো হয়নি";
         }
 
         function checkBackupReminder() {
-            let lastBackupTs = 0;
-            let lastRemindedTs = 0;
-            let installDate = Date.now();
-            try {
-                lastBackupTs = parseInt(localStorage.getItem("erp_last_backup_ts") || "0");
-                lastRemindedTs = parseInt(localStorage.getItem("erp_last_reminded_ts") || "0");
-                installDate = parseInt(localStorage.getItem("app_install_date") || Date.now().toString());
-            } catch(e){}
-            
-            let baseTime = lastBackupTs;
-            if (baseTime === 0) baseTime = installDate;
-
-            const daysSinceBackup = (Date.now() - baseTime) / (1000 * 60 * 60 * 24);
-            const daysSinceReminded = (Date.now() - lastRemindedTs) / (1000 * 60 * 60 * 24);
-
-            if (daysSinceBackup >= 10 && daysSinceReminded >= 1) {
-                if (confirm("⚠️ ১০ দিন ধরে Backup নেওয়া হয়নি!\n\nআপনার ডাটা সুরক্ষিত রাখতে এখনই Backup নিতে চান?")) { smartBackup(); }
-                try { localStorage.setItem("erp_last_reminded_ts", Date.now().toString()); } catch(e){}
+            let lastBackupTs = parseInt(localStorage.getItem("erp_last_backup_ts") || "0");
+            let daysSinceBackup = (Date.now() - lastBackupTs) / (1000 * 60 * 60 * 24);
+            if (daysSinceBackup >= 10) {
+                if (confirm("⚠️ ১০ দিন ধরে Backup নেওয়া হয়নি!\nএখনই Backup নিতে চান?")) smartBackup();
             }
         }
-    </script>
-    
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js');
-      }
     </script>
 </body>
 </html>

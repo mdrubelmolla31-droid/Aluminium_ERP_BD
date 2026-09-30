@@ -8,10 +8,14 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="theme-color" content="#0b0f19">
-    <title>Aluminium ERP BD v4.1</title>
+    <title>Aluminium ERP BD v5.0 (Cloud Secured)</title>
     <link rel="icon" type="image/png" href="icon-192.png">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
+
+    <!-- FIREBASE SDKs (COMPAT MODULES FOR REALTIME DATABASE) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -40,7 +44,7 @@
         .user-info { flex: 1; }
         .user-title { color: #fbbf24; font-size: 18px; font-weight: bold; margin-bottom: 4px; }
         .user-sub { color: #9ca3af; font-size: 13px; margin-bottom: 12px; }
-        .status-badge { display: inline-block; background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); padding: 4px 10px; border-radius: 20px; font-size: 12px; }
+        .status-badge { display: inline-block; background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
         .avatar-container { width: 60px; height: 60px; flex-shrink: 0; }
         .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #fbbf24; background: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffffff; }
         .grid-menu { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
@@ -52,8 +56,7 @@
         @media (min-width:1024px) { .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; } }
         .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,15,25,0.98); display: flex; justify-content: center; align-items: center; z-index: 9999999; padding: 20px; }
         .lock-box { background: #111827; border: 1px solid #1e293b; padding: 30px 25px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; }
-        .lock-clickable-icon { font-size: 36px; margin-bottom: 10px; cursor: pointer; user-select: none; display: inline-block; }
-        .device-id-box { background: #1e293b; border: 1px dashed #3b82f6; color: #fbbf24; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 16px; font-weight: bold; margin: 15px 0; user-select: all; }
+        .device-id-box { background: #1e293b; border: 1px dashed #3b82f6; color: #fbbf24; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 14px; font-weight: bold; margin: 15px 0; word-break: break-all; }
         .btn-whatsapp { display: block; width: 100%; padding: 12px; background: #25d366; color: #fff; border: none; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 14px; margin-bottom: 15px; text-align: center; }
         .lock-input { width: 100%; padding: 12px; margin: 8px 0 15px 0; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 14px; }
         .btn-unlock { width: 100%; padding: 12px; background: #1d4ed8; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
@@ -86,27 +89,46 @@
 
     <div id="splash-screen">
         <div class="splash-profile-box"><div class="alu-window-icon"></div></div>
-        <div class="splash-title">Aluminium ERP BD v4.1</div>
+        <div class="splash-title">Aluminium ERP BD v5.0</div>
         <div class="splash-sub">Glass & Aluminium Manager</div>
         <div class="splash-loader-container"><div class="splash-loader-bar"></div></div>
     </div>
 
-    <!-- LOCK SCREEN -->
+    <!-- FIREBASE CLOUD SECURITY & REGISTRATION LOCK SCREEN -->
     <div class="lock-overlay" id="lockScreen" style="display:none;">
         <div class="lock-box">
-            <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
-            <h3 id="lockTitle" style="color:#ffffff;font-size:18px;">Device License Activation</h3>
+            <div style="font-size: 40px; margin-bottom: 10px;">🔒</div>
+            <h3 id="lockTitle" style="color:#ffffff;font-size:18px;">Cloud Security Verification</h3>
+            
             <p id="lockSub" style="color:#ef4444;font-size:13px;margin-top:6px;font-weight:bold;">
-                লাইসেন্স বা ট্রায়াল মেয়াদ উত্তীর্ণ হয়েছে!
+                অ্যাপ ব্যবহার করতে ক্লাউড ভেরিফিকেশন সম্পন্ন করুন!
             </p>
-            <p style="color:#9ca3af;font-size:12px;margin-top:4px;">আইডিটি WhatsApp-এ পাঠিয়ে Product Key সংগ্রহ করুন</p>
-            <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
-            <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">
-                📲 Send Device ID to WhatsApp
-            </a>
-            <input type="text" id="keyInput" class="lock-input" placeholder="Product Key লিখুন" style="text-align:center;">
-            <button class="btn-unlock" onclick="validateKey()">Activate License</button>
-            <div class="dev-branding-footer">RM, THAI ALUMINIUM, BY, RUBEL</div>
+
+            <!-- REGISTRATION FORM (First Time Users) -->
+            <div id="registrationBox" style="display:none; text-align:left; margin-top:15px;">
+                <label style="color:#9ca3af;font-size:12px;">আপনার পূর্ণ নাম:</label>
+                <input type="text" id="regName" class="lock-input" placeholder="যেমন: মোঃ রহিম" style="margin-bottom:10px;">
+                
+                <label style="color:#9ca3af;font-size:12px;">মোবাইল নম্বর (ফায়ারবেস আইডি হিসেবে ব্যবহার হবে):</label>
+                <input type="tel" id="regMobile" class="lock-input" placeholder="যেমন: 01711000000" style="margin-bottom:10px;">
+                
+                <label style="color:#9ca3af;font-size:12px;">কোম্পানির নাম (ঐচ্ছিক):</label>
+                <input type="text" id="regCompany" class="lock-input" placeholder="যেমন: মেসার্স থাই অ্যালুমিনিয়াম" style="margin-bottom:15px;">
+                
+                <button class="btn-unlock" onclick="registerUserToFirebase()" style="background:#10b981;">
+                    🚀 রেজিস্ট্রেশন করুন (৭ দিনের ট্রায়াল চালু)
+                </button>
+            </div>
+
+            <!-- LOCKED ACCESS DETAILS -->
+            <div id="lockedDetailsBox" style="display:none;">
+                <div class="device-id-box" id="deviceIdDisplay">Device ID Generating...</div>
+                <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">
+                    📲 Send Details to Admin WhatsApp
+                </a>
+            </div>
+
+            <div class="dev-branding-footer">RM COMPUTER, THAI ALUMINIUM, BY RUBEL</div>
         </div>
     </div>
 
@@ -124,12 +146,13 @@
             <label style="color:#9ca3af;font-size:13px;font-weight:bold;">কোম্পানির নাম:</label>
             <input type="text" id="profCompany" class="lock-input" placeholder="কোম্পানির নাম">
             <label style="color:#9ca3af;font-size:13px;font-weight:bold;">মোবাইল নাম্বার:</label>
-            <input type="tel" id="profMobile" class="lock-input" placeholder="মোবাইল নাম্বার">
+            <input type="tel" id="profMobile" class="lock-input" readonly style="opacity:0.6;" placeholder="মোবাইল নাম্বার">
             <label style="color:#9ca3af;font-size:13px;font-weight:bold;">ইমেইল:</label>
             <input type="email" id="profEmail" class="lock-input" placeholder="example@gmail.com">
+            
             <div class="drive-box">
                 <div class="drive-title">☁️ ডাটা Backup ও Restore</div>
-                <div class="drive-subtitle">এক ক্লিকে Backup নিন। Google Drive বা WhatsApp-এ পাঠান।</div>
+                <div class="drive-subtitle">এক ক্লিকে Backup নিন। ফাইল হিসেবে ফাইল ম্যানেজারে সেভ রাখুন।</div>
                 <div class="drive-status" id="simpleStatus">🟢 LocalStorage-এ ডাটা সেভ আছে</div>
                 <div class="drive-btn-row">
                     <button class="drive-btn drive-backup-btn" onclick="smartBackup()">📤 Backup</button>
@@ -152,7 +175,7 @@
             <div style="background:#1e293b;padding:15px;border-radius:10px;border:1px solid #334155;margin-bottom:20px;">
                 <p style="color:#fbbf24;font-size:13px;">আপডেটের আগে অবশ্যই ডাটা <b>Backup</b> করে নিন।</p>
             </div>
-            <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">ভার্সন: <b style="color:#fff;">v4.1.0</b></div>
+            <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">ভার্সন: <b style="color:#fff;">v5.0.0 (Firebase Cloud)</b></div>
             <div style="display:flex;gap:12px;">
                 <button class="btn-unlock" style="background:#ef4444;flex:1;" onclick="closeUpdateModal()">বাতিল</button>
                 <a href="https://wa.me/8801676474412" target="_blank" class="btn-unlock" style="background:#10b981;flex:1;text-decoration:none;display:flex;align-items:center;justify-content:center;" onclick="closeUpdateModal()">WhatsApp</a>
@@ -160,11 +183,11 @@
         </div>
     </div>
 
-    <!-- DASHBOARD -->
+    <!-- MAIN DASHBOARD -->
     <div class="dashboard-container">
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
-            <div class="header-title">Aluminium ERP BD v4.1</div>
+            <div class="header-title">Aluminium ERP BD v5.0</div>
             <div class="header-logo-box">
                 <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
             </div>
@@ -173,8 +196,8 @@
         <div class="user-card">
             <div class="user-info">
                 <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
-                <div class="user-sub">Aluminium ERP BD v4.1</div>
-                <span class="status-badge" id="trialStatusBadge">✓ System Active</span>
+                <div class="user-sub">Aluminium ERP BD v5.0 (Cloud Active)</div>
+                <span class="status-badge" id="trialStatusBadge">🔄 Connecting Cloud...</span>
             </div>
             <div class="avatar-container">
                 <div id="avatarDisplay" class="avatar-img">👤</div>
@@ -189,7 +212,7 @@
             <a href="ceiling-calculator.html" class="menu-card"><div class="menu-icon">🛖</div><div class="menu-title">সিলিং ক্যালকুলেটর</div></a>
             <a href="Lowver.html" class="menu-card"><div class="menu-icon">🪜</div><div class="menu-title">জেড লুভার</div></a>
             <a href="BoxLowver.html" class="menu-card"><div class="menu-icon">🔳</div><div class="menu-title">বক্স লুভার</div></a>
-            <a href="rate-settings.html" class="menu-card"><div class="menu-icon">⚙️</div><div class="menu-title">রেট সেটিংস</div></a>
+            <a href="rate-settings.html" class="menu-card"><div class="menu-icon">⚙️️</div><div class="menu-title">রেট সেটিংস</div></a>
             <a href="quotation.html" class="menu-card"><div class="menu-icon">📝</div><div class="menu-title">কোটেশন</div></a>
             <a href="invoice.html" class="menu-card"><div class="menu-icon">🧾</div><div class="menu-title">বিল ও ইনভয়েস</div></a>
             <a href="glass.html" class="menu-card"><div class="menu-icon">🧊</div><div class="menu-title">গ্লাস সাইজ</div></a>
@@ -214,12 +237,28 @@
 
     <script>
         /* ============================================================
-           🚫 DEVTOOLS & RIGHT-CLICK BLOCKER (INSPECT ELEMENT LOCK)
+           🔥 1. FIREBASE INITIALIZATION WITH YOUR CREDENTIALS
            ============================================================ */
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
+        const firebaseConfig = {
+          apiKey: "AIzaSyDhH7r4Q6CrgYqgOzkqSMalA0lrU49Dz70",
+          authDomain: "aluminium-erp-c67f8.firebaseapp.com",
+          databaseURL: "https://aluminium-erp-c67f8-default-rtdb.firebaseio.com",
+          projectId: "aluminium-erp-c67f8",
+          storageBucket: "aluminium-erp-c67f8.firebasestorage.app",
+          messagingSenderId: "963369064551",
+          appId: "1:963369064551:web:246e47f433335160a2dcc2",
+          measurementId: "G-1JLBDB6CP0"
+        };
 
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const ADMIN_PHONE = "8801676474412";
+        const SEC_RESET_VERSION = "FIREBASE_V5_STRICT_PURGE_RESET";
+
+        /* ============================================================
+           🚫 2. DEVTOOLS & RIGHT-CLICK BLOCKER
+           ============================================================ */
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         document.addEventListener('keydown', function(e) {
             if (e.keyCode === 123 || e.key === "F12") { e.preventDefault(); return false; }
             if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.key === 'I' || e.key === 'i')) { e.preventDefault(); return false; }
@@ -229,11 +268,10 @@
         });
 
         /* ============================================================
-           🔥 AGGRESSIVE SERVICE WORKER KILLER & HARD REFRESH (v4.4)
+           🔥 3. AGGRESSIVE SERVICE WORKER KILLER & HARD PURGE
            ============================================================ */
         (async function() {
             let wasCleaned = false;
-            
             if ('serviceWorker' in navigator) {
                 try {
                     const registrations = await navigator.serviceWorker.getRegistrations();
@@ -254,106 +292,37 @@
                 } catch(e) {}
             }
 
-            const HARD_RELOAD_KEY = "sw_hard_purged_v44_strict";
-            if ((wasCleaned || (navigator.serviceWorker && navigator.serviceWorker.controller)) && !sessionStorage.getItem(HARD_RELOAD_KEY)) {
+            // FORCE PURGE OLD LOCALSECURITY KEYS ONCE
+            if (localStorage.getItem("app_firebase_sec_ver") !== SEC_RESET_VERSION) {
+                localStorage.removeItem("_secure_license_token");
+                localStorage.removeItem("app_permanently_unlocked");
+                localStorage.removeItem("license_key");
+                localStorage.removeItem("activated");
+                localStorage.removeItem("erp_strict_install_time");
+                localStorage.setItem("app_firebase_sec_ver", SEC_RESET_VERSION);
+            }
+
+            const HARD_RELOAD_KEY = "firebase_hard_purged_v50";
+            if (wasCleaned && !sessionStorage.getItem(HARD_RELOAD_KEY)) {
                 sessionStorage.setItem(HARD_RELOAD_KEY, "true");
                 window.location.reload(true);
             }
         })();
 
         /* ============================================================
-           🔐 STRICT LICENSE & SECURITY CONFIG — v4.4
+           🆔 4. DEVICE FINGERPRINTING GENERATOR
            ============================================================ */
-        const SEC = {
-            MASTER_KEY_HASH: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-            FINGERPRINT_SALT: "ALUMINIUM_ERP_BD_2026_STRICT_V44",
-            MAX_TRIAL_DAYS: 7, 
-            MAX_LAUNCHES: 50,  
-            FORCE_VERSION: "FORCE_LOCK_RESET_2026_V14_STRICT_SERVICE_WORKER_KILL"
-        };
-
-        async function sha256(input) {
-            const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
-            return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
-        }
-
-        function safeCompare(a, b) {
-            if (!a || !b || a.length !== b.length) return false;
-            let diff = 0;
-            for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-            return diff === 0;
-        }
-
-        function _getExpectedKey(id) {
-            try {
-                const prefix = atob("Uk0-");
-                const secret = atob("UlVCRUwyMDI2");
-                const tag = atob("QUxVLQ==");
-                const core = id.replace(tag, "").split("").reverse().join("");
-                return (prefix + core + "-" + secret).toUpperCase();
-            } catch(e) {
-                return "";
-            }
-        }
-
-        /* ============================================================
-           🚨 ABSOLUTE PURGE FOR OLD BYPASS USERS (v4.4)
-           ============================================================ */
-        (function(){
-            try {
-                let savedVer = localStorage.getItem("app_global_sec_version");
-                if (savedVer !== SEC.FORCE_VERSION) {
-                    localStorage.removeItem("_secure_license_token");
-                    localStorage.removeItem("app_permanently_unlocked");
-                    localStorage.removeItem("license_key");
-                    localStorage.removeItem("activated");
-                    
-                    let hasUserData = localStorage.getItem("app_user_fullname") || 
-                                      localStorage.getItem("app_launch_count") || 
-                                      localStorage.getItem("erp_strict_install_time");
-                    
-                    if (hasUserData) {
-                        localStorage.setItem("erp_forced_expired", "true");
-                    }
-                    localStorage.setItem("app_global_sec_version", SEC.FORCE_VERSION);
-                }
-            } catch(e){}
-        })();
-
-        let lockClickCount = 0;
-        let isMasterMode = false;
-        let generatedDeviceId = "";
-        let tempProfileImgData = "";
-        const ADMIN_PHONE = "8801676474412";
-
-        function setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                let d = new Date();
-                d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + d.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
-        }
-
-        function getCookie(name) {
-            let n = name + "=", ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1);
-                if (c.indexOf(n) === 0) return c.substring(n.length);
-            }
-            return null;
-        }
-
         function generateDeviceFingerprint() {
             const parts = [
-                navigator.userAgent, screen.width + "x" + screen.height,
-                screen.colorDepth, navigator.language,
-                navigator.hardwareConcurrency || "0",
-                navigator.platform || "0",
+                navigator.userAgent, 
+                screen.width + "x" + screen.height,
+                screen.colorDepth, 
+                navigator.language,
+                navigator.hardwareConcurrency || "4",
+                navigator.deviceMemory || "4",
+                navigator.platform || "Win32",
                 new Date().getTimezoneOffset(),
-                SEC.FINGERPRINT_SALT
+                "ALU_FIREBASE_SALT_2026"
             ];
             let fp = parts.join("|");
             let hash = 0;
@@ -362,124 +331,175 @@
                 hash = ((hash << 5) - hash) + ch;
                 hash = hash & hash;
             }
-            return "ALU-" + Math.abs(hash).toString(16).toUpperCase().padStart(7, "0").substring(0, 7);
+            return "ALU-HW-" + Math.abs(hash).toString(16).toUpperCase().padStart(8, "0");
         }
 
-        function getDeviceId() { return generateDeviceFingerprint(); }
+        const currentDeviceId = generateDeviceFingerprint();
 
-        function manageInstallTime() {
-            let installTime = localStorage.getItem("erp_strict_install_time");
-            let cookieTime = getCookie("_sys_strict_time");
+        /* ============================================================
+           ☁️ 5. FIREBASE REALTIME CLOUD SECURITY ENGINE
+           ============================================================ */
+        let activeFirebaseListener = null;
 
-            let validTime = null;
-            if (installTime && !isNaN(parseInt(installTime))) {
-                validTime = parseInt(installTime);
-            } else if (cookieTime && !isNaN(parseInt(cookieTime))) {
-                validTime = parseInt(cookieTime);
-            }
-
-            if (!validTime) {
-                validTime = new Date().getTime();
-            }
-
-            try {
-                localStorage.setItem("erp_strict_install_time", validTime.toString());
-                setCookie("_sys_strict_time", validTime.toString(), 365);
-            } catch(e){}
-
-            return validTime;
-        }
-
-        async function getLaunchCounter() {
-            let countLS = parseInt(localStorage.getItem("app_launch_count") || "0");
-            let countCK = parseInt(getCookie("app_launch_count") || "0");
-            let countSS = parseInt(sessionStorage.getItem("app_launch_count") || "0");
-            let currentMax = Math.max(countLS, countCK, countSS);
-            
-            if (countSS === 0) {
-                currentMax = currentMax + 1;
-                sessionStorage.setItem("app_launch_count", currentMax.toString());
-                localStorage.setItem("app_launch_count", currentMax.toString());
-                setCookie("app_launch_count", currentMax.toString(), 365);
-            }
-            return currentMax;
-        }
-
-        async function checkAppAccessAndTrial() {
-            generatedDeviceId = getDeviceId();
-            const devEl = document.getElementById("deviceIdDisplay");
-            if (devEl) devEl.innerText = "ID: " + generatedDeviceId;
-
+        function startCloudVerification() {
+            const savedMobile = localStorage.getItem("app_user_mobile");
             const lockScreen = document.getElementById("lockScreen");
+            const regBox = document.getElementById("registrationBox");
+            const lockedBox = document.getElementById("lockedDetailsBox");
             const badge = document.getElementById("trialStatusBadge");
 
-            if (localStorage.getItem("erp_forced_expired") === "true") {
+            document.getElementById("deviceIdDisplay").innerText = "Device ID: " + currentDeviceId;
+
+            if (!savedMobile) {
+                // FIRST TIME USER: SHOW REGISTRATION FORM
                 lockScreen.style.display = "flex";
-                document.getElementById("lockSub").innerText = "সুরক্ষা আপডেটের কারণে লাইসেন্স রি-ভেরিফিকেশন প্রয়োজন!";
-                badge.innerText = "🔒 Locked";
+                regBox.style.display = "block";
+                lockedBox.style.display = "none";
+                document.getElementById("lockTitle").innerText = "নতুন রেজিস্ট্রেশন করুন";
+                document.getElementById("lockSub").innerText = "আপনার নাম ও নম্বর দিয়ে ফায়ারবেস ক্লাউডে যুক্ত হন";
+                badge.innerText = "🔒 Registration Needed";
                 badge.style.color = "#ef4444";
-                badge.style.background = "rgba(239,68,68,0.1)";
-                badge.style.borderColor = "rgba(239,68,68,0.2)";
-                updateWhatsAppLink();
                 return;
             }
 
-            let isUnlocked = false;
-            const savedToken = localStorage.getItem("_secure_license_token");
-            if (savedToken) {
-                const expected = await sha256(generatedDeviceId + "|STRICT_ACTIVATED|" + SEC.FINGERPRINT_SALT);
-                if (safeCompare(savedToken, expected)) {
-                    isUnlocked = true;
-                } else {
-                    localStorage.removeItem("_secure_license_token");
+            // LISTEN TO REALTIME DATABASE FOR USER STATUS
+            const cleanMobile = savedMobile.replace(/[^0-9]/g, "");
+            const userRef = db.ref("users/" + cleanMobile);
+
+            if (activeFirebaseListener) userRef.off('value', activeFirebaseListener);
+
+            activeFirebaseListener = userRef.on('value', (snapshot) => {
+                const userData = snapshot.val();
+
+                if (!userData) {
+                    // USER DELETED FROM DATABASE
+                    lockScreen.style.display = "flex";
+                    regBox.style.display = "block";
+                    lockedBox.style.display = "none";
+                    document.getElementById("lockTitle").innerText = "রেজিস্ট্রেশন পাওয়া যায়নি!";
+                    document.getElementById("lockSub").innerText = "অনুগ্রহ করে আবার নাম ও মোবাইল নম্বর দিয়ে সাবমিট করুন।";
+                    return;
                 }
-            }
 
-            if (isUnlocked) {
-                lockScreen.style.display = "none";
-                badge.innerText = "✓ Premium Active";
-                badge.style.color = "#10b981";
-                badge.style.background = "rgba(16,185,129,0.1)";
-                badge.style.borderColor = "rgba(16,185,129,0.2)";
-                setTimeout(checkBackupReminder, 3000);
-                return;
-            }
+                // CHECK DEVICE ID CLONING / BINDING
+                if (userData.device_id && userData.device_id !== currentDeviceId && userData.role !== "admin") {
+                    lockScreen.style.display = "flex";
+                    regBox.style.display = "none";
+                    lockedBox.style.display = "block";
+                    document.getElementById("lockTitle").innerText = "নতুন ডিভাইস শনাক্ত হয়েছে!";
+                    document.getElementById("lockSub").innerText = "এই অ্যাকাউন্টটি অন্য ডিভাইসে নিবন্ধিত। এডমিনের অনুমতি প্রয়োজন।";
+                    badge.innerText = "🔒 Device Mismatch";
+                    badge.style.color = "#ef4444";
+                    updateWhatsAppLink("Hello Rubel Bhai, my account (" + cleanMobile + ") is logged in from a new device ID: " + currentDeviceId + ". Please approve.");
+                    return;
+                }
 
-            let installTime = manageInstallTime();
-            let currentTime = new Date().getTime();
-            let daysPassed = (currentTime - installTime) / (1000 * 60 * 60 * 24);
-            let launchCount = await getLaunchCounter();
+                // CHECK ADMIN STATUS
+                if (userData.role === "admin") {
+                    lockScreen.style.display = "none";
+                    badge.innerText = "👑 Admin Master Active";
+                    badge.style.color = "#fbbf24";
+                    badge.style.background = "rgba(251,191,36,0.1)";
+                    badge.style.borderColor = "rgba(251,191,36,0.3)";
+                    return;
+                }
 
-            let isTrialExpired = (daysPassed > SEC.MAX_TRIAL_DAYS) || (launchCount > SEC.MAX_LAUNCHES);
+                // CHECK USER STATUS: APPROVED
+                if (userData.status === "approved") {
+                    lockScreen.style.display = "none";
+                    badge.innerText = "✓ Premium Active";
+                    badge.style.color = "#10b981";
+                    badge.style.background = "rgba(16,185,129,0.1)";
+                    badge.style.borderColor = "rgba(16,185,129,0.2)";
+                    return;
+                }
 
-            if (isTrialExpired) {
-                lockScreen.style.display = "flex";
-                document.getElementById("lockSub").innerText = "আপনার ৭ দিনের ট্রায়াল বা লঞ্চ লিমিট শেষ!";
-                badge.innerText = "🔒 Trial Ended";
-                badge.style.color = "#ef4444";
-                badge.style.background = "rgba(239,68,68,0.1)";
-                badge.style.borderColor = "rgba(239,68,68,0.2)";
-            } else {
-                lockScreen.style.display = "none";
-                let daysLeft = Math.max(0, Math.ceil(SEC.MAX_TRIAL_DAYS - daysPassed));
-                badge.innerText = "⏳ Trial: " + daysLeft + " days left";
-                badge.style.color = "#fbbf24";
-                badge.style.background = "rgba(251,191,36,0.1)";
-                badge.style.borderColor = "rgba(251,191,36,0.3)";
-            }
+                // CHECK USER STATUS: BLOCKED
+                if (userData.status === "blocked") {
+                    lockScreen.style.display = "flex";
+                    regBox.style.display = "none";
+                    lockedBox.style.display = "block";
+                    document.getElementById("lockTitle").innerText = "লাইসেন্স বাতিল / ব্লক করা হয়েছে!";
+                    document.getElementById("lockSub").innerText = "আপনার এই অ্যাক্সেসটি এডমিন দ্বারা ব্লক করা হয়েছে।";
+                    badge.innerText = "🔒 Blocked";
+                    badge.style.color = "#ef4444";
+                    updateWhatsAppLink("Hello Rubel Bhai, my account (" + cleanMobile + ") is blocked. Device ID: " + currentDeviceId + ". Please unblock.");
+                    return;
+                }
 
-            updateWhatsAppLink();
+                // CHECK USER STATUS: TRIAL (7 DAYS)
+                if (userData.status === "trial" || !userData.status) {
+                    const regTimestamp = userData.registered_at || Date.now();
+                    const daysPassed = (Date.now() - regTimestamp) / (1000 * 60 * 60 * 24);
+
+                    if (daysPassed > 7) {
+                        lockScreen.style.display = "flex";
+                        regBox.style.display = "none";
+                        lockedBox.style.display = "block";
+                        document.getElementById("lockTitle").innerText = "৭ দিনের ট্রায়াল শেষ!";
+                        document.getElementById("lockSub").innerText = "স্থায়ী অ্যাক্সেস পেতে এডমিনের সাথে যোগাযোগ করুন।";
+                        badge.innerText = "🔒 Trial Ended";
+                        badge.style.color = "#ef4444";
+                        updateWhatsAppLink("Hello Rubel Bhai, my 7 days trial has ended. Mobile: " + cleanMobile + ", Device ID: " + currentDeviceId + ". Please approve lifetime license.");
+                    } else {
+                        lockScreen.style.display = "none";
+                        const daysLeft = Math.max(1, Math.ceil(7 - daysPassed));
+                        badge.innerText = "⏳ Trial: " + daysLeft + " days left";
+                        badge.style.color = "#fbbf24";
+                        badge.style.background = "rgba(251,191,36,0.1)";
+                        badge.style.borderColor = "rgba(251,191,36,0.3)";
+                    }
+                }
+            }, (error) => {
+                alert("ফায়ারবেস ক্লাউড কানেকশন ত্রুটি! ইন্টারনেট চেক করুন।");
+            });
         }
 
-        function updateWhatsAppLink() {
-            const waMsg = encodeURIComponent(
-                "Hello Rubel Bhai, my trial ended or app is locked. Device ID: " + generatedDeviceId +
-                ". Please send me the Product Key."
-            );
+        function registerUserToFirebase() {
+            const name = document.getElementById("regName").value.trim();
+            const mobile = document.getElementById("regMobile").value.trim();
+            const company = document.getElementById("regCompany").value.trim();
+
+            if (!name || !mobile || mobile.length < 11) {
+                alert("দয়া করে সঠিক নাম এবং ১১ ডিজিটের মোবাইল নম্বর দিন!");
+                return;
+            }
+
+            const cleanMobile = mobile.replace(/[^0-9]/g, "");
+
+            const userObject = {
+                name: name,
+                mobile: cleanMobile,
+                company: company || "N/A",
+                device_id: currentDeviceId,
+                device_info: navigator.userAgent,
+                registered_at: Date.now(),
+                status: "trial",
+                role: "user"
+            };
+
+            // SAVE TO FIREBASE
+            db.ref("users/" + cleanMobile).set(userObject).then(() => {
+                localStorage.setItem("app_user_fullname", name);
+                localStorage.setItem("app_user_mobile", cleanMobile);
+                localStorage.setItem("app_user_company", company);
+                loadUserData();
+                alert("✅ ফায়ারবেস রেজিস্ট্রেশন সফল হয়েছে! ৭ দিনের ট্রায়াল চালু হলো।");
+                startCloudVerification();
+            }).catch((err) => {
+                alert("রেজিস্ট্রেশন ব্যর্থ হয়েছে! ডাটাবেজ কানেকশন সমস্যা।");
+            });
+        }
+
+        function updateWhatsAppLink(msgText) {
+            const waMsg = encodeURIComponent(msgText);
             const waLink = document.getElementById("whatsappLink");
             if (waLink) waLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
         }
 
+        /* ============================================================
+           ⚙️ 6. APP UI & USER PROFILE MANAGEMENT
+           ============================================================ */
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
                 const splash = document.getElementById("splash-screen");
@@ -491,69 +511,16 @@
 
             loadUserData();
             loadBackupTime();
-            checkAppAccessAndTrial();
+            startCloudVerification();
         });
 
-        function handleLockIconClick() {
-            lockClickCount++;
-            if (lockClickCount >= 10 && !isMasterMode) {
-                isMasterMode = true;
-                document.getElementById("lockIcon").innerText = "🔑";
-                document.getElementById("lockTitle").innerText = "Admin Master Key Mode";
-                document.getElementById("lockTitle").style.color = "#fbbf24";
-                document.getElementById("deviceIdDisplay").style.display = "none";
-                document.getElementById("whatsappLink").style.display = "none";
-                document.getElementById("keyInput").placeholder = "Enter Master Key";
-                alert("Admin Master Key Mode Activated!");
+        function loadUserData() {
+            let savedName = localStorage.getItem("app_user_fullname") || "ইউজার নেম";
+            let savedPic = localStorage.getItem("app_user_profile_img");
+            document.getElementById("userNameDisplay").innerText = savedName;
+            if (savedPic) {
+                document.getElementById("avatarDisplay").innerHTML = `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
             }
-        }
-
-        async function validateKey() {
-            const inputVal = document.getElementById("keyInput").value.trim().toUpperCase();
-            if (!inputVal) { alert("দয়া করে কী দিন"); return; }
-
-            if (isMasterMode) {
-                const inputHash = await sha256(inputVal);
-                if (safeCompare(inputHash, SEC.MASTER_KEY_HASH)) {
-                    await unlockAppPermanently();
-                } else {
-                    alert("❌ ভুল মাস্টার কী!");
-                    resetLockIcon();
-                }
-            } else {
-                const expectedKey = _getExpectedKey(generatedDeviceId);
-
-                if (safeCompare(inputVal, expectedKey)) {
-                    await unlockAppPermanently();
-                } else {
-                    alert("❌ ভুল Product Key!\nWhatsApp-এ যোগাযোগ করুন।");
-                }
-            }
-        }
-
-        function resetLockIcon() {
-            lockClickCount = 0;
-            isMasterMode = false;
-            document.getElementById("lockIcon").innerText = "🔒";
-            document.getElementById("lockTitle").innerText = "Device License Activation";
-            document.getElementById("lockTitle").style.color = "#ffffff";
-            document.getElementById("deviceIdDisplay").style.display = "block";
-            document.getElementById("whatsappLink").style.display = "block";
-            document.getElementById("keyInput").placeholder = "Product Key লিখুন";
-        }
-
-        async function unlockAppPermanently() {
-            const token = await sha256(generatedDeviceId + "|STRICT_ACTIVATED|" + SEC.FINGERPRINT_SALT);
-            localStorage.setItem("_secure_license_token", token);
-            localStorage.removeItem("erp_forced_expired");
-
-            document.getElementById("lockScreen").style.display = "none";
-            const badge = document.getElementById("trialStatusBadge");
-            badge.innerText = "✓ Premium Active";
-            badge.style.color = "#10b981";
-            badge.style.background = "rgba(16,185,129,0.1)";
-            badge.style.borderColor = "rgba(16,185,129,0.2)";
-            alert("🎉 সফটওয়্যার সফলভাবে লাইসেন্সড হয়েছে!");
         }
 
         function toggleSidebar() {
@@ -568,27 +535,12 @@
             }
         }
 
-        function loadUserData() {
-            let savedName = localStorage.getItem("app_user_fullname") || "ইউজার নেম";
-            let savedPic = localStorage.getItem("app_user_profile_img");
-            document.getElementById("userNameDisplay").innerText = savedName;
-            if (savedPic) {
-                document.getElementById("avatarDisplay").innerHTML =
-                    `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-                tempProfileImgData = savedPic;
-            }
-        }
-
         function openProfileSettings() {
             toggleSidebar();
             document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
             document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
             document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
             document.getElementById("profEmail").value = localStorage.getItem("app_user_email") || "";
-            if (tempProfileImgData) {
-                document.getElementById("modalAvatarPreview").innerHTML =
-                    `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-            }
             document.getElementById("profileSettingsModal").style.display = "flex";
         }
 
@@ -600,9 +552,10 @@
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    tempProfileImgData = e.target.result;
-                    document.getElementById("modalAvatarPreview").innerHTML =
-                        `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                    const picData = e.target.result;
+                    localStorage.setItem("app_user_profile_img", picData);
+                    document.getElementById("modalAvatarPreview").innerHTML = `<img src="${picData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                    loadUserData();
                 };
                 reader.readAsDataURL(input.files[0]);
             }
@@ -611,22 +564,22 @@
         function saveProfileSettings() {
             localStorage.setItem("app_user_fullname", document.getElementById("profName").value.trim());
             localStorage.setItem("app_user_company", document.getElementById("profCompany").value.trim());
-            localStorage.setItem("app_user_mobile", document.getElementById("profMobile").value.trim());
             localStorage.setItem("app_user_email", document.getElementById("profEmail").value.trim());
-            if (tempProfileImgData) localStorage.setItem("app_user_profile_img", tempProfileImgData);
             loadUserData();
             closeProfileSettings();
+            alert("✅ প্রোফাইল আপডেট সম্পন্ন হয়েছে!");
         }
 
+        /* ============================================================
+           ☁️ 7. LOCAL BACKUP & RESTORE
+           ============================================================ */
         function collectERPData() {
             const allData = {};
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-                if (key !== "erp_last_backup" && key !== "erp_last_reminded_ts") {
-                    allData[key] = localStorage.getItem(key);
-                }
+                allData[key] = localStorage.getItem(key);
             }
-            return { app: "Aluminium ERP", version: 4.1, deviceId: getDeviceId(), data: allData };
+            return { app: "Aluminium ERP BD", version: 5.0, deviceId: currentDeviceId, data: allData };
         }
 
         async function smartBackup() {
@@ -636,33 +589,31 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = "Aluminium_ERP_Backup.json";
+                a.download = "Aluminium_ERP_Backup_" + (localStorage.getItem("app_user_mobile") || "User") + ".json";
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 localStorage.setItem("erp_last_backup", new Date().toLocaleString("bn-BD"));
-                localStorage.setItem("erp_last_backup_ts", Date.now().toString());
                 loadBackupTime();
-                alert("✅ Backup Download হয়েছে।");
-            } catch (err) { alert("Backup Failed!"); }
+                alert("✅ Backup ফাইল সফলভাবে ডাউনলোড হয়েছে!");
+            } catch (err) { alert("Backup গ্রহণে ত্রুটি হয়েছে!"); }
         }
 
         function restoreFromFile(input) {
             const file = input.files && input.files[0];
             if (!file) return;
-            if (!confirm("বর্তমান সব ডাটা মুছে Backup থেকে Restore হবে। নিশ্চিত?")) {
-                input.value = "";
-                return;
+            if (!confirm("বর্তমান তথ্য পরিবর্তিত হয়ে Backup ডাটা রিপ্লেস হবে। আপনি কি নিশ্চিত?")) {
+                input.value = ""; return;
             }
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const backup = JSON.parse(e.target.result);
-                    if (!backup.data) throw new Error("Invalid file");
+                    if (!backup.data) throw new Error("Invalid format");
                     Object.keys(backup.data).forEach(key => localStorage.setItem(key, backup.data[key]));
-                    alert("🔄 Restore সফল! অ্যাপ রিলোড হচ্ছে...");
+                    alert("🔄 Restore সফল হয়েছে! অ্যাপটি রিলোড হচ্ছে...");
                     location.reload();
-                } catch (err) { alert("❌ Restore Failed."); }
+                } catch (err) { alert("❌ অবৈধ ব্যাকআপ ফাইল!"); }
             };
             reader.readAsText(file);
             input.value = "";
@@ -672,14 +623,6 @@
             let saved = localStorage.getItem("erp_last_backup");
             let el = document.getElementById("lastBackupTime");
             if (el) el.innerText = saved ? "Last Backup: " + saved : "Last Backup: এখনো হয়নি";
-        }
-
-        function checkBackupReminder() {
-            let lastBackupTs = parseInt(localStorage.getItem("erp_last_backup_ts") || "0");
-            let daysSince = (Date.now() - lastBackupTs) / (1000 * 60 * 60 * 24);
-            if (daysSince >= 10) {
-                if (confirm("⚠️ ১০ দিন ধরে Backup নেওয়া হয়নি!\nএখনই Backup নিতে চান?")) smartBackup();
-            }
         }
 
         function showUpdateModal() {

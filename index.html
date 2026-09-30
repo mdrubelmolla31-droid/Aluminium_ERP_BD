@@ -680,6 +680,67 @@
         function closeUpdateModal() {
             document.getElementById("updateModal").style.display = "none";
         }
+        <!-- ... আপনার ওপরের সব HTML, DASHBOARD ও SIDEBAR কোড ... -->
+
+    <script>
+        /* ============================================================
+           🚫 DEVTOOLS & RIGHT-CLICK BLOCKER (INSPECT ELEMENT LOCK)
+           ============================================================ */
+        // ১. মাউসের রাইট-ক্লিক পুরোপুরি বন্ধ করা
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // ২. কিবোর্ড শর্টকাট লক করা (F12, Ctrl+U, Ctrl+Shift+I ইত্যাদি)
+        document.addEventListener('keydown', function(e) {
+            // F12 চাপলে ব্লক করবে
+            if (e.keyCode === 123 || e.key === "F12") {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl + Shift + I (Inspect Element)
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.key === 'I' || e.key === 'i')) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl + Shift + J (Console)
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 74 || e.key === 'J' || e.key === 'j')) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl + Shift + C (Element Selector)
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 67 || e.key === 'C' || e.key === 'c')) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl + U (View Page Source)
+            if (e.ctrlKey && (e.keyCode === 85 || e.key === 'U' || e.key === 'u')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        /* ============================================================
+           🔥 AGGRESSIVE SERVICE WORKER KILLER & HARD REFRESH (v4.4)
+           ============================================================ */
+        (async function() {
+            let wasCleaned = false;
+            
+            // 1. Unregister all existing Service Workers
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                        wasCleaned = true;
+                    }
+                } catch(e) {}
+            }
+            // ... বাকি সব JS কোড যেভাবে ছিল সেভাবেই থাকবে ...
+    </script>
+</body>
+</html>
+
     </script>
 </body>
 </html>

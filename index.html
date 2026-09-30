@@ -214,12 +214,26 @@
 
     <script>
         /* ============================================================
+           🚫 DEVTOOLS & RIGHT-CLICK BLOCKER (INSPECT ELEMENT LOCK)
+           ============================================================ */
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123 || e.key === "F12") { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.key === 'I' || e.key === 'i')) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 74 || e.key === 'J' || e.key === 'j')) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 67 || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
+            if (e.ctrlKey && (e.keyCode === 85 || e.key === 'U' || e.key === 'u')) { e.preventDefault(); return false; }
+        });
+
+        /* ============================================================
            🔥 AGGRESSIVE SERVICE WORKER KILLER & HARD REFRESH (v4.4)
            ============================================================ */
         (async function() {
             let wasCleaned = false;
             
-            // 1. Unregister all existing Service Workers
             if ('serviceWorker' in navigator) {
                 try {
                     const registrations = await navigator.serviceWorker.getRegistrations();
@@ -230,7 +244,6 @@
                 } catch(e) {}
             }
 
-            // 2. Delete all Caches
             if ('caches' in window) {
                 try {
                     const cacheNames = await caches.keys();
@@ -241,7 +254,6 @@
                 } catch(e) {}
             }
 
-            // 3. Force hard-reload page once if cache/serviceWorker was active
             const HARD_RELOAD_KEY = "sw_hard_purged_v44_strict";
             if ((wasCleaned || (navigator.serviceWorker && navigator.serviceWorker.controller)) && !sessionStorage.getItem(HARD_RELOAD_KEY)) {
                 sessionStorage.setItem(HARD_RELOAD_KEY, "true");
@@ -272,12 +284,11 @@
             return diff === 0;
         }
 
-        // Encrypted Key Logic (Obfuscated against GitHub source code searching)
         function _getExpectedKey(id) {
             try {
-                const prefix = atob("Uk0t"); // "RM-"
-                const secret = atob("UlVCRUwyMDI2"); // "RUBEL2026"
-                const tag = atob("QUxVLQ=="); // "ALU-"
+                const prefix = atob("Uk0-");
+                const secret = atob("UlVCRUwyMDI2");
+                const tag = atob("QUxVLQ==");
                 const core = id.replace(tag, "").split("").reverse().join("");
                 return (prefix + core + "-" + secret).toUpperCase();
             } catch(e) {
@@ -292,7 +303,6 @@
             try {
                 let savedVer = localStorage.getItem("app_global_sec_version");
                 if (savedVer !== SEC.FORCE_VERSION) {
-                    // purge old tokens
                     localStorage.removeItem("_secure_license_token");
                     localStorage.removeItem("app_permanently_unlocked");
                     localStorage.removeItem("license_key");
@@ -559,7 +569,7 @@
         }
 
         function loadUserData() {
-            let savedName = localStorage.getItem("app_user_fullname") || "ইউজারের নাম";
+            let savedName = localStorage.getItem("app_user_fullname") || "ইউজার নেম";
             let savedPic = localStorage.getItem("app_user_profile_img");
             document.getElementById("userNameDisplay").innerText = savedName;
             if (savedPic) {
@@ -680,67 +690,6 @@
         function closeUpdateModal() {
             document.getElementById("updateModal").style.display = "none";
         }
-        <!-- ... আপনার ওপরের সব HTML, DASHBOARD ও SIDEBAR কোড ... -->
-
-    <script>
-        /* ============================================================
-           🚫 DEVTOOLS & RIGHT-CLICK BLOCKER (INSPECT ELEMENT LOCK)
-           ============================================================ */
-        // ১. মাউসের রাইট-ক্লিক পুরোপুরি বন্ধ করা
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        // ২. কিবোর্ড শর্টকাট লক করা (F12, Ctrl+U, Ctrl+Shift+I ইত্যাদি)
-        document.addEventListener('keydown', function(e) {
-            // F12 চাপলে ব্লক করবে
-            if (e.keyCode === 123 || e.key === "F12") {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl + Shift + I (Inspect Element)
-            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.key === 'I' || e.key === 'i')) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl + Shift + J (Console)
-            if (e.ctrlKey && e.shiftKey && (e.keyCode === 74 || e.key === 'J' || e.key === 'j')) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl + Shift + C (Element Selector)
-            if (e.ctrlKey && e.shiftKey && (e.keyCode === 67 || e.key === 'C' || e.key === 'c')) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl + U (View Page Source)
-            if (e.ctrlKey && (e.keyCode === 85 || e.key === 'U' || e.key === 'u')) {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        /* ============================================================
-           🔥 AGGRESSIVE SERVICE WORKER KILLER & HARD REFRESH (v4.4)
-           ============================================================ */
-        (async function() {
-            let wasCleaned = false;
-            
-            // 1. Unregister all existing Service Workers
-            if ('serviceWorker' in navigator) {
-                try {
-                    const registrations = await navigator.serviceWorker.getRegistrations();
-                    for (let registration of registrations) {
-                        await registration.unregister();
-                        wasCleaned = true;
-                    }
-                } catch(e) {}
-            }
-            // ... বাকি সব JS কোড যেভাবে ছিল সেভাবেই থাকবে ...
-    </script>
-</body>
-</html>
-
     </script>
 </body>
 </html>

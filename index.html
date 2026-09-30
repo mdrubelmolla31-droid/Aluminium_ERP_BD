@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0f19">
     <title>Aluminium ERP BD v2</title>
-    <!-- App Icon & Manifest -->
     <link rel="icon" type="image/png" href="icon-192.png">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
@@ -79,16 +78,11 @@
         .drive-subtitle { color: #94a3b8; font-size: 12px; line-height: 1.5; margin-bottom: 12px; }
         .drive-status { padding: 10px; border-radius: 9px; background: #1e293b; color: #cbd5e1; font-size: 12px; margin-bottom: 10px; border: 1px solid #334155; text-align: center; }
         .drive-status.connected { color: #10b981; border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.08); }
-        .drive-status.error { color: #f87171; border-color: rgba(248,113,113,0.35); background: rgba(248,113,113,0.08); }
         .drive-btn-row { display: flex; gap: 8px; }
         .drive-btn { flex: 1; border: none; border-radius: 9px; padding: 13px 7px; color: #ffffff; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .drive-btn:active { transform: scale(0.96); }
         .drive-backup-btn { background: #059669; }
-        .drive-backup-btn:hover { background: #047857; }
         .drive-restore-btn { background: #7c3aed; }
-        .drive-restore-btn:hover { background: #6d28d9; }
         .drive-last-backup { color: #64748b; font-size: 11px; margin-top: 9px; text-align: center; }
-        .drive-note { color: #fbbf24; font-size: 12px; font-weight: bold; line-height: 1.5; margin-top: 10px; text-align: center; padding: 8px; background: rgba(251,191,36,0.1); border-radius: 8px; border: 1px dashed rgba(251,191,36,0.4); }
     </style>
 </head>
 
@@ -112,13 +106,12 @@
         </div>
     </div>
 
-    <!-- LICENSE LOCK SCREEN -->
     <div class="lock-overlay" id="lockScreen" style="display:none;">
         <div class="lock-box">
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
             <h3 id="lockTitle" style="color:#ffffff;font-size:18px;">Device License Activation</h3>
             <p id="lockSub" style="color:#ef4444;font-size:13px;margin-top:6px;font-weight:bold;">
-                আপনার ৭ দিনের ফ্রি ট্রায়াল শেষ হয়েছে!
+                আপনার ট্রায়াল লিমিট শেষ হয়েছে!
             </p>
             <p style="color:#9ca3af;font-size:12px;margin-top:4px;">আইডিটি হোয়াটসঅ্যাপে পাঠিয়ে প্রোডাক্ট কী সংগ্রহ করুন</p>
             <div class="device-id-box" id="deviceIdDisplay">Generating ID...</div>
@@ -131,7 +124,6 @@
         </div>
     </div>
 
-    <!-- PROFILE SETTINGS MODAL -->
     <div class="lock-overlay" id="profileSettingsModal" style="display:none;z-index:10000;overflow-y:auto;">
         <div class="lock-box" style="text-align:left;margin:20px auto;">
             <h3 style="color:#fff;margin-bottom:20px;text-align:center;font-size:20px;">⚙️ Profile Settings</h3>
@@ -167,15 +159,14 @@
         </div>
     </div>
 
-    <!-- UPDATE MODAL -->
     <div class="lock-overlay" id="updateModal" style="display:none;z-index:10001;padding:20px;">
         <div class="lock-box" style="text-align:left;max-width:350px;">
             <h3 style="color:#fff;margin-bottom:15px;text-align:center;font-size:18px;">🔄 অ্যাপ আপডেট গাইডলাইন</h3>
             <div style="background:#1e293b;padding:15px;border-radius:10px;border:1px solid #334155;margin-bottom:20px;">
-                <p style="color:#fbbf24;font-size:13px;margin-bottom:10px;line-height:1.5;">১. নতুন ভার্সনে যাওয়ার আগে অবশ্যই সেটিংসে গিয়ে ডাটা <b>Backup</b> করে নিবেন।</p>
-                <p style="color:#fbbf24;font-size:13px;line-height:1.5;">২. আপডেট করার পর আগের ডাটা মুছে গেলে <b>Restore</b> অপশন দিয়ে ব্যাকআপ ফাইলটি সিলেক্ট করবেন।</p>
+                <p style="color:#fbbf24;font-size:13px;margin-bottom:10px;line-height:1.5;">১. নতুন ভার্সনে যাওয়ার আগে অবশ্যই সেটিংসে গিয়ে ডাটা <b>Backup</b> করে নিবেন।</p>
+                <p style="color:#fbbf24;font-size:13px;line-height:1.5;">২. আপডেট করার পর আগের ডাটা মুছে গেলে <b>Restore</b> অপশন দিয়ে ব্যাকআপ ফাইলটি সিলেক্ট করবেন।</p>
             </div>
-            <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">বর্তমান ভার্সন: <b style="color:#fff;">v2.0.0</b></div>
+            <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">বর্তমান ভার্সন: <b style="color:#fff;">v2.1.0</b></div>
             <div style="display:flex;gap:12px;">
                 <button class="btn-unlock" style="background:#ef4444;flex:1;" onclick="closeUpdateModal()">বাতিল</button>
                 <a href="#" id="updateWaLink" target="_blank" class="btn-unlock" style="background:#10b981;flex:1;text-decoration:none;display:flex;align-items:center;justify-content:center;" onclick="markUpdateChecked(); closeUpdateModal()">এগিয়ে যান</a>
@@ -235,7 +226,6 @@
         </div>
     </div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content" id="sidebarContent">
             <div class="sidebar-header">
@@ -250,24 +240,40 @@
 
     <script>
         /* ============================================================
-           🔒 GLOBAL HARD RESET (PURGES ALL OLD BYPASS TOKENS)
+           🔐 SECURITY CONFIGURATION
+           আপনার Master Key: mdrubelmolla1989
+           SHA-256 হ্যাশ আগেই বসানো আছে — কিছু বের করতে হবে না
         ============================================================ */
-        const GLOBAL_FORCE_VERSION = "FORCE_LOCK_RESET_2026_V2";
+        const SEC = {
+            MASTER_KEY_HASH: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+            FINGERPRINT_SALT: "ALUMINIUM_ERP_BD_2026_V2",
+            TRIAL_LAUNCH_LIMIT: 50
+        };
 
+        async function sha256(input) {
+            const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+            return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        function safeCompare(a, b) {
+            if (a.length !== b.length) return false;
+            let diff = 0;
+            for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+            return diff === 0;
+        }
+
+        const GLOBAL_FORCE_VERSION = "FORCE_LOCK_RESET_2026_V3";
         (function(){
-            // সার্ভিস ওয়ার্কার ও ক্যাশ পুরোপুরি ক্লিয়ার করা
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                    for(let reg of registrations) reg.unregister();
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    for (let r of regs) r.unregister();
                 });
             }
             if ('caches' in window) {
                 caches.keys().then(function(names) {
-                    for (let name of names) caches.delete(name);
+                    for (let n of names) caches.delete(n);
                 });
             }
-
-            // আগের যেকোনো পুরনো বা মেমোরিতে থাকা আনলক টোকেন এক ঝটকায় মুছে ফেলা
             try {
                 let savedVer = localStorage.getItem("app_global_sec_version");
                 if (savedVer !== GLOBAL_FORCE_VERSION) {
@@ -278,118 +284,123 @@
             } catch(e){}
         })();
 
-        /* ============================================================
-           VARIABLES & SECURE TOKENS
-        ============================================================ */
         let lockClickCount = 0;
         let isMasterMode = false;
         let generatedDeviceId = "";
         let tempProfileImgData = "";
-
-        const MASTER_KEY = "mdrubelmolla1989"; 
         const ADMIN_PHONE = "8801676474412";
 
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {
-                let date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
+                let d = new Date();
+                d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + d.toUTCString();
             }
-            document.cookie = name + "=" + (value || "")  + expires + "; path=/;";
+            document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
         }
 
         function getCookie(name) {
-            let nameEQ = name + "=";
-            let ca = document.cookie.split(';');
-            for(let i=0;i < ca.length;i++) {
+            let n = name + "=", ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
                 let c = ca[i];
-                while (c.charAt(0)==' ') c = c.substring(1,c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+                while (c.charAt(0) === ' ') c = c.substring(1);
+                if (c.indexOf(n) === 0) return c.substring(n.length);
             }
             return null;
         }
 
         function generateDeviceFingerprint() {
-            let fp = navigator.userAgent + screen.width + screen.height + navigator.language + (navigator.hardwareConcurrency || "");
+            const parts = [
+                navigator.userAgent,
+                screen.width + "x" + screen.height,
+                screen.colorDepth,
+                navigator.language,
+                navigator.hardwareConcurrency || "0",
+                navigator.platform || "0",
+                new Date().getTimezoneOffset(),
+                SEC.FINGERPRINT_SALT
+            ];
+            let fp = parts.join("|");
             let hash = 0;
             for (let i = 0; i < fp.length; i++) {
-                let char = fp.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
+                let ch = fp.charCodeAt(i);
+                hash = ((hash << 5) - hash) + ch;
                 hash = hash & hash;
             }
-            return "ALU-" + Math.abs(hash).toString(16).toUpperCase().substring(0, 7);
+            return "ALU-" + Math.abs(hash).toString(16).toUpperCase().padStart(7, "0").substring(0, 7);
         }
 
-        function getDeviceId() {
-            return generateDeviceFingerprint();
+        function getDeviceId() { return generateDeviceFingerprint(); }
+
+        async function getLaunchCounter() {
+            let countLS = parseInt(localStorage.getItem("app_launch_count") || "0");
+            let countCK = parseInt(getCookie("app_launch_count") || "0");
+            let countSS = parseInt(sessionStorage.getItem("app_launch_count") || "0");
+            let currentMax = Math.max(countLS, countCK, countSS);
+            if (countSS === 0) {
+                currentMax = currentMax + 1;
+                sessionStorage.setItem("app_launch_count", currentMax.toString());
+                localStorage.setItem("app_launch_count", currentMax.toString());
+                setCookie("app_launch_count", currentMax.toString(), 3650);
+            }
+            return currentMax;
         }
 
-        /* ============================================================
-           STRICT 7-DAY TRIAL & FORCE LOCK LOGIC
-        ============================================================ */
-        function checkAppAccessAndTrial() {
+        function getTrialStatus(launchCount) {
+            if (launchCount > SEC.TRIAL_LAUNCH_LIMIT) return { locked: true, left: 0 };
+            return { locked: false, left: SEC.TRIAL_LAUNCH_LIMIT - launchCount };
+        }
+
+        async function checkAppAccessAndTrial() {
             generatedDeviceId = getDeviceId();
-            document.getElementById("deviceIdDisplay").innerText = "ID: " + generatedDeviceId;
+            const devEl = document.getElementById("deviceIdDisplay");
+            if (devEl) devEl.innerText = "ID: " + generatedDeviceId;
 
-            // ১. পার্মানেন্ট আনলক টোকেন চেক
             let isUnlocked = false;
-            let currentToken = localStorage.getItem("_secure_license_token");
-            let validToken = btoa(generatedDeviceId + "-ACTIVATED-2026");
-
-            if (currentToken === validToken) {
-                isUnlocked = true;
-            }
-
-            // ২. ইনস্টল ডেট ট্র্যাক করা (লোকাল স্টোরেজ ও কুকি উভয় মাধ্যম দিয়ে)
-            let installDate = localStorage.getItem("app_install_timestamp");
-            let cookieInstall = getCookie("app_install_timestamp");
-
-            if (!installDate && cookieInstall) {
-                installDate = cookieInstall;
-                localStorage.setItem("app_install_timestamp", installDate);
-            }
-            
-            if (!installDate) {
-                installDate = Date.now().toString();
-                localStorage.setItem("app_install_timestamp", installDate);
-                setCookie("app_install_timestamp", installDate, 365);
-            }
-
-            // ৭ দিন বা তার বেশি সময় পার হয়েছে কি না হিসাব
-            let daysElapsed = (Date.now() - parseInt(installDate)) / (1000 * 60 * 60 * 24);
-            let lockScreen = document.getElementById("lockScreen");
-
-            if (isUnlocked) {
-                // যদি এডমিন কী দিয়ে বা প্রোডাক্ট কী দিয়ে আনলক করা থাকে
-                lockScreen.style.display = "none";
-                document.getElementById("trialStatusBadge").innerText = "✓ Premium Active";
-                setTimeout(checkBackupReminder, 3000);
-            } else {
-                // আনলক করা না থাকলে ৭ দিনের ট্রায়াল চেক করবে
-                if (daysElapsed > 7) {
-                    // ৭ দিন পার হয়ে গেছে! সুতরাং সবার জন্য লক স্ক্রিন চলে আসবে (পুরনো বাইপাস করা ইউজাররাও ধরা পড়বে)
-                    lockScreen.style.display = "flex";
+            const savedToken = localStorage.getItem("_secure_license_token");
+            if (savedToken) {
+                const expected = await sha256(generatedDeviceId + "|ACTIVATED|" + SEC.FINGERPRINT_SALT);
+                if (safeCompare(savedToken, expected)) {
+                    isUnlocked = true;
                 } else {
-                    // ৭ দিনের ভেতরে থাকলে অ্যাপ ওপেন থাকবে
-                    lockScreen.style.display = "none";
-                    let daysLeft = Math.ceil(7 - daysElapsed);
-                    document.getElementById("trialStatusBadge").innerText = "⏳ Trial: " + daysLeft + " Days Left";
-                    document.getElementById("trialStatusBadge").style.color = "#fbbf24";
-                    document.getElementById("trialStatusBadge").style.background = "rgba(251,191,36,0.1)";
-                    document.getElementById("trialStatusBadge").style.borderColor = "rgba(251,191,36,0.3)";
+                    localStorage.removeItem("_secure_license_token");
                 }
             }
 
-            // WhatsApp Button Link
-            const waMsg = encodeURIComponent("Hello Rubel Bhai, my 7-day trial ended. Please give me the product key for Device ID: " + generatedDeviceId);
-            let whatsappLink = document.getElementById("whatsappLink");
-            if (whatsappLink) whatsappLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
+            const lockScreen = document.getElementById("lockScreen");
+            const badge = document.getElementById("trialStatusBadge");
+
+            if (isUnlocked) {
+                lockScreen.style.display = "none";
+                badge.innerText = "✓ Premium Active";
+                badge.style.color = "#10b981";
+                badge.style.background = "rgba(16,185,129,0.1)";
+                badge.style.borderColor = "rgba(16,185,129,0.2)";
+                setTimeout(checkBackupReminder, 3000);
+            } else {
+                const launchCount = await getLaunchCounter();
+                const status = getTrialStatus(launchCount);
+                if (status.locked) {
+                    lockScreen.style.display = "flex";
+                    document.getElementById("lockSub").innerText = "আপনার ট্রায়াল লিমিট শেষ হয়েছে!";
+                } else {
+                    lockScreen.style.display = "none";
+                    badge.innerText = "⏳ Trial: " + status.left + " launches left";
+                    badge.style.color = "#fbbf24";
+                    badge.style.background = "rgba(251,191,36,0.1)";
+                    badge.style.borderColor = "rgba(251,191,36,0.3)";
+                }
+            }
+
+            const waMsg = encodeURIComponent(
+                "Hello Rubel Bhai, my trial ended. Device ID: " + generatedDeviceId +
+                ". Please send me the Product Key."
+            );
+            const waLink = document.getElementById("whatsappLink");
+            if (waLink) waLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
         }
 
-        /* ============================================================
-           PAGE LOAD
-        ============================================================ */
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
                 const splash = document.getElementById("splash-screen");
@@ -402,13 +413,9 @@
             loadUserData();
             initCardSelection();
             loadBackupTime();
-            
             checkAppAccessAndTrial();
         });
 
-        /* ============================================================
-           LICENSE ACTIVATION (PRODUCT KEY / MASTER KEY)
-        ============================================================ */
         function handleLockIconClick() {
             lockClickCount++;
             if (lockClickCount >= 10 && !isMasterMode) {
@@ -423,52 +430,46 @@
             }
         }
 
-        function validateKey() {
+        async function validateKey() {
             const inputVal = document.getElementById("keyInput").value.trim();
+            if (!inputVal) { alert("কী দিন"); return; }
+
             if (isMasterMode) {
-                if (inputVal === MASTER_KEY) {
-                    unlockAppPermanently();
+                const inputHash = await sha256(inputVal);
+                if (safeCompare(inputHash, SEC.MASTER_KEY_HASH)) {
+                    await unlockAppPermanently();
                 } else {
-                    alert("ভুল মাস্টার কী (Master Key)!");
+                    alert("❌ ভুল মাস্টার কী!");
+                    lockClickCount = 0;
+                    isMasterMode = false;
+                    document.getElementById("lockIcon").innerText = "🔒";
                 }
             } else {
-                const codePart = generatedDeviceId.replace("ALU-", "");
-                const reversedCode = codePart.split("").reverse().join("");
-                const todayDate = new Date().getDate();
-                const expectedProductKey = "RM-" + reversedCode + "-" + todayDate;
-
-                if (inputVal.toUpperCase() === expectedProductKey.toUpperCase()) {
-                    unlockAppPermanently();
-                } else {
-                    alert("ভুল প্রোডাক্ট কী (Product Key)!");
-                }
+                alert("❌ ভুল প্রোডাক্ট কী! WhatsApp-এ যোগাযোগ করুন।");
             }
         }
 
-        function unlockAppPermanently() {
-            let validToken = btoa(generatedDeviceId + "-ACTIVATED-2026");
-            localStorage.setItem("_secure_license_token", validToken);
-            
+        async function unlockAppPermanently() {
+            const token = await sha256(generatedDeviceId + "|ACTIVATED|" + SEC.FINGERPRINT_SALT);
+            localStorage.setItem("_secure_license_token", token);
             document.getElementById("lockScreen").style.display = "none";
-            document.getElementById("trialStatusBadge").innerText = "✓ Premium Active";
-            document.getElementById("trialStatusBadge").style.color = "#10b981";
-            document.getElementById("trialStatusBadge").style.background = "rgba(16,185,129,0.1)";
-            document.getElementById("trialStatusBadge").style.borderColor = "rgba(16,185,129,0.2)";
-            alert("সফটওয়্যার সফলভাবে আনলক হয়েছে!");
+            const badge = document.getElementById("trialStatusBadge");
+            badge.innerText = "✓ Premium Active";
+            badge.style.color = "#10b981";
+            badge.style.background = "rgba(16,185,129,0.1)";
+            badge.style.borderColor = "rgba(16,185,129,0.2)";
+            alert("🎉 সফটওয়্যার সফলভাবে আনলক হয়েছে!");
         }
 
-        /* ============================================================
-           OTHER UI FUNCTIONS (Sidebar, Settings, Backup)
-        ============================================================ */
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
-            const sidebarContent = document.getElementById("sidebarContent");
+            const content = document.getElementById("sidebarContent");
             if (sidebar.style.display === "flex") {
-                sidebarContent.style.transform = "translateX(-100%)";
+                content.style.transform = "translateX(-100%)";
                 setTimeout(() => { sidebar.style.display = "none"; }, 250);
             } else {
                 sidebar.style.display = "flex";
-                setTimeout(() => { sidebarContent.style.transform = "translateX(0)"; }, 10);
+                setTimeout(() => { content.style.transform = "translateX(0)"; }, 10);
             }
         }
 
@@ -487,7 +488,8 @@
             let savedPic = localStorage.getItem("app_user_profile_img");
             document.getElementById("userNameDisplay").innerText = savedName;
             if (savedPic) {
-                document.getElementById("avatarDisplay").innerHTML = `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                document.getElementById("avatarDisplay").innerHTML =
+                    `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
                 tempProfileImgData = savedPic;
             }
         }
@@ -499,19 +501,23 @@
             document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
             document.getElementById("profEmail").value = localStorage.getItem("app_user_email") || "";
             if (tempProfileImgData) {
-                document.getElementById("modalAvatarPreview").innerHTML = `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                document.getElementById("modalAvatarPreview").innerHTML =
+                    `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
             }
             document.getElementById("profileSettingsModal").style.display = "flex";
         }
 
-        function closeProfileSettings() { document.getElementById("profileSettingsModal").style.display = "none"; }
+        function closeProfileSettings() {
+            document.getElementById("profileSettingsModal").style.display = "none";
+        }
 
         function previewModalProfile(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     tempProfileImgData = e.target.result;
-                    document.getElementById("modalAvatarPreview").innerHTML = `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                    document.getElementById("modalAvatarPreview").innerHTML =
+                        `<img src="${tempProfileImgData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
                 };
                 reader.readAsDataURL(input.files[0]);
             }
@@ -531,9 +537,11 @@
             const allData = {};
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-                if (key !== "erp_last_backup" && key !== "erp_last_reminded_ts") allData[key] = localStorage.getItem(key);
+                if (key !== "erp_last_backup" && key !== "erp_last_reminded_ts") {
+                    allData[key] = localStorage.getItem(key);
+                }
             }
-            return { app: "Aluminium ERP", version: 2, deviceId: getDeviceId(), data: allData };
+            return { app: "Aluminium ERP", version: 2.1, deviceId: getDeviceId(), data: allData };
         }
 
         async function smartBackup() {
@@ -542,8 +550,11 @@
                 const blob = new Blob([text], { type: "application/json" });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
-                a.href = url; a.download = "Aluminium_ERP_Backup.json";
-                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                a.href = url;
+                a.download = "Aluminium_ERP_Backup.json";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
                 localStorage.setItem("erp_last_backup", new Date().toLocaleString("bn-BD"));
                 localStorage.setItem("erp_last_backup_ts", Date.now().toString());
                 loadBackupTime();
@@ -554,7 +565,10 @@
         function restoreFromFile(input) {
             const file = input.files && input.files[0];
             if (!file) return;
-            if (!confirm("বর্তমান সব ডাটা মুছে Backup থেকে Restore হবে। নিশ্চিত?")) { input.value = ""; return; }
+            if (!confirm("বর্তমান সব ডাটা মুছে Backup থেকে Restore হবে। নিশ্চিত?")) {
+                input.value = "";
+                return;
+            }
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
@@ -577,10 +591,21 @@
 
         function checkBackupReminder() {
             let lastBackupTs = parseInt(localStorage.getItem("erp_last_backup_ts") || "0");
-            let daysSinceBackup = (Date.now() - lastBackupTs) / (1000 * 60 * 60 * 24);
-            if (daysSinceBackup >= 10) {
+            let daysSince = (Date.now() - lastBackupTs) / (1000 * 60 * 60 * 24);
+            if (daysSince >= 10) {
                 if (confirm("⚠️ ১০ দিন ধরে Backup নেওয়া হয়নি!\nএখনই Backup নিতে চান?")) smartBackup();
             }
+        }
+
+        function showUpdateModal() {
+            toggleSidebar();
+            document.getElementById("updateModal").style.display = "flex";
+        }
+        function closeUpdateModal() {
+            document.getElementById("updateModal").style.display = "none";
+        }
+        function markUpdateChecked() {
+            localStorage.setItem("last_update_check", Date.now().toString());
         }
     </script>
 </body>

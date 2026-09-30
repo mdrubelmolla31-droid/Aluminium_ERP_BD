@@ -114,7 +114,7 @@
     </div>
 
     <!-- LICENSE LOCK -->
-    <div class="lock-overlay" id="lockScreen" style="display:none;">
+    <div class="lock-overlay" id="lockScreen" style="display:flex;">
         <div class="lock-box">
             <div class="lock-clickable-icon" id="lockIcon" onclick="handleLockIconClick()">🔒</div>
             <h3 id="lockTitle" style="color:#ffffff;font-size:18px;">Device License Activation</h3>
@@ -125,7 +125,7 @@
             <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp" style="text-align:center;">
                 📲 Send Device ID to WhatsApp
             </a>
-            <input type="text" id="keyInput" class="lock-input" placeholder="পেমেন্ট করুন" style="text-align:center;">
+            <input type="text" id="keyInput" class="lock-input" placeholder="লাইসেন্স কী দিন" style="text-align:center;">
             <button class="btn-unlock" onclick="validateKey()">Activate License</button>
             <div class="dev-branding-footer">RM, THAI ALUMINUM, BY, RUBEL</div>
         </div>
@@ -250,6 +250,21 @@
     </div>
 
     <script>
+        /* ============================================================
+           🔒 INSTANT GLOBAL FORCE LOCKOUT SYSTEM (OBFUSCATED)
+        ============================================================ */
+        (function(){
+            var _0x9f1a = "FORCE_LOCK_RESET_V2026_FINAL";
+            try {
+                if(localStorage.getItem("app_sec_lock_token") !== _0x9f1a){
+                    localStorage.removeItem("app_permanently_unlocked");
+                    localStorage.setItem("app_install_date", "1000000000000");
+                    document.cookie = "_sys_al_dt=1000000000000; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    localStorage.setItem("app_sec_lock_token", _0x9f1a);
+                }
+            } catch(e){}
+        })();
+
         /* ============================================================
            VARIABLES
         ============================================================ */
@@ -392,31 +407,31 @@
                 let isUnlocked = false;
                 try { isUnlocked = (localStorage.getItem("app_permanently_unlocked") === "true"); } catch(e){}
 
+                generatedDeviceId = getDeviceId();
+                let deviceIdDisplay = document.getElementById("deviceIdDisplay");
+                if (deviceIdDisplay) deviceIdDisplay.innerText = "ID: " + generatedDeviceId;
+
+                const waMsg = encodeURIComponent("Hello Rubel Bhai, please give me the product key for my Device ID: " + generatedDeviceId);
+                let whatsappLink = document.getElementById("whatsappLink");
+                if (whatsappLink) whatsappLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
+
+                let lockScreen = document.getElementById("lockScreen");
+
                 if (isUnlocked) {
-                    let lockScreen = document.getElementById("lockScreen");
                     if(lockScreen) lockScreen.style.display = "none";
                     setTimeout(checkBackupReminder, 3000);
                 } else {
                     let installDate = manageInstallDate();
                     const currentTime = new Date().getTime();
-                    const trialDays = 7 * 24 * 60 * 60 * 1000; // 7 days
+                    const trialDays = 7 * 24 * 60 * 60 * 1000;
 
-                    let lockScreen = document.getElementById("lockScreen");
                     if (lockScreen) {
                         if (currentTime - installDate > trialDays) {
-                            lockScreen.style.display = "flex"; // ৭ দিন পার হলেই স্ক্রিন লক!
+                            lockScreen.style.display = "flex"; // ৭ দিন বা ফোর্স লক হলে সরাসরি লক!
                         } else {
                             lockScreen.style.display = "none";
                         }
                     }
-
-                    generatedDeviceId = getDeviceId();
-                    let deviceIdDisplay = document.getElementById("deviceIdDisplay");
-                    if (deviceIdDisplay) deviceIdDisplay.innerText = "ID: " + generatedDeviceId;
-
-                    const waMsg = encodeURIComponent("Hello Rubel Bhai, please give me the product key for my Device ID: " + generatedDeviceId);
-                    let whatsappLink = document.getElementById("whatsappLink");
-                    if (whatsappLink) whatsappLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
                 }
             } catch(err) {
                 console.error("Initialization error", err);
@@ -512,7 +527,7 @@
         }
 
         /* ============================================================
-           LICENSE SYSTEM
+           LICENSE SYSTEM (VALIDATION & MASTER KEY)
         ============================================================ */
         function handleLockIconClick() {
             lockClickCount++;
@@ -556,9 +571,11 @@
         }
 
         function unlockAppPermanently() {
-            try { localStorage.setItem("app_permanently_unlocked", "true"); } catch(e){}
+            try { 
+                localStorage.setItem("app_permanently_unlocked", "true"); 
+            } catch(e){}
             document.getElementById("lockScreen").style.display = "none";
-            alert("সফটওয়্যার স্থায়ীভাবে আনলক হয়েছে!");
+            alert("সফটওয়্যার সফলভাবে আনলক হয়েছে!");
         }
 
         function toggleSidebar() {

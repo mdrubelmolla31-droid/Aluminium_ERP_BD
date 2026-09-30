@@ -1,38 +1,24 @@
-const CACHE_NAME = 'erp-cache-v3';
-const urlsToCache = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
-];
-
-// Offline Caching[span_15](start_span)[span_15](end_span)
+// 🔥 SELF-DESTRUCTING SERVICE WORKER (PURGE ALL CACHES)
 self.addEventListener('install', event => {
+  // তাৎক্ষণিক নতুন ভার্সন চালু করো
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+    // ১. পুরনো সব ক্যাশ মুছে ফেলো
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.map(key => caches.delete(key))
+      );
+    }).then(() => {
+      // ২. সব ট্যাব বা ডিভাইসে নতুন নিয়ম প্রয়োগ করো
+      return self.clients.claim();
+    })
   );
 });
 
+// ৩. কোনো ফাইল ক্যাশ করবে না, সরাসরি গিটহাব থেকে নতুন ফাইল আনবে
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
-});
-
-// Push Notifications[span_16](start_span)[span_16](end_span)
-self.addEventListener('push', function(event) {
-  console.log('Push notification received');
-});
-
-// Background Sync[span_17](start_span)[span_17](end_span)
-self.addEventListener('sync', function(event) {
-  console.log('Background sync triggered');
-});
-
-// Periodic Background Sync[span_18](start_span)[span_18](end_span)
-self.addEventListener('periodicsync', (event) => {
-  console.log('Periodic sync triggered');
+  event.respondWith(fetch(event.request));
 });

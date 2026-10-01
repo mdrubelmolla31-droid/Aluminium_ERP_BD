@@ -94,7 +94,7 @@
         <div class="splash-loader-container"><div class="splash-loader-bar"></div></div>
     </div>
 
-    <!-- CUSTOM ELEGANT ALERT MODAL (REPLACES BROWSER ALERT & REMOVES GITHUB LINK) -->
+    <!-- CUSTOM ELEGANT ALERT MODAL -->
     <div class="lock-overlay" id="customAlertModal" style="display:none; z-index:99999999;">
         <div class="lock-box" style="max-width:330px; padding:25px 20px;">
             <p id="customAlertMsg" style="color:#ffffff; font-size:14px; margin-bottom:20px; line-height:1.5; font-weight:600;"></p>
@@ -112,7 +112,7 @@
                 অ্যাপ ব্যবহার করতে ভেরিফিকেশন সম্পন্ন করুন!
             </p>
 
-            <!-- REGISTRATION FORM (First Time Users) -->
+            <!-- REGISTRATION FORM -->
             <div id="registrationBox" style="display:none; text-align:left; margin-top:15px;">
                 <label style="color:#9ca3af;font-size:12px;">আপনার পূর্ণ নাম:</label>
                 <input type="text" id="regName" class="lock-input" placeholder="যেমন: মোঃ রহিম" style="margin-bottom:10px;">
@@ -191,6 +191,33 @@
         </div>
     </div>
 
+    <!-- 🌟 ADMIN PIN VERIFICATION MODAL (HIGH SECURITY) 🌟 -->
+    <div class="lock-overlay" id="adminPinModal" style="display:none;z-index:10002;">
+        <div class="lock-box" style="max-width:300px; text-align:center;">
+            <div style="font-size: 35px; margin-bottom: 10px;">🔐</div>
+            <h3 style="color:#fbbf24; margin-bottom:5px;">Admin Security</h3>
+            <p style="color:#9ca3af; font-size:12px; margin-bottom:15px;">এডমিন প্যানেলে প্রবেশ করতে আপনার সিক্রেট পিন দিন</p>
+            <input type="password" id="adminPinInput" class="lock-input" placeholder="****" style="text-align:center; font-size:24px; letter-spacing: 8px;">
+            <div style="display:flex; gap:10px;">
+                <button class="btn-unlock" style="background:#ef4444; flex:1;" onclick="document.getElementById('adminPinModal').style.display='none'">বাতিল</button>
+                <button class="btn-unlock" style="background:#10b981; flex:1;" onclick="verifyAdminPin()">প্রবেশ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌟 ADMIN PANEL MODAL 🌟 -->
+    <div class="lock-overlay" id="adminPanelModal" style="display:none;z-index:10005;padding:20px;">
+        <div class="lock-box" style="max-width:600px; width:100%; text-align:left; margin:auto;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #334155; padding-bottom:10px;">
+                <h3 style="color:#fbbf24;font-size:18px;">👑 এডমিন প্যানেল</h3>
+                <button class="icon-btn" onclick="document.getElementById('adminPanelModal').style.display='none'" style="padding:4px 10px; background:#ef4444; border:none; font-size:14px;">✕ ক্লোজ</button>
+            </div>
+            <div id="adminUserList" style="max-height: 65vh; overflow-y: auto; padding-right:5px;">
+                <!-- ইউজার লিস্ট এখানে লোড হবে -->
+            </div>
+        </div>
+    </div>
+
     <!-- MAIN DASHBOARD -->
     <div class="dashboard-container">
         <div class="header">
@@ -237,6 +264,9 @@
                 <h3 style="color:#fff;">Menu</h3>
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding:4px 10px;">✕</button>
             </div>
+            <!-- 🌟 এডমিন প্যানেল বাটন (শুধু এডমিন দেখতে পাবে, ক্লিক করলে পিন চাইবে) 🌟 -->
+            <a href="#" class="sidebar-menu-item" id="adminPanelBtn" style="display:none; background:#fbbf24; color:#000; box-shadow: 0 0 10px rgba(251,191,36,0.3);" onclick="promptAdminPin();return false;">👑 Admin Panel</a>
+            
             <a href="#" class="sidebar-menu-item" onclick="openProfileSettings();return false;">👤 My Profile</a>
             <a href="https://wa.me/8801676474412" target="_blank" class="sidebar-menu-item support-btn">🎧 Support</a>
             <a href="javascript:void(0)" onclick="showUpdateModal()" class="sidebar-menu-item update-btn">🔄 আপডেট</a>
@@ -245,7 +275,7 @@
 
     <script>
         /* ============================================================
-           🚫 1. CUSTOM POPUP SYSTEM (REPLACES BROWSER ALERT)
+           🚫 1. CUSTOM POPUP SYSTEM
            ============================================================ */
         let customAlertCallback = null;
         function alert(msg, callback) {
@@ -368,7 +398,7 @@
         const currentDeviceId = generateDeviceFingerprint();
 
         /* ============================================================
-           ☁️ 6. REALTIME CLOUD SECURITY ENGINE
+           ☁ 6. REALTIME CLOUD SECURITY ENGINE
            ============================================================ */
         let activeFirebaseListener = null;
 
@@ -421,13 +451,19 @@
                     return;
                 }
 
+                // 🌟 এডমিন মাস্টার এক্সেস চেক 🌟
                 if (userData.role === "admin") {
                     lockScreen.style.display = "none";
                     badge.innerText = "👑 Admin Master Active";
                     badge.style.color = "#fbbf24";
                     badge.style.background = "rgba(251,191,36,0.1)";
                     badge.style.borderColor = "rgba(251,191,36,0.3)";
+                    
+                    // মেনুতে এডমিন বাটন দেখানো হচ্ছে
+                    document.getElementById("adminPanelBtn").style.display = "block"; 
                     return;
+                } else {
+                    document.getElementById("adminPanelBtn").style.display = "none";
                 }
 
                 if (userData.status === "approved") {
@@ -655,6 +691,109 @@
 
         function closeUpdateModal() {
             document.getElementById("updateModal").style.display = "none";
+        }
+
+
+        /* ============================================================
+           👑 9. SECURE FIREBASE-BASED ADMIN PANEL (2-FACTOR AUTH)
+           ============================================================ */
+
+        // ১. সাইডবার থেকে এডমিন প্যানেল ক্লিক করলে আগে পিন চাইবে
+        function promptAdminPin() {
+            toggleSidebar(); // মেনু বন্ধ হবে
+            document.getElementById("adminPinInput").value = ""; // আগের পিন মুছে ফেলবে
+            document.getElementById("adminPinModal").style.display = "flex"; // পিন বক্স ওপেন হবে
+        }
+
+        // ২. পিন ভেরিফাই করার সিস্টেম
+        function verifyAdminPin() {
+            const enteredPin = document.getElementById("adminPinInput").value;
+            if (!enteredPin) {
+                alert("দয়া করে পিন নম্বর দিন!");
+                return;
+            }
+
+            // ফায়ারবেস থেকে রিয়েল-টাইম পিন চেক করা হচ্ছে
+            db.ref("admin_pin").once('value').then((snapshot) => {
+                const realPin = snapshot.val();
+                
+                // যদি আপনি ফায়ারবেসে admin_pin সেট না করে থাকেন, তবে ডিফল্ট পিন হবে 12345
+                const finalPin = realPin ? realPin.toString() : "683294"; 
+
+                if (enteredPin === finalPin) {
+                    // পিন মিলে গেলে পিন বক্স বন্ধ করে এডমিন প্যানেল খুলবে
+                    document.getElementById("adminPinModal").style.display = "none";
+                    document.getElementById("adminPanelModal").style.display = "flex";
+                    loadAdminUserList(); // ইউজার লিস্ট লোড করবে
+                } else {
+                    alert("❌ ভুল পিন! আপনার প্রবেশ নিষেধ।");
+                }
+            }).catch(err => {
+                alert("পিন ভেরিফিকেশনে সমস্যা হয়েছে! ইন্টারনেট চেক করুন।");
+            });
+        }
+
+        // ৩. ক্লাউড থেকে ইউজারদের ডাটা লোড করে সুন্দর বক্সে দেখাবে
+        function loadAdminUserList() {
+            const container = document.getElementById("adminUserList");
+            if(!container) return;
+            container.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:20px;">🔄 ক্লাউড থেকে ইউজার ডাটা লোড হচ্ছে...</div>';
+
+            db.ref("users").on('value', (snapshot) => {
+                const users = snapshot.val();
+                if (!users) {
+                    container.innerHTML = '<div style="text-align:center; color:#ef4444; padding:20px;">কোনো ইউজার পাওয়া যায়নি!</div>';
+                    return;
+                }
+
+                let html = "";
+                Object.keys(users).forEach((m) => {
+                    const u = users[m];
+                    const statusColor = u.status === "approved" ? "#10b981" : (u.status === "blocked" ? "#ef4444" : "#fbbf24");
+                    const statusText = u.status === "approved" ? "Approved" : (u.status === "blocked" ? "Blocked" : "Trial");
+                    
+                    html += `
+                    <div style="background:#1e293b; border:1px solid #334155; border-radius:10px; padding:12px; margin-bottom: 12px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <div style="color:#ffffff; font-weight:bold; font-size:14px;">${u.name || "N/A"} ${u.role === 'admin' ? '👑 (Admin)' : ''}</div>
+                                <div style="color:#94a3b8; font-size:12px;">📱 ${u.mobile} | 🏢 ${u.company || "N/A"}</div>
+                                <div style="color:#64748b; font-size:10px; font-family:monospace; margin-top:2px;">🆔 ${u.device_id || "N/A"}</div>
+                            </div>
+                            <span style="background:rgba(255,255,255,0.05); color:${statusColor}; border:1px solid ${statusColor}; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:bold;">
+                                ${statusText}
+                            </span>
+                        </div>
+                        
+                        <!-- 🌟 নতুন আপডেট সিস্টেম: বক্স থেকে স্ট্যাটাস বেছে নিয়ে 'আপডেট' এ ক্লিক করতে হবে -->
+                        <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
+                            <select id="statusSelect_${m}" style="flex:1; padding:8px; border-radius:6px; background:#0f172a; color:#fff; border:1px solid #3b82f6; font-size:13px; outline:none;">
+                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (অনুমোদন)</option>
+                                <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial (ট্রায়াল)</option>
+                                <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block (ব্লক করুন)</option>
+                            </select>
+                            <button onclick="updateStatusFromSelect('${m}')" style="background:#3b82f6; color:#fff; border:none; padding:8px 15px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer;">আপডেট</button>
+                        </div>
+                    </div>
+                    `;
+                });
+                container.innerHTML = html;
+            });
+        }
+
+        // ৪. বাটন চাপলে বক্স থেকে স্ট্যাটাস নিয়ে ডাটাবেজে সেভ করার ফাংশন
+        function updateStatusFromSelect(mobile) {
+            const newStatus = document.getElementById("statusSelect_" + mobile).value;
+            changeUserStatus(mobile, newStatus);
+        }
+
+        function changeUserStatus(mobile, newStatus) {
+            // .update ব্যবহার করা হয়েছে যাতে ইউজারের নাম/ডেটা কখনো মুছে না যায়!
+            db.ref("users/" + mobile).update({ status: newStatus }).then(() => {
+                alert("✅ ইউজারের স্ট্যাটাস সফলভাবে আপডেট করা হয়েছে!");
+            }).catch((err) => {
+                alert("❌ স্ট্যাটাস পরিবর্তনে সমস্যা হয়েছে!");
+            });
         }
     </script>
 </body>

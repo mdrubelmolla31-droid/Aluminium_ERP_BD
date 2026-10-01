@@ -13,9 +13,10 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
 
-    <!-- FIREBASE SDKs (COMPAT MODULES FOR REALTIME DATABASE) -->
+    <!-- FIREBASE SDKs (COMPAT MODULES FOR REALTIME DATABASE & AUTH) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -112,20 +113,37 @@
                 অ্যাপ ব্যবহার করতে ভেরিফিকেশন সম্পন্ন করুন!
             </p>
 
-            <!-- REGISTRATION FORM -->
+            <!-- 🌟 REGISTRATION FORM WITH OTP SYSTEM (OVERWRITE PROTECTED) 🌟 -->
             <div id="registrationBox" style="display:none; text-align:left; margin-top:15px;">
-                <label style="color:#9ca3af;font-size:12px;">আপনার পূর্ণ নাম:</label>
-                <input type="text" id="regName" class="lock-input" placeholder="যেমন: মোঃ রহিম" style="margin-bottom:10px;">
                 
-                <label style="color:#9ca3af;font-size:12px;">মোবাইল নম্বর (আইডি হিসেবে ব্যবহার হবে):</label>
-                <input type="tel" id="regMobile" class="lock-input" placeholder="যেমন: 01711000000" style="margin-bottom:10px;">
+                <!-- Step 1: Info Input -->
+                <div id="step1Info">
+                    <label style="color:#9ca3af;font-size:12px;">আপনার পূর্ণ নাম:</label>
+                    <input type="text" id="regName" class="lock-input" placeholder="যেমন: মোঃ রহিম" style="margin-bottom:10px;">
+                    
+                    <label style="color:#9ca3af;font-size:12px;">মোবাইল নম্বর (১১ ডিজিট):</label>
+                    <input type="tel" id="regMobile" class="lock-input" placeholder="যেমন: 01711000000" style="margin-bottom:10px;">
+                    
+                    <label style="color:#9ca3af;font-size:12px;">কোম্পানির নাম (ঐচ্ছিক):</label>
+                    <input type="text" id="regCompany" class="lock-input" placeholder="যেমন: মেসার্স থাই অ্যালুমিনিয়াম" style="margin-bottom:15px;">
+                    
+                    <button class="btn-unlock" id="btnSendOtp" onclick="sendOtpForRegistration()" style="background:#3b82f6;">
+                        📲 OTP পাঠান
+                    </button>
+                </div>
+
+                <!-- Step 2: OTP Verification -->
+                <div id="step2Otp" style="display:none;">
+                    <label style="color:#10b981;font-size:13px;font-weight:bold;display:block;text-align:center;margin-bottom:15px;">আপনার মোবাইলে ৬ ডিজিটের কোড পাঠানো হয়েছে</label>
+                    <input type="number" id="regOtpCode" class="lock-input" placeholder="0 0 0 0 0 0" style="margin-bottom:15px; text-align:center; letter-spacing:8px; font-size:20px; font-weight:bold;">
+                    
+                    <button class="btn-unlock" id="btnVerifyOtp" onclick="verifyOtpAndSaveData()" style="background:#10b981;">
+                        🚀 ভেরিফাই ও রেজিস্ট্রেশন করুন
+                    </button>
+                </div>
                 
-                <label style="color:#9ca3af;font-size:12px;">কোম্পানির নাম (ঐচ্ছিক):</label>
-                <input type="text" id="regCompany" class="lock-input" placeholder="যেমন: মেসার্স থাই অ্যালুমিনিয়াম" style="margin-bottom:15px;">
-                
-                <button class="btn-unlock" onclick="registerUserToFirebase()" style="background:#10b981;">
-                    🚀 রেজিস্ট্রেশন করুন (৭ দিনের ট্রায়াল চালু)
-                </button>
+                <!-- reCAPTCHA Container -->
+                <div id="recaptcha-container"></div>
             </div>
 
             <!-- LOCKED ACCESS DETAILS -->
@@ -314,6 +332,9 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+        const auth = firebase.auth(); // OTP Auth
+        auth.useDeviceLanguage();
+
         const ADMIN_PHONE = "8801676474412";
         const SEC_RESET_VERSION = "FIREBASE_V5_STRICT_PURGE_RESET";
 
@@ -459,7 +480,6 @@
                     badge.style.background = "rgba(251,191,36,0.1)";
                     badge.style.borderColor = "rgba(251,191,36,0.3)";
                     
-                    // মেনুতে এডমিন বাটন দেখানো হচ্ছে
                     document.getElementById("adminPanelBtn").style.display = "block"; 
                     return;
                 } else {
@@ -514,10 +534,23 @@
             });
         }
 
-        function registerUserToFirebase() {
+        /* ============================================================
+           📲 7. FIREBASE OTP & DUPLICATE PROTECTION REGISTRATION
+           ============================================================ */
+        let confirmationResultObj = null;
+
+        function initRecaptcha() {
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                    'size': 'invisible',
+                    'callback': (response) => {}
+                });
+            }
+        }
+
+        function sendOtpForRegistration() {
             const name = document.getElementById("regName").value.trim();
             const mobile = document.getElementById("regMobile").value.trim();
-            const company = document.getElementById("regCompany").value.trim();
 
             if (!name || !mobile || mobile.length < 11) {
                 alert("দয়া করে সঠিক নাম এবং ১১ ডিজিটের মোবাইল নম্বর দিন!");
@@ -525,28 +558,97 @@
             }
 
             const cleanMobile = mobile.replace(/[^0-9]/g, "");
+            const formattedMobile = "+88" + cleanMobile;
+            const userRef = db.ref("users/" + cleanMobile);
 
-            const userObject = {
-                name: name,
-                mobile: cleanMobile,
-                company: company || "N/A",
-                device_id: currentDeviceId,
-                device_info: navigator.userAgent,
-                registered_at: Date.now(),
-                status: "trial",
-                role: "user"
-            };
+            const btn = document.getElementById("btnSendOtp");
+            btn.innerText = "⏳ ডাটাবেস চেক করা হচ্ছে...";
+            btn.disabled = true;
 
-            db.ref("users/" + cleanMobile).set(userObject).then(() => {
-                localStorage.setItem("app_user_fullname", name);
-                localStorage.setItem("app_user_mobile", cleanMobile);
-                localStorage.setItem("app_user_company", company);
-                loadUserData();
-                alert("✅ রেজিস্ট্রেশন সফল হয়েছে! ৭ দিনের ট্রায়াল চালু হলো।", function() {
-                    startCloudVerification();
-                });
+            // 🌟 ওভাররাইট প্রটেকশন: আগে চেক করবে এই নাম্বার ডাটাবেজে আছে কি না
+            userRef.once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    alert("❌ এই মোবাইল নম্বরটি দিয়ে ইতিমধ্যে রেজিস্ট্রেশন করা হয়েছে! দয়া করে অন্য নম্বর ব্যবহার করুন।");
+                    btn.innerText = "📲 OTP পাঠান";
+                    btn.disabled = false;
+                    return;
+                }
+
+                btn.innerText = "⏳ OTP পাঠানো হচ্ছে...";
+                initRecaptcha();
+                const appVerifier = window.recaptchaVerifier;
+
+                auth.signInWithPhoneNumber(formattedMobile, appVerifier)
+                    .then((confirmationResult) => {
+                        confirmationResultObj = confirmationResult;
+                        document.getElementById("step1Info").style.display = "none";
+                        document.getElementById("step2Otp").style.display = "block";
+                        alert("✅ আপনার মোবাইলে ৬ ডিজিটের OTP কোড পাঠানো হয়েছে।");
+                    }).catch((error) => {
+                        console.error(error);
+                        alert("❌ OTP পাঠাতে সমস্যা হয়েছে! দয়া করে আবার চেষ্টা করুন।");
+                        btn.innerText = "📲 OTP পাঠান";
+                        btn.disabled = false;
+                        if(window.recaptchaVerifier) {
+                            window.recaptchaVerifier.render().then(function(widgetId) {
+                                grecaptcha.reset(widgetId);
+                            });
+                        }
+                    });
+
             }).catch((err) => {
-                alert("রেজিস্ট্রেশন ব্যর্থ হয়েছে! পরে চেষ্টা করুন।");
+                alert("ডাটাবেস চেক করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।");
+                btn.innerText = "📲 OTP পাঠান";
+                btn.disabled = false;
+            });
+        }
+
+        function verifyOtpAndSaveData() {
+            const otpCode = document.getElementById("regOtpCode").value.trim();
+            if (otpCode.length !== 6) {
+                alert("দয়া করে সঠিক ৬ ডিজিটের কোড দিন।");
+                return;
+            }
+
+            const btn = document.getElementById("btnVerifyOtp");
+            btn.innerText = "⏳ ভেরিফাই করা হচ্ছে...";
+            btn.disabled = true;
+
+            confirmationResultObj.confirm(otpCode).then((result) => {
+                const name = document.getElementById("regName").value.trim();
+                const mobile = document.getElementById("regMobile").value.trim();
+                const company = document.getElementById("regCompany").value.trim();
+                const cleanMobile = mobile.replace(/[^0-9]/g, "");
+
+                const userObject = {
+                    name: name,
+                    mobile: cleanMobile,
+                    company: company || "N/A",
+                    device_id: currentDeviceId,
+                    device_info: navigator.userAgent,
+                    registered_at: Date.now(),
+                    status: "trial",
+                    role: "user"
+                };
+
+                db.ref("users/" + cleanMobile).set(userObject).then(() => {
+                    localStorage.setItem("app_user_fullname", name);
+                    localStorage.setItem("app_user_mobile", cleanMobile);
+                    localStorage.setItem("app_user_company", company);
+                    loadUserData();
+                    alert("✅ রেজিস্ট্রেশন সফল হয়েছে! ৭ দিনের ট্রায়াল চালু হলো।", function() {
+                        startCloudVerification();
+                    });
+                }).catch((err) => {
+                    alert("রেজিস্ট্রেশন ডেটা সেভ করতে ব্যর্থ হয়েছে!");
+                    btn.innerText = "🚀 ভেরিফাই ও রেজিস্ট্রেশন করুন";
+                    btn.disabled = false;
+                });
+
+            }).catch((error) => {
+                alert("❌ OTP কোড ভুল হয়েছে! আবার চেষ্টা করুন।");
+                btn.innerText = "🚀 ভেরিফাই ও রেজিস্ট্রেশন করুন";
+                btn.disabled = false;
             });
         }
 
@@ -557,7 +659,7 @@
         }
 
         /* ============================================================
-           ⚙️ 7. APP UI & USER PROFILE MANAGEMENT
+           ⚙️ 8. APP UI & USER PROFILE MANAGEMENT
            ============================================================ */
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
@@ -630,7 +732,7 @@
         }
 
         /* ============================================================
-           ☁️ 8. LOCAL BACKUP & RESTORE
+           ☁️ 9. LOCAL BACKUP & RESTORE
            ============================================================ */
         function collectERPData() {
             const allData = {};
@@ -695,17 +797,14 @@
 
 
         /* ============================================================
-           👑 9. SECURE FIREBASE-BASED ADMIN PANEL (2-FACTOR AUTH)
+           👑 10. SECURE FIREBASE-BASED ADMIN PANEL (2-FACTOR AUTH)
            ============================================================ */
-
-        // ১. সাইডবার থেকে এডমিন প্যানেল ক্লিক করলে আগে পিন চাইবে
         function promptAdminPin() {
-            toggleSidebar(); // মেনু বন্ধ হবে
-            document.getElementById("adminPinInput").value = ""; // আগের পিন মুছে ফেলবে
-            document.getElementById("adminPinModal").style.display = "flex"; // পিন বক্স ওপেন হবে
+            toggleSidebar();
+            document.getElementById("adminPinInput").value = "";
+            document.getElementById("adminPinModal").style.display = "flex";
         }
 
-        // ২. পিন ভেরিফাই করার সিস্টেম
         function verifyAdminPin() {
             const enteredPin = document.getElementById("adminPinInput").value;
             if (!enteredPin) {
@@ -713,18 +812,14 @@
                 return;
             }
 
-            // ফায়ারবেস থেকে রিয়েল-টাইম পিন চেক করা হচ্ছে
             db.ref("admin_pin").once('value').then((snapshot) => {
                 const realPin = snapshot.val();
-                
-                // যদি আপনি ফায়ারবেসে admin_pin সেট না করে থাকেন, তবে ডিফল্ট পিন হবে 12345
                 const finalPin = realPin ? realPin.toString() : "683294"; 
 
                 if (enteredPin === finalPin) {
-                    // পিন মিলে গেলে পিন বক্স বন্ধ করে এডমিন প্যানেল খুলবে
                     document.getElementById("adminPinModal").style.display = "none";
                     document.getElementById("adminPanelModal").style.display = "flex";
-                    loadAdminUserList(); // ইউজার লিস্ট লোড করবে
+                    loadAdminUserList(); 
                 } else {
                     alert("❌ ভুল পিন! আপনার প্রবেশ নিষেধ।");
                 }
@@ -733,7 +828,6 @@
             });
         }
 
-        // ৩. ক্লাউড থেকে ইউজারদের ডাটা লোড করে সুন্দর বক্সে দেখাবে
         function loadAdminUserList() {
             const container = document.getElementById("adminUserList");
             if(!container) return;
@@ -765,7 +859,6 @@
                             </span>
                         </div>
                         
-                        <!-- 🌟 নতুন আপডেট সিস্টেম: বক্স থেকে স্ট্যাটাস বেছে নিয়ে 'আপডেট' এ ক্লিক করতে হবে -->
                         <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
                             <select id="statusSelect_${m}" style="flex:1; padding:8px; border-radius:6px; background:#0f172a; color:#fff; border:1px solid #3b82f6; font-size:13px; outline:none;">
                                 <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (অনুমোদন)</option>
@@ -781,14 +874,12 @@
             });
         }
 
-        // ৪. বাটন চাপলে বক্স থেকে স্ট্যাটাস নিয়ে ডাটাবেজে সেভ করার ফাংশন
         function updateStatusFromSelect(mobile) {
             const newStatus = document.getElementById("statusSelect_" + mobile).value;
             changeUserStatus(mobile, newStatus);
         }
 
         function changeUserStatus(mobile, newStatus) {
-            // .update ব্যবহার করা হয়েছে যাতে ইউজারের নাম/ডেটা কখনো মুছে না যায়!
             db.ref("users/" + mobile).update({ status: newStatus }).then(() => {
                 alert("✅ ইউজারের স্ট্যাটাস সফলভাবে আপডেট করা হয়েছে!");
             }).catch((err) => {

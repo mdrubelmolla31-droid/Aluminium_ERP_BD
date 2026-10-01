@@ -113,7 +113,7 @@
                 অ্যাপ ব্যবহার করতে ভেরিফিকেশন সম্পন্ন করুন!
             </p>
 
-            <!-- 🌟 REGISTRATION FORM WITH OTP SYSTEM (OVERWRITE PROTECTED) 🌟 -->
+            <!-- 🌟 REGISTRATION FORM WITH OTP SYSTEM (STRICT ONE TIME) 🌟 -->
             <div id="registrationBox" style="display:none; text-align:left; margin-top:15px;">
                 
                 <!-- Step 1: Info Input -->
@@ -128,7 +128,7 @@
                     <input type="text" id="regCompany" class="lock-input" placeholder="যেমন: মেসার্স থাই অ্যালুমিনিয়াম" style="margin-bottom:15px;">
                     
                     <button class="btn-unlock" id="btnSendOtp" onclick="sendOtpForRegistration()" style="background:#3b82f6;">
-                        📲 OTP পাঠান
+                        📲 OTP পাঠান / এক্সেস চেক করুন
                     </button>
                 </div>
 
@@ -146,7 +146,7 @@
                 <div id="recaptcha-container"></div>
             </div>
 
-            <!-- LOCKED ACCESS DETAILS -->
+            <!-- LOCKED ACCESS DETAILS (SHOWN WHEN TRIAL ENDS OR BLOCKED) -->
             <div id="lockedDetailsBox" style="display:none;">
                 <div class="device-id-box" id="deviceIdDisplay">Device ID Generating...</div>
                 <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">
@@ -209,7 +209,7 @@
         </div>
     </div>
 
-    <!-- 🌟 ADMIN PIN VERIFICATION MODAL (HIGH SECURITY) 🌟 -->
+    <!-- 🌟 ADMIN PIN VERIFICATION MODAL (HIGH SECURITY SHA-256) 🌟 -->
     <div class="lock-overlay" id="adminPinModal" style="display:none;z-index:10002;">
         <div class="lock-box" style="max-width:300px; text-align:center;">
             <div style="font-size: 35px; margin-bottom: 10px;">🔐</div>
@@ -282,7 +282,8 @@
                 <h3 style="color:#fff;">Menu</h3>
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding:4px 10px;">✕</button>
             </div>
-            <!-- 🌟 এডমিন প্যানেল বাটন (শুধু এডমিন দেখতে পাবে, ক্লিক করলে পিন চাইবে) 🌟 -->
+            
+            <!-- 🌟 এডমিন প্যানেল বাটন -->
             <a href="#" class="sidebar-menu-item" id="adminPanelBtn" style="display:none; background:#fbbf24; color:#000; box-shadow: 0 0 10px rgba(251,191,36,0.3);" onclick="promptAdminPin();return false;">👑 Admin Panel</a>
             
             <a href="#" class="sidebar-menu-item" onclick="openProfileSettings();return false;">👤 My Profile</a>
@@ -317,7 +318,7 @@
         }
 
         /* ============================================================
-           🔥 2. FIREBASE INITIALIZATION WITH YOUR CREDENTIALS
+           🔥 2. FIREBASE INITIALIZATION
            ============================================================ */
         const firebaseConfig = {
           apiKey: "AIzaSyDhH7r4Q6CrgYqgOzkqSMalA0lrU49Dz70",
@@ -332,14 +333,14 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const auth = firebase.auth(); // OTP Auth
+        const auth = firebase.auth(); 
         auth.useDeviceLanguage();
 
         const ADMIN_PHONE = "8801676474412";
         const SEC_RESET_VERSION = "FIREBASE_V5_STRICT_PURGE_RESET";
 
         /* ============================================================
-           🚫 3. DEVTOOLS & RIGHT-CLICK BLOCKER
+           🚫 3. DEVTOOLS & RIGHT-CLICK BLOCKER (SECURITY)
            ============================================================ */
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         document.addEventListener('keydown', function(e) {
@@ -351,7 +352,7 @@
         });
 
         /* ============================================================
-           🔥 4. AGGRESSIVE SERVICE WORKER KILLER & HARD PURGE
+           🔥 4. SERVICE WORKER KILLER & HARD PURGE
            ============================================================ */
         (async function() {
             let wasCleaned = false;
@@ -364,7 +365,6 @@
                     }
                 } catch(e) {}
             }
-
             if ('caches' in window) {
                 try {
                     const cacheNames = await caches.keys();
@@ -374,7 +374,6 @@
                     }
                 } catch(e) {}
             }
-
             if (localStorage.getItem("app_firebase_sec_ver") !== SEC_RESET_VERSION) {
                 localStorage.removeItem("_secure_license_token");
                 localStorage.removeItem("app_permanently_unlocked");
@@ -383,7 +382,6 @@
                 localStorage.removeItem("erp_strict_install_time");
                 localStorage.setItem("app_firebase_sec_ver", SEC_RESET_VERSION);
             }
-
             const HARD_RELOAD_KEY = "firebase_hard_purged_v50";
             if (wasCleaned && !sessionStorage.getItem(HARD_RELOAD_KEY)) {
                 sessionStorage.setItem(HARD_RELOAD_KEY, "true");
@@ -415,11 +413,10 @@
             }
             return "ALU-HW-" + Math.abs(hash).toString(16).toUpperCase().padStart(8, "0");
         }
-
         const currentDeviceId = generateDeviceFingerprint();
 
         /* ============================================================
-           ☁ 6. REALTIME CLOUD SECURITY ENGINE
+           ☁ 6. REALTIME CLOUD SECURITY ENGINE (TRIAL/BLOCK LOCKOUT)
            ============================================================ */
         let activeFirebaseListener = null;
 
@@ -432,12 +429,13 @@
 
             document.getElementById("deviceIdDisplay").innerText = "Device ID: " + currentDeviceId;
 
+            // যদি লোকাল স্টোরেজে নাম্বার না থাকে, রেজিস্ট্রেশন বক্স দেখাবে
             if (!savedMobile) {
                 lockScreen.style.display = "flex";
                 regBox.style.display = "block";
                 lockedBox.style.display = "none";
                 document.getElementById("lockTitle").innerText = "নতুন রেজিস্ট্রেশন করুন";
-                document.getElementById("lockSub").innerText = "আপনার নাম ও নম্বর দিয়ে অ্যাপে যুক্ত হন";
+                document.getElementById("lockSub").innerText = "প্রথমবার ট্রায়াল নিতে আপনার সঠিক তথ্য দিন";
                 badge.innerText = "🔒 Registration Needed";
                 badge.style.color = "#ef4444";
                 return;
@@ -455,31 +453,31 @@
                     lockScreen.style.display = "flex";
                     regBox.style.display = "block";
                     lockedBox.style.display = "none";
-                    document.getElementById("lockTitle").innerText = "রেজিস্ট্রেশন পাওয়া যায়নি!";
+                    document.getElementById("lockTitle").innerText = "তথ্য পাওয়া যায়নি!";
                     document.getElementById("lockSub").innerText = "অনুগ্রহ করে আবার নাম ও মোবাইল নম্বর দিয়ে সাবমিট করুন।";
                     return;
                 }
 
+                // ডিভাইস পরিবর্তন হলে ব্লক করে এডমিনকে মেসেজ দিতে বলবে
                 if (userData.device_id && userData.device_id !== currentDeviceId && userData.role !== "admin") {
                     lockScreen.style.display = "flex";
                     regBox.style.display = "none";
                     lockedBox.style.display = "block";
                     document.getElementById("lockTitle").innerText = "নতুন ডিভাইস শনাক্ত হয়েছে!";
-                    document.getElementById("lockSub").innerText = "এই অ্যাকাউন্টটি অন্য ডিভাইসে নিবন্ধিত। এডমিনের অনুমতি প্রয়োজন।";
+                    document.getElementById("lockSub").innerText = "আপনার অ্যাকাউন্টটি অন্য ডিভাইসে নিবন্ধিত। এডমিনের অনুমতি প্রয়োজন।";
                     badge.innerText = "🔒 Device Mismatch";
                     badge.style.color = "#ef4444";
-                    updateWhatsAppLink("Hello Rubel Bhai, my account (" + cleanMobile + ") is logged in from a new device ID: " + currentDeviceId + ". Please approve.");
+                    updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার অ্যাকাউন্ট (" + cleanMobile + ") অন্য ডিভাইসে লগ-ইন করা। নতুন Device ID: " + currentDeviceId + ". দয়া করে অ্যাপ্রুভ করে দিন।");
                     return;
                 }
 
-                // 🌟 এডমিন মাস্টার এক্সেস চেক 🌟
+                // 🌟 এডমিন মাস্টার এক্সেস 🌟
                 if (userData.role === "admin") {
                     lockScreen.style.display = "none";
                     badge.innerText = "👑 Admin Master Active";
                     badge.style.color = "#fbbf24";
                     badge.style.background = "rgba(251,191,36,0.1)";
                     badge.style.borderColor = "rgba(251,191,36,0.3)";
-                    
                     document.getElementById("adminPanelBtn").style.display = "block"; 
                     return;
                 } else {
@@ -500,10 +498,10 @@
                     regBox.style.display = "none";
                     lockedBox.style.display = "block";
                     document.getElementById("lockTitle").innerText = "লাইসেন্স বাতিল / ব্লক করা হয়েছে!";
-                    document.getElementById("lockSub").innerText = "আপনার এই অ্যাক্সেসটি এডমিন দ্বারা ব্লক করা হয়েছে।";
+                    document.getElementById("lockSub").innerText = "এই অ্যাক্সেসটি এডমিন দ্বারা ব্লক করা হয়েছে। আনব্লক করতে যোগাযোগ করুন।";
                     badge.innerText = "🔒 Blocked";
                     badge.style.color = "#ef4444";
-                    updateWhatsAppLink("Hello Rubel Bhai, my account (" + cleanMobile + ") is blocked. Device ID: " + currentDeviceId + ". Please unblock.");
+                    updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার অ্যাকাউন্ট (" + cleanMobile + ") ব্লক দেখাচ্ছে। Device ID: " + currentDeviceId + ". দয়া করে চেক করুন।");
                     return;
                 }
 
@@ -512,14 +510,15 @@
                     const daysPassed = (Date.now() - regTimestamp) / (1000 * 60 * 60 * 24);
 
                     if (daysPassed > 7) {
+                        // ট্রায়াল শেষ হলে আর OTP ভেরিফিকেশন চাইবে না, সরাসরি লক বক্স এবং WhatsApp লিঙ্ক দেখাবে
                         lockScreen.style.display = "flex";
-                        regBox.style.display = "none";
+                        regBox.style.display = "none"; 
                         lockedBox.style.display = "block";
-                        document.getElementById("lockTitle").innerText = "৭ দিনের ট্রায়াল শেষ!";
-                        document.getElementById("lockSub").innerText = "স্থায়ী অ্যাক্সেস পেতে এডমিনের সাথে যোগাযোগ করুন।";
+                        document.getElementById("lockTitle").innerText = "৭ দিনের ফ্রি ট্রায়াল শেষ!";
+                        document.getElementById("lockSub").innerText = "স্থায়ী অ্যাক্সেস (Premium) পেতে সরাসরি এডমিনের সাথে যোগাযোগ করুন। পেমেন্ট সম্পন্ন হলে আপনার আইডি অটোমেটিক আনলক হয়ে যাবে।";
                         badge.innerText = "🔒 Trial Ended";
                         badge.style.color = "#ef4444";
-                        updateWhatsAppLink("Hello Rubel Bhai, my 7 days trial has ended. Mobile: " + cleanMobile + ", Device ID: " + currentDeviceId + ". Please approve lifetime license.");
+                        updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার ৭ দিনের ট্রায়াল শেষ। আমি লাইফটাইম লাইসেন্স নিতে চাই। মোবাইল: " + cleanMobile + ", Device ID: " + currentDeviceId + ". পেমেন্ট প্রসেস জানান।");
                     } else {
                         lockScreen.style.display = "none";
                         const daysLeft = Math.max(1, Math.ceil(7 - daysPassed));
@@ -535,7 +534,7 @@
         }
 
         /* ============================================================
-           📲 7. FIREBASE OTP & DUPLICATE PROTECTION REGISTRATION
+           📲 7. FIREBASE OTP & SMART AUTO-RECOVERY SYSTEM
            ============================================================ */
         let confirmationResultObj = null;
 
@@ -565,15 +564,29 @@
             btn.innerText = "⏳ ডাটাবেস চেক করা হচ্ছে...";
             btn.disabled = true;
 
-            // 🌟 ওভাররাইট প্রটেকশন: আগে চেক করবে এই নাম্বার ডাটাবেজে আছে কি না
+            // 🌟 স্মার্ট ওভাররাইট এবং অটো-লগইন প্রোটেকশন
             userRef.once('value').then((snapshot) => {
                 if (snapshot.exists()) {
-                    alert("❌ এই মোবাইল নম্বরটি দিয়ে ইতিমধ্যে রেজিস্ট্রেশন করা হয়েছে! দয়া করে অন্য নম্বর ব্যবহার করুন।");
-                    btn.innerText = "📲 OTP পাঠান";
-                    btn.disabled = false;
-                    return;
+                    const existingData = snapshot.val();
+                    
+                    // যদি ইউজার অ্যাপ ডিলিট করে আবার নামায়, কিন্তু ডিভাইস একই থাকে, তাহলে বিনা OTP তে লগ-ইন করিয়ে দিবে
+                    if (existingData.device_id === currentDeviceId) {
+                        localStorage.setItem("app_user_fullname", existingData.name);
+                        localStorage.setItem("app_user_mobile", cleanMobile);
+                        localStorage.setItem("app_user_company", existingData.company || "");
+                        alert("✅ আপনার পূর্বের অ্যাকাউন্ট সফলভাবে রিস্টোর হয়েছে!", function() {
+                            location.reload(); // রিলোড নিলে startCloudVerification অটো লক/আনলক করবে
+                        });
+                        return;
+                    } else {
+                        alert("❌ এই মোবাইল নম্বরটি ইতিমধ্যে অন্য ডিভাইসে রেজিস্টার করা! দয়া করে আনলক করতে এডমিনের সাথে যোগাযোগ করুন।");
+                        btn.innerText = "📲 OTP পাঠান / এক্সেস চেক করুন";
+                        btn.disabled = false;
+                        return;
+                    }
                 }
 
+                // যদি ডাটাবেজে না থাকে, তবেই শুধু OTP পাঠাবে (প্রথমবার ট্রায়ালের জন্য)
                 btn.innerText = "⏳ OTP পাঠানো হচ্ছে...";
                 initRecaptcha();
                 const appVerifier = window.recaptchaVerifier;
@@ -587,7 +600,7 @@
                     }).catch((error) => {
                         console.error(error);
                         alert("❌ OTP পাঠাতে সমস্যা হয়েছে! দয়া করে আবার চেষ্টা করুন।");
-                        btn.innerText = "📲 OTP পাঠান";
+                        btn.innerText = "📲 OTP পাঠান / এক্সেস চেক করুন";
                         btn.disabled = false;
                         if(window.recaptchaVerifier) {
                             window.recaptchaVerifier.render().then(function(widgetId) {
@@ -598,7 +611,7 @@
 
             }).catch((err) => {
                 alert("ডাটাবেস চেক করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।");
-                btn.innerText = "📲 OTP পাঠান";
+                btn.innerText = "📲 OTP পাঠান / এক্সেস চেক করুন";
                 btn.disabled = false;
             });
         }
@@ -636,7 +649,7 @@
                     localStorage.setItem("app_user_mobile", cleanMobile);
                     localStorage.setItem("app_user_company", company);
                     loadUserData();
-                    alert("✅ রেজিস্ট্রেশন সফল হয়েছে! ৭ দিনের ট্রায়াল চালু হলো।", function() {
+                    alert("✅ রেজিস্ট্রেশন সফল হয়েছে! ৭ দিনের ফ্রি ট্রায়াল চালু হলো।", function() {
                         startCloudVerification();
                     });
                 }).catch((err) => {
@@ -790,14 +803,13 @@
             toggleSidebar();
             document.getElementById("updateModal").style.display = "flex";
         }
-
         function closeUpdateModal() {
             document.getElementById("updateModal").style.display = "none";
         }
 
 
         /* ============================================================
-           👑 10. SECURE FIREBASE-BASED ADMIN PANEL (2-FACTOR AUTH)
+           👑 10. SECURE HASH-BASED ADMIN PIN VERIFICATION
            ============================================================ */
         function promptAdminPin() {
             toggleSidebar();
@@ -805,18 +817,30 @@
             document.getElementById("adminPinModal").style.display = "flex";
         }
 
-        function verifyAdminPin() {
+        // ব্রাউজারের ক্রিপ্টো লাইব্রেরি দিয়ে SHA-256 হ্যাশ জেনারেট করার ফাংশন
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        async function verifyAdminPin() {
             const enteredPin = document.getElementById("adminPinInput").value;
             if (!enteredPin) {
                 alert("দয়া করে পিন নম্বর দিন!");
                 return;
             }
 
-            db.ref("admin_pin").once('value').then((snapshot) => {
-                const realPin = snapshot.val();
-                const finalPin = realPin ? realPin.toString() : "683294"; 
+            // ইউজারের দেওয়া পিনের SHA-256 হ্যাশ তৈরি
+            const enteredPinHash = await sha256(enteredPin);
 
-                if (enteredPin === finalPin) {
+            // ফায়ারবেস থেকে আসল হ্যাশড পিনটি চেক করা (এখানে কোনো ডামি বা ডিফল্ট পিন নেই)
+            db.ref("admin_pin").once('value').then(async (snapshot) => {
+                const realPinHash = snapshot.val();
+                
+                if (realPinHash && enteredPinHash === realPinHash.toString().trim()) {
                     document.getElementById("adminPinModal").style.display = "none";
                     document.getElementById("adminPanelModal").style.display = "flex";
                     loadAdminUserList(); 
@@ -824,7 +848,7 @@
                     alert("❌ ভুল পিন! আপনার প্রবেশ নিষেধ।");
                 }
             }).catch(err => {
-                alert("পিন ভেরিফিকেশনে সমস্যা হয়েছে! ইন্টারনেট চেক করুন।");
+                alert("❌ সংযোগের সমস্যা বা ডাটাবেজ থেকে পিন যাচাই করা যায়নি!");
             });
         }
 

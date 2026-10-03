@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FORCE NO-CACHE META TAGS -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="theme-color" content="#0b0f19">
-    <title>Aluminium ERP BD v6.3 (Secured)</title>
+    <title>Aluminium ERP BD v5.0 (Cloud Secured)</title>
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
 
-    <!-- Firebase SDKs -->
+    <!-- FIREBASE SDKs (COMPAT MODULES FOR REALTIME DATABASE & AUTH) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -17,13 +21,10 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; }
-        
         #galaxy-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; }
         .shooting-star { position: absolute; width: 2px; height: 60px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1)); border-radius: 50%; filter: drop-shadow(0 0 6px #60a5fa); opacity: 0; animation: shooting 4s linear infinite; }
         .shooting-star::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6; }
         @keyframes shooting { 0% { transform: translateY(-50px) translateX(50px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 35% { transform: translateY(300px) translateX(-300px) rotate(45deg); opacity: 0; } 100% { opacity: 0; } }
-        
-        /* Splash Screen */
         #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0b0f19; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; transition: opacity 0.4s ease; }
         .splash-profile-box { width: 90px; height: 90px; background: rgba(0, 0, 0, 0.5); border: 2px solid #3b82f6; border-radius: 22px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
         .alu-window-icon { width: 44px; height: 44px; border: 2px solid #60a5fa; border-radius: 6px; position: relative; }
@@ -32,15 +33,14 @@
         .splash-title { color: #ffffff; font-size: 22px; font-weight: bold; margin-bottom: 6px; }
         .splash-sub { color: #60a5fa; font-size: 13px; font-weight: 600; }
         .splash-loader-container { width: 180px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 30px; overflow: hidden; }
-        .splash-loader-bar { width: 0%; height: 100%; background: #fbbf24; animation: loadBar 2s infinite; }
-        @keyframes loadBar { 0% { width: 0%; margin-left: 0; } 50% { width: 100%; margin-left: 0; } 100% { width: 0%; margin-left: 100%; } }
-
-        /* Dashboard Container */
-        .dashboard-container { width: 100%; max-width: 1200px; position: relative; z-index: 1; padding-bottom: 30px; display: none; }
+        .splash-loader-bar { width: 0%; height: 100%; background: #fbbf24; animation: loadBar 2s forwards; }
+        @keyframes loadBar { 0% { width: 0%; } 60% { width: 80%; } 100% { width: 100%; } }
+        .dashboard-container { width: 100%; max-width: 1200px; position: relative; z-index: 1; padding-bottom: 30px; }
         .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 8px 0; }
         .header-title { font-size: 20px; font-weight: bold; color: #ffffff; text-align: center; flex-grow: 1; }
         .icon-btn { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 20px; }
-        
+        .header-logo-box { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; background: #1e293b; overflow: hidden; flex-shrink: 0; }
+        .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
         .user-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
         .user-info { flex: 1; }
         .user-title { color: #fbbf24; font-size: 18px; font-weight: bold; margin-bottom: 4px; }
@@ -48,20 +48,35 @@
         .status-badge { display: inline-block; background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
         .avatar-container { width: 60px; height: 60px; flex-shrink: 0; }
         .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #fbbf24; background: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffffff; }
-
         .grid-menu { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
         .menu-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .menu-card:active { transform: scale(0.96); border-color: #fbbf24; }
         .menu-icon { font-size: 34px; margin-bottom: 12px; }
         .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
-
-        .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b0f19; display: flex; justify-content: center; align-items: center; z-index: 999990; padding: 20px; overflow-y: auto; }
-        .lock-box { background: #111827; border: 1px solid #1e293b; padding: 25px 20px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; margin: auto; }
-        .lock-input { width: 100%; padding: 10px; margin: 4px 0 10px 0; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 13px; }
+        @media (min-width:768px) { .grid-menu { grid-template-columns: repeat(4,1fr); gap: 20px; } }
+        @media (min-width:1024px) { .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; } }
+        .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,15,25,0.98); display: flex; justify-content: center; align-items: center; z-index: 9999999; padding: 20px; }
+        .lock-box { background: #111827; border: 1px solid #1e293b; padding: 30px 25px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; }
+        .device-id-box { background: #1e293b; border: 1px dashed #3b82f6; color: #fbbf24; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 14px; font-weight: bold; margin: 15px 0; word-break: break-all; }
+        .btn-whatsapp { display: block; width: 100%; padding: 12px; background: #25d366; color: #fff; border: none; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 14px; margin-bottom: 15px; text-align: center; }
+        .lock-input { width: 100%; padding: 12px; margin: 8px 0 15px 0; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 14px; }
         .btn-unlock { width: 100%; padding: 12px; background: #1d4ed8; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
-        
-        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 999995; }
+        .dev-branding-footer { color: #fbbf24; font-size: 12px; font-weight: bold; margin-top: 20px; padding: 10px; background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); border-radius: 8px; }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 1000; }
         .sidebar-content { background: #111827; width: 300px; height: 100%; padding: 20px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 10px; }
         .sidebar-menu-item { padding: 14px; color: #e5e7eb; text-decoration: none; border-radius: 8px; margin-bottom: 12px; background: #1e293b; display: block; font-size: 15px; font-weight: bold; text-align: center; }
+        .support-btn { background: #059669; color: white; }
+        .update-btn { background: #3b82f6; color: white; }
+        .drive-box { margin-top: 22px; padding: 15px; border-radius: 14px; background: #0f172a; border: 1px solid #334155; }
+        .drive-title { color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+        .drive-subtitle { color: #94a3b8; font-size: 12px; margin-bottom: 12px; }
+        .drive-status { padding: 10px; border-radius: 9px; background: #1e293b; color: #10b981; font-size: 12px; margin-bottom: 10px; text-align: center; }
+        .drive-btn-row { display: flex; gap: 8px; }
+        .drive-btn { flex: 1; border: none; border-radius: 9px; padding: 13px 7px; color: #ffffff; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .drive-backup-btn { background: #059669; }
+        .drive-restore-btn { background: #7c3aed; }
+        .drive-last-backup { color: #64748b; font-size: 11px; margin-top: 9px; text-align: center; }
     </style>
 </head>
 
@@ -73,142 +88,197 @@
         <div class="shooting-star" style="top:-10%;left:45%;animation-delay:2.8s;animation-duration:3.5s;"></div>
     </div>
 
-    <!-- স্প্ল্যাশ স্ক্রিন -->
     <div id="splash-screen">
         <div class="splash-profile-box"><div class="alu-window-icon"></div></div>
-        <div class="splash-title">Aluminium ERP BD v6.3</div>
+        <div class="splash-title">Aluminium ERP BD v5.0</div>
         <div class="splash-sub">Glass & Aluminium Manager</div>
         <div class="splash-loader-container"><div class="splash-loader-bar"></div></div>
-        <div style="color: #9ca3af; font-size: 12px; margin-top: 20px;" id="splash-text">Checking Authentication...</div>
     </div>
 
-    <!-- Custom Alert (যেকোনো এরর দেখানোর জন্য) -->
+    <!-- CUSTOM ELEGANT ALERT MODAL -->
     <div class="lock-overlay" id="customAlertModal" style="display:none; z-index:99999999;">
         <div class="lock-box" style="max-width:330px; padding:25px 20px;">
             <p id="customAlertMsg" style="color:#ffffff; font-size:14px; margin-bottom:20px; line-height:1.5; font-weight:600;"></p>
-            <button class="btn-unlock" onclick="closeCustomAlert()" style="background:#3b82f6; width:100%;">ঠিক আছে</button>
+            <button class="btn-unlock" onclick="closeCustomAlert()" style="background:#3b82f6; width:100%;">OK</button>
         </div>
     </div>
 
-    <!-- ইমেইল ভেরিফিকেশন স্ক্রিন -->
-    <div class="lock-overlay" id="emailVerifyOverlay" style="display:none;">
-        <div class="lock-box" style="text-align:center;">
-            <div style="font-size: 40px; margin-bottom: 10px;">✉️</div>
-            <h3 style="color:#fbbf24; font-size:18px; margin-bottom:8px;">ইমেইল ভেরিফিকেশন আবশ্যক!</h3>
-            <p style="color:#9ca3af; font-size:13px; margin-bottom:15px; line-height:1.4;">
-                আপনার জিমেইলে একটি ভেরিফিকেশন লিংক পাঠানো হয়েছে। ইনবক্স বা স্প্যাম ফোল্ডার চেক করে লিংকে ক্লিক করুন।
-            </p>
-            <div style="background:#1e293b; padding:10px; border-radius:8px; color:#60a5fa; font-size:12px; margin-bottom:15px; word-break:break-all;" id="verifyEmailTarget"></div>
-            
-            <button class="btn-unlock" onclick="checkEmailVerificationStatus()" style="background:#10b981; margin-bottom:10px;">
-                🔄 আমি ভেরিফাই করেছি, চেক করুন
-            </button>
-            <button class="btn-unlock" onclick="resendVerificationEmail()" style="background:#3b82f6; margin-bottom:10px;">
-                📤 আবার ভেরিফিকেশন লিংক পাঠান
-            </button>
-            <button class="btn-unlock" onclick="secureLogout()" style="background:#ef4444;">
-                🚪 অন্য অ্যাকাউন্টে যান / লগআউট
-            </button>
-        </div>
-    </div>
-
-    <!-- রেজিস্ট্রেশন / লগইন স্ক্রিন -->
+    <!-- SECURITY & REGISTRATION LOCK SCREEN -->
     <div class="lock-overlay" id="lockScreen" style="display:none;">
         <div class="lock-box">
-            <div style="font-size: 35px; margin-bottom: 5px;">🚀</div>
-            <h3 id="lockTitle" style="color:#ffffff;font-size:17px;">Welcome to Aluminium ERP</h3>
+            <div style="font-size: 40px; margin-bottom: 10px;">🔒</div>
+            <h3 id="lockTitle" style="color:#ffffff;font-size:18px;">Security Verification</h3>
             
-            <div style="display:flex; gap:8px; margin-top:15px; margin-bottom:10px;">
-                <button type="button" id="tabRegBtn" onclick="switchAuthTab('reg')" style="flex:1; padding:8px; background:#3b82f6; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer; font-size:12px;">নতুন রেজিস্ট্রেশন</button>
-                
-                <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" style="flex:1; padding:8px; background:#1e293b; color:#9ca3af; border:1px solid #334155; border-radius:6px; font-weight:bold; cursor:pointer; font-size:12px;">সাইন ইন (লগইন)</button>
-            </div>
+            <p id="lockSub" style="color:#ef4444;font-size:13px;margin-top:6px;font-weight:bold;">
+                অ্যাপ ব্যবহার করতে ভেরিফিকেশন সম্পন্ন করুন!
+            </p>
 
-            <!-- রেজিস্ট্রেশন ফর্ম -->
-            <div id="registrationBox" style="display:block; text-align:left; margin-top:5px;">
-                <label style="color:#9ca3af;font-size:11px;">আপনার পূর্ণ নাম:</label>
-                <input type="text" id="regName" class="lock-input" placeholder="যেমন: মোঃ আবদুল্লাহ" autocomplete="name">
+            <!-- 🌟 DIRECT REGISTRATION FORM 🌟 -->
+            <div id="registrationBox" style="display:none; text-align:left; margin-top:15px;">
+                <label style="color:#9ca3af;font-size:12px;">আপনার পূর্ণ নাম:</label>
+                <input type="text" id="regName" class="lock-input" placeholder="যেমন: মোঃ রহিম" style="margin-bottom:10px;">
                 
-                <label style="color:#9ca3af;font-size:11px;">মোবাইল নম্বর (১১ ডিজিট):</label>
-                <input type="tel" id="regMobile" class="lock-input" placeholder="যেমন: 01711000000" autocomplete="tel">
+                <label style="color:#9ca3af;font-size:12px;">মোবাইল নম্বর (১১ ডিজিট):</label>
+                <input type="tel" id="regMobile" class="lock-input" placeholder="যেমন: 01711000000" style="margin-bottom:10px;">
                 
-                <label style="color:#9ca3af;font-size:11px;">ইমেইল এড্রেস (সঠিক জিমেইল দিন):</label>
-                <!-- জিমেইল সাজেশন এর জন্য autocomplete="email" দেওয়া হলো -->
-                <input type="email" id="regEmail" class="lock-input" placeholder="example@gmail.com" autocomplete="email">
-
-                <label style="color:#9ca3af;font-size:11px;">কোম্পানির নাম (ঐচ্ছিক):</label>
-                <input type="text" id="regCompany" class="lock-input" placeholder="যেমন: মেসার্স থাই অ্যালুমিনিয়াম" autocomplete="off">
-
-                <label style="color:#fbbf24;font-size:11px;font-weight:bold;">পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর):</label>
-                <input type="password" id="regPassword" class="lock-input" placeholder="******" autocomplete="new-password">
+                <label style="color:#9ca3af;font-size:12px;">কোম্পানির নাম (ঐচ্ছিক):</label>
+                <input type="text" id="regCompany" class="lock-input" placeholder="যেমন: মেসার্স থাই অ্যালুমিনিয়াম" style="margin-bottom:15px;">
                 
-                <label style="color:#fbbf24;font-size:11px;font-weight:bold;">কনফার্ম পাসওয়ার্ড:</label>
-                <input type="password" id="regConfirmPassword" class="lock-input" placeholder="******" autocomplete="new-password">
-                
-                <button class="btn-unlock" id="btnRegister" onclick="processUserRegistration()" style="background:#10b981; margin-top:8px; padding:12px;">
+                <button class="btn-unlock" id="btnRegister" onclick="registerUserDirectly()" style="background:#10b981;">
                     🚀 রেজিস্ট্রেশন করুন
                 </button>
             </div>
 
-            <!-- লগইন ফর্ম -->
-            <div id="pinVerifyBox" style="display:none; text-align:left; margin-top:5px;">
-                <p style="color:#fbbf24; font-size:11px; margin-bottom:8px;">
-                    💡 রেজিস্ট্রেশন করা ইমেইল ও পাসওয়ার্ড দিন।
-                </p>
-                <label style="color:#9ca3af;font-size:11px;">ইমেইল:</label>
-                <!-- জিমেইল সাজেশন এর জন্য autocomplete="email" দেওয়া হলো -->
-                <input type="email" id="loginEmail" class="lock-input" placeholder="example@gmail.com" autocomplete="email">
-
-                <label style="color:#9ca3af;font-size:11px;">পাসওয়ার্ড:</label>
-                <input type="password" id="loginPassword" class="lock-input" placeholder="******" autocomplete="current-password">
-                
-                <button class="btn-unlock" id="btnVerifyPin" onclick="confirmDeviceSwitchWithPin()" style="background:#3b82f6; margin-top:8px; padding:12px;">
-                    🔓 সাইন ইন করুন
-                </button>
+            <!-- LOCKED ACCESS DETAILS (SHOWN WHEN TRIAL ENDS OR BLOCKED) -->
+            <div id="lockedDetailsBox" style="display:none;">
+                <div class="device-id-box" id="deviceIdDisplay">Device ID Generating...</div>
+                <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">
+                    📲 Send Details to Admin WhatsApp
+                </a>
             </div>
-            
-            <div style="color: #fbbf24; font-size: 11px; font-weight: bold; margin-top: 15px; padding: 8px; background: rgba(251,191,36,0.1); border-radius: 8px; text-align:center;">RM COMPUTER, THAI ALUMINIUM, BY RUBEL</div>
+
+            <div class="dev-branding-footer">RM COMPUTER, THAI ALUMINIUM, BY RUBEL</div>
         </div>
     </div>
 
-    <!-- Dashboard Container -->
-    <div class="dashboard-container" id="mainDashboard">
+    <!-- PROFILE SETTINGS -->
+    <div class="lock-overlay" id="profileSettingsModal" style="display:none;z-index:10000;overflow-y:auto;">
+        <div class="lock-box" style="text-align:left;margin:20px auto;">
+            <h3 style="color:#fff;margin-bottom:20px;text-align:center;font-size:20px;">⚙️ Profile Settings</h3>
+            <div style="text-align:center;margin-bottom:20px;">
+                <div class="avatar-img" id="modalAvatarPreview" style="width:85px;height:85px;margin:0 auto;cursor:pointer;border-color:#3b82f6;" onclick="document.getElementById('modalProfilePicker').click()">👤</div>
+                <input type="file" id="modalProfilePicker" accept="image/*" style="display:none;" onchange="previewModalProfile(this)">
+                <p style="color:#9ca3af;font-size:12px;margin-top:8px;">ছবি পরিবর্তন করতে ক্লিক করুন</p>
+            </div>
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">আপনার নাম:</label>
+            <input type="text" id="profName" class="lock-input" placeholder="আপনার নাম">
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">কোম্পানির নাম:</label>
+            <input type="text" id="profCompany" class="lock-input" placeholder="কোম্পানির নাম">
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">মোবাইল নাম্বার:</label>
+            <input type="tel" id="profMobile" class="lock-input" readonly style="opacity:0.6;" placeholder="মোবাইল নাম্বার">
+            <label style="color:#9ca3af;font-size:13px;font-weight:bold;">ইমেইল:</label>
+            <input type="email" id="profEmail" class="lock-input" placeholder="example@gmail.com">
+            
+            <div class="drive-box">
+                <div class="drive-title">☁️ ডাটা Backup ও Restore</div>
+                <div class="drive-subtitle">এক ক্লিকে Backup নিন। ফাইল হিসেবে ফাইল ম্যানেজারে সেভ রাখুন।</div>
+                <div class="drive-status" id="simpleStatus">🟢 LocalStorage-এ ডাটা সেভ আছে</div>
+                <div class="drive-btn-row">
+                    <button class="drive-btn drive-backup-btn" onclick="smartBackup()">📤 Backup</button>
+                    <button class="drive-btn drive-restore-btn" onclick="document.getElementById('restoreFileInput').click()">📥 Restore</button>
+                </div>
+                <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="restoreFromFile(this)">
+                <div class="drive-last-backup" id="lastBackupTime">Last Backup: এখনো হয়নি</div>
+            </div>
+            <div style="display:flex;gap:15px;margin-top:15px;">
+                <button class="btn-unlock" style="background:#ef4444;" onclick="closeProfileSettings()">বাতিল</button>
+                <button class="btn-unlock" style="background:#10b981;" onclick="saveProfileSettings()">সেভ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPDATE MODAL -->
+    <div class="lock-overlay" id="updateModal" style="display:none;z-index:10001;padding:20px;">
+        <div class="lock-box" style="text-align:left;max-width:350px;">
+            <h3 style="color:#fff;margin-bottom:15px;text-align:center;font-size:18px;">🔄 অ্যাপ আপডেট</h3>
+            <div style="background:#1e293b;padding:15px;border-radius:10px;border:1px solid #334155;margin-bottom:20px;">
+                <p style="color:#fbbf24;font-size:13px;">আপডেটের আগে অবশ্যই ডাটা <b>Backup</b> করে নিন।</p>
+            </div>
+            <div style="text-align:center;color:#9ca3af;font-size:13px;margin-bottom:20px;">ভার্সন: <b style="color:#fff;">v5.0.0</b></div>
+            <div style="display:flex;gap:12px;">
+                <button class="btn-unlock" style="background:#ef4444;flex:1;" onclick="closeUpdateModal()">বাতিল</button>
+                <a href="https://wa.me/8801676474412" target="_blank" class="btn-unlock" style="background:#10b981;flex:1;text-decoration:none;display:flex;align-items:center;justify-content:center;" onclick="closeUpdateModal()">WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌟 ADMIN PIN VERIFICATION MODAL (HIGH SECURITY SHA-256) 🌟 -->
+    <div class="lock-overlay" id="adminPinModal" style="display:none;z-index:10002;">
+        <div class="lock-box" style="max-width:300px; text-align:center;">
+            <div style="font-size: 35px; margin-bottom: 10px;">🔐</div>
+            <h3 style="color:#fbbf24; margin-bottom:5px;">Admin Security</h3>
+            <p style="color:#9ca3af; font-size:12px; margin-bottom:15px;">এডমিন প্যানেলে প্রবেশ করতে আপনার সিক্রেট পিন দিন</p>
+            <input type="password" id="adminPinInput" class="lock-input" placeholder="****" style="text-align:center; font-size:24px; letter-spacing: 8px;">
+            <div style="display:flex; gap:10px;">
+                <button class="btn-unlock" style="background:#ef4444; flex:1;" onclick="document.getElementById('adminPinModal').style.display='none'">বাতিল</button>
+                <button class="btn-unlock" style="background:#10b981; flex:1;" onclick="verifyAdminPin()">প্রবেশ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌟 ADMIN PANEL MODAL 🌟 -->
+    <div class="lock-overlay" id="adminPanelModal" style="display:none;z-index:10005;padding:20px;">
+        <div class="lock-box" style="max-width:600px; width:100%; text-align:left; margin:auto;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #334155; padding-bottom:10px;">
+                <h3 style="color:#fbbf24;font-size:18px;">👑 এডমিন প্যানেল</h3>
+                <button class="icon-btn" onclick="document.getElementById('adminPanelModal').style.display='none'" style="padding:4px 10px; background:#ef4444; border:none; font-size:14px;">✕ ক্লোজ</button>
+            </div>
+            <div id="adminUserList" style="max-height: 65vh; overflow-y: auto; padding-right:5px;">
+                <!-- ইউজার লিস্ট এখানে লোড হবে -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div class="dashboard-container">
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
-            <div class="header-title">Aluminium ERP BD v6.3</div>
+            <div class="header-title">Aluminium ERP BD v5.0</div>
+            <div class="header-logo-box">
+                <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
+            </div>
         </div>
 
         <div class="user-card">
             <div class="user-info">
                 <div class="user-title" id="userNameDisplay">ইউজার নেম</div>
-                <div class="user-sub">Aluminium ERP BD v6.3</div>
+                <div class="user-sub">Aluminium ERP BD v5.0</div>
                 <span class="status-badge" id="trialStatusBadge">🔄 Connecting...</span>
             </div>
             <div class="avatar-container">
-                <div class="avatar-img">👤</div>
+                <div id="avatarDisplay" class="avatar-img">👤</div>
             </div>
         </div>
 
-        <div class="grid-menu">
+        <div class="grid-menu" id="mainGridMenu">
             <a href="curtain-wall.html" class="menu-card"><div class="menu-icon">🏗️</div><div class="menu-title">কার্টিন ওয়াল</div></a>
             <a href="profile-discount.html" class="menu-card"><div class="menu-icon">🏢</div><div class="menu-title">কোম্পানি প্রোফাইল</div></a>
-            <a href="calculator.html" class="menu-card"><div class="menu-icon">🧮</div><div class="menu-title">ক্যালকুলেটর</div></a>
+            <a href="calculator.html" class="menu-card"><div class="menu-icon">🧮</div><div class="menu-title">স্লাইডিং ক্যালকুলেটর</div></a>
+            <a href="cachman.html" class="menu-card"><div class="menu-icon">🪟</div><div class="menu-title">ক্যাসম্যান ক্যালকুলেটর</div></a>
+            <a href="ceiling-calculator.html" class="menu-card"><div class="menu-icon">🛖</div><div class="menu-title">সিলিং ক্যালকুলেটর</div></a>
+            <a href="Lowver.html" class="menu-card"><div class="menu-icon">🪜</div><div class="menu-title">জেড লুভার</div></a>
+            <a href="BoxLowver.html" class="menu-card"><div class="menu-icon">🔳</div><div class="menu-title">বক্স লুভার</div></a>
+            <a href="rate-settings.html" class="menu-card"><div class="menu-icon">⚙</div><div class="menu-title">রেট সেটিংস</div></a>
+            <a href="quotation.html" class="menu-card"><div class="menu-icon">📝</div><div class="menu-title">কোটেশন</div></a>
+            <a href="invoice.html" class="menu-card"><div class="menu-icon">🧾</div><div class="menu-title">বিল ও ইনভয়েস</div></a>
+            <a href="glass.html" class="menu-card"><div class="menu-icon">🧊</div><div class="menu-title">গ্লাস সাইজ</div></a>
+            <a href="glass-cutting.html" class="menu-card"><div class="menu-icon">✂</div><div class="menu-title">গ্লাস কাটিং</div></a>
+            <a href="customer.html" class="menu-card"><div class="menu-icon">👥</div><div class="menu-title">কাস্টমার</div></a>
+            <a href="kormochari.html" class="menu-card"><div class="menu-icon">👨‍🔧</div><div class="menu-title">কর্মচারী</div></a>
         </div>
     </div>
 
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
     <div class="sidebar-overlay" id="sidebar">
         <div class="sidebar-content" id="sidebarContent">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+            <div class="sidebar-header">
                 <h3 style="color:#fff;">Menu</h3>
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding:4px 10px;">✕</button>
             </div>
-            <a href="#" class="sidebar-menu-item" style="background:#ef4444; color:#fff;" onclick="secureLogout()">🚪 লগআউট</a>
+            
+            <!-- 🌟 এডমিন প্যানেল বাটন -->
+            <a href="#" class="sidebar-menu-item" id="adminPanelBtn" style="display:none; background:#fbbf24; color:#000; box-shadow: 0 0 10px rgba(251,191,36,0.3);" onclick="promptAdminPin();return false;">👑 Admin Panel</a>
+            
+            <a href="#" class="sidebar-menu-item" onclick="openProfileSettings();return false;">👤 My Profile</a>
+            <a href="https://wa.me/8801676474412" target="_blank" class="sidebar-menu-item support-btn">🎧 Support</a>
+            <a href="javascript:void(0)" onclick="showUpdateModal()" class="sidebar-menu-item update-btn">🔄 আপডেট</a>
         </div>
     </div>
 
     <script>
-        // Custom Alert System
+        /* ============================================================
+           🚫 1. CUSTOM POPUP SYSTEM
+           ============================================================ */
         let customAlertCallback = null;
         function alert(msg, callback) {
             const modal = document.getElementById("customAlertModal");
@@ -217,14 +287,22 @@
                 msgEl.innerText = msg;
                 modal.style.display = "flex";
                 customAlertCallback = callback || null;
+            } else {
+                console.log(msg);
             }
         }
+
         function closeCustomAlert() {
             document.getElementById("customAlertModal").style.display = "none";
-            if (customAlertCallback) { customAlertCallback(); customAlertCallback = null; }
+            if (customAlertCallback) {
+                customAlertCallback();
+                customAlertCallback = null;
+            }
         }
 
-        // Firebase Config
+        /* ============================================================
+           🔥 2. FIREBASE INITIALIZATION
+           ============================================================ */
         const firebaseConfig = {
           apiKey: "AIzaSyDhH7r4Q6CrgYqgOzkqSMalA0lrU49Dz70",
           authDomain: "aluminium-erp-c67f8.firebaseapp.com",
@@ -232,261 +310,316 @@
           projectId: "aluminium-erp-c67f8",
           storageBucket: "aluminium-erp-c67f8.firebasestorage.app",
           messagingSenderId: "963369064551",
-          appId: "1:963369064551:web:246e47f433335160a2dcc2"
+          appId: "1:963369064551:web:246e47f433335160a2dcc2",
+          measurementId: "G-1JLBDB6CP0"
         };
+
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const auth = firebase.auth();
+        const auth = firebase.auth(); 
+        auth.useDeviceLanguage();
 
-        let currentUID = null;
+        const ADMIN_PHONE = "8801676474412";
+        const SEC_RESET_VERSION = "FIREBASE_V5_STRICT_PURGE_RESET";
 
-        // UI Functions
-        function hideAllOverlays() { document.querySelectorAll('.lock-overlay:not(#customAlertModal)').forEach(el => el.style.display = 'none'); }
-        function showSplashScreen(text) { 
-            const s = document.getElementById("splash-screen"); 
-            s.style.display = "flex"; s.style.opacity = "1"; 
-            if(text) document.getElementById("splash-text").innerText = text; 
-        }
-        function hideSplashScreen() { 
-            const s = document.getElementById("splash-screen"); 
-            s.style.opacity = "0"; setTimeout(() => s.style.display = "none", 400); 
-        }
+        /* ============================================================
+           🚫 3. DEVTOOLS & RIGHT-CLICK BLOCKER (SECURITY)
+           ============================================================ */
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123 || e.key === "F12") { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.key === 'I' || e.key === 'i')) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 74 || e.key === 'J' || e.key === 'j')) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 67 || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
+            if (e.ctrlKey && (e.keyCode === 85 || e.key === 'U' || e.key === 'u')) { e.preventDefault(); return false; }
+        });
 
-        function switchAuthTab(type) {
-            const regBox = document.getElementById("registrationBox");
-            const pinBox = document.getElementById("pinVerifyBox");
-            const regBtn = document.getElementById("tabRegBtn");
-            const loginBtn = document.getElementById("tabLoginBtn");
-            if (type === 'reg') {
-                regBox.style.display = "block"; pinBox.style.display = "none";
-                regBtn.style.background = "#3b82f6"; regBtn.style.color = "#fff"; regBtn.style.border = "none";
-                loginBtn.style.background = "#1e293b"; loginBtn.style.color = "#9ca3af"; loginBtn.style.border = "1px solid #334155";
-            } else {
-                regBox.style.display = "none"; pinBox.style.display = "block";
-                loginBtn.style.background = "#3b82f6"; loginBtn.style.color = "#fff"; loginBtn.style.border = "none";
-                regBtn.style.background = "#1e293b"; regBtn.style.color = "#9ca3af"; regBtn.style.border = "1px solid #334155";
-            }
-        }
-
-        // Firebase Auth Timeout Handler (যাতে হ্যাং হয়ে না থাকে)
-        function ensureAuth() {
-            return new Promise((resolve) => {
-                let isResolved = false;
-                const fallbackTimeout = setTimeout(() => {
-                    if (!isResolved) { isResolved = true; resolve(null); }
-                }, 3000);
-
-                const unsub = auth.onAuthStateChanged((user) => {
-                    if (!isResolved) {
-                        isResolved = true;
-                        clearTimeout(fallbackTimeout);
-                        unsub(); 
-                        resolve(user);
+        /* ============================================================
+           🔥 4. SERVICE WORKER KILLER & HARD PURGE
+           ============================================================ */
+        (async function() {
+            let wasCleaned = false;
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                        wasCleaned = true;
                     }
-                });
+                } catch(e) {}
+            }
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    for (let name of cacheNames) {
+                        await caches.delete(name);
+                        wasCleaned = true;
+                    }
+                } catch(e) {}
+            }
+            if (localStorage.getItem("app_firebase_sec_ver") !== SEC_RESET_VERSION) {
+                localStorage.removeItem("_secure_license_token");
+                localStorage.removeItem("app_permanently_unlocked");
+                localStorage.removeItem("license_key");
+                localStorage.removeItem("activated");
+                localStorage.removeItem("erp_strict_install_time");
+                localStorage.setItem("app_firebase_sec_ver", SEC_RESET_VERSION);
+            }
+            const HARD_RELOAD_KEY = "firebase_hard_purged_v50";
+            if (wasCleaned && !sessionStorage.getItem(HARD_RELOAD_KEY)) {
+                sessionStorage.setItem(HARD_RELOAD_KEY, "true");
+                window.location.reload(true);
+            }
+        })();
+
+        /* ============================================================
+           🆔 5. DEVICE FINGERPRINTING GENERATOR
+           ============================================================ */
+        function generateDeviceFingerprint() {
+            const parts = [
+                navigator.userAgent, 
+                screen.width + "x" + screen.height,
+                screen.colorDepth, 
+                navigator.language,
+                navigator.hardwareConcurrency || "4",
+                navigator.deviceMemory || "4",
+                navigator.platform || "Win32",
+                new Date().getTimezoneOffset(),
+                "ALU_FIREBASE_SALT_2026"
+            ];
+            let fp = parts.join("|");
+            let hash = 0;
+            for (let i = 0; i < fp.length; i++) {
+                let ch = fp.charCodeAt(i);
+                hash = ((hash << 5) - hash) + ch;
+                hash = hash & hash;
+            }
+            return "ALU-HW-" + Math.abs(hash).toString(16).toUpperCase().padStart(8, "0");
+        }
+        const currentDeviceId = generateDeviceFingerprint();
+
+        /* ============================================================
+           ☁ 6. REALTIME CLOUD SECURITY ENGINE (TRIAL/BLOCK LOCKOUT)
+           ============================================================ */
+        let activeFirebaseListener = null;
+
+        function startCloudVerification() {
+            const savedMobile = localStorage.getItem("app_user_mobile");
+            const lockScreen = document.getElementById("lockScreen");
+            const regBox = document.getElementById("registrationBox");
+            const lockedBox = document.getElementById("lockedDetailsBox");
+            const badge = document.getElementById("trialStatusBadge");
+
+            document.getElementById("deviceIdDisplay").innerText = "Device ID: " + currentDeviceId;
+
+            // যদি লোকাল স্টোরেজে নাম্বার না থাকে, রেজিস্ট্রেশন বক্স দেখাবে
+            if (!savedMobile) {
+                lockScreen.style.display = "flex";
+                regBox.style.display = "block";
+                lockedBox.style.display = "none";
+                document.getElementById("lockTitle").innerText = "নতুন রেজিস্ট্রেশন করুন";
+                document.getElementById("lockSub").innerText = "প্রথমবার ট্রায়াল নিতে আপনার সঠিক তথ্য দিন";
+                badge.innerText = "🔒 Registration Needed";
+                badge.style.color = "#ef4444";
+                return;
+            }
+
+            const cleanMobile = savedMobile.replace(/[^0-9]/g, "");
+            const userRef = db.ref("users/" + cleanMobile);
+
+            if (activeFirebaseListener) userRef.off('value', activeFirebaseListener);
+
+            activeFirebaseListener = userRef.on('value', (snapshot) => {
+                const userData = snapshot.val();
+
+                if (!userData) {
+                    lockScreen.style.display = "flex";
+                    regBox.style.display = "block";
+                    lockedBox.style.display = "none";
+                    document.getElementById("lockTitle").innerText = "তথ্য পাওয়া যায়নি!";
+                    document.getElementById("lockSub").innerText = "অনুগ্রহ করে আবার নাম ও মোবাইল নম্বর দিয়ে সাবমিট করুন।";
+                    return;
+                }
+
+                // ডিভাইস পরিবর্তন হলে ব্লক করে এডমিনকে মেসেজ দিতে বলবে
+                if (userData.device_id && userData.device_id !== currentDeviceId && userData.role !== "admin") {
+                    lockScreen.style.display = "flex";
+                    regBox.style.display = "none";
+                    lockedBox.style.display = "block";
+                    document.getElementById("lockTitle").innerText = "নতুন ডিভাইস শনাক্ত হয়েছে!";
+                    document.getElementById("lockSub").innerText = "আপনার অ্যাকাউন্টটি অন্য ডিভাইসে নিবন্ধিত। এডমিনের অনুমতি প্রয়োজন।";
+                    badge.innerText = "🔒 Device Mismatch";
+                    badge.style.color = "#ef4444";
+                    updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার অ্যাকাউন্ট (" + cleanMobile + ") অন্য ডিভাইসে লগ-ইন করা। নতুন Device ID: " + currentDeviceId + ". দয়া করে অ্যাপ্রুভ করে দিন।");
+                    return;
+                }
+
+                // 🌟 এডমিন মাস্টার এক্সেস 🌟
+                if (userData.role === "admin") {
+                    lockScreen.style.display = "none";
+                    badge.innerText = "👑 Admin Master Active";
+                    badge.style.color = "#fbbf24";
+                    badge.style.background = "rgba(251,191,36,0.1)";
+                    badge.style.borderColor = "rgba(251,191,36,0.3)";
+                    document.getElementById("adminPanelBtn").style.display = "block"; 
+                    return;
+                } else {
+                    document.getElementById("adminPanelBtn").style.display = "none";
+                }
+
+                if (userData.status === "approved") {
+                    lockScreen.style.display = "none";
+                    badge.innerText = "✓ Premium Active";
+                    badge.style.color = "#10b981";
+                    badge.style.background = "rgba(16,185,129,0.1)";
+                    badge.style.borderColor = "rgba(16,185,129,0.2)";
+                    return;
+                }
+
+                if (userData.status === "blocked") {
+                    lockScreen.style.display = "flex";
+                    regBox.style.display = "none";
+                    lockedBox.style.display = "block";
+                    document.getElementById("lockTitle").innerText = "লাইসেন্স বাতিল / ব্লক করা হয়েছে!";
+                    document.getElementById("lockSub").innerText = "এই অ্যাক্সেসটি এডমিন দ্বারা ব্লক করা হয়েছে। আনব্লক করতে যোগাযোগ করুন।";
+                    badge.innerText = "🔒 Blocked";
+                    badge.style.color = "#ef4444";
+                    updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার অ্যাকাউন্ট (" + cleanMobile + ") ব্লক দেখাচ্ছে। Device ID: " + currentDeviceId + ". দয়া করে চেক করুন।");
+                    return;
+                }
+
+                if (userData.status === "trial" || !userData.status) {
+                    const regTimestamp = userData.registered_at || Date.now();
+                    const daysPassed = (Date.now() - regTimestamp) / (1000 * 60 * 60 * 24);
+
+                    if (daysPassed > 7) {
+                        lockScreen.style.display = "flex";
+                        regBox.style.display = "none"; 
+                        lockedBox.style.display = "block";
+                        document.getElementById("lockTitle").innerText = "৭ দিনের ফ্রি ট্রায়াল শেষ!";
+                        document.getElementById("lockSub").innerText = "স্থায়ী অ্যাক্সেস (Premium) পেতে সরাসরি এডমিনের সাথে যোগাযোগ করুন। পেমেন্ট সম্পন্ন হলে আপনার আইডি অটোমেটিক আনলক হয়ে যাবে।";
+                        badge.innerText = "🔒 Trial Ended";
+                        badge.style.color = "#ef4444";
+                        updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার ৭ দিনের ট্রায়াল শেষ। আমি লাইফটাইম লাইসেন্স নিতে চাই। মোবাইল: " + cleanMobile + ", Device ID: " + currentDeviceId + ". পেমেন্ট প্রসেস জানান।");
+                    } else {
+                        lockScreen.style.display = "none";
+                        const daysLeft = Math.max(1, Math.ceil(7 - daysPassed));
+                        badge.innerText = "⏳ Trial: " + daysLeft + " days left";
+                        badge.style.color = "#fbbf24";
+                        badge.style.background = "rgba(251,191,36,0.1)";
+                        badge.style.borderColor = "rgba(251,191,36,0.3)";
+                    }
+                }
+            }, (error) => {
+                alert("কানেকশন ত্রুটি! ইন্টারনেট চেক করুন।");
             });
         }
 
-        // App Start Flow
-        async function startApp() {
-            showSplashScreen("Checking Authentication...");
-            let fbUser = await ensureAuth();
-
-            if (!fbUser) {
-                hideSplashScreen();
-                hideAllOverlays();
-                document.getElementById("lockScreen").style.display = "flex";
-                return;
-            }
-
-            currentUID = fbUser.uid;
-            try { await fbUser.reload(); } catch (e) {}
-
-            if (!fbUser.emailVerified) {
-                hideSplashScreen();
-                hideAllOverlays();
-                document.getElementById("verifyEmailTarget").innerText = fbUser.email;
-                document.getElementById("emailVerifyOverlay").style.display = "flex";
-                return;
-            }
-
-            showSplashScreen("Loading Profile...");
-            try {
-                const userQuery = await db.ref("users").orderByChild("auth_uid").equalTo(currentUID).once('value');
-                if (userQuery.exists()) {
-                    const usersData = userQuery.val();
-                    const mobileKey = Object.keys(usersData)[0];
-                    const uData = usersData[mobileKey];
-
-                    document.getElementById("userNameDisplay").innerText = uData.name || "ইউজার নেম";
-
-                    const badge = document.getElementById("trialStatusBadge");
-                    if (uData.status === "blocked") {
-                        hideSplashScreen(); hideAllOverlays();
-                        document.getElementById("lockScreen").style.display = "flex";
-                        document.getElementById("lockTitle").innerText = "লাইসেন্স ব্লক করা হয়েছে!";
-                        switchAuthTab('login');
-                        return;
-                    }
-                    
-                    if (uData.status === "approved") {
-                        badge.innerText = "✓ Premium Active"; badge.style.color = "#10b981";
-                    } else {
-                        const daysPassed = (Date.now() - (uData.registered_at || Date.now())) / (1000 * 60 * 60 * 24);
-                        if (daysPassed > 7) {
-                            hideSplashScreen(); hideAllOverlays();
-                            document.getElementById("lockScreen").style.display = "flex";
-                            document.getElementById("lockTitle").innerText = "৭ দিনের ট্রায়াল শেষ!";
-                            switchAuthTab('login');
-                            return;
-                        } else {
-                            const daysLeft = Math.max(1, Math.ceil(7 - daysPassed));
-                            badge.innerText = "⏳ Trial: " + daysLeft + " days left"; badge.style.color = "#fbbf24";
-                        }
-                    }
-
-                    hideSplashScreen();
-                    hideAllOverlays();
-                    document.getElementById("mainDashboard").style.display = "block";
-                } else {
-                    hideSplashScreen();
-                    alert("আপনার তথ্য ডেটাবেসে নেই! আবার লগইন করুন।", secureLogout);
-                }
-            } catch (e) {
-                hideSplashScreen();
-                alert("সার্ভার সমস্যা: " + e.message, secureLogout);
-            }
-        }
-
-        // FULL REGISTRATION PROCESS (WITH ERROR HANDLING)
-        async function processUserRegistration() {
+        /* ============================================================
+           📲 7. DIRECT REGISTRATION SYSTEM (NO OTP)
+           ============================================================ */
+        function registerUserDirectly() {
             const name = document.getElementById("regName").value.trim();
-            const rawMobile = document.getElementById("regMobile").value.replace(/[^0-9]/g, "");
-            const email = document.getElementById("regEmail").value.trim().toLowerCase();
+            const mobile = document.getElementById("regMobile").value.trim();
             const company = document.getElementById("regCompany").value.trim();
-            const password = document.getElementById("regPassword").value;
-            const confirmPassword = document.getElementById("regConfirmPassword").value;
 
-            if (name.length < 2) return alert("সঠিক নাম দিন!");
-            if (rawMobile.length !== 11) return alert("সঠিক ১১ ডিজিটের মোবাইল দিন!");
-            if (!email.includes("@")) return alert("সঠিক ইমেইল দিন!");
-            if (password.length < 6) return alert("কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন!");
-            if (password !== confirmPassword) return alert("পাসওয়ার্ড মেলেনি!");
+            if (!name || !mobile || mobile.length < 11) {
+                alert("দয়া করে সঠিক নাম এবং ১১ ডিজিটের মোবাইল নম্বর দিন!");
+                return;
+            }
+
+            const cleanMobile = mobile.replace(/[^0-9]/g, "");
+            const userRef = db.ref("users/" + cleanMobile);
 
             const btn = document.getElementById("btnRegister");
-            btn.innerText = "⏳ প্রসেসিং..."; 
+            btn.innerText = "⏳ প্রসেসিং হচ্ছে...";
             btn.disabled = true;
 
-            try {
-                // ১. অ্যাকাউন্ট তৈরি
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                // ২. জিমেইল ভেরিফাই লিংক পাঠানো
-                await user.sendEmailVerification();
+            // 🌟 ডাটাবেজ চেক করা: ইউজার আগে থেকেই আছে কিনা
+            userRef.once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    const existingData = snapshot.val();
+                    
+                    // ইউজার অ্যাপ ডিলিট করে আবার নামালে, কিন্তু ডিভাইস একই থাকলে সরাসরি লগ-ইন
+                    if (existingData.device_id === currentDeviceId) {
+                        localStorage.setItem("app_user_fullname", existingData.name);
+                        localStorage.setItem("app_user_mobile", cleanMobile);
+                        localStorage.setItem("app_user_company", existingData.company || "");
+                        alert("✅ আপনার পূর্বের অ্যাকাউন্ট সফলভাবে রিস্টোর হয়েছে!", function() {
+                            location.reload(); 
+                        });
+                        return;
+                    } else {
+                        alert("❌ এই মোবাইল নম্বরটি ইতিমধ্যে অন্য ডিভাইসে রেজিস্টার করা! দয়া করে আনলক করতে এডমিনের সাথে যোগাযোগ করুন।");
+                        btn.innerText = "🚀 রেজিস্ট্রেশন করুন";
+                        btn.disabled = false;
+                        return;
+                    }
+                }
 
-                // ৩. ডেটাবেসে সেভ করা
-                await db.ref("users/" + rawMobile).set({
+                // 🌟 নতুন ইউজারের ক্ষেত্রে সরাসরি ডাটা সেভ
+                const userObject = {
                     name: name,
-                    mobile: rawMobile,
-                    email: email,
+                    mobile: cleanMobile,
                     company: company || "N/A",
-                    auth_uid: user.uid,
+                    device_id: currentDeviceId,
+                    device_info: navigator.userAgent,
                     registered_at: Date.now(),
-                    status: "trial"
+                    status: "trial",
+                    role: "user"
+                };
+
+                db.ref("users/" + cleanMobile).set(userObject).then(() => {
+                    localStorage.setItem("app_user_fullname", name);
+                    localStorage.setItem("app_user_mobile", cleanMobile);
+                    localStorage.setItem("app_user_company", company);
+                    loadUserData();
+                    alert("✅ রেজিস্ট্রেশন সফল হয়েছে! ৭ দিনের ফ্রি ট্রায়াল চালু হলো।", function() {
+                        startCloudVerification();
+                    });
+                }).catch((err) => {
+                    alert("রেজিস্ট্রেশন ডেটা সেভ করতে ব্যর্থ হয়েছে!");
+                    btn.innerText = "🚀 রেজিস্ট্রেশন করুন";
+                    btn.disabled = false;
                 });
 
-                // ভেরিফাই স্ক্রিন দেখানো
-                hideAllOverlays();
-                document.getElementById("verifyEmailTarget").innerText = email;
-                document.getElementById("emailVerifyOverlay").style.display = "flex";
-                
-                alert("✅ রেজিস্ট্রেশন সফল!\n\n📧 আপনার জিমেইলে একটি ভেরিফিকেশন লিংক পাঠানো হয়েছে। লিংকে ক্লিক করে ভেরিফাই করুন।");
-
-            } catch (err) {
-                console.error("Registration Error: ", err);
-                // এরর মেসেজ স্ক্রিনে দেখাবে (হ্যাং করবে না)
-                if (err.code === 'auth/email-already-in-use') {
-                    alert("⚠ এই ইমেইল আগে থেকেই রেজিস্টার্ড! দয়া করে লগইন করুন।");
-                    switchAuthTab('login');
-                } else if (err.code === 'auth/invalid-email') {
-                    alert("❌ ইমেইল এড্রেসটি সঠিক নয়!");
-                } else if (err.code === 'auth/network-request-failed') {
-                    alert("❌ ইন্টারনেট কানেকশন সমস্যা! ডাটা অন আছে কিনা চেক করুন।");
-                } else if (err.message.includes('PERMISSION_DENIED')) {
-                    alert("❌ Firebase Database Rules এরর! দয়া করে রুলস ঠিক করুন।");
-                } else {
-                    alert("❌ ত্রুটি: " + err.message);
-                }
-            } finally {
-                // বাটন আগের অবস্থায় ফিরিয়ে আনা (হ্যাং রোধ)
-                btn.innerText = "🚀 রেজিস্ট্রেশন করুন"; 
+            }).catch((err) => {
+                alert("ডাটাবেস চেক করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।");
+                btn.innerText = "🚀 রেজিস্ট্রেশন করুন";
                 btn.disabled = false;
-            }
+            });
         }
 
-        // FULL LOGIN PROCESS (WITH ERROR HANDLING)
-        async function confirmDeviceSwitchWithPin() {
-            const email = document.getElementById("loginEmail").value.trim().toLowerCase();
-            const password = document.getElementById("loginPassword").value;
-            if (!email || !password) return alert("ইমেইল ও পাসওয়ার্ড দিন!");
-
-            const btn = document.getElementById("btnVerifyPin");
-            btn.innerText = "⏳ সাইন ইন হচ্ছে..."; 
-            btn.disabled = true;
-
-            try {
-                const userCred = await auth.signInWithEmailAndPassword(email, password);
-                const user = userCred.user;
-                await user.reload();
-
-                if (!user.emailVerified) {
-                    hideAllOverlays();
-                    document.getElementById("verifyEmailTarget").innerText = email;
-                    document.getElementById("emailVerifyOverlay").style.display = "flex";
-                    return;
-                }
-                
-                location.reload(); 
-            } catch (err) {
-                console.error("Login Error: ", err);
-                if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-                    alert("❌ লগইন ব্যর্থ: ভুল ইমেইল বা পাসওয়ার্ড!");
-                } else {
-                    alert("❌ এরর: " + err.message);
-                }
-            } finally {
-                // বাটন আগের অবস্থায় ফিরিয়ে আনা
-                btn.innerText = "🔓 সাইন ইন করুন"; 
-                btn.disabled = false;
-            }
+        function updateWhatsAppLink(msgText) {
+            const waMsg = encodeURIComponent(msgText);
+            const waLink = document.getElementById("whatsappLink");
+            if (waLink) waLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
         }
 
-        async function checkEmailVerificationStatus() {
-            const user = auth.currentUser;
-            if (user) {
-                await user.reload();
-                if (user.emailVerified) {
-                    alert("✅ ইমেইল ভেরিফাই সফল! ড্যাশবোর্ডে প্রবেশ করছেন...", () => location.reload());
-                } else {
-                    alert("❌ এখনো ভেরিফাই হয়নি! জিমেইলের ইনবক্স বা স্প্যাম ফোল্ডার চেক করুন।");
+        /* ============================================================
+           ⚙️ 8. APP UI & USER PROFILE MANAGEMENT
+           ============================================================ */
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                const splash = document.getElementById("splash-screen");
+                if (splash) {
+                    splash.style.opacity = "0";
+                    setTimeout(() => { splash.style.display = "none"; }, 400);
                 }
-            }
-        }
+            }, 2000);
 
-        async function resendVerificationEmail() {
-            if (auth.currentUser) {
-                try {
-                    await auth.currentUser.sendEmailVerification();
-                    alert("✅ নতুন ভেরিফিকেশন লিংক পাঠানো হয়েছে।");
-                } catch(e) {
-                    alert("❌ একটু অপেক্ষা করুন: " + e.message);
-                }
-            }
-        }
+            loadUserData();
+            loadBackupTime();
+            startCloudVerification();
+        });
 
-        function secureLogout() {
-            auth.signOut().then(() => location.reload());
+        function loadUserData() {
+            let savedName = localStorage.getItem("app_user_fullname") || "ইউজার নেম";
+            let savedPic = localStorage.getItem("app_user_profile_img");
+            document.getElementById("userNameDisplay").innerText = savedName;
+            if (savedPic) {
+                document.getElementById("avatarDisplay").innerHTML = `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+            }
         }
 
         function toggleSidebar() {
@@ -494,15 +627,214 @@
             const content = document.getElementById("sidebarContent");
             if (sidebar.style.display === "flex") {
                 content.style.transform = "translateX(-100%)";
-                setTimeout(() => sidebar.style.display = "none", 250);
+                setTimeout(() => { sidebar.style.display = "none"; }, 250);
             } else {
                 sidebar.style.display = "flex";
-                setTimeout(() => content.style.transform = "translateX(0)", 10);
+                setTimeout(() => { content.style.transform = "translateX(0)"; }, 10);
             }
         }
 
-        // Initialize App
-        document.addEventListener("DOMContentLoaded", startApp);
+        function openProfileSettings() {
+            toggleSidebar();
+            document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
+            document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
+            document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
+            document.getElementById("profEmail").value = localStorage.getItem("app_user_email") || "";
+            document.getElementById("profileSettingsModal").style.display = "flex";
+        }
+
+        function closeProfileSettings() {
+            document.getElementById("profileSettingsModal").style.display = "none";
+        }
+
+        function previewModalProfile(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const picData = e.target.result;
+                    localStorage.setItem("app_user_profile_img", picData);
+                    document.getElementById("modalAvatarPreview").innerHTML = `<img src="${picData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                    loadUserData();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function saveProfileSettings() {
+            localStorage.setItem("app_user_fullname", document.getElementById("profName").value.trim());
+            localStorage.setItem("app_user_company", document.getElementById("profCompany").value.trim());
+            localStorage.setItem("app_user_email", document.getElementById("profEmail").value.trim());
+            loadUserData();
+            closeProfileSettings();
+            alert("✅ প্রোফাইল আপডেট সম্পন্ন হয়েছে!");
+        }
+
+        /* ============================================================
+           ☁️ 9. LOCAL BACKUP & RESTORE
+           ============================================================ */
+        function collectERPData() {
+            const allData = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                allData[key] = localStorage.getItem(key);
+            }
+            return { app: "Aluminium ERP BD", version: 5.0, deviceId: currentDeviceId, data: allData };
+        }
+
+        async function smartBackup() {
+            try {
+                const text = JSON.stringify(collectERPData(), null, 2);
+                const blob = new Blob([text], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "Aluminium_ERP_Backup_" + (localStorage.getItem("app_user_mobile") || "User") + ".json";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                localStorage.setItem("erp_last_backup", new Date().toLocaleString("bn-BD"));
+                loadBackupTime();
+                alert("✅ Backup ফাইল সফলভাবে ডাউনলোড হয়েছে!");
+            } catch (err) { alert("Backup গ্রহণে ত্রুটি হয়েছে!"); }
+        }
+
+        function restoreFromFile(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            if (!confirm("বর্তমান তথ্য পরিবর্তিত হয়ে Backup ডাটা রিপ্লেস হবে। আপনি কি নিশ্চিত?")) {
+                input.value = ""; return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backup = JSON.parse(e.target.result);
+                    if (!backup.data) throw new Error("Invalid format");
+                    Object.keys(backup.data).forEach(key => localStorage.setItem(key, backup.data[key]));
+                    alert("🔄 Restore সফল হয়েছে! অ্যাপটি রিলোড হচ্ছে...");
+                    location.reload();
+                } catch (err) { alert("❌ অবৈধ ব্যাকআপ ফাইল!"); }
+            };
+            reader.readAsText(file);
+            input.value = "";
+        }
+
+        function loadBackupTime() {
+            let saved = localStorage.getItem("erp_last_backup");
+            let el = document.getElementById("lastBackupTime");
+            if (el) el.innerText = saved ? "Last Backup: " + saved : "Last Backup: এখনো হয়নি";
+        }
+
+        function showUpdateModal() {
+            toggleSidebar();
+            document.getElementById("updateModal").style.display = "flex";
+        }
+        function closeUpdateModal() {
+            document.getElementById("updateModal").style.display = "none";
+        }
+
+
+        /* ============================================================
+           👑 10. SECURE HASH-BASED ADMIN PIN VERIFICATION
+           ============================================================ */
+        function promptAdminPin() {
+            toggleSidebar();
+            document.getElementById("adminPinInput").value = "";
+            document.getElementById("adminPinModal").style.display = "flex";
+        }
+
+        // ব্রাউজারের ক্রিপ্টো লাইব্রেরি দিয়ে SHA-256 হ্যাশ জেনারেট করার ফাংশন
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        async function verifyAdminPin() {
+            const enteredPin = document.getElementById("adminPinInput").value;
+            if (!enteredPin) {
+                alert("দয়া করে পিন নম্বর দিন!");
+                return;
+            }
+
+            // ইউজারের দেওয়া পিনের SHA-256 হ্যাশ তৈরি
+            const enteredPinHash = await sha256(enteredPin);
+
+            // ফায়ারবেস থেকে আসল হ্যাশড পিনটি চেক করা (এখানে কোনো ডামি বা ডিফল্ট পিন নেই)
+            db.ref("admin_pin").once('value').then(async (snapshot) => {
+                const realPinHash = snapshot.val();
+                
+                if (realPinHash && enteredPinHash === realPinHash.toString().trim()) {
+                    document.getElementById("adminPinModal").style.display = "none";
+                    document.getElementById("adminPanelModal").style.display = "flex";
+                    loadAdminUserList(); 
+                } else {
+                    alert("❌ ভুল পিন! আপনার প্রবেশ নিষেধ।");
+                }
+            }).catch(err => {
+                alert("❌ সংযোগের সমস্যা বা ডাটাবেজ থেকে পিন যাচাই করা যায়নি!");
+            });
+        }
+
+        function loadAdminUserList() {
+            const container = document.getElementById("adminUserList");
+            if(!container) return;
+            container.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:20px;">🔄 ক্লাউড থেকে ইউজার ডাটা লোড হচ্ছে...</div>';
+
+            db.ref("users").on('value', (snapshot) => {
+                const users = snapshot.val();
+                if (!users) {
+                    container.innerHTML = '<div style="text-align:center; color:#ef4444; padding:20px;">কোনো ইউজার পাওয়া যায়নি!</div>';
+                    return;
+                }
+
+                let html = "";
+                Object.keys(users).forEach((m) => {
+                    const u = users[m];
+                    const statusColor = u.status === "approved" ? "#10b981" : (u.status === "blocked" ? "#ef4444" : "#fbbf24");
+                    const statusText = u.status === "approved" ? "Approved" : (u.status === "blocked" ? "Blocked" : "Trial");
+                    
+                    html += `
+                    <div style="background:#1e293b; border:1px solid #334155; border-radius:10px; padding:12px; margin-bottom: 12px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <div style="color:#ffffff; font-weight:bold; font-size:14px;">${u.name || "N/A"} ${u.role === 'admin' ? '👑 (Admin)' : ''}</div>
+                                <div style="color:#94a3b8; font-size:12px;">📱 ${u.mobile} | 🏢 ${u.company || "N/A"}</div>
+                                <div style="color:#64748b; font-size:10px; font-family:monospace; margin-top:2px;">🆔 ${u.device_id || "N/A"}</div>
+                            </div>
+                            <span style="background:rgba(255,255,255,0.05); color:${statusColor}; border:1px solid ${statusColor}; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:bold;">
+                                ${statusText}
+                            </span>
+                        </div>
+                        
+                        <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
+                            <select id="statusSelect_${m}" style="flex:1; padding:8px; border-radius:6px; background:#0f172a; color:#fff; border:1px solid #3b82f6; font-size:13px; outline:none;">
+                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (অনুমোদন)</option>
+                                <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial (ট্রায়াল)</option>
+                                <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block (ব্লক করুন)</option>
+                            </select>
+                            <button onclick="updateStatusFromSelect('${m}')" style="background:#3b82f6; color:#fff; border:none; padding:8px 15px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer;">আপডেট</button>
+                        </div>
+                    </div>
+                    `;
+                });
+                container.innerHTML = html;
+            });
+        }
+
+        function updateStatusFromSelect(mobile) {
+            const newStatus = document.getElementById("statusSelect_" + mobile).value;
+            changeUserStatus(mobile, newStatus);
+        }
+
+        function changeUserStatus(mobile, newStatus) {
+            db.ref("users/" + mobile).update({ status: newStatus }).then(() => {
+                alert("✅ ইউজারের স্ট্যাটাস সফলভাবে আপডেট করা হয়েছে!");
+            }).catch((err) => {
+                alert("❌ স্ট্যাটাস পরিবর্তনে সমস্যা হয়েছে!");
+            });
+        }
     </script>
 </body>
 </html>

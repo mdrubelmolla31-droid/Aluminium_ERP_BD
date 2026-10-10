@@ -526,7 +526,7 @@
         <div class="header-section">
             <div>
                 <label>কোম্পানি:</label>
-                <select id="companySelect">
+                <select id="companySelect" onchange="onCompanyChange()">
                     <option value="KAI">KAI (কাই)</option>
                     <option value="Altec">Altec (অ্যালটেক)</option>
                     <option value="ChungHua">ChungHua (চুংহুয়া)</option>
@@ -553,7 +553,6 @@
                 <label>কালার (রং):</label>
                 <select id="colorSelect">
                     <option value="Silver (সিলভার)">Silver (সিলভার)</option>
-                    
                     <option value="Wooden (উডেন)">Wooden (উডেন)</option>
                     <option value="Black (ব্ল্যাক)">Black (ব্ল্যাক)</option>
                     <option value="Bronze (ব্রঞ্জ)">Bronze (ব্রঞ্জ)</option>
@@ -580,7 +579,7 @@
 
     <div class="card">
         <div class="section-title">
-            <span>সেকশন কারেন্ট রেট (২১ ফিট বারের দাম)</span>
+            <span>সেকশন কারেন্ট রেট ও রানিং ফিট (Rft)</span>
             <select id="profileSizeSelect" class="size-select" onchange="onSizeCategoryChange()">
                 <option value="3">৩ ইঞ্চি স্লাইডিং (3")</option>
                 <option value="4">৪ ইঞ্চি স্লাইডিং (4")</option>
@@ -596,8 +595,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 60%;">সেকশনের নাম (ড্রপডাউন)</th>
-                        <th style="width: 40%;">২১ ফিট বারের দাম (টাকা)</th>
+                        <th style="width: 45%;">সেকশনের নাম (ড্রপডাউন)</th>
+                        <th style="width: 30%;">২১ ফিট বারের দাম (টাকা)</th>
+                        <th style="width: 25%;">সরাসরি রানিং ফিট (Rft)</th>
                     </tr>
                 </thead>
                 <tbody id="rateTableBody"></tbody>
@@ -607,7 +607,7 @@
     </div>
 
     <div class="card">
-        <div class="section-title">আইটেমের তালিকা</div>
+        <div class="section-title">আইটেমের তালিকা (উইন্ডো মাপ)</div>
         <div id="windowsList"></div>
         <button class="btn-add" onclick="addWindow()">+ নতুন আইটেম যোগ করুন</button>
         <button class="btn-calc" onclick="calculateTotal()">হিসাব করুন ও রিপোর্ট দেখুন</button>
@@ -789,11 +789,35 @@ function openRateSettingsModal() {
     const container = document.getElementById('rateSettingsList');
     container.innerHTML = '';
     
+    let mainCompSelect = document.getElementById('companySelect');
+    let compOptions = mainCompSelect ? mainCompSelect.innerHTML : '';
+    let currentComp = mainCompSelect ? mainCompSelect.value : 'KAI';
+
+    let topBar = document.createElement('div');
+    topBar.style.cssText = "background:#eff6ff; padding:10px; border-radius:8px; margin-bottom:10px; border:1px solid #bfdbfe; display:flex; align-items:center; justify-content:space-between; gap:8px;";
+    topBar.innerHTML = `<span style="font-weight:900; font-size:13px; color:#1e3a8a;">কোম্পানি সিলেক্ট করুন:</span> <select id="settingCompanySelect" onchange="renderRateSettingsFields()" style="flex:1; height:36px; padding:4px; border-radius:6px; font-weight:800; border:1px solid #cbd5e1;">${compOptions}</select>`;
+    container.appendChild(topBar);
+
+    let fieldsContainer = document.createElement('div');
+    fieldsContainer.id = 'rateSettingsFieldsContainer';
+    container.appendChild(fieldsContainer);
+
+    document.getElementById('settingCompanySelect').value = currentComp;
+    renderRateSettingsFields();
+
+    document.getElementById('rateSettingsModal').style.display = 'flex';
+}
+
+function renderRateSettingsFields() {
+    const comp = document.getElementById('settingCompanySelect').value;
+    const fieldsContainer = document.getElementById('rateSettingsFieldsContainer');
+    fieldsContainer.innerHTML = '';
+
     for (const [category, profiles] of Object.entries(categorizedProfiles)) {
         let sectionHTML = `<div class="rate-section-header">${category}</div>`;
         profiles.forEach((profile) => {
             let defRate = defaultRates[profile] || '';
-            let savedRate = localStorage.getItem('erp_setting_rate_' + profile);
+            let savedRate = localStorage.getItem(`erp_setting_rate_${comp}_` + profile);
             let displayRate = savedRate !== null ? savedRate : defRate;
             let safeId = 'setting_input_' + profile.replace(/[^a-zA-Z0-9]/g, '_');
             
@@ -804,24 +828,28 @@ function openRateSettingsModal() {
                 </div>
             `;
         });
-        container.innerHTML += sectionHTML;
+        fieldsContainer.innerHTML += sectionHTML;
     }
-    document.getElementById('rateSettingsModal').style.display = 'flex';
 }
 
 function saveAllSettingsRates() {
-    const inputs = document.querySelectorAll('#rateSettingsList input');
+    const comp = document.getElementById('settingCompanySelect').value;
+    const inputs = document.querySelectorAll('#rateSettingsFieldsContainer input');
     inputs.forEach(input => {
         let val = input.value;
         let profile = input.getAttribute('data-profile');
         if(val) {
-            localStorage.setItem('erp_setting_rate_' + profile, val);
+            localStorage.setItem(`erp_setting_rate_${comp}_` + profile, val);
         } else {
-            localStorage.removeItem('erp_setting_rate_' + profile);
+            localStorage.removeItem(`erp_setting_rate_${comp}_` + profile);
         }
     });
-    alert("সব রেট সফলভাবে সেভ হয়েছে!");
+    alert(`(${comp}) কোম্পানির সব রেট সফলভাবে সেভ হয়েছে!`);
     closeModal('rateSettingsModal');
+    onSizeCategoryChange();
+}
+
+function onCompanyChange() {
     onSizeCategoryChange();
 }
 
@@ -835,7 +863,7 @@ function onSizeCategoryChange() {
     let headerTitle = "";
 
     if (sizeType === '3') {
-        headerTitle = "৩ ইঞ্চি স্লাইডিং সেকশন (ইঞ্চিতে মাপ)";
+        headerTitle = "৩ ইঞ্চি স্লাইডিং সেকশন (ইঞ্চিতে মাপ / সরাসরি Rft)";
         itemsToDisplay = [
             { id: 'outer_top', def: '3" Sliding Outer Top' },
             { id: 'outer_bottom', def: '3" Sliding Outer Low Bottom' },
@@ -846,7 +874,7 @@ function onSizeCategoryChange() {
             { id: 'interlock', def: 'Sliding Shutter Inter Lock' }
         ];
     } else if (sizeType === '4') {
-        headerTitle = "৪ ইঞ্চি স্লাইডিং সেকশন (ইঞ্চিতে মাপ)";
+        headerTitle = "৪ ইঞ্চি স্লাইডিং সেকশন (ইঞ্চিতে মাপ / সরাসরি Rft)";
         itemsToDisplay = [
             { id: 'outer_top', def: '4" Sliding Outer Top' },
             { id: 'outer_bottom', def: '4" Sliding Outer(H) Bottom' },
@@ -857,7 +885,7 @@ function onSizeCategoryChange() {
             { id: 'interlock', def: 'Sliding Shutter Inter Lock' }
         ];
     } else if (sizeType === 'single') {
-        headerTitle = "সিঙ্গেল শাটার সেকশন (ইঞ্চিতে মাপ)";
+        headerTitle = "সিঙ্গেল শাটার সেকশন (ইঞ্চিতে মাপ / সরাসরি Rft)";
         itemsToDisplay = [
             { id: 'outer_top', def: 'Single Outer Top' },
             { id: 'outer_bottom', def: 'Single Outer Low Bottom' },
@@ -865,43 +893,43 @@ function onSizeCategoryChange() {
             { id: 'shutter_top', def: 'Sliding Shutter Top' },
             { id: 'shutter_bottom', def: 'Sliding Shutter Bottom' },
             { id: 'lock_style', def: 'Sliding Shutter Lock' },
-            { id: 'box_section', def: '1.75" x 1.75" Box' }
+            { id: 'box_section', def: '1.75\" x 1.75\" Box' }
         ];
     } else if (sizeType === 'fixed_3') {
-        headerTitle = "৩ ইঞ্চি ফিক্সড সেকশন (খোপ ভিত্তিক - ফিটে মাপ)";
+        headerTitle = "৩ ইঞ্চি ফিক্সড সেকশন (ফিটে মাপ / সরাসরি Rft)";
         itemsToDisplay = [
-            { id: 'outer_top', def: '3" Fixed Top and Side' },
-            { id: 'outer_bottom', def: '3" Fixed Bottom' },
-            { id: 'group_cover', def: '3" Group Cover' },
-            { id: 'plane_cover', def: '3" Plane Cover' },
-            { id: 'angle', def: '1" x 1" Angle' }
+            { id: 'outer_top', def: '3\" Fixed Top and Side' },
+            { id: 'outer_bottom', def: '3\" Fixed Bottom' },
+            { id: 'group_cover', def: '3\" Group Cover' },
+            { id: 'plane_cover', def: '3\" Plane Cover' },
+            { id: 'angle', def: '1\" x 1\" Angle' }
         ];
     } else if (sizeType === 'fixed_4') {
-        headerTitle = "৪ ইঞ্চি ফিক্সড সেকশন (খোপ ভিত্তিক - ফিটে মাপ)";
+        headerTitle = "৪ ইঞ্চি ফিক্সড সেকশন (ফিটে মাপ / সরাসরি Rft)";
         itemsToDisplay = [
-            { id: 'outer_top', def: '4" Fixed Top and Side' },
-            { id: 'outer_bottom', def: '4" Fixed Bottom' },
-            { id: 'group_cover', def: '4" Group Cover' },
-            { id: 'plane_cover', def: '4" Plane Cover' },
-            { id: 'wall_frame', def: '4" Wall Frame' },
-            { id: 'angle', def: '1" x 1" Fitting Angel (2 mm)' }
+            { id: 'outer_top', def: '4\" Fixed Top and Side' },
+            { id: 'outer_bottom', def: '4\" Fixed Bottom' },
+            { id: 'group_cover', def: '4\" Group Cover' },
+            { id: 'plane_cover', def: '4\" Plane Cover' },
+            { id: 'wall_frame', def: '4\" Wall Frame' },
+            { id: 'angle', def: '1\" x 1\" Fitting Angel (2 mm)' }
         ];
     } else if (sizeType === 'curtain_wall_2') {
-        headerTitle = "২ ইঞ্চি কার্টেন ওয়াল ও বক্স (খোপ ভিত্তিক - ফিটে মাপ)";
+        headerTitle = "২ ইঞ্চি কার্টেন ওয়াল ও বক্স (ফিটে মাপ / সরাসরি Rft)";
         itemsToDisplay = [
-            { id: 'cw_box', def: '2" x 1" Box (0.95 mm)' },
-            { id: 'box_175', def: '1.75" x 1.75" Box' },
-            { id: 'box_125', def: '1.25" x 1.25" Box' },
-            { id: 'angle', def: '1" x 1" Fitting Angel (2 mm)' }
+            { id: 'cw_box', def: '2\" x 1\" Box (0.95 mm)' },
+            { id: 'box_175', def: '1.75\" x 1.75\" Box' },
+            { id: 'box_125', def: '1.25\" x 1.25\" Box' },
+            { id: 'angle', def: '1\" x 1\" Fitting Angel (2 mm)' }
         ];
     } else if (sizeType === 'curtain_wall_4') {
-        headerTitle = "৪ ইঞ্চি কার্টেন ওয়াল ও বক্স (খোপ ভিত্তিক - ফিটে মাপ)";
+        headerTitle = "৪ ইঞ্চি কার্টেন ওয়াল ও বক্স (ফিটে মাপ / সরাসরি Rft)";
         itemsToDisplay = [
             { id: 'cw_middle', def: 'Carting Wall Middle' },
             { id: 'cw_side', def: 'Carting Wall Side' },
-            { id: 'corner_box', def: '3" Corner Box (136)' },
-            { id: 'cw_box4', def: '3" x 1" Box (1 mm)' },
-            { id: 'angle', def: '1" x 1.25" Fitting Angel (2.5 mm)' }
+            { id: 'corner_box', def: '3\" Corner Box (136)' },
+            { id: 'cw_box4', def: '3\" x 1\" Box (1 mm)' },
+            { id: 'angle', def: '1\" x 1.25\" Fitting Angel (2.5 mm)' }
         ];
     } else {
         headerTitle = "অন্যান্য আইটেম (সব সেকশন)";
@@ -911,7 +939,7 @@ function onSizeCategoryChange() {
         ];
     }
 
-    tbody.innerHTML = `<tr class="category-header"><td colspan="2">${headerTitle}</td></tr>`;
+    tbody.innerHTML = `<tr class="category-header"><td colspan="3">${headerTitle}</td></tr>`;
 
     itemsToDisplay.forEach(item => {
         let selectOptions = '';
@@ -921,14 +949,16 @@ function onSizeCategoryChange() {
             selectOptions += `<option value="${safeProfileVal}" ${selected}>${profile}</option>`;
         });
 
+        const comp = document.getElementById('companySelect').value;
         let defRate = defaultRates[item.def] || '';
-        let savedRate = localStorage.getItem('erp_setting_rate_' + item.def);
+        let savedRate = localStorage.getItem(`erp_setting_rate_${comp}_` + item.def);
         let displayRate = savedRate !== null ? savedRate : defRate;
 
         tbody.innerHTML += `
             <tr>
                 <td><select class="dyn-select" id="sel_${item.id}" onchange="loadRate(this.id, 'rate_${item.id}')">${selectOptions}</select></td>
                 <td><input type="number" id="rate_${item.id}" value="${displayRate}" placeholder="রেট" step="0.01"></td>
+                <td><input type="number" class="direct-rft-input" id="rft_${item.id}" value="" placeholder="ফিট (ঐচ্ছিক)" step="0.01"></td>
             </tr>
         `;
     });
@@ -1003,9 +1033,10 @@ function addCustomRow() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
         <td><select class="dyn-select" id="sel_${rowId}" onchange="loadRate(this.id, 'rate_${rowId}')">${selectOptions}</select></td>
+        <td><input type="number" id="rate_${rowId}" value="0" placeholder="রেট" step="0.01"></td>
         <td>
             <div style="display:flex; gap:5px; align-items:center;">
-                <input type="number" id="rate_${rowId}" value="0" placeholder="রেট" step="0.01" style="flex:1;">
+                <input type="number" class="direct-rft-input" id="rft_${rowId}" value="" placeholder="ফিট" step="0.01" style="flex:1;">
                 <button onclick="this.closest('tr').remove()" style="background:#ef4444; color:white; border:none; padding:6px 8px; border-radius:4px; font-weight:bold; cursor:pointer;" title="মুছে ফেলুন">✕</button>
             </div>
         </td>
@@ -1016,8 +1047,9 @@ function addCustomRow() {
 
 function loadRate(selectId, inputId) {
     const selectedProfile = document.getElementById(selectId).value.replace(/&quot;/g, '"');
+    const comp = document.getElementById('companySelect').value;
     let defRate = defaultRates[selectedProfile] || '';
-    const savedRate = localStorage.getItem('erp_setting_rate_' + selectedProfile);
+    const savedRate = localStorage.getItem(`erp_setting_rate_${comp}_` + selectedProfile);
     document.getElementById(inputId).value = savedRate !== null ? savedRate : defRate;
 }
 
@@ -1032,25 +1064,16 @@ function saveShopDetails() {
 }
 
 function loadShopDetails() {
-    // ইনডেক্স ফাইলের সঠিক Key (app_user_company এবং app_user_mobile) ব্যবহার করা হলো
     let savedShopName = localStorage.getItem("app_user_company");
     let savedShopPhone = localStorage.getItem("app_user_mobile");
 
-    // যদি নাম সেভ করা থাকে, তবে তা ফিল্ডে বসবে
-    if (savedShopName) {
-        document.getElementById("shopName").value = savedShopName;
-    }
-    // যদি নাম্বার সেভ করা থাকে, তবে তা ফিল্ডে বসবে
-    if (savedShopPhone) {
-        document.getElementById("shopPhone").value = savedShopPhone;
-    }
+    if (savedShopName) { document.getElementById("shopName").value = savedShopName; }
+    if (savedShopPhone) { document.getElementById("shopPhone").value = savedShopPhone; }
 }
 
-// পেজ লোড হওয়ার সাথে সাথে ডেটা অটোমেটিক বসানোর জন্য
 window.onload = function() {
     loadShopDetails();
 };
-
 
 function addWindow() {
     windowCount++;
@@ -1081,22 +1104,36 @@ function calculateTotal() {
     document.querySelectorAll('#rateTableBody tr').forEach(tr => {
         const sel = tr.querySelector('.dyn-select');
         const inp = tr.querySelector('input[type="number"]');
+        const directRftInp = tr.querySelector('.direct-rft-input');
         if (sel && inp) {
             let key = sel.id;
             let profileName = sel.value.replace(/&quot;/g, '"');
+            let directRftVal = parseFloat(directRftInp?.value) || 0;
             
             activeConfigs.push({
                 key: key,
                 name: profileName,
                 inputId: inp.id,
+                directRft: directRftVal,
                 ftCalc: (l, h, q, vDiv, hDiv) => {
                     let nameToLower = profileName.toLowerCase();
 
                     if (sizeType === 'single') {
-                        if (nameToLower.includes('top') || nameToLower.includes('bottom') && !nameToLower.includes('cover')) return (l * 2) * q;
-                        if (nameToLower.includes('side')) return h * 1 * q;
-                        if (nameToLower.includes('lock')) return h * 2 * q;
-                        if (nameToLower.includes('box')) return (l + h) * q;
+                        if (nameToLower.includes('outer') && (nameToLower.includes('top') || nameToLower.includes('bottom'))) {
+                            return l * 2 * q; 
+                        }
+                        if (nameToLower.includes('lock')) {
+                            return h * 2 * q; 
+                        }
+                        if (nameToLower.includes('shutter') && (nameToLower.includes('top') || nameToLower.includes('bottom'))) {
+                            return l * 1 * q; 
+                        }
+                        if (nameToLower.includes('side')) {
+                            return h * 2 * q; 
+                        }
+                        if (nameToLower.includes('box')) {
+                            return (l + h) * q; 
+                        }
                         return l * q;
                     } else if (isFeet) {
                         let outerTopBottom = (l * 2) * q;
@@ -1109,8 +1146,12 @@ function calculateTotal() {
                         if (nameToLower.includes('angle')) return (vDiv + hDiv) * 2 * q;
                         return (l + h) * q;
                     } else {
-                        if (nameToLower.includes('side') || nameToLower.includes('lock') || nameToLower.includes('inter lock') || nameToLower.includes('handle')) return h * 2 * q;
-                        if (nameToLower.includes('top') || nameToLower.includes('bottom')) return (l * 2) * q;
+                        if (nameToLower.includes('side') || nameToLower.includes('lock') || nameToLower.includes('inter lock') || nameToLower.includes('handle')) {
+                            return h * 2 * q;
+                        }
+                        if (nameToLower.includes('top') || nameToLower.includes('bottom')) {
+                            return l * 1 * q; 
+                        }
                         if (nameToLower.includes('net section')) return ((l * 2) + (h * 2)) * q;
                         if (nameToLower.includes('box')) return (l + h) * q;
                         return l * q;
@@ -1124,11 +1165,8 @@ function calculateTotal() {
     activeConfigs.forEach(s => sectionTotals[s.key] = 0);
 
     const windowBoxes = document.querySelectorAll('.window-box');
-    if(windowBoxes.length === 0) {
-        alert("দয়া করে অন্তত একটি আইটেমের মাপ যোগ করুন!");
-        return;
-    }
-
+    
+    // Calculate from windows if any
     windowBoxes.forEach(win => {
         const hInput = parseFloat(win.querySelector('.height').value) || 0;
         const lInput = parseFloat(win.querySelector('.length').value) || 0;
@@ -1155,6 +1193,24 @@ function calculateTotal() {
             activeConfigs.forEach(s => sectionTotals[s.key] += s.ftCalc(lFeet, hFeet, qty, vDiv, hDiv));
         }
     });
+
+    // Add direct running feet entered in table rows
+    activeConfigs.forEach(s => {
+        if (s.directRft > 0) {
+            sectionTotals[s.key] += s.directRft;
+        }
+    });
+
+    // If no windows added but direct running feet are used, estimate total SFT from total running feet
+    if (totalSqft === 0) {
+        let totalFtSum = 0;
+        activeConfigs.forEach(s => {
+            totalFtSum += sectionTotals[s.key];
+        });
+        if (totalFtSum > 0) {
+            totalSqft = totalFtSum / 3.5; // Estimated SFT based on total running feet
+        }
+    }
 
     const breakdownBody = document.getElementById('breakdownBody');
     breakdownBody.innerHTML = '';

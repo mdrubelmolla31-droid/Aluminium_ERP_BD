@@ -419,7 +419,7 @@
             }
         }
 
-        /* 6. REGISTRATION FUNCTION WITH EMAIL VERIFICATION & REDIRECT */
+                /* 6. REGISTRATION FUNCTION (FIXED TO USE MOBILE AS DB NODE) */
         async function processRegistration() {
             const name = document.getElementById("regName").value.trim();
             const mobile = document.getElementById("regMobile").value.trim();
@@ -437,6 +437,15 @@
             btn.disabled = true;
 
             try {
+                // ১. মোবাইল নম্বর দিয়ে ডাটাবেজে আগে থেকেই আছে কিনা চেক করা
+                const snapshot = await db.ref("users/" + cleanMobile).once('value');
+                if (snapshot.exists()) {
+                    btn.innerText = "🚀 রেজিস্ট্রেশন করুন"; 
+                    btn.disabled = false;
+                    return alert("❌ এই মোবাইল নম্বরটি ইতিমধ্যে রেজিস্টার করা আছে!");
+                }
+
+                // ২. ফায়ারবেস অথ-এ অ্যাকাউন্ট তৈরি
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
@@ -445,8 +454,10 @@
                     handleCodeInApp: false
                 };
 
+                // ৩. জিমেইল ভেরিফিকেশন পাঠানো
                 await user.sendEmailVerification(actionCodeSettings);
 
+                // ৪. ডাটাবেজে মোবাইল নম্বরকে রুট নোড হিসেবে সেভ করা
                 const userObj = {
                     uid: user.uid,
                     name: name,
@@ -459,7 +470,7 @@
                     role: "user"
                 };
 
-                await db.ref("users/" + user.uid).set(userObj);
+                await db.ref("users/" + cleanMobile).set(userObj);
                 
                 await auth.signOut();
 

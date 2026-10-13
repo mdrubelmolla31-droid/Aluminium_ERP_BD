@@ -419,7 +419,7 @@
             }
         }
 
-                /* 6. REGISTRATION FUNCTION (FIXED TO USE MOBILE AS DB NODE) */
+        /* 6. REGISTRATION FUNCTION (MOBILE AS DB ROOT NODE) */
         async function processRegistration() {
             const name = document.getElementById("regName").value.trim();
             const mobile = document.getElementById("regMobile").value.trim();
@@ -437,7 +437,7 @@
             btn.disabled = true;
 
             try {
-                // ১. মোবাইল নম্বর দিয়ে ডাটাবেজে আগে থেকেই আছে কিনা চেক করা
+                // ১. মোবাইল নম্বর দিয়ে ডাটাবেজে আগে থেকে আছে কিনা চেক
                 const snapshot = await db.ref("users/" + cleanMobile).once('value');
                 if (snapshot.exists()) {
                     btn.innerText = "🚀 রেজিস্ট্রেশন করুন"; 
@@ -445,7 +445,7 @@
                     return alert("❌ এই মোবাইল নম্বরটি ইতিমধ্যে রেজিস্টার করা আছে!");
                 }
 
-                // ২. ফায়ারবেস অথ-এ অ্যাকাউন্ট তৈরি
+                // ২. ফায়ারবেস অথেন্টিকেশনে অ্যাকাউন্ট তৈরি
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
@@ -454,10 +454,10 @@
                     handleCodeInApp: false
                 };
 
-                // ৩. জিমেইল ভেরিফিকেশন পাঠানো
+                // ৩. জিমেইলে ভেরিফিকেশন পাঠানো
                 await user.sendEmailVerification(actionCodeSettings);
 
-                // ৪. ডাটাবেজে মোবাইল নম্বরকে রুট নোড হিসেবে সেভ করা
+                // ৪. ডাটাবেজে সরাসরি মোবাইল নম্বর দিয়ে ইউজার নোড তৈরি
                 const userObj = {
                     uid: user.uid,
                     name: name,
@@ -472,6 +472,10 @@
 
                 await db.ref("users/" + cleanMobile).set(userObj);
                 
+                // লোকাল স্টোরেজেও মোবাইল নম্বর ও নাম সেভ করে রাখা
+                localStorage.setItem("app_user_mobile", cleanMobile);
+                localStorage.setItem("app_user_fullname", name);
+
                 await auth.signOut();
 
                 alert("✉️ সফলভাবে রেজিস্ট্রেশন হয়েছে!\n\nআপনার জিমেইল ইনবক্সে একটি ভেরিফিকেশন লিংক পাঠানো হয়েছে। লিংকটিতে ক্লিক করলে সরাসরি অ্যাপে ফিরে আসবেন।");
@@ -496,7 +500,15 @@
             btn.disabled = true;
 
             try {
-                await auth.signInWithEmailAndPassword(email, password);
+                const userCred = await auth.signInWithEmailAndPassword(email, password);
+                // লগইন করার পর ইমেইল দিয়ে ডাটাবেজ খুঁজে মোবাইল নম্বর লোকাল স্টোরেজে সেট করা
+                const snapshot = await db.ref("users").orderByChild("email").equalTo(email.toLowerCase()).once('value');
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnap) => {
+                        localStorage.setItem("app_user_mobile", childSnap.key);
+                        localStorage.setItem("app_user_fullname", childSnap.val().name || "");
+                    });
+                }
             } catch (error) {
                 alert("❌ ভুল ইমেইল অথবা পাসওয়ার্ড!");
             } finally {
@@ -506,7 +518,10 @@
         }
 
         function processLogout() {
-            auth.signOut().then(() => location.reload());
+            auth.signOut().then(() => {
+                localStorage.removeItem("app_user_mobile");
+                location.reload();
+            });
         }
 
         /* 8. AUTH STATE & EMAIL VERIFICATION ENFORCEMENT */
@@ -530,7 +545,7 @@
                 const badge = document.getElementById("trialStatusBadge");
 
                 if (user) {
-                    user.reload().then(() => {
+                    user.reload().then(async () => {
                         if (!user.emailVerified) {
                             lockScreen.style.display = "flex";
                             regBox.style.display = "none";
@@ -549,24 +564,38 @@
                             return;
                         }
 
-                        const userRef = db.ref("users/" + user.uid);
+                        // ইমেইল দিয়ে ডাটাবেজ থেকে ইউজারের মোবাইল নম্বর খুঁজে বের করা
+                        let targetMobile = localStorage.getItem("app_user_mobile");
+                        if (!targetMobile) {
+                            const snap = await db.ref("users").orderByChild("email").equalTo(user.email.toLowerCase()).once('value');
+                            if (snap.exists()) {
+                                snap.forEach((c) => {
+                                    targetMobile = c.key;
+                                    localStorage.setItem("app_user_mobile", targetMobile);
+                                    localStorage.setItem("app_user_fullname", c.val().name || "");
+                                });
+                            }
+                        }
+
+                        if (!targetMobile) {
+                            lockScreen.style.display = "flex";
+                            regBox.style.display = "block";
+                            loginBox.style.display = "none";
+                            lockedBox.style.display = "none";
+                            return;
+                        }
+
+                        const userRef = db.ref("users/" + targetMobile);
                         if (activeFirebaseListener) userRef.off('value', activeFirebaseListener);
 
                         activeFirebaseListener = userRef.on('value', (snapshot) => {
                             let userData = snapshot.val();
                             if (!userData) {
-                                userData = {
-                                    uid: user.uid,
-                                    name: user.displayName || "ইউজার",
-                                    mobile: "N/A",
-                                    email: user.email,
-                                    company: "Aluminium ERP BD",
-                                    registered_at: Date.now(),
-                                    status: "trial",
-                                    role: "user",
-                                    device_id: currentDeviceId
-                                };
-                                userRef.set(userData);
+                                lockScreen.style.display = "flex";
+                                regBox.style.display = "block";
+                                loginBox.style.display = "none";
+                                lockedBox.style.display = "none";
+                                return;
                             }
 
                             document.getElementById("deviceIdDisplay").innerText = "Device ID: " + currentDeviceId;
@@ -802,8 +831,8 @@
                 }
 
                 let html = "";
-                Object.keys(users).forEach((uid) => {
-                    const u = users[uid];
+                Object.keys(users).forEach((mobileKey) => {
+                    const u = users[mobileKey];
                     const statusColor = u.status === "approved" ? "#10b981" : (u.status === "blocked" ? "#ef4444" : "#d97706");
                     const statusText = u.status === "approved" ? "Approved" : (u.status === "blocked" ? "Blocked" : "Trial");
                     
@@ -812,18 +841,18 @@
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <div>
                                 <div style="color:#1e293b; font-weight:bold; font-size:14px;">${u.name || "N/A"} ${u.role === 'admin' ? '👑 (Admin)' : ''}</div>
-                                <div style="color:#475569; font-size:12px;">📱 ${u.mobile || "N/A"} | ✉️ ${u.email || "N/A"}</div>
+                                <div style="color:#475569; font-size:12px;">📱 ${u.mobile || mobileKey} | ✉️ ${u.email || "N/A"}</div>
                                 <div style="color:#64748b; font-size:10px; font-family:monospace; margin-top:2px;">🆔 ${u.device_id || "N/A"}</div>
                             </div>
                             <span style="background:rgba(37,99,235,0.08); color:${statusColor}; border:1px solid ${statusColor}; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:bold;">${statusText}</span>
                         </div>
                         <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
-                            <select id="statusSelect_${uid}" style="flex:1; padding:8px; border-radius:6px; background:#ffffff; color:#0f172a; border:1px solid #93c5fd; font-size:13px; outline:none;">
+                            <select id="statusSelect_${mobileKey}" style="flex:1; padding:8px; border-radius:6px; background:#ffffff; color:#0f172a; border:1px solid #93c5fd; font-size:13px; outline:none;">
                                 <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve</option>
                                 <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial</option>
                                 <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block</option>
                             </select>
-                            <button onclick="changeUserStatus('${uid}')" style="background:#2563eb; color:#fff; border:none; padding:8px 15px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer;">আপডেট</button>
+                            <button onclick="changeUserStatus('${mobileKey}')" style="background:#2563eb; color:#fff; border:none; padding:8px 15px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer;">আপডেট</button>
                         </div>
                     </div>`;
                 });
@@ -831,9 +860,9 @@
             });
         }
 
-        function changeUserStatus(uid) {
-            const newStatus = document.getElementById("statusSelect_" + uid).value;
-            db.ref("users/" + uid).update({ status: newStatus }).then(() => {
+        function changeUserStatus(mobileKey) {
+            const newStatus = document.getElementById("statusSelect_" + mobileKey).value;
+            db.ref("users/" + mobileKey).update({ status: newStatus }).then(() => {
                 alert("✅ ইউজারের স্ট্যাটাস সফলভাবে আপডেট করা হয়েছে!");
             }).catch(() => alert("❌ স্ট্যাটাস পরিবর্তনে সমস্যা হয়েছে!"));
         }

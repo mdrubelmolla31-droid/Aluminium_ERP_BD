@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="theme-color" content="#0b0f19">
-    <title>Aluminium ERP BD v5.0 (Cloud Secured)</title>
+    <title>Aluminium ERP BD v1.0 (Cloud Secured)</title>
     <link rel="icon" type="image/png" href="icon-192.png">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
@@ -55,7 +55,7 @@
         .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
         @media (min-width:768px) { .grid-menu { grid-template-columns: repeat(4,1fr); gap: 20px; } }
         @media (min-width:1024px) { .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; } }
-        .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,15,25,0.98); display: flex; justify-content: center; align-items: center; z-index: 9999999; padding: 20px; }
+        .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,15,25,0.98); display: flex; justify-content: center; align-items: center; z-index: 999999; padding: 20px; }
         .lock-box { background: #111827; border: 1px solid #1e293b; padding: 30px 25px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; }
         .device-id-box { background: #1e293b; border: 1px dashed #3b82f6; color: #fbbf24; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 14px; font-weight: bold; margin: 15px 0; word-break: break-all; }
         .btn-whatsapp { display: block; width: 100%; padding: 12px; background: #25d366; color: #fff; border: none; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 14px; margin-bottom: 15px; text-align: center; }
@@ -63,7 +63,7 @@
         .btn-unlock { width: 100%; padding: 12px; background: #1d4ed8; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
         .dev-branding-footer { color: #fbbf24; font-size: 12px; font-weight: bold; margin-top: 20px; padding: 10px; background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); border-radius: 8px; }
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 1000; }
-        .sidebar-content { background: #111827; width: 300px; height: 100%; padding: 20px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
+        .sidebar-content { background: #111827; width: 300px; height: 100%; padding: 20px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; overflow-y: auto; }
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 10px; }
         .sidebar-menu-item { padding: 14px; color: #e5e7eb; text-decoration: none; border-radius: 8px; margin-bottom: 12px; background: #1e293b; display: block; font-size: 15px; font-weight: bold; text-align: center; }
         .support-btn { background: #059669; color: white; }
@@ -103,6 +103,70 @@
         </div>
     </div>
 
+    <!-- 🌟 FIRST-TIME AGREEMENT & TERMS MODAL 🌟 -->
+    <div class="lock-overlay" id="termsAgreementModal" style="display:none; z-index:9999999; padding:15px;">
+        <div class="lock-box" style="max-width:650px; width:100%; text-align:left; background:#111827; border:1px solid #1e293b; padding:20px; border-radius:16px;">
+            <h3 style="color:#fbbf24; font-size:20px; margin-bottom:5px; text-align:center;">ALUMINIUM ERP BD</h3>
+            <p style="color:#94a3b8; font-size:12px; text-align:center; margin-bottom:15px;">Glass & Aluminium Management System</p>
+            
+            <div style="background:#1e293b; border:1px solid #334155; padding:15px; border-radius:10px; max-height:55vh; overflow-y:auto; font-size:13px; line-height:1.6; color:#e2e8f0; margin-bottom:15px;">
+                <h4 style="color:#60a5fa; margin-bottom:8px;">অ্যাপ পরিচিতি, লাইসেন্স নীতিমালা, গোপনীয়তা ও শর্তাবলি</h4>
+                
+                <p><b>১. অ্যাপ সম্পর্কে (About Application):</b><br>
+                ALUMINIUM ERP BD হলো গ্লাস ও অ্যালুমিনিয়াম ব্যবসার দৈনন্দিন কার্যক্রম সহজ, দ্রুত ও সুশৃঙ্খলভাবে পরিচালনার জন্য তৈরি একটি ডিজিটাল ম্যানেজমেন্ট অ্যাপ্লিকেশন। এর মাধ্যমে ব্যবহারকারী অ্যালুমিনিয়াম প্রোফাইল, গ্লাস, হার্ডওয়্যার, কাটিং হিসাব, দর নির্ধারণ, কস্টিং, কোটেশন এবং অ্যাপে উপলব্ধ অন্যান্য ব্যবসায়িক হিসাব পরিচালনা করতে পারবেন। এই অ্যাপের উদ্দেশ্য হলো ব্যবসার সময় সাশ্রয় করা, হিসাব ব্যবস্থাপনাকে সহজ করা এবং কাজের দক্ষতা বৃদ্ধি করা।</p><br>
+
+                <p><b>২. লাইসেন্স ও ব্যবহারাধিকার (License & Usage Rights):</b><br>
+                ১. ALUMINIUM ERP BD-এর ব্যবহারাধিকার অ্যাপের নির্ধারিত লাইসেন্স ও অনুমোদনের শর্তের অধীন।<br>
+                ২. অ্যাপের লাইসেন্স ব্যক্তিগত ব্যবহারকারী, অনুমোদিত অ্যাকাউন্ট অথবা নির্ধারিত ডিভাইসের সঙ্গে যুক্ত থাকতে পারে।<br>
+                ৩. লাইসেন্স হস্তান্তর, বিক্রি, ভাড়া দেওয়া বা শেয়ার করা কর্তৃপক্ষের অনুমোদনসাপেক্ষ।<br>
+                ৪. অনুমতি ছাড়া অ্যাপের কোড, ডিজাইন, লোগো বা ব্র্যান্ডিং কপি বা বাণিজ্যিকভাবে ব্যবহার করা যাবে না।<br>
+                ৫. লাইসেন্সের অপব্যবহার বা অননুমোদিত প্রবেশ শনাক্ত হলে অ্যাক্সেস সাময়িকভাবে বা স্থায়ীভাবে বন্ধ করা হতে পারে।</p><br>
+
+                <p><b>৩. ফ্রি ট্রায়াল ও লাইসেন্সের মেয়াদ (Trial & Subscription):</b><br>
+                ১. অ্যাপে প্রদত্ত ফ্রি ট্রায়াল নির্ধারিত সময়ের জন্য প্রযোজ্য।<br>
+                ২. ট্রায়ালের মেয়াদ শেষ হলে পূর্ণ ব্যবহার চালিয়ে যাওয়ার জন্য অতিরিক্ত লাইসেন্স বা অনুমোদনের প্রয়োজন হতে পারে।<br>
+                ৩. অ্যাপের ডেটা মুছে ফেলা, পুনরায় ইনস্টল করা বা ডিভাইস পরিবর্তন করার মাধ্যমে নতুন ট্রায়ালের নিশ্চয়তা দেওয়া হয় না।</p><br>
+
+                <p><b>৪. অ্যাপ আপডেট নীতিমালা (Update Policy):</b><br>
+                ১. অ্যাপের কার্যকারিতা ও নিরাপত্তা উন্নত করার জন্য সময়ে সময়ে আপডেট প্রকাশ করা হতে পারে।<br>
+                ২. গুরুত্বপূর্ণ আপডেটের আগে ব্যবহারকারীকে ব্যাকআপ রাখার পরামর্শ দেওয়া হচ্ছে।</p><br>
+
+                <p><b>৫. তথ্যের গোপনীয়তা ও নিরাপত্তা (Privacy & Security):</b><br>
+                ১. ব্যবহারকারীর নাম, মোবাইল, ইমেইল, প্রতিষ্ঠানের নাম ও ব্যবসায়িক হিসাব সংরক্ষিত হতে পারে।<br>
+                ২. ব্যবহারকারীর ব্যক্তিগত তথ্য অননুমোদিত ব্যক্তির কাছে বিক্রি বা প্রকাশ করা হবে না।</p><br>
+
+                <p><b>৬. হিসাবের নির্ভুলতা ও দায়বদ্ধতা (Calculation Disclaimer):</b><br>
+                ১. অ্যাপের হিসাব ব্যবহারকারীর ইনপুটের ওপর নির্ভরশীল। ভুল ইনপুটের জন্য অ্যাপ বা ডেভেলপার দায়ী নয়।<br>
+                ২. অর্ডার চূড়ান্ত বা উৎপাদন শুরু করার আগে প্রয়োজনীয় হিসাব পুনরায় পরীক্ষা করা ব্যবহারকারীর দায়িত্ব।</p><br>
+
+                <p><b>৭. ব্যবহারকারীর দায়িত্ব (User Responsibilities):</b><br>
+                সঠিক তথ্য প্রদান করা, বৈধ ব্যবসায়িক কাজে ব্যবহার করা এবং নিজের তথ্যের ব্যাকআপ রাখা ব্যবহারকারীর দায়িত্ব।</p><br>
+
+                <p><b>৮. পরিষেবা প্রদানকারীর দায়িত্ব (Developer Responsibilities):</b><br>
+                ডেভেলপার ত্রুটি সংশোধন ও নিরাপত্তা নিশ্চিত করার চেষ্টা করবে, তবে নেটওয়ার্ক বিভ্রাট বা তৃতীয় পক্ষের কারণে পরিষেবা ব্যাহত হতে পারে।</p><br>
+
+                <p><b>৯. অ্যাকাউন্ট স্থগিত বা বন্ধ করা (Account Suspension):</b><br>
+                শর্তাবলি লঙ্ঘন বা অপব্যবহারের ক্ষেত্রে অ্যাকাউন্ট স্থগিত বা বন্ধ করা হতে পারে।</p><br>
+
+                <p><b>১০. তৃতীয় পক্ষের পরিষেবা (Third-Party Services):</b><br>
+                অ্যাপের নির্দিষ্ট ফিচার Firebase বা হোস্টিং পরিষেবার ওপর নির্ভর করতে পারে।</p><br>
+
+                <p><b>১১. শর্তাবলির পরিবর্তন (Changes to Terms):</b><br>
+                প্রয়োজনীয়তা বা আইনগত পরিবর্তনের কারণে এই শর্তাবলি সংশোধন করা হতে পারে।</p><br>
+
+                <p><b>১২. যোগাযোগ ও সহায়তা (Contact & Support):</b><br>
+                Developer: RM COMPUTER | Brand: RM THAI ALUMINIUM<br>
+                Support WhatsApp: 01676-474412</p><br>
+
+                <p><b>১৩. চূড়ান্ত ঘোষণা (Final Declaration):</b><br>
+                ALUMINIUM ERP BD ব্যবহার করার মাধ্যমে ব্যবহারকারী ওপরের সমস্ত শর্তাবলি মেনে চলার বিষয়টি স্বীকার করেন।<br><br>
+                <i>Version: [1.0] | Last Updated: [12/09/2026]</i></p>
+            </div>
+
+            <button type="button" class="btn-unlock" onclick="agreeAndCloseTerms()" style="background:#10b981; font-size:15px; padding:14px; cursor:pointer; width:100%; border:none; border-radius:8px; color:#fff; font-weight:bold;">✅ আমি শর্তাবলি পড়েছি এবং সম্মত আছি</button>
+        </div>
+    </div>
+
     <!-- SECURITY & REGISTRATION LOCK SCREEN -->
     <div class="lock-overlay" id="lockScreen" style="display:none;">
         <div class="lock-box">
@@ -113,7 +177,6 @@
                 অ্যাপ ব্যবহার করতে ভেরিফিকেশন সম্পন্ন করুন!
             </p>
 
-            <!-- 🌟 DIRECT REGISTRATION FORM 🌟 -->
             <div id="registrationBox" style="display:none; text-align:left; margin-top:15px;">
                 <label style="color:#9ca3af;font-size:12px;">আপনার পূর্ণ নাম:</label>
                 <input type="text" id="regName" class="lock-input" placeholder="যেমন: মোঃ রহিম" style="margin-bottom:10px;">
@@ -129,7 +192,6 @@
                 </button>
             </div>
 
-            <!-- LOCKED ACCESS DETAILS (SHOWN WHEN TRIAL ENDS OR BLOCKED) -->
             <div id="lockedDetailsBox" style="display:none;">
                 <div class="device-id-box" id="deviceIdDisplay">Device ID Generating...</div>
                 <a id="whatsappLink" href="#" target="_blank" class="btn-whatsapp">
@@ -192,7 +254,44 @@
         </div>
     </div>
 
-    <!-- 🌟 ADMIN PIN VERIFICATION MODAL (HIGH SECURITY SHA-256) 🌟 -->
+    <!-- 🌟 ABOUT MODAL 🌟 -->
+    <div class="lock-overlay" id="aboutModal" style="display:none; z-index:10004; padding:20px;">
+        <div class="lock-box" style="text-align:left; max-width:600px; max-height:85vh; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #334155; padding-bottom:10px;">
+                <h3 style="color:#fbbf24; font-size:18px;">ℹ️ About & Terms (এবাউট ও শর্তাবলি)</h3>
+                <button class="icon-btn" onclick="closeAboutModal()" style="padding:2px 8px; background:#ef4444; border:none; font-size:12px; cursor:pointer;">✕</button>
+            </div>
+            
+            <div style="background:#1e293b; padding:15px; border-radius:10px; overflow-y:auto; flex:1; font-size:13px; line-height:1.6; color:#e2e8f0; margin-bottom:15px; border:1px solid #334155;">
+                <h4 style="color:#60a5fa; margin-bottom:6px;">ALUMINIUM ERP BD</h4>
+                <p style="margin-bottom:10px;"><b>Glass & Aluminium Management System</b><br>
+                Developed & Managed by: <b>RM COMPUTER — RM THAI ALUMINIUM</b><br>
+                Support WhatsApp: <b>01676-474412</b></p>
+                <hr style="border:0; border-top:1px solid #334155; margin:10px 0;">
+
+                <p><b>১. অ্যাপ সম্পর্কে (About Application):</b><br>
+                ALUMINIUM ERP BD হলো গ্লাস ও অ্যালুমিনিয়াম ব্যবসার দৈনন্দিন কার্যক্রম সহজ, দ্রুত ও সুশৃঙ্খলভাবে পরিচালনার জন্য তৈরি একটি ডিজিটাল ম্যানেজমেন্ট অ্যাপ্লিকেশন। এর মাধ্যমে ব্যবহারকারী অ্যালুমিনিয়াম প্রোফাইল, গ্লাস, হার্ডওয়্যার, কাটিং হিসাব, দর নির্ধারণ, কস্টিং, কোটেশন এবং অ্যাপে উপলব্ধ অন্যান্য ব্যবসায়িক হিসাব পরিচালনা করতে পারবেন।</p><br>
+
+                <p><b>২. লাইসেন্স ও ব্যবহারাধিকার (License & Usage Rights):</b><br>
+                - অ্যাপের লাইসেন্স ব্যক্তিগত ব্যবহারকারী বা অনুমোদিত অ্যাকাউন্টের সঙ্গে যুক্ত।<br>
+                - অনুমতি ছাড়া অ্যাপের কোড, ডিজাইন, লোগো বা ব্র্যান্ডিং কপি বা বাণিজ্যিকভাবে ব্যবহার করা যাবে না।<br>
+                - লাইসেন্সের অপব্যবহার বা অননুমোদিত প্রবেশ শনাক্ত হলে অ্যাক্সেস সাময়িকভাবে বা স্থায়ীভাবে বন্ধ করা হতে পারে।</p><br>
+
+                <p><b>৩. ফ্রি ট্রায়াল ও লাইসেন্সের মেয়াদ:</b><br>
+                ফ্রি ট্রায়াল নির্ধারিত সময়ের জন্য প্রযোজ্য। মেয়াদ শেষ হলে পূর্ণ ব্যবহার চালিয়ে যাওয়ার জন্য অনুমোদনের প্রয়োজন হবে।</p><br>
+
+                <p><b>৪. হিসাবের নির্ভুলতা ও দায়বদ্ধতা:</b><br>
+                অ্যাপের হিসাব ব্যবহারকারীর ইনপুটের ওপর নির্ভরশীল। অর্ডার চূড়ান্ত করার আগে হিসাব পুনরায় পরীক্ষা করা ব্যবহারকারীর দায়িত্ব।</p><br>
+
+                <p><b>৫. যোগাযোগ ও সহায়তা:</b><br>
+                লাইসেন্স বা হিসাবের সমস্যার জন্য যোগাযোগ করুন: <b>01676-474412</b> (WhatsApp)।</p>
+            </div>
+
+            <button class="btn-unlock" onclick="closeAboutModal()" style="background:#3b82f6;">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- ADMIN PIN VERIFICATION MODAL -->
     <div class="lock-overlay" id="adminPinModal" style="display:none;z-index:10002;">
         <div class="lock-box" style="max-width:300px; text-align:center;">
             <div style="font-size: 35px; margin-bottom: 10px;">🔐</div>
@@ -206,16 +305,14 @@
         </div>
     </div>
 
-    <!-- 🌟 ADMIN PANEL MODAL 🌟 -->
+    <!-- ADMIN PANEL MODAL -->
     <div class="lock-overlay" id="adminPanelModal" style="display:none;z-index:10005;padding:20px;">
         <div class="lock-box" style="max-width:600px; width:100%; text-align:left; margin:auto;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #334155; padding-bottom:10px;">
                 <h3 style="color:#fbbf24;font-size:18px;">👑 এডমিন প্যানেল</h3>
                 <button class="icon-btn" onclick="document.getElementById('adminPanelModal').style.display='none'" style="padding:4px 10px; background:#ef4444; border:none; font-size:14px;">✕ ক্লোজ</button>
             </div>
-            <div id="adminUserList" style="max-height: 65vh; overflow-y: auto; padding-right:5px;">
-                <!-- ইউজার লিস্ট এখানে লোড হবে -->
-            </div>
+            <div id="adminUserList" style="max-height: 65vh; overflow-y: auto; padding-right:5px;"></div>
         </div>
     </div>
 
@@ -266,19 +363,16 @@
                 <button class="icon-btn" onclick="toggleSidebar()" style="padding:4px 10px;">✕</button>
             </div>
             
-            <!-- 🌟 এডমিন প্যানেল বাটন -->
             <a href="#" class="sidebar-menu-item" id="adminPanelBtn" style="display:none; background:#fbbf24; color:#000; box-shadow: 0 0 10px rgba(251,191,36,0.3);" onclick="promptAdminPin();return false;">👑 Admin Panel</a>
-            
             <a href="#" class="sidebar-menu-item" onclick="openProfileSettings();return false;">👤 My Profile</a>
             <a href="https://wa.me/8801676474412" target="_blank" class="sidebar-menu-item support-btn">🎧 Support</a>
             <a href="javascript:void(0)" onclick="showUpdateModal()" class="sidebar-menu-item update-btn">🔄 আপডেট</a>
+            <a href="javascript:void(0)" onclick="openAboutModal();return false;" class="sidebar-menu-item" style="background:#1e293b; color:#fbbf24; border:1px solid #334155;">ℹ️ About & Terms</a>
         </div>
     </div>
 
     <script>
-        /* ============================================================
-           🚫 1. CUSTOM POPUP SYSTEM
-           ============================================================ */
+        /* 1. CUSTOM POPUP SYSTEM */
         let customAlertCallback = null;
         function alert(msg, callback) {
             const modal = document.getElementById("customAlertModal");
@@ -287,8 +381,6 @@
                 msgEl.innerText = msg;
                 modal.style.display = "flex";
                 customAlertCallback = callback || null;
-            } else {
-                console.log(msg);
             }
         }
 
@@ -300,9 +392,7 @@
             }
         }
 
-        /* ============================================================
-           🔥 2. FIREBASE INITIALIZATION
-           ============================================================ */
+        /* 2. FIREBASE INITIALIZATION */
         const firebaseConfig = {
           apiKey: "AIzaSyDhH7r4Q6CrgYqgOzkqSMalA0lrU49Dz70",
           authDomain: "aluminium-erp-c67f8.firebaseapp.com",
@@ -322,85 +412,39 @@
         const ADMIN_PHONE = "8801676474412";
         const SEC_RESET_VERSION = "FIREBASE_V5_STRICT_PURGE_RESET";
 
-        /* ============================================================
-           🚫 3. DEVTOOLS & RIGHT-CLICK BLOCKER (SECURITY)
-           ============================================================ */
-        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-        document.addEventListener('keydown', function(e) {
-            if (e.keyCode === 123 || e.key === "F12") { e.preventDefault(); return false; }
-            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.key === 'I' || e.key === 'i')) { e.preventDefault(); return false; }
-            if (e.ctrlKey && e.shiftKey && (e.keyCode === 74 || e.key === 'J' || e.key === 'j')) { e.preventDefault(); return false; }
-            if (e.ctrlKey && e.shiftKey && (e.keyCode === 67 || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
-            if (e.ctrlKey && (e.keyCode === 85 || e.key === 'U' || e.key === 'u')) { e.preventDefault(); return false; }
+        /* 3. SECURITY BLOCKERS */
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.keyCode === 123 || e.key === "F12" || (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) || (e.ctrlKey && ['U','u'].includes(e.key))) { 
+                e.preventDefault(); return false; 
+            }
         });
 
-        /* ============================================================
-           🔥 4. SERVICE WORKER KILLER & HARD PURGE
-           ============================================================ */
-        (async function() {
-            let wasCleaned = false;
-            if ('serviceWorker' in navigator) {
-                try {
-                    const registrations = await navigator.serviceWorker.getRegistrations();
-                    for (let registration of registrations) {
-                        await registration.unregister();
-                        wasCleaned = true;
-                    }
-                } catch(e) {}
-            }
-            if ('caches' in window) {
-                try {
-                    const cacheNames = await caches.keys();
-                    for (let name of cacheNames) {
-                        await caches.delete(name);
-                        wasCleaned = true;
-                    }
-                } catch(e) {}
-            }
-            if (localStorage.getItem("app_firebase_sec_ver") !== SEC_RESET_VERSION) {
-                localStorage.removeItem("_secure_license_token");
-                localStorage.removeItem("app_permanently_unlocked");
-                localStorage.removeItem("license_key");
-                localStorage.removeItem("activated");
-                localStorage.removeItem("erp_strict_install_time");
-                localStorage.setItem("app_firebase_sec_ver", SEC_RESET_VERSION);
-            }
-            const HARD_RELOAD_KEY = "firebase_hard_purged_v50";
-            if (wasCleaned && !sessionStorage.getItem(HARD_RELOAD_KEY)) {
-                sessionStorage.setItem(HARD_RELOAD_KEY, "true");
-                window.location.reload(true);
-            }
-        })();
-
-        /* ============================================================
-           🆔 5. DEVICE FINGERPRINTING GENERATOR
-           ============================================================ */
+        /* 4. DEVICE FINGERPRINTING */
         function generateDeviceFingerprint() {
-            const parts = [
-                navigator.userAgent, 
-                screen.width + "x" + screen.height,
-                screen.colorDepth, 
-                navigator.language,
-                navigator.hardwareConcurrency || "4",
-                navigator.deviceMemory || "4",
-                navigator.platform || "Win32",
-                new Date().getTimezoneOffset(),
-                "ALU_FIREBASE_SALT_2026"
-            ];
-            let fp = parts.join("|");
-            let hash = 0;
-            for (let i = 0; i < fp.length; i++) {
-                let ch = fp.charCodeAt(i);
-                hash = ((hash << 5) - hash) + ch;
-                hash = hash & hash;
-            }
+            const parts = [navigator.userAgent, screen.width + "x" + screen.height, navigator.platform || "Win32", "ALU_SALT_2026"];
+            let hash = 0, fp = parts.join("|");
+            for (let i = 0; i < fp.length; i++) hash = ((hash << 5) - hash) + fp.charCodeAt(i);
             return "ALU-HW-" + Math.abs(hash).toString(16).toUpperCase().padStart(8, "0");
         }
         const currentDeviceId = generateDeviceFingerprint();
 
-        /* ============================================================
-           ☁ 6. REALTIME CLOUD SECURITY ENGINE (TRIAL/BLOCK LOCKOUT)
-           ============================================================ */
+        /* 5. FIRST-TIME TERMS AGREEMENT CHECK & DISMISSAL */
+        function checkFirstTimeAgreement() {
+            if (!localStorage.getItem("alu_terms_agreed")) {
+                document.getElementById("termsAgreementModal").style.display = "flex";
+            }
+        }
+
+        function agreeAndCloseTerms() {
+            localStorage.setItem("alu_terms_agreed", "true");
+            const modal = document.getElementById("termsAgreementModal");
+            if (modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        /* 6. CLOUD SECURITY ENGINE */
         let activeFirebaseListener = null;
 
         function startCloudVerification() {
@@ -412,13 +456,10 @@
 
             document.getElementById("deviceIdDisplay").innerText = "Device ID: " + currentDeviceId;
 
-            // যদি লোকাল স্টোরেজে নাম্বার না থাকে, রেজিস্ট্রেশন বক্স দেখাবে
             if (!savedMobile) {
                 lockScreen.style.display = "flex";
                 regBox.style.display = "block";
                 lockedBox.style.display = "none";
-                document.getElementById("lockTitle").innerText = "নতুন রেজিস্ট্রেশন করুন";
-                document.getElementById("lockSub").innerText = "প্রথমবার ট্রায়াল নিতে আপনার সঠিক তথ্য দিন";
                 badge.innerText = "🔒 Registration Needed";
                 badge.style.color = "#ef4444";
                 return;
@@ -431,36 +472,27 @@
 
             activeFirebaseListener = userRef.on('value', (snapshot) => {
                 const userData = snapshot.val();
-
                 if (!userData) {
                     lockScreen.style.display = "flex";
                     regBox.style.display = "block";
                     lockedBox.style.display = "none";
-                    document.getElementById("lockTitle").innerText = "তথ্য পাওয়া যায়নি!";
-                    document.getElementById("lockSub").innerText = "অনুগ্রহ করে আবার নাম ও মোবাইল নম্বর দিয়ে সাবমিট করুন।";
                     return;
                 }
 
-                // ডিভাইস পরিবর্তন হলে ব্লক করে এডমিনকে মেসেজ দিতে বলবে
                 if (userData.device_id && userData.device_id !== currentDeviceId && userData.role !== "admin") {
                     lockScreen.style.display = "flex";
                     regBox.style.display = "none";
                     lockedBox.style.display = "block";
-                    document.getElementById("lockTitle").innerText = "নতুন ডিভাইস শনাক্ত হয়েছে!";
-                    document.getElementById("lockSub").innerText = "আপনার অ্যাকাউন্টটি অন্য ডিভাইসে নিবন্ধিত। এডমিনের অনুমতি প্রয়োজন।";
                     badge.innerText = "🔒 Device Mismatch";
                     badge.style.color = "#ef4444";
-                    updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার অ্যাকাউন্ট (" + cleanMobile + ") অন্য ডিভাইসে লগ-ইন করা। নতুন Device ID: " + currentDeviceId + ". দয়া করে অ্যাপ্রুভ করে দিন।");
+                    updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার অ্যাকাউন্ট (" + cleanMobile + ") অন্য ডিভাইসে লগ-ইন করা। নতুন Device ID: " + currentDeviceId);
                     return;
                 }
 
-                // 🌟 এডমিন মাস্টার এক্সেস 🌟
                 if (userData.role === "admin") {
                     lockScreen.style.display = "none";
                     badge.innerText = "👑 Admin Master Active";
                     badge.style.color = "#fbbf24";
-                    badge.style.background = "rgba(251,191,36,0.1)";
-                    badge.style.borderColor = "rgba(251,191,36,0.3)";
                     document.getElementById("adminPanelBtn").style.display = "block"; 
                     return;
                 } else {
@@ -471,8 +503,6 @@
                     lockScreen.style.display = "none";
                     badge.innerText = "✓ Premium Active";
                     badge.style.color = "#10b981";
-                    badge.style.background = "rgba(16,185,129,0.1)";
-                    badge.style.borderColor = "rgba(16,185,129,0.2)";
                     return;
                 }
 
@@ -480,180 +510,123 @@
                     lockScreen.style.display = "flex";
                     regBox.style.display = "none";
                     lockedBox.style.display = "block";
-                    document.getElementById("lockTitle").innerText = "লাইসেন্স বাতিল / ব্লক করা হয়েছে!";
-                    document.getElementById("lockSub").innerText = "এই অ্যাক্সেসটি এডমিন দ্বারা ব্লক করা হয়েছে। আনব্লক করতে যোগাযোগ করুন।";
                     badge.innerText = "🔒 Blocked";
                     badge.style.color = "#ef4444";
-                    updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার অ্যাকাউন্ট (" + cleanMobile + ") ব্লক দেখাচ্ছে। Device ID: " + currentDeviceId + ". দয়া করে চেক করুন।");
+                    updateWhatsAppLink("হ্যালো রুবেল ভাই, অ্যাকাউন্ট (" + cleanMobile + ") ব্লক দেখাচ্ছে।");
                     return;
                 }
 
                 if (userData.status === "trial" || !userData.status) {
-                    const regTimestamp = userData.registered_at || Date.now();
-                    const daysPassed = (Date.now() - regTimestamp) / (1000 * 60 * 60 * 24);
-
+                    const daysPassed = (Date.now() - (userData.registered_at || Date.now())) / (1000 * 60 * 60 * 24);
                     if (daysPassed > 7) {
                         lockScreen.style.display = "flex";
                         regBox.style.display = "none"; 
                         lockedBox.style.display = "block";
-                        document.getElementById("lockTitle").innerText = "৭ দিনের ফ্রি ট্রায়াল শেষ!";
-                        document.getElementById("lockSub").innerText = "স্থায়ী অ্যাক্সেস (Premium) পেতে সরাসরি এডমিনের সাথে যোগাযোগ করুন। পেমেন্ট সম্পন্ন হলে আপনার আইডি অটোমেটিক আনলক হয়ে যাবে।";
                         badge.innerText = "🔒 Trial Ended";
                         badge.style.color = "#ef4444";
-                        updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার ৭ দিনের ট্রায়াল শেষ। আমি লাইফটাইম লাইসেন্স নিতে চাই। মোবাইল: " + cleanMobile + ", Device ID: " + currentDeviceId + ". পেমেন্ট প্রসেস জানান।");
+                        updateWhatsAppLink("হ্যালো রুবেল ভাই, আমার ট্রায়াল শেষ। লাইসেন্স চাই। মোবাইল: " + cleanMobile);
                     } else {
                         lockScreen.style.display = "none";
-                        const daysLeft = Math.max(1, Math.ceil(7 - daysPassed));
-                        badge.innerText = "⏳ Trial: " + daysLeft + " days left";
+                        badge.innerText = `⏳ Trial: ${Math.max(1, Math.ceil(7 - daysPassed))} days left`;
                         badge.style.color = "#fbbf24";
-                        badge.style.background = "rgba(251,191,36,0.1)";
-                        badge.style.borderColor = "rgba(251,191,36,0.3)";
                     }
                 }
-            }, (error) => {
-                alert("কানেকশন ত্রুটি! ইন্টারনেট চেক করুন।");
             });
         }
 
-        /* ============================================================
-           📲 7. DIRECT REGISTRATION SYSTEM (NO OTP)
-           ============================================================ */
         function registerUserDirectly() {
             const name = document.getElementById("regName").value.trim();
             const mobile = document.getElementById("regMobile").value.trim();
             const company = document.getElementById("regCompany").value.trim();
 
-            if (!name || !mobile || mobile.length < 11) {
-                alert("দয়া করে সঠিক নাম এবং ১১ ডিজিটের মোবাইল নম্বর দিন!");
-                return;
-            }
+            if (!name || mobile.length < 11) return alert("সঠিক নাম ও ১১ ডিজিটের মোবাইল নম্বর দিন!");
 
             const cleanMobile = mobile.replace(/[^0-9]/g, "");
-            const userRef = db.ref("users/" + cleanMobile);
-
             const btn = document.getElementById("btnRegister");
-            btn.innerText = "⏳ প্রসেসিং হচ্ছে...";
-            btn.disabled = true;
+            btn.innerText = "⏳ প্রসেসিং..."; btn.disabled = true;
 
-            // 🌟 ডাটাবেজ চেক করা: ইউজার আগে থেকেই আছে কিনা
-            userRef.once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    const existingData = snapshot.val();
-                    
-                    // ইউজার অ্যাপ ডিলিট করে আবার নামালে, কিন্তু ডিভাইস একই থাকলে সরাসরি লগ-ইন
-                    if (existingData.device_id === currentDeviceId) {
-                        localStorage.setItem("app_user_fullname", existingData.name);
-                        localStorage.setItem("app_user_mobile", cleanMobile);
-                        localStorage.setItem("app_user_company", existingData.company || "");
-                        alert("✅ আপনার পূর্বের অ্যাকাউন্ট সফলভাবে রিস্টোর হয়েছে!", function() {
-                            location.reload(); 
-                        });
-                        return;
-                    } else {
-                        alert("❌ এই মোবাইল নম্বরটি ইতিমধ্যে অন্য ডিভাইসে রেজিস্টার করা! দয়া করে আনলক করতে এডমিনের সাথে যোগাযোগ করুন।");
-                        btn.innerText = "🚀 রেজিস্ট্রেশন করুন";
-                        btn.disabled = false;
-                        return;
-                    }
+            db.ref("users/" + cleanMobile).once('value').then((snapshot) => {
+                if (snapshot.exists() && snapshot.val().device_id === currentDeviceId) {
+                    localStorage.setItem("app_user_fullname", snapshot.val().name);
+                    localStorage.setItem("app_user_mobile", cleanMobile);
+                    alert("✅ অ্যাকাউন্ট রিস্টোর হয়েছে!", () => location.reload());
+                    return;
+                } else if (snapshot.exists()) {
+                    btn.innerText = "🚀 রেজিস্ট্রেশন করুন"; btn.disabled = false;
+                    return alert("❌ নম্বরটি অন্য ডিভাইসে রেজিস্টার করা!");
                 }
 
-                // 🌟 নতুন ইউজারের ক্ষেত্রে সরাসরি ডাটা সেভ
-                const userObject = {
-                    name: name,
-                    mobile: cleanMobile,
-                    company: company || "N/A",
-                    device_id: currentDeviceId,
-                    device_info: navigator.userAgent,
-                    registered_at: Date.now(),
-                    status: "trial",
-                    role: "user"
-                };
-
-                db.ref("users/" + cleanMobile).set(userObject).then(() => {
+                const userObj = { name, mobile: cleanMobile, company: company||"N/A", device_id: currentDeviceId, registered_at: Date.now(), status: "trial", role: "user" };
+                
+                db.ref("users/" + cleanMobile).set(userObj).then(() => {
                     localStorage.setItem("app_user_fullname", name);
                     localStorage.setItem("app_user_mobile", cleanMobile);
-                    localStorage.setItem("app_user_company", company);
                     loadUserData();
-                    alert("✅ রেজিস্ট্রেশন সফল হয়েছে! ৭ দিনের ফ্রি ট্রায়াল চালু হলো।", function() {
-                        startCloudVerification();
-                    });
-                }).catch((err) => {
-                    alert("রেজিস্ট্রেশন ডেটা সেভ করতে ব্যর্থ হয়েছে!");
-                    btn.innerText = "🚀 রেজিস্ট্রেশন করুন";
-                    btn.disabled = false;
+                    alert("✅ রেজিস্ট্রেশন সফল! ৭ দিনের ট্রায়াল চালু হলো।", () => startCloudVerification());
                 });
-
-            }).catch((err) => {
-                alert("ডাটাবেস চেক করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।");
-                btn.innerText = "🚀 রেজিস্ট্রেশন করুন";
-                btn.disabled = false;
             });
         }
 
-        function updateWhatsAppLink(msgText) {
-            const waMsg = encodeURIComponent(msgText);
-            const waLink = document.getElementById("whatsappLink");
-            if (waLink) waLink.href = "https://wa.me/" + ADMIN_PHONE + "?text=" + waMsg;
+        function updateWhatsAppLink(msg) {
+            document.getElementById("whatsappLink").href = "https://wa.me/" + ADMIN_PHONE + "?text=" + encodeURIComponent(msg);
         }
 
-        /* ============================================================
-           ⚙️ 8. APP UI & USER PROFILE MANAGEMENT
-           ============================================================ */
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                const splash = document.getElementById("splash-screen");
-                if (splash) {
-                    splash.style.opacity = "0";
-                    setTimeout(() => { splash.style.display = "none"; }, 400);
-                }
+        /* 7. UI & MODAL MANAGEMENT */
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => { 
+                const s = document.getElementById("splash-screen"); 
+                s.style.opacity = "0"; setTimeout(() => s.style.display="none", 400); 
             }, 2000);
-
-            loadUserData();
-            loadBackupTime();
+            
+            checkFirstTimeAgreement();
+            loadUserData(); 
+            loadBackupTime(); 
             startCloudVerification();
         });
 
         function loadUserData() {
-            let savedName = localStorage.getItem("app_user_fullname") || "ইউজার নেম";
-            let savedPic = localStorage.getItem("app_user_profile_img");
-            document.getElementById("userNameDisplay").innerText = savedName;
-            if (savedPic) {
-                document.getElementById("avatarDisplay").innerHTML = `<img src="${savedPic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-            }
+            document.getElementById("userNameDisplay").innerText = localStorage.getItem("app_user_fullname") || "ইউজার নেম";
+            const pic = localStorage.getItem("app_user_profile_img");
+            if (pic) document.getElementById("avatarDisplay").innerHTML = `<img src="${pic}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
         }
 
         function toggleSidebar() {
-            const sidebar = document.getElementById("sidebar");
-            const content = document.getElementById("sidebarContent");
-            if (sidebar.style.display === "flex") {
-                content.style.transform = "translateX(-100%)";
-                setTimeout(() => { sidebar.style.display = "none"; }, 250);
+            const side = document.getElementById("sidebar"), cont = document.getElementById("sidebarContent");
+            if (side.style.display === "flex") {
+                cont.style.transform = "translateX(-100%)";
+                setTimeout(() => side.style.display = "none", 250);
             } else {
-                sidebar.style.display = "flex";
-                setTimeout(() => { content.style.transform = "translateX(0)"; }, 10);
+                side.style.display = "flex";
+                setTimeout(() => cont.style.transform = "translateX(0)", 10);
             }
         }
 
         function openProfileSettings() {
             toggleSidebar();
-            document.getElementById("profName").value = localStorage.getItem("app_user_fullname") || "";
-            document.getElementById("profCompany").value = localStorage.getItem("app_user_company") || "";
-            document.getElementById("profMobile").value = localStorage.getItem("app_user_mobile") || "";
-            document.getElementById("profEmail").value = localStorage.getItem("app_user_email") || "";
+            ["profName", "profCompany", "profMobile", "profEmail"].forEach(id => 
+                document.getElementById(id).value = localStorage.getItem(id.replace("prof","app_user_").toLowerCase()) || ""
+            );
             document.getElementById("profileSettingsModal").style.display = "flex";
         }
 
-        function closeProfileSettings() {
-            document.getElementById("profileSettingsModal").style.display = "none";
+        function closeProfileSettings() { document.getElementById("profileSettingsModal").style.display = "none"; }
+        function showUpdateModal() { toggleSidebar(); document.getElementById("updateModal").style.display = "flex"; }
+        function closeUpdateModal() { document.getElementById("updateModal").style.display = "none"; }
+
+        function openAboutModal() {
+            toggleSidebar();
+            document.getElementById("aboutModal").style.display = "flex";
+        }
+        function closeAboutModal() {
+            document.getElementById("aboutModal").style.display = "none";
         }
 
         function previewModalProfile(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const picData = e.target.result;
-                    localStorage.setItem("app_user_profile_img", picData);
-                    document.getElementById("modalAvatarPreview").innerHTML = `<img src="${picData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                reader.onload = e => {
+                    localStorage.setItem("app_user_profile_img", e.target.result);
+                    document.getElementById("modalAvatarPreview").innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
                     loadUserData();
                 };
                 reader.readAsDataURL(input.files[0]);
@@ -669,9 +642,7 @@
             alert("✅ প্রোফাইল আপডেট সম্পন্ন হয়েছে!");
         }
 
-        /* ============================================================
-           ☁️ 9. LOCAL BACKUP & RESTORE
-           ============================================================ */
+        /* 8. BACKUP & RESTORE */
         function collectERPData() {
             const allData = {};
             for (let i = 0; i < localStorage.length; i++) {
@@ -724,47 +695,27 @@
             if (el) el.innerText = saved ? "Last Backup: " + saved : "Last Backup: এখনো হয়নি";
         }
 
-        function showUpdateModal() {
-            toggleSidebar();
-            document.getElementById("updateModal").style.display = "flex";
-        }
-        function closeUpdateModal() {
-            document.getElementById("updateModal").style.display = "none";
-        }
-
-
-        /* ============================================================
-           👑 10. SECURE HASH-BASED ADMIN PIN VERIFICATION
-           ============================================================ */
+        /* 9. ADMIN PANEL & SHA-256 PIN */
         function promptAdminPin() {
             toggleSidebar();
             document.getElementById("adminPinInput").value = "";
             document.getElementById("adminPinModal").style.display = "flex";
         }
 
-        // ব্রাউজারের ক্রিপ্টো লাইব্রেরি দিয়ে SHA-256 হ্যাশ জেনারেট করার ফাংশন
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
         async function verifyAdminPin() {
             const enteredPin = document.getElementById("adminPinInput").value;
-            if (!enteredPin) {
-                alert("দয়া করে পিন নম্বর দিন!");
-                return;
-            }
+            if (!enteredPin) return alert("দয়া করে পিন নম্বর দিন!");
 
-            // ইউজারের দেওয়া পিনের SHA-256 হ্যাশ তৈরি
             const enteredPinHash = await sha256(enteredPin);
 
-            // ফায়ারবেস থেকে আসল হ্যাশড পিনটি চেক করা (এখানে কোনো ডামি বা ডিফল্ট পিন নেই)
             db.ref("admin_pin").once('value').then(async (snapshot) => {
                 const realPinHash = snapshot.val();
-                
                 if (realPinHash && enteredPinHash === realPinHash.toString().trim()) {
                     document.getElementById("adminPinModal").style.display = "none";
                     document.getElementById("adminPanelModal").style.display = "flex";
@@ -772,9 +723,7 @@
                 } else {
                     alert("❌ ভুল পিন! আপনার প্রবেশ নিষেধ।");
                 }
-            }).catch(err => {
-                alert("❌ সংযোগের সমস্যা বা ডাটাবেজ থেকে পিন যাচাই করা যায়নি!");
-            });
+            }).catch(() => alert("❌ পিন যাচাই করা যায়নি!"));
         }
 
         function loadAdminUserList() {
@@ -803,37 +752,27 @@
                                 <div style="color:#94a3b8; font-size:12px;">📱 ${u.mobile} | 🏢 ${u.company || "N/A"}</div>
                                 <div style="color:#64748b; font-size:10px; font-family:monospace; margin-top:2px;">🆔 ${u.device_id || "N/A"}</div>
                             </div>
-                            <span style="background:rgba(255,255,255,0.05); color:${statusColor}; border:1px solid ${statusColor}; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:bold;">
-                                ${statusText}
-                            </span>
+                            <span style="background:rgba(255,255,255,0.05); color:${statusColor}; border:1px solid ${statusColor}; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:bold;">${statusText}</span>
                         </div>
-                        
                         <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
                             <select id="statusSelect_${m}" style="flex:1; padding:8px; border-radius:6px; background:#0f172a; color:#fff; border:1px solid #3b82f6; font-size:13px; outline:none;">
-                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (অনুমোদন)</option>
-                                <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial (ট্রায়াল)</option>
-                                <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block (ব্লক করুন)</option>
+                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve</option>
+                                <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial</option>
+                                <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block</option>
                             </select>
-                            <button onclick="updateStatusFromSelect('${m}')" style="background:#3b82f6; color:#fff; border:none; padding:8px 15px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer;">আপডেট</button>
+                            <button onclick="changeUserStatus('${m}')" style="background:#3b82f6; color:#fff; border:none; padding:8px 15px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer;">আপডেট</button>
                         </div>
-                    </div>
-                    `;
+                    </div>`;
                 });
                 container.innerHTML = html;
             });
         }
 
-        function updateStatusFromSelect(mobile) {
+        function changeUserStatus(mobile) {
             const newStatus = document.getElementById("statusSelect_" + mobile).value;
-            changeUserStatus(mobile, newStatus);
-        }
-
-        function changeUserStatus(mobile, newStatus) {
             db.ref("users/" + mobile).update({ status: newStatus }).then(() => {
                 alert("✅ ইউজারের স্ট্যাটাস সফলভাবে আপডেট করা হয়েছে!");
-            }).catch((err) => {
-                alert("❌ স্ট্যাটাস পরিবর্তনে সমস্যা হয়েছে!");
-            });
+            }).catch(() => alert("❌ স্ট্যাটাস পরিবর্তনে সমস্যা হয়েছে!"));
         }
     </script>
 </body>

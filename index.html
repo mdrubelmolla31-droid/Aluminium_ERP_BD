@@ -26,7 +26,22 @@
         .shooting-star::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6; }
         @keyframes shooting { 0% { transform: translateY(-50px) translateX(50px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 35% { transform: translateY(300px) translateX(-300px) rotate(45deg); opacity: 0; } 100% { opacity: 0; } }
         
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0b0f19; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; transition: opacity 0.4s ease; }
+        /* 🌟 SPLASH SCREEN WITH BACKGROUND IMAGE & DARK OVERLAY 🌟 */
+        #splash-screen { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.85)), url('splash-bg.jpg') no-repeat center center; 
+            background-size: cover; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 999999; 
+            transition: opacity 0.4s ease; 
+        }
         .splash-profile-box { width: 90px; height: 90px; background: rgba(0, 0, 0, 0.5); border: 2px solid #3b82f6; border-radius: 22px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
         .alu-window-icon { width: 44px; height: 44px; border: 2px solid #60a5fa; border-radius: 6px; position: relative; }
         .alu-window-icon::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #60a5fa; transform: translateX(-50%); }
@@ -102,6 +117,7 @@
         <div class="shooting-star" style="top:-10%;left:45%;animation-delay:2.8s;animation-duration:3.5s;"></div>
     </div>
 
+    <!-- 🌟 UPDATED SPLASH SCREEN WITH splash-bg.jpg BACKGROUND 🌟 -->
     <div id="splash-screen">
         <div class="splash-profile-box"><div class="alu-window-icon"></div></div>
         <div class="splash-title">Aluminium ERP BD</div>
@@ -610,7 +626,7 @@
             });
         }
 
-        /* 9. AUTH STATE & SUBSCRIPTION EXPIRY ENFORCEMENT (30 DAYS MONTHLY SUBSCRIPTION) */
+        /* 9. AUTH STATE & SUBSCRIPTION EXPIRY ENFORCEMENT */
         let activeFirebaseListener = null;
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -685,7 +701,6 @@
                                 return;
                             }
 
-                            // Handling existing approved users smoothly (if no expiration date, assign 30 days from now)
                             if (userData.status === "approved" && !userData.subscription_expires_at) {
                                 const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
                                 const expiresAt = Date.now() + thirtyDaysMs;
@@ -730,7 +745,6 @@
                                 const timeLeft = expiresAt - now;
 
                                 if (timeLeft <= 0) {
-                                    // Subscription expired! Revert to trial or block until renewed
                                     lockScreen.style.display = "flex";
                                     regBox.style.display = "none";
                                     loginBox.style.display = "none";
@@ -978,8 +992,6 @@
                         <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
                             <select id="statusSelect_${mobileKey}" style="flex:1; padding:8px; border-radius:6px; background:#ffffff; color:#0f172a; border:1px solid #93c5fd; font-size:13px; outline:none;">
                                 <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (30 Days)</option>
-                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (60 Days)</option>
-                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (90 Days)</option>
                                 <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial</option>
                                 <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block</option>
                             </select>
@@ -996,7 +1008,6 @@
             let updateData = { status: newStatus };
 
             if (newStatus === "approved") {
-                // Set subscription expiration to 30 days from now
                 const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
                 updateData.subscription_expires_at = Date.now() + thirtyDaysMs;
             }

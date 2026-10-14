@@ -51,7 +51,7 @@
         .avatar-container { width: 60px; height: 60px; flex-shrink: 0; }
         .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #fbbf24; background: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffffff; }
         .grid-menu { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
-        .menu-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .menu-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .menu-card:active { transform: scale(0.96); border-color: #fbbf24; }
         .menu-icon { font-size: 34px; margin-bottom: 12px; }
         .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
@@ -248,7 +248,7 @@
         </div>
     </div>
 
-    <!-- ABOUT MODAL (FIXED & FULL DETAILS) -->
+    <!-- ABOUT MODAL -->
     <div class="lock-overlay" id="aboutModal" style="display:none; z-index:10004; padding:20px;">
         <div class="lock-box" style="text-align:left; max-width:600px; max-height:85vh; display:flex; flex-direction:column;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #93c5fd; padding-bottom:10px;">
@@ -338,6 +338,49 @@
             <a href="profile-discount.html" class="menu-card"><div class="menu-icon">🏢</div><div class="menu-title">কোম্পানি প্রোফাইল</div></a>
             <a href="calculator.html" class="menu-card"><div class="menu-icon">🧮</div><div class="menu-title">স্লাইডিং ক্যালকুলেটর</div></a>
             <a href="cachman.html" class="menu-card"><div class="menu-icon">🪟</div><div class="menu-title">ক্যাসম্যান ক্যালকুলেটর</div></a>
+            
+            <!-- 🌟 ইউরো স্লাইডিং (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
+            <a href="javascript:void(0)" onclick="openEuroSliding()" class="menu-card">
+                <div class="menu-icon">🚪</div>
+                <div class="menu-title">ইউরো স্লাইডিং</div>
+                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- 🌟 ফিক্সড ক্যালকুলেটর (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
+            <a href="javascript:void(0)" onclick="openFixedCalculator()" class="menu-card">
+                <div class="menu-icon">📐</div>
+                <div class="menu-title">ফিক্সড ক্যালকুলেটর</div>
+                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- 🌟 প্রোফাইল পাল্লা ক্যালকুলেটর (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
+            <a href="javascript:void(0)" onclick="openProfilePalla()" class="menu-card">
+                <div class="menu-icon">🎛️</div>
+                <div class="menu-title">প্রোফাইল পাল্লা</div>
+                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- 🌟 গ্লাস শপ (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
+            <a href="javascript:void(0)" onclick="openGlassShop()" class="menu-card">
+                <div class="menu-icon">🏬</div>
+                <div class="menu-title">গ্লাস শপ</div>
+                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- 🌟 হার্ডওয়্যার শপ (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
+            <a href="javascript:void(0)" onclick="openHardwareShop()" class="menu-card">
+                <div class="menu-icon">🛠️</div>
+                <div class="menu-title">হার্ডওয়্যার শপ</div>
+                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- 🌟 অ্যালুমিনিয়াম ডিলার (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
+            <a href="javascript:void(0)" onclick="openAluDealer()" class="menu-card">
+                <div class="menu-icon">🏭</div>
+                <div class="menu-title">অ্যালুমিনিয়াম ডিলার</div>
+                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
             <a href="ceiling-calculator.html" class="menu-card"><div class="menu-icon">🛖</div><div class="menu-title">সিলিং ক্যালকুলেটর</div></a>
             <a href="Lowver.html" class="menu-card"><div class="menu-icon">🪜</div><div class="menu-title">জেড লুভার</div></a>
             <a href="BoxLowver.html" class="menu-card"><div class="menu-icon">🔳</div><div class="menu-title">বক্স লুভার</div></a>
@@ -443,7 +486,26 @@
             }
         }
 
-        /* 6. REGISTRATION FUNCTION (MOBILE AS DB ROOT NODE) */
+        /* 6. PREMIUM CARDS ACCESS CHECK FUNCTION */
+        function checkPremiumAccess(featureName, redirectUrl) {
+            const status = localStorage.getItem("app_user_status") || "trial";
+            const role = localStorage.getItem("app_user_role") || "user";
+            
+            if (role === "admin" || status === "approved") {
+                window.location.href = redirectUrl;
+            } else {
+                alert(`🔒 '${featureName}' একটি প্রিমিয়াম ফিচার!\n\nআপনার বর্তমান অ্যাকাউন্টটি ট্রায়াল মোডে রয়েছে। প্রিমিয়াম বা অনুমোদিত (Approved) অ্যাকাউন্ট ছাড়া এই ফিচারটি ব্যবহার করা যাবে না। লাইসেন্স অ্যাক্টিভ করতে এডমিনের সাথে যোগাযোগ করুন।`);
+            }
+        }
+
+        function openEuroSliding() { checkPremiumAccess("ইউরো স্লাইডিং", "euro-sliding.html"); }
+        function openFixedCalculator() { checkPremiumAccess("ফিক্সড ক্যালকুলেটর", "fixed-calculator.html"); }
+        function openProfilePalla() { checkPremiumAccess("প্রোফাইল পাল্লা", "profile-palla.html"); }
+        function openGlassShop() { checkPremiumAccess("গ্লাস শপ", "glass-shop.html"); }
+        function openHardwareShop() { checkPremiumAccess("হার্ডওয়্যার শপ", "hardware-shop.html"); }
+        function openAluDealer() { checkPremiumAccess("অ্যালুমিনিয়াম ডিলার", "aluminium-dealer.html"); }
+
+        /* 7. REGISTRATION FUNCTION */
         async function processRegistration() {
             const name = document.getElementById("regName").value.trim();
             const mobile = document.getElementById("regMobile").value.trim();
@@ -461,7 +523,6 @@
             btn.disabled = true;
 
             try {
-                // ১. মোবাইল নম্বর দিয়ে ডাটাবেজে আগে থেকে আছে কিনা চেক
                 const snapshot = await db.ref("users/" + cleanMobile).once('value');
                 if (snapshot.exists()) {
                     btn.innerText = "🚀 রেজিস্ট্রেশন করুন"; 
@@ -469,7 +530,6 @@
                     return alert("❌ এই মোবাইল নম্বরটি ইতিমধ্যে রেজিস্টার করা আছে!");
                 }
 
-                // ২. ফায়ারবেস অথেন্টিকেশনে অ্যাকাউন্ট তৈরি
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
@@ -478,10 +538,8 @@
                     handleCodeInApp: false
                 };
 
-                // ৩. জিমেইলে ভেরিফিকেশন পাঠানো
                 await user.sendEmailVerification(actionCodeSettings);
 
-                // ৪. ডাটাবেজে সরাসরি মোবাইল নম্বর দিয়ে ইউজার নোড তৈরি
                 const userObj = {
                     uid: user.uid,
                     name: name,
@@ -496,9 +554,10 @@
 
                 await db.ref("users/" + cleanMobile).set(userObj);
                 
-                // লোকাল স্টোরেজেও মোবাইল নম্বর ও নাম সেভ করে রাখা
                 localStorage.setItem("app_user_mobile", cleanMobile);
                 localStorage.setItem("app_user_fullname", name);
+                localStorage.setItem("app_user_status", "trial");
+                localStorage.setItem("app_user_role", "user");
 
                 await auth.signOut();
 
@@ -512,7 +571,7 @@
             }
         }
 
-        /* 7. LOGIN FUNCTION */
+        /* 8. LOGIN FUNCTION */
         async function processLogin() {
             const email = document.getElementById("loginEmail").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
@@ -524,13 +583,14 @@
             btn.disabled = true;
 
             try {
-                const userCred = await auth.signInWithEmailAndPassword(email, password);
-                // লগইন করার পর ইমেইল দিয়ে ডাটাবেজ খুঁজে মোবাইল নম্বর লোকাল স্টোরেজে সেট করা
+                await auth.signInWithEmailAndPassword(email, password);
                 const snapshot = await db.ref("users").orderByChild("email").equalTo(email.toLowerCase()).once('value');
                 if (snapshot.exists()) {
                     snapshot.forEach((childSnap) => {
                         localStorage.setItem("app_user_mobile", childSnap.key);
                         localStorage.setItem("app_user_fullname", childSnap.val().name || "");
+                        localStorage.setItem("app_user_status", childSnap.val().status || "trial");
+                        localStorage.setItem("app_user_role", childSnap.val().role || "user");
                     });
                 }
             } catch (error) {
@@ -544,11 +604,13 @@
         function processLogout() {
             auth.signOut().then(() => {
                 localStorage.removeItem("app_user_mobile");
+                localStorage.removeItem("app_user_status");
+                localStorage.removeItem("app_user_role");
                 location.reload();
             });
         }
 
-        /* 8. AUTH STATE & EMAIL VERIFICATION ENFORCEMENT */
+        /* 9. AUTH STATE & SUBSCRIPTION EXPIRY ENFORCEMENT (30 DAYS MONTHLY SUBSCRIPTION) */
         let activeFirebaseListener = null;
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -588,7 +650,6 @@
                             return;
                         }
 
-                        // ইমেইল দিয়ে ডাটাবেজ থেকে ইউজারের মোবাইল নম্বর খুঁজে বের করা
                         let targetMobile = localStorage.getItem("app_user_mobile");
                         if (!targetMobile) {
                             const snap = await db.ref("users").orderByChild("email").equalTo(user.email.toLowerCase()).once('value');
@@ -597,6 +658,8 @@
                                     targetMobile = c.key;
                                     localStorage.setItem("app_user_mobile", targetMobile);
                                     localStorage.setItem("app_user_fullname", c.val().name || "");
+                                    localStorage.setItem("app_user_status", c.val().status || "trial");
+                                    localStorage.setItem("app_user_role", c.val().role || "user");
                                 });
                             }
                         }
@@ -612,7 +675,7 @@
                         const userRef = db.ref("users/" + targetMobile);
                         if (activeFirebaseListener) userRef.off('value', activeFirebaseListener);
 
-                        activeFirebaseListener = userRef.on('value', (snapshot) => {
+                        activeFirebaseListener = userRef.on('value', async (snapshot) => {
                             let userData = snapshot.val();
                             if (!userData) {
                                 lockScreen.style.display = "flex";
@@ -621,6 +684,17 @@
                                 lockedBox.style.display = "none";
                                 return;
                             }
+
+                            // Handling existing approved users smoothly (if no expiration date, assign 30 days from now)
+                            if (userData.status === "approved" && !userData.subscription_expires_at) {
+                                const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
+                                const expiresAt = Date.now() + thirtyDaysMs;
+                                await userRef.update({ subscription_expires_at: expiresAt });
+                                userData.subscription_expires_at = expiresAt;
+                            }
+
+                            localStorage.setItem("app_user_status", userData.status || "trial");
+                            localStorage.setItem("app_user_role", userData.role || "user");
 
                             document.getElementById("deviceIdDisplay").innerText = "Device ID: " + currentDeviceId;
 
@@ -651,8 +725,30 @@
                             }
 
                             if (userData.status === "approved") {
+                                const now = Date.now();
+                                const expiresAt = userData.subscription_expires_at || now;
+                                const timeLeft = expiresAt - now;
+
+                                if (timeLeft <= 0) {
+                                    // Subscription expired! Revert to trial or block until renewed
+                                    lockScreen.style.display = "flex";
+                                    regBox.style.display = "none";
+                                    loginBox.style.display = "none";
+                                    lockedBox.style.display = "block";
+                                    badge.innerText = "🔒 Subscription Expired";
+                                    badge.style.color = "#ef4444";
+                                    
+                                    document.getElementById("lockReasonText").textContent = "আপনার ১ মাসের প্রিমিয়াম সাবস্ক্রিপশনের মেয়াদ শেষ হয়েছে!";
+                                    const msg = encodeURIComponent(`হ্যালো রুবেল ভাই, আমার ১ মাসের প্রিমিয়াম সাবস্ক্রিপশনের মেয়াদ শেষ। সাবস্ক্রিপশন রিনিউ করতে চাই।`);
+                                    const waBtn = document.getElementById("whatsappLink");
+                                    waBtn.href = `https://wa.me/${ADMIN_PHONE}?text=${msg}`;
+                                    waBtn.style.display = "block";
+                                    return;
+                                }
+
+                                const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
                                 lockScreen.style.display = "none";
-                                badge.innerText = "✓ Premium Active";
+                                badge.innerText = `✓ Premium (${daysLeft}d left)`;
                                 badge.style.color = "#10b981";
                                 document.getElementById("userNameDisplay").innerText = userData.name || "ইউজার";
                                 return;
@@ -665,6 +761,7 @@
                                 lockedBox.style.display = "block";
                                 badge.innerText = "🔒 Blocked";
                                 badge.style.color = "#ef4444";
+                                document.getElementById("lockReasonText").textContent = "আপনার অ্যাকাউন্টটি ব্লক করা হয়েছে!";
                                 const waBtn = document.getElementById("whatsappLink");
                                 waBtn.href = `https://wa.me/${ADMIN_PHONE}?text=` + encodeURIComponent(`হ্যালো রুবেল ভাই, অ্যাকাউন্ট ব্লক দেখাচ্ছে।`);
                                 waBtn.style.display = "block";
@@ -681,6 +778,7 @@
                                     badge.innerText = "🔒 Trial Ended";
                                     badge.style.color = "#ef4444";
                                     
+                                    document.getElementById("lockReasonText").textContent = "আপনার ৭ দিনের ফ্রি ট্রায়াল মেয়াদ শেষ!";
                                     const msg = encodeURIComponent(`হ্যালো রুবেল ভাই, আমার ৭ দিনের ট্রায়াল শেষ। লাইসেন্স চাই।`);
                                     const waBtn = document.getElementById("whatsappLink");
                                     waBtn.href = `https://wa.me/${ADMIN_PHONE}?text=${msg}`;
@@ -758,7 +856,7 @@
             alert("✅ প্রোফাইল আপডেট সম্পন্ন হয়েছে!");
         }
 
-        /* 9. BACKUP & RESTORE */
+        /* 10. BACKUP & RESTORE */
         function collectERPData() {
             const allData = {};
             for (let i = 0; i < localStorage.length; i++) {
@@ -811,7 +909,7 @@
             if (el) el.innerText = saved ? "Last Backup: " + saved : "Last Backup: এখনো হয়নি";
         }
 
-        /* 10. ADMIN PANEL & SHA-256 PIN */
+        /* 11. ADMIN PANEL & SHA-256 PIN */
         function promptAdminPin() {
             toggleSidebar();
             document.getElementById("adminPinInput").value = "";
@@ -860,6 +958,12 @@
                     const statusColor = u.status === "approved" ? "#10b981" : (u.status === "blocked" ? "#ef4444" : "#d97706");
                     const statusText = u.status === "approved" ? "Approved" : (u.status === "blocked" ? "Blocked" : "Trial");
                     
+                    let expiryInfo = "";
+                    if (u.status === "approved" && u.subscription_expires_at) {
+                        const daysLeft = Math.ceil((u.subscription_expires_at - Date.now()) / (1000 * 60 * 60 * 24));
+                        expiryInfo = `<div style="color:${daysLeft > 0 ? '#059669' : '#dc2626'}; font-size:11px; margin-top:2px;">⏳ সাবস্ক্রিপশন মেয়াদ: ${daysLeft > 0 ? daysLeft + ' দিন বাকি' : 'মেয়াদ শেষ!'}</div>`;
+                    }
+                    
                     html += `
                     <div style="background:#f8fafc; border:1px solid #93c5fd; border-radius:10px; padding:12px; margin-bottom: 12px;">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -867,12 +971,13 @@
                                 <div style="color:#1e293b; font-weight:bold; font-size:14px;">${u.name || "N/A"} ${u.role === 'admin' ? '👑 (Admin)' : ''}</div>
                                 <div style="color:#475569; font-size:12px;">📱 ${u.mobile || mobileKey} | ✉️ ${u.email || "N/A"}</div>
                                 <div style="color:#64748b; font-size:10px; font-family:monospace; margin-top:2px;">🆔 ${u.device_id || "N/A"}</div>
+                                ${expiryInfo}
                             </div>
                             <span style="background:rgba(37,99,235,0.08); color:${statusColor}; border:1px solid ${statusColor}; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:bold;">${statusText}</span>
                         </div>
                         <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
                             <select id="statusSelect_${mobileKey}" style="flex:1; padding:8px; border-radius:6px; background:#ffffff; color:#0f172a; border:1px solid #93c5fd; font-size:13px; outline:none;">
-                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve</option>
+                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (30 Days)</option>
                                 <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial</option>
                                 <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block</option>
                             </select>
@@ -886,8 +991,16 @@
 
         function changeUserStatus(mobileKey) {
             const newStatus = document.getElementById("statusSelect_" + mobileKey).value;
-            db.ref("users/" + mobileKey).update({ status: newStatus }).then(() => {
-                alert("✅ ইউজারের স্ট্যাটাস সফলভাবে আপডেট করা হয়েছে হয়েছে!");
+            let updateData = { status: newStatus };
+
+            if (newStatus === "approved") {
+                // Set subscription expiration to 30 days from now
+                const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
+                updateData.subscription_expires_at = Date.now() + thirtyDaysMs;
+            }
+
+            db.ref("users/" + mobileKey).update(updateData).then(() => {
+                alert("✅ ইউজারের স্ট্যাটাস ও ৩০ দিনের সাবস্ক্রিপশন মেয়াদ সফলভাবে আপডেট করা হয়েছে!");
             }).catch(() => alert("❌ স্ট্যাটাস পরিবর্তনে সমস্যা হয়েছে!"));
         }
     </script>

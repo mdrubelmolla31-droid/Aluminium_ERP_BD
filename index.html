@@ -978,6 +978,8 @@
                         <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
                             <select id="statusSelect_${mobileKey}" style="flex:1; padding:8px; border-radius:6px; background:#ffffff; color:#0f172a; border:1px solid #93c5fd; font-size:13px; outline:none;">
                                 <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (30 Days)</option>
+                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (60 Days)</option>
+                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (90 Days)</option>
                                 <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial</option>
                                 <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block</option>
                             </select>

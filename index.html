@@ -26,21 +26,11 @@
         .shooting-star::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6; }
         @keyframes shooting { 0% { transform: translateY(-50px) translateX(50px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 35% { transform: translateY(300px) translateX(-300px) rotate(45deg); opacity: 0; } 100% { opacity: 0; } }
         
-        /* 🌟 SPLASH SCREEN WITH BACKGROUND IMAGE & DARK OVERLAY 🌟 */
+        /* 🌟 SPLASH SCREEN 🌟 */
         #splash-screen { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.85)), url('splash-bg.jpg') no-repeat center center; 
-            background-size: cover; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 999999; 
-            transition: opacity 0.8s ease; 
+            background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 99999; transition: opacity 0.8s ease; 
         }
         .splash-profile-box { width: 90px; height: 90px; background: rgba(0, 0, 0, 0.5); border: 2px solid #3b82f6; border-radius: 22px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
         .alu-window-icon { width: 44px; height: 44px; border: 2px solid #60a5fa; border-radius: 6px; position: relative; }
@@ -74,21 +64,16 @@
         @media (min-width:1024px) { .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; } }
         
         .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,15,25,0.85); display: flex; justify-content: center; align-items: center; z-index: 999999; padding: 20px; }
-        
-        /* 🌟 WHITE & BLUE GRADIENT BOX FOR ALL MODALS, AUTH & REGISTRATION 🌟 */
         .lock-box { background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); border: 2px solid #3b82f6; padding: 25px 20px; border-radius: 18px; width: 100%; max-width: 420px; text-align: center; overflow-y: auto; max-height: 90vh; box-shadow: 0 15px 35px rgba(37, 99, 235, 0.3); color: #1e293b; }
         
         .device-id-box { background: #f8fafc; border: 1px dashed #3b82f6; color: #1d4ed8; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 13px; font-weight: bold; margin: 15px 0; word-break: break-all; }
         .btn-whatsapp { display: block; width: 100%; padding: 12px; background: #25d366; color: #fff; border: none; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 14px; margin-bottom: 15px; text-align: center; }
-        
         .lock-input { width: 100%; padding: 11px; margin: 5px 0 10px 0; background: #ffffff; border: 1px solid #93c5fd; color: #0f172a; border-radius: 8px; font-size: 14px; outline: none; }
         .lock-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
-        
         .btn-unlock { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 5px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
         .auth-toggle-link { color: #2563eb; font-size: 13px; cursor: pointer; margin-top: 12px; display: inline-block; text-decoration: underline; font-weight: 600; }
         .dev-branding-footer { color: #1d4ed8; font-size: 12px; font-weight: bold; margin-top: 15px; padding: 8px; background: rgba(37, 99, 235, 0.08); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: 8px; }
-        
-        /* 🌟 WHITE & BLUE GRADIENT SIDEBAR 🌟 */
+
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; z-index: 1000; }
         .sidebar-content { background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); border-right: 2px solid #3b82f6; width: 300px; height: 100%; padding: 20px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; overflow-y: auto; color: #1e293b; box-shadow: 5px 0 25px rgba(37, 99, 235, 0.25); }
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #93c5fd; padding-bottom: 10px; }
@@ -117,7 +102,7 @@
         <div class="shooting-star" style="top:-10%;left:45%;animation-delay:2.8s;animation-duration:3.5s;"></div>
     </div>
 
-    <!-- 🌟 UPDATED SPLASH SCREEN WITH splash-bg.jpg BACKGROUND 🌟 -->
+    <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-profile-box"><div class="alu-window-icon"></div></div>
         <div class="splash-title">Aluminium ERP BD</div>
@@ -133,7 +118,7 @@
         </div>
     </div>
 
-    <!-- 🌟 FIRST-TIME AGREEMENT & TERMS MODAL 🌟 -->
+    <!-- TERMS AGREEMENT MODAL -->
     <div class="lock-overlay" id="termsAgreementModal" style="display:none; z-index:9999999; padding:15px;">
         <div class="lock-box" style="max-width:600px; text-align:left;">
             <h3 style="color:#1d4ed8; font-size:20px; margin-bottom:4px; text-align:center;">ALUMINIUM ERP BD</h3>
@@ -150,7 +135,7 @@
         </div>
     </div>
 
-    <!-- SECURITY & REGISTRATION LOCK SCREEN (WHITE & BLUE GRADIENT) -->
+    <!-- SECURITY & REGISTRATION LOCK SCREEN -->
     <div class="lock-overlay" id="lockScreen" style="display:none;">
         <div class="lock-box">
             <div style="font-size: 35px; margin-bottom: 5px;">🔒</div>
@@ -355,46 +340,67 @@
             <a href="calculator.html" class="menu-card"><div class="menu-icon">🧮</div><div class="menu-title">স্লাইডিং ক্যালকুলেটর</div></a>
             <a href="cachman.html" class="menu-card"><div class="menu-icon">🪟</div><div class="menu-title">ক্যাসম্যান ক্যালকুলেটর</div></a>
             
-            <!-- 🌟 ইউরো স্লাইডিং (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
-            <a href="javascript:void(0)" onclick="openEuroSliding()" class="menu-card">
+            <!-- 🌟 ইউরো স্লাইডিং (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-sliding.html" data-name="ইউরো স্লাইডিং">
                 <div class="menu-icon">🚪</div>
                 <div class="menu-title">ইউরো স্লাইডিং</div>
-                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 ফিক্সড ক্যালকুলেটর (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
-            <a href="javascript:void(0)" onclick="openFixedCalculator()" class="menu-card">
+            <!-- 🌟 ফিক্সড ক্যালকুলেটর (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="fixed-calculator.html" data-name="ফিক্সড ক্যালকুলেটর">
                 <div class="menu-icon">📐</div>
                 <div class="menu-title">ফিক্সড ক্যালকুলেটর</div>
-                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 প্রোফাইল পাল্লা ক্যালকুলেটর (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
-            <a href="javascript:void(0)" onclick="openProfilePalla()" class="menu-card">
+            <!-- 🌟 প্রোফাইল পাল্লা ক্যালকুলেটর (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="profile-palla.html" data-name="প্রোফাইল পাল্লা">
                 <div class="menu-icon">🎛️</div>
                 <div class="menu-title">প্রোফাইল পাল্লা</div>
-                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 গ্লাস শপ (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
-            <a href="javascript:void(0)" onclick="openGlassShop()" class="menu-card">
+            <!-- 🌟 গ্লাস শপ (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="glass-shop.html" data-name="গ্লাস শপ">
                 <div class="menu-icon">🏬</div>
                 <div class="menu-title">গ্লাস শপ</div>
-                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 হার্ডওয়্যার শপ (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
-            <a href="javascript:void(0)" onclick="openHardwareShop()" class="menu-card">
+            <!-- 🌟 হার্ডওয়্যার শপ (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="hardware-shop.html" data-name="হার্ডওয়্যার শপ">
                 <div class="menu-icon">🛠️</div>
                 <div class="menu-title">হার্ডওয়্যার শপ</div>
-                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 অ্যালুমিনিয়াম ডিলার (লকড ফর ট্রায়াল ইউজার্স) 🌟 -->
-            <a href="javascript:void(0)" onclick="openAluDealer()" class="menu-card">
+            <!-- 🌟 অ্যালুমিনিয়াম ডিলার (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="aluminium-dealer.html" data-name="অ্যালুমিনিয়াম ডিলার">
                 <div class="menu-icon">🏭</div>
                 <div class="menu-title">অ্যালুমিনিয়াম ডিলার</div>
-                <span style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- 🌟 বাংলা সুইং ডোর (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="bangla-swing-door.html" data-name="বাংলা সুইং ডোর">
+                <div class="menu-icon">🚪</div>
+                <div class="menu-title">বাংলা সুইং ডোর</div>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- 🌟 ইউরো মডেল সুইং ডোর (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-swing-door.html" data-name="ইউরো মডেল সুইং ডোর">
+                <div class="menu-icon">🚪</div>
+                <div class="menu-title">ইউরো মডেল সুইং ডোর</div>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- 🌟 ইউরো মডেল ফিক্সড (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-fixed.html" data-name="ইউরো মডেল ফিক্সড">
+                <div class="menu-icon">📐</div>
+                <div class="menu-title">ইউরো মডেল ফিক্সড</div>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
             <a href="ceiling-calculator.html" class="menu-card"><div class="menu-icon">🛖</div><div class="menu-title">সিলিং ক্যালকুলেটর</div></a>
@@ -502,7 +508,7 @@
             }
         }
 
-        /* 6. PREMIUM CARDS ACCESS CHECK FUNCTION */
+        /* 6. PREMIUM CARDS DYNAMIC ACCESS & UI MANAGER */
         function checkPremiumAccess(featureName, redirectUrl) {
             const status = localStorage.getItem("app_user_status") || "trial";
             const role = localStorage.getItem("app_user_role") || "user";
@@ -514,12 +520,28 @@
             }
         }
 
-        function openEuroSliding() { checkPremiumAccess("ইউরো স্লাইডিং", "euro-sliding.html"); }
-        function openFixedCalculator() { checkPremiumAccess("ফিক্সড ক্যালকুলেটর", "fixed-calculator.html"); }
-        function openProfilePalla() { checkPremiumAccess("প্রোফাইল পাল্লা", "profile-palla.html"); }
-        function openGlassShop() { checkPremiumAccess("গ্লাস শপ", "glass-shop.html"); }
-        function openHardwareShop() { checkPremiumAccess("হার্ডওয়্যার শপ", "hardware-shop.html"); }
-        function openAluDealer() { checkPremiumAccess("অ্যালুমিনিয়াম ডিলার", "aluminium-dealer.html"); }
+        function updateMenuAccessUI() {
+            const status = localStorage.getItem("app_user_status") || "trial";
+            const role = localStorage.getItem("app_user_role") || "user";
+            const isPremiumOrAdmin = (role === "admin" || status === "approved");
+
+            const premiumCards = document.querySelectorAll('.premium-card');
+            premiumCards.forEach(card => {
+                const badge = card.querySelector('.premium-badge');
+                const url = card.getAttribute('data-url');
+                const name = card.getAttribute('data-name');
+
+                if (isPremiumOrAdmin) {
+                    if (badge) badge.style.display = 'none'; // এডমিন বা প্রিমিয়াম হলে প্রিমিয়াম লেখা/লক লুকাবে
+                    card.href = url; // সরাসরি পেজের লিংক সেট হবে
+                    card.removeAttribute('onclick');
+                } else {
+                    if (badge) badge.style.display = 'block'; // ট্রায়াল হলে ব্যাজ দেখাবে
+                    card.href = "javascript:void(0)";
+                    card.setAttribute('onclick', `checkPremiumAccess('${name}', '${url}')`);
+                }
+            });
+        }
 
         /* 7. REGISTRATION FUNCTION */
         async function processRegistration() {
@@ -609,6 +631,7 @@
                         localStorage.setItem("app_user_role", childSnap.val().role || "user");
                     });
                 }
+                updateMenuAccessUI();
             } catch (error) {
                 alert("❌ ভুল ইমেইল অথবা পাসওয়ার্ড!");
             } finally {
@@ -638,6 +661,7 @@
             checkFirstTimeAgreement();
             loadUserData(); 
             loadBackupTime();
+            updateMenuAccessUI();
 
             auth.onAuthStateChanged((user) => {
                 const lockScreen = document.getElementById("lockScreen");
@@ -710,6 +734,7 @@
 
                             localStorage.setItem("app_user_status", userData.status || "trial");
                             localStorage.setItem("app_user_role", userData.role || "user");
+                            updateMenuAccessUI();
 
                             document.getElementById("deviceIdDisplay").innerText = "Device ID: " + currentDeviceId;
 
@@ -992,8 +1017,6 @@
                         <div style="display:flex; gap:10px; margin-top:12px; align-items:center;">
                             <select id="statusSelect_${mobileKey}" style="flex:1; padding:8px; border-radius:6px; background:#ffffff; color:#0f172a; border:1px solid #93c5fd; font-size:13px; outline:none;">
                                 <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (30 Days)</option>
-                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (60 Days)</option>
-                                <option value="approved" ${u.status === 'approved' ? 'selected' : ''}>✓ Approve (90 Days)</option>
                                 <option value="trial" ${u.status === 'trial' ? 'selected' : ''}>⏳ Trial</option>
                                 <option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>🔒 Block</option>
                             </select>

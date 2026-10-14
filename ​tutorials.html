@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0f19">
+    <title>ভিডিও টিউটোরিয়াল - Aluminium ERP BD</title>
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; }
+        
+        .container { width: 100%; max-width: 1000px; position: relative; z-index: 1; padding-bottom: 40px; }
+        
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 8px 0; border-bottom: 1px solid #1e293b; pb-15px; }
+        .header-title { font-size: 20px; font-weight: bold; color: #ffffff; text-align: center; flex-grow: 1; }
+        .back-btn { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 14px; border-radius: 12px; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+        
+        /* সার্চ বক্স */
+        .search-box { width: 100%; margin-bottom: 24px; }
+        .search-input { width: 100%; padding: 14px 16px; background: #111827; border: 1px solid #334155; color: #ffffff; border-radius: 14px; font-size: 15px; outline: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .search-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+
+        /* ভিডিও গ্রিড লেআউট */
+        .video-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 768px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* ভিডিও কার্ড */
+        .video-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 6px 15px rgba(0,0,0,0.2); transition: transform 0.2s; }
+        .video-card:hover { border-color: #3b82f6; }
+        
+        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        .video-info { padding: 16px; display: flex; flex-direction: column; flex-grow: 1; }
+        .video-title { font-size: 15px; font-weight: bold; color: #fbbf24; margin-bottom: 6px; line-height: 1.4; }
+        .video-desc { font-size: 13px; color: #9ca3af; line-height: 1.5; }
+
+        .dev-branding { text-align: center; color: #60a5fa; font-size: 12px; font-weight: bold; margin-top: 30px; padding: 10px; background: rgba(30, 41, 59, 0.5); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- হেডার -->
+        <div class="header">
+            <a href="index.html" class="back-btn">← ড্যাশবোর্ড</a>
+            <div class="header-title">🎬 ভিডিও টিউটোরিয়াল</div>
+            <div style="width: 75px;"></div> <!-- ব্যালেন্স করার জন্য -->
+        </div>
+
+        <!-- সার্চ বক্স -->
+        <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 যে কোনো টিউটোরিয়াল সার্চ করুন (যেমন: স্লাইডিং, কোটেশন)..." onkeyup="filterVideos()">
+        </div>
+
+        <!-- ভিডিও লিস্ট (৩০টি টিউটোরিয়াল কার্ড) -->
+        <div class="video-grid" id="videoGrid">
+
+            <!-- ১ -->
+            <div class="video-card" data-title="অ্যাপ পরিচিতি ও লগইন প্রক্রিয়া">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১. অ্যাপ পরিচিতি ও লগইন প্রক্রিয়া</div>
+                    <div class="video-desc">নতুন ব্যবহারকারীদের জন্য অ্যাকাউন্ট খোলা, জিমেইল ভেরিফিকেশন এবং সাইন-ইন করার সম্পূর্ণ গাইডলাইন।</div>
+                </div>
+            </div>
+
+            <!-- ২ -->
+            <div class="video-card" data-title="প্রোফাইল সেটিংস ও ডাটা ব্যাকআপ">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২. প্রোফাইল সেটিংস ও ডাটা ব্যাকআপ</div>
+                    <div class="video-desc">কীভাবে নাম, ছবি, কোম্পানি পরিবর্তন করবেন এবং এক ক্লিকে ডাটা ব্যাকআপ ও রিস্টোর করবেন।</div>
+                </div>
+            </div>
+
+            <!-- ৩ -->
+            <div class="video-card" data-title="কার্টিন ওয়াল ক্যালকুলেটর ব্যবহার নিয়ম">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">৩. কার্টিন ওয়াল ক্যালকুলেটর ব্যবহার নিয়ম</div>
+                    <div class="video-desc">কার্টিন ওয়ালের নিখুঁত মাপ, প্রোফাইল এবং গ্লাস কাটিং সাইজ বের করার সঠিক পদ্ধতি।</div>
+                </div>
+            </div>
+
+            <!-- ৪ -->
+            <div class="video-card" data-title="কোম্পানি প্রোফাইল ও ডিসকাউন্ট সেটআপ">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">৪. কোম্পানি প্রোফাইল ও ডিসকাউন্ট সেটআপ</div>
+                    <div class="video-desc">ব্যবসার প্রফিট এবং ডিসকাউন্ট পার্সেন্টেজ নির্ভুলভাবে সেট করার নিয়মকানুন।</div>
+                </div>
+            </div>
+
+            <!-- ৫ -->
+            <div class="video-card" data-title="স্লাইডিং ক্যালকুলেটর সঠিক ব্যবহার">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">৫. স্লাইডিং ক্যালকুলেটর সঠিক ব্যবহার</div>
+                    <div class="video-desc">থাই অ্যালুমিনিয়াম স্লাইডিং উইন্ডো ও ডোর মাপ দেওয়ার এবং হিসাব করার সহজ টিউটোরিয়াল।</div>
+                </div>
+            </div>
+
+            <!-- ৬ -->
+            <div class="video-card" data-title="ক্যাসম্যান ক্যালকুলেটর হিসাব নিকাশ">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">৬. ক্যাসম্যান ক্যালকুলেটর হিসাব নিকাশ</div>
+                    <div class="video-desc">ক্যাসম্যান ডিজাইনের অ্যালুমিনিয়াম প্রোফাইল ও গ্লাস হিসাবের বিস্তারিত বর্ণনা।</div>
+                </div>
+            </div>
+
+            <!-- ৭ -->
+            <div class="video-card" data-title="ইউরো স্লাইডিং ক্যালকুলেটর গাইডলাইন">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">৭. ইউরো স্লাইডিং ক্যালকুলেটর গাইডলাইন</div>
+                    <div class="video-desc">ইউরো সিরিজের হেভি স্লাইডিং প্রোফাইল ও মেজারমেন্ট নিখুঁতভাবে করার পদ্ধতি।</div>
+                </div>
+            </div>
+
+            <!-- ৮ -->
+            <div class="video-card" data-title="ফিক্সড ক্যালকুলেটর কাজের নিয়ম">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">৮. ফিক্সড ক্যালকুলেটর কাজের নিয়ম</div>
+                    <div class="video-desc">যেকোনো ফিক্সড গ্লাস বা জানালার অ্যালুমিনিয়াম কাটিং সাইজ বের করার ভিডিও।</div>
+                </div>
+            </div>
+
+            <!-- ৯ -->
+            <div class="video-card" data-title="প্রোফাইল পাল্লা ক্যালকুলেটর টিউটোরিয়াল">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">৯. প্রোফাইল পাল্লা ক্যালকুলেটর টিউটোরিয়াল</div>
+                    <div class="video-desc">দরজা ও জানালার পাল্লা তৈরির জন্য প্রয়োজনীয় কাঁচামাল ও মাপের হিসাব।</div>
+                </div>
+            </div>
+
+            <!-- ১০ -->
+            <div class="video-card" data-title="গ্লাস শপ হিসাব ও ম্যানেজমেন্ট">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১০. গ্লাস শপ হিসাব ও ম্যানেজমেন্ট</div>
+                    <div class="video-desc">গ্লাসের স্টক, বেচাকেনা ও বিভিন্ন থিকনেসের গ্লাসের হিসাব রাখার নিয়ম।</div>
+                </div>
+            </div>
+
+            <!-- ১১ -->
+            <div class="video-card" data-title="হার্ডওয়্যার শপ স্টক হিসাব">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১১. হার্ডওয়্যার শপ স্টক হিসাব</div>
+                    <div class="video-desc">লক, রোলার, হ্যান্ডেল ও অন্যান্য হার্ডওয়্যার আইটেমের স্টক ও বিলিং পদ্ধতি।</div>
+                </div>
+            </div>
+
+            <!-- ১২ -->
+            <div class="video-card" data-title="অ্যালুমিনিয়াম ডিলার রেট হিসাব">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১২. অ্যালুমিনিয়াম ডিলার রেট হিসাব</div>
+                    <div class="video-desc">ডিলার প্রাইস এবং পাইকারি অ্যালুমিনিয়াম প্রোফাইল রেট ম্যানেজ করার টিউটোরিয়াল।</div>
+                </div>
+            </div>
+
+            <!-- ১৩ -->
+            <div class="video-card" data-title="বাংলা সুইং ডোর ক্যালকুলেটর">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১৩. বাংলা সুইং ডোর ক্যালকুলেটর</div>
+                    <div class="video-desc">বাংলা সুইং দরজা তৈরির জন্য সঠিক মাপ ও কাটিং সাইজ বের করার নিয়ম।</div>
+                </div>
+            </div>
+
+            <!-- ১৪ -->
+            <div class="video-card" data-title="ইউরো মডেল সুইং ডোর টিউটোরিয়াল">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১৪. ইউরো মডেল সুইং ডোর টিউটোরিয়াল</div>
+                    <div class="video-desc">ইউরো সিরিজের সুইং ডোর ফিটিংস ও পরিমাপের সম্পূর্ণ বিবরণ।</div>
+                </div>
+            </div>
+
+            <!-- ১৫ -->
+            <div class="video-card" data-title="ইউরো মডেল ফিক্সড গ্লাস হিসাব">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১৫. ইউরো মডেল ফিক্সড গ্লাস হিসাব</div>
+                    <div class="video-desc">ইউরো মডেলের ফিক্সড সেকশন এবং গ্লাস কাটিং বের করার পদ্ধতি।</div>
+                </div>
+            </div>
+
+            <!-- ১৬ -->
+            <div class="video-card" data-title="বাংলা প্রোফাইল সেকশন মাইনাস নিয়ম">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১৬. বাংলা প্রোফাইল সেকশন মাইনাস নিয়ম</div>
+                    <div class="video-desc">বাংলা মডেলে সেকশন কাটার সময় কত ইঞ্চি বা মিলি মাইনাস করতে হয় তার ভিডিও।</div>
+                </div>
+            </div>
+
+            <!-- ১৭ -->
+            <div class="video-card" data-title="ইউরো মডেল প্রোফাইল সেকশন মাইনাস">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১৭. ইউরো মডেল প্রোফাইল সেকশন মাইনাস</div>
+                    <div class="video-desc">ইউরো প্রোফাইল কাটার সঠিক মাইনাস ফর্মুলা ও টিপস।</div>
+                </div>
+            </div>
+
+            <!-- ১৮ -->
+            <div class="video-card" data-title="সিলিং ক্যালকুলেটর পরিচালনা">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১৮. সিলিং ক্যালকুলেটর পরিচালনা</div>
+                    <div class="video-desc">ফলস সিলিং বা অ্যালুমিনিয়াম সিলিংয়ের মেজারমেন্ট ও এস্টিমেট হিসাব।</div>
+                </div>
+            </div>
+
+            <!-- ১৯ -->
+            <div class="video-card" data-title="জেড লুভার ক্যালকুলেটর গাইড">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">১৯. জেড লুভার ক্যালকুলেটর গাইড</div>
+                    <div class="video-desc">জেড লুভার ব্লেড এবং ফ্রেমের নিখুঁত মাপ বের করার ভিডিও টিউটোরিয়াল।</div>
+                </div>
+            </div>
+
+            <!-- ২০ -->
+            <div class="video-card" data-title="বক্স লুভার পরিমাপ পদ্ধতি">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২০. বক্স লুভার পরিমাপ পদ্ধতি</div>
+                    <div class="video-desc">বক্স লুভার ডিজাইনের কাজ করার সময় হিসাব করার সঠিক নিয়ম।</div>
+                </div>
+            </div>
+
+            <!-- ২১ -->
+            <div class="video-card" data-title="রেট সেটিংস ও মূল্য আপডেট">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২১. রেট সেটিংস ও মূল্য আপডেট</div>
+                    <div class="video-desc">বাজারে অ্যালুমিনিয়াম ও গ্লাসের দাম বাড়লে বা কমলে অ্যাপে কীভাবে রেট আপডেট করবেন।</div>
+                </div>
+            </div>
+
+            <!-- ২২ -->
+            <div class="video-card" data-title="প্রফেশনাল কোটেশন তৈরি করার নিয়ম">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২২. প্রফেশনাল কোটেশন তৈরি করার নিয়ম</div>
+                    <div class="video-desc">কাস্টমারকে পাঠানোর জন্য সুন্দর কোটেশন বা প্রাক্কলন তৈরি ও প্রিন্ট করার পদ্ধতি।</div>
+                </div>
+            </div>
+
+            <!-- ২৩ -->
+            <div class="video-card" data-title="বিল ও ইনভয়েস প্রিন্ট করার পদ্ধতি">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২৩. বিল ও ইনভয়েস প্রিন্ট করার পদ্ধতি</div>
+                    <div class="video-desc">চূড়ান্ত বিল ও ক্যাশ মেমো তৈরি করে কাস্টমারকে দেওয়ার জন্য ইনভয়েস সিস্টেমের ব্যবহার।</div>
+                </div>
+            </div>
+
+            <!-- ২৪ -->
+            <div class="video-card" data-title="গ্লাস কাটিং সাইজ নিখুঁত হিসাব">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২৪. গ্লাস কাটিং সাইজ নিখুঁত হিসাব</div>
+                    <div class="video-desc">ফ্রেমের মাপ অনুযায়ী গ্লাস কতটুকু ছোট কাটতে হবে তার সঠিক হিসাব।</div>
+                </div>
+            </div>
+
+            <!-- ২৫ -->
+            <div class="video-card" data-title="গ্লাস শীট কাটিং অপ্টিমাইজেশন">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২৫. গ্লাস শীট কাটিং অপ্টিমাইজেশন</div>
+                    <div class="video-desc">বড় গ্লাস শীট থেকে কম অপচয়ে একাধিক ছোট পিস কাটার কার্যকর কৌশল।</div>
+                </div>
+            </div>
+
+            <!-- ২৬ -->
+            <div class="video-card" data-title="কাস্টমার তথ্য ও লেজার হিসাব">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২৬. কাস্টমার তথ্য ও লেজার হিসাব</div>
+                    <div class="video-desc">কাস্টমারের নাম, ঠিকানা, বাকি এবং জমার হিসাব রাখার সহজ গাইডলাইন।</div>
+                </div>
+            </div>
+
+            <!-- ২৭ -->
+            <div class="video-card" data-title="কর্মচারী হিসাব ও হাজিরা ম্যানেজমেন্ট">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২৭. কর্মচারী হিসাব ও হাজিরা ম্যানেজমেন্ট</div>
+                    <div class="video-desc">کارگر বা কারিগরদের বেতন, হাজিরা এবং অগ্রিম টাকা দেওয়ার হিসাব রাখার নিয়ম।</div>
+                </div>
+            </div>
+
+            <!-- ২৮ -->
+            <div class="video-card" data-title="এডমিন প্যানেল থেকে ইউজার এপ্রুভ পদ্ধতি">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২৮. এডমিন প্যানেল থেকে ইউজার এপ্রুভ পদ্ধতি</div>
+                    <div class="video-desc">এডমিন পিন দিয়ে লগইন করে নতুন ইউজারদের সাবস্ক্রিপশন বা অ্যাকাউন্ট অ্যাপ্রুভ করার নিয়ম।</div>
+                </div>
+            </div>
+
+            <!-- ২৯ -->
+            <div class="video-card" data-title="গুগল ড্রাইভে ডাটা ব্যাকআপ ও রিস্টোর">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">২৯. গুগল ড্রাইভে ডাটা ব্যাকআপ ও রিস্টোর</div>
+                    <div class="video-desc">মোবাইল পরিবর্তনে বা ডাটা সুরক্ষায় ব্যাকআপ ফাইল সেভ রাখার পদ্ধতি।</div>
+                </div>
+            </div>
+
+            <!-- ৩০ -->
+            <div class="video-card" data-title="যেকোনো সমস্যার জন্য হোয়াটসঅ্যাপ সাপোর্ট">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">৩০. যেকোনো সমস্যার জন্য হোয়াটসঅ্যাপ সাপোর্ট</div>
+                    <div class="video-desc">অ্যাপ ব্যবহারে কোনো সমস্যা হলে সরাসরি ডেভেলপার বা সাপোর্টের সাথে যোগাযোগের নিয়ম।</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="dev-branding">RM COMPUTER, RM ALUMINIUM, BY RUBEL</div>
+    </div>
+
+    <script>
+        /* লাইভ সার্চ ফিল্টার ফাংশন */
+        function filterVideos() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('video-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getAttribute('data-title').toLowerCase();
+                if (title.includes(input)) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

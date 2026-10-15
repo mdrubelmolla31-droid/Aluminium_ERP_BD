@@ -26,7 +26,7 @@
         .shooting-star::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6; }
         @keyframes shooting { 0% { transform: translateY(-50px) translateX(50px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 35% { transform: translateY(300px) translateX(-300px) rotate(45deg); opacity: 0; } 100% { opacity: 0; } }
         
-        /* 🌟 SPLASH SCREEN (Background Image Opacity Increased) 🌟 */
+        /* 🌟 SPLASH SCREEN 🌟 */
         #splash-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(rgba(11, 15, 25, 0.55), rgba(11, 15, 25, 0.55)), url('splash-bg.jpg') no-repeat center center; 
@@ -58,7 +58,7 @@
         .grid-menu { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
         .menu-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .menu-card:active { transform: scale(0.96); border-color: #fbbf24; }
-        .menu-icon { font-size: 34px; margin-bottom: 12px; }
+        .menu-icon { margin-bottom: 12px; display: flex; justify-content: center; align-items: center; }
         .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
         @media (min-width:768px) { .grid-menu { grid-template-columns: repeat(4,1fr); gap: 20px; } }
         @media (min-width:1024px) { .grid-menu { grid-template-columns: repeat(5,1fr); gap: 24px; } }
@@ -335,109 +335,206 @@
         </div>
 
         <div class="grid-menu" id="mainGridMenu">
+            <!-- কার্টিন ওয়াল -->
             <a href="curtain-wall.html" class="menu-card">
-    <div class="menu-icon">
-        <img src="img/curtainwall.png" alt="কার্টিন ওয়াল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-    </div>
-    <div class="menu-title">কার্টিন ওয়াল</div>
-</a>
+                <div class="menu-icon">
+                    <img src="img/curtainwall.png" alt="কার্টিন ওয়াল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">কার্টিন ওয়াল</div>
+            </a>
 
+            <!-- ভিডিও টিউটোরিয়াল -->
+            <a href="tutorials.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/tutorials.png" alt="ভিডিও টিউটোরিয়াল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">ভিডিও টিউটোরিয়াল</div>
+            </a>
 
-            
-            <!-- 🌟 ভিডিও টিউটোরিয়াল কার্ড 🌟 -->
-<a href="tutorials.html" class="menu-card">
-    <div class="menu-icon">🎬</div>
-    <div class="menu-title">ভিডিও টিউটোরিয়াল</div>
-</a>
+            <!-- কোম্পানি প্রোফাইল -->
+            <a href="profile-discount.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/companyprofile.png" alt="কোম্পানি প্রোফাইল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">কোম্পানি প্রোফাইল</div>
+            </a>
 
-            <a href="profile-discount.html" class="menu-card"><div class="menu-icon">🏢</div><div class="menu-title">কোম্পানি প্রোফাইল</div></a>
+            <!-- স্লাইডিং ক্যালকুলেটর -->
             <a href="calculator.html" class="menu-card">
-    <div class="menu-icon">
-        <img src="img/sliding.png" alt="স্লাইডিং ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-    </div>
-    <div class="menu-title">স্লাইডিং ক্যালকুলেটর</div>
-</a>
+                <div class="menu-icon">
+                    <img src="img/sliding.png" alt="স্লাইডিং ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">স্লাইডিং ক্যালকুলেটর</div>
+            </a>
 
-            <a href="cachman.html" class="menu-card"><div class="menu-icon">🪟</div><div class="menu-title">ক্যাসম্যান ক্যালকুলেটর</div></a>
+            <!-- ক্যাসম্যান ক্যালকুলেটর -->
+            <a href="cachman.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/cachman.png" alt="ক্যাসম্যান ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">ক্যাসম্যান ক্যালকুলেটর</div>
+            </a>
             
-            <!-- 🌟 ইউরো স্লাইডিং (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <!-- ইউরো স্লাইডিং (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-sliding.html" data-name="ইউরো স্লাইডিং">
-                <div class="menu-icon">🚪</div>
+                <div class="menu-icon">
+                    <img src="img/eurosliding.png" alt="ইউরো স্লাইডিং" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
                 <div class="menu-title">ইউরো স্লাইডিং</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 ফিক্সড ক্যালকুলেটর (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <!-- ফিক্সড ক্যালকুলেটর (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="fixed-calculator.html" data-name="ফিক্সড ক্যালকুলেটর">
-                <div class="menu-icon">📐</div>
+                <div class="menu-icon">
+                    <img src="img/fixedcalc.png" alt="ফিক্সড ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
                 <div class="menu-title">ফিক্সড ক্যালকুলেটর</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 প্রোফাইল পাল্লা ক্যালকুলেটর (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <!-- প্রোফাইল পাল্লা (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="profile-palla.html" data-name="প্রোফাইল পাল্লা">
-                <div class="menu-icon">🎛️</div>
+                <div class="menu-icon">
+                    <img src="img/profilepalla.png" alt="প্রোফাইল পাল্লা" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
                 <div class="menu-title">প্রোফাইল পাল্লা</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 গ্লাস শপ (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <!-- গ্লাস শপ (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="glass-shop.html" data-name="গ্লাস শপ">
-                <div class="menu-icon">🏬</div>
+                <div class="menu-icon">
+                    <img src="img/glassshop.png" alt="গ্লাস শপ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
                 <div class="menu-title">গ্লাস শপ</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 হার্ডওয়্যার শপ (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <!-- হার্ডওয়্যার শপ (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="hardware-shop.html" data-name="হার্ডওয়্যার শপ">
-                <div class="menu-icon">🛠️</div>
+                <div class="menu-icon">
+                    <img src="img/hardware.png" alt="হার্ডওয়্যার শপ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
                 <div class="menu-title">হার্ডওয়্যার শপ</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 অ্যালুমিনিয়াম ডিলার (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <!-- অ্যালুমিনিয়াম ডিলার (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="aluminium-dealer.html" data-name="অ্যালুমিনিয়াম ডিলার">
-                <div class="menu-icon">🏭</div>
+                <div class="menu-icon">
+                    <img src="img/aludealer.png" alt="অ্যালুমিনিয়াম ডিলার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
                 <div class="menu-title">অ্যালুমিনিয়াম ডিলার</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 বাংলা প্রোফাইল সেকশন মাইনাস (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <!-- বাংলা প্রোফাইল সেকশন মাইনাস (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="bangla-profile-section-minus.html" data-name="বাংলা প্রোফাইল সেকশন মাইনাস">
-                <div class="menu-icon">➖</div>
+                <div class="menu-icon">
+                    <img src="img/banglaminus.png" alt="বাংলা প্রোফাইল সেকশন মাইনাস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
                 <div class="menu-title">বাংলা প্রোফাইল সেকশন মাইনাস</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- 🌟 ইউরো মডেল প্রোফাইল সেকশন মাইনাস (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
+            <!-- ইউরো মডেল প্রোফাইল সেকশন মাইনাস (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-profile-section-minus.html" data-name="ইউরো মডেল প্রোফাইল সেকশন মাইনাস">
-                <div class="menu-icon">➖</div>
+                <div class="menu-icon">
+                    <img src="img/eurominus.png" alt="ইউরো মডেল প্রোফাইল সেকশন মাইনাস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
                 <div class="menu-title">ইউরো মডেল প্রোফাইল সেকশন মাইনাস</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
-<!-- 🌟 ইউরো মডেল ফোল্ডিং ডোর (ডায়নামিক প্রিমিয়াম কার্ড) 🌟 -->
-<a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-folding-door.html" data-name="ইউরো মডেল ফোল্ডিং ডোর">
-    <div class="menu-icon">🚪</div>
-    <div class="menu-title">ইউরো মডেল ফোল্ডিং ডোর</div>
-    <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
-</a>
 
-            <a href="ceiling-calculator.html" class="menu-card"><div class="menu-icon">🛖</div><div class="menu-title">সিলিং ক্যালকুলেটর</div></a>
-            <a href="Lowver.html" class="menu-card"><div class="menu-icon">🪜</div><div class="menclassle">জেড লুভার</div></a>
-            <a href="BoxLowver.html" class="menu-card"><div class="menu-icon">🔳</div><div class="menu-title">বক্স লুভার</div></a>
-            <a href="rate-settings.html" class="menu-card"><div class="menu-icon">⚙</div><div class="menu-title">রেট সেটিংস</div></a>
-            <a href="quotation.html" class="menu-card"><div class="menu-icon">📝</div><div class="menu-title">কোটেশন</div></a>
-            <a href="invoice.html" class="menu-card"><div class="menu-icon">🧾</div><div class="menu-title">বিল ও ইনভয়েস</div></a>
-            <a href="glass.html" class="menu-card"><div class="menu-icon">🧊</div><div class="menu-title">গ্লাস কাটিং সাইজ</div></a>
-            <a href="glass-cutting.html" class="menu-card"><div class="menu-icon">✂</div><div class="menu-title">গ্লাস শীট কাটিং</div></a>
+            <!-- ইউরো মডেল ফোল্ডিং ডোর (প্রিমিয়াম কার্ড) -->
+            <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-folding-door.html" data-name="ইউরো মডেল ফোল্ডিং ডোর">
+                <div class="menu-icon">
+                    <img src="img/foldingdoor.png" alt="ইউরো মডেল ফোল্ডিং ডোর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">ইউরো মডেল ফোল্ডিং ডোর</div>
+                <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
+            </a>
+
+            <!-- সিলিং ক্যালকুলেটর -->
+            <a href="ceiling-calculator.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/ceiling.png" alt="সিলিং ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">সিলিং ক্যালকুলেটর</div>
+            </a>
+
+            <!-- জেড লুভার -->
+            <a href="Lowver.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/louver.png" alt="জেড লুভার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">জেড লুভার</div>
+            </a>
+
+            <!-- বক্স লুভার -->
+            <a href="BoxLowver.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/boxlouver.png" alt="বক্স লুভার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">বক্স লুভার</div>
+            </a>
+
+            <!-- রেট সেটিংস -->
+            <a href="rate-settings.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/ratesettings.png" alt="রেট সেটিংস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">রেট সেটিংস</div>
+            </a>
+
+            <!-- কোটেশন -->
+            <a href="quotation.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/quotation.png" alt="কোটেশন" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">কোটেশন</div>
+            </a>
+
+            <!-- বিল ও ইনভয়েস -->
+            <a href="invoice.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/invoice.png" alt="বিল ও ইনভয়েস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">বিল ও ইনভয়েস</div>
+            </a>
+
+            <!-- গ্লাস কাটিং সাইজ -->
+            <a href="glass.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/glasssize.png" alt="গ্লাস কাটিং সাইজ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">গ্লাস কাটিং সাইজ</div>
+            </a>
+
+            <!-- গ্লাস শীট কাটিং -->
+            <a href="glass-cutting.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/glasscutting.png" alt="গ্লাস শীট কাটিং" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">গ্লাস শীট কাটিং</div>
+            </a>
+
+            <!-- কাস্টমার তথ্য -->
             <a href="customer.html" class="menu-card">
-    <div class="menu-icon">
-        <img src="img/customar.png" alt="কাস্টমার তথ্য" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-    </div>
-    <div class="menu-title">কাস্টমার তথ্য</div>
-</a>
+                <div class="menu-icon">
+                    <img src="img/customar.png" alt="কাস্টমার তথ্য" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">কাস্টমার তথ্য</div>
+            </a>
 
-            <a href="kormochari.html" class="menu-card"><div class="menu-icon">👨‍🔧</div><div class="menu-title">কর্মচারী হিসাব</div></a>
+            <!-- কর্মচারী হিসাব -->
+            <a href="kormochari.html" class="menu-card">
+                <div class="menu-icon">
+                    <img src="img/kormochari.png" alt="কর্মচারী হিসাব" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                </div>
+                <div class="menu-title">কর্মচারী হিসাব</div>
+            </a>
         </div>
     </div>
 
@@ -557,11 +654,11 @@
                 const name = card.getAttribute('data-name');
 
                 if (isPremiumOrAdmin) {
-                    if (badge) badge.style.display = 'none'; // এডমিন বা প্রিমিয়াম হলে প্রিমিয়াম লেখা/লক লুকাবে
-                    card.href = url; // সরাসরি পেজের লিংক সেট হবে
+                    if (badge) badge.style.display = 'none'; 
+                    card.href = url; 
                     card.removeAttribute('onclick');
                 } else {
-                    if (badge) badge.style.display = 'block'; // ট্রায়াল হলে ব্যাজ দেখাবে
+                    if (badge) badge.style.display = 'block'; 
                     card.href = "javascript:void(0)";
                     card.setAttribute('onclick', `checkPremiumAccess('${name}', '${url}')`);
                 }

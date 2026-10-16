@@ -20,8 +20,90 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; overflow-x: hidden; }
-        #galaxy-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; }
+        body { background-color: #03050a; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; overflow-x: hidden; }
+        
+        /* 🌌 HIGH-VISIBILITY CONTINUOUS ROTATING MILKY WAY GALAXY 🌌 */
+        #galaxy-bg { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100vh; 
+            z-index: 0; 
+            overflow: hidden; 
+            pointer-events: none; 
+            background: #020307;
+        }
+
+        /* Bright Spiral Milky Way Core */
+        .milky-way-galaxy {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180vw;
+            height: 180vh;
+            transform: translate(-50%, -50%);
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.9) 0%, rgba(147, 197, 253, 0.6) 15%, rgba(168, 85, 247, 0.4) 35%, rgba(59, 130, 246, 0.25) 55%, transparent 70%),
+                conic-gradient(from 0deg at 50% 50%, 
+                    rgba(147, 197, 253, 0.7) 0deg, 
+                    rgba(3, 7, 18, 0.95) 45deg, 
+                    rgba(168, 85, 247, 0.6) 90deg, 
+                    rgba(3, 7, 18, 0.95) 135deg, 
+                    rgba(59, 130, 246, 0.7) 180deg, 
+                    rgba(3, 7, 18, 0.95) 225deg, 
+                    rgba(236, 72, 153, 0.6) 270deg, 
+                    rgba(3, 7, 18, 0.95) 315deg,
+                    rgba(147, 197, 253, 0.7) 360deg);
+            mix-blend-mode: screen;
+            filter: blur(18px);
+            opacity: 0.95;
+            animation: rotateMilkyWay 90s linear infinite;
+        }
+
+        /* Outer Dust Arms & Nebulae Layer */
+        .milky-way-galaxy::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(96, 165, 250, 0.4) 30%, rgba(139, 92, 246, 0.2) 60%, transparent 80%);
+            mix-blend-mode: color-dodge;
+            filter: blur(25px);
+            animation: rotateMilkyWayReverse 140s linear infinite;
+        }
+
+        @keyframes rotateMilkyWay {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes rotateMilkyWayReverse {
+            0% { transform: translate(-50%, -50%) rotate(360deg); }
+            100% { transform: translate(-50%, -50%) rotate(0deg); }
+        }
+
+        /* Star Dust Layer */
+        .stars-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2.5px 2.5px at 60px 80px, #93c5fd, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 110px 50px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 170px 140px, #c084fc, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 230px 190px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 300px 250px, #60a5fa, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 320px 320px;
+            opacity: 0.85;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
         .shooting-star { position: absolute; width: 2px; height: 60px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1)); border-radius: 50%; filter: drop-shadow(0 0 6px #60a5fa); opacity: 0; animation: shooting 4s linear infinite; }
         .shooting-star::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6; }
         @keyframes shooting { 0% { transform: translateY(-50px) translateX(50px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 35% { transform: translateY(300px) translateX(-300px) rotate(45deg); opacity: 0; } 100% { opacity: 0; } }
@@ -112,6 +194,7 @@
         .header-logo-box { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; background: #1e293b; overflow: hidden; flex-shrink: 0; z-index: 10; }
         .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
         
+        /* CARD BACKGROUNDS HELD EXACTLY ORIGINAL (#111827) */
         .user-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
         .user-info { flex: 1; }
         .user-title { color: #fbbf24; font-size: 18px; font-weight: bold; margin-bottom: 4px; }
@@ -161,7 +244,10 @@
 
 <body>
 
+    <!-- 🌌 MILKY WAY GALAXY BACKGROUND 🌌 -->
     <div id="galaxy-bg">
+        <div class="milky-way-galaxy"></div>
+        <div class="stars-layer"></div>
         <div class="shooting-star" style="top:-5%;left:70%;animation-delay:0s;animation-duration:4s;"></div>
         <div class="shooting-star" style="top:10%;left:95%;animation-delay:1.5s;animation-duration:5s;"></div>
         <div class="shooting-star" style="top:-10%;left:45%;animation-delay:2.8s;animation-duration:3.5s;"></div>
@@ -462,14 +548,12 @@
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- নতুন যুক্ত করা প্রিমিয়াম কার্ড ১: বাংলা সুইং ডোর -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="bangla-swing-door.html" data-name="বাংলা সুইং ডোর">
                 <div class="menu-icon"><img src="img/banglaswing.png" alt="বাংলা সুইং ডোর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">বাংলা সুইং ডোর</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- নতুন যুক্ত করা প্রিমিয়াম কার্ড ২: ইউরো মডেল সুইং ডোর -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-swing-door.html" data-name="ইউরো মডেল সুইং ডোর">
                 <div class="menu-icon"><img src="img/euroswing.png" alt="ইউরো মডেল সুইং ডোর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">ইউরো মডেল সুইং ডোর</div>
@@ -594,7 +678,7 @@
         }
         const currentDeviceId = generateDeviceFingerprint();
 
-        /* 4. TERMS AGREEMENT CHECK (ড্যাশবোর্ডে প্রবেশের মুখে কল করার জন্য) */
+        /* 4. TERMS AGREEMENT CHECK */
         function checkAndShowTermsIfNeeded() {
             if (!localStorage.getItem("alu_terms_agreed")) {
                 document.getElementById("termsAgreementModal").style.display = "flex";

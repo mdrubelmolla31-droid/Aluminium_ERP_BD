@@ -20,7 +20,7 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; }
+        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; overflow-x: hidden; }
         #galaxy-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; }
         .shooting-star { position: absolute; width: 2px; height: 60px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1)); border-radius: 50%; filter: drop-shadow(0 0 6px #60a5fa); opacity: 0; animation: shooting 4s linear infinite; }
         .shooting-star::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6; }
@@ -43,11 +43,75 @@
         @keyframes loadBar { 0% { width: 0%; } 60% { width: 80%; } 100% { width: 100%; } }
         
         .dashboard-container { width: 100%; max-width: 1200px; position: relative; z-index: 1; padding-bottom: 30px; }
-        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 8px 0; }
-        .header-title { font-size: 20px; font-weight: bold; color: #ffffff; text-align: center; flex-grow: 1; }
-        .icon-btn { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 20px; }
-        .header-logo-box { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; background: #1e293b; overflow: hidden; flex-shrink: 0; }
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 8px 0; position: relative; }
+        
+        /* 🌕 SLOW & REALISTIC MOON TRAVEL WITH SYNCHRONIZED LIGHT SWEEP 🌕 */
+        .title-container {
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            flex-grow: 1;
+            overflow: visible;
+            height: 40px;
+        }
+
+        .header-title { 
+            font-size: 20px; 
+            font-weight: 800; 
+            text-align: center;
+            position: absolute;
+            width: 100%;
+            top: 6px;
+            left: 0;
+            z-index: 2;
+            color: #cbd5e1;
+            background: linear-gradient(90deg, #64748b 0%, #cbd5e1 30%, #ffffff 50%, #cbd5e1 70%, #64748b 100%);
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textLightSweep 14s linear infinite;
+        }
+
+        @keyframes textLightSweep {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        .traveling-realistic-moon {
+            position: absolute;
+            top: -18px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd5e1 45%, #64748b 80%, #1e293b 100%);
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.95), inset -4px -4px 6px rgba(0,0,0,0.6);
+            z-index: 4;
+            animation: moonJourneyEffect 14s linear infinite;
+        }
+
+        .traveling-realistic-moon::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 28% 25%, rgba(15, 23, 42, 0.6) 0%, rgba(15, 23, 42, 0) 20%),
+                radial-gradient(circle at 65% 60%, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0) 24%),
+                radial-gradient(circle at 45% 75%, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0) 16%);
+            border-radius: 50%;
+        }
+
+        @keyframes moonJourneyEffect {
+            0% { left: 10%; transform: scale(0.4); opacity: 0; }
+            15% { opacity: 1; transform: scale(0.7); }
+            50% { transform: scale(1); }
+            85% { opacity: 1; transform: scale(1); }
+            100% { left: 88%; transform: scale(1.1); opacity: 0; }
+        }
+
+        .icon-btn { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 20px; z-index: 10; }
+        .header-logo-box { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; background: #1e293b; overflow: hidden; flex-shrink: 0; z-index: 10; }
         .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
+        
         .user-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
         .user-info { flex: 1; }
         .user-title { color: #fbbf24; font-size: 18px; font-weight: bold; margin-bottom: 4px; }
@@ -55,6 +119,7 @@
         .status-badge { display: inline-block; background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
         .avatar-container { width: 60px; height: 60px; flex-shrink: 0; }
         .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #fbbf24; background: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffffff; }
+        
         .grid-menu { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
         .menu-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .menu-card:active { transform: scale(0.96); border-color: #fbbf24; }
@@ -118,7 +183,7 @@
         </div>
     </div>
 
-    <!-- TERMS AGREEMENT MODAL -->
+    <!-- TERMS AGREEMENT MODAL (এখন জিমেইল লগইন ও ভেরিফিকেশন শেষে ড্যাশবোর্ডে প্রবেশের মুখে আসবে) -->
     <div class="lock-overlay" id="termsAgreementModal" style="display:none; z-index:9999999; padding:15px;">
         <div class="lock-box" style="max-width:600px; text-align:left;">
             <h3 style="color:#1d4ed8; font-size:20px; margin-bottom:4px; text-align:center;">ALUMINIUM ERP BD</h3>
@@ -128,7 +193,7 @@
                 <h4 style="color:#2563eb; margin-bottom:6px;">অ্যাপ পরিচিতি ও লাইসেন্স নীতিমালা</h4>
                 <p><b>১. অ্যাপ সম্পর্কে:</b> ALUMINIUM ERP BD হলো গ্লাস ও অ্যালুমিনিয়াম ব্যবসার হিসাব ব্যবস্থাপনার জন্য তৈরি ডিজিটাল অ্যাপ্লিকেশন।</p><br>
                 <p>পরিচালনা ও ব্যবস্থাপনায়: RM COMPUTER — RM THAI ALUMINIUM</p><br>
-                <p><b>২. লাইসেন্স ও ব্যবহার নীতিমালা:</b> অ্যাপের ব্যবহার নির্ধারিত লাইসেন্স ও অনুমোদনের শর্তসাপেক্ষে পরিচালিত হবে। কর্তৃপক্ষ বা অনুমোদিত প্রক্রিয়া ছাড়া লাইসেন্স হস্তান্তর বা অপব্যবহার করা নিষিদ্ধ।</p>
+                <p><b>২. লাইসেন্স ও ব্যবহার নীতিমালা:</b> অ্যাপের ব্যবহার নির্ধারিত লাইসেন্স ও অনুমোদনের শর্তসাপেক্ষে পরিচালিত হবে।</p>
             </div>
 
             <button type="button" class="btn-unlock" onclick="agreeAndCloseTerms()" style="background:#059669; font-size:14px; padding:12px;">✅ আমি শর্তাবলি পড়েছি এবং সম্মত আছি</button>
@@ -260,29 +325,7 @@
                 <h4 style="color:#2563eb; margin-bottom:6px;">ALUMINIUM ERP BD</h4>
                 <p><b>Glass & Aluminium Management System</b><br>
                 পরিচালনা ও ব্যবস্থাপনায়: RM COMPUTER — RM THAI ALUMINIUM<br>
-                সাপোর্ট WhatsApp: 01676-474412</p><br>
-                
-                <h4 style="color:#2563eb; margin-bottom:6px;">১. অ্যাপ্লিকেশন পরিচিতি</h4>
-                <p>ALUMINIUM ERP BD হলো গ্লাস ও অ্যালুমিনিয়াম ব্যবসার দৈনন্দিন কাজ সহজ, দ্রুত ও সুশৃঙ্খলভাবে পরিচালনা করার জন্য তৈরি একটি ডিজিটাল ম্যানেজমেন্ট অ্যাপ্লিকেশন।</p><br>
-
-                <h4 style="color:#2563eb; margin-bottom:6px;">২. লাইসেন্স ও ব্যবহার নীতিমালা</h4>
-                <p>• ALUMINIUM ERP BD-এর ব্যবহার নির্ধারিত লাইসেন্স ও অনুমোদনের শর্তসাপেক্ষে পরিচালিত হবে।<br>
-                • লাইসেন্স নির্দিষ্ট ব্যবহারকারী, অ্যাকাউন্ট অথবা ডিভাইসের সঙ্গে যুক্ত থাকবে। নতুন ডিভাইসে ব্যবহার করার ক্ষেত্রে পুনরায় যাচাই বা প্রশাসকের অনুমোদন প্রয়োজন হতে পারে।<br>
-                • কর্তৃপক্ষের অনুমতি ছাড়া অ্যাপের লাইসেন্স অন্যের কাছে বিক্রি, ভাড়া বা হস্তান্তর করা যাবে না।</p><br>
-
-                <h4 style="color:#2563eb; margin-bottom:6px;">৩. ফ্রি ট্রায়াল ও লাইসেন্সের মেয়াদ</h4>
-                <p>• অ্যাপে প্রদত্ত ফ্রি ট্রায়াল নির্ধারিত সময়ের জন্য প্রযোজ্য হবে।<br>
-                • ট্রায়ালের মেয়াদ শেষ হলে অ্যাপের পূর্ণ সুবিধা ব্যবহার চালিয়ে যেতে অতিরিক্ত লাইসেন্স বা প্রশাসকের অনুমোদন প্রয়োজন হতে পারে।</p><br>
-
-                <h4 style="color:#2563eb; margin-bottom:6px;">৪. গোপনীয়তা ও তথ্যের নিরাপত্তা</h4>
-                <p>• ব্যবহারকারীর নাম, মোবাইল নম্বর, ইমেইল এবং ব্যবসায়িক হিসাব সুরক্ষায় যুক্তিসংগত ব্যবস্থা নেওয়া হয়।<br>
-                • গুরুত্বপূর্ণ ব্যবসায়িক তথ্য নিয়মিত ব্যাকআপ রাখা ব্যবহারকারীর নিজস্ব দায়িত্ব।</p><br>
-
-                <h4 style="color:#2563eb; margin-bottom:6px;">৫. যোগাযোগ ও কারিগরি সহায়তা</h4>
-                <p><b>অ্যাপের নাম:</b> ALUMINIUM ERP BD<br>
-                <b>পরিচালনায়:</b> RM COMPUTER (RM THAI ALUMINIUM)<br>
-                <b>সাপোর্ট WhatsApp:</b> 01676-474412<br>
-                <b>সংস্করণ:</b> ১.০ (হালনাগাদ: অক্টোবর ২০২৬)</p>
+                সাপোর্ট WhatsApp: 01676-474412</p>
             </div>
             <button class="btn-unlock" onclick="closeAboutModal()" style="background:#2563eb;">বন্ধ করুন</button>
         </div>
@@ -317,7 +360,12 @@
     <div class="dashboard-container">
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
-            <div class="header-title">Aluminium ERP BD</div>
+            
+            <div class="title-container">
+                <div class="traveling-realistic-moon"></div>
+                <div class="header-title">Aluminium ERP BD</div>
+            </div>
+
             <div class="header-logo-box">
                 <img src="rubel.jpg" alt="Rubel" onerror="this.src='https://img.icons8.com/color/96/user.png'">
             </div>
@@ -335,204 +383,132 @@
         </div>
 
         <div class="grid-menu" id="mainGridMenu">
-            <!-- কার্টিন ওয়াল -->
             <a href="curtain-wall.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/curtainwall.png" alt="কার্টিন ওয়াল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/curtainwall.png" alt="কার্টিন ওয়াল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">কার্টিন ওয়াল</div>
             </a>
 
-            <!-- ভিডিও টিউটোরিয়াল -->
             <a href="tutorials.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/tutorials.png" alt="ভিডিও টিউটোরিয়াল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/tutorials.png" alt="ভিডিও টিউটোরিয়াল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">ভিডিও টিউটোরিয়াল</div>
             </a>
 
-            <!-- কোম্পানি প্রোফাইল -->
             <a href="profile-discount.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/companyprofile.png" alt="কোম্পানি প্রোফাইল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/companyprofile.png" alt="কোম্পানি প্রোফাইল" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">কোম্পানি প্রোফাইল ডিস্কাউন্ট</div>
             </a>
 
-            <!-- স্লাইডিং ক্যালকুলেটর -->
             <a href="calculator.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/sliding.png" alt="স্লাইডিং ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/sliding.png" alt="স্লাইডিং ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">স্লাইডিং ক্যালকুলেটর</div>
             </a>
 
-            <!-- ক্যাসম্যান ক্যালকুলেটর -->
             <a href="cachman.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/cachman.png" alt="ক্যাসম্যান ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/cachman.png" alt="ক্যাসম্যান ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">ক্যাসম্যান ক্যালকুলেটর</div>
             </a>
             
-            <!-- ইউরো স্লাইডিং (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-sliding.html" data-name="ইউরো স্লাইডিং">
-                <div class="menu-icon">
-                    <img src="img/eurosliding.png" alt="ইউরো স্লাইডিং" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/eurosliding.png" alt="ইউরো স্লাইডিং" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">ইউরো স্লাইডিং</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- ফিক্সড ক্যালকুলেটর (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="fixed-calculator.html" data-name="ফিক্সড ক্যালকুলেটর">
-                <div class="menu-icon">
-                    <img src="img/fixedcalc.png" alt="ফিক্সড ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/fixedcalc.png" alt="ফিক্সড ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">ফিক্সড ক্যালকুলেটর</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- প্রোফাইল পাল্লা (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="profile-palla.html" data-name="প্রোফাইল পাল্লা">
-                <div class="menu-icon">
-                    <img src="img/profilepalla.png" alt="প্রোফাইল পাল্লা" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/profilepalla.png" alt="প্রোফাইল পাল্লা" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">প্রোফাইল পাল্লা</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- গ্লাস শপ (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="glass-shop.html" data-name="গ্লাস শপ">
-                <div class="menu-icon">
-                    <img src="img/glassshop.png" alt="গ্লাস শপ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/glassshop.png" alt="গ্লাস শপ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">গ্লাস শপ</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- হার্ডওয়্যার শপ (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="hardware-shop.html" data-name="হার্ডওয়্যার শপ">
-                <div class="menu-icon">
-                    <img src="img/hardware.png" alt="হার্ডওয়্যার শপ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/hardware.png" alt="হার্ডওয়্যার শপ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">হার্ডওয়্যার শপ</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- অ্যালুমিনিয়াম ডিলার (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="aluminium-dealer.html" data-name="অ্যালুমিনিয়াম ডিলার">
-                <div class="menu-icon">
-                    <img src="img/aludealer.png" alt="অ্যালুমিনিয়াম ডিলার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/aludealer.png" alt="অ্যালুমিনিয়াম ডিলার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">অ্যালুমিনিয়াম ডিলার</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- বাংলা প্রোফাইল সেকশন মাইনাস (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="bangla-profile-section-minus.html" data-name="বাংলা প্রোফাইল সেকশন মাইনাস">
-                <div class="menu-icon">
-                    <img src="img/banglaminus.png" alt="বাংলা প্রোফাইল সেকশন মাইনাস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/banglaminus.png" alt="বাংলা প্রোফাইল সেকশন মাইনাস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">বাংলা প্রোফাইল সেকশন মাইনাস</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- ইউরো মডেল প্রোফাইল সেকশন মাইনাস (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-profile-section-minus.html" data-name="ইউরো মডেল প্রোফাইল সেকশন মাইনাস">
-                <div class="menu-icon">
-                    <img src="img/eurominus.png" alt="ইউরো মডেল প্রোফাইল সেকশন মাইনাস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/eurominus.png" alt="ইউরো মডেল প্রোফাইল সেকশন মাইনাস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">ইউরো মডেল প্রোফাইল সেকশন মাইনাস</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- ইউরো মডেল ফোল্ডিং ডোর (প্রিমিয়াম কার্ড) -->
             <a href="javascript:void(0)" class="menu-card premium-card" data-url="euro-folding-door.html" data-name="ইউরো মডেল ফোল্ডিং ডোর">
-                <div class="menu-icon">
-                    <img src="img/foldingdoor.png" alt="ইউরো মডেল ফোল্ডিং ডোর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/foldingdoor.png" alt="ইউরো মডেল ফোল্ডিং ডোর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">ইউরো মডেল ফোল্ডিং ডোর</div>
                 <span class="premium-badge" style="font-size:11px; color:#fbbf24; margin-top:2px; font-weight:bold;">🔒 প্রিমিয়াম</span>
             </a>
 
-            <!-- সিলিং ক্যালকুলেটর -->
             <a href="ceiling-calculator.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/ceiling.png" alt="সিলিং ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/ceiling.png" alt="সিলিং ক্যালকুলেটর" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">সিলিং ক্যালকুলেটর</div>
             </a>
 
-            <!-- জেড লুভার -->
             <a href="Lowver.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/louver.png" alt="জেড লুভার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/louver.png" alt="জেড লুভার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">জেড লুভার</div>
             </a>
 
-            <!-- বক্স লুভার -->
             <a href="BoxLowver.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/boxlouver.png" alt="বক্স লুভার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/boxlouver.png" alt="বক্স লুভার" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">বক্স লুভার</div>
             </a>
 
-            <!-- রেট সেটিংস -->
             <a href="rate-settings.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/ratesettings.png" alt="রেট সেটিংস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/ratesettings.png" alt="রেট সেটিংস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">রেট সেটিংস</div>
             </a>
 
-            <!-- কোটেশন -->
             <a href="quotation.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/quotation.png" alt="কোটেশন" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/quotation.png" alt="কোটেশন" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">কোটেশন</div>
             </a>
 
-            <!-- বিল ও ইনভয়েস -->
             <a href="invoice.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/invoice.png" alt="বিল ও ইনভয়েস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/invoice.png" alt="বিল ও ইনভয়েস" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">বিল ও ইনভয়েস</div>
             </a>
 
-            <!-- গ্লাস কাটিং সাইজ -->
             <a href="glass.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/glasssize.png" alt="গ্লাস কাটিং সাইজ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/glasssize.png" alt="গ্লাস কাটিং সাইজ" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">গ্লাস কাটিং সাইজ</div>
             </a>
 
-            <!-- গ্লাস শীট কাটিং -->
             <a href="glass-cutting.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/glasscutting.png" alt="গ্লাস শীট কাটিং" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/glasscutting.png" alt="গ্লাস শীট কাটিং" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">গ্লাস শীট কাটিং</div>
             </a>
 
-            <!-- কাস্টমার তথ্য -->
             <a href="customer.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/customar.png" alt="কাস্টমার তথ্য" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/customar.png" alt="কাস্টমার তথ্য" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">কাস্টমার তথ্য</div>
             </a>
 
-            <!-- কর্মচারী হিসাব -->
             <a href="kormochari.html" class="menu-card">
-                <div class="menu-icon">
-                    <img src="img/kormochari.png" alt="কর্মচারী হিসাব" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
-                </div>
+                <div class="menu-icon"><img src="img/kormochari.png" alt="কর্মচারী হিসাব" style="width: 58px; height: 58px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);"></div>
                 <div class="menu-title">কর্মচারী হিসাব</div>
             </a>
         </div>
@@ -604,8 +580,8 @@
         }
         const currentDeviceId = generateDeviceFingerprint();
 
-        /* 4. TERMS AGREEMENT CHECK */
-        function checkFirstTimeAgreement() {
+        /* 4. TERMS AGREEMENT CHECK (ড্যাশবোর্ডে প্রবেশের মুখে কল করার জন্য) */
+        function checkAndShowTermsIfNeeded() {
             if (!localStorage.getItem("alu_terms_agreed")) {
                 document.getElementById("termsAgreementModal").style.display = "flex";
             }
@@ -630,18 +606,6 @@
             }
         }
 
-        /* 6. PREMIUM CARDS DYNAMIC ACCESS & UI MANAGER */
-        function checkPremiumAccess(featureName, redirectUrl) {
-            const status = localStorage.getItem("app_user_status") || "trial";
-            const role = localStorage.getItem("app_user_role") || "user";
-            
-            if (role === "admin" || status === "approved") {
-                window.location.href = redirectUrl;
-            } else {
-                alert(`🔒 '${featureName}' একটি প্রিমিয়াম ফিচার!\n\nআপনার বর্তমান অ্যাকাউন্টটি ট্রায়াল মোডে রয়েছে। প্রিমিয়াম বা অনুমোদিত (Approved) অ্যাকাউন্ট ছাড়া এই ফিচারটি ব্যবহার করা যাবে না। লাইসেন্স অ্যাক্টিভ করতে এডমিনের সাথে যোগাযোগ করুন।`);
-            }
-        }
-
         function updateMenuAccessUI() {
             const status = localStorage.getItem("app_user_status") || "trial";
             const role = localStorage.getItem("app_user_role") || "user";
@@ -651,16 +615,11 @@
             premiumCards.forEach(card => {
                 const badge = card.querySelector('.premium-badge');
                 const url = card.getAttribute('data-url');
-                const name = card.getAttribute('data-name');
-
+                card.href = url; 
                 if (isPremiumOrAdmin) {
                     if (badge) badge.style.display = 'none'; 
-                    card.href = url; 
-                    card.removeAttribute('onclick');
                 } else {
-                    if (badge) badge.style.display = 'block'; 
-                    card.href = "javascript:void(0)";
-                    card.setAttribute('onclick', `checkPremiumAccess('${name}', '${url}')`);
+                    if (badge) badge.style.display = 'block';
                 }
             });
         }
@@ -693,12 +652,7 @@
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
-                const actionCodeSettings = {
-                    url: window.location.origin + window.location.pathname,
-                    handleCodeInApp: false
-                };
-
-                await user.sendEmailVerification(actionCodeSettings);
+                await user.sendEmailVerification();
 
                 const userObj = {
                     uid: user.uid,
@@ -771,7 +725,7 @@
             });
         }
 
-        /* 9. AUTH STATE & SUBSCRIPTION EXPIRY ENFORCEMENT */
+        /* 9. AUTH STATE & EXPIRY CHECK */
         let activeFirebaseListener = null;
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -780,7 +734,6 @@
                 if(s) { s.style.opacity = "0"; setTimeout(() => s.style.display="none", 400); }
             }, 2000);
             
-            checkFirstTimeAgreement();
             loadUserData(); 
             loadBackupTime();
             updateMenuAccessUI();
@@ -806,7 +759,6 @@
                             `;
                             document.getElementById("deviceIdDisplay").innerText = "Logged Email: " + user.email;
                             document.getElementById("whatsappLink").style.display = "none";
-                            
                             badge.innerText = "🔒 Gmail Unverified";
                             badge.style.color = "#ef4444";
                             return;
@@ -847,13 +799,6 @@
                                 return;
                             }
 
-                            if (userData.status === "approved" && !userData.subscription_expires_at) {
-                                const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
-                                const expiresAt = Date.now() + thirtyDaysMs;
-                                await userRef.update({ subscription_expires_at: expiresAt });
-                                userData.subscription_expires_at = expiresAt;
-                            }
-
                             localStorage.setItem("app_user_status", userData.status || "trial");
                             localStorage.setItem("app_user_role", userData.role || "user");
                             updateMenuAccessUI();
@@ -881,38 +826,10 @@
                                 badge.innerText = "👑 Admin Master Active";
                                 badge.style.color = "#fbbf24";
                                 document.getElementById("adminPanelBtn").style.display = "block"; 
+                                checkAndShowTermsIfNeeded(); // ড্যাশবোর্ডে প্রবেশের মুখে শর্ত চেক করা হচ্ছে
                                 return;
                             } else {
                                 document.getElementById("adminPanelBtn").style.display = "none";
-                            }
-
-                            if (userData.status === "approved") {
-                                const now = Date.now();
-                                const expiresAt = userData.subscription_expires_at || now;
-                                const timeLeft = expiresAt - now;
-
-                                if (timeLeft <= 0) {
-                                    lockScreen.style.display = "flex";
-                                    regBox.style.display = "none";
-                                    loginBox.style.display = "none";
-                                    lockedBox.style.display = "block";
-                                    badge.innerText = "🔒 Subscription Expired";
-                                    badge.style.color = "#ef4444";
-                                    
-                                    document.getElementById("lockReasonText").textContent = "আপনার ১ মাসের প্রিমিয়াম সাবস্ক্রিপশনের মেয়াদ শেষ হয়েছে!";
-                                    const msg = encodeURIComponent(`হ্যালো রুবেল ভাই, আমার ১ মাসের প্রিমিয়াম সাবস্ক্রিপশনের মেয়াদ শেষ। সাবস্ক্রিপশন রিনিউ করতে চাই।`);
-                                    const waBtn = document.getElementById("whatsappLink");
-                                    waBtn.href = `https://wa.me/${ADMIN_PHONE}?text=${msg}`;
-                                    waBtn.style.display = "block";
-                                    return;
-                                }
-
-                                const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
-                                lockScreen.style.display = "none";
-                                badge.innerText = `✓ Premium (${daysLeft}d left)`;
-                                badge.style.color = "#10b981";
-                                document.getElementById("userNameDisplay").innerText = userData.name || "ইউজার";
-                                return;
                             }
 
                             if (userData.status === "blocked") {
@@ -923,34 +840,39 @@
                                 badge.innerText = "🔒 Blocked";
                                 badge.style.color = "#ef4444";
                                 document.getElementById("lockReasonText").textContent = "আপনার অ্যাকাউন্টটি ব্লক করা হয়েছে!";
-                                const waBtn = document.getElementById("whatsappLink");
-                                waBtn.href = `https://wa.me/${ADMIN_PHONE}?text=` + encodeURIComponent(`হ্যালো রুবেল ভাই, অ্যাকাউন্ট ব্লক দেখাচ্ছে।`);
-                                waBtn.style.display = "block";
                                 return;
                             }
 
-                            if (userData.status === "trial" || !userData.status) {
+                            lockScreen.style.display = "none";
+                            checkAndShowTermsIfNeeded(); // সাধারণ ইউজারের ক্ষেত্রে ড্যাশবোর্ডে প্রবেশের মুখে শর্ত চেক করা হচ্ছে
+
+                            if (userData.status === "approved") {
+                                const now = Date.now();
+                                const expiresAt = userData.subscription_expires_at || now;
+                                const timeLeft = expiresAt - now;
+                                if (timeLeft <= 0) {
+                                    badge.innerText = "⚠️ Subscription Expired";
+                                    badge.style.color = "#ef4444";
+                                    localStorage.setItem("app_access_restricted", "true");
+                                } else {
+                                    const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+                                    badge.innerText = `✓ Premium (${daysLeft}d left)`;
+                                    badge.style.color = "#10b981";
+                                    localStorage.removeItem("app_access_restricted");
+                                }
+                            } else {
                                 const daysPassed = (Date.now() - (userData.registered_at || Date.now())) / (1000 * 60 * 60 * 24);
                                 if (daysPassed > 7) {
-                                    lockScreen.style.display = "flex";
-                                    regBox.style.display = "none";
-                                    loginBox.style.display = "none";
-                                    lockedBox.style.display = "block";
-                                    badge.innerText = "🔒 Trial Ended";
-                                    badge.style.color = "#ef4444";
-                                    
-                                    document.getElementById("lockReasonText").textContent = "আপনার ৭ দিনের ফ্রি ট্রায়াল মেয়াদ শেষ!";
-                                    const msg = encodeURIComponent(`হ্যালো রুবেল ভাই, আমার ৭ দিনের ট্রায়াল শেষ। লাইসেন্স চাই।`);
-                                    const waBtn = document.getElementById("whatsappLink");
-                                    waBtn.href = `https://wa.me/${ADMIN_PHONE}?text=${msg}`;
-                                    waBtn.style.display = "block";
+                                    badge.innerText = "⚠️ Trial Ended (Upgrade)";
+                                    badge.style.color = "#fbbf24";
+                                    localStorage.setItem("app_access_restricted", "true");
                                 } else {
-                                    lockScreen.style.display = "none";
                                     badge.innerText = `⏳ Trial: ${Math.max(1, Math.ceil(7 - daysPassed))} days left`;
                                     badge.style.color = "#fbbf24";
-                                    document.getElementById("userNameDisplay").innerText = userData.name || "ইউজার";
+                                    localStorage.removeItem("app_access_restricted");
                                 }
                             }
+                            document.getElementById("userNameDisplay").innerText = userData.name || "ইউজার";
                         });
                     });
                 } else {

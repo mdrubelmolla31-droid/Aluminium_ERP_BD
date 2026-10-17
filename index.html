@@ -22,7 +22,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #02040a; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; overflow-x: hidden; }
         
-        /* 🌌 REALISTIC DEEP SPACE TRAVEL & ZOOMING NEBULA BACKGROUND 🌌 */
+        /* 🌌 HYPER-REALISTIC DEEP SPACE TRAVEL, ZOOMING NEBULA, SHOOTING STARS & SUPERNOVAS 🌌 */
         #galaxy-bg { 
             position: fixed; 
             top: 0; 
@@ -176,7 +176,7 @@
 
 <body>
 
-    <!-- 🌌 HYPER-REALISTIC DEEP SPACE TRAVEL & ZOOMING NEBULA GALAXY BACKGROUND 🌌 -->
+    <!-- 🌌 DEEP SPACE TRAVEL, ZOOMING NEBULA, SHOOTING STARS & SUPERNOVAS 🌌 -->
     <div id="galaxy-bg">
         <canvas id="galaxyCanvas"></canvas>
     </div>
@@ -558,7 +558,7 @@
     </div>
 
     <script>
-        /* 🌌 HYPER-REALISTIC 3D SPACE TRAVEL & ZOOM-IN NEBULA ENGINE 🌌 */
+        /* 🌌 HYPER-REALISTIC SPACE ENGINE: ZOOMING NEBULA, 3D STARS, SHOOTING STARS & SUPERNOVAS 🌌 */
         (function initGalaxy() {
             const canvas = document.getElementById('galaxyCanvas');
             const ctx = canvas.getContext('2d');
@@ -594,6 +594,40 @@
                 { x: width * 0.5, y: height * 0.5, r: width * 0.6, color: 'rgba(236, 72, 153, 0.08)', vx: 0.1, vy: 0.1, scale: 0.8, scaleSpeed: 0.0008 }
             ];
 
+            // Shooting Stars Management
+            const shootingStars = [];
+            function maybeSpawnShootingStar() {
+                if (Math.random() < 0.035 && shootingStars.length < 3) {
+                    shootingStars.push({
+                        x: Math.random() * width,
+                        y: Math.random() * (height * 0.5),
+                        length: Math.random() * 90 + 60,
+                        speed: Math.random() * 14 + 10,
+                        angle: Math.PI / 4 + (Math.random() - 0.5) * 0.2,
+                        opacity: 1
+                    });
+                }
+            }
+
+            // Supernova Explosions Management
+            const supernovas = [];
+            let supernovaTimer = 0;
+            function maybeSpawnSupernova() {
+                supernovaTimer++;
+                // Periodically trigger a supernova explosion (every ~4-6 seconds)
+                if (supernovaTimer > 220 + Math.random() * 120) {
+                    supernovaTimer = 0;
+                    supernovas.push({
+                        x: Math.random() * width * 0.8 + width * 0.1,
+                        y: Math.random() * height * 0.8 + height * 0.1,
+                        radius: 5,
+                        maxRadius: Math.random() * 140 + 90,
+                        alpha: 1,
+                        color: Math.random() > 0.5 ? '#60a5fa' : '#f472b6'
+                    });
+                }
+            }
+
             function render() {
                 ctx.fillStyle = 'rgba(2, 3, 8, 0.35)';
                 ctx.fillRect(0, 0, width, height);
@@ -601,7 +635,7 @@
                 const cx = width / 2;
                 const cy = height / 2;
 
-                // Render & smoothly zoom-in/drift nebula clouds
+                // 1. Render & smoothly zoom-in/drift nebula clouds
                 nebulae.forEach(neb => {
                     neb.scale += neb.scaleSpeed;
                     if (neb.scale > 1.8 || neb.scale < 0.7) neb.scaleSpeed *= -1;
@@ -626,7 +660,7 @@
                     ctx.fill();
                 });
 
-                // Render 3D Perspective Starfield (Continuous forward travel / zoom-in effect)
+                // 2. Render 3D Perspective Starfield (Continuous forward travel / zoom-in effect)
                 const fov = width * 0.8;
                 for (let i = 0; i < stars.length; i++) {
                     const star = stars[i];
@@ -667,6 +701,76 @@
                         }
                         ctx.restore();
                     }
+                }
+
+                // 3. Render Shooting Stars
+                maybeSpawnShootingStar();
+                for (let i = shootingStars.length - 1; i >= 0; i--) {
+                    const ss = shootingStars[i];
+                    ss.x += Math.cos(ss.angle) * ss.speed;
+                    ss.y += Math.sin(ss.angle) * ss.speed;
+                    ss.opacity -= 0.015;
+
+                    if (ss.opacity <= 0 || ss.x > width || ss.y > height) {
+                        shootingStars.splice(i, 1);
+                        continue;
+                    }
+
+                    ctx.save();
+                    ctx.globalAlpha = ss.opacity;
+                    const grad = ctx.createLinearGradient(
+                        ss.x, ss.y, 
+                        ss.x - Math.cos(ss.angle) * ss.length, 
+                        ss.y - Math.sin(ss.angle) * ss.length
+                    );
+                    grad.addColorStop(0, '#ffffff');
+                    grad.addColorStop(0.3, '#93c5fd');
+                    grad.addColorStop(1, 'transparent');
+
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(ss.x, ss.y);
+                    ctx.lineTo(ss.x - Math.cos(ss.angle) * ss.length, ss.y - Math.sin(ss.angle) * ss.length);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                // 4. Render Supernova Explosions
+                maybeSpawnSupernova();
+                for (let i = supernovas.length - 1; i >= 0; i--) {
+                    const sn = supernovas[i];
+                    sn.radius += 2.2; // Expand explosion shockwave
+                    sn.alpha -= 0.012; // Fade out gradually
+
+                    if (sn.alpha <= 0) {
+                        supernovas.splice(i, 1);
+                        continue;
+                    }
+
+                    ctx.save();
+                    ctx.globalAlpha = sn.alpha;
+
+                    // Supernova Core Flash Gradient
+                    const flashGrad = ctx.createRadialGradient(sn.x, sn.y, 0, sn.x, sn.y, sn.radius);
+                    flashGrad.addColorStop(0, '#ffffff');
+                    flashGrad.addColorStop(0.2, sn.color);
+                    flashGrad.addColorStop(0.5, 'rgba(147, 51, 234, 0.4)');
+                    flashGrad.addColorStop(1, 'transparent');
+
+                    ctx.fillStyle = flashGrad;
+                    ctx.beginPath();
+                    ctx.arc(sn.x, sn.y, sn.radius, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Expanding light shockwave ring
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 1.8;
+                    ctx.beginPath();
+                    ctx.arc(sn.x, sn.y, sn.radius * 0.75, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    ctx.restore();
                 }
 
                 requestAnimationFrame(render);

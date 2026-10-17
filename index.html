@@ -20,9 +20,9 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #03050a; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; overflow-x: hidden; }
+        body { background-color: #02040a; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; overflow-x: hidden; }
         
-        /* 🌌 HIGH-VISIBILITY CONTINUOUS ROTATING MILKY WAY GALAXY 🌌 */
+        /* 🌌 REALISTIC DYNAMIC CANVAS GALAXY BACKGROUND 🌌 */
         #galaxy-bg { 
             position: fixed; 
             top: 0; 
@@ -30,84 +30,16 @@
             width: 100%; 
             height: 100vh; 
             z-index: 0; 
-            overflow: hidden; 
-            pointer-events: none; 
-            background: #020307;
+            pointer-events: none;
+            background: #020308;
         }
 
-        /* Bright Spiral Milky Way Core */
-        .milky-way-galaxy {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 180vw;
-            height: 180vh;
-            transform: translate(-50%, -50%);
-            background: 
-                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.9) 0%, rgba(147, 197, 253, 0.6) 15%, rgba(168, 85, 247, 0.4) 35%, rgba(59, 130, 246, 0.25) 55%, transparent 70%),
-                conic-gradient(from 0deg at 50% 50%, 
-                    rgba(147, 197, 253, 0.7) 0deg, 
-                    rgba(3, 7, 18, 0.95) 45deg, 
-                    rgba(168, 85, 247, 0.6) 90deg, 
-                    rgba(3, 7, 18, 0.95) 135deg, 
-                    rgba(59, 130, 246, 0.7) 180deg, 
-                    rgba(3, 7, 18, 0.95) 225deg, 
-                    rgba(236, 72, 153, 0.6) 270deg, 
-                    rgba(3, 7, 18, 0.95) 315deg,
-                    rgba(147, 197, 253, 0.7) 360deg);
-            mix-blend-mode: screen;
-            filter: blur(18px);
-            opacity: 0.95;
-            animation: rotateMilkyWay 90s linear infinite;
+        #galaxyCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
-        /* Outer Dust Arms & Nebulae Layer */
-        .milky-way-galaxy::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(96, 165, 250, 0.4) 30%, rgba(139, 92, 246, 0.2) 60%, transparent 80%);
-            mix-blend-mode: color-dodge;
-            filter: blur(25px);
-            animation: rotateMilkyWayReverse 140s linear infinite;
-        }
-
-        @keyframes rotateMilkyWay {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes rotateMilkyWayReverse {
-            0% { transform: translate(-50%, -50%) rotate(360deg); }
-            100% { transform: translate(-50%, -50%) rotate(0deg); }
-        }
-
-        /* Star Dust Layer */
-        .stars-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(2.5px 2.5px at 60px 80px, #93c5fd, rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 110px 50px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 170px 140px, #c084fc, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 230px 190px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(3px 3px at 300px 250px, #60a5fa, rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 320px 320px;
-            opacity: 0.85;
-            animation: twinkle 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-
-        .shooting-star { position: absolute; width: 2px; height: 60px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1)); border-radius: 50%; filter: drop-shadow(0 0 6px #60a5fa); opacity: 0; animation: shooting 4s linear infinite; }
-        .shooting-star::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff, 0 0 20px #3b82f6; }
-        @keyframes shooting { 0% { transform: translateY(-50px) translateX(50px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 35% { transform: translateY(300px) translateX(-300px) rotate(45deg); opacity: 0; } 100% { opacity: 0; } }
-        
         /* 🌟 SPLASH SCREEN 🌟 */
         #splash-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -195,7 +127,7 @@
         .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
         
         /* CARD BACKGROUNDS HELD EXACTLY ORIGINAL (#111827) */
-        .user-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+        .user-card { background: rgba(17, 24, 39, 0.88); backdrop-filter: blur(8px); border: 1px solid #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
         .user-info { flex: 1; }
         .user-title { color: #fbbf24; font-size: 18px; font-weight: bold; margin-bottom: 4px; }
         .user-sub { color: #9ca3af; font-size: 13px; margin-bottom: 12px; }
@@ -204,7 +136,7 @@
         .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #fbbf24; background: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffffff; }
         
         .grid-menu { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
-        .menu-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        .menu-card { background: rgba(17, 24, 39, 0.88); backdrop-filter: blur(8px); border: 1px solid #1e293b; border-radius: 16px; padding: 24px 12px; text-align: center; text-decoration: none; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .menu-card:active { transform: scale(0.96); border-color: #fbbf24; }
         .menu-icon { margin-bottom: 12px; display: flex; justify-content: center; align-items: center; }
         .menu-title { font-size: 15px; font-weight: 600; color: #e5e7eb; }
@@ -244,13 +176,9 @@
 
 <body>
 
-    <!-- 🌌 MILKY WAY GALAXY BACKGROUND 🌌 -->
+    <!-- 🌌 DYNAMIC CANVAS MILKY WAY GALAXY BACKGROUND 🌌 -->
     <div id="galaxy-bg">
-        <div class="milky-way-galaxy"></div>
-        <div class="stars-layer"></div>
-        <div class="shooting-star" style="top:-5%;left:70%;animation-delay:0s;animation-duration:4s;"></div>
-        <div class="shooting-star" style="top:10%;left:95%;animation-delay:1.5s;animation-duration:5s;"></div>
-        <div class="shooting-star" style="top:-10%;left:45%;animation-delay:2.8s;animation-duration:3.5s;"></div>
+        <canvas id="galaxyCanvas"></canvas>
     </div>
 
     <!-- SPLASH SCREEN -->
@@ -630,6 +558,83 @@
     </div>
 
     <script>
+        /* 🌌 HIGH PERFORMANCE REALISTIC CANVAS GALAXY ENGINE 🌌 */
+        (function initGalaxy() {
+            const canvas = document.getElementById('galaxyCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            const numStars = 600;
+            const stars = [];
+            const colors = ['#ffffff', '#93c5fd', '#c084fc', '#f472b6', '#fbbf24'];
+
+            for (let i = 0; i < numStars; i++) {
+                const radius = Math.random() * Math.max(width, height) * 0.7;
+                const angle = Math.random() * Math.PI * 2;
+                stars.push({
+                    radius: radius,
+                    angle: angle,
+                    speed: (0.00015 + (1 / (radius + 100)) * 0.02),
+                    size: Math.random() * 1.8 + 0.4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: Math.random() * 0.8 + 0.2
+                });
+            }
+
+            let rotationAngle = 0;
+
+            function render() {
+                ctx.fillStyle = '#020308';
+                ctx.fillRect(0, 0, width, height);
+
+                const cx = width / 2;
+                const cy = height / 2;
+
+                // 1. Core Glowing Nebula (Spiral Galaxy Center)
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(width, height) * 0.5);
+                grad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+                grad.addColorStop(0.15, 'rgba(147, 197, 253, 0.45)');
+                grad.addColorStop(0.35, 'rgba(168, 85, 247, 0.25)');
+                grad.addColorStop(0.6, 'rgba(236, 72, 153, 0.1)');
+                grad.addColorStop(1, 'transparent');
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(cx, cy, Math.min(width, height) * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 2. Dynamic Rotating Stars & Arms
+                rotationAngle += 0.0003;
+
+                for (let i = 0; i < numStars; i++) {
+                    const star = stars[i];
+                    star.angle += star.speed;
+
+                    const x = cx + Math.cos(star.angle) * star.radius;
+                    const y = cy + Math.sin(star.angle) * (star.radius * 0.5); // Elliptical spiral perspective
+
+                    ctx.save();
+                    ctx.globalAlpha = star.alpha;
+                    ctx.fillStyle = star.color;
+                    ctx.beginPath();
+                    ctx.arc(x, y, star.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                requestAnimationFrame(render);
+            }
+
+            render();
+        })();
+
         /* 1. CUSTOM POPUP SYSTEM */
         let customAlertCallback = null;
         function alert(msg, callback) {

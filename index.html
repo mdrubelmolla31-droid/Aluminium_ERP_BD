@@ -575,7 +575,6 @@
             const stars = [];
             const colors = ['#ffffff', '#e0f2fe', '#bae6fd', '#93c5fd', '#c084fc', '#f472b6', '#fed7aa', '#fde047'];
 
-            // Initialize 3D Starfield particles for continuous forward travel
             for (let i = 0; i < numStars; i++) {
                 stars.push({
                     x: (Math.random() - 0.5) * width * 2,
@@ -587,14 +586,12 @@
                 });
             }
 
-            // Real-time zooming & drifting Nebula cloud layers
             const nebulae = [
                 { x: width * 0.3, y: height * 0.4, r: width * 0.4, color: 'rgba(59, 130, 246, 0.12)', vx: 0.2, vy: -0.1, scale: 1, scaleSpeed: 0.001 },
                 { x: width * 0.7, y: height * 0.6, r: width * 0.5, color: 'rgba(147, 51, 234, 0.10)', vx: -0.15, vy: 0.15, scale: 1.2, scaleSpeed: 0.0012 },
                 { x: width * 0.5, y: height * 0.5, r: width * 0.6, color: 'rgba(236, 72, 153, 0.08)', vx: 0.1, vy: 0.1, scale: 0.8, scaleSpeed: 0.0008 }
             ];
 
-            // Shooting Stars Management (Spawn from both left and right sides)
             const shootingStars = [];
             function maybeSpawnShootingStar() {
                 if (Math.random() < 0.04 && shootingStars.length < 4) {
@@ -602,13 +599,11 @@
                     let startX, angle;
                     
                     if (isFromRight) {
-                        // Spawns on the right side, moves left and down
                         startX = width * 0.7 + Math.random() * (width * 0.3);
-                        angle = (3 * Math.PI / 4) + (Math.random() - 0.5) * 0.2; // ~135 degrees (Moving left-down)
+                        angle = (3 * Math.PI / 4) + (Math.random() - 0.5) * 0.2;
                     } else {
-                        // Spawns on the left side, moves right and down
                         startX = Math.random() * (width * 0.3);
-                        angle = (Math.PI / 4) + (Math.random() - 0.5) * 0.2; // ~45 degrees (Moving right-down)
+                        angle = (Math.PI / 4) + (Math.random() - 0.5) * 0.2;
                     }
 
                     shootingStars.push({
@@ -622,12 +617,10 @@
                 }
             }
 
-            // Supernova Explosions Management
             const supernovas = [];
             let supernovaTimer = 0;
             function maybeSpawnSupernova() {
                 supernovaTimer++;
-                // Periodically trigger a supernova explosion (every ~4-6 seconds)
                 if (supernovaTimer > 220 + Math.random() * 120) {
                     supernovaTimer = 0;
                     supernovas.push({
@@ -648,7 +641,6 @@
                 const cx = width / 2;
                 const cy = height / 2;
 
-                // 1. Render & smoothly zoom-in/drift nebula clouds
                 nebulae.forEach(neb => {
                     neb.scale += neb.scaleSpeed;
                     if (neb.scale > 1.8 || neb.scale < 0.7) neb.scaleSpeed *= -1;
@@ -673,11 +665,10 @@
                     ctx.fill();
                 });
 
-                // 2. Render 3D Perspective Starfield (Continuous forward travel / zoom-in effect)
                 const fov = width * 0.8;
                 for (let i = 0; i < stars.length; i++) {
                     const star = stars[i];
-                    star.z -= star.speed; // Continuous forward movement towards viewer
+                    star.z -= star.speed;
 
                     if (star.z <= 0) {
                         star.z = width;
@@ -700,7 +691,6 @@
                         ctx.arc(px, py, pSize, 0, Math.PI * 2);
                         ctx.fill();
 
-                        // High-speed streak effect when stars get close to camera
                         if (star.z < width * 0.3) {
                             const prevK = fov / (star.z + star.speed * 2);
                             const prevPx = star.x * prevK + cx;
@@ -716,7 +706,6 @@
                     }
                 }
 
-                // 3. Render Shooting Stars (Left & Right corners)
                 maybeSpawnShootingStar();
                 for (let i = shootingStars.length - 1; i >= 0; i--) {
                     const ss = shootingStars[i];
@@ -747,12 +736,11 @@
                     ctx.restore();
                 }
 
-                // 4. Render Supernova Explosions
                 maybeSpawnSupernova();
                 for (let i = supernovas.length - 1; i >= 0; i--) {
                     const sn = supernovas[i];
-                    sn.radius += 2.2; // Expand explosion shockwave
-                    sn.alpha -= 0.012; // Fade out gradually
+                    sn.radius += 2.2;
+                    sn.alpha -= 0.012;
 
                     if (sn.alpha <= 0) {
                         supernovas.splice(i, 1);
@@ -762,7 +750,6 @@
                     ctx.save();
                     ctx.globalAlpha = sn.alpha;
 
-                    // Supernova Core Flash Gradient
                     const flashGrad = ctx.createRadialGradient(sn.x, sn.y, 0, sn.x, sn.y, sn.radius);
                     flashGrad.addColorStop(0, '#ffffff');
                     flashGrad.addColorStop(0.2, sn.color);
@@ -774,7 +761,6 @@
                     ctx.arc(sn.x, sn.y, sn.radius, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Expanding light shockwave ring
                     ctx.strokeStyle = '#ffffff';
                     ctx.lineWidth = 1.8;
                     ctx.beginPath();
@@ -845,11 +831,6 @@
             }
         }
 
-        function agreeAndCloseTerms() {
-            localStorage.setItem("alu_terms_agreed", "true");
-            document.getElementById("termsAgreementModal").style.display = "none";
-        }
-
         /* 5. AUTH FORM TOGGLE */
         function toggleAuthForm(type) {
             document.getElementById("lockedDetailsBox").style.display = "none";
@@ -864,6 +845,7 @@
             }
         }
 
+        /* 6. RESTRICT PREMIUM CARDS FOR TRIAL USERS */
         function updateMenuAccessUI() {
             const status = localStorage.getItem("app_user_status") || "trial";
             const role = localStorage.getItem("app_user_role") || "user";
@@ -873,10 +855,18 @@
             premiumCards.forEach(card => {
                 const badge = card.querySelector('.premium-badge');
                 const url = card.getAttribute('data-url');
-                card.href = url; 
+                const featureName = card.getAttribute('data-name') || "এই প্রিমিয়াম ফিচারটি";
+
                 if (isPremiumOrAdmin) {
+                    card.href = url;
+                    card.onclick = null; // Allow normal navigation
                     if (badge) badge.style.display = 'none'; 
                 } else {
+                    card.href = "javascript:void(0)";
+                    card.onclick = function(e) {
+                        e.preventDefault();
+                        alert(`🔒 "${featureName}" একটি প্রিমিয়াম ফিচার!\n\nএই টুলটি ব্যবহার করতে আপনার অ্যাকাউন্টটি প্রিমিয়াম (Approved) হতে হবে। অনুগ্রহ করে এডমিনের সাথে যোগাযোগ করুন।`);
+                    };
                     if (badge) badge.style.display = 'block';
                 }
             });

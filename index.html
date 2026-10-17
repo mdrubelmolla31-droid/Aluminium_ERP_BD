@@ -20,9 +20,9 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #010204; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; overflow-x: hidden; }
+        body { background-color: #02040a; color: #f3f4f6; display: flex; justify-content: center; padding: 16px; min-height: 100vh; position: relative; overflow-x: hidden; }
         
-        /* 🌌 REALISTIC DEEP FIELD LIGHT SPEED SPACE TRAVEL BACKGROUND 🌌 */
+        /* 🌌 HYPER-REALISTIC DEEP SPACE TRAVEL, ZOOMING NEBULA, SHOOTING STARS & SUPERNOVAS 🌌 */
         #galaxy-bg { 
             position: fixed; 
             top: 0; 
@@ -31,7 +31,7 @@
             height: 100vh; 
             z-index: 0; 
             pointer-events: none;
-            background: #010204;
+            background: #020308;
         }
 
         #galaxyCanvas {
@@ -176,7 +176,7 @@
 
 <body>
 
-    <!-- 🌌 REALISTIC DEEP FIELD LIGHT SPEED SPACE TRAVEL BACKGROUND 🌌 -->
+    <!-- 🌌 DEEP SPACE TRAVEL, ZOOMING NEBULA, SHOOTING STARS & SUPERNOVAS 🌌 -->
     <div id="galaxy-bg">
         <canvas id="galaxyCanvas"></canvas>
     </div>
@@ -558,8 +558,8 @@
     </div>
 
     <script>
-        /* 🌌 REALISTIC HUBBLE DEEP FIELD - LIGHT SPEED TRAVEL & COLLISION ENGINE 🌌 */
-        (function initDeepSpaceGalaxy() {
+        /* 🌌 HYPER-REALISTIC SPACE ENGINE: ZOOMING NEBULA, 3D STARS, SHOOTING STARS (FROM BOTH LEFT & RIGHT) & SUPERNOVAS 🌌 */
+        (function initGalaxy() {
             const canvas = document.getElementById('galaxyCanvas');
             const ctx = canvas.getContext('2d');
             let width, height;
@@ -571,276 +571,216 @@
             window.addEventListener('resize', resize);
             resize();
 
-            // Colors based on Hubble Deep Field: Amber/Orange, Blue/Cyan, Warm Yellow, Golden Red, Pure White
-            const deepColors = ['#ffb703', '#fb8500', '#8ecae6', '#ffffff', '#e0e1dd', '#f4a261', '#e76f51', '#a2d2ff'];
+            const numStars = 800;
+            const stars = [];
+            const colors = ['#ffffff', '#e0f2fe', '#bae6fd', '#93c5fd', '#c084fc', '#f472b6', '#fed7aa', '#fde047'];
 
-            // Object Types: 'star', 'spikeStar', 'spiralGalaxy', 'ellipseGalaxy'
-            const celestialObjects = [];
-            const numObjects = 650;
-
-            for (let i = 0; i < numObjects; i++) {
-                const randType = Math.random();
-                let type = 'star';
-                if (randType > 0.94) type = 'spikeStar';
-                else if (randType > 0.86) type = 'spiralGalaxy';
-                else if (randType > 0.78) type = 'ellipseGalaxy';
-
-                celestialObjects.push({
-                    x: (Math.random() - 0.5) * width * 2.5,
-                    y: (Math.random() - 0.5) * height * 2.5,
+            // Initialize 3D Starfield particles for continuous forward travel
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: (Math.random() - 0.5) * width * 2,
+                    y: (Math.random() - 0.5) * height * 2,
                     z: Math.random() * width,
-                    type: type,
-                    color: deepColors[Math.floor(Math.random() * deepColors.length)],
-                    angle: Math.random() * Math.PI * 2,
-                    speed: Math.random() * 3.5 + 2.5, // LIGHT SPEED TRAVEL SPEED
-                    baseSize: Math.random() * 1.5 + 0.5
+                    size: Math.random() * 1.8 + 0.3,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 1.5 + 0.8
                 });
             }
 
-            // Interactive Arrays for Shooting Stars & Explosion Particles
-            const shootingStars = [];
-            const explosions = [];
+            // Real-time zooming & drifting Nebula cloud layers
+            const nebulae = [
+                { x: width * 0.3, y: height * 0.4, r: width * 0.4, color: 'rgba(59, 130, 246, 0.12)', vx: 0.2, vy: -0.1, scale: 1, scaleSpeed: 0.001 },
+                { x: width * 0.7, y: height * 0.6, r: width * 0.5, color: 'rgba(147, 51, 234, 0.10)', vx: -0.15, vy: 0.15, scale: 1.2, scaleSpeed: 0.0012 },
+                { x: width * 0.5, y: height * 0.5, r: width * 0.6, color: 'rgba(236, 72, 153, 0.08)', vx: 0.1, vy: 0.1, scale: 0.8, scaleSpeed: 0.0008 }
+            ];
 
-            // Spawn Shooting Stars from Both Sides (Left/Right & Various Angles)
+            // Shooting Stars Management (Spawn from both left and right sides)
+            const shootingStars = [];
             function maybeSpawnShootingStar() {
                 if (Math.random() < 0.04 && shootingStars.length < 4) {
-                    const fromLeft = Math.random() > 0.5;
-                    const startX = fromLeft ? -20 : width + 20;
-                    const startY = Math.random() * (height * 0.8);
+                    const isFromRight = Math.random() < 0.5;
+                    let startX, angle;
                     
-                    const angle = fromLeft 
-                        ? (Math.random() * 0.5 + 0.2) // Down-Right
-                        : (Math.PI - (Math.random() * 0.5 + 0.2)); // Down-Left
+                    if (isFromRight) {
+                        // Spawns on the right side, moves left and down
+                        startX = width * 0.7 + Math.random() * (width * 0.3);
+                        angle = (3 * Math.PI / 4) + (Math.random() - 0.5) * 0.2; // ~135 degrees (Moving left-down)
+                    } else {
+                        // Spawns on the left side, moves right and down
+                        startX = Math.random() * (width * 0.3);
+                        angle = (Math.PI / 4) + (Math.random() - 0.5) * 0.2; // ~45 degrees (Moving right-down)
+                    }
 
                     shootingStars.push({
                         x: startX,
-                        y: startY,
-                        vx: Math.cos(angle) * (Math.random() * 12 + 14),
-                        vy: Math.sin(angle) * (Math.random() * 12 + 14),
-                        length: Math.random() * 100 + 70,
-                        opacity: 1,
-                        color: deepColors[Math.floor(Math.random() * deepColors.length)]
+                        y: Math.random() * (height * 0.4),
+                        length: Math.random() * 90 + 60,
+                        speed: Math.random() * 14 + 10,
+                        angle: angle,
+                        opacity: 1
                     });
                 }
             }
 
-            // Create Star Collision Shockwave Particle Burst
-            function triggerStarCollision(x, y, color) {
-                const particleCount = Math.floor(Math.random() * 25 + 20);
-                for (let i = 0; i < particleCount; i++) {
-                    const pAngle = Math.random() * Math.PI * 2;
-                    const pSpeed = Math.random() * 6 + 2;
-                    explosions.push({
-                        x: x,
-                        y: y,
-                        vx: Math.cos(pAngle) * pSpeed,
-                        vy: Math.sin(pAngle) * pSpeed,
-                        radius: Math.random() * 2.5 + 1,
+            // Supernova Explosions Management
+            const supernovas = [];
+            let supernovaTimer = 0;
+            function maybeSpawnSupernova() {
+                supernovaTimer++;
+                // Periodically trigger a supernova explosion (every ~4-6 seconds)
+                if (supernovaTimer > 220 + Math.random() * 120) {
+                    supernovaTimer = 0;
+                    supernovas.push({
+                        x: Math.random() * width * 0.8 + width * 0.1,
+                        y: Math.random() * height * 0.8 + height * 0.1,
+                        radius: 5,
+                        maxRadius: Math.random() * 140 + 90,
                         alpha: 1,
-                        color: color || '#ffffff'
+                        color: Math.random() > 0.5 ? '#60a5fa' : '#f472b6'
                     });
                 }
-            }
-
-            // Helper: Draw Hubble-like 4-Point & 8-Point Diffraction Spiked Stars
-            function drawDiffractionStar(cx, cy, size, color, alpha) {
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                ctx.fillStyle = color;
-                ctx.strokeStyle = color;
-
-                // Core Glow
-                ctx.beginPath();
-                ctx.arc(cx, cy, size * 1.2, 0, Math.PI * 2);
-                ctx.fill();
-
-                // 4-Point Spikes
-                ctx.lineWidth = 0.8;
-                const spikeLen = size * 8;
-                ctx.beginPath();
-                ctx.moveTo(cx - spikeLen, cy); ctx.lineTo(cx + spikeLen, cy);
-                ctx.moveTo(cx, cy - spikeLen); ctx.lineTo(cx, cy + spikeLen);
-                ctx.stroke();
-
-                // Diagonal Spikes (Fainter)
-                ctx.globalAlpha = alpha * 0.4;
-                const diagLen = size * 4;
-                ctx.beginPath();
-                ctx.moveTo(cx - diagLen, cy - diagLen); ctx.lineTo(cx + diagLen, cy + diagLen);
-                ctx.moveTo(cx + diagLen, cy - diagLen); ctx.lineTo(cx - diagLen, cy + diagLen);
-                ctx.stroke();
-
-                ctx.restore();
-            }
-
-            // Helper: Draw Deep Field Miniature Galaxies
-            function drawMiniGalaxy(cx, cy, size, angle, type, color, alpha) {
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                ctx.translate(cx, cy);
-                ctx.rotate(angle);
-
-                if (type === 'spiralGalaxy') {
-                    ctx.fillStyle = color;
-                    ctx.beginPath();
-                    ctx.ellipse(0, 0, size * 2.5, size * 1.2, 0, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 0.5;
-                    ctx.beginPath();
-                    ctx.arc(0, 0, size * 0.6, 0, Math.PI * 2);
-                    ctx.stroke();
-                } else if (type === 'ellipseGalaxy') {
-                    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2);
-                    grad.addColorStop(0, '#ffffff');
-                    grad.addColorStop(0.4, color);
-                    grad.addColorStop(1, 'transparent');
-                    ctx.fillStyle = grad;
-                    ctx.beginPath();
-                    ctx.ellipse(0, 0, size * 2, size * 1.5, Math.PI / 4, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                ctx.restore();
             }
 
             function render() {
-                // Clear Canvas with subtle trail for hyper-speed sensation
-                ctx.fillStyle = 'rgba(1, 2, 4, 0.38)';
+                ctx.fillStyle = 'rgba(2, 3, 8, 0.35)';
                 ctx.fillRect(0, 0, width, height);
 
                 const cx = width / 2;
                 const cy = height / 2;
-                const fov = width * 0.75;
 
-                // 1. RENDER LIGHT SPEED TRAVELING CELESTIAL OBJECTS (STARS & GALAXIES)
-                for (let i = 0; i < celestialObjects.length; i++) {
-                    const obj = celestialObjects[i];
-                    obj.z -= obj.speed; // Continuous Forward Travel towards viewer
+                // 1. Render & smoothly zoom-in/drift nebula clouds
+                nebulae.forEach(neb => {
+                    neb.scale += neb.scaleSpeed;
+                    if (neb.scale > 1.8 || neb.scale < 0.7) neb.scaleSpeed *= -1;
 
-                    if (obj.z <= 0) {
-                        obj.z = width;
-                        obj.x = (Math.random() - 0.5) * width * 2.5;
-                        obj.y = (Math.random() - 0.5) * height * 2.5;
+                    neb.x += neb.vx;
+                    neb.y += neb.vy;
+
+                    if (neb.x < -width) neb.x = width * 1.5;
+                    if (neb.x > width * 1.5) neb.x = -width;
+                    if (neb.y < -height) neb.y = height * 1.5;
+                    if (neb.y > height * 1.5) neb.y = -height;
+
+                    const currentR = neb.r * neb.scale;
+                    const grad = ctx.createRadialGradient(neb.x, neb.y, 0, neb.x, neb.y, currentR);
+                    grad.addColorStop(0, neb.color);
+                    grad.addColorStop(0.6, neb.color.replace(/[\d.]+\)$/g, '0.03)'));
+                    grad.addColorStop(1, 'transparent');
+
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(neb.x, neb.y, currentR, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // 2. Render 3D Perspective Starfield (Continuous forward travel / zoom-in effect)
+                const fov = width * 0.8;
+                for (let i = 0; i < stars.length; i++) {
+                    const star = stars[i];
+                    star.z -= star.speed; // Continuous forward movement towards viewer
+
+                    if (star.z <= 0) {
+                        star.z = width;
+                        star.x = (Math.random() - 0.5) * width * 2;
+                        star.y = (Math.random() - 0.5) * height * 2;
                     }
 
-                    const scale = fov / obj.z;
-                    const px = obj.x * scale + cx;
-                    const py = obj.y * scale + cy;
+                    const k = fov / star.z;
+                    const px = star.x * k + cx;
+                    const py = star.y * k + cy;
 
-                    if (px >= -50 && px <= width + 50 && py >= -50 && py <= height + 50) {
-                        const currentSize = Math.max(0.2, obj.baseSize * scale);
-                        const alpha = Math.min(1, (1 - obj.z / width) * 1.8);
+                    if (px >= 0 && px <= width && py >= 0 && py <= height) {
+                        const pSize = Math.max(0.1, star.size * k);
+                        const alpha = Math.min(1, (1 - star.z / width) * 1.5);
 
-                        if (obj.type === 'spikeStar') {
-                            drawDiffractionStar(px, py, currentSize, obj.color, alpha);
-                        } else if (obj.type === 'spiralGalaxy' || obj.type === 'ellipseGalaxy') {
-                            drawMiniGalaxy(px, py, currentSize, obj.angle, obj.type, obj.color, alpha);
-                        } else {
-                            // Standard Light Speed Star Trail
-                            ctx.save();
-                            ctx.globalAlpha = alpha;
-                            ctx.fillStyle = obj.color;
+                        ctx.save();
+                        ctx.globalAlpha = alpha;
+                        ctx.fillStyle = star.color;
+                        ctx.beginPath();
+                        ctx.arc(px, py, pSize, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // High-speed streak effect when stars get close to camera
+                        if (star.z < width * 0.3) {
+                            const prevK = fov / (star.z + star.speed * 2);
+                            const prevPx = star.x * prevK + cx;
+                            const prevPy = star.y * prevK + cy;
+                            ctx.strokeStyle = star.color;
+                            ctx.lineWidth = pSize * 0.8;
                             ctx.beginPath();
-                            ctx.arc(px, py, currentSize, 0, Math.PI * 2);
-                            ctx.fill();
-
-                            // Light Speed Streak when close
-                            if (obj.z < width * 0.4) {
-                                const prevScale = fov / (obj.z + obj.speed * 2.5);
-                                const prevPx = obj.x * prevScale + cx;
-                                const prevPy = obj.y * prevScale + cy;
-                                ctx.strokeStyle = obj.color;
-                                ctx.lineWidth = currentSize * 0.9;
-                                ctx.beginPath();
-                                ctx.moveTo(px, py);
-                                ctx.lineTo(prevPx, prevPy);
-                                ctx.stroke();
-                            }
-                            ctx.restore();
+                            ctx.moveTo(px, py);
+                            ctx.lineTo(prevPx, prevPy);
+                            ctx.stroke();
                         }
-
-                        // Store 2D screen positions for collision detection
-                        obj.screenX = px;
-                        obj.screenY = py;
+                        ctx.restore();
                     }
                 }
 
-                // 2. RENDER SHOOTING STARS & DETECT COLLISIONS WITH CELESTIAL STARS
+                // 3. Render Shooting Stars (Left & Right corners)
                 maybeSpawnShootingStar();
                 for (let i = shootingStars.length - 1; i >= 0; i--) {
                     const ss = shootingStars[i];
-                    ss.x += ss.vx;
-                    ss.y += ss.vy;
-                    ss.opacity -= 0.009;
+                    ss.x += Math.cos(ss.angle) * ss.speed;
+                    ss.y += Math.sin(ss.angle) * ss.speed;
+                    ss.opacity -= 0.015;
 
-                    if (ss.opacity <= 0 || ss.x < -100 || ss.x > width + 100 || ss.y > height + 100) {
+                    if (ss.opacity <= 0 || ss.x < 0 || ss.x > width || ss.y > height) {
                         shootingStars.splice(i, 1);
                         continue;
                     }
 
-                    // Collision Check with On-screen Celestial Stars
-                    for (let j = 0; j < celestialObjects.length; j += 4) {
-                        const cObj = celestialObjects[j];
-                        if (cObj.screenX && cObj.screenY) {
-                            const dx = ss.x - cObj.screenX;
-                            const dy = ss.y - cObj.screenY;
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-
-                            if (dist < 18) { // Collision Hit!
-                                triggerStarCollision(ss.x, ss.y, ss.color);
-                                shootingStars.splice(i, 1); // Shooting star explodes!
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!shootingStars[i]) continue;
-
-                    // Draw Shooting Star Tail
                     ctx.save();
                     ctx.globalAlpha = ss.opacity;
-                    const tailX = ss.x - (ss.vx / 15) * ss.length;
-                    const tailY = ss.y - (ss.vy / 15) * ss.length;
-
+                    const tailX = ss.x - Math.cos(ss.angle) * ss.length;
+                    const tailY = ss.y - Math.sin(ss.angle) * ss.length;
                     const grad = ctx.createLinearGradient(ss.x, ss.y, tailX, tailY);
                     grad.addColorStop(0, '#ffffff');
-                    grad.addColorStop(0.3, ss.color);
+                    grad.addColorStop(0.3, '#93c5fd');
                     grad.addColorStop(1, 'transparent');
 
                     ctx.strokeStyle = grad;
-                    ctx.lineWidth = 2.5;
+                    ctx.lineWidth = 2;
                     ctx.beginPath();
                     ctx.moveTo(ss.x, ss.y);
                     ctx.lineTo(tailX, tailY);
                     ctx.stroke();
-
-                    // Glowing Head
-                    ctx.fillStyle = '#ffffff';
-                    ctx.beginPath();
-                    ctx.arc(ss.x, ss.y, 2, 0, Math.PI * 2);
-                    ctx.fill();
                     ctx.restore();
                 }
 
-                // 3. RENDER COLLISION EXPLOSION PARTICLES
-                for (let i = explosions.length - 1; i >= 0; i--) {
-                    const exp = explosions[i];
-                    exp.x += exp.vx;
-                    exp.y += exp.vy;
-                    exp.alpha -= 0.025;
+                // 4. Render Supernova Explosions
+                maybeSpawnSupernova();
+                for (let i = supernovas.length - 1; i >= 0; i--) {
+                    const sn = supernovas[i];
+                    sn.radius += 2.2; // Expand explosion shockwave
+                    sn.alpha -= 0.012; // Fade out gradually
 
-                    if (exp.alpha <= 0) {
-                        explosions.splice(i, 1);
+                    if (sn.alpha <= 0) {
+                        supernovas.splice(i, 1);
                         continue;
                     }
 
                     ctx.save();
-                    ctx.globalAlpha = exp.alpha;
-                    ctx.fillStyle = exp.color;
+                    ctx.globalAlpha = sn.alpha;
+
+                    // Supernova Core Flash Gradient
+                    const flashGrad = ctx.createRadialGradient(sn.x, sn.y, 0, sn.x, sn.y, sn.radius);
+                    flashGrad.addColorStop(0, '#ffffff');
+                    flashGrad.addColorStop(0.2, sn.color);
+                    flashGrad.addColorStop(0.5, 'rgba(147, 51, 234, 0.4)');
+                    flashGrad.addColorStop(1, 'transparent');
+
+                    ctx.fillStyle = flashGrad;
                     ctx.beginPath();
-                    ctx.arc(exp.x, exp.y, exp.radius, 0, Math.PI * 2);
+                    ctx.arc(sn.x, sn.y, sn.radius, 0, Math.PI * 2);
                     ctx.fill();
+
+                    // Expanding light shockwave ring
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 1.8;
+                    ctx.beginPath();
+                    ctx.arc(sn.x, sn.y, sn.radius * 0.75, 0, Math.PI * 2);
+                    ctx.stroke();
+
                     ctx.restore();
                 }
 

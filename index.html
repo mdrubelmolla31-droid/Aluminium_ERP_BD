@@ -961,7 +961,6 @@
                     snapshot.forEach((childSnap) => {
                         const mobileKey = childSnap.key;
                         
-                        // FIX: আপডেট ডিভাইস আইডি যাতে ব্রাউজার ক্যাশ ক্লিয়ার বা রিইন্সটল হলেও জিমেইল দিয়ে লগইন করলে ডিভাইস ম্যাচ হয়ে যায়
                         db.ref("users/" + mobileKey).update({ device_id: currentDeviceId });
 
                         localStorage.setItem("app_user_mobile", mobileKey);
@@ -1048,6 +1047,19 @@
                             lockedBox.style.display = "none";
                             return;
                         }
+
+                        /* 🕒 ইউজার অ্যাক্টিভিটি ট্র্যাকিং ও হার্টবিট সংযোজন */
+                        db.ref("users/" + targetMobile).update({
+                            last_active: firebase.database.ServerValue.TIMESTAMP
+                        });
+                        
+                        setInterval(() => {
+                            if (document.visibilityState === 'visible') {
+                                db.ref("users/" + targetMobile).update({
+                                    last_active: firebase.database.ServerValue.TIMESTAMP
+                                });
+                            }
+                        }, 120000); // প্রতি ২ মিনিট পরপর হার্টবিট আপডেট
 
                         const userRef = db.ref("users/" + targetMobile);
                         if (activeFirebaseListener) userRef.off('value', activeFirebaseListener);
@@ -1286,6 +1298,19 @@
             }).catch(() => alert("❌ পিন যাচাই করা যায়নি!"));
         }
 
+        /* 🕒 ইউজারের শেষ সক্রিয়তা ফরম্যাট করার ফাংশন */
+        function formatTimeAgo(timestamp) {
+            if (!timestamp) return "কখনও সক্রিয় ছিল না";
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            if (seconds < 120) return "🟢 এইমাত্র / অনলাইন";
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `🟢 ${minutes} মিনিট আগে`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `⏳ ${hours} ঘণ্টা আগে`;
+            const days = Math.floor(hours / 24);
+            return `💤 ${days} দিন আগে`;
+        }
+
         function loadAdminUserList() {
             const container = document.getElementById("adminUserList");
             if(!container) return;
@@ -1304,6 +1329,8 @@
                     const statusColor = u.status === "approved" ? "#10b981" : (u.status === "blocked" ? "#ef4444" : "#d97706");
                     const statusText = u.status === "approved" ? "Approved" : (u.status === "blocked" ? "Blocked" : "Trial");
                     
+                    const activityString = formatTimeAgo(u.last_active);
+                    
                     let expiryInfo = "";
                     if (u.status === "approved" && u.subscription_expires_at) {
                         const daysLeft = Math.ceil((u.subscription_expires_at - Date.now()) / (1000 * 60 * 60 * 24));
@@ -1316,6 +1343,7 @@
                             <div>
                                 <div style="color:#1e293b; font-weight:bold; font-size:14px;">${u.name || "N/A"} ${u.role === 'admin' ? '👑 (Admin)' : ''}</div>
                                 <div style="color:#475569; font-size:12px;">📱 ${u.mobile || mobileKey} | ✉️ ${u.email || "N/A"}</div>
+                                <div style="color:#2563eb; font-size:12px; font-weight:bold; margin-top:3px;">⏰ শেষ সক্রিয়তা: ${activityString}</div>
                                 <div style="color:#64748b; font-size:10px; font-family:monospace; margin-top:2px;">🆔 ${u.device_id || "N/A"}</div>
                                 ${expiryInfo}
                             </div>

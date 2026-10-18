@@ -815,12 +815,17 @@
 
         const ADMIN_PHONE = "8801676474412";
 
-        /* 3. DEVICE FINGERPRINTING */
+        /* 3. DEVICE FINGERPRINTING (Fixed & Persistent) */
         function generateDeviceFingerprint() {
-            const parts = [navigator.userAgent, screen.width + "x" + screen.height, navigator.platform || "Win32", "ALU_SALT_2026"];
-            let hash = 0, fp = parts.join("|");
-            for (let i = 0; i < fp.length; i++) hash = ((hash << 5) - hash) + fp.charCodeAt(i);
-            return "ALU-HW-" + Math.abs(hash).toString(16).toUpperCase().padStart(8, "0");
+            let storedFp = localStorage.getItem("alu_persistent_device_id");
+            if (storedFp) {
+                return storedFp;
+            }
+            const uniqueToken = "ALU-HW-" + Math.random().toString(36).substring(2, 6).toUpperCase() + 
+                                Math.random().toString(36).substring(2, 6).toUpperCase() + "-" + 
+                                Date.now().toString(36).toUpperCase();
+            localStorage.setItem("alu_persistent_device_id", uniqueToken);
+            return uniqueToken;
         }
         const currentDeviceId = generateDeviceFingerprint();
 
@@ -829,6 +834,11 @@
             if (!localStorage.getItem("alu_terms_agreed")) {
                 document.getElementById("termsAgreementModal").style.display = "flex";
             }
+        }
+
+        function agreeAndCloseTerms() {
+            localStorage.setItem("alu_terms_agreed", "true");
+            document.getElementById("termsAgreementModal").style.display = "none";
         }
 
         /* 5. AUTH FORM TOGGLE */
@@ -859,7 +869,7 @@
 
                 if (isPremiumOrAdmin) {
                     card.href = url;
-                    card.onclick = null; // Allow normal navigation
+                    card.onclick = null; 
                     if (badge) badge.style.display = 'none'; 
                 } else {
                     card.href = "javascript:void(0)";

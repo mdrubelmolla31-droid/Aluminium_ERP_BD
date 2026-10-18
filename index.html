@@ -882,7 +882,7 @@
             });
         }
 
-        /* 7. REGISTRATION FUNCTION */
+        /* 7. REGISTRATION FUNCTION (FIXED: Added last_active) */
         async function processRegistration() {
             const name = document.getElementById("regName").value.trim();
             const mobile = document.getElementById("regMobile").value.trim();
@@ -920,6 +920,7 @@
                     company: company || "N/A",
                     device_id: currentDeviceId,
                     registered_at: Date.now(),
+                    last_active: Date.now(), // 👈 FIX: রেজিস্ট্রেশনের সময়ই last_active সেভ হবে
                     status: "trial",
                     role: "user"
                 };
@@ -943,7 +944,7 @@
             }
         }
 
-        /* 8. LOGIN FUNCTION WITH AUTOMATIC DEVICE ID SYNC */
+        /* 8. LOGIN FUNCTION (FIXED: Added last_active) */
         async function processLogin() {
             const email = document.getElementById("loginEmail").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
@@ -961,7 +962,10 @@
                     snapshot.forEach((childSnap) => {
                         const mobileKey = childSnap.key;
                         
-                        db.ref("users/" + mobileKey).update({ device_id: currentDeviceId });
+                        db.ref("users/" + mobileKey).update({ 
+                            device_id: currentDeviceId,
+                            last_active: Date.now() // 👈 FIX: লগইনের সময়ও last_active আপডেট হবে
+                        });
 
                         localStorage.setItem("app_user_mobile", mobileKey);
                         localStorage.setItem("app_user_fullname", childSnap.val().name || "");
@@ -1048,15 +1052,15 @@
                             return;
                         }
 
-                        /* 🕒 ইউজার অ্যাক্টিভিটি ট্র্যাকিং ও হার্টবিট সংযোজন */
+                        /* 🕒 ইউজার অ্যাক্টিভিটি ট্র্যাকিং ও হার্টবিট সংযোজন (FIXED: Using Date.now() for precise timestamp matching) */
                         db.ref("users/" + targetMobile).update({
-                            last_active: firebase.database.ServerValue.TIMESTAMP
+                            last_active: Date.now()
                         });
                         
                         setInterval(() => {
                             if (document.visibilityState === 'visible') {
                                 db.ref("users/" + targetMobile).update({
-                                    last_active: firebase.database.ServerValue.TIMESTAMP
+                                    last_active: Date.now()
                                 });
                             }
                         }, 120000); // প্রতি ২ মিনিট পরপর হার্টবিট আপডেট
@@ -1281,7 +1285,7 @@
         }
 
         async function verifyAdminPin() {
-            const enteredPin = document.getElementById("adminPinInput").value;
+            const enteredPin = document.getElementById("adminPinInput2")?.value || document.getElementById("adminPinInput").value;
             if (!enteredPin) return alert("দয়া করে পিন নম্বর দিন!");
 
             const enteredPinHash = await sha256(enteredPin);
@@ -1298,10 +1302,11 @@
             }).catch(() => alert("❌ পিন যাচাই করা যায়নি!"));
         }
 
-        /* 🕒 ইউজারের শেষ সক্রিয়তা ফরম্যাট করার ফাংশন */
-        function formatTimeAgo(timestamp) {
-            if (!timestamp) return "কখনও সক্রিয় ছিল না";
-            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+        /* 🕒 ইউজারের শেষ সক্রিয়তা ফরম্যাট করার ফাংশন (FIXED: Fallback to registered_at if last_active is missing) */
+        function formatTimeAgo(timestamp, registeredAt) {
+            const activeTime = timestamp || registeredAt;
+            if (!activeTime) return "কখনও সক্রিয় ছিল না";
+            const seconds = Math.floor((Date.now() - activeTime) / 1000);
             if (seconds < 120) return "🟢 এইমাত্র / অনলাইন";
             const minutes = Math.floor(seconds / 60);
             if (minutes < 60) return `🟢 ${minutes} মিনিট আগে`;
@@ -1329,7 +1334,8 @@
                     const statusColor = u.status === "approved" ? "#10b981" : (u.status === "blocked" ? "#ef4444" : "#d97706");
                     const statusText = u.status === "approved" ? "Approved" : (u.status === "blocked" ? "Blocked" : "Trial");
                     
-                    const activityString = formatTimeAgo(u.last_active);
+                    // Passing both last_active and registered_at as fallback
+                    const activityString = formatTimeAgo(u.last_active, u.registered_at);
                     
                     let expiryInfo = "";
                     if (u.status === "approved" && u.subscription_expires_at) {

@@ -943,7 +943,7 @@
             }
         }
 
-        /* 8. LOGIN FUNCTION */
+        /* 8. LOGIN FUNCTION WITH AUTOMATIC DEVICE ID SYNC */
         async function processLogin() {
             const email = document.getElementById("loginEmail").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
@@ -959,7 +959,12 @@
                 const snapshot = await db.ref("users").orderByChild("email").equalTo(email.toLowerCase()).once('value');
                 if (snapshot.exists()) {
                     snapshot.forEach((childSnap) => {
-                        localStorage.setItem("app_user_mobile", childSnap.key);
+                        const mobileKey = childSnap.key;
+                        
+                        // FIX: আপডেট ডিভাইস আইডি যাতে ব্রাউজার ক্যাশ ক্লিয়ার বা রিইন্সটল হলেও জিমেইল দিয়ে লগইন করলে ডিভাইস ম্যাচ হয়ে যায়
+                        db.ref("users/" + mobileKey).update({ device_id: currentDeviceId });
+
+                        localStorage.setItem("app_user_mobile", mobileKey);
                         localStorage.setItem("app_user_fullname", childSnap.val().name || "");
                         localStorage.setItem("app_user_status", childSnap.val().status || "trial");
                         localStorage.setItem("app_user_role", childSnap.val().role || "user");

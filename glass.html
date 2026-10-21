@@ -554,7 +554,7 @@
     }
 
     function getMmOptions(selectedMm = "5.5mm") {
-      const mms = ["5mm", "5.5mm", "6mm", "8mm", "10mm", "12mm", "15mm"];
+      const mms = ["5mm", "5.5mm", "6mm", "8mm", "10mm", "12mm","no size mm",  "15mm"];
       return mms.map(mm => `<option value="${mm}" ${mm === selectedMm ? 'selected' : ''}>${mm}</option>`).join('');
     }
 
@@ -563,7 +563,7 @@
         "Clear", "Blue Markeri", "Blue Normal", 
         "Green Markeri", "Green Normal", "Lake Blue Markeri", 
         "Lake Blue Normal", "Dark Grey Normal", "Light Bronze Normal",
-        "Winer", "Emboss", "Coffee"
+        "Winer", "Emboss", "Coffee" "Clear", 
       ];
       return colors.map(c => `<option value="${c}" ${c === selectedColor ? 'selected' : ''}>${c}</option>`).join('');
     }
